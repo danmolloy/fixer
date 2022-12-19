@@ -1,0 +1,31 @@
+;FFMETADATA1
+[CHAPTER]
+TIMEBASE=1/1000
+START=-2227
+END=5914
+title=Cypress before hook logs in should provide a valid session
+[CHAPTER]
+TIMEBASE=1/1000
+START=8905
+END=14061
+title=Dashboard contains a tile list with exactly three children
+[CHAPTER]
+TIMEBASE=1/1000
+START=9300
+END=19386
+title=Dashboard contains a link to Fix Event
+[CHAPTER]
+TIMEBASE=1/1000
+START=15583
+END=29522
+title=Dashboard contains a link to Search Directory
+[CHAPTER]
+TIMEBASE=1/1000
+START=33465
+END=43748
+title=Dashboard contains a link to Upcoming Events
+[CHAPTER]
+TIMEBASE=1/1000
+START=41411
+END=54057
+title=Fixing Form gets Create Event page
