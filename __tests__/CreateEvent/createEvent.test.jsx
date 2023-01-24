@@ -46,6 +46,8 @@ describe("Create Event Form", () => {
   //it("Throws additionalInfo") // Pourqoui? It is not required.
   //it("Select whether call is confirmed", () => {})
 
+  //it("Edit event doesn't change the call lists", () => {})
+
   beforeEach(() => {
     render(<CreateEventForm />)
   })

@@ -9,6 +9,7 @@ export default function EventInfo(props) {
   
   return (
     <div>
+      <h2 className="text-center">{String(props.confirmed).toUpperCase()}</h2>
       <h1 data-testid="event-header">{props.ensembleName}</h1>
       <p data-testid="event-program">{props.concertProgram}</p>
       <p>Dress: <span data-testid="event-dress">{props.dressCode}</span></p>

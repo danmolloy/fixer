@@ -6,9 +6,6 @@ import { useRouter } from 'next/router';
 import CreateEventForm from '../../../components/createEvent/createEventForm';
 
 
-//{Object.keys(props.calls[0])}
-
-
 export default function EditEvent(props) {
   const router = useRouter()
   const { data: session } = useSession()
@@ -19,7 +16,7 @@ export default function EditEvent(props) {
   }
 
   const handleSubmit = async(vals) => {
-    return axios.post('/api/event/create', vals)
+    return axios.post('/api/event/edit/update', vals)
           .then(response => {
             console.log(response.data.id);
             router.push(`/event/${response.data.id}`)
@@ -37,7 +34,7 @@ export default function EditEvent(props) {
 }
 
 export const getServerSideProps = async (context) => {
-  console.log(context.params.id)
+
   const res = await fetch(`http://localhost:3000/api/event/${context.params.id}`)
   const data = await res.json()
   if (!data) {

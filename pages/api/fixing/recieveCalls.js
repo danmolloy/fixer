@@ -1,19 +1,133 @@
-const accountSid = process.env.TWILIO_ACCOUNTSID; 
-const authToken = process.env.TWILIO_AUTH_TOKEN; 
-const client = require('twilio')(accountSid, authToken); 
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
-import { PrismaClient } from "@prisma/client"
-const prisma = new PrismaClient()
+import prisma from '../../../client'
+import { twilioClient } from "../../../twilio"
+const twiml = new MessagingResponse();
+
+const regExCheck = (msgBody) => {
+    const yesRegex = /["']?\s?(yes)\s?\d+\s?["']?/i
+    const noRegex = /["']?\s?(no)\s?\d+\s?["']?/i
+    //const idRegex = /\d+/g;
+    let result;
+
+    if (!yesRegex.test(msgBody.trim().toUpperCase()) && !noRegex.test(msgBody.trim().toUpperCase())) {
+        result = undefined
+    } else if (yesRegex.test(msgBody.trim().toUpperCase())) {
+        result = true
+    } else if (noRegex.test(msgBody.trim().toUpperCase())) {
+        result = false
+    }
+
+    return result;
+}
+
+const handleUndefined = () => {
+    twiml.message('Please respond either YES to accept or NO to decline');
+    return;
+}
+
+const handleTrue = async(msgBody) => {
+    const idRegex = /\d+/g;
+    let result = await prisma.playerCall.update({
+        where: {
+            id: Number(msgBody.match(idRegex)[0])
+        },
+        data: {
+            accepted: true
+        },
+        include: {
+            eventInstrument: {
+                include: {
+                    musicians: true,
+                    event: true
+                }
+            }
+        }
+    })
+    
+    await twiml.message('We have notified the fixer you have accepted this work.');
+    return handleNextCall(result);
+}
+
+const handleFalse = async(msgBody) => {
+    const idRegex = /\d+/g;
+    let result = await prisma.playerCall.update({
+        where: {
+            id: Number(msgBody.match(idRegex)[0])
+        },
+        data: {
+            accepted: false,
+        },
+        include: { 
+            eventInstrument: {
+                include: {
+                    musicians: true,
+                    event: true
+                }
+            }
+        }
+    })
+    
+    await twiml.message('We have notified the fixer you have declined this work.');
+    return handleNextCall(result);
+}
+
+const handleNextCall = (result) => {
+    let numBooked = result.eventInstrument.musicians.filter(i => i.accepted === true).length
+    if (numBooked === result.eventInstrument.numToBook) {
+        console.log("All required musicians are booked")
+    } else {
+       const nextOnList = result.eventInstrument.musicians.filter(i => i.recieved === false)
+        if (nextOnList.length < 1) {
+            console.log("Add more players to list")
+        } else {
+            twilioClient.messages 
+            .create({ 
+                body: `Hi ${nextOnList[0].musicianEmail}, are you available for the following: ${result.eventInstrument.event.ensembleName} ${result.eventInstrument.event.concertProgram} ${result.eventInstrument.event.fee}? Respond "YES ${nextOnList[0].id}" to accept or "NO ${nextOnList[0].id}" to decline.`,  
+                messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
+                to: '+447479016386' 
+            }) 
+            .then(message => console.log(message.sid))
+            .then(async() => await prisma.playerCall.update({
+                where: {
+                    id: nextOnList[0].id,
+                },
+                data: {
+                    recieved: true
+                }
+            }))
+            .done();
+        }
+    }
+}
+
+const handleMessage = (msgBody) => {
+    let response = regExCheck(msgBody)
+
+     if (response === true) {
+        return handleTrue(msgBody)
+    } else if (response === false) {
+        return handleFalse(msgBody)
+    } else {
+        return handleUndefined()
+    }
+
+}
 
 export default async function handler(req, res) {
     const {
         Body
     } = req.body
 
-    const yesRegex = /["']?\s?(yes)\s?\d+\s?["']?/i
+    handleMessage(Body)
+
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+}
+
+/* const yesRegex = /["']?\s?(yes)\s?\d+\s?["']?/i
     const noRegex = /["']?\s?(no)\s?\d+\s?["']?/i
     const idRegex = /\d+/g;
-    let result;
+    //let result;
   
     // Start our TwiML response.
     const twiml = new MessagingResponse();
@@ -65,7 +179,7 @@ export default async function handler(req, res) {
         twiml.message('We have notified the fixer you have declined this work.');
     } 
     
-    /* Check if all musicians are booked. If not then message the next musician. */
+    //Check if all musicians are booked. If not then message the next musician.
     let numBooked = result.eventInstrument.musicians.filter(i => i.accepted === true).length
     if (numBooked === result.eventInstrument.numToBook) {
         console.log("All required musicians are booked")
@@ -74,7 +188,7 @@ export default async function handler(req, res) {
         if (nextOnList.length < 1) {
             console.log("Add more players to list")
         } else {
-            client.messages 
+            twilioClient.messages 
             .create({ 
                 body: `Hi ${nextOnList[0].musicianEmail}, are you available for the following: ${result.eventInstrument.event.ensembleName} ${result.eventInstrument.event.concertProgram} ${result.eventInstrument.event.fee}? Respond "YES ${nextOnList[0].id}" to accept or "NO ${nextOnList[0].id}" to decline.`,  
                 messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
@@ -92,7 +206,4 @@ export default async function handler(req, res) {
             .done();
         }
     }
-
-    res.writeHead(200, {'Content-Type': 'text/xml'});
-    res.end(twiml.toString());
-}
+ */

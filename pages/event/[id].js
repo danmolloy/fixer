@@ -63,6 +63,7 @@ export default function Event(props) {
   return (
     <Layout>
       <EventInfo
+        confirmed={props.confirmedOrOnHold}
         updatedAt={props.updatedAt}
         createdAt={props.createdAt}
         calls={props.calls}
@@ -85,6 +86,7 @@ export default function Event(props) {
 
 export const getServerSideProps = async (context) => {
   console.log(context.params.id)
+  console.log("severSide called")
   const res = await fetch(`http://localhost:3000/api/event/${context.params.id}`)
   const data = await res.json()
   if (!data) {

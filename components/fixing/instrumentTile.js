@@ -28,9 +28,17 @@ export default function InstrumentTile(props) {
         })),
       callsOutId: callsOutId,
       callOrder: vals.callOrder,
-      numToBook: vals.numToBook
+      numToBook: vals.numToBook,
+      bookingOrAvailability: 'Availability'
     }
-    axios.post('/api/event/fix', obj)
+    axios.post('/api/fixing/offer', obj).then(() => {
+      setEditList(false)
+      refreshProps();
+    })
+  .catch(function (error) {
+    console.log(error);
+  });
+    /* axios.post('/api/event/fix', obj)
     .then(function (response) {
       axios.post('/api/fixing/sendCalls', response.data.call)
       .then(response => {
@@ -42,7 +50,7 @@ export default function InstrumentTile(props) {
     })
     .catch(function (error) {
       console.log(error);
-    });
+    }); */
   }
 
   return (
@@ -70,6 +78,7 @@ export default function InstrumentTile(props) {
         appendPlayer={i => appendPlayer(i)}
         setEditList={i => setEditList(i)}
         eventId={eventId}
+        eventCalls={eventCalls}
         keyId={keyId}
         editList={editList}
         activeCalls={activeCalls}

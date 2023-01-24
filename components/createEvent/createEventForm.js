@@ -14,7 +14,7 @@ const options = [{ title: 'The Shawshank Redemption', year: 1994 }]
 
 
 export default function CreateEventForm({handleSubmit, initialValues}) {
-  const [confirmOrHold, setConfirmOrHold] = useState('')
+  const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
   const router = useRouter()
   const { data: session } = useSession()
 
@@ -27,7 +27,8 @@ export default function CreateEventForm({handleSubmit, initialValues}) {
       name: Yup.string().required("Fixer name required"),
       email: Yup.string().required("Fixer email required"),
   }),
-    confirmOrHold: Yup.string().required("Required"),
+    id: Yup.string(),
+    confirmedOrOnHold: Yup.string().required("Required"),
     ensemble: Yup.string().required('Select ensemble'),
     ensembleName: Yup.string().when("ensemble", {
       is: "Other",
@@ -57,7 +58,8 @@ export default function CreateEventForm({handleSubmit, initialValues}) {
             name: session.user.name,
             email: session.user.email
           }, 
-          confirmOrHold: "",
+          id: initialValues ? initialValues.id : "",
+          confirmedOrOnHold: initialValues ? initialValues.confirmedOrOnHold : "",
           ensemble: initialValues ? "Other" : "",
           ensembleName: initialValues ? initialValues.ensembleName :"", 
           concertProgram: initialValues ? initialValues.concertProgram : "",
@@ -88,14 +90,11 @@ export default function CreateEventForm({handleSubmit, initialValues}) {
         }}>
           {(props) => (
             <form id="fixing-form" className='fix-form' onSubmit={props.handleSubmit}>
-              {/* <ErrorMessage name="fixer.name" data-testid="fixer-name-error-message">
-                { msg => <div className="form-error">{msg}</div> }
-              </ErrorMessage> */}
 
-              <Field component={ToggleButtonGroup} type="checkbox" name="confirmOrHold" exclusive value={confirmOrHold} className="flex flex-col w-1/3 p-2" data-testid={`confirm-or-hold-toggle-group`}>
-              <ToggleButton value="confirmed" onClick={e => setConfirmOrHold(e.target.value)} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
-              <ToggleButton value="onHold" onClick={e => setConfirmOrHold(e.target.value)} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
-              <ErrorMessage name={`confirmOrHold`}>
+              <Field component={ToggleButtonGroup} type="checkbox" name="confirmedOrOnHold" exclusive value={confirmedOrOnHold} className="flex flex-col w-1/3 p-2" data-testid={`confirm-or-hold-toggle-group`}>
+              <ToggleButton value="confirmed" onClick={e => setConfirmedOrOnHold(e.target.value)} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
+              <ToggleButton value="onHold" onClick={e => setConfirmedOrOnHold(e.target.value)} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
+              <ErrorMessage name={`confirmedOrOnHold`}>
                   { msg => <div className="form-error" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
                 </ErrorMessage>
               </Field>

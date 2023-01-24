@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react'
 import { GiEnvelope, GiConfirmed, GiCancel } from 'react-icons/gi'
 import { IoIosRemoveCircleOutline } from 'react-icons/io'
 import axios from "axios"
-import { List, ListItem } from '@mui/material'
+import { List, ListItem, Table, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import moment from 'moment/moment'
+import BookingTable from './bookingTable'
+
 
 export default function ActiveCalls(props) {
-  const {instrumentName, instrumentSection, editList, instrumentFixed, refreshProps, closeEdit} = props
+  const {eventCalls, instrumentName, instrumentSection, editList, instrumentFixed, refreshProps, closeEdit} = props
   const [callList, setCallList] = useState([])
 
   useEffect(() => {
@@ -46,7 +49,10 @@ export default function ActiveCalls(props) {
 
   return (
     <div className="active-calls-div" data-testid={`${instrumentName}-active-calls`}>
-      {instrumentFixed 
+      
+      <BookingTable eventCalls={eventCalls} instrumentSection={instrumentSection}/>
+
+      {/* {instrumentFixed 
       ? <div className='pl-2'>
         <p className='text-gray-500'>Booked {instrumentSection.numToBook} player(s)</p>
       </div>
@@ -76,7 +82,7 @@ export default function ActiveCalls(props) {
         </div>
 ))}
 </div>
-    
+     */}
     </div>
   )
 }

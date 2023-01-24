@@ -19,11 +19,26 @@ const selectedDateCalls = (calls, selectedDate, range) => {
       ))
 }
 
+const daysArr = (calls, selectedDate, dateRange) => {
+  let arr = [];
+  for (let day = moment(selectedDate); day < moment(selectedDate).add(dateRange, 'days'); day.add(1, 'days')) {
+    arr = [...arr, {
+      day: day.calendar(),
+      events: selectedDateCalls(calls, day, day)
+    }]
+  }
+  return arr
+}
+
+const calendarObj = (callsArr, selectedDate, dateRange) => {
+  let objArr = daysArr(callsArr, selectedDate, dateRange)
+  return objArr
+}
 
 export default function EventsCalendar() {
-const { data: session } = useSession()
-const [selectedDate, setSelectedDate] = useState(moment())
-const [dateRange, setDateRange] = useState(14)
+  const { data: session } = useSession()
+  const [selectedDate, setSelectedDate] = useState(moment())
+  const [dateRange, setDateRange] = useState(14)
 
 
   if (!session) return <p>Loading..</p>
@@ -40,9 +55,22 @@ const [dateRange, setDateRange] = useState(14)
           <MenuItem value={28}>Four Weeks</MenuItem>
         </Select>
         <div id="event-list" className="w-full flex flex-col items-center " data-testid="event-list">
-          {selectedDateCalls([...session.userData.calls], selectedDate, dateRange).map(i => (
+          
+            {calendarObj([...session.userData.calls], selectedDate, dateRange).map(i => (
+              <div className="my-4 w-full" key={i.day}>
+                <h2 className="">{i.day}</h2>
+                {i.events.length > 0  
+                ? i.events.sort((a, b) => moment(new Date(a.startTime)) - moment(new Date(b.startTime))).map(i => (
+                <EventTile key={i.id} call={i} fixerEmail={i.event.fixerEmail} sessionEmail={session.user.email}/>
+                ))
+                : <p className="px-4 text-slate-400">No events on this day.</p>
+              }
+              </div>
+            ))}
+          
+          {/* {selectedDateCalls([...session.userData.calls], selectedDate, dateRange).map(i => (
           <EventTile key={i.id} call={i} fixerEmail={i.event.fixerEmail} sessionEmail={session.user.email}/>
-          ))}
+          ))} */}
         </div>
     </Layout>
   )

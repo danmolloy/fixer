@@ -1,5 +1,7 @@
-import { instrumentArr } from "../../../components/fixing/fixing"
-import prisma from "../../../client"
+import { instrumentArr } from "../../../../components/fixing/fixing"
+import prisma from "../../../../client"
+
+// Adds new calls to the event. Bad!
 
 const formattedCalls = (calls, fixerEmail) => {
 
@@ -19,6 +21,7 @@ const formattedSections = () => {
 
 const eventObj = (obj) => {
   return {
+    eventId: obj.id,
     ensemble: obj.ensemble,
     concertProgram: obj.concertProgram,
     confirmedOrOnHold: obj.confirmedOrOnHold,
@@ -31,9 +34,12 @@ const eventObj = (obj) => {
   }
 }
 
-const createEvent = async(eventObj) => {
+const updateEvent = async(eventObj) => {
   console.log(eventObj)
-  return await prisma.event.create({
+  return await prisma.event.update({
+    where: {
+      id: parseInt(eventObj.eventId)
+    },
     data: {
       ensembleName: eventObj.ensemble,
       concertProgram: eventObj.concertProgram,
@@ -62,6 +68,7 @@ export default async function handle(req, res) {
     dressCode,
     fee,
     additionalInfo,
+    id
   } = req.body
 
   let createEventArg = eventObj({
@@ -72,10 +79,11 @@ export default async function handle(req, res) {
     fixerEmail: fixer.email,
     dressCode,
     fee,
-    additionalInfo
+    additionalInfo,
+    id
   })
 
-  res.status(200).json(await createEvent(createEventArg))
+  res.status(200).json(await updateEvent(createEventArg))
 }
 
-export { formattedCalls, formattedSections, eventObj, createEvent }
+export { formattedCalls, formattedSections, eventObj, updateEvent }

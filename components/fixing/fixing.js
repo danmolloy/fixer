@@ -21,7 +21,7 @@ export default function Fixing(props) {
         <button onClick={() => refreshProps()} className="secondary-btn">Refresh</button>
       </div>
       <div className="w-screen flex flex-row flex-wrap items-start justify-center">
-        {instrumentSections.map(i => (
+        {instrumentSections.sort((a, b) => a.id - b.id).map(i => (
           <div key={i.id} className="instrument-tile">
           <InstrumentTile eventCalls={eventCalls} keyId={i.id} refreshProps={refreshProps} callsOutId={i.id} eventId={eventId} activeCalls={i} instrumentName={i.instrumentName} instrumentalists={data.filter(j => j.instrument === i.instrumentName)}/>
           </div>

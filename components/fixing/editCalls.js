@@ -57,9 +57,9 @@ export default function EditCalls(props) {
           </FieldArray>
           <div className="edit-div-sans-lists flex flex-col">
             <div className="my-2 w-full ">
-              <TextField label="Num to Book" data-testid={`${instrumentName}-num-to-book`} id="numToBook" type="number" name="numToBook"/>
-
+            <TextField label="Num to Book" data-testid={`${instrumentName}-num-to-book`} id="numToBook" type="number" name="numToBook" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
             <TextField className="w-full" label={`Message to ${String(instrumentName).toLocaleLowerCase()} players`} data-testid={`${instrumentName}-msg-input`} id="instrumentMsgInput" type="text" name="instrumentMsgInput" multiline rows={4}/>
+            
             </div>
           <div className="form-div">
           <label htmlFor="callOrder" className="form-label">Call Order</label>

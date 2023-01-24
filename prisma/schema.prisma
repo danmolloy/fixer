@@ -77,6 +77,7 @@ model Event {
   updatedAt          DateTime @updatedAt
   ensembleName       String
   concertProgram     String
+  confirmedOrOnHold  String @default("onHold")
   calls              Call[]
   dressCode          String
   fee                String
@@ -97,7 +98,7 @@ model Call {
   event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
   fixerEmail         String
   fixer              User     @relation(fields: [fixerEmail], references: [email])
-  IndividualPlayerCalls IndividualPlayerCall[]
+  playerCalls        PlayerCall[]
 }
 
 model EventInstrument {
@@ -122,17 +123,6 @@ model PlayerCall {
   accepted           Boolean? 
   musicianEmail      String
   eventInstrumentId  Int
-
-  PlayerCalls       IndividualPlayerCall[]
-}
-
-model IndividualPlayerCall {
-  id            Int      @id @default(autoincrement())
-  callId        Int
-  call          Call @relation(fields: [callId], references: [id], onDelete: Cascade)
-  playerCallId  Int
-  playerCall    PlayerCall @relation(fields: [playerCallId], references: [id], onDelete: Cascade)
+  calls             Call[]
   bookingOrAvailability String @default ("Booking")
-  playerAvailable     Boolean?
 }
-

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { useSession, signIn } from "next-auth/react"
+import { Button } from '@mui/material'
 
 
 
@@ -9,10 +10,10 @@ export default function Header(props) {
   const { data: session } = useSession()
 
   return (
-    <div className={session ? 'header' : 'landing-page-header'} data-testid="layout-header">
+    <div className={session ? 'header' : 'landing-page-header p-2'} data-testid="layout-header">
       <Link href={"/"}>
         
-        <h2 className='header-title'>
+        <h2 className='header-title font-title'>
           Fixer
         </h2>
        
@@ -23,7 +24,9 @@ export default function Header(props) {
           ? <AiOutlineClose className='menu-icon' data-testid="close-menu-icon"/>
           : <AiOutlineMenu className='menu-icon' data-testid="menu-icon"/>} 
         </button>
-      : <button id="signin-btn" onClick={() => signIn('github')} className="signin-btn">Sign in</button>}
+      : <Link href={"/sign-in"}>
+          <Button variant="outlined">Sign in</Button>
+        </Link>}
     </div>
   )
 }
