@@ -77,7 +77,7 @@ const makeCalls = async (eventInstrumentId) => {
 // Needs to state whether booking or availability
     twilioClient.messages 
           .create({ 
-             body: `Hi ${eventInstrument.musicians[i].musicianEmail}, this is a test. Reply YES ${eventInstrument.musicians[i].id} or NO ${eventInstrument.musicians[i].id}.`,  
+             body: `Hi ${eventInstrument.musicians[i].musicianEmail}, Dan Molloy offers ${process.env.NGROK_URL}/event/${eventInstrument.eventId} Reply YES ${eventInstrument.musicians[i].id} or NO ${eventInstrument.musicians[i].id}.`,  
              messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
              to: '+447479016386' 
            }) 

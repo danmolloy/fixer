@@ -1,37 +1,48 @@
 import { useSession, signIn, signOut } from "next-auth/react"
 import Header from "../layout/header"
+import { Button } from "@mui/material"
+import Layout from "../layout/layout"
 
 
 
 export default function LandingPage() {
 
-  const smoothScroll = (target) => {
-    var scrollContainer = target;
-    do { //find scroll container
-        scrollContainer = scrollContainer.parentNode;
-        if (!scrollContainer) return;
-        scrollContainer.scrollTop += 1;
-    } while (scrollContainer.scrollTop == 0);
-
-    var targetY = 0;
-    do { //find the top of target relatively to the container
-        if (target == scrollContainer) break;
-        targetY += target.offsetTop;
-    } while (target = target.offsetParent);
-
-    scroll = function(c, a, b, i) {
-        i++; if (i > 30) return;
-        c.scrollTop = a + (b - a) / 30 * i;
-        setTimeout(function(){ scroll(c, a, b, i); }, 20);
-    }
-    // start scrolling
-    scroll(scrollContainer, scrollContainer.scrollTop, targetY, 0);
-}
-
   return (
-    <div data-testid="landing-page-div" className="flex flex-col w-full outline ">
-      <Header />
+      <Layout>
+      <div className="w-full flex h-48 flex-col items-center justify-center shadow">
+      <p className="text-lg font-light p-2">
+        Fixer handles booking musicians and improves communication between players and managers.
+      </p>
+      <Button variant="outlined">Get Started</Button>
+
+      </div>
       
-    </div>
+      <div className=" p-4">
+      <h2 className="font-nunito font-bold py-2 text-blue-700">Meet Fixer</h2>
+      <p className="font-light">
+      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+      </p>
+      </div>
+
+      <div className=" p-4">
+      <h2 className="font-nunito font-bold py-2 text-blue-700">Fix an orchestra in seconds</h2>
+      <p className="font-light">
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+      </p>
+      </div>
+      <div className=" p-4">
+      <h2 className="font-nunito font-bold py-2 text-blue-700">A modern diary</h2>
+      <p className="font-light">
+      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+      </p>
+      </div>
+      <div className="p-4 self-center bg-slate-100 shadow rounded flex flex-col justify-evenly items-start w-4/5 my-2">
+        <h2 className="font-nunito font-bold text-slate-800">Get started</h2>
+        <p className="py-4">
+          Sed ut perspiciatis unde omnis iste natuserror sit voluptatem accusantium doloremque laudantium.
+        </p>
+        <Button variant="outlined">Ipsum</Button>
+      </div>
+      </Layout>
   )
 }

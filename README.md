@@ -40,7 +40,7 @@ Fixer helps musicians manage communications with the fixer.
 
 ## demo project
 terminal `./downloads/ngrok http 3000`
-copy `{${forwarding url}/api/sms}` to twilio => phone numbers => manage => active numbers => a message comes in (webhook HTTP POST)
+copy `{${forwarding url}/api/sms}` to twilio => phone numbers => manage => active numbers => select the phone number => a message comes in (webhook HTTP POST)
 click save
 ngrok forwarding url to .env
 `yarn dev`

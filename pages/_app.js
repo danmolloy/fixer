@@ -1,10 +1,16 @@
 import '../styles/globals.css'
 import { SessionProvider } from "next-auth/react"
-import { Lobster, Roboto } from '@next/font/google'
+import { Lobster, Roboto, Nunito } from '@next/font/google'
 
 const title = Lobster({
   subsets: ['latin'],
   variable: '--font-lobster',
+  weight: '400'
+})
+
+const nunito = Nunito({
+  subsets: ['latin'],
+  variable: '--font-nunito',
   weight: '400'
 })
 
@@ -20,7 +26,7 @@ function MyApp({
 }) {
   return (
     <SessionProvider session={session}>
-      <main className={`${title.variable} ${roboto.variable}`}>
+      <main className={`${title.variable} ${nunito.variable}`}>
       <Component {...pageProps} />
       </main>
     </SessionProvider>

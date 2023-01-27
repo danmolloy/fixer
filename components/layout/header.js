@@ -10,7 +10,7 @@ export default function Header(props) {
   const { data: session } = useSession()
 
   return (
-    <div className={session ? 'header' : 'landing-page-header p-2'} data-testid="layout-header">
+    <div className={session ? 'header' : 'landing-page-header'} data-testid="layout-header">
       <Link href={"/"}>
         
         <h2 className='header-title font-title'>

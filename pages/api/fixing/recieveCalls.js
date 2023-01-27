@@ -1,6 +1,9 @@
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 import prisma from '../../../client'
 import { twilioClient } from "../../../twilio"
+
+// I don't think I'm calling twiml.toString() properly
+
 const twiml = new MessagingResponse();
 
 const regExCheck = (msgBody) => {
@@ -44,7 +47,8 @@ const handleTrue = async(msgBody) => {
         }
     })
     
-    await twiml.message('We have notified the fixer you have accepted this work.');
+    twiml.message('We have notified the fixer you have accepted this work.');
+    twiml.toString()
     return handleNextCall(result);
 }
 
@@ -66,8 +70,9 @@ const handleFalse = async(msgBody) => {
             }
         }
     })
-    
-    await twiml.message('We have notified the fixer you have declined this work.');
+
+    twiml.message('We have notified the fixer you have declined this work.');
+    twiml.toString()
     return handleNextCall(result);
 }
 
@@ -98,6 +103,7 @@ const handleNextCall = (result) => {
             .done();
         }
     }
+    return;
 }
 
 const handleMessage = (msgBody) => {
@@ -119,7 +125,6 @@ export default async function handler(req, res) {
     } = req.body
 
     handleMessage(Body)
-
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
 }

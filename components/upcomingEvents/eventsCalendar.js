@@ -46,19 +46,21 @@ export default function EventsCalendar() {
 
   return (
     <Layout>
+
       <h1>Upcoming Events</h1>
-      <Calendar selectedDate={selectedDate} setSelectedDate={(e) => setSelectedDate(e)}/>
+      <div className="flex flex-col items-center p-2">
+        <Calendar selectedDate={selectedDate} setSelectedDate={(e) => setSelectedDate(e)}/>
         <Select value={dateRange} onChange={e => setDateRange(e.target.value)}>
           <MenuItem value={1}>Day</MenuItem>
           <MenuItem value={7}>Week</MenuItem>
           <MenuItem value={14}>Fortnight</MenuItem>
           <MenuItem value={28}>Four Weeks</MenuItem>
         </Select>
+        </div>
         <div id="event-list" className="w-full flex flex-col items-center " data-testid="event-list">
-          
             {calendarObj([...session.userData.calls], selectedDate, dateRange).map(i => (
-              <div className="my-4 w-full" key={i.day}>
-                <h2 className="">{i.day}</h2>
+              <div className="my-2 w-full border border-slate-400 shadow p-4" key={i.day}>
+                <h2 className="text-md">{i.day}</h2>
                 {i.events.length > 0  
                 ? i.events.sort((a, b) => moment(new Date(a.startTime)) - moment(new Date(b.startTime))).map(i => (
                 <EventTile key={i.id} call={i} fixerEmail={i.event.fixerEmail} sessionEmail={session.user.email}/>

@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import moment from "moment";
 import Link from "next/link";
 
 export default function EventInfo(props) {
@@ -18,7 +19,7 @@ export default function EventInfo(props) {
       <p>Fixer: <span data-testid="event-fixer-email">{props.fixerEmail}</span></p>
       <div className="my-2 p-4 border rounded" data-testid="event-calls-list">
         <h3><span data-testid="event-calls-count">{props.calls.length}</span> Call(s):</h3>
-        {props.calls.map(i => (
+        {props.calls.sort((a, b) => moment(a.startTime) - moment(b.startTime)).map(i => (
         <div key={i.id} className="m-2">
           <h3>{formatDate(i.startTime)}</h3>
           <p>to {formatDate(i.endTime)}</p>

@@ -21,7 +21,7 @@
     @apply text-center p-4 hover:bg-slate-100 active:bg-white
   }
   .layout {
-    @apply min-h-screen w-screen flex flex-col justify-between font-sans
+    @apply min-h-screen w-screen flex flex-col justify-between font-nunito
   }
   .layout-children {
     @apply w-screen p-2 flex flex-col items-center mt-16 bg-white
@@ -63,7 +63,7 @@
     @apply flex flex-col  items-center justify-center w-screen pt-12
   }
   .home-tile {
-    @apply border m-2 rounded shadow-sm flex flex-col items-center justify-center hover:bg-blue-50 active:bg-blue-100 h-40 w-96
+    @apply border m-2 rounded shadow-sm flex flex-col items-center justify-center hover:bg-blue-50 active:bg-blue-100 h-40 w-96 font-light
   }
   .home-tile-title {
     @apply font-sans text-2xl
@@ -72,11 +72,11 @@
     @apply p-2 w-12 h-12 text-blue-600
   }
   .header {
-    @apply border-b-2 border-slate-400 z-10 flex flex-row w-full h-16 items-center justify-between bg-white shadow-sm text-black fixed opacity-90
+    @apply border-b border-slate-400 z-10 flex flex-row w-full h-16 items-center justify-between bg-white shadow-sm text-black fixed opacity-90
   }
   /* Landing Page */
   .landing-page-header {
-    @apply opacity-90 flex flex-row w-full h-16 items-center justify-between bg-white shadow-sm text-black
+    @apply border-b px-2 z-10 flex flex-row w-full h-16 items-center justify-between bg-white shadow-sm text-black fixed opacity-90
   }
   .landing-page-h1 {
     @apply text-5xl font-bold
@@ -296,7 +296,7 @@
     @apply opacity-50 w-full m-2 p-2  hover:opacity-100 hover:bg-slate-50 shadow
   }
   .player-tile {
-    @apply border border-slate-400 rounded-md w-full  shadow-sm h-48 flex flex-col items-center justify-center m-2
+    @apply border border-slate-400 rounded-md w-full  shadow-sm h-48 flex flex-col items-center justify-center m-2 
   }
   .user-image {
     @apply text-6xl text-gray-700 border-4 border-black rounded-full m-2 w-16 h-16
