@@ -87,7 +87,7 @@ const handleNextCall = (result) => {
         } else {
             twilioClient.messages 
             .create({ 
-                body: `Hi ${nextOnList[0].musicianEmail}, are you available for the following: ${result.eventInstrument.event.ensembleName} ${result.eventInstrument.event.concertProgram} ${result.eventInstrument.event.fee}? Respond "YES ${nextOnList[0].id}" to accept or "NO ${nextOnList[0].id}" to decline.`,  
+                body: `Hi ${nextOnList[0].musicianEmail}, Dan Molloy offers ${process.env.NGROK_URL}/event/${result.eventInstrument.event.id} Respond "YES ${nextOnList[0].id}" to accept or "NO ${nextOnList[0].id}" to decline.`,  
                 messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
                 to: '+447479016386' 
             }) 
