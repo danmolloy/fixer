@@ -1,14 +1,11 @@
 # Fixer
 
 ## Overview
-Fixer is a web app which aimed at helping both orchestra fixers and musicians. 
+Fixer is a web app which aimed at helping orchestra managers book musicians, and musicians to manage their diary. 
+For an orchestra manager, a.k.a a fixer, booking an ensemble of freelance musicians is a frequent, time consuming and tedious process. Using Fixer, this process is automated. One merely creates an event and select musicians to offer the work to. The musicians are notified via sms message of the offer of work and upon acceptance, it is added to their Fixer diary. If they decline, Fixer tries the next musician on the list. 
+As well as being an efficient and inexpensive alternative to current diary services, it also offers additional features, outlined below.
 
-* Directory
-* Create an Event
-* Event Page
-* Event Fixing
-
-## For Fixers
+### Features for Fixers
 Fixer helps fixers manage multiple upcoming events. 
 
 * Create an event and the fixing is taken out of their hands
@@ -22,7 +19,7 @@ Fixer helps fixers manage multiple upcoming events.
 * Automated updates to musicians when you update the gig info
 * Export info to CSV
 
-## For Musicians
+### Features for Musicians
 Fixer helps musicians manage communications with the fixer.
 
 * Simply accept or decline work with a text message
@@ -32,16 +29,13 @@ Fixer helps musicians manage communications with the fixer.
 * Affordable diary service
 * View up-to-date gig info 
 
-## Future Functionality
-* Search bar for directory. User can search specific orchestras
-* Quick Fix: Someone can send a direct message quickly to a list of players
-* Lists: Users have a preset list of players i.e. "Cello Deps"
-* Compare availability of players for flexible projects
+## Technical Overview
+Fixer can be divided into the following areas:
+* Public views - landing and about pages
+* Upcoming Events & Calendar
+* Musician Directory and Profiles
+* Fixing/Twilio Messaging API
 
 ## demo project
-terminal `./downloads/ngrok http 3000`
-copy `{${forwarding url}/api/sms}` to twilio => phone numbers => manage => active numbers => select the phone number => a message comes in (webhook HTTP POST)
-click save
-ngrok forwarding url to .env
-`yarn dev`
+Please contact danmolloy91@gmail.com for a demonstration.
 

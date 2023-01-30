@@ -13,20 +13,20 @@ export default function Header(props) {
     <div className={session ? 'header' : 'landing-page-header'} data-testid="layout-header">
       <Link href={"/"}>
         
-        <h2 className='header-title font-title'>
+        <h2 className={session ? 'header-title font-title' :'text-white header-title font-title'}>
           Fixer
         </h2>
        
       </Link>
       {session 
-      ? <button onClick={() => setShowMenu()} data-testid="menu-icon-btn">
+      && <button onClick={() => setShowMenu()} data-testid="menu-icon-btn">
           {showMenu 
           ? <AiOutlineClose className='menu-icon' data-testid="close-menu-icon"/>
           : <AiOutlineMenu className='menu-icon' data-testid="menu-icon"/>} 
         </button>
-      : <Link href={"/sign-in"}>
+      /* : <Link href={"/sign-in"}>
           <Button variant="outlined">Sign in</Button>
-        </Link>}
+        </Link> */}
     </div>
   )
 }

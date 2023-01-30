@@ -27,7 +27,7 @@
     @apply w-screen p-2 flex flex-col items-center mt-16 bg-white
   }
   .main-header {
-    @apply w-screen text-center
+    @apply w-screen text-center 
   }
   .menu-icon {
     @apply p-2 mr-2 w-10 h-10 text-black hover:bg-blue-50 active:bg-blue-100 rounded-full
@@ -76,7 +76,7 @@
   }
   /* Landing Page */
   .landing-page-header {
-    @apply border-b px-2 z-10 flex flex-row w-full h-16 items-center justify-between bg-white shadow-sm text-black fixed opacity-90
+    @apply border-b px-2 z-10 flex flex-row w-full h-16 items-center justify-between bg-blue-500 shadow-sm text-black fixed opacity-90
   }
   .landing-page-h1 {
     @apply text-5xl font-bold
