@@ -37,7 +37,7 @@ export default async function handle(req, res) {
         eventInstrumentId: result.id,
         callId: i.id,
         name: i.musicianEmail,
-        number: "+447479016386",
+        number: process.env.PHONE,
         body: `Hi ${i.musicianEmail}, you have been offered the following gig: ${process.env.NGROK_URL}/event/${result.event.id} \n Respond "YES ${i.id}" to accept or "NO ${i.id}" to decline.`
       }))
     } else {
@@ -45,7 +45,7 @@ export default async function handle(req, res) {
         eventInstrumentId: result.id,
         callId: i.id,
         name: i.musicianEmail,
-        number: "+447479016386",
+        number: process.env.PHONE,
         body: `Hi ${i.musicianEmail}, you have been offered the following gig: ${process.env.NGROK_URL}/event/${result.event.id} \n Respond "YES ${i.id}" to accept or "NO ${i.id}" to decline.`
       }))
     }
@@ -79,7 +79,7 @@ export default async function handle(req, res) {
           eventInstrumentId: result.id,
           callId: i.id, 
           name: i.musicianEmail,
-          number: "+447479016386",
+          number: process.env.PHONE,
           body: `Hi ${i.musicianEmail}, you have been offered the following gig: ${process.env.NGROK_URL}/event/${result.event.id} \nRespond "YES ${i.id}" to accept or "NO ${i.id}" to decline. **Other calls out**`
         }))
     } else {
@@ -87,7 +87,7 @@ export default async function handle(req, res) {
         eventInstrumentId: result.id,
         callId: i.id, 
         name: i.musicianEmail,
-        number: "+447479016386",
+        number: process.env.PHONE,
         body: `Hi ${i.musicianEmail}, you have been offered the following gig: ${process.env.NGROK_URL}/event/${result.event.id} \nRespond "YES ${i.id}" to accept or "NO ${i.id}" to decline.`
       }))
     }

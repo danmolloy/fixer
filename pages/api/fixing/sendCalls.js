@@ -37,7 +37,7 @@ const sendMessages = async (reqBody) => {
           .create({ 
              body: reqBody[i].body,  
              messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
-             to: '+447479016386' 
+             to: process.env.PHONE 
            }) 
           .then(message => console.log(message.sid))
           .then(async () => await updatePlayer(Number(reqBody[i].callId)))
