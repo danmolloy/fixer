@@ -1,5 +1,8 @@
 # Fixer
 
+### Disclaimer 
+My apologies, there is not currently a live example for this project. 
+
 ## Overview
 For an orchestra manager, a.k.a a fixer, booking an ensemble of freelance musicians is a frequent, time consuming and tedious process. Using Fixer, this process is automated. One merely creates an event and select musicians to offer the work to. The musicians are notified via sms message of the offer of work and upon acceptance, it is added to their Fixer diary. If they decline, Fixer tries the next musician on the list. 
 As well as being an efficient and inexpensive alternative to current diary services, it also offers additional features, outlined below.
