@@ -1,7 +1,6 @@
 # Fixer
 
 ## Overview
-Fixer is a web app which aimed at helping orchestra managers book musicians, and musicians to manage their diary. 
 For an orchestra manager, a.k.a a fixer, booking an ensemble of freelance musicians is a frequent, time consuming and tedious process. Using Fixer, this process is automated. One merely creates an event and select musicians to offer the work to. The musicians are notified via sms message of the offer of work and upon acceptance, it is added to their Fixer diary. If they decline, Fixer tries the next musician on the list. 
 As well as being an efficient and inexpensive alternative to current diary services, it also offers additional features, outlined below.
 
@@ -30,11 +29,13 @@ Fixer helps musicians manage communications with the fixer.
 * View up-to-date gig info 
 
 ## Technical Overview
-Fixer can be divided into the following areas:
-* Public views - landing and about pages
-* Upcoming Events & Calendar
-* Musician Directory and Profiles
-* Fixing/Twilio Messaging API
+Fixer is primarily built with the following:
+* Next.JS
+* Tailwind CSS and Material UI
+* Jest
+* Prisma & PostgresQL
+* Twilio
+
 
 ## demo project
 Please contact danmolloy91@gmail.com for a demonstration.
