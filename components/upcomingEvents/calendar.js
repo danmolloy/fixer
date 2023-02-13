@@ -5,7 +5,6 @@ import { useState } from "react";
  
 
 export default function Calendar(props) {
-  //const [date, setDate] = useState(adapter.date(new Date()));
   const { selectedDate, setSelectedDate} = props
 
   return (

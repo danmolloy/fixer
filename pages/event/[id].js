@@ -77,16 +77,15 @@ export default function Event(props) {
         session={session} />
         
       {session && session.user.email === props.fixerEmail && 
-      <Fixing eventCalls={props.calls} refreshProps={() => refreshData()} eventId={props.id} instrumentSections={props.instrumentSections}/*  instrumentsNotUsed={props.instrumentsNotUsed}  *//>}
-    
+      <Fixing eventCalls={props.calls} refreshProps={() => refreshData()} eventId={props.id} instrumentSections={props.instrumentSections} />}
     </Layout>
   )
 }
 
 
 export const getServerSideProps = async (context) => {
-  console.log(context.params.id)
-  console.log("severSide called")
+  /* console.log(context.params.id)
+  console.log("severSide called") */
   const res = await fetch(`http://localhost:3000/api/event/${context.params.id}`)
   const data = await res.json()
   if (!data) {

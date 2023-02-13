@@ -46,33 +46,30 @@ export default function EventsCalendar() {
 
   return (
     <Layout>
-
-      <h1>Upcoming Events</h1>
-      <div className="flex flex-col items-center p-2">
-        <Calendar selectedDate={selectedDate} setSelectedDate={(e) => setSelectedDate(e)}/>
-        <Select value={dateRange} onChange={e => setDateRange(e.target.value)}>
-          <MenuItem value={1}>Day</MenuItem>
-          <MenuItem value={7}>Week</MenuItem>
-          <MenuItem value={14}>Fortnight</MenuItem>
-          <MenuItem value={28}>Four Weeks</MenuItem>
-        </Select>
-        </div>
-        <div id="event-list" className="w-full flex flex-col items-center " data-testid="event-list">
-            {calendarObj([...session.userData.calls], selectedDate, dateRange).map(i => (
-              <div className="my-2 w-full border border-slate-400 shadow p-4" key={i.day}>
-                <h2 className="text-md">{i.day}</h2>
-                {i.events.length > 0  
-                ? i.events.sort((a, b) => moment(new Date(a.startTime)) - moment(new Date(b.startTime))).map(i => (
-                <EventTile key={i.id} call={i} fixerEmail={i.event.fixerEmail} sessionEmail={session.user.email}/>
-                ))
-                : <p className="px-4 text-slate-400">No events on this day.</p>
-              }
-              </div>
-            ))}
-          
-          {/* {selectedDateCalls([...session.userData.calls], selectedDate, dateRange).map(i => (
-          <EventTile key={i.id} call={i} fixerEmail={i.event.fixerEmail} sessionEmail={session.user.email}/>
-          ))} */}
+      <div data-testid="events-calendar-div" className="w-screen p-2 flex flex-col items-center">
+        <h1>Upcoming Events</h1>
+        <div className="flex flex-col items-center p-2">
+          <Calendar selectedDate={selectedDate} setSelectedDate={(e) => setSelectedDate(e)}/>
+          <Select value={dateRange} onChange={e => setDateRange(e.target.value)}>
+            <MenuItem value={1}>Day</MenuItem>
+            <MenuItem value={7}>Week</MenuItem>
+            <MenuItem value={14}>Fortnight</MenuItem>
+            <MenuItem value={28}>Four Weeks</MenuItem>
+          </Select>
+          </div>
+          <div id="event-list" className="w-full flex flex-col items-center " data-testid="event-list">
+              {calendarObj([...session.userData.calls], selectedDate, dateRange).map(i => (
+                <div className="my-2 w-full border border-slate-400 shadow p-4" key={i.day}>
+                  <h2 className="text-md">{i.day}</h2>
+                  {i.events.length > 0  
+                  ? i.events.sort((a, b) => moment(new Date(a.startTime)) - moment(new Date(b.startTime))).map(i => (
+                  <EventTile key={i.id} call={i} fixerEmail={i.event.fixerEmail} sessionEmail={session.user.email}/>
+                  ))
+                  : <p className="px-4 text-slate-400">No events on this day.</p>
+                }
+                </div>
+              ))}
+          </div>
         </div>
     </Layout>
   )

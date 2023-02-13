@@ -10,12 +10,12 @@ export default function EventTile(props) {
   
 
   return (
-    <div className="event-tile-div">
+    <div className="event-tile-div" data-testid="event-tile-div">
       {sessionEmail === fixerEmail && <p className="text-center m-2 font-bold text-sm">You are the fixer of this event.</p>}
       <h1>{call.event.ensembleName}</h1>
       <div className=" p-2">
-        <h2>{formatDate(call.startTime)}</h2>
-        <h3>to {formatDate(call.endTime)}</h3>
+        <h2 data-testid="call-start-time">{formatDate(call.startTime)}</h2>
+        <h3 data-testid="call-end-time">to {formatDate(call.endTime)}</h3>
       </div>
       <p className="px-2 py-1">{call.event.concertProgram}</p>
       <div className="flex flex-row items-center">
