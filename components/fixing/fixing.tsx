@@ -13,7 +13,7 @@ interface EventCall {
   fixerEmail: string
 }
 
-interface Musicians {
+interface Musician {
   id: number
   createdAt: string
   updatedAt: string
@@ -38,7 +38,7 @@ interface InstrumentSection {
   instrumentName: string
   numToBook: number
   callOrder: string
-  musicians: Musicians[]
+  musicians: Musician[]
 }
 
 interface FixingProps {

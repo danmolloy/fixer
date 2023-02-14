@@ -1,16 +1,6 @@
 
 // Fixing
 
-interface InstrumentSection {
-  id: number
-  createdAt: string
-  updatedAt: string
-  eventId: string
-  instrumentName: string
-  numToBook: number
-  callOrder: string
-  musicians: Musician[]
-}
 
 interface EventCall {
   id: number
@@ -24,7 +14,7 @@ interface EventCall {
 }
 
 interface Musician {
-    id: string
+    id: number
     createdAt: string
     updatedAt: string
     recieved: boolean

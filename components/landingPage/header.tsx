@@ -21,7 +21,7 @@ export default function LandingHeader() {
             </button>))}
           </div>
           <div className="flex flex-row items-center mx-4">
-            <button className="hidden md:flex  hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
+            <button onClick={() => signIn("github")} className="hidden md:flex  hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
                 Sign in
             </button>
             <button className="bg-blue-600 hover:bg-blue-500 text-white rounded-full py-2 px-4 text-sm ">

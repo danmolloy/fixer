@@ -4,7 +4,7 @@ import React from "react"
 
 export default function LoginBtn() {
   const { data: session } = useSession()
-  if (session !== null) {
+  if (session ) {
     return (
       <div className="flex flex-col items-center text-base">
         Signed in as {session.user?.name} <br />

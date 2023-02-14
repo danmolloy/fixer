@@ -5,7 +5,7 @@ import {FiCoffee } from "react-icons/fi"
 import React from "react";
 
 interface Musician {
-  id: string
+  id: number
   createdAt: string
   updatedAt: string
   recieved: boolean
@@ -18,13 +18,13 @@ interface Musician {
   }
   calls: {
     id: number
-  }
+  }[]
 }
 interface InstrumentSection {
   id: number
   createdAt: string
   updatedAt: string
-  eventId: string
+  eventId: number
   instrumentName: string
   numToBook: number
   callOrder: string

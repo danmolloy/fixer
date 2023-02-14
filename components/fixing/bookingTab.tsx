@@ -5,7 +5,7 @@ import EditCalls from "./editCalls"
 import React from "react"
 
 interface Musician {
-  id: string
+  id: number
   createdAt: string
   updatedAt: string
   recieved: boolean
@@ -18,7 +18,7 @@ interface Musician {
   }
   calls: {
     id: number
-  }
+  }[]
 }
 
 interface BookingTabProps {
@@ -49,16 +49,16 @@ interface BookingTabProps {
     venue: string
     eventId: number
     fixerEmail: string
-  }[]
+  }[]  
   activeCalls: {
     id: number
-  createdAt: string
-  updatedAt: string
-  eventId: string
-  instrumentName: string
-  numToBook: number
-  callOrder: string
-  musicians: Musician[]
+    createdAt: string
+    updatedAt: string
+    eventId: number
+    instrumentName: string
+    numToBook: number
+    callOrder: string
+    musicians: Musician[]
 }}
 
 export default function BookingTab(props: BookingTabProps) {
