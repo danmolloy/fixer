@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { AiOutlineTwitter } from 'react-icons/ai'
 import LoginBtn from '../index/loginBtn'
+import React from 'react'
 
 export default function Footer() {
   return (

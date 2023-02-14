@@ -2,9 +2,18 @@ import { useState } from "react"
 import PlayerTile from "./playerTile"
 import { v4 as uuidv4 } from 'uuid';
 import { IoIosArrowDown, IoIosClose } from 'react-icons/io'
+import React from "react";
 
+interface InstrumentDivProps {
+  instrument: string
+  musicians: {
+    name: string
+    instrument: string
+    email: string
+  }[]
+}
 
-export default function InstrumentDiv(props) {
+export default function InstrumentDiv(props: InstrumentDivProps) {
   const {instrument, musicians} = props
   const [showMusicians, setShowMusicians] = useState(false)
 

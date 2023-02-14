@@ -2,7 +2,7 @@ import HomeTile from "../components/index/homeTile";
 import Layout from "../components/layout/layout";
 import { AiOutlineFileAdd, AiOutlineSearch, AiOutlineUnorderedList, AiOutlineCalendar, AiOutlineMessage} from 'react-icons/ai'
 import { useSession } from "next-auth/react"
-import LandingPage from "../components/index/landingPage";
+import LandingPage from "../components/landingPage/landingPage";
 import { useState } from "react";
 import Dashboard from "../components/index/dashboard";
 
@@ -19,7 +19,7 @@ export default function Home() {
 
 if (session) {
     return (
-      <Layout home>
+      <Layout >
         <Dashboard />
       </Layout>
     )}

@@ -1,10 +1,14 @@
 import { TextField } from "@mui/material";
 import { CalendarPicker, DatePicker, LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
-import { useState } from "react";
+import React, { useState } from "react";
  
+interface CalendarProps {
+  selectedDate: string
+  setSelectedDate: (newDate: string|null) => void
+}
 
-export default function Calendar(props) {
+export default function Calendar(props: CalendarProps) {
   const { selectedDate, setSelectedDate} = props
 
   return (

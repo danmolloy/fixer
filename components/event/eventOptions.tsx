@@ -1,8 +1,14 @@
 import { FaRegEdit } from 'react-icons/fa'
 import { AiOutlineMessage } from 'react-icons/ai'
 import HomeTile from '../index/homeTile'
+import React from 'react'
 
-export default function EventOptions({ fixer }) {
+interface EventOptionsProps {
+  fixer: boolean
+}
+
+export default function EventOptions(props: EventOptionsProps) {
+  const { fixer } = props
   return (
     fixer
     ? <div className='flex flex-row'>

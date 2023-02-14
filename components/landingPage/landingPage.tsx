@@ -1,15 +1,19 @@
-import { useSession, signIn, signOut } from "next-auth/react"
-import Header from "../layout/header"
-import { Button } from "@mui/material"
-import Layout from "../layout/layout"
 import React from "react"
+import LandingHeader from "./header"
+import Hero from "./hero"
 
 
 export default function LandingPage() {
 
   return (
-      <div>
-      <div className="w-full flex h-48 flex-col items-center justify-center shadow">
+      <div className=" w-screen min-h-screen font-nunito">
+        <LandingHeader />
+        <Hero />
+      </div>
+  )
+}
+
+{/* <div className="w-full flex h-48 flex-col items-center justify-center shadow">
       <p className="text-lg font-light p-2">
         Fixer handles booking musicians and improves communication between players and managers.
       </p>
@@ -42,7 +46,4 @@ export default function LandingPage() {
           Sed ut perspiciatis unde omnis iste natuserror sit voluptatem accusantium doloremque laudantium.
         </p>
         <Button variant="outlined">Ipsum</Button>
-      </div>
-      </div>
-  )
-}
+      </div> */}

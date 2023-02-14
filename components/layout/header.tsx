@@ -2,10 +2,14 @@ import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { useSession, signIn } from "next-auth/react"
 import { Button } from '@mui/material'
+import React from 'react'
 
+interface HeaderProps {
+  showMenu: boolean
+  setShowMenu: () => void
+}
 
-
-export default function Header(props) {
+export default function Header(props: HeaderProps) {
   const { showMenu, setShowMenu } = props
   const { data: session } = useSession()
 

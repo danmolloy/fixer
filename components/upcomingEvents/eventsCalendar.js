@@ -2,7 +2,7 @@ import Layout from "../layout/layout";
 import { useSession } from "next-auth/react";
 import EventTile from "./eventTile"; 
 import Calendar from "./calendar";
-import { useState } from "react";
+import React, { useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import moment from "moment/moment";
 import { MenuItem, Select } from "@mui/material";

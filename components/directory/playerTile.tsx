@@ -1,8 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { AiOutlineUser } from 'react-icons/ai'
+import React from 'react'
 
-export default function PlayerTile(props) {
+interface PlayerTileProps {
+  player: {
+    name: string
+    instrument: string
+    email: string
+  }
+}
+
+export default function PlayerTile(props: PlayerTileProps) {
   const { player } = props
   return (
       <div data-testid={"player-tile-div"} className="player-tile">

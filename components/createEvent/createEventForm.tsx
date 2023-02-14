@@ -9,11 +9,18 @@ import TextInput from './textInput';
 import { TextField, RadioGroup, Autocomplete, ToggleButtonGroup } from 'formik-mui';
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, ToggleButton } from '@mui/material';
 import { useState } from 'react';
+import React from 'react';
 
 const options = [{ title: 'The Shawshank Redemption', year: 1994 }]
 
+interface CreateEventFormProps {
+  handleSubmit: (vals: any) => void
+  initialValues: any
+}
 
-export default function CreateEventForm({handleSubmit, initialValues}) {
+export default function CreateEventForm(props: CreateEventFormProps) {
+  const { handleSubmit, initialValues } = props
+
   const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
   const router = useRouter()
   const { data: session } = useSession()
@@ -55,8 +62,8 @@ export default function CreateEventForm({handleSubmit, initialValues}) {
       <Formik 
         initialValues={{
           fixer: {
-            name: session.user.name,
-            email: session.user.email
+            name: session.user?.name,
+            email: session.user?.email
           }, 
           id: initialValues ? initialValues.id : "",
           confirmedOrOnHold: initialValues ? initialValues.confirmedOrOnHold : "",
@@ -92,8 +99,8 @@ export default function CreateEventForm({handleSubmit, initialValues}) {
             <form id="fixing-form" className='fix-form' onSubmit={props.handleSubmit}>
 
               <Field component={ToggleButtonGroup} type="checkbox" name="confirmedOrOnHold" exclusive value={confirmedOrOnHold} className="flex flex-col w-1/3 p-2" data-testid={`confirm-or-hold-toggle-group`}>
-              <ToggleButton value="confirmed" onClick={e => setConfirmedOrOnHold(e.target.value)} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
-              <ToggleButton value="onHold" onClick={e => setConfirmedOrOnHold(e.target.value)} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
+              <ToggleButton value="confirmed" onClick={e => setConfirmedOrOnHold("confirmed")} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
+              <ToggleButton value="onHold" onClick={e => setConfirmedOrOnHold("onHold")} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
               <ErrorMessage name={`confirmedOrOnHold`}>
                   { msg => <div className="form-error" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
                 </ErrorMessage>
@@ -139,7 +146,7 @@ export default function CreateEventForm({handleSubmit, initialValues}) {
               
               
               <TextInput multiline={true} name="concertProgram" title="Concert Program" id="concert-program" className='input-box-multiline' label="Concert Program"/>              
-              <FieldArray name="calls" id="call-field-array">
+              <FieldArray name="calls" data-testid="call-field-array">
               {({ insert, remove, push }) => (
                 <div  data-testid="calls-array">
                   {props.values.calls.map((call, index) => (
@@ -147,7 +154,7 @@ export default function CreateEventForm({handleSubmit, initialValues}) {
                       <div className='flex flex-row items-center justify-between'>
                         <p>{`Call ${index + 1}`}</p>
                         {index !== 0 && 
-                        <button data-testid={`calls-${index}-delete`} className='delete-btn text-xl p-1 m-1 rounded-full hover:bg-slate-100 active:bg-white' onClick={() => remove()}>
+                        <button data-testid={`calls-${index}-delete`} className='delete-btn text-xl p-1 m-1 rounded-full hover:bg-slate-100 active:bg-white' onClick={() => remove(index)}>
                           <AiOutlineClose />
                         </button>}
                       </div>

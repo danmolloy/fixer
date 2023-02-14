@@ -1,6 +1,22 @@
 import Link from "next/link"
+import React from "react"
 
-export default function EventTile(props) {
+interface EventTileProps {
+  call: {
+    startTime: string
+    endTime: string
+    venue: string
+    event: {
+      ensembleName: string
+      concertProgram: string
+      id: string
+    }
+  }
+  sessionEmail: string
+    fixerEmail: string
+}
+
+export default function EventTile(props: EventTileProps) {
   const { call, sessionEmail, fixerEmail } = props
   
   

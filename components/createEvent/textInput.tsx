@@ -1,7 +1,17 @@
 import { ErrorMessage, Field } from "formik";
 import { TextField } from "formik-mui";
+import React from "react";
 
-export default function TextInput(props) {
+interface TextInputProps {
+  multiline: boolean 
+  name: string
+  title: string
+  id: string
+  className?: string
+  label: string
+}
+
+export default function TextInput(props: TextInputProps) {
   const { multiline, name, title, id, className, label } = props;
 
   return (

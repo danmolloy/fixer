@@ -1,7 +1,16 @@
 import InstrumentDiv from "./instrumentDiv"
 import { instrumentArr } from "../fixing/fixing"
+import React from "react"
 
-export default function PlayerDirectory(props) {
+interface PlayerDirectoryProps {
+  data: {
+    name: string
+    instrument: string
+    email: string
+  }[]
+}
+
+export default function PlayerDirectory(props: PlayerDirectoryProps) {
   const { data } = props
 
   const directoryArr = instrumentArr.map(i => ({
