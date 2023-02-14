@@ -33,12 +33,8 @@ interface BookingTabProps {
     profileInfo: null|string
     isFixer: null|boolean
   }[] 
-  eventId: number 
-  keyId: number 
-  instrumentName: string 
   refreshProps: () => void
   handleSubmit: (val: any) => void 
-  callsOutId: number
   instrumentFixed: boolean
   eventCalls: {
     id: number
@@ -50,7 +46,7 @@ interface BookingTabProps {
     eventId: number
     fixerEmail: string
   }[]  
-  activeCalls: {
+  instrumentSection: {
     id: number
     createdAt: string
     updatedAt: string
@@ -67,24 +63,40 @@ export default function BookingTab(props: BookingTabProps) {
     editList,
     setEditList,
     instrumentalistsList, 
-    eventId, 
-    keyId, 
-    instrumentName, 
-    activeCalls, 
+    instrumentSection, 
     refreshProps, 
     instrumentFixed, 
     handleSubmit, 
-    callsOutId } = props
+     } = props
   
   return (
     <div data-testid="booking-tab">
       <div className="w-full py-2">
-          <Button data-testid={`booking-edit-btn`} variant="outlined" className="edit-btn text-blue-500 border-blue-500 hover:bg-blue-100" onClick={() => setEditList(!editList)}>{editList ? "Close" : "Edit"}</Button>
+          <Button 
+            data-testid={`booking-edit-btn`} 
+            variant="outlined" 
+            className="edit-btn text-blue-500 border-blue-500 hover:bg-blue-100" onClick={() => setEditList(!editList)}>
+              {editList ? "Close" : "Edit"}
+          </Button>
         </div>
-      {activeCalls.musicians.length > 0
-        ? <ActiveCalls eventCalls={eventCalls} closeEdit={() => setEditList(false)} instrumentName={instrumentName} refreshProps={refreshProps} instrumentSection={activeCalls} editList={editList} instrumentFixed={instrumentFixed}/>
+      {instrumentSection.musicians.length > 0
+        ? <ActiveCalls 
+          eventCalls={eventCalls} 
+          closeEdit={() => setEditList(false)} 
+          instrumentName={instrumentSection.instrumentName} 
+          refreshProps={refreshProps} 
+          instrumentSection={instrumentSection} 
+          editList={editList} 
+          instrumentFixed={instrumentFixed}
+          />
         : <p className="text-gray-500 -mt-2 pl-1">No calls out.</p>}
-        {editList && <EditCalls handleSubmit={(values) => handleSubmit(values)} /* closeEdit={() => setEditList(false)} */ /* refreshProps={refreshProps} */ /* callsOutId={callsOutId} */ /* eventId={eventId} */ key={keyId} instrumentName={instrumentName} instrumentalists={instrumentalistsList}/>}
+        {editList 
+        && <EditCalls 
+          handleSubmit={(values) => handleSubmit(values)} 
+          key={instrumentSection.id} 
+          instrumentName={instrumentSection.instrumentName} 
+          instrumentalists={instrumentalistsList}
+          />}
     </div>
   )
 }

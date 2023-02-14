@@ -45,8 +45,6 @@ interface InstrumentTileProps {
     eventId: number
     fixerEmail: string
   }[]
-  instrumentName: string
-  keyId: number
   eventId: number
   instrumentalists: {
     id: string
@@ -57,31 +55,30 @@ interface InstrumentTileProps {
     profileInfo: null|string
     isFixer: null|boolean
   }[]
-  activeCalls: InstrumentSection
-  callsOutId: number
+  instrumentSection: InstrumentSection
   refreshProps: () => void
 }
 
 export default function InstrumentTile(props: InstrumentTileProps) {
-  const { eventCalls, instrumentName, keyId, eventId, instrumentalists, activeCalls, callsOutId, refreshProps } = props
+  const { eventCalls,  eventId, instrumentalists, instrumentSection, refreshProps } = props
    const [editList, setEditList] = useState(false)
    const [tabIndex, setTabIndex] = useState("0")
 
-  let instrumentFixed = activeCalls.musicians.filter(i => i.accepted === true).length === activeCalls.numToBook
+  let instrumentFixed = instrumentSection.musicians.filter(i => i.accepted === true).length === instrumentSection.numToBook
 
-  let instrumentalistsList = activeCalls !== null ? instrumentalists.filter(i => !activeCalls.musicians.map(i => i.musicianEmail).includes(i.email)) : instrumentalists
+  let instrumentalistsList = instrumentSection !== null ? instrumentalists.filter(i => !instrumentSection.musicians.map(i => i.musicianEmail).includes(i.email)) : instrumentalists
   
   const handleSubmit = (vals) => {
     let obj = {
       eventId: eventId, 
-      instrumentName: instrumentName,
+      instrumentName: instrumentSection.instrumentName,
       musicians: String(vals.callOrder).toLowerCase() === "random"
         ? [...vals.appendedPlayers].sort(() => Math.random() - 0.5).map(i => ({musicianEmail: i.email})) //callsOffered for this too!
         : [...vals.appendedPlayers].map(i => ({
           musicianEmail: i.email,
           callsOffered: [...eventCalls.map(i => (i.id))]
         })),
-      callsOutId: callsOutId,
+      callsOutId: instrumentSection.id,
       callOrder: vals.callOrder,
       numToBook: vals.numToBook,
       bookingOrAvailability: 'Availability'
@@ -96,10 +93,10 @@ export default function InstrumentTile(props: InstrumentTileProps) {
   }
 
   return (
-    <div data-testid={`instrument-tile`} className={instrumentFixed /* && !editList */ ? "border-green-500 " : "w-full h-full"} key={keyId}>
+    <div data-testid={`instrument-tile`} className={instrumentFixed /* && !editList */ ? "border-green-500 " : "w-full h-full"} key={instrumentSection.id}>
 
       <div className="instrument-tile-header">
-        <h2 className={instrumentFixed ? "text-green-500" : "p-1"}>{props.instrumentName}</h2>
+        <h2 className={instrumentFixed ? "text-green-500" : "p-1"}>{instrumentSection.instrumentName}</h2>
        {/*  <p>Booking {numToBook} player(s)</p> */}
       </div>
       <TabContext value={tabIndex}>
@@ -112,16 +109,12 @@ export default function InstrumentTile(props: InstrumentTileProps) {
       <BookingTab 
         instrumentalistsList={instrumentalistsList}
         setEditList={i => setEditList(i)}
-        eventId={eventId}
         eventCalls={eventCalls}
-        keyId={keyId}
         editList={editList}
-        activeCalls={activeCalls}
+        instrumentSection={instrumentSection}
         refreshProps={refreshProps}
         instrumentFixed={instrumentFixed}
-        handleSubmit={(values) => handleSubmit(values)}
-        callsOutId={callsOutId}
-        instrumentName={instrumentName}/>
+        handleSubmit={(values) => handleSubmit(values)} />
       </TabPanel>
       <TabPanel value={"1"}>
         <AvailabilityTab 
@@ -129,14 +122,13 @@ export default function InstrumentTile(props: InstrumentTileProps) {
           //appendPlayer={i => appendPlayer(i)}
           setEditList={i => setEditList(i)}
           eventId={eventId}
-          keyId={keyId}
+          keyId={instrumentSection.id}
           editList={editList}
-          /* activeCalls={activeCalls} */
           refreshProps={refreshProps}
           /* instrumentFixed={instrumentFixed} */
           handleSubmit={(values) => handleSubmit(values)}
-          callsOutId={callsOutId}
-          instrumentName={instrumentName} />
+          callsOutId={instrumentSection.id}
+          instrumentName={instrumentSection.instrumentName} />
       </TabPanel>
       </TabContext>
   </div>
