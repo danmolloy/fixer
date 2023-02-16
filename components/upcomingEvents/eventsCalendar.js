@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import moment from "moment/moment";
 import { MenuItem, Select } from "@mui/material";
+import UpcomingEvents from "./upcomingEvents";
 
 const upcomingCalls = (calls, selectedDate) => {
   return calls.filter(i => new Date(i.endTime) > new Date(selectedDate)).sort((a, b) => new Date(a.startTime) - new Date(b.startTime))
@@ -50,14 +51,23 @@ export default function EventsCalendar() {
         <h1>Upcoming Events</h1>
         <div className="flex flex-col items-center p-2">
           <Calendar selectedDate={selectedDate} setSelectedDate={(e) => setSelectedDate(e)}/>
-          <Select value={dateRange} onChange={e => setDateRange(e.target.value)}>
+{/*           <Select value={dateRange} onChange={e => setDateRange(e.target.value)}>
             <MenuItem value={1}>Day</MenuItem>
             <MenuItem value={7}>Week</MenuItem>
             <MenuItem value={14}>Fortnight</MenuItem>
             <MenuItem value={28}>Four Weeks</MenuItem>
-          </Select>
+          </Select> */}
           </div>
-          <div id="event-list" className="w-full flex flex-col items-center " data-testid="event-list">
+          <UpcomingEvents selectedDate={selectedDate} upcomingCalls={session.userData.calls} sessionEmail={session.user.email}/>
+        </div>
+    </Layout>
+  )
+}
+
+export { upcomingCalls, selectedDateCalls }
+
+/* 
+<div id="event-list" className="w-full flex flex-col items-center " data-testid="event-list">
               {calendarObj([...session.userData.calls], selectedDate, dateRange).map(i => (
                 <div className="my-2 w-full border border-slate-400 shadow p-4" key={i.day}>
                   <h2 className="text-md">{i.day}</h2>
@@ -70,9 +80,4 @@ export default function EventsCalendar() {
                 </div>
               ))}
           </div>
-        </div>
-    </Layout>
-  )
-}
-
-export { upcomingCalls, selectedDateCalls }
+*/

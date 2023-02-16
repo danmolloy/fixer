@@ -51,8 +51,9 @@ describe("Upcoming Events", () => {
   //it("upcomingCalls function returns expected arr", () => {})
 
   it("Upcoming Events Page Loads", () => {
-    const eventsCalendar = screen.getByTestId("events-calendar-div")
-    expect(eventsCalendar).toBeInTheDocument()
+    const upcomingEvents = screen.getByTestId("events-calendar-div")
+    expect(upcominEvents).toBeInTheDocument()
+    expect()
   })
   //it("Upcoming events are shown", () => {})
   

@@ -45,14 +45,14 @@ export default function MusicianFeatures() {
       </div>
       <div className="flex flex-col px-6 md:flex-row flex-wrap">
       {musicianFeatureList.map(i => (
-        <div key={i.key} className="flex flex-row my-4 md:flex-col md:w-1/2">
+        <div key={i.key} className="flex flex-row my-4 md:w-1/2">
           <div className="text-blue-600 text-2xl py-2 md:px-2">
             {i.icon}
           </div>
           <div className="flex flex-col px-4">
             <h3 className="text-lg font-extrabold py-2">{i.title}</h3>
-            <p className="text-slate-600 md:w-2/3">{i.blurb}</p>
-          </div>
+{/*             <p className="text-slate-600 md:w-2/3">{i.blurb}</p>
+ */}          </div>
         </div>
       ))}
       </div>
