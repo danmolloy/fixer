@@ -16,7 +16,7 @@ export default function LandingHeader() {
           </h2>
           <div className="hidden md:flex ">
             {menu.map((i: string) => (
-            <button className="hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
+            <button key={i} className="hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
               {i}
             </button>))}
           </div>

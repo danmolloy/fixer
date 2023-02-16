@@ -38,20 +38,20 @@ export default function MusicianFeatures() {
       <div className="py-8 px-6 ">
       <p className="text-blue-600 font-bold text-xl">A modern diary</p>
       <h2 className="text-3xl font-extrabold py-2">An efficient diary for the modern musician</h2>
-      <p className="text-slate-600 font-thin">
+      <p className="text-slate-600 font-thin md:w-2/3">
         Quis tellus eget adipiscing convallis sit sit eget aliquet quis. 
         Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.
       </p>
       </div>
-      <div className="flex flex-col px-6 ">
+      <div className="flex flex-col px-6 md:flex-row flex-wrap">
       {musicianFeatureList.map(i => (
-        <div key={i.key} className="flex flex-row  my-2">
-          <div className="text-blue-600 text-2xl py-2">
+        <div key={i.key} className="flex flex-row my-4 md:flex-col md:w-1/2">
+          <div className="text-blue-600 text-2xl py-2 md:px-2">
             {i.icon}
           </div>
           <div className="flex flex-col px-4">
             <h3 className="text-lg font-extrabold py-2">{i.title}</h3>
-            <p className="text-slate-600 ">{i.blurb}</p>
+            <p className="text-slate-600 md:w-2/3">{i.blurb}</p>
           </div>
         </div>
       ))}

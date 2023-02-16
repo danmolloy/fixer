@@ -25,7 +25,7 @@ export default function LandingFooter() {
     <div className="flex flex-col items-center justify-center border-t">
       <div className="py-2">
       {menu.map((i: string) => (
-            <button className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light">
+            <button key={i} className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light">
               {i}
             </button>))}
       </div>
