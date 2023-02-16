@@ -2,18 +2,58 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import '@testing-library/jest-dom'
 import BookingTab from '../../components/fixing/bookingTab'
 
+let mockInstrumentName = "Cello"
 
 const mockData = {
-  "instrumentalistsList":[],
-  "eventId":42,
-  "eventCalls":[{"id":60,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:00:34.880Z","startTime":"2023-01-26T10:00:00.000Z","endTime":"2023-01-26T13:00:00.000Z","venue":"Maida Vale","eventId":42,"fixerEmail":"danielmolloy_6@icloud.com"},{"id":59,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:00:34.880Z","startTime":"2023-01-26T14:00:00.000Z","endTime":"2023-01-26T17:00:00.000Z","venue":"Maida Vale","eventId":42,"fixerEmail":"danielmolloy_6@icloud.com"}],
-  "keyId":365,
-  "editList":false,
-  "activeCalls":{"id":365,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:01:37.908Z","eventId":42,"instrumentName":"Violin","numToBook":1,"callOrder":"Ordered","musicians":[{"id":54,"createdAt":"2023-01-26T19:01:37.938Z","updatedAt":"2023-01-26T19:03:13.288Z","recieved":true,"accepted":false,"musicianEmail":"Catalina_Hermann@yahoo.com","eventInstrumentId":365,"bookingOrAvailability":"Booking","musician":{"name":"Tyler Hoppe"},"calls":[{"id":59},{"id":60}]},{"id":55,"createdAt":"2023-01-26T19:01:37.964Z","updatedAt":"2023-01-26T19:03:34.791Z","recieved":true,"accepted":false,"musicianEmail":"Abigail_Torp@gmail.com","eventInstrumentId":365,"bookingOrAvailability":"Booking","musician":{"name":"Benjamin Zieme"},"calls":[{"id":59},{"id":60}]},{"id":56,"createdAt":"2023-01-26T19:01:37.970Z","updatedAt":"2023-01-26T19:03:58.504Z","recieved":true,"accepted":true,"musicianEmail":"Ida_Wilderman90@yahoo.com","eventInstrumentId":365,"bookingOrAvailability":"Booking","musician":{"name":"Kara Rau"},"calls":[{"id":59},{"id":60}]}]},
-  "instrumentFixed":true,
-  "callsOutId":365,
-  "instrumentName":"Violin"
-}
+  editList: Math.random() < .5 ? true : false,
+  setEditList: jest.fn(),
+  instrumentalistsList: [{
+    id: "mock instrumentalist id",
+    name: "mock name",
+    email: "mock email",
+    emailVerified: null,
+    instrument: mockInstrumentName,
+    profileInfo: "profile info",
+    isFixer: false
+  }],
+  refreshProps: jest.fn(),
+  handleSubmit: jest.fn(),
+  instrumentFixed: Math.random() < .5 ? true : false,
+  eventCalls: [{
+    id: "mockEventCallId",
+    createdAt: "mockEventCallCreatedAt",
+    updatedAt: "mockEventCallUpdatedAt",
+    startTime: "mockStartTime",
+    endTime: "MockEndTime",
+    venue: "Mock Venue",
+    eventId: "mockEventId",
+    fixerEmail: "fixerEmail",
+  }],
+  instrumentSection: {
+    id: "instrumentSectionId",
+    createdAt: "instrumentSectionCreatedAt",
+    updatedAt: "instrumentSectionUpdatedAt",
+    eventId: "eventId",
+    instrumentName: mockInstrumentName,
+    numToBook: 1,
+    callOrder: "Ordered",
+    musicians: [{
+      id: "mockMusicianId",
+      createdAt: "mockMusicianCreatedAt",
+      updatedAt: "mockMusicianUpdatedAt",
+      recieved: Math.random() < 0.5 ? true : false,
+      accepted: Math.random() < 0.5 ? true : false,
+      musicianEmail: "mockMusicianEmail",
+      eventInstrumentId: "mockMusicianEventId",
+      bookingOrAvailability: "Booking",
+      musician: {
+        name: "Greg Ievers",
+      },
+      calls: [{
+        id: [1, 2]
+      }]
+    }]
+}}
 
 describe("BookingTab component", () => {
   beforeEach(() => {
@@ -29,7 +69,7 @@ describe("BookingTab component", () => {
     await waitFor(async () => {
       await new Promise(res => setTimeout(res, 100))
     })
-    const editCallsDiv = screen.getByTestId(`${mockData.instrumentName}-edit`)
+    const editCallsDiv = screen.getByTestId(`booking-edit-btn`)
     expect(editCallsDiv).toBeInTheDocument()
   })
   

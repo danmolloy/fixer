@@ -2,13 +2,9 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import { TiTick, TiTimes } from "react-icons/ti"
 import React from "react";
 
+export const dummyDates = ["24/1", "25/1", "26/1", "27/1"]
 
-
-export default function AvailabilityTable() {
-
-  const dummyDates = ["24/1", "25/1", "26/1", "27/1"]
-
-const dummyRows = [
+export const dummyRows = [
   {
   "name": "Eoghan Kelly", 
   "24/1": Math.floor(Math.random() * 10 ) > 3 ? true : false, 
@@ -39,11 +35,16 @@ const dummyRows = [
 }
 ]
 
+export default function AvailabilityTable() {
+
+  
+
+
   return (
     <div data-testid="availability-table-div">
       <TableContainer>
         <Table>
-          <TableHead>
+          <TableHead data-testid="availability-table-head">
             <TableRow>
             <TableCell>Name</TableCell>
             {dummyDates.map(i => (
@@ -51,7 +52,7 @@ const dummyRows = [
             ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody data-testid="availability-table-body">
           {dummyRows.map(i => (
             <TableRow key={i.name}>
               <TableCell>{i.name}</TableCell>

@@ -1,6 +1,9 @@
 import React from "react"
 import LandingHeader from "./header"
 import Hero from "./hero"
+import FixerFeatures from "./fixerFeatures"
+import MusicianFeatures from "./musicianFeatures"
+import LandingFooter from "./landingFooter"
 
 
 export default function LandingPage() {
@@ -9,6 +12,9 @@ export default function LandingPage() {
       <div className=" w-screen min-h-screen font-nunito">
         <LandingHeader />
         <Hero />
+        <FixerFeatures />
+        <MusicianFeatures />
+        <LandingFooter />
       </div>
   )
 }

@@ -24,7 +24,7 @@
     @apply min-h-screen w-screen flex flex-col justify-between font-nunito
   }
   .layout-children {
-    @apply w-screen p-2 flex flex-col items-center mt-16 bg-white
+    @apply w-screen p-2 flex flex-col items-center bg-white
   }
   .main-header {
     @apply w-screen text-center 
@@ -289,9 +289,7 @@
   .directory {
     @apply w-screen flex flex-col items-center
   }
-  .instrument-div {
-    @apply m-2 p-2 border rounded border-slate-400 shadow-sm
-  }
+
   .instrument-no-calls {
     @apply opacity-50 w-full m-2 p-2  hover:opacity-100 hover:bg-slate-50 shadow
   }

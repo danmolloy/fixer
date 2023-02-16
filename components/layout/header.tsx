@@ -14,12 +14,12 @@ export default function Header(props: HeaderProps) {
   const { data: session } = useSession()
 
   return (
-    <div className={session ? 'header' : 'landing-page-header'} data-testid="layout-header">
+    <div className="h-20 flex flex-row items-center justify-between" data-testid="layout-header">
       <Link href={"/"}>
         
-        <h2 className={session ? 'header-title font-title' :'text-white header-title font-title'}>
-          Fixer
-        </h2>
+      <h2 className={' p-2 text-2xl mx-10  '}>
+            Gig<span className="text-blue-600 font-semibold">Fix</span>
+          </h2>
        
       </Link>
       {session 

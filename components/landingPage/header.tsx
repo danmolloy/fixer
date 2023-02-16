@@ -5,7 +5,7 @@ import { Button } from "@mui/material"
 import Layout from "../layout/layout"
 import { AiOutlineMenu } from "react-icons/ai"
 
-const menu = ["Features", "Testimonials", "Pricing", ]
+const menu = ["Features", "Testimonials", "Pricing", "Contact"]
 
 
 export default function LandingHeader() {
