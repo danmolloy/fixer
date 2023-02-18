@@ -52,9 +52,13 @@ describe("Upcoming Events", () => {
 
   it("Upcoming Events Page Loads", () => {
     const upcomingEvents = screen.getByTestId("events-calendar-div")
-    expect(upcominEvents).toBeInTheDocument()
-    expect()
+    expect(upcomingEvents).toBeInTheDocument()
   })
+  it("Event Dashboard is in the document", () => {
+    const dashboard = screen.getByTestId("event-dashboard-div")
+    expect(dashboard).toBeInTheDocument()
+  })
+
   //it("Upcoming events are shown", () => {})
-  
+  //it("If date selected, shows all days in timeframe. Else shows all upcoming", () => {})
 })

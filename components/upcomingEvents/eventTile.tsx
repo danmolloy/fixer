@@ -41,14 +41,14 @@ export default function EventTile(props: EventTileProps) {
   
 
   return (
-    <div className={"md:w-2/3 lg:w-1/2 border-b p-2 flex flex-col my-2 "} data-testid="event-tile-div">
-      {sessionEmail === call.fixerEmail && <p className="text-center p-1 font-bold text-sm">You are the fixer of this event:</p>}
-      <div className="flex flex-row justify-between">
+    <div className={"w-full border-b p-2 flex flex-col my-2 "} data-testid="event-tile-div">
+{/*       {sessionEmail === call.fixerEmail && <p className="text-center p-1 font-bold text-sm">You are the fixer of this event:</p>}
+ */}      <div className="flex flex-row justify-between">
       <h2 className="font-bold text-lg">{call.event.ensembleName}</h2>
       <button className="text-xs mr-1 hover:bg-slate-100  rounded-full p-1 text-slate-800" onClick={() => setShowMenu(!showMenu)} data-testid="event-menu-icon" >•••</button>
       </div>
       {showMenu 
-      && <EventTileMenu setShowMenu={() => setShowMenu(!showMenu)}/>}
+      && <EventTileMenu eventId={call.event.id} setShowMenu={() => setShowMenu(!showMenu)}/>}
       <p className="">{String(call.event.concertProgram).slice(0, 25)}</p>
       <div className="flex flex-col md:flex-row text-slate-800 md:py-2 md:mb-1">
         <div className="flex flex-row items-center md:pr-2 md:border-r border-slate-400 ">

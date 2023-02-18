@@ -20,7 +20,7 @@ export default function Fix() {
   }
 
   return (
-    <Layout>
+    <Layout pageTitle="Create Event">
       <CreateEventForm handleSubmit={(vals) => handleSubmit(vals)}/>
     </Layout>
   )

@@ -16,7 +16,7 @@ export default function Directory() {
   if (!data) return <p>Loading..</p>
 
   return (
-    <Layout>
+    <Layout pageTitle="Directory">
       <PlayerDirectory data={data} />
       {/* <div className="directory" id="player-directory">
         <h1 className="m-2 p-2">Directory</h1>

@@ -1,36 +1,17 @@
 import Link from "next/link"
-import React from "react"
+import React, { useEffect } from "react"
+import { menuItems } from "./header"
 
-const menuLinks = [
-  {
-    title: "Directory",
-    id: "directory-menu-link",
-    link: "/directory"
-  },
-  {
-    title: "About",
-    id: "about-menu-link",
-    link: "/about"
-  },
-  {
-    title: "Settings",
-    id: "settings-menu-link",
-    link: "/settings"
-  },
-  {
-    title: "Contact Us",
-    id: "contact-menu-link",
-    link: "/contact"
-  },
-]
 
-export default function Menu() {
+export default function Menu(props) {
+  const { setShowMenu } = props
+
   return (
-    <div className="menu-div" data-testid="menu-div">
-      {menuLinks.map(i => (
-        <Link key={i.id} href={`/${i.link}`}>
-          <div className="menu-link" data-testid={i.id}>
-            {i.title}
+    <div className=" bg-white z-20 mt-24 flex flex-col w-4/5 self-center absolute rounded-2xl border shadow overflow-hidden" data-testid="menu-div">
+      {menuItems.map(i => (
+        <Link key={i.id} href={`${i.link}`}>
+          <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" data-testid={i.id}>
+            {i.name}
           </div>
         </Link>
       ))}

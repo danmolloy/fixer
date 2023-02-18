@@ -2,39 +2,13 @@ import Link from "next/link"
 import React from "react"
 import { AiOutlineClose } from "react-icons/ai"
 
-const menuLinks: {
-  id: string
-  name: string
-  link: string
-}[] = [
-  {
-    id: "gig-link",
-    name: "View Gig",
-    link: ""
-  },
-  {
-    id: "fixer-link",
-    name: "Fixer Details",
-    link: ""
-  },
-  {
-    id: "parts-link",
-    name: "Request Parts",
-    link: ""
-  },
-  /* {
-    id: "maps-link",
-    name: "Google Maps",
-    link: ""
-  } */
-]
-
 interface EventTileMenu {
   setShowMenu: () => void
+  eventId: number
 }
 
 export default function EventTileMenu(props: EventTileMenu) {
-  const { setShowMenu } = props
+  const { setShowMenu, eventId } = props
   return (
     <div data-testid="event-tile-menu" className="opacity-100 rounded-lg border shadow flex flex-col w-72 items-center bg-white z-10 self-center absolute">
       <div className="w-full flex flex-row justify-end p-1">
@@ -42,11 +16,15 @@ export default function EventTileMenu(props: EventTileMenu) {
           <AiOutlineClose />
         </button>
       </div>
-      {menuLinks.map(i => (
-        <Link className="p-1 hover:bg-slate-100 w-full" href={i.link} key={i.id} data-testid={i.id}>
-          {i.name}
-        </Link>
-      ))}
+      <Link className="p-1 text-center hover:bg-slate-100 w-full" href={`/event/${eventId}`} data-testid={"gig-link"}>
+        View Gig
+      </Link>
+      <button className=" p-1 hover:bg-slate-100 w-full" data-testid="fixer-link">
+        Fixer Details
+      </button>
+      <button className="p-1 hover:bg-slate-100 w-full" data-testid="parts-link">
+        Request Parts
+      </button>
     </div>
   )
 }

@@ -56,9 +56,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
   
   return (
     <div data-testid="create-event-form" className='w-screen flex flex-col items-center'>
-      <div className='main-header'>
-        <h1>Fix an Event</h1>
-      </div>
+
       <Formik 
         initialValues={{
           fixer: {
@@ -97,53 +95,53 @@ export default function CreateEventForm(props: CreateEventFormProps) {
         }}>
           {(props) => (
             <form id="fixing-form" className='fix-form' onSubmit={props.handleSubmit}>
-
               <Field component={ToggleButtonGroup} type="checkbox" name="confirmedOrOnHold" exclusive value={confirmedOrOnHold} className="flex flex-col w-1/3 p-2" data-testid={`confirm-or-hold-toggle-group`}>
-              <ToggleButton value="confirmed" onClick={e => setConfirmedOrOnHold("confirmed")} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
-              <ToggleButton value="onHold" onClick={e => setConfirmedOrOnHold("onHold")} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
-              <ErrorMessage name={`confirmedOrOnHold`}>
-                  { msg => <div className="form-error" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
+                <ToggleButton value="confirmed" onClick={e => setConfirmedOrOnHold("confirmed")} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
+                <ToggleButton value="onHold" onClick={e => setConfirmedOrOnHold("onHold")} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
+                <ErrorMessage name={`confirmedOrOnHold`}>
+                    { msg => <div className="form-error" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
                 </ErrorMessage>
               </Field>
-              <FormLabel id="ensemble">Ensemble</FormLabel>
-              <Field aria-labelledby="ensemble" label="Ensemble" component={RadioGroup} name="ensemble" data-testid="ensemble-radio-fieldset">
-                <FormControlLabel 
-                value="BBC Symphony Orchestra"
-                control={<Radio disabled={props.isSubmitting} />}
-                label="BBC Symphony Orchestra"
-                disabled={props.isSubmitting}/>
+              <div>
+                <FormLabel id="ensemble">Ensemble</FormLabel>
+                <Field aria-labelledby="ensemble" label="Ensemble" component={RadioGroup} name="ensemble" data-testid="ensemble-radio-fieldset">
+                  <FormControlLabel 
+                  value="BBC Symphony Orchestra"
+                  control={<Radio disabled={props.isSubmitting} />}
+                  label="BBC Symphony Orchestra"
+                  disabled={props.isSubmitting}/>
 
-                <FormControlLabel 
-                value="London Symphony Orchestra"
-                control={<Radio disabled={props.isSubmitting} />}
-                label="London Symphony Orchestra"
-                disabled={props.isSubmitting}/>
-                <div className='flex flex-row'>
-                <FormControlLabel 
-                data-testid="other-ensemble-radio"
-                value="Other"
-                control={<Radio disabled={props.isSubmitting} />}
-                label="Other"
-                disabled={props.isSubmitting}/>
-                {props.values.ensemble === "Other" 
-                && <Field
-                  component={TextField}
-                  label="Ensemble Name"
-                  data-testid="other-ensemble-input"
-                  className='input-box'
-                  type="text"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.ensembleName}
-                  name="ensembleName"
-                /> }
-                </div>
-                
-              </Field>
-              <ErrorMessage name={`ensemble`}>
-                  { msg => <div className="form-error" data-testid={`create-form-error-ensemble`}>{msg}</div> }
-                </ErrorMessage>
-              
+                  <FormControlLabel 
+                  value="London Symphony Orchestra"
+                  control={<Radio disabled={props.isSubmitting} />}
+                  label="London Symphony Orchestra"
+                  disabled={props.isSubmitting}/>
+                  <div className='flex flex-row'>
+                  <FormControlLabel 
+                  data-testid="other-ensemble-radio"
+                  value="Other"
+                  control={<Radio disabled={props.isSubmitting} />}
+                  label="Other"
+                  disabled={props.isSubmitting}/>
+                  {props.values.ensemble === "Other" 
+                  && <Field
+                    component={TextField}
+                    label="Ensemble Name"
+                    data-testid="other-ensemble-input"
+                    className='input-box'
+                    type="text"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.ensembleName}
+                    name="ensembleName"
+                  /> }
+                  </div>
+                  
+                </Field>
+                <ErrorMessage name={`ensemble`}>
+                    { msg => <div className="form-error" data-testid={`create-form-error-ensemble`}>{msg}</div> }
+                  </ErrorMessage>
+              </div>
               
               <TextInput multiline={true} name="concertProgram" title="Concert Program" id="concert-program" className='input-box-multiline' label="Concert Program"/>              
               <FieldArray name="calls" data-testid="call-field-array">

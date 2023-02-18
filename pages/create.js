@@ -3,7 +3,7 @@ import Layout from "../components/layout";
 
 export default function Create() {
   return (
-    <Layout>
+    <Layout pageTitle="Create Event">
       <CreateEventForm />
     </Layout>
   )

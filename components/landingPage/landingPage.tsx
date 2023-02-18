@@ -14,7 +14,7 @@ export default function LandingPage() {
         <Hero />
         <FixerFeatures />
         <MusicianFeatures />
-        <LandingFooter />
+        <LandingFooter landingPage={true} />
       </div>
   )
 }

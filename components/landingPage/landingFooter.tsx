@@ -1,7 +1,8 @@
 import React from "react"
 import { AiOutlineCopyrightCircle, AiOutlineFacebook, AiOutlineTwitter, AiOutlineInstagram } from "react-icons/ai"
 
-const menu: string[] = ["Features", "Testimonials", "Pricing", "Contact"]
+const landingMenu: string[] = ["Features", "Testimonials", "Pricing", "Contact"]
+const sessionMenu: string[] = ["About", "Settings", "Contact", "Sign Out"]
 
 const socialMedia: 
 {key: number, 
@@ -19,15 +20,25 @@ const socialMedia:
     node: <AiOutlineInstagram />
   },
 ]
+interface LandingFooterProps {
+  landingPage: boolean
+}
 
-export default function LandingFooter() {
+export default function LandingFooter(props: LandingFooterProps) {
+  const { landingPage } = props
   return (
     <div className="flex flex-col items-center justify-center border-t">
       <div className="py-2">
-      {menu.map((i: string) => (
+      {landingPage === true 
+      ? landingMenu.map((i: string) => (
             <button key={i} className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light">
               {i}
-            </button>))}
+            </button>))
+      : sessionMenu.map((i: string) => (
+        <button key={i} className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light">
+          {i}
+        </button>))
+            }
       </div>
       <div className="flex flex-row text-xl">
         {socialMedia.map(i => (

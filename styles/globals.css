@@ -339,7 +339,7 @@
 }
 
 .layout-children {
-  min-height: calc(100vh - 8rem);
+  min-height: calc(100vh - 14rem);
   
 }
 

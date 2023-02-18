@@ -3,7 +3,7 @@ import Layout from "../components/layout/layout"
 
 export default function SignInPage() {
   return (
-    <Layout>
+    <Layout pageTitle="Sign in">
       <SignIn />
     </Layout>    
   )

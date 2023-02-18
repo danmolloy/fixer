@@ -4,7 +4,8 @@ import { AiOutlineFileAdd, AiOutlineSearch, AiOutlineUnorderedList, AiOutlineCal
 import { useSession } from "next-auth/react"
 import LandingPage from "../components/landingPage/landingPage";
 import { useState } from "react";
-import Dashboard from "../components/index/dashboard";
+//import Dashboard from "../components/index/dashboard";
+import EventsIndex from "../components/upcomingEvents/eventsIndex"
 
 
 export default function Home() {
@@ -19,8 +20,8 @@ export default function Home() {
 
 if (session) {
     return (
-      <Layout >
-        <Dashboard />
+      <Layout pageTitle="Calendar">
+        <EventsIndex session={session}/>
       </Layout>
     )}
 

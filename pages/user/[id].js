@@ -15,7 +15,7 @@ const dummyData = {
 
 export default function UserPage() {
   return (
-    <Layout>
+    <Layout pageTitle={null}>
       <UserProfile user={dummyData}/>
     </Layout>
   )

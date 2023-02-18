@@ -1,13 +1,39 @@
 import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
-import { useSession, signIn } from "next-auth/react"
-import { Button } from '@mui/material'
+import { useSession } from "next-auth/react"
 import React from 'react'
 
 interface HeaderProps {
   showMenu: boolean
   setShowMenu: () => void
 }
+
+export const menuItems: {
+  name: string
+  link: string
+  id: string
+}[] = [
+  {
+    name: "Calendar",
+    link: "/",
+    id: "calendar-link"
+  },
+  {
+    name: "Directory",
+    link: "/directory",
+    id: "directory-link"
+  },
+  {
+    name: "Create Event",
+    link: "/event/create",
+    id: "create-event-link"
+  },
+  {
+    name: "Notifications",
+    link: "/",
+    id: "notificatons-link"
+  },
+]
 
 export default function Header(props: HeaderProps) {
   const { showMenu, setShowMenu } = props
@@ -18,19 +44,24 @@ export default function Header(props: HeaderProps) {
       <Link href={"/"}>
         
       <h2 className={' p-2 text-2xl mx-10  '}>
-            Gig<span className="text-blue-600 font-semibold">Fix</span>
-          </h2>
+        Gig<span className="text-blue-600 font-semibold">Fix</span>
+      </h2>
        
       </Link>
-      {session 
-      && <button onClick={() => setShowMenu()} data-testid="menu-icon-btn">
+
+        <div className='w-full justify-end hidden md:flex flex-row mr-2' data-testid="nav-bar">
+          {menuItems.map(i => (
+            <Link href={i.link} key={i.id} data-testid={i.id} className='hover:bg-slate-100 p-1 mx-4 rounded text-slate-600 text-sm'>
+              {i.name}
+            </Link>
+          ))}
+        </div>
+        <button onClick={() => setShowMenu()} data-testid="menu-icon-btn" className='md:hidden'>
           {showMenu 
           ? <AiOutlineClose className='menu-icon' data-testid="close-menu-icon"/>
           : <AiOutlineMenu className='menu-icon' data-testid="menu-icon"/>} 
         </button>
-      /* : <Link href={"/sign-in"}>
-          <Button variant="outlined">Sign in</Button>
-        </Link> */}
+        
     </div>
   )
 }

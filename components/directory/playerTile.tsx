@@ -19,7 +19,6 @@ export default function PlayerTile(props: PlayerTileProps) {
       <div className="rounded-full overflow-hidden w-36  m-8">
         <Image src={"http://placebeard.it/200/200"} width={150} height={150} alt="Placeholder for a profile pic" title="Profile picture placeholder" />
       </div>
-      {/* <Image src={"https://www.fillmurray.com/200/300"} width={200} height={300} /> */}
 
       <div className='text-center mb-8'>
         <h3 className="font-bold">

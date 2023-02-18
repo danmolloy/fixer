@@ -7,6 +7,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import moment from "moment/moment";
 import { MenuItem, Select } from "@mui/material";
 import UpcomingEvents from "./upcomingEvents";
+import EventDashboard from "./dashboard";
 
 const upcomingCalls = (calls, selectedDate) => {
   return calls.filter(i => new Date(i.endTime) > new Date(selectedDate)).sort((a, b) => new Date(a.startTime) - new Date(b.startTime))
@@ -40,6 +41,7 @@ export default function EventsCalendar() {
   const { data: session } = useSession()
   const [selectedDate, setSelectedDate] = useState(moment())
   const [dateRange, setDateRange] = useState(14)
+  const [eventView, setEventView] = useState("viewAll") //"viewAll"|"week"|"fortnight"|"month"
 
 
   if (!session) return <p>Loading..</p>
@@ -47,6 +49,7 @@ export default function EventsCalendar() {
 
   return (
     <Layout>
+      {JSON.stringify(eventView)}
       <div data-testid="events-calendar-div" className="w-screen p-2 flex flex-col items-center">
         <h1>Upcoming Events</h1>
         <div className="flex flex-col items-center p-2">
@@ -57,7 +60,9 @@ export default function EventsCalendar() {
             <MenuItem value={14}>Fortnight</MenuItem>
             <MenuItem value={28}>Four Weeks</MenuItem>
           </Select> */}
+
           </div>
+          <EventDashboard setEventView={(arg) => setEventView(arg)}/>
           <UpcomingEvents selectedDate={selectedDate} upcomingCalls={session.userData.calls} sessionEmail={session.user.email}/>
         </div>
     </Layout>
