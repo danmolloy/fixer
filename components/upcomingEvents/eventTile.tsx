@@ -35,9 +35,7 @@ export default function EventTile(props: EventTileProps) {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   
   
-  const formatDate = (e: string) => {
-    return new Date(e).toString().slice(0, 21)
-  }
+
   
 
   return (
@@ -53,7 +51,7 @@ export default function EventTile(props: EventTileProps) {
       <div className="flex flex-col md:flex-row text-slate-800 md:py-2 md:mb-1">
         <div className="flex flex-row items-center md:pr-2 md:border-r border-slate-400 ">
           <AiOutlineCalendar />
-          <p data-testid="call-start-time" className="ml-2">{formatDate(call.startTime)}</p>
+          <p data-testid="call-start-time" className="ml-2">{call.startTime}</p>
         </div>
           <div className="flex flex-row items-center md:pl-2 ">
             <HiLocationMarker />

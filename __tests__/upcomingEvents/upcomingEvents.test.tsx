@@ -4,9 +4,30 @@ import '@testing-library/jest-dom'
 import UpcomingEvents from "../../components/upcomingEvents/upcomingEvents";
 
 const mockProps = {
-  upcomingCalls: [{"id":58,"createdAt":"2022-12-26T08:44:03.321Z","updatedAt":"2022-12-26T08:44:03.321Z","startTime":"2022-12-31T04:00:00.000Z","endTime":"2022-12-31T07:00:00.000Z","venue":"Cork City Hall","eventId":41,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":41,"createdAt":"2022-12-26T08:44:03.321Z","updatedAt":"2022-12-26T08:44:03.321Z","ensembleName":"Cork Pops ","concertProgram":"New Years Gig","confirmedOrOnHold":"confirmed","dressCode":"Blacks","fee":"Free dinner","additionalInfo":"","fixerEmail":"danielmolloy_6@icloud.com"}},{"id":57,"createdAt":"2022-12-26T08:44:03.321Z","updatedAt":"2022-12-26T08:44:03.321Z","startTime":"2022-12-31T09:00:00.000Z","endTime":"2022-12-31T12:00:00.000Z","venue":"Cork City Hall","eventId":41,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":41,"createdAt":"2022-12-26T08:44:03.321Z","updatedAt":"2022-12-26T08:44:03.321Z","ensembleName":"Cork Pops ","concertProgram":"New Years Gig","confirmedOrOnHold":"confirmed","dressCode":"Blacks","fee":"Free dinner","additionalInfo":"","fixerEmail":"danielmolloy_6@icloud.com"}},{"id":56,"createdAt":"2022-12-26T08:44:03.321Z","updatedAt":"2022-12-26T08:44:03.321Z","startTime":"2022-12-31T13:00:00.000Z","endTime":"2022-12-31T16:00:00.000Z","venue":"Cork City Hall","eventId":41,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":41,"createdAt":"2022-12-26T08:44:03.321Z","updatedAt":"2022-12-26T08:44:03.321Z","ensembleName":"Cork Pops ","concertProgram":"New Years Gig","confirmedOrOnHold":"confirmed","dressCode":"Blacks","fee":"Free dinner","additionalInfo":"","fixerEmail":"danielmolloy_6@icloud.com"}},{"id":60,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:00:34.880Z","startTime":"2023-01-26T10:00:00.000Z","endTime":"2023-01-26T13:00:00.000Z","venue":"Maida Vale","eventId":42,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":42,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:00:34.880Z","ensembleName":"London Symphony Orchestra","concertProgram":"Australia Day Concert","confirmedOrOnHold":"confirmed","dressCode":"Blacks","fee":"ABO Category 1","additionalInfo":"Free lunch","fixerEmail":"danielmolloy_6@icloud.com"}},{"id":59,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:00:34.880Z","startTime":"2023-01-26T14:00:00.000Z","endTime":"2023-01-26T17:00:00.000Z","venue":"Maida Vale","eventId":42,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":42,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:00:34.880Z","ensembleName":"London Symphony Orchestra","concertProgram":"Australia Day Concert","confirmedOrOnHold":"confirmed","dressCode":"Blacks","fee":"ABO Category 1","additionalInfo":"Free lunch","fixerEmail":"danielmolloy_6@icloud.com"}},{"id":64,"createdAt":"2023-02-07T19:17:36.195Z","updatedAt":"2023-02-07T19:17:36.195Z","startTime":"2023-02-08T14:00:00.000Z","endTime":"2023-02-08T17:00:00.000Z","venue":"Blackheath Halls","eventId":46,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":46,"createdAt":"2023-02-07T19:17:36.195Z","updatedAt":"2023-02-07T19:17:36.195Z","ensembleName":"BBC Symphony Orchestra","concertProgram":"Verster Symphony Spectacular","confirmedOrOnHold":"confirmed","dressCode":"Blacks","fee":"MU rate","additionalInfo":"","fixerEmail":"danielmolloy_6@icloud.com"}},{"id":63,"createdAt":"2023-02-07T15:53:07.685Z","updatedAt":"2023-02-07T15:53:07.685Z","startTime":"2023-02-09T10:00:00.000Z","endTime":"2023-02-09T13:00:00.000Z","venue":"St Lukes","eventId":45,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":45,"createdAt":"2023-02-07T15:53:07.685Z","updatedAt":"2023-02-07T15:53:07.685Z","ensembleName":"BBC Symphony Orchestra","concertProgram":"Schoenberg Greatest Hits","confirmedOrOnHold":"confirmed","dressCode":"Blacks","fee":"MU Category 1","additionalInfo":"","fixerEmail":"danielmolloy_6@icloud.com"}},{"id":61,"createdAt":"2023-01-27T14:14:52.564Z","updatedAt":"2023-01-27T14:14:52.564Z","startTime":"2023-02-10T10:00:00.000Z","endTime":"2023-02-10T13:00:00.000Z","venue":"Barbican","eventId":43,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":43,"createdAt":"2023-01-27T14:14:52.564Z","updatedAt":"2023-01-27T14:14:52.564Z","ensembleName":"BBC Symphony Orchestra","concertProgram":"F","confirmedOrOnHold":"confirmed","dressCode":"Blacks","fee":"100","additionalInfo":"","fixerEmail":"danielmolloy_6@icloud.com"}},{"id":62,"createdAt":"2023-01-27T16:43:02.219Z","updatedAt":"2023-01-27T16:43:02.219Z","startTime":"2023-02-10T10:00:00.000Z","endTime":"2023-02-10T13:00:00.000Z","venue":"MV","eventId":44,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":44,"createdAt":"2023-01-27T16:43:02.219Z","updatedAt":"2023-01-27T16:43:02.219Z","ensembleName":"London Symphony Orchestra","concertProgram":"Banana","confirmedOrOnHold":"onHold","dressCode":"Blacks","fee":"90","additionalInfo":"","fixerEmail":"danielmolloy_6@icloud.com"}}],
-  sessionEmail: "danielmolloy_6@icloud.com",
-  selectedDate: String(new Date())
+  selectedDate: any
+  sessionEmail: string
+  upcomingCalls: {
+    id: number
+    createdAt: string
+    updatedAt: string
+    startTime: string
+    endTime: string
+    venue: string
+    eventId: number
+    fixerEmail: string
+    event: {
+      id: number
+      createdAt: string
+      updatedAt: string
+      ensembleName: string
+      concertProgram: string
+      confirmedOrOnHold: string
+      dressCode: string
+      fee: string
+      additionalInfo: string
+      fixerEmail: string
+    }
+  }[]
 }
 
 describe("UpcomingEvents component", () => {

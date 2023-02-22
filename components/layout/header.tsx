@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { useSession } from "next-auth/react"
 import React from 'react'
+import Menu from './menu'
 
 interface HeaderProps {
   showMenu: boolean
@@ -60,8 +61,8 @@ export default function Header(props: HeaderProps) {
           {showMenu 
           ? <AiOutlineClose className='menu-icon' data-testid="close-menu-icon"/>
           : <AiOutlineMenu className='menu-icon' data-testid="menu-icon"/>} 
-        </button>
-        
+          
+        </button> 
     </div>
   )
 }

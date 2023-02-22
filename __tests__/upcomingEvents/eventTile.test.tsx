@@ -1,14 +1,32 @@
-import { act, fireEvent, getByLabelText, getByTestId, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import React from 'react';
-
 import EventTile from '../../components/upcomingEvents/eventTile';
 
-const dateTimeRegex = /[a-z]{3}\s[a-z]{3}\s[\d]{2}\s[\d]{4}\s[\d]{2}:[\d]{2}/i
-
 const mockProps = {
-  call: {"id":58,"createdAt":"2022-12-26T08:44:03.321Z","updatedAt":"2022-12-26T08:44:03.321Z","startTime":"2022-12-31T04:00:00.000Z","endTime":"2022-12-31T07:00:00.000Z","venue":"Cork City Hall","eventId":41,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":41,"createdAt":"2022-12-26T08:44:03.321Z","updatedAt":"2022-12-26T08:44:03.321Z","ensembleName":"Cork Pops ","concertProgram":"New Years Gig","confirmedOrOnHold":"confirmed","dressCode":"Blacks","fee":"Free dinner","additionalInfo":"","fixerEmail":"danielmolloy_6@icloud.com"}},
-  sessionEmail: "danielmolloy_6@icloud.com"
+  call: {
+    id: 1,
+    createdAt: "callCreated",
+    updatedAt: "callUpdated",
+    startTime: "callStartTime",
+    endTime: "callEndTime",
+    venue: "callVenue",
+    eventId: 0,
+    fixerEmail: "fixerEmail",
+    event: {
+      id: 0,
+      createdAt: "eventCreated",
+      updatedAt: "eventUpdated",
+      ensembleName: "ensembleName",
+      concertProgram: "eventProgram",
+      confirmedOrOnHold: Math.random() < .5 ? "Confirmed" : "OnHold",
+      dressCode: "dressCode",
+      fee: "500",
+      additionalInfo: "No Additional info",
+      fixerEmail: "fixerEmail",
+    }
+  },
+  sessionEmail: "sessionEmail"
 }
 
 describe("EventTile Component", () => {
@@ -20,26 +38,15 @@ describe("EventTile Component", () => {
     const eventTile = screen.getByTestId("event-tile-div")
     expect(eventTile).toBeInTheDocument()
   })
-  it("Displays Start date and time", () => {
-     })
-  it("Venue displayed", () => {
+  it("Ensemble name is in the document", () => {
     const eventTile = screen.getByTestId("event-tile-div")
-    expect(eventTile.textContent).toMatch(mockProps.call.venue)
+    expect(eventTile.textContent).toMatch(mockProps.call.event.ensembleName)
   })
-  it("Indicates if you are the fixer of the event", () => {
-    const eventTile = screen.getByTestId("event-tile-div")
-    if (sessionEmail === mockProps.call.fixerEmail) {
-      expect(eventTile.textContent).toMatch(/You are the fixer of this event./gi)
-    } else {
-      expect(eventTile.textContent).not.toMatch(/You are the fixer of this event./gi)
-    }
-  })
-  it("Clicking tile links to event page", () => {})
   it("Has menu icon", () => {
     const menuIcon = screen.getByTestId("event-menu-icon")
     expect(menuIcon).toBeInTheDocument()
   })
-  it("Clicking menu icon renders menu", () => {
+  it("Show menu button renders menu", () => {
     const menuIcon = screen.getByTestId("event-menu-icon")
     act(() => {
       fireEvent.click(menuIcon)
@@ -47,5 +54,18 @@ describe("EventTile Component", () => {
     const eventTileMenu = screen.getByTestId("event-tile-menu")
     expect(eventTileMenu).toBeInTheDocument()
   })
+  it("Concert Program is in the document", () => {
+    const eventTile = screen.getByTestId("event-tile-div")
+    expect(eventTile.textContent).toMatch(mockProps.call.event.concertProgram)
+  })
+  it("Call start time is in the document", () => {
+    const eventTile = screen.getByTestId("event-tile-div")
+    expect(eventTile.textContent).toMatch(mockProps.call.startTime)
+  })
+  it("Call venue is in the document", () => {
+    const eventTile = screen.getByTestId("event-tile-div")
+    expect(eventTile.textContent).toMatch(mockProps.call.venue)
+  })
+
 })
 

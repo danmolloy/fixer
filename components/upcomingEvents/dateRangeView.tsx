@@ -30,15 +30,29 @@ interface DateRangeViewProps {
   sessionEmail: string
 }
 
-const daysArr = (selectedDate: moment.Moment, dateRange: number): { day: string; }[] => {
+export const daysArr = (selectedDate: moment.Moment, dateRange: number): { day: string; }[] => {
 let arr: { day: string; }[] = [];
 for (let day = moment(selectedDate); day < moment(selectedDate).add(dateRange, 'days'); day.add(1, 'days')) {
   arr = [...arr, {
-    day: day.calendar(),
+    day: String(day),
     
   }]
 }
 return arr
+}
+
+export const eventDateFilter = (startTime: string, endTime: string, day: string): boolean => {
+  if (
+    moment.utc(new Date(startTime)).isSame(moment.utc(new Date(day)), "date") 
+    || moment.utc(new Date(endTime)).isSame(moment.utc(new Date(day)), "date") 
+    ) {
+    return true;
+  }
+  return false;
+}
+
+export const eventDateArr = (startTime: string, endTime: string, day: string): {}[] => {
+  return [{}]
 }
 
 
@@ -50,15 +64,14 @@ export default function DateRangeView(props: DateRangeViewProps) {
       {/* <h2>{`${selectedDate.calendar()} to ${selectedDate.add(dateRange, "days").calendar()}`}</h2> */}
       {daysArr(selectedDate, dateRange).map(i => (
         <div key={i.day} className="w-full ">
-          <h3 className="text-md">{i.day}</h3>
+          <h3 className="text-md">
+            {moment(new Date(i.day)).calendar()}
+          </h3>
             {upcomingCalls.filter(j => (
-              String(moment(j.startTime).calendar()) 
-              === String(moment(i.day).calendar())
-              )).length > 0 
-              ?upcomingCalls.filter(j => (
-                String(moment(j.startTime).calendar()) 
-                === String(moment(i.day).calendar())
-                )).map(i => (
+              eventDateFilter(j.startTime, j.endTime, i.day) === true )).length > 0
+              ? upcomingCalls.filter(j => (
+                eventDateFilter(j.startTime, j.endTime, i.day) === true)
+                ).map(i => (
                 <div key={i.id} className="w-full">
                  <EventTile call={i} sessionEmail={sessionEmail}/>
                 </div>
@@ -67,7 +80,6 @@ export default function DateRangeView(props: DateRangeViewProps) {
             }
         </div>
       ))}
-      
     </div>
   )
 }

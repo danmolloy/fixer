@@ -1,31 +1,78 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom"
 import EventsIndex from "../../components/upcomingEvents/eventsIndex";
 import moment from "moment";
 
-
-const mockSession = {
-  "user":{
-    "name":"danmolloy","email":"danielmolloy_6@icloud.com","image":"https://avatars.githubusercontent.com/u/64697812?v=4"
-  },
-  "userData":{"id":"cl5if30or0054ixu0y1vap3yd","name":"danmolloy","email":"danielmolloy_6@icloud.com","emailVerified":null,"image":"https://avatars.githubusercontent.com/u/64697812?v=4","instrument":"Double Bass","profileInfo":null,"isFixer":null,"events":[{"id":20,"createdAt":"2022-09-15T12:14:27.518Z","updatedAt":"2022-10-03T11:23:29.946Z","ensembleName":"London Symphony Orchestra","concertProgram":"Sibelius","dressCode":"Blacks","fee":"0","additionalInfo":"Free pizza","fixerEmail":"danielmolloy_6@icloud.com","calls":[{"id":21,"createdAt":"2022-09-15T12:14:27.518Z","updatedAt":"2022-09-15T12:14:27.520Z","startTime": moment(),"endTime": moment().add(3, 'hours'),"venue":"Fox n Firkin","eventId":20,"fixerEmail":"danielmolloy_6@icloud.com"}]}],"calls":[{"id":21,"createdAt":"2022-09-15T12:14:27.518Z","updatedAt":"2022-09-15T12:14:27.520Z","startTime": moment().add(4, "hours"),"endTime": moment().add(5, "hours"),"venue":"Fox n Firkin","eventId":20,"fixerEmail":"danielmolloy_6@icloud.com","event":{"id":20,"createdAt":"2022-09-15T12:14:27.518Z","updatedAt":"2022-10-03T11:23:29.946Z","ensembleName":"London Symphony Orchestra","concertProgram":"Sibelius","dressCode":"Blacks","fee":"0","additionalInfo":"Free pizza","fixerEmail":"danielmolloy_6@icloud.com"}}]},
-  "expires":"2022-11-13T20:04:30.199Z"
+const mockProps = {
+  session: {
+    user: {
+      name: "userName",
+      email: "userEmail",
+      image: "userImg",
+    },
+    expires: "mockExpires",
+    userData: {
+      id: "userId",
+      name: "userName",
+      email: "userEmail",
+      emailVerified: null,
+      image: "userImg",
+      instrument: "userInstrument",
+      profileInfo: null,
+      isFixer: null,
+      events: [{
+        id: 1,
+        createdAt: "eventCreated",
+        updatedAt: "eventUpdated",
+        ensembleName: "eventEnsemble",
+        concertProgram: "eventProgram",
+        confirmedOrOnHold: "Confirmed",
+        dressCode: "dress",
+        fee: "concertFee",
+        additionalInfo: "additionalInfo",
+        fixerEmail: "fixerEmail",
+        calls: [{
+          id: 1,
+          createdAt: "callCreated",
+          updatedAt: "callUpdated",
+          startTime: "Tue, 26 Feb 2023 12:06:40 GMT",
+          endTime: "Tue, 26 Feb 2023 15:06:40 GMT",
+          venue: "HWH",
+          eventId: 1,
+          fixerEmail: "fixerEmail",
+        }]
+      }],
+      calls: [{
+        id: 1,
+          createdAt: "callCreated",
+          updatedAt: "callUpdated",
+          startTime: "Tue, 26 Feb 2023 12:06:40 GMT",
+          endTime: "Tue, 26 Feb 2023 15:06:40 GMT",
+          venue: "HWH",
+          eventId: 1,
+          fixerEmail: "fixerEmail",
+          event: {
+            id: 1,
+            createdAt: "eventCreated",
+            updatedAt: "eventUpdated",
+            ensembleName: "eventEnsemble",
+            concertProgram: "eventProgram",
+            confirmedOrOnHold: "Confirmed",
+            dressCode: "dress",
+            fee: "concertFee",
+            additionalInfo: "additionalInfo",
+            fixerEmail: "fixerEmail",
+          }
+      }]
+    }
+  }
 }
-jest.mock("next-auth/react", () => {
-  const originalModule = jest.requireActual('next-auth/react');
-  return {
-    __esModule: true,
-    ...originalModule,
-    useSession: jest.fn(() => {
-      return {data: mockSession, status: 'authenticated'}  // return type is [] in v3 but changed to {} in v4
-    }),
-  };
-});
+
 
 describe("EventsIndex component", () => {
   beforeEach(() => {
-    render(<EventsIndex />)
+    render(<EventsIndex {...mockProps} />)
   })
   it("Renders", () => {
     const eventsIndex = screen.getByTestId("events-index-div")
@@ -43,5 +90,75 @@ describe("EventsIndex component", () => {
     const viewAllUpcoming = screen.getByTestId("upcoming-events-div")
     expect(viewAllUpcoming).toBeInTheDocument()
   })
-  //it("Week view btn renders week view", () => {})
+  it("On click, date picker calendar renders week view if dateRange is null (i.e. viewAll)", () => {
+    const viewAllUpcoming = screen.getByTestId("upcoming-events-div")
+    expect(viewAllUpcoming).toBeInTheDocument()
+    const firstOfMonth = screen.getByText("1")
+    act(() => {
+      fireEvent.click(firstOfMonth)
+    })
+    const dateRangeView = screen.getByTestId("date-range-view")
+    expect(dateRangeView).toBeInTheDocument()
+    expect(viewAllUpcoming).not.toBeInTheDocument()
+  })
+  it("Week buttons render dateRanges", () => {
+    const weekBtn = screen.getByTestId("week-btn")
+    const viewAllUpcoming = screen.getByTestId("upcoming-events-div")
+    expect(viewAllUpcoming).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(weekBtn)
+    })
+    const dateRangeView = screen.getByTestId("date-range-view")
+    expect(dateRangeView).toBeInTheDocument()
+  })
+  it("Fortnight Button renders dateRanges", () => {
+    const fortnightBtn = screen.getByTestId("fortnight-btn")
+    const viewAllUpcoming = screen.getByTestId("upcoming-events-div")
+    expect(viewAllUpcoming).toBeInTheDocument()
+
+    act(() => {
+      fireEvent.click(fortnightBtn)
+    })
+    const dateRangeView = screen.getByTestId("date-range-view")
+
+    expect(dateRangeView).toBeInTheDocument()
+
+  })
+  it("Four week button renders dateRanges", () => {
+    const fourWeekBtn = screen.getByTestId("month-btn")
+    const viewAllUpcoming = screen.getByTestId("upcoming-events-div")
+    expect(viewAllUpcoming).toBeInTheDocument()
+
+    act(() => {
+      fireEvent.click(fourWeekBtn)
+    })
+    const dateRangeView = screen.getByTestId("date-range-view")
+
+    expect(dateRangeView).toBeInTheDocument()
+  })
+  it("Upcoming Events button renders upcoming component", async () => {
+    const fourWeekBtn = screen.getByTestId("month-btn")
+    const viewAllUpcoming = screen.getByTestId("upcoming-events-div")
+    const upcomingBtn = screen.getByTestId("view-all-btn")
+    expect(viewAllUpcoming).toBeInTheDocument()
+
+    act(() => {
+      fireEvent.click(fourWeekBtn)
+
+    })
+    const dateRangeView = screen.getByTestId("date-range-view")
+
+    expect(dateRangeView).toBeInTheDocument()
+    expect(viewAllUpcoming).not.toBeInTheDocument()
+
+    act(() => {
+      fireEvent.click(upcomingBtn)
+    })
+    await waitFor(async () => {
+      await new Promise(res => setTimeout(res, 500))
+    })
+    expect(dateRangeView).not.toBeInTheDocument()
+    expect(viewAllUpcoming).toBeInTheDocument()
+
+  })
 })

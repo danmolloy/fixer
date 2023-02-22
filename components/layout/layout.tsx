@@ -22,7 +22,7 @@ export default function Layout(props: LayoutProps) {
       <div className={showMenu ? "w-full p-3 blur":"w-full p-3"}>
         <h1 className="ml-4 text-bold">{pageTitle}</h1>
       </div>
-      <div className={showMenu ? "layout-children blur": "layout-children"} data-testid="main-div">
+      <div onFocus={() => setShowMenu(false)} className={showMenu ? "layout-children blur": "layout-children"} data-testid="main-div">
         {children}
       </div>
       
