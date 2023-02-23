@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ProfileBody() {
   return (
-    <div className="profile-text" data-testid="profile-text">
+    <div className="profile-text" data-testid="profile-body">
         <div className="py-2">
         <h2 className="text-lg text-slate-500 py-1">Professional Work</h2>
           <ul className="">

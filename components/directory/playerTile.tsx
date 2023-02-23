@@ -17,7 +17,7 @@ export default function PlayerTile(props: PlayerTileProps) {
   return (
       <div data-testid={"player-tile-div"} className="w-72 m-2 bg-white rounded-md shadow flex flex-col items-center">
       <div className="rounded-full overflow-hidden w-36  m-8">
-        <Image src={"http://placebeard.it/200/200"} width={150} height={150} alt="Placeholder for a profile pic" title="Profile picture placeholder" />
+        <Image data-testid={"player-img"} src={"http://placebeard.it/200/200"} width={150} height={150} alt="Placeholder for a profile pic" title="Profile picture placeholder" />
       </div>
 
       <div className='text-center mb-8'>

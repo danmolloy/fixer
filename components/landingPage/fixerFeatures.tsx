@@ -3,7 +3,7 @@ import { SiFastapi, SiGooglemessages } from "react-icons/si"
 import { BiSpreadsheet } from "react-icons/bi"
 import { FaRobot } from "react-icons/fa"
 
-const fixerFeatureList: {key: number, title: string, blurb: string, icon: React.ReactNode}[] = [
+export const fixerFeatureList: {key: number, title: string, blurb: string, icon: React.ReactNode}[] = [
   {
     key: 0,
     title: "Automated fixing",
@@ -32,7 +32,7 @@ const fixerFeatureList: {key: number, title: string, blurb: string, icon: React.
 
 export default function FixerFeatures() {
   return (
-    <div className="border mx-2 my-4 py-4 rounded-lg">
+    <div className="border mx-2 my-4 py-4 rounded-lg" data-testid="fixer-features">
       <div className="py-8 px-6 ">
       <p className="text-blue-600 font-bold text-xl">Fix faster</p>
       <h2 className="text-3xl font-extrabold py-2">Everything you need to book an orchestra</h2>

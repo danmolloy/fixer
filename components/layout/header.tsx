@@ -6,7 +6,7 @@ import Menu from './menu'
 
 interface HeaderProps {
   showMenu: boolean
-  setShowMenu: () => void
+  setShowMenu: (bool: boolean) => void
 }
 
 export const menuItems: {
@@ -57,7 +57,7 @@ export default function Header(props: HeaderProps) {
             </Link>
           ))}
         </div>
-        <button onClick={() => setShowMenu()} data-testid="menu-icon-btn" className='md:hidden'>
+        <button onClick={() => setShowMenu(!showMenu)} data-testid="menu-icon-btn" className='md:hidden'>
           {showMenu 
           ? <AiOutlineClose className='menu-icon' data-testid="close-menu-icon"/>
           : <AiOutlineMenu className='menu-icon' data-testid="menu-icon"/>} 

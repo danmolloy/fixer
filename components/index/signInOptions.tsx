@@ -5,7 +5,7 @@ import React from "react"
 export default function SignInOptions() {
 
   return (
-    <div className="flex flex-col items-center h-full">
+    <div className="flex flex-col items-center h-full" data-testid="signin-options">
       <h2 className="text-2xl text-slate-700">
         Welcome
       </h2>

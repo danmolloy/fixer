@@ -8,7 +8,7 @@ export default function SignIn() {
   const { data: session } = useSession()
 
   return (
-    <div className="border flex flex-col items-center justify-center p-8 h-96 shadow">
+    <div className="border flex flex-col items-center justify-center p-8 h-96 shadow" data-testid="signin-div">
       <h2 className='header-title font-title'>
           Fixer
       </h2>

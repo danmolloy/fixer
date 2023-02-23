@@ -5,16 +5,16 @@ import { Button } from "@mui/material"
 import Layout from "../layout/layout"
 import { AiOutlineMenu } from "react-icons/ai"
 
-const menu = ["Features", "Testimonials", "Pricing", "Contact"]
+export const menu = ["Features", "Testimonials", "Pricing", "Contact"]
 
 
 export default function LandingHeader() {
   return (
-    <div className="h-24 flex flex-row items-center justify-between">
+    <div className="h-24 flex flex-row items-center justify-between" data-testid="landing-header">
           <h2 className={' p-2 text-2xl mx-10  '}>
             Gig<span className="text-blue-600 font-semibold">Fix</span>
           </h2>
-          <div className="hidden md:flex ">
+          <div className="hidden md:flex " >
             {menu.map((i: string) => (
             <button key={i} className="hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
               {i}

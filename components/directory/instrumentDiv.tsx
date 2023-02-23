@@ -17,7 +17,7 @@ export default function InstrumentDiv(props: InstrumentDivProps) {
 
   return (
     <div data-testid={`${instrument}-directory`} className="instrument-div m-2 border rounded border-slate-200 shadow-sm" >
-      <button onClick={() => setShowMusicians(!showMusicians)} className=" w-full p-3 my-2 flex flex-row justify-between items-center">
+      <button data-testid={`${instrument}-header-btn`} onClick={() => setShowMusicians(!showMusicians)} className=" w-full p-3 my-2 flex flex-row justify-between items-center">
         <h2 className="p-2 text-xl">{instrument}</h2>
         <div data-testid={`${instrument}-directory-btn`} className=" text-md py-1 px-2 rounded-md hover:bg-slate-100">
           {showMusicians 

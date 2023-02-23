@@ -6,7 +6,9 @@ import React from 'react'
 export default function Footer() {
   return (
     <div className='footer' data-testid="layout-footer">
-      <AiOutlineTwitter className='react-icons'/>
+      <Link href="/" data-testid="twitter-link">
+        <AiOutlineTwitter className='react-icons'/>
+      </Link>
       <LoginBtn />
       <div className='footer-links'>
       <Link href="/about">
@@ -16,7 +18,7 @@ export default function Footer() {
         </Link>
         <Link href="/contact">
           <div className='footer-link' data-testid="contact-link">
-            Contact Us
+            Contact us
           </div>
         </Link>
       </div>

@@ -2,7 +2,7 @@ import React from "react"
 
 export default function Hero() {
   return (
-    <div className=" flex flex-col items-center text-center px-10 py-32">
+    <div className=" flex flex-col items-center text-center px-10 py-32" data-testid="hero-div">
       <h1 className="text-6xl font-semibold py-4">Communication{" "}
         <span className="text-blue-600">
           made simple

@@ -41,5 +41,3 @@ describe("PlayerTile component", () => {
   })
 
 })
-
-  //it("Clicking on a player tile takes user to player's profile", () => {})

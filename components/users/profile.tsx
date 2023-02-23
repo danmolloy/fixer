@@ -1,6 +1,3 @@
-import { Button } from "@mui/material";
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import ProfileHeader from "./profileHeader";
 import ProfileBody from "./profileBody";

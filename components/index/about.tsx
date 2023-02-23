@@ -3,7 +3,7 @@ import React from "react";
 
 export default function About() {
   return (
-    <div className="p-2">
+    <div className="p-2" data-testid="about-div">
       <h1 className="font-bold py-2 text-blue-700">About Fixer</h1>
       <p className="font-light p-4 text-center">
       At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium. 

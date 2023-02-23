@@ -16,8 +16,8 @@ export default function Layout(props: LayoutProps) {
   const [showMenu, setShowMenu] = useState(false)
   
   return (
-    <div className="layout ">
-      <Header setShowMenu={() => setShowMenu(!showMenu)} showMenu={showMenu}/>
+    <div className="layout " data-testid="layout-div">
+      <Header setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu}/>
       {showMenu && <Menu setShowMenu={() => setShowMenu(false)}/>}
       <div className={showMenu ? "w-full p-3 blur":"w-full p-3"}>
         <h1 className="ml-4 text-bold">{pageTitle}</h1>
