@@ -6,7 +6,7 @@ import { parse } from "json2csv";
 import { CSVLink } from "react-csv";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import EventInfo from "../../components/event/event";
+import EventIndex from "../../components/event";
 
 
 
@@ -53,16 +53,13 @@ export default function Event(props) {
     router.replace(router.asPath);
   }
 
-/*   const formatDate = (e) => {
-    return new Date(e).toString().slice(0, 21)
-  } */
 
 
 
 
   return (
     <Layout>
-      <EventInfo
+      <EventIndex
         confirmed={props.confirmedOrOnHold}
         updatedAt={props.updatedAt}
         createdAt={props.createdAt}

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignOutBtn component Matches snapshot 1`] = `
+<div
+  class="flex flex-col justify-center h-full"
+  data-testid="signout-btn"
+>
+  <button
+    class="sign-in-btn justify-center"
+  >
+    Sign out
+  </button>
+</div>
+`;

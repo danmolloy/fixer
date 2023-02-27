@@ -3,15 +3,67 @@ import '@testing-library/jest-dom'
 import ActiveCalls from "../../components/fixing/activeCalls"
 import React from "react"
 
-const mockProps = {
-  "eventCalls":[{"id":60,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:00:34.880Z","startTime":"2023-01-26T10:00:00.000Z","endTime":"2023-01-26T13:00:00.000Z","venue":"Maida Vale","eventId":42,"fixerEmail":"danielmolloy_6@icloud.com"},{"id":59,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:00:34.880Z","startTime":"2023-01-26T14:00:00.000Z","endTime":"2023-01-26T17:00:00.000Z","venue":"Maida Vale","eventId":42,"fixerEmail":"danielmolloy_6@icloud.com"}],"instrumentName":"Violin","instrumentSection":{"id":365,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:01:37.908Z","eventId":42,"instrumentName":"Violin","numToBook":1,"callOrder":"Ordered","musicians":[{"id":54,"createdAt":"2023-01-26T19:01:37.938Z","updatedAt":"2023-01-26T19:03:13.288Z","recieved":true,"accepted":false,"musicianEmail":"Catalina_Hermann@yahoo.com","eventInstrumentId":365,"bookingOrAvailability":"Booking","musician":{"name":"Tyler Hoppe"},"calls":[{"id":59},{"id":60}]},{"id":55,"createdAt":"2023-01-26T19:01:37.964Z","updatedAt":"2023-01-26T19:03:34.791Z","recieved":true,"accepted":false,"musicianEmail":"Abigail_Torp@gmail.com","eventInstrumentId":365,"bookingOrAvailability":"Booking","musician":{"name":"Benjamin Zieme"},"calls":[{"id":59},{"id":60}]},{"id":56,"createdAt":"2023-01-26T19:01:37.970Z","updatedAt":"2023-01-26T19:03:58.504Z","recieved":true,"accepted":true,"musicianEmail":"Ida_Wilderman90@yahoo.com","eventInstrumentId":365,"bookingOrAvailability":"Booking","musician":{"name":"Kara Rau"},"calls":[{"id":59},{"id":60}]}]},
-  "editList":false,
-  "instrumentFixed":true
+const recieved = Math.random() > .5 ? true : false
+const accepted = Math.random() > .5 ? true : false
+const eventInstrumentId = 1
+const eventId = 4
+
+const mockEventCall = {
+  id: 1,
+  createdAt: "callCreatedAt",
+  updatedAt: "callUpdatedAt",
+  startTime: "callStartTime",
+  endTime: "callEndTime",
+  venue: "callVenue",
+  eventId: eventId,
+  fixerEmail: "fixerEmail"
+}
+
+const mockMusician = {
+  id: 0,
+  createdAt: "musicianCreatedAt",
+  updatedAt: "musicianUpdatedAt",
+  recieved: recieved,
+  accepted: recieved == true ? accepted : null,
+  musicianEmail: "mockMusicianEmail",
+  eventInstrumentId: eventInstrumentId,
+  bookingOrAvailability: Math.random() < .5 ? "Booking" : "Availability",
+  musician: {
+    name: "Dan Molloy"
+  },
+  calls: [
+    {
+      id: mockEventCall.id
+    }
+  ]
+}
+
+const mockInstrumentSection = {
+  id: eventInstrumentId,
+  createdAt: 'instrumentCreatedAt',
+  updatedAt: "instrumentUpdatedAt",
+  eventId: eventId,
+  instrumentName: "Double Bass",
+  numToBook: Math.random() < .5 ? 1 : 2,
+  callOrder: "Ordered",
+  musicians: [mockMusician]
+}
+
+
+
+const mockActiveCallsProps = {
+  eventCalls: [mockEventCall],
+  instrumentName: mockInstrumentSection.instrumentName,
+  instrumentSection: mockInstrumentSection,
+  editList: Math.random() > .5 ? true : false,
+  instrumentFixed: Math.random() > .5 ? true : false,
+  refreshProps: jest.fn(),
+  closeEdit: jest.fn(),
 }
 
 describe("ActiveCalls component", () => {
   beforeEach(() => {
-    render(<ActiveCalls {...mockProps} />)
+    render(<ActiveCalls {...mockActiveCallsProps} />)
   })
   it("Renders", () => {
     const activeCalls = screen.getByTestId("active-calls-div")

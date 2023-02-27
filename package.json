@@ -31,7 +31,7 @@
     "jest-environment-jsdom": "^29.2.0",
     "json2csv": "^5.0.7",
     "moment": "^2.29.4",
-    "next": "^13.1.6",
+    "next": "^13.2.1",
     "next-auth": "^4.9.0",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",

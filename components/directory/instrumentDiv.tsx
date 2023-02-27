@@ -26,7 +26,7 @@ export default function InstrumentDiv(props: InstrumentDivProps) {
         </div>
       </button>
       {showMusicians &&
-      <div className="flex flex-row flex-wrap items-center justify-center w-full border-t bg-slate-100" >
+      <div className="flex flex-row flex-wrap items-center justify-center w-full border-t bg-slate-50 py-6" >
         {musicians.length > 0 
         ? musicians.map(i => (
           <div key={i.email} data-testid={`${i.email}-tile`} className="">

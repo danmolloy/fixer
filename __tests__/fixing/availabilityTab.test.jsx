@@ -1,16 +1,29 @@
-import { act, fireEvent, render, screen } from "@testing-library/react"
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import '@testing-library/jest-dom'
 import AvailabilityTab from '../../components/fixing/availabilityTab'
 
+const setEditList = jest.fn()
+const editList = Math.random() > .5 ? true : false
+
 const mockData = {
-  "instrumentalistsList":[],
-  "eventId":42,
-  "keyId":365,
-  "editList":false,
-  "activeCalls":{"id":365,"createdAt":"2023-01-26T19:00:34.880Z","updatedAt":"2023-01-26T19:01:37.908Z","eventId":42,"instrumentName":"Violin","numToBook":1,"callOrder":"Ordered","musicians":[{"id":54,"createdAt":"2023-01-26T19:01:37.938Z","updatedAt":"2023-01-26T19:03:13.288Z","recieved":true,"accepted":false,"musicianEmail":"Catalina_Hermann@yahoo.com","eventInstrumentId":365,"bookingOrAvailability":"Booking","musician":{"name":"Tyler Hoppe"},"calls":[{"id":59},{"id":60}]},{"id":55,"createdAt":"2023-01-26T19:01:37.964Z","updatedAt":"2023-01-26T19:03:34.791Z","recieved":true,"accepted":false,"musicianEmail":"Abigail_Torp@gmail.com","eventInstrumentId":365,"bookingOrAvailability":"Booking","musician":{"name":"Benjamin Zieme"},"calls":[{"id":59},{"id":60}]},{"id":56,"createdAt":"2023-01-26T19:01:37.970Z","updatedAt":"2023-01-26T19:03:58.504Z","recieved":true,"accepted":true,"musicianEmail":"Ida_Wilderman90@yahoo.com","eventInstrumentId":365,"bookingOrAvailability":"Booking","musician":{"name":"Kara Rau"},"calls":[{"id":59},{"id":60}]}]},
-  "instrumentFixed":true,
-  "callsOutId":365,
-  "instrumentName":"Violin"
+  editList: editList,
+  setEditList: setEditList,
+  instrumentalistsList: [{
+    id: "321",
+    name: "Patrick Viola",
+    email: "321",
+    emailVerified: null,
+    instrument: "Viola",
+    profileInfo: null,
+    isFixer: null,
+  }],
+  //appendPlayer: (player: any) => void 
+  eventId: 1, 
+  keyId: 2, 
+  instrumentName: "Viola", 
+  refreshProps: jest.fn(),
+  handleSubmit: jest.fn(), 
+  callsOutId: 3
 }
 
 describe("AvailabilityTab component", () => {
@@ -20,5 +33,35 @@ describe("AvailabilityTab component", () => {
   it("Renders", () => {
     const tabDiv = screen.getByTestId("availability-tab")
     expect(tabDiv).toBeInTheDocument()
+  })
+  it("if editList is false, Edit button is in the document with text content 'Edit'", async () => {
+    if(editList === false) {
+      const editBtn = screen.getByTestId(`availability-edit-btn`)
+      expect(editBtn).toBeInTheDocument()
+      expect(editBtn.textContent).toMatch("Edit")
+    }
+  })
+  //it("if editList is false, calls setEditList(true) on click", async () => {})
+  it("if editList is true, Close button in the document with text content 'Close'", () => {
+    if(editList === true) {
+      const editBtn = screen.getByTestId(`availability-edit-btn`)
+      expect(editBtn).toBeInTheDocument()
+      expect(editBtn.textContent).toMatch("Close")
+      act(() => {
+        fireEvent.click(editBtn)
+      })
+      expect(setEditList).toBeCalledWith(false)
+    }
+  })
+  //it("if editList is true, Close button in the document and calls setEditList(false) on click", () => {})
+  it("AvailabilityTable is in the document", () => {
+    const availabilityTable = screen.getByTestId("availability-table-div")
+    expect(availabilityTable).toBeInTheDocument()
+  })
+  it("if editList is true, EditCalls is in the document", () => {
+    if (editList === true) {
+      const editCalls = screen.getByTestId(`${mockData.instrumentName}-edit`)
+      expect(editCalls).toBeInTheDocument()
+    }
   })
 })

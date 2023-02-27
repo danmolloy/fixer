@@ -24,14 +24,8 @@ export default function TextInput(props: TextInputProps) {
         data-testid={`${id}-input`}
         className={className}
         type="text"
-        /* onChange={props.handleChange}
-        onBlur={props.handleBlur}
-        value={props.values.fee} */
         name={name}
       />
-      {/* <ErrorMessage name="fee">
-        { msg => <div className="form-error" data-testid={`${id}-error`}>{msg}</div> }
-      </ErrorMessage> */}
     </div>
   )
 }

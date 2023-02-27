@@ -1,7 +1,7 @@
 import { Button } from "@mui/material"
 import { useState } from "react"
 import ActiveCalls from "./activeCalls"
-import EditCalls from "./editCalls"
+import EditCalls from "./editCalls/editCalls"
 import React from "react"
 
 interface Musician {

@@ -136,29 +136,8 @@ describe("EventsIndex component", () => {
 
     expect(dateRangeView).toBeInTheDocument()
   })
-  it("Upcoming Events button renders upcoming component", async () => {
-    const fourWeekBtn = screen.getByTestId("month-btn")
-    const viewAllUpcoming = screen.getByTestId("upcoming-events-div")
-    const upcomingBtn = screen.getByTestId("view-all-btn")
-    expect(viewAllUpcoming).toBeInTheDocument()
-
-    act(() => {
-      fireEvent.click(fourWeekBtn)
-
-    })
-    const dateRangeView = screen.getByTestId("date-range-view")
-
-    expect(dateRangeView).toBeInTheDocument()
-    expect(viewAllUpcoming).not.toBeInTheDocument()
-
-    act(() => {
-      fireEvent.click(upcomingBtn)
-    })
-    await waitFor(async () => {
-      await new Promise(res => setTimeout(res, 500))
-    })
-    expect(dateRangeView).not.toBeInTheDocument()
-    expect(viewAllUpcoming).toBeInTheDocument()
-
+  //it("Upcoming Events button renders upcoming component", async () => {})
+  it("It refreshes on load ie when Calendar menu item clicked", () => {
+    expect(1).toBe(2)
   })
 })

@@ -1,7 +1,6 @@
 import { ErrorMessage, Field, FieldArray, Formik } from 'formik'
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -10,24 +9,29 @@ import { TextField, RadioGroup, Autocomplete, ToggleButtonGroup } from 'formik-m
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, ToggleButton } from '@mui/material';
 import { useState } from 'react';
 import React from 'react';
+import CallInput from './callInput';
 
 const options = [{ title: 'The Shawshank Redemption', year: 1994 }]
 
 interface CreateEventFormProps {
   handleSubmit: (vals: any) => void
   initialValues: any
+  session: {
+    user: {
+      name: string
+      email: string
+      image: string
+    }
+    expires: string
+  }
 }
 
 export default function CreateEventForm(props: CreateEventFormProps) {
-  const { handleSubmit, initialValues } = props
+  const { handleSubmit, initialValues, session } = props
 
   const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
-  const router = useRouter()
-  const { data: session } = useSession()
 
-  if (!session) {
-    return <p>Loading..</p>
-  }
+
 
   const EventSchema = Yup.object().shape({
     fixer: Yup.object({
@@ -95,6 +99,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
         }}>
           {(props) => (
             <form id="fixing-form" className='fix-form' onSubmit={props.handleSubmit}>
+              <TextInput multiline={false} label="Concert Title" name="concertTitle" title="Concert Title" id="concert-title" className='input-box'/>
+
               <Field component={ToggleButtonGroup} type="checkbox" name="confirmedOrOnHold" exclusive value={confirmedOrOnHold} className="flex flex-col w-1/3 p-2" data-testid={`confirm-or-hold-toggle-group`}>
                 <ToggleButton value="confirmed" onClick={e => setConfirmedOrOnHold("confirmed")} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
                 <ToggleButton value="onHold" onClick={e => setConfirmedOrOnHold("onHold")} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
@@ -149,53 +155,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 <div  data-testid="calls-array">
                   {props.values.calls.map((call, index) => (
                     <div className='call-div' key={call.id} data-testid={`call-${index + 1}-div`}>
-                      <div className='flex flex-row items-center justify-between'>
-                        <p>{`Call ${index + 1}`}</p>
-                        {index !== 0 && 
-                        <button data-testid={`calls-${index}-delete`} className='delete-btn text-xl p-1 m-1 rounded-full hover:bg-slate-100 active:bg-white' onClick={() => remove(index)}>
-                          <AiOutlineClose />
-                        </button>}
-                      </div>
-                      <div className='datetime-div'>
-                        <label className='datetime-label' htmlFor={`calls.${index}.startTime`}>Start Time</label>
-                      <Field
-                          label="Start Time"
-                          className="datetime-input "
-                          name={`calls.${index}.startTime`}
-                          id={`calls.${index}.startTime`}
-                          type="datetime-local"
-                        />
-                        </div>
-                        <ErrorMessage name={`calls.${index}.startTime`}>
-                          { msg => <div className="form-error" data-testid={`calls-${index}-startTime-error`}>{msg}</div> }
-                        </ErrorMessage>
-                        <div className='datetime-div'>
-                        <label className='datetime-label' htmlFor={`calls.${index}.endTime`}>End Time</label>
-                        
-                      <Field
-                          label="End Time"
-                          className="datetime-input"
-                          id={`calls.${index}.endTime`}
-                          name={`calls.${index}.endTime`}
-                          htmlFor={`calls.${index}.endTime`}
-                          type="datetime-local"
-                        />
-                        <ErrorMessage name={`calls.${index}.endTime`}>
-                          { msg => <div className="form-error" data-testid={`calls-${index}-endTime-error`}>{msg}</div> }
-                        </ErrorMessage>
-                        </div>
-                        <div>
-                         <Field 
-                          component={TextField}
-                          label="Venue"
-                          className="input-box"
-                          id={`calls.${index}.venue`}
-                          name={`calls.${index}.venue`}
-                          type="text"
-                        /> 
-
-                  
-                        </div>
+                      <CallInput id={call.id} index={index} remove={(arg) => remove(arg)}/>
                     </div>
                   ))}
                   <Button

@@ -23,7 +23,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
     class="flex flex-col px-6 md:flex-row flex-wrap"
   >
     <div
-      class="flex flex-row my-4 md:w-1/2"
+      class="flex flex-row  my-4  md:w-1/2"
     >
       <div
         class="text-blue-600 text-2xl py-2 md:px-2"
@@ -54,7 +54,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="flex flex-row my-4 md:w-1/2"
+      class="flex flex-row  my-4  md:w-1/2"
     >
       <div
         class="text-blue-600 text-2xl py-2 md:px-2"
@@ -88,7 +88,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="flex flex-row my-4 md:w-1/2"
+      class="flex flex-row  my-4  md:w-1/2"
     >
       <div
         class="text-blue-600 text-2xl py-2 md:px-2"
@@ -121,7 +121,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="flex flex-row my-4 md:w-1/2"
+      class="flex flex-row  my-4  md:w-1/2"
     >
       <div
         class="text-blue-600 text-2xl py-2 md:px-2"

@@ -24,4 +24,8 @@ describe("SignOutBtn component", () => {
     const signOutBtn = screen.getByTestId("signout-btn")
     expect(signOutBtn).toBeInTheDocument()
   })
+  it("Matches snapshot", () => {
+    const signOutBtn = screen.getByTestId("signout-btn")
+    expect(signOutBtn).toMatchSnapshot()
+  })
 })

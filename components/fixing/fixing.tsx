@@ -59,7 +59,6 @@ export default function Fixing(props: FixingProps) {
   if (error) return <p data-testid="error-msg">Error</p>
   if (!data) return <p data-testid="loading-msg">Loading..</p>
 
-  const instrumentsNotUsed = instrumentArr.filter(i => !props.instrumentSections.map(i => i.instrumentName).includes(i))
 
   return (
     <div className="w-screen flex flex-col justify-center" data-testid="event-fixing">
