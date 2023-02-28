@@ -1,17 +1,14 @@
-import { ErrorMessage, Field, FieldArray, Formik } from 'formik'
-import { useSession } from 'next-auth/react';
-import axios from 'axios';
+import { FieldArray, Formik } from 'formik'
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
-import { AiOutlineClose } from 'react-icons/ai';
 import TextInput from './textInput';
-import { TextField, RadioGroup, Autocomplete, ToggleButtonGroup } from 'formik-mui';
-import { Button, FormControl, FormControlLabel, FormLabel, Radio, ToggleButton } from '@mui/material';
 import { useState } from 'react';
 import React from 'react';
 import CallInput from './callInput';
+import ButtonPrimary from "../index/buttonPrimary"
+import EnsembleRadioGroup from './ensembleRadioGroup';
+import ConfirmedOrOnHold from './confirmedOrOnHold';
 
-const options = [{ title: 'The Shawshank Redemption', year: 1994 }]
 
 interface CreateEventFormProps {
   handleSubmit: (vals: any) => void
@@ -59,7 +56,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
 
   
   return (
-    <div data-testid="create-event-form" className='w-screen flex flex-col items-center'>
+    <div data-testid="create-event-form" className='border shadow-sm p-2 mb-4 rounded flex flex-col items-center w-full md:w-3/4 '>
 
       <Formik 
         initialValues={{
@@ -98,17 +95,89 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           actions.setSubmitting(false);
         }}>
           {(props) => (
-            <form id="fixing-form" className='fix-form' onSubmit={props.handleSubmit}>
-              <TextInput multiline={false} label="Concert Title" name="concertTitle" title="Concert Title" id="concert-title" className='input-box'/>
+            <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 ' onSubmit={props.handleSubmit}>
+              <div className='flex flex-col sm:items-center w-full sm:flex-row'>
+                <EnsembleRadioGroup 
+                  ensemble={props.values.ensemble}
+                  handleChange={props.handleChange}
+                  handleBlur={props.handleBlur}
+                  ensembleName={props.values.ensembleName} 
+                  isSubmitting={props.isSubmitting} />
+                  <ConfirmedOrOnHold setConfirmedOrOnHold={(e) => setConfirmedOrOnHold(e)} confirmedOrOnHold={confirmedOrOnHold} />
+                </div>
+                <TextInput 
+                asHtml='input' 
+                label="Concert Title" 
+                name="concertTitle" 
+                id="concert-title" 
+                className=''/>
+              <TextInput 
+                asHtml='textarea' 
+                name="concertProgram" 
+                id="concert-program" 
+                className='' 
+                label="Concert Program"/>              
+              <FieldArray name="calls" data-testid="call-field-array">
+              {({ insert, remove, push }) => (
+                <div  data-testid="calls-array" className='flex flex-col'>
+                  {props.values.calls.map((call, index) => (
+                    <div className='border p-4 my-4 rounded shadow-sm' key={call.id} data-testid={`call-${index + 1}-div`}>
+                      <CallInput id={call.id} index={index} remove={(arg) => remove(arg)}/>
+                    </div>
+                  ))}
+                  <ButtonPrimary
+                  id="add-call-btn"
+                  className="text-blue-600 hover:text-blue-500 border-blue-600 self-end"
+                  text="Add Call"
+                  handleClick={() => push({
+                    id: uuidv4(),
+                    startTime: undefined,
+                    endTime: undefined,
+                    venue: undefined
+                   })} />
+                </div> 
+              )}
+              </FieldArray>
+              
+              <TextInput 
+                asHtml='input' 
+                label="Dress Code" 
+                name="dressCode" 
+                id="dress-code" 
+                className=''/>
+              <TextInput 
+                asHtml='input' 
+                label="Fee" 
+                name="fee" 
+                className='' 
+                id="fee"/>
+              <TextInput 
+                asHtml="textarea" 
+                label="Additional Information" 
+                name="additionalInfo" 
+                id="additional-info" 
+                className=""/>
+              <ButtonPrimary
+                handleClick={() => {}}
+                id="create-event-btn" 
+                type="submit" 
+                className='bg-blue-600 hover:bg-blue-500 text-white w-24 self-end' 
+                text="Create"/>
+            </form>
+          )}
+      </Formik>
+    </div>
+  )
+}
 
-              <Field component={ToggleButtonGroup} type="checkbox" name="confirmedOrOnHold" exclusive value={confirmedOrOnHold} className="flex flex-col w-1/3 p-2" data-testid={`confirm-or-hold-toggle-group`}>
+{/* <Field component={ToggleButtonGroup} type="checkbox" name="confirmedOrOnHold" exclusive value={confirmedOrOnHold} className="flex flex-col w-1/2 p-2" data-testid={`confirm-or-hold-toggle-group`}>
                 <ToggleButton value="confirmed" onClick={e => setConfirmedOrOnHold("confirmed")} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
                 <ToggleButton value="onHold" onClick={e => setConfirmedOrOnHold("onHold")} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
                 <ErrorMessage name={`confirmedOrOnHold`}>
                     { msg => <div className="form-error" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
                 </ErrorMessage>
-              </Field>
-              <div>
+              </Field> */}
+              {/* <div>
                 <FormLabel id="ensemble">Ensemble</FormLabel>
                 <Field aria-labelledby="ensemble" label="Ensemble" component={RadioGroup} name="ensemble" data-testid="ensemble-radio-fieldset">
                   <FormControlLabel 
@@ -131,11 +200,11 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                   disabled={props.isSubmitting}/>
                   {props.values.ensemble === "Other" 
                   && <Field
-                    component={TextField}
+                    asHtml='input'
                     label="Ensemble Name"
-                    data-testid="other-ensemble-input"
-                    className='input-box'
-                    type="text"
+                    id="other-ensemble-input"
+                    className='border shadow-sm p-2 rounded '
+                    placeholder="Ensemble Name"
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
                     value={props.values.ensembleName}
@@ -147,43 +216,4 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 <ErrorMessage name={`ensemble`}>
                     { msg => <div className="form-error" data-testid={`create-form-error-ensemble`}>{msg}</div> }
                   </ErrorMessage>
-              </div>
-              
-              <TextInput multiline={true} name="concertProgram" title="Concert Program" id="concert-program" className='input-box-multiline' label="Concert Program"/>              
-              <FieldArray name="calls" data-testid="call-field-array">
-              {({ insert, remove, push }) => (
-                <div  data-testid="calls-array">
-                  {props.values.calls.map((call, index) => (
-                    <div className='call-div' key={call.id} data-testid={`call-${index + 1}-div`}>
-                      <CallInput id={call.id} index={index} remove={(arg) => remove(arg)}/>
-                    </div>
-                  ))}
-                  <Button
-                  variant="contained"
-                  type="button"
-                  data-testid="add-call-btn"
-                  className="add-call-btn"
-                  color="primary"
-                  onClick={() => push({
-                    id: uuidv4(),
-                    startTime: undefined,
-                    endTime: undefined,
-                    venue: undefined
-                   })}
-                >
-                  Add Call
-                </Button>
-                </div> 
-              )}
-              </FieldArray>
-              
-              <TextInput multiline={false} label="Dress Code" name="dressCode" title="Dress Code" id="dress-code" className='input-box'/>
-              <TextInput multiline={false} label="Fee" name="fee" className='input-box' title="Fee" id="fee"/>
-              <TextInput multiline={true} label="Additional Information" name="additionalInfo" title="Additional Information" id="additional-info" className="input-box-multiline"/>
-              <Button data-testid="create-event-btn" type="submit" className='submit-btn' color="primary" variant="contained">Create</Button>
-            </form>
-          )}
-      </Formik>
-    </div>
-  )
-}
+              </div> */}

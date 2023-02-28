@@ -10,7 +10,7 @@ interface ProfileHeaderProps {
 export default function ProfileHeader(props: ProfileHeaderProps) {
   const { userName, instrument } = props
   return (
-    <div className="rounded-md flex flex-col sm:flex-row sm:items-center lg:w-2/3 border border-slate-400" data-testid="profile-header-div">
+    <div className="rounded-md flex flex-col sm:flex-row sm:items-center lg:w-2/3 border shadow-sm" data-testid="profile-header-div">
       <div className="flex flex-row w-full">
       <div className="rounded-full shadow overflow-hidden m-4" data-testid="profile-img">
           <Image src={"http://placebeard.it/200/200"} width={150} height={150} alt="Placeholder for a profile pic" title="Profile picture placeholder" />

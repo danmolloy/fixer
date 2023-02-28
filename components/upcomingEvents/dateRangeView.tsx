@@ -63,9 +63,9 @@ export default function DateRangeView(props: DateRangeViewProps) {
     <div data-testid="date-range-view" className="w-full p-4 m-2">
       {/* <h2>{`${selectedDate.calendar()} to ${selectedDate.add(dateRange, "days").calendar()}`}</h2> */}
       {daysArr(selectedDate, dateRange).map(i => (
-        <div key={i.day} className="w-full ">
+        <div key={i.day} className="w-full border my-2 px-2 py-3 shadow-sm">
           <h3 className="text-md">
-            {moment(new Date(i.day)).calendar()}
+            {moment(new Date(i.day)).format("Do MMMM YYYY")}
           </h3>
             {upcomingCalls.filter(j => (
               eventDateFilter(j.startTime, j.endTime, i.day) === true )).length > 0
@@ -76,7 +76,7 @@ export default function DateRangeView(props: DateRangeViewProps) {
                  <EventTile call={i} sessionEmail={sessionEmail}/>
                 </div>
               ))
-              : <p className="p-1  mb-4 text-slate-600">No events on this day</p>
+              : <p className="text-center mb-4 text-slate-600">No events on this day</p>
             }
         </div>
       ))}

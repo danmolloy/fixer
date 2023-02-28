@@ -1,31 +1,34 @@
 import { ErrorMessage, Field } from "formik";
-import { TextField } from "formik-mui";
 import React from "react";
 
 interface TextInputProps {
-  multiline: boolean 
   name: string
-  title: string
   id: string
   className?: string
   label: string
+  asHtml?: string
 }
 
 export default function TextInput(props: TextInputProps) {
-  const { multiline, name, title, id, className, label } = props;
+  const { name, id, className, label, asHtml } = props;
 
   return (
-    <div className="flex flex-col py-2" data-testid={`${id}-div`}>
+    <div className="flex flex-col py-4" data-testid={`${id}-div`}>
+      <label htmlFor={name} className="text-slate-700">{label}</label>
       <Field
-        multiline
-        rows={props.multiline === true ? 4 : 1}
-        component={TextField}
+        
+        as={asHtml}
         label={label ? label : name}
         data-testid={`${id}-input`}
-        className={className}
+        className={`border rounded p-2 my-1 shadow-sm ${className}`}
         type="text"
         name={name}
+        
       />
+      
+        <ErrorMessage name={name}>
+          { msg => <div className="p-1 text-red-600 text-sm" data-testid={`${name}-error`}>{msg}</div> }
+        </ErrorMessage>
     </div>
   )
 }
