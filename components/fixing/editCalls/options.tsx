@@ -1,7 +1,6 @@
-import { FormControlLabel, Radio, TextField } from "@mui/material"
 import { Field } from "formik"
-import { RadioGroup } from "formik-mui"
 import React from "react"
+import TextInput from '../../createEvent/textInput'
 
 interface EditCallsOptionsProps {
   instrumentName: string
@@ -14,29 +13,52 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
     <div data-testid="edit-calls-options">
       <div className="edit-div-sans-lists flex flex-col">
             <div className="my-2 w-full ">
-            <TextField label="Num to Book" data-testid={`${instrumentName}-num-to-book`} id="numToBook" type="number" name="numToBook" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
-            <Field className="w-full" label={`Message to ${String(instrumentName).toLocaleLowerCase()} players`} data-testid={`instrument-msg-input`} id="instrumentMsgInput" type="text" name="instrumentMsgInput" rows={4}/>
-            
+              <TextInput 
+                className=" w-24 h-8"
+                name={"numToBook"} 
+                id={"num-to-book-input"} 
+                label={"Num to Book"} 
+                type={"number"}
+                asHtml={"input"}
+                min={"1"}
+                max={"50"}
+                />
+              <TextInput 
+                label="Message to all"
+                id="instrument-msg-input"
+                name="instrumentMsg"
+                asHtml="textarea"
+                className=""/>
             </div>
-          <div className="form-div">
-          <label htmlFor="callOrder" className="form-label">Call Order</label>
-          <Field data-testid={`call-order-drop-down`} label="Call Order" component={RadioGroup} name="callOrder" >
-                <FormControlLabel 
-                value="Ordered"
-                control={<Radio disabled={isSubmitting} />}
-                label="Ordered"
-                disabled={props.isSubmitting}/>
-                <FormControlLabel 
-                value="Random"
-                control={<Radio disabled={isSubmitting} />}
-                label="Random"
-                disabled={props.isSubmitting}/>
-                <FormControlLabel 
-                value="Simultaneous"
-                control={<Radio disabled={isSubmitting} />}
-                label="Simultaneous"
-                disabled={props.isSubmitting}/>
-          </Field>
+          <div className="flex flex-col">
+            <label htmlFor="callOrder" className="text-slate-700">Call Order</label>
+            <div className="flex flex-col py-1" role="group" aria-label="callOrder" data-testid={`call-order-drop-down`}>
+              <label>
+                <Field 
+
+                  name="callOrder"
+                  value="ordered"
+                  type="radio"
+                  className="mr-2"/>
+                  Ordered
+              </label>
+              <label>
+                <Field 
+                  name="callOrder"
+                  value="simultaneous"
+                  type="radio"
+                  className="mr-2"/>
+                  Simultaneous
+              </label>
+              <label>
+                <Field 
+                  name="callOrder"
+                  value="random"
+                  type="radio"
+                  className="mr-2"/>
+                  Random
+              </label>
+            </div>
           </div>
     </div>
     </div>

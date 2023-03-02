@@ -1,7 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import { Tab, Tabs } from "@mui/material";
-import { TabContext, TabPanel } from "@mui/lab";
 import BookingTab from "./bookingTab";
 import AvailabilityTab from "./availabilityTab";
 import React from "react";
@@ -65,6 +63,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
   const { eventCalls,  eventId, instrumentalists, instrumentSection, refreshProps } = props
    const [editList, setEditList] = useState(false)
    const [tabIndex, setTabIndex] = useState("0")
+   const [selectedTab, setSelectedTab] = useState("Booking")
 
   let instrumentFixed = instrumentSection.musicians.filter(i => i.accepted === true).length === instrumentSection.numToBook
 
@@ -98,15 +97,9 @@ export default function InstrumentTile(props: InstrumentTileProps) {
     <div data-testid={`instrument-tile`} className={instrumentFixed /* && !editList */ ? "border-green-500 " : "w-full h-full"} key={instrumentSection.id}>
 
       <TileHeader instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} />
-      <TileTabBar />
-      <TabContext value={tabIndex}>
-      <Tabs value={tabIndex} onChange={(e, newIndex) => setTabIndex(newIndex)}>
-        <Tab label="Booking" value={"0"} data-testid="booking-tab-toggle"/>
-        <Tab label="Availability" value={"1"} data-testid="availability-tab-toggle"/>
-      </Tabs>
-      
-      <TabPanel value={"0"} >
-      <BookingTab 
+      <TileTabBar selectedTab={selectedTab} setSelectedTab={arg => setSelectedTab(arg)} />
+      {selectedTab === "Booking"
+      ? <BookingTab 
         instrumentalistsList={instrumentalistsList}
         setEditList={i => setEditList(i)}
         eventCalls={eventCalls}
@@ -115,9 +108,8 @@ export default function InstrumentTile(props: InstrumentTileProps) {
         refreshProps={refreshProps}
         instrumentFixed={instrumentFixed}
         handleSubmit={(values) => handleSubmit(values)} />
-      </TabPanel>
-      <TabPanel value={"1"}>
-        <AvailabilityTab 
+
+        :<AvailabilityTab 
           instrumentalistsList={instrumentalistsList}
           //appendPlayer={i => appendPlayer(i)}
           setEditList={i => setEditList(i)}
@@ -128,9 +120,8 @@ export default function InstrumentTile(props: InstrumentTileProps) {
           /* instrumentFixed={instrumentFixed} */
           handleSubmit={(values) => handleSubmit(values)}
           callsOutId={instrumentSection.id}
-          instrumentName={instrumentSection.instrumentName} />
-      </TabPanel>
-      </TabContext>
+          instrumentName={instrumentSection.instrumentName} />}
+
   </div>
   )
 }

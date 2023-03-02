@@ -1,8 +1,7 @@
-import { Button } from "@mui/material"
-import { useState } from "react"
 import ActiveCalls from "./activeCalls"
 import EditCalls from "./editCalls/editCalls"
 import React from "react"
+import ButtonPrimary from "../index/buttonPrimary"
 
 interface Musician {
   id: number
@@ -70,15 +69,8 @@ export default function BookingTab(props: BookingTabProps) {
      } = props
   
   return (
-    <div data-testid="booking-tab">
-      <div className="w-full py-2">
-          <Button 
-            data-testid={`booking-edit-btn`} 
-            variant="outlined" 
-            className="edit-btn text-blue-500 border-blue-500 hover:bg-blue-100" onClick={() => setEditList(!editList)}>
-              {editList ? "Close" : "Edit"}
-          </Button>
-        </div>
+    <div data-testid="booking-tab" className="">
+      
       {instrumentSection.musicians.length > 0
         ? <ActiveCalls 
           eventCalls={eventCalls} 
@@ -89,7 +81,17 @@ export default function BookingTab(props: BookingTabProps) {
           editList={editList} 
           instrumentFixed={instrumentFixed}
           />
-        : <p className="text-gray-500 -mt-2 pl-1">No calls out.</p>}
+        : 
+        <div className="text-zinc-500 text-center py-16">
+          <p className="">No calls out.</p>
+        </div>}
+        <div className="w-full flex flex-row justify-end">
+            <ButtonPrimary
+              id={`booking-edit-btn`} 
+              className=" m-4 px-4 text-blue-500 border-blue-500 hover:bg-blue-100" 
+              handleClick={() => setEditList(!editList)}
+              text={editList ? "Close" : "Edit"} />
+          </div>
         {editList 
         && <EditCalls 
           handleSubmit={(values) => handleSubmit(values)} 
@@ -97,6 +99,7 @@ export default function BookingTab(props: BookingTabProps) {
           instrumentName={instrumentSection.instrumentName} 
           instrumentalists={instrumentalistsList}
           />}
+          
     </div>
   )
 }

@@ -10,7 +10,8 @@ export default function TileHeader(props: TileHeaderProps) {
   return (
     <div className="instrument-tile-header">
         <h2 className={instrumentFixed ? "text-green-500" : "p-1"}>{instrumentName}</h2>
-       {/*  <p>Booking {numToBook} player(s)</p> */}
+        
+       {/* <p>Booking {numToBook} player(s)</p> */}
       </div>
   )
 }

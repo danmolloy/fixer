@@ -1,6 +1,4 @@
-import { Button } from "@mui/material"
-import { useState } from "react"
-import ActiveCalls from "./activeCalls"
+import ButtonPrimary from "../index/buttonPrimary"
 import AvailabilityTable from "./availabilityTable"
 import EditCalls from "./editCalls/editCalls"
 import React from "react"
@@ -41,11 +39,17 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
 
   return (
     <div data-testid="availability-tab">
-      <div>
-          <button data-testid={`availability-edit-btn`} className="edit-btn text-blue-500 border-blue-500 hover:bg-blue-100" onClick={() => setEditList(!editList)}>{editList === true ? "Close" : "Edit"}</button>
-        </div>
+      
         <AvailabilityTable />
+        <div className="w-full flex flex-row justify-end">
+            <ButtonPrimary
+              id={`booking-edit-btn`} 
+              className=" m-4 px-4 text-blue-500 border-blue-500 hover:bg-blue-100" 
+              handleClick={() => setEditList(!editList)}
+              text={editList ? "Close" : "Edit"} />
+          </div>
         {editList && <EditCalls handleSubmit={(values: any) => handleSubmit(values)} key={keyId} instrumentName={instrumentName} instrumentalists={instrumentalistsList}/>}
+    
     </div>
   )
 }

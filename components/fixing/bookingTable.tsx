@@ -96,7 +96,7 @@ export default function BookingTable(props: BookingTableProps) {
   let filledTable = createTable(eventCalls, instrumentSection)
 
   return (
-    <div data-testid="booking-table-div">
+    <div data-testid="booking-table-div" className="">
       <TableContainer>
         <Table>
           <TableHead>
