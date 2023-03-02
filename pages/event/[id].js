@@ -58,7 +58,7 @@ export default function Event(props) {
 
 
   return (
-    <Layout>
+    <Layout pageTitle="Event">
       <EventIndex
         confirmed={props.confirmedOrOnHold}
         updatedAt={props.updatedAt}

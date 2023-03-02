@@ -60,7 +60,7 @@ export default function CallInput(props: CallInputProps) {
           asHtml="input"
         /> 
         <TextInput 
-          label="Call Information"
+          label={`Call Information`}
           className=""
           id={`calls.${index}.info`}
           name={`calls.${index}.info`}

@@ -51,8 +51,8 @@ export default function EventInfo(props: EventInfoProps) {
       <InfoDiv className="" id="event-additional-info" title="Additional Info" value={additionalInfo} />
       <InfoDiv className="bg-slate-50" id="event-fixer-email" title="Fixer" value={fixerEmail} />
       
-      <InfoDiv className="" id="created-datetime" title="Event created" value={String(moment.utc(new Date(createdAt)).format("h:Mma Do MMMM YYYY"))} />
-      <InfoDiv className="bg-slate-50" id="updated-datetime" title="Last updated" value={String(moment.utc(new Date(updatedAt)).format("h:Mma Do MMMM YYYY"))} />
+      <InfoDiv className="" id="created-datetime" title="Event created" value={String(moment.utc(new Date(createdAt)).format("h:ma Do MMMM YYYY"))} />
+      <InfoDiv className="bg-slate-50" id="updated-datetime" title="Last updated" value={String(moment.utc(new Date(updatedAt)).format("h:ma Do MMMM YYYY"))} />
 
       
     </div>

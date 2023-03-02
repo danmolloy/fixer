@@ -60,7 +60,7 @@ describe("AvailabilityTab component", () => {
   })
   it("if editList is true, EditCalls is in the document", () => {
     if (editList === true) {
-      const editCalls = screen.getByTestId(`${mockData.instrumentName}-edit`)
+      const editCalls = screen.getByTestId(`edit-calls-div`)
       expect(editCalls).toBeInTheDocument()
     }
   })

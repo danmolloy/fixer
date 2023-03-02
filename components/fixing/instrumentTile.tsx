@@ -5,6 +5,8 @@ import { TabContext, TabPanel } from "@mui/lab";
 import BookingTab from "./bookingTab";
 import AvailabilityTab from "./availabilityTab";
 import React from "react";
+import TileHeader from "./tileHeader";
+import TileTabBar from "./tileTabBar";
 
 interface Musicians {
   id: number
@@ -95,10 +97,8 @@ export default function InstrumentTile(props: InstrumentTileProps) {
   return (
     <div data-testid={`instrument-tile`} className={instrumentFixed /* && !editList */ ? "border-green-500 " : "w-full h-full"} key={instrumentSection.id}>
 
-      <div className="instrument-tile-header">
-        <h2 className={instrumentFixed ? "text-green-500" : "p-1"}>{instrumentSection.instrumentName}</h2>
-       {/*  <p>Booking {numToBook} player(s)</p> */}
-      </div>
+      <TileHeader instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} />
+      <TileTabBar />
       <TabContext value={tabIndex}>
       <Tabs value={tabIndex} onChange={(e, newIndex) => setTabIndex(newIndex)}>
         <Tab label="Booking" value={"0"} data-testid="booking-tab-toggle"/>

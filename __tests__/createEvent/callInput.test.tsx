@@ -54,8 +54,8 @@ describe("CallInput component", () => {
     expect(venueInput).toBeInTheDocument()
     expect(venueInput).toHaveAttribute("type", "text")
   })
-  it("Call Additional info is in the document with label", () => {
-    const callInfo = screen.getByLabelText("Call Info")
+  it("Call information input is in the document with label", () => {
+    const callInfo = screen.getByLabelText("Call Information")
     expect(callInfo).toBeInTheDocument()
     expect(callInfo).toHaveAttribute("type", "text")
   })

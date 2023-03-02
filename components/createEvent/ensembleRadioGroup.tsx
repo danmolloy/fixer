@@ -40,10 +40,10 @@ export default function EnsembleRadioGroup(props: EnsembleRadioProps) {
         <label className="py-1">
           <Field
           className="mr-2"
-        type="radio"
-        name="ensemble"
-        value="Other"
-        disabled={props.isSubmitting}/>
+          type="radio"
+          name="ensemble"
+          value="Other"
+          disabled={props.isSubmitting}/>
         Other
         </label> 
         {ensemble === "Other" 

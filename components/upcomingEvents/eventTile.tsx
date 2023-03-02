@@ -52,7 +52,7 @@ export default function EventTile(props: EventTileProps) {
       <div className="flex flex-col md:flex-row text-slate-800 md:py-2 md:mb-1">
         <div className="flex flex-row items-center md:pr-2 md:border-r border-slate-400 ">
           <AiOutlineCalendar />
-          <p data-testid="call-start-time" className="ml-2">{String(moment.utc(new Date(call.startTime)).format("HMm MMMM Do YYYY"))}</p>
+          <p data-testid="call-start-time" className="ml-2">{String(moment.utc(new Date(call.startTime)).format("HMm ddd Do MMMM YYYY"))}</p>
         </div>
           <div className="flex flex-row items-center md:pl-2 ">
             <HiLocationMarker />

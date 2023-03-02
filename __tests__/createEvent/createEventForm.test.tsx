@@ -29,9 +29,8 @@ describe("CreateEventForm component", () => {
     expect(concertTitleInput).toBeInTheDocument()
   })
   it("Confirmed and On Hold toggles are in the document", () => {
-    const confirmedToggle = screen.getByTestId("confirmed-toggle")
-    expect(confirmedToggle).toBeInTheDocument()
-    expect(confirmedToggle.textContent).toMatch("Confirmed")
+    const confirmedRadio = screen.getByLabelText("Confirmed")
+    expect(confirmedRadio).toBeInTheDocument()
   })
   it("Ensemble has radio options, including 'other' option/text input, which is visible only when other is selected", async() => {
     const ensembleOptions = screen.getByTestId("ensemble-radio-fieldset")
