@@ -31,7 +31,7 @@ describe("EditCallsOptions component", () => {
     const messagePlayers = screen.getByTestId("instrument-msg-input")
     expect(messagePlayers).toBeInTheDocument()
     expect(messagePlayers).toHaveAttribute("type", "text")
-    expect(messagePlayers).toHaveAttribute("label", `Message to ${mockProps.instrumentName.toLowerCase()} players`)
+    expect(messagePlayers).toHaveAttribute("label", `Message to all`)
   })
   it("Call Order is in the document with label with expected options", () => {
     const callOrder = screen.getByTestId("call-order-drop-down")

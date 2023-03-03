@@ -47,7 +47,7 @@ describe("DateRangeView component", () => {
   it("Renders expected event tiles", () => {
     const dateRangeView = screen.getByTestId("date-range-view")
     expect(dateRangeView.textContent).toMatch(mockProps.upcomingCalls[0].event.ensembleName)
-    expect(dateRangeView.textContent).toMatch(/^21st February 2023      LSO/)
+    expect(dateRangeView.textContent).toMatch(/^Tuesday 21st February 2023      LSO•••Brahms1626 Tue 21st February 2023mock VenueWednesday 22nd February 2023No events/)
   })
 })
 

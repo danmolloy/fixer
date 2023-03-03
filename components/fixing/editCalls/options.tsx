@@ -25,7 +25,7 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
                 />
               <TextInput 
                 label="Message to all"
-                id="instrument-msg-input"
+                id="instrument-msg"
                 name="instrumentMsg"
                 asHtml="textarea"
                 className=""/>

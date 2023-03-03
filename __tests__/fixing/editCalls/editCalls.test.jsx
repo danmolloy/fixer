@@ -84,5 +84,10 @@ describe("EditCalls component", () => {
     numToBook: 1
   })
   })
+  it("Pause Fixing button is in the document", () => {
+    const pauseBtn = screen.getByTestId("pause-btn")
+    expect(pauseBtn).toBeInTheDocument()
+    expect(pauseBtn.textContent).toMatch("Pause fixing")
+  })
   //it("Fix button calls handleSubmit with expected options", async() => {})
 })

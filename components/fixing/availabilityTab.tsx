@@ -3,6 +3,17 @@ import AvailabilityTable from "./availabilityTable"
 import EditCalls from "./editCalls/editCalls"
 import React from "react"
 
+interface EventCall {
+  id: number
+  createdAt: string
+  updatedAt: string
+  startTime: string
+  endTime: string
+  venue: string
+  eventId: number
+  fixerEmail: string
+}
+
 interface AvailabilityTabProps {
   editList: boolean
   setEditList: (arg: boolean) => void
@@ -22,6 +33,7 @@ interface AvailabilityTabProps {
   refreshProps: () => void
   handleSubmit: (val: any) => void 
   callsOutId: number
+  eventCalls: EventCall[]
 }
 
 export default function AvailabilityTab(props: AvailabilityTabProps) {
@@ -35,7 +47,7 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
     instrumentName, 
     refreshProps, 
     handleSubmit, 
-    callsOutId } = props
+    callsOutId, eventCalls } = props
 
   return (
     <div data-testid="availability-tab">
@@ -43,12 +55,12 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
         <AvailabilityTable />
         <div className="w-full flex flex-row justify-end">
             <ButtonPrimary
-              id={`booking-edit-btn`} 
+              id={`availability-edit-btn`} 
               className=" m-4 px-4 text-blue-500 border-blue-500 hover:bg-blue-100" 
               handleClick={() => setEditList(!editList)}
               text={editList ? "Close" : "Edit"} />
           </div>
-        {editList && <EditCalls handleSubmit={(values: any) => handleSubmit(values)} key={keyId} instrumentName={instrumentName} instrumentalists={instrumentalistsList}/>}
+        {editList && <EditCalls eventCalls={eventCalls} handleSubmit={(values: any) => handleSubmit(values)} key={keyId} instrumentName={instrumentName} instrumentalists={instrumentalistsList}/>}
     
     </div>
   )

@@ -3,6 +3,7 @@ import moment from "moment/moment";
 import { TiMail, TiTick, TiTimes } from "react-icons/ti";
 import {FiCoffee } from "react-icons/fi"
 import React from "react";
+import { BsThreeDots } from 'react-icons/bs'
 
 interface Musician {
   id: number
@@ -65,7 +66,7 @@ interface tableObjMusician {
   accepted: boolean|null
 }[]
 
-const createTable = (eventCalls: any, instrumentSection: any): any => {
+export const createTable = (eventCalls: any, instrumentSection: any): any => {
   let objArr: any = [{
     name: "Header",
     calls: eventCalls.map(i => ({
@@ -105,6 +106,7 @@ export default function BookingTable(props: BookingTableProps) {
             {filledTable.find((i: any) => i.name === "Header").calls.map(i => (
               <TableCell key={i.id}>{moment(new Date(i.startTime)).format("H:mm a DD[/]MM")}</TableCell>
             ))}
+            <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -122,6 +124,11 @@ export default function BookingTable(props: BookingTableProps) {
                   : <div className="text-slate-400"><FiCoffee /></div>}
                   </TableCell>
               ))}
+              <TableCell>
+                <button className="rounded-full p-1 text-zinc-700 hover:text-blue-600 hover:bg-blue-100">
+                  <BsThreeDots />
+                </button>
+              </TableCell>
             </TableRow>
             
           ))}

@@ -61,7 +61,7 @@ describe("EventTile Component", () => {
   })
   it("Call start time is in the document", () => {
     const eventTile = screen.getByTestId("event-tile-div")
-    expect(eventTile.textContent).toMatch(String(moment.utc(new Date(mockProps.call.startTime)).format("HMm MMMM Do YYYY")))
+    expect(eventTile.textContent).toMatch(String(moment.utc(new Date(mockProps.call.startTime)).format("HMm ddd Do MMMM YYYY")))
   })
   it("Call venue is in the document", () => {
     const eventTile = screen.getByTestId("event-tile-div")

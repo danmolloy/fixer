@@ -96,7 +96,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
   return (
     <div data-testid={`instrument-tile`} className={instrumentFixed /* && !editList */ ? "border-green-500 " : "w-full h-full"} key={instrumentSection.id}>
 
-      <TileHeader instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} />
+      <TileHeader instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} numToBook={instrumentSection.numToBook} />
       <TileTabBar selectedTab={selectedTab} setSelectedTab={arg => setSelectedTab(arg)} />
       {selectedTab === "Booking"
       ? <BookingTab 
@@ -110,6 +110,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
         handleSubmit={(values) => handleSubmit(values)} />
 
         :<AvailabilityTab 
+          eventCalls={eventCalls}
           instrumentalistsList={instrumentalistsList}
           //appendPlayer={i => appendPlayer(i)}
           setEditList={i => setEditList(i)}

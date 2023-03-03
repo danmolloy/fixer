@@ -94,6 +94,7 @@ export default function BookingTab(props: BookingTabProps) {
           </div>
         {editList 
         && <EditCalls 
+          eventCalls={eventCalls}
           handleSubmit={(values) => handleSubmit(values)} 
           key={instrumentSection.id} 
           instrumentName={instrumentSection.instrumentName} 

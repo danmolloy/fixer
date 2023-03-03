@@ -50,7 +50,7 @@ export default function EnsembleRadioGroup(props: EnsembleRadioProps) {
         && <TextInput
           asHtml='input'
           label="Ensemble Name"
-          id="other-ensemble-input"
+          id="other-ensemble"
           className='border shadow-sm p-2 rounded '
           name="ensembleName"
         /> }

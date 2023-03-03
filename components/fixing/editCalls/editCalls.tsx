@@ -6,6 +6,17 @@ import AvailablePlayers from "./availablePlayers";
 import AppendedPlayers from "./appendedPlayers";
 import ButtonPrimary from "../../index/buttonPrimary"
 
+interface EventCall {
+  id: number
+  createdAt: string
+  updatedAt: string
+  startTime: string
+  endTime: string
+  venue: string
+  eventId: number
+  fixerEmail: string
+}
+
 interface Instrumentalist {
   id: string
   name: string
@@ -28,10 +39,11 @@ interface EditCallsProps {
   handleSubmit: (vals: HandleSubmitValues) => void
   instrumentName: string
   instrumentalists: Instrumentalist[]
+  eventCalls: EventCall[]
 }
 
 export default function EditCalls(props: EditCallsProps) {
-  const { handleSubmit, instrumentName, instrumentalists} = props
+  const { handleSubmit, instrumentName, instrumentalists, eventCalls} = props
   const [checkBook, setCheckBook] = useState("book")
 
   return (
@@ -50,19 +62,27 @@ export default function EditCalls(props: EditCallsProps) {
      >
        {props => (
          <form className="edit-calls-form " onSubmit={props.handleSubmit} data-testid={`edit-calls-div`}>
-          <AppendedPlayers appendedPlayers={props.values.appendedPlayers} />
+          <AppendedPlayers eventCalls={eventCalls} appendedPlayers={props.values.appendedPlayers} />
           <AvailablePlayers 
             instrumentName={instrumentName} 
             availablePlayers={props.values.availablePlayers} 
             appendPlayer={(i) => props.values.appendedPlayers.push(i)} />
           <EditCallsOptions instrumentName={instrumentName} isSubmitting={props.isSubmitting}/>
-          <ButtonPrimary
-            type="submit" 
-            handleClick={() => {}} 
-            id="fix-btn" 
-            text="Fix" 
-            className="px-5 text-emerald-600 border-emerald-500 hover:bg-emerald-50" />
-         </form>
+          <div className="w-full p-4 flex flex-row justify-between">
+            <ButtonPrimary 
+              id="pause-btn" 
+              handleClick={() => {}} 
+              text="Pause fixing" 
+              className="px-5 text-white bg-red-600 border-red-600 hover:bg-red-500"/>
+            <ButtonPrimary
+              type="submit" 
+              handleClick={() => {}} 
+              id="fix-btn" 
+              text="Fix" 
+              className="px-5 text-white bg-emerald-500 border-emerald-500 hover:bg-emerald-400" />
+
+          </div>
+        </form>
        )}
      </Formik>
   )
