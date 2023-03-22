@@ -17,8 +17,20 @@ const mockPlayers =  Math.random() < .5 ? [] : [{
   isFixer: false,
 }]
 
+const mockEventCall = [{
+  id: 1,
+  createdAt: "mockCreatedAt",
+  updatedAt: "mockUpdatedAt",
+  startTime: "Tue, 21 Feb 2023 12:06:40 GMT",
+  endTime: "Tue, 21 Feb 2023 15:06:40 GMT",
+  venue: "Maida Vale",
+  eventId: 2,
+  fixerEmail: "mock@email.com"
+}]
+
 const mockProps = {
-  appendedPlayers: mockPlayers
+  appendedPlayers: mockPlayers,
+  eventCalls: mockEventCall
 }
 
 describe("AppendedPlayers component", () => {
@@ -34,10 +46,11 @@ describe("AppendedPlayers component", () => {
     const appendedPlayers = screen.getByTestId("appended-players-div")
     expect(appendedPlayers).toBeInTheDocument()
   })
-  it("If no appendePlayers, there is no text content", () => {
+  it("Name and date columns are in the document", () => {
     if (mockPlayers.length < 1) {
       const appendedPlayers = screen.getByTestId("appended-players-div")
-      expect(appendedPlayers.textContent).toMatch(/^$/)
+      expect(appendedPlayers.textContent).toMatch("Name")
+      expect(appendedPlayers.textContent).toMatch(/12:06pm 21\/02/)
     }
   })
   it("Lists all players names", () => {

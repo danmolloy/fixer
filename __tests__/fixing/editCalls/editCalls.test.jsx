@@ -14,11 +14,23 @@ const mockPlayers =  [{
   isFixer: false,
 }]
 
+const mockEventCall = [{
+  id: 1,
+  createdAt: "mockCreatedAt",
+  updatedAt: "mockUpdatedAt",
+  startTime: "Tue, 21 Feb 2023 12:06:40 GMT",
+  endTime: "Tue, 21 Feb 2023 15:06:40 GMT",
+  venue: "Maida Vale",
+  eventId: 2,
+  fixerEmail: "mock@email.com"
+}]
+
 
 const mockProps = {
   handleSubmit: jest.fn(),
   instrumentName: mockInstrument,
-  instrumentalists: mockPlayers
+  instrumentalists: mockPlayers,
+  eventCalls: mockEventCall
 }
 
 describe("EditCalls component", () => {
