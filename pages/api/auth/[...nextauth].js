@@ -10,7 +10,27 @@ export const authOptions = ({
   adapter: PrismaAdapter(prisma),
   // Configure one or more authentication providers
   providers: [
-    GithubProvider({
+    process.env.VERCEL_ENV === "preview"
+      ? CredentialsProvider({
+          name: "Credentials",
+          credentials: {
+            username: {
+              label: "Username",
+              type: "text",
+              placeholder: "jsmith",
+            },
+            password: { label: "Password", type: "password" },
+          },
+          async authorize() {
+            return {
+              id: 1,
+              name: "John Smith",
+              email: "jsmith@example.com",
+              image: "https://i.pravatar.cc/150?u=jsmith@example.com",
+            }
+          },
+        })
+      : GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
     }),
