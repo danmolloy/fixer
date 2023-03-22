@@ -2,6 +2,8 @@ import NextAuth, { NextAuthOptions } from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
+import CredentialsProvider from "next-auth/providers/credentials"
+
 
 const prisma = new PrismaClient()
 
@@ -11,7 +13,7 @@ export const authOptions = ({
   // Configure one or more authentication providers
   providers: [
     process.env.VERCEL_ENV === "preview"
-      ? CredentialsProvider({
+      ?  CredentialsProvider({
           name: "Credentials",
           credentials: {
             username: {

@@ -1,5 +1,6 @@
 import React from "react"
 import { AiOutlineCopyrightCircle, AiOutlineFacebook, AiOutlineTwitter, AiOutlineInstagram } from "react-icons/ai"
+import { signOut } from "next-auth/react"
 
 export const landingMenu: string[] = ["Features", "Testimonials", "Pricing", "Contact"]
 export const sessionMenu: string[] = ["About", "Settings", "Contact", "Sign Out"]
@@ -40,7 +41,10 @@ export default function LandingFooter(props: LandingFooterProps) {
               {i}
             </button>))
       : sessionMenu.map((i: string) => (
-        <button key={i} className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light">
+        <button onClick={() => (
+          i === "Sign Out" 
+          && signOut()
+        )} key={i} className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light">
           {i}
         </button>))
             }
