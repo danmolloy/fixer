@@ -7,14 +7,14 @@ import EventsIndex from "../components/upcomingEvents/eventsIndex"
 export default function Home() {
   const { data: session } = useSession()
 
-if (session) {
-    return (
-      <Layout pageTitle="Calendar">
-        <EventsIndex session={session}/>
-      </Layout>
-    )}
-
+if (!session) {
   return (
     <LandingPage />
+  )}
+
+  return (
+    <Layout pageTitle="Calendar">
+      <EventsIndex session={session}/>
+    </Layout>
   )
 }
