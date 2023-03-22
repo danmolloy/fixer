@@ -10,6 +10,7 @@ interface CallInputProps {
   remove: (arg: any) => void
 }
 
+
 export default function CallInput(props: CallInputProps) {
   const { index, remove } = props
   return (
