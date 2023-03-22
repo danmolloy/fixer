@@ -55,8 +55,9 @@ export default function PlayerRow(props: PlayerRowProps) {
         </TableCell>
       ))}
       <TableCell>
-        <button className="text-xs mr-1 hover:bg-slate-100  rounded-full p-1 text-slate-800" onClick={() => setShowMenu(!showMenu)} data-testid="player-menu-icon" >•••</button>
+        <button className="text-xs mr-1 hover:bg-slate-100  rounded-full p-1 text-slate-800" onClick={(e) => {e.preventDefault(); setShowMenu(!showMenu)}} data-testid="player-menu-icon" >•••</button>
       </TableCell>
+      {showMenu && <div>Hello</div>}
     </TableRow>
   )
 }

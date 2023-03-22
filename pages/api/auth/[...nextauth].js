@@ -34,7 +34,7 @@ export const authOptions = ({
         })
       : GithubProvider({
       clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientSecret: process.env.GITHUB_SECRET, 
     }),
     // ...add more providers here
   ],

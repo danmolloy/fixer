@@ -9,13 +9,15 @@ interface PlayerTileProps {
     name: string
     instrument: string
     email: string
-  }
+  },
+  fixing?: boolean
+
 }
 
 export default function PlayerTile(props: PlayerTileProps) {
-  const { player } = props
+  const { player, fixing } = props
   return (
-      <div data-testid={"player-tile-div"} className="w-72 m-2 bg-white rounded-md shadow flex flex-col items-center">
+      <div data-testid={"player-tile-div"} className={"w-72 m-2 bg-white rounded-md shadow flex flex-col items-center"}>
       <div className="rounded-full overflow-hidden w-36  m-8">
         <Image data-testid={"player-img"} src={"http://placebeard.it/200/200"} width={150} height={150} alt="Placeholder for a profile pic" title="Profile picture placeholder" />
       </div>
