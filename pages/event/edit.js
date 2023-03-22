@@ -1,5 +1,5 @@
 import { Field, FieldArray, Formik } from 'formik'
-import Layout from '../../components/layout'
+import Layout from '../../components/layout/layout'
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
