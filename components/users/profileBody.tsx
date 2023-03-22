@@ -3,6 +3,17 @@ import React from "react";
 export default function ProfileBody() {
   return (
     <div className="profile-text" data-testid="profile-body">
+      <div className="py-1">
+          <h2 className="text-lg text-slate-500 py-1">History</h2>
+          <ul>
+            <li className="hover:text-blue-500 hover:cursor-pointer">
+              BBCSO: Brahms Symphonies, March 2022
+            </li>
+            <li className="hover:text-blue-500 hover:cursor-pointer">
+            BBCSO: Austria Tour, April 2022
+            </li>
+          </ul>
+        </div>
         <div className="py-2">
         <h2 className="text-lg text-slate-500 py-1">Professional Work</h2>
           <ul className="">
@@ -27,7 +38,6 @@ export default function ProfileBody() {
         <h2 className="text-lg text-slate-500 py-1">Education</h2>
         <ul className="">
             <li>At vero eos et accusamus (2012-2013)</li>
-
             <li>Iusto odio dignissimos ducimus qui (2009-2011)</li>
         </ul>
         </div>
@@ -44,6 +54,7 @@ export default function ProfileBody() {
             </li>
         </ul>
         </div>
+        
       </div>
   )
 }

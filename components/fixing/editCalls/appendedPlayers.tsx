@@ -73,7 +73,7 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
             {({ insert, remove, push}) => (
               <TableBody className="">
               {appendedPlayers.map((i, index) => (
-                <TableRow key={i.id} >
+                <TableRow key={i.id}>
                   <TableCell>{i.name}</TableCell>
                 {eventCalls.map(j=> (
                   <TableCell key={j.id}>
@@ -84,13 +84,13 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
                   <button className="text-xs mr-1 hover:bg-slate-100  rounded-full p-1 text-slate-800" onClick={(e) => {e.preventDefault(); setShowMenu(showMenu === index ? null : index)}} data-testid="player-menu-icon" >•••</button>
                 </TableCell>
                 {showMenu === index 
-                && <div className="absolute -ml-24 w-36 border bg-white">
+                && <TableCell className="w-36 border bg-white">
                     {menuOptions.map(i => (
-                      <div key={i.id} className="p-1 hover:bg-zinc-50">
+                      <button onClick={(e) => e.preventDefault()} key={i.id} className="p-2 hover:bg-zinc-50 w-full">
                         {i.text}
-                      </div>
+                      </button>
                     ))}
-                  </div>}
+                  </TableCell>}
                 </TableRow>
                 
               ))}

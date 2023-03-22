@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import moment from "moment/moment";
 import { TiMail, TiTick, TiTimes } from "react-icons/ti";
 import {FiCoffee } from "react-icons/fi"
-import React from "react";
+import React, { useState } from "react";
 import { BsThreeDots } from 'react-icons/bs'
 
 interface Musician {
@@ -66,6 +66,25 @@ interface tableObjMusician {
   accepted: boolean|null
 }[]
 
+const menuOptions = [
+  {
+    text: "Contact",
+    id: "0"
+  },
+  {
+    text: "Fix/Unfix Player",
+    id: "1"
+  },
+  {
+    text: "View Profile",
+    id: "2"
+  },
+  {
+    text: "Nudge Player",
+    id: "3"
+  },
+]
+
 export const createTable = (eventCalls: any, instrumentSection: any): any => {
   let objArr: any = [{
     name: "Header",
@@ -93,6 +112,7 @@ export const createTable = (eventCalls: any, instrumentSection: any): any => {
 
 export default function BookingTable(props: BookingTableProps) {
   const {eventCalls, instrumentSection} = props;
+  const [menuId, setMenuId] = useState(null)
 
   let filledTable = createTable(eventCalls, instrumentSection)
 
@@ -100,11 +120,11 @@ export default function BookingTable(props: BookingTableProps) {
     <div data-testid="booking-table-div" className="">
       <TableContainer>
         <Table>
-          <TableHead>
+          <TableHead >
             <TableRow>
             <TableCell></TableCell>
             {filledTable.find((i: any) => i.name === "Header").calls.map(i => (
-              <TableCell key={i.id}>{moment(new Date(i.startTime)).format("H:mm a DD[/]MM")}</TableCell>
+              <TableCell key={i.id}>{moment(new Date(i.startTime)).format("DD MMMM")}</TableCell>
             ))}
             <TableCell></TableCell>
             </TableRow>
@@ -125,9 +145,15 @@ export default function BookingTable(props: BookingTableProps) {
                   </TableCell>
               ))}
               <TableCell>
-                <button className="rounded-full p-1 text-zinc-700 hover:text-blue-600 hover:bg-blue-100">
+                <button onClick={() => setMenuId(menuId === i.id ? null : i.id)} className="rounded-full p-1 text-zinc-700 hover:text-blue-600 hover:bg-blue-100">
                   <BsThreeDots />
                 </button>
+              
+              {menuId === i.id && menuOptions.map(i => (
+                      <button onClick={(e) => e.preventDefault()} key={i.id} className="p-2 hover:bg-zinc-50 w-full">
+                        {i.text}
+                      </button>
+                    ))}
               </TableCell>
             </TableRow>
             

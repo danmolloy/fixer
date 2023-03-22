@@ -109,7 +109,7 @@ model EventInstrument {
   eventId            Int 
   instrumentName     String
   musicians          PlayerCall[]
-  numToBook          Int @default(1)
+  numToBook          Int @default(0)
   callOrder          String @default("Ordered")
 }
 
