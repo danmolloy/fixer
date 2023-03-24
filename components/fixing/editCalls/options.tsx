@@ -26,7 +26,7 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
               <TextInput 
                 label="Message to all"
                 id="instrument-msg"
-                name="instrumentMsg"
+                name="messageToAll"
                 asHtml="textarea"
                 className=""/>
             </div>
@@ -35,9 +35,8 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
             <div className="flex flex-col py-1" role="group" aria-label="callOrder" data-testid={`call-order-drop-down`}>
               <label>
                 <Field 
-
                   name="callOrder"
-                  value="ordered"
+                  value="Ordered"
                   type="radio"
                   className="mr-2"/>
                   Ordered
@@ -45,7 +44,7 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
               <label>
                 <Field 
                   name="callOrder"
-                  value="simultaneous"
+                  value="Simultaneous"
                   type="radio"
                   className="mr-2"/>
                   Simultaneous
@@ -53,7 +52,7 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
               <label>
                 <Field 
                   name="callOrder"
-                  value="random"
+                  value="Random"
                   type="radio"
                   className="mr-2"/>
                   Random

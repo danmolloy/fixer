@@ -1,9 +1,8 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { FieldArray } from "formik";
+import { Field, FieldArray } from "formik";
 import moment from "moment";
 import React, { useState } from "react";
-import { createTable } from '../bookingTable'
-import PlayerRow from "./playerRow";
+import TableRowMenu from "./tableRowMenu";
 
 interface EventCall {
   id: number
@@ -24,6 +23,9 @@ interface Instrumentalist {
   instrument: string
   profileInfo: null|string
   isFixer: null|boolean
+  calls: {
+    id: number
+  }[]
 }
 
 interface AppendedPlayersProps {
@@ -43,6 +45,10 @@ const menuOptions = [
   {
     text: "View Profile",
     id: "2"
+  },
+  {
+    text: "Remove Player",
+    id: "3"
   },
 ]
 
@@ -73,11 +79,11 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
             {({ insert, remove, push}) => (
               <TableBody className="">
               {appendedPlayers.map((i, index) => (
-                <TableRow key={i.id}>
+                <TableRow key={i.id} data-testid={`${i.id}-row`}>
                   <TableCell>{i.name}</TableCell>
                 {eventCalls.map(j=> (
                   <TableCell key={j.id}>
-                    <input data-testid={`call-${j.id}`} type="checkbox" defaultChecked />
+                    <Field data-testid={`${i.id}-row-call-${j.id}`} type="checkbox" value={j.id} name={`appendedPlayers.${i}.calls`} />
                   </TableCell>
                 ))}
                 <TableCell>
@@ -85,11 +91,7 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
                 </TableCell>
                 {showMenu === index 
                 && <TableCell className="w-36 border bg-white">
-                    {menuOptions.map(i => (
-                      <button onClick={(e) => e.preventDefault()} key={i.id} className="p-2 hover:bg-zinc-50 w-full">
-                        {i.text}
-                      </button>
-                    ))}
+                    <TableRowMenu menuOptions={menuOptions} />
                   </TableCell>}
                 </TableRow>
                 
@@ -103,17 +105,3 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
   )
 }
 
-
-/* 
-<FieldArray name="appendedPlayers">
-        {({ insert, remove, push}) => (
-          <div className="call-list-div appended-list">
-          {appendedPlayers.map((i, index) => (
-            <div className="call-list-item" key={i.id}>
-            <p>{i.name}</p>
-            </div>
-          ))}
-        </div>
-        )}
-      </FieldArray>
-*/

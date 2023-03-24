@@ -62,7 +62,6 @@ interface InstrumentTileProps {
 export default function InstrumentTile(props: InstrumentTileProps) {
   const { eventCalls,  eventId, instrumentalists, instrumentSection, refreshProps } = props
    const [editList, setEditList] = useState(false)
-   const [tabIndex, setTabIndex] = useState("0")
    const [selectedTab, setSelectedTab] = useState("Booking")
 
   let instrumentFixed = instrumentSection.musicians.filter(i => i.accepted === true).length === instrumentSection.numToBook

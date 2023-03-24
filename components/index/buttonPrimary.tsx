@@ -1,7 +1,7 @@
 import React from "react"
 
 interface ButtonPrimaryProps {
-  handleClick: () => void
+  handleClick: (e?: Event) => void
   id: string
   text: string
   className: string

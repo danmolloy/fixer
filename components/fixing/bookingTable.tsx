@@ -4,6 +4,7 @@ import { TiMail, TiTick, TiTimes } from "react-icons/ti";
 import {FiCoffee } from "react-icons/fi"
 import React, { useState } from "react";
 import { BsThreeDots } from 'react-icons/bs'
+import TableRowMenu from "./editCalls/tableRowMenu";
 
 interface Musician {
   id: number
@@ -148,12 +149,10 @@ export default function BookingTable(props: BookingTableProps) {
                 <button onClick={() => setMenuId(menuId === i.id ? null : i.id)} className="rounded-full p-1 text-zinc-700 hover:text-blue-600 hover:bg-blue-100">
                   <BsThreeDots />
                 </button>
-              
-              {menuId === i.id && menuOptions.map(i => (
-                      <button onClick={(e) => e.preventDefault()} key={i.id} className="p-2 hover:bg-zinc-50 w-full">
-                        {i.text}
-                      </button>
-                    ))}
+              </TableCell>
+              <TableCell>
+              {menuId === i.id 
+              && <TableRowMenu menuOptions={menuOptions} />}
               </TableCell>
             </TableRow>
             

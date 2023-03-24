@@ -30,9 +30,12 @@ interface Instrumentalist {
 interface HandleSubmitValues {
   numToBook: number
   appendedPlayers: any[]
-  availablePlayers: Instrumentalist[],
+  availablePlayers: Instrumentalist[]
   callOrder: "Ordered"|"Random"|"Simultaneous"
-  checkBook: "book"
+  bookingOrAvailability: "Booking"|"Availability"
+  messageToAll: string
+  fixerNote: string
+  bookingStatus: string
 }
 
 interface EditCallsProps {
@@ -53,10 +56,14 @@ export default function EditCalls(props: EditCallsProps) {
         appendedPlayers: [],
         availablePlayers: instrumentalists,
         callOrder: "Ordered",
-        checkBook: "book"
+        bookingOrAvailability: "Booking",
+        messageToAll: "",
+        fixerNote: "",
+        bookingStatus: "",
       }}
        onSubmit={(values: HandleSubmitValues, actions): void => {
-          handleSubmit(values)
+          //handleSubmit(values)
+          alert(JSON.stringify(values))
           actions.setSubmitting(false);
        }}
      >
@@ -66,7 +73,7 @@ export default function EditCalls(props: EditCallsProps) {
           <AvailablePlayers 
             instrumentName={instrumentName} 
             availablePlayers={props.values.availablePlayers} 
-            appendPlayer={(i) => props.values.appendedPlayers.push(i)} />
+            appendPlayer={(i) => props.values.appendedPlayers.push({...i, calls: [...eventCalls.map(i => ({"id": i.id, "offered": false}))]})} />
           <EditCallsOptions instrumentName={instrumentName} isSubmitting={props.isSubmitting}/>
           <div className="w-full p-4 flex flex-row justify-between">
             <ButtonPrimary 

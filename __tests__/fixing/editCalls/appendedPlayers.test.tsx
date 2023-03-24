@@ -41,22 +41,38 @@ describe("AppendedPlayers component", () => {
           <AppendedPlayers {...mockProps} />
         )}
       </Formik>)
-  })
+  });
   it("Renders", () => {
     const appendedPlayers = screen.getByTestId("appended-players-div")
     expect(appendedPlayers).toBeInTheDocument()
-  })
+  });
   it("Name and date columns are in the document", () => {
     if (mockPlayers.length < 1) {
       const appendedPlayers = screen.getByTestId("appended-players-div")
       expect(appendedPlayers.textContent).toMatch("Name")
       expect(appendedPlayers.textContent).toMatch(/12:06pm 21\/02/)
     }
-  })
+  });
   it("Lists all players names", () => {
     const appendedPlayers = screen.getByTestId("appended-players-div")
     for(let i = 0; i < mockPlayers.length; i ++) {
       expect(appendedPlayers.textContent).toMatch(mockPlayers[i].name)
     }
-  })
-})
+  });
+  it("Player rows have names and all calls which are checkboxes", () => {
+    let playerRow: undefined|HTMLElement;
+    let eventCall: undefined|HTMLElement;
+    for (let i = 0; i < mockPlayers.length; i ++) {
+      playerRow = screen.getByTestId(`${mockPlayers[i].id}-row`);
+      expect(playerRow).toBeInTheDocument();
+      expect(playerRow.textContent).toMatch(mockPlayers[i].name);
+      for (let j = 0; j < mockEventCall.length; j ++) {
+        eventCall = screen.getByTestId(`${mockPlayers[i].id}-row-call-${mockEventCall[i].id}`);
+        expect(eventCall).toBeInTheDocument()
+        expect(eventCall).toHaveAttribute("type", "checkbox")
+        expect(eventCall).toHaveAttribute("checked", "")
+      }
+    }
+  });
+  it("Each player has a menu icon, which renders menu on click", () => {});
+});
