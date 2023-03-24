@@ -11,7 +11,7 @@ declare module "next-auth" {
       image: string
     }
     expires: string
-    userData: {
+    userData?: {
       id: string
       name: string
       email: string

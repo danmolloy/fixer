@@ -13,7 +13,7 @@ interface EventsIndexProps {
       image: string
     }
     expires: string
-    userData: {
+    userData?: {
       id: string
       name: string
       email: string
@@ -75,6 +75,9 @@ export default function EventsIndex(props: EventsIndexProps) {
   const [selectedDate, setSelectedDate] = useState(moment())
   const [dateRange, setDateRange] = useState<null|number>(null)
 
+  if (!session.userData?.calls) {
+    return <p>Loading..</p>
+  }
 
   return (
       <div data-testid="events-index-div" className="w-screen p-2 flex flex-col md:flex-row-reverse items-center md:items-start ">
