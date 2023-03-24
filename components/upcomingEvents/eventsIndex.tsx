@@ -75,7 +75,7 @@ export default function EventsIndex(props: EventsIndexProps) {
   const [selectedDate, setSelectedDate] = useState(moment())
   const [dateRange, setDateRange] = useState<null|number>(null)
 
-  if (!session.userData?.calls) {
+  if (session.userData === undefined) {
     return <p>Loading..</p>
   }
 
