@@ -5,6 +5,7 @@ import AvailabilityTab from "./availabilityTab";
 import React from "react";
 import TileHeader from "./tileHeader";
 import TileTabBar from "./tileTabBar";
+import { RequestValues } from "./editCalls/editCalls";
 
 interface Musicians {
   id: number
@@ -59,6 +60,8 @@ interface InstrumentTileProps {
   refreshProps: () => void
 }
 
+
+
 export default function InstrumentTile(props: InstrumentTileProps) {
   const { eventCalls,  eventId, instrumentalists, instrumentSection, refreshProps } = props
    const [editList, setEditList] = useState(false)
@@ -68,12 +71,12 @@ export default function InstrumentTile(props: InstrumentTileProps) {
 
   let instrumentalistsList = instrumentSection !== null ? instrumentalists.filter(i => !instrumentSection.musicians.map(i => i.musicianEmail).includes(i.email)) : instrumentalists
   
-  const handleSubmit = (vals) => {
-    let obj = {
+  const handleSubmit = (vals: RequestValues) => {
+    /* let obj = {
       eventId: eventId, 
       instrumentName: instrumentSection.instrumentName,
       musicians: String(vals.callOrder).toLowerCase() === "random"
-        ? [...vals.appendedPlayers].sort(() => Math.random() - 0.5).map(i => ({musicianEmail: i.email})) //callsOffered for this too!
+        ? [...vals.appendedPlayers].sort(() => Math.random() - 0.5).map(i => ({musicianEmail: i.email})) 
         : [...vals.appendedPlayers].map(i => ({
           musicianEmail: i.email,
           callsOffered: [...eventCalls.map(i => (i.id))]
@@ -82,14 +85,15 @@ export default function InstrumentTile(props: InstrumentTileProps) {
       callOrder: vals.callOrder,
       numToBook: vals.numToBook,
       bookingOrAvailability: 'Availability'
-    }
-    axios.post('/api/fixing/offer', obj).then(() => {
+    } */
+    
+    axios.post('/api/fixing/offer', vals).then(() => {
       setEditList(false)
       refreshProps();
     })
   .catch(function (error) {
     console.log(error);
-  });
+  }); 
   }
 
   return (
@@ -99,6 +103,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
       <TileTabBar selectedTab={selectedTab} setSelectedTab={arg => setSelectedTab(arg)} />
       {selectedTab === "Booking"
       ? <BookingTab 
+        eventId={eventId}
         instrumentalistsList={instrumentalistsList}
         setEditList={i => setEditList(i)}
         eventCalls={eventCalls}

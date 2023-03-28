@@ -129,4 +129,5 @@ model PlayerCall {
   playerMessage      String?
   calls             Call[]
   bookingOrAvailability String @default ("Booking")
+  offerExpiry       Int?
 }

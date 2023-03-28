@@ -53,6 +53,9 @@ export default function Event(props) {
     router.replace(router.asPath);
   }
 
+  if (!session) {
+    return <p>Loading..</p>
+  }
 
 
 

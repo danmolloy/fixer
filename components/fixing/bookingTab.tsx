@@ -35,6 +35,7 @@ interface BookingTabProps {
   refreshProps: () => void
   handleSubmit: (val: any) => void 
   instrumentFixed: boolean
+  eventId: number
   eventCalls: {
     id: number
     createdAt: string
@@ -59,6 +60,7 @@ interface BookingTabProps {
 export default function BookingTab(props: BookingTabProps) {
   const { 
     eventCalls,
+    eventId,
     editList,
     setEditList,
     instrumentalistsList, 
@@ -93,7 +95,10 @@ export default function BookingTab(props: BookingTabProps) {
               text={editList ? "Close" : "Edit"} />
           </div>
         {editList 
-        && <EditCalls 
+        && <EditCalls
+          bookingOrAvailability={"Booking"}
+          eventInstrumentId={instrumentSection.id}
+          eventId={eventId}
           eventCalls={eventCalls}
           handleSubmit={(values) => handleSubmit(values)} 
           key={instrumentSection.id} 

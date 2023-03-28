@@ -23,38 +23,20 @@ interface Instrumentalist {
   instrument: string
   profileInfo: null|string
   isFixer: null|boolean
-  calls: {
-    id: number
-  }[]
+  calls: string[]
 }
 
 interface AppendedPlayersProps {
   appendedPlayers: Instrumentalist[]
   eventCalls: EventCall[]
+  makeAvailable: any
 }
 
-const menuOptions = [
-  {
-    text: "Add Message",
-    id: "0"
-  },
-  {
-    text: "Fix Player",
-    id: "1"
-  },
-  {
-    text: "View Profile",
-    id: "2"
-  },
-  {
-    text: "Remove Player",
-    id: "3"
-  },
-]
 
 export default function AppendedPlayers(props: AppendedPlayersProps) {
-  const { appendedPlayers, eventCalls } = props
+  const { appendedPlayers, eventCalls, makeAvailable } = props
   const [showMenu, setShowMenu] = useState<number|null>(null)
+  const [addMessage, setAddMessage] = useState<number|null>(null)
 
 
   return (
@@ -79,11 +61,15 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
             {({ insert, remove, push}) => (
               <TableBody className="">
               {appendedPlayers.map((i, index) => (
-                <TableRow key={i.id} data-testid={`${i.id}-row`}>
+                <TableRow key={i.id} data-testid={`${i.id}-row`} role="group" aria-labelledby="checkbox-group">
                   <TableCell>{i.name}</TableCell>
                 {eventCalls.map(j=> (
                   <TableCell key={j.id}>
-                    <Field data-testid={`${i.id}-row-call-${j.id}`} type="checkbox" value={j.id} name={`appendedPlayers.${i}.calls`} />
+                    <Field 
+                      data-testid={`${i.id}-row-call-${j.id}`} 
+                      type="checkbox" 
+                      value={`${j.id}`} 
+                      name={`appendedPlayers[${index}]calls`} />
                   </TableCell>
                 ))}
                 <TableCell>
@@ -91,7 +77,21 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
                 </TableCell>
                 {showMenu === index 
                 && <TableCell className="w-36 border bg-white">
-                    <TableRowMenu menuOptions={menuOptions} />
+                    <TableRowMenu addMessage={() => setAddMessage(index)} removePlayer={() => {remove(showMenu); makeAvailable(appendedPlayers[index])}} />
+                  </TableCell>}
+                  {addMessage === index 
+                && <TableCell className="w-36 border absolute">
+                  <div className="absolute">
+                    <Field
+                      id={`appendedPlayers[${index}]playerMessage`}
+                      data-testid={`appendedPlayers[${index}]playerMessage`}
+                      className={`border rounded p-2 my-1 shadow-sm`}
+                      name={`appendedPlayers[${index}]playerMessage`}
+                      min={0}
+                      max={250}
+                      placeholder={`Message to ${i.name}`}
+                    />
+                    </div>
                   </TableCell>}
                 </TableRow>
                 

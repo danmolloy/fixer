@@ -1,15 +1,22 @@
 import prisma from '../../../client'
+import { RequestValues } from '../../../components/fixing/editCalls/editCalls'
 import { twilioClient } from "../../../twilio"
 
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-const getEventInstrument = async (eventInstrumentId) => {
+
+const getEventInstrument = async (eventInstrumentId: number) => {
   
   let callsOut = await prisma.eventInstrument.findUnique({
     where: {
       id: eventInstrumentId
     },
     include: {
-      musicians: true
+      musicians: {
+        include: {
+          musician: true
+        }
+      }
     }
   })
   return callsOut
@@ -23,6 +30,8 @@ const updateEventDetails = async (instrumentObj) => {
     data: {
       callOrder: instrumentObj.callOrder,
       numToBook: Number(instrumentObj.numToBook),
+      messageToAll: instrumentObj.messageToAll,
+      fixerNote: instrumentObj.fixerNote,
     },
     include: {
       musicians: true
@@ -33,8 +42,8 @@ const updateEventDetails = async (instrumentObj) => {
 
 }
 
-const handleBooking = async (instrumentObj) => {
-  let arr = []
+const handleBooking = async (instrumentObj: RequestValues) => {
+  let arr: any = []
   let eventInstrument = await updateEventDetails(instrumentObj)
   //console.log(`eventInstrument: ${JSON.stringify(eventInstrument)}`)
 
@@ -46,7 +55,9 @@ const handleBooking = async (instrumentObj) => {
         arr = [...arr, await prisma.playerCall.create({
           data: {
             musicianEmail: instrumentObj.musicians[i].musicianEmail,
-            eventInstrumentId: instrumentObj.musicians[i].eventInstrumentId,
+            eventInstrumentId: Number(instrumentObj.eventInstrumentId),
+            playerMessage: instrumentObj.musicians[i].playerMessage,
+            offerExpiry: instrumentObj.musicians[i].offerExpiry,
             calls: {
               connect: instrumentObj.musicians[i].callsOffered
             }
@@ -69,20 +80,27 @@ const numToCall = (eventInstrument) => {
   return numToCall
 }
 
-const makeCalls = async (eventInstrumentId) => {
+const makeCalls = async (eventInstrumentId: number) => {
   let eventInstrument = await getEventInstrument(eventInstrumentId)
   let numCalls = numToCall(eventInstrument)
 
   for (let i = 0; i < numCalls; i++) {
-// Needs to state whether booking or availability
     twilioClient.messages 
           .create({ 
-             body: `Hi ${eventInstrument.musicians[i].musicianEmail}, Dan Molloy offers ${process.env.NGROK_URL}/event/${eventInstrument.eventId} Reply YES ${eventInstrument.musicians[i].id} or NO ${eventInstrument.musicians[i].id}.`,  
+             body: `Hi ${eventInstrument?.musicians[i].musician.name}, Dan Molloy ${eventInstrument?.musicians[i].bookingOrAvailability === "Booking" 
+             ? 'offers' 
+             : 'checks your availablity for'} ${process.env.NGROK_URL}/event/${eventInstrument?.eventId}
+             ${eventInstrument?.messageToAll !== null ? `\n Dan says to all ${eventInstrument.instrumentName} players for this gig: "${eventInstrument?.messageToAll}"` : ""}
+             ${eventInstrument?.musicians[i].playerMessage !== null ? `\n Dan says to you: "${eventInstrument?.musicians[i].playerMessage}"`: ""} 
+             \n Reply YES ${eventInstrument?.musicians[i].id} or NO ${eventInstrument?.musicians[i].id}. 
+             \n If your availiabilty for this project is mixed, log in to you account to indicate your availability.
+             \n For other options, contact Dan directly.
+             ${eventInstrument?.callOrder === "Simultaneous" ? "There are other calls out" : ""}`,  
              messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
              to: process.env.PHONE 
            }) 
           .then(message => console.log(message.sid))
-          .then(async () => await updatePlayer(eventInstrument.musicians[i].id))
+          .then(async () => await updatePlayer(eventInstrument?.musicians[i].id))
           .done();
   }
 
@@ -103,36 +121,46 @@ const updatePlayer = async(callId) => {
 }
 
 
-export default async function handle(req, res) {
+
+export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const {
+    eventId, //
     musicians,
-    callsOutId,
+    //callsOutId,
+    eventInstrumentId, //
     callOrder,
     numToBook,
-    bookingOrAvailability
+    bookingOrAvailability,
+    messageToAll, //
+    fixerNote, //
+    bookingStatus, //
   } = req.body
 
-  const musiciansArr = musicians.map(i => ({
-    musicianEmail: i.musicianEmail,
-    callsOffered: i.callsOffered.map(j => ({
-      id: j
-    })),
-    eventInstrumentId: callsOutId,
-  }))
+  const instrumentObj: RequestValues = {
+    eventId,
+    musicians,
+    eventInstrumentId,
+    numToBook,
+    callOrder,
+    bookingOrAvailability,
+    messageToAll,
+    fixerNote,
+    bookingStatus,
+  }
 
-  const instrumentObj = {
+  /* const instrumentObj = {
     eventInstrumentId: callsOutId,
     callOrder: callOrder,
     numToBook: numToBook,
     bookingOrAvailability: bookingOrAvailability,
-    musicians: musiciansArr
-  }
+    musicians: musicians
+  } */
 
  //console.log(instrumentObj)
 
 
   
-  res.status(200).json(await handleBooking(instrumentObj))
+ res.status(200).json(await handleBooking(instrumentObj))
   
 
 }

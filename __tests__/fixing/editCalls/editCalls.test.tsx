@@ -30,7 +30,10 @@ const mockProps = {
   handleSubmit: jest.fn(),
   instrumentName: mockInstrument,
   instrumentalists: mockPlayers,
-  eventCalls: mockEventCall
+  eventCalls: mockEventCall,
+  eventId: mockEventCall[0].eventId,
+  eventInstrumentId: 2,
+  bookingOrAvailability: "Booking"
 }
 
 describe("EditCalls component", () => {
@@ -65,11 +68,15 @@ describe("EditCalls component", () => {
       })
     })
     expect(mockProps.handleSubmit).toHaveBeenCalledWith({
-      appendedPlayers: [],
-      availablePlayers: mockPlayers,
       callOrder: "Ordered",
-      checkBook: "book",
-      numToBook: 1
+      musicians: [],
+      eventId: mockProps.eventId,
+      eventInstrumentId: String(mockProps.eventId),
+      numToBook: 1, 
+      bookingOrAvailability: mockProps.bookingOrAvailability, 
+      messageToAll: "",
+      fixerNote: "", 
+      bookingStatus: ""
     })
   })
   it("Fix button calls handleSubmit with expected appendedPlayer", async() => {
@@ -89,11 +96,15 @@ describe("EditCalls component", () => {
     })
   })
   expect(mockProps.handleSubmit).toHaveBeenCalledWith({
-    appendedPlayers: mockPlayers,
-    availablePlayers: [],
     callOrder: "Ordered",
-    checkBook: "book",
-    numToBook: 1
+    musicians: [],
+    eventId: mockProps.eventId,
+    eventInstrumentId: String(mockProps.eventId),
+    numToBook: 1, 
+    bookingOrAvailability: mockProps.bookingOrAvailability, 
+    messageToAll: "",
+    fixerNote: "", 
+    bookingStatus: ""
   })
   })
   it("Pause Fixing button is in the document", () => {
@@ -101,5 +112,9 @@ describe("EditCalls component", () => {
     expect(pauseBtn).toBeInTheDocument()
     expect(pauseBtn.textContent).toMatch("Pause fixing")
   })
-  //it("Fix button calls handleSubmit with expected options", async() => {})
+})
+
+describe("Fix button/Submit form", () => {
+    it("Fix button calls handleSubmit with expected options", async() => {})
+
 })

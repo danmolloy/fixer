@@ -29,6 +29,22 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
                 name="messageToAll"
                 asHtml="textarea"
                 className=""/>
+                <TextInput 
+                className=" w-24 h-8"
+                name={"offerExpiry"} 
+                id={"offer-expiry-input"} 
+                label={"Offer Expiry (hours)"} 
+                type={"number"}
+                asHtml={"input"}
+                min={"1"}
+                max={"72"}
+                />
+                <TextInput 
+                label="Fixer reminder"
+                id="fixer-note-input"
+                name="fixerNote"
+                asHtml="textarea"
+                className=""/>
             </div>
           <div className="flex flex-col">
             <label htmlFor="callOrder" className="text-slate-700">Call Order</label>

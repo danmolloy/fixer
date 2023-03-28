@@ -5,6 +5,7 @@ import {FiCoffee } from "react-icons/fi"
 import React, { useState } from "react";
 import { BsThreeDots } from 'react-icons/bs'
 import TableRowMenu from "./editCalls/tableRowMenu";
+import { GiSandsOfTime } from "react-icons/gi";
 
 interface Musician {
   id: number
@@ -133,16 +134,18 @@ export default function BookingTable(props: BookingTableProps) {
           <TableBody>
           {createTable(eventCalls, instrumentSection).filter(i => i.name !== "Header").map(i => (
             <TableRow key={i.id}>
-              <TableCell className={String(i.accepted).toLowerCase() === "false" ? "text-slate-400" : ""}>{i.name}</TableCell>
+              <TableCell className={""}>
+                <p className={i.recieved === false || i.accepted === false ? "text-zinc-300 ": ""}>{i.name}</p>
+              </TableCell>
               {i.calls.map(call => (
                 <TableCell key={call}>
                   {String(i.accepted).toLowerCase() === "true" 
                   ? <div className="text-green-600"><TiTick /></div>
                   : String(i.accepted).toLowerCase() === "false"
                   ? <div className="text-slate-400"><TiTimes /></div>
-                  : String(i.recieved).toLowerCase() === "true" 
-                  ? <div><TiMail /></div>
-                  : <div className="text-slate-400"><FiCoffee /></div>}
+                  : String(i.recieved) === "true" 
+                  ? <div><GiSandsOfTime /></div>
+                  : <div>{}</div>}
                   </TableCell>
               ))}
               <TableCell>

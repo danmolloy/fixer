@@ -1,10 +1,9 @@
-import { Field, FieldArray, Formik, insert } from "formik";
-import { useState } from "react";
+import { Formik } from "formik";
 import React from "react";
 import EditCallsOptions from "./options";
 import AvailablePlayers from "./availablePlayers";
 import AppendedPlayers from "./appendedPlayers";
-import ButtonPrimary from "../../index/buttonPrimary"
+import ButtonPrimary from "../../index/buttonPrimary";
 
 interface EventCall {
   id: number
@@ -27,27 +26,63 @@ interface Instrumentalist {
   isFixer: null|boolean
 }
 
-interface HandleSubmitValues {
+interface AppendedInstrumentalist {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean|null
+  instrument: string
+  profileInfo: null|string
+  isFixer: null|boolean
+  calls: string[]
+  playerMessage?: string
+}
+
+export type HandleSubmitValues = {
   numToBook: number
-  appendedPlayers: any[]
+  appendedPlayers: AppendedInstrumentalist[]
   availablePlayers: Instrumentalist[]
   callOrder: "Ordered"|"Random"|"Simultaneous"
-  bookingOrAvailability: "Booking"|"Availability"
+  bookingOrAvailability: string/* "Booking"|"Availability" */
+  messageToAll: string
+  fixerNote: string
+  bookingStatus: string
+  offerExpiry?: string
+}
+
+export type RequestValues = {
+  eventId: number
+  musicians: {
+    musicianEmail: string
+    callsOffered: {
+      id: number
+    }[]
+    eventInstrumentId: number
+    playerMessage?: string
+    offerExpiry?: number
+  }[]
+  eventInstrumentId: number
+  numToBook: number
+  callOrder: "Ordered"|"Random"|"Simultaneous"
+  bookingOrAvailability: string /* "Booking"|"Availability" */
   messageToAll: string
   fixerNote: string
   bookingStatus: string
 }
 
 interface EditCallsProps {
+  eventId: number
   handleSubmit: (vals: HandleSubmitValues) => void
   instrumentName: string
   instrumentalists: Instrumentalist[]
   eventCalls: EventCall[]
+  eventInstrumentId: number
+  bookingOrAvailability: string /* "Booking"|"Availability"  */
+
 }
 
 export default function EditCalls(props: EditCallsProps) {
-  const { handleSubmit, instrumentName, instrumentalists, eventCalls} = props
-  const [checkBook, setCheckBook] = useState("book")
+  const { handleSubmit, instrumentName, instrumentalists, eventCalls, eventId, eventInstrumentId, bookingOrAvailability } = props
 
   return (
     <Formik
@@ -60,20 +95,38 @@ export default function EditCalls(props: EditCallsProps) {
         messageToAll: "",
         fixerNote: "",
         bookingStatus: "",
+        offerExpiry: "",
       }}
        onSubmit={(values: HandleSubmitValues, actions): void => {
-          //handleSubmit(values)
-          alert(JSON.stringify(values))
+          
+          let requestObj: RequestValues = {
+            eventId: eventId,
+            musicians: values.appendedPlayers.filter(i => i.calls.length > 0).map(i => ({
+              musicianEmail: i.email,
+              callsOffered: [...i.calls.map(i => ({id: Number(i)}))],
+              playerMessage: i.playerMessage,
+              eventInstrumentId: eventInstrumentId,
+              offerExpiry: Number(values.offerExpiry)
+            })),
+            eventInstrumentId: eventInstrumentId,
+            numToBook: values.numToBook, 
+            callOrder: values.callOrder, 
+            bookingOrAvailability: bookingOrAvailability, 
+            messageToAll: values.messageToAll,
+            fixerNote: values.fixerNote, 
+            bookingStatus: values.bookingStatus
+          }
+          handleSubmit(requestObj)
           actions.setSubmitting(false);
        }}
      >
        {props => (
          <form className="edit-calls-form " onSubmit={props.handleSubmit} data-testid={`edit-calls-div`}>
-          <AppendedPlayers eventCalls={eventCalls} appendedPlayers={props.values.appendedPlayers} />
+          <AppendedPlayers makeAvailable={(i: Instrumentalist) => props.values.availablePlayers.push(i)} eventCalls={eventCalls} appendedPlayers={props.values.appendedPlayers} />
           <AvailablePlayers 
             instrumentName={instrumentName} 
             availablePlayers={props.values.availablePlayers} 
-            appendPlayer={(i) => props.values.appendedPlayers.push({...i, calls: [...eventCalls.map(i => ({"id": i.id, "offered": false}))]})} />
+            appendPlayer={(i) => props.values.appendedPlayers.push({...i, calls: [...eventCalls.map(i => String(i.id))]})} />
           <EditCallsOptions instrumentName={instrumentName} isSubmitting={props.isSubmitting}/>
           <div className="w-full p-4 flex flex-row justify-between">
             <ButtonPrimary 

@@ -34,9 +34,9 @@ export default function UpcomingEvents(props: UpcomingEventsProps) {
   return (
     <div data-testid="upcoming-events-div" className="w-full flex flex-col items-center pt-4">
       <div className="w-full  flex flex-col items-center" data-testid="event-list">
-        {upcomingCalls.filter((i) => moment(new Date(i.startTime)) >= moment(new Date(selectedDate))).length < 1  
+        {upcomingCalls.filter((i) => moment(new Date(i.startTime)).startOf("day") >= moment(new Date(selectedDate)).startOf("day")).length < 1  
         ? <p className="p-2 font-bold text-lg">No upcoming events.</p>
-        : upcomingCalls.filter((i) => moment(new Date(i.startTime)) >= moment(new Date(selectedDate))).sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime))).map(i => (
+        : upcomingCalls.filter((i) => moment(new Date(i.startTime)).startOf("day") >= moment(new Date(selectedDate)).startOf("day")).sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime))).map(i => (
           <div key={i.id} className="w-full flex flex-col items-center">
             <EventTile call={i} sessionEmail={sessionEmail}/>
           </div>
