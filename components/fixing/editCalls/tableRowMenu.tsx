@@ -1,3 +1,4 @@
+import Link from "next/link"
 import React from "react"
 
 interface TableRowMenuProps {
@@ -7,6 +8,7 @@ interface TableRowMenuProps {
   }[]
   removePlayer: () => void
   addMessage: () => void
+  name: string
 }
 
 const menuOptions = [
@@ -29,18 +31,11 @@ const menuOptions = [
 ]
 
 export default function TableRowMenu(props: TableRowMenuProps) {
-  const { menuOptions, removePlayer, addMessage } = props;
+  const { menuOptions, removePlayer, addMessage, name } = props;
 
   return (
-    <div data-testid="table-row-menu">
-      {menuOptions 
-      ? menuOptions.map(i => (
-        <button onClick={(e) => e.preventDefault()} key={i.id} className="p-2 hover:bg-zinc-50 w-full">
-          {i.text}
-        </button>
-      ))
-      : <div>
-        <button 
+    <div data-testid="table-row-menu" className="border absolute mr-4 bg-white shadow-sm rounded">
+      <button 
         onClick={(e) => {
           e.preventDefault();
           removePlayer();
@@ -54,10 +49,11 @@ export default function TableRowMenu(props: TableRowMenuProps) {
           }}  className="p-2 hover:bg-zinc-50 w-full">
             Add Message
         </button>
+        <div className="p-2 hover:bg-zinc-50 w-full text-center">
+          <a target="_blank" href={`/user/${name}`} >
+            View Profile
+          </a>
+        </div>
       </div>
-
-      
-    }
-    </div>
   );
 }

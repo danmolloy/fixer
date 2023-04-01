@@ -60,7 +60,7 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
               handleClick={() => setEditList(!editList)}
               text={editList ? "Close" : "Edit"} />
           </div>
-        {editList && <EditCalls eventCalls={eventCalls} handleSubmit={(values: any) => handleSubmit(values)} key={keyId} instrumentName={instrumentName} instrumentalists={instrumentalistsList}/>}
+        {editList && <EditCalls eventId={eventId} eventInstrumentId={callsOutId} bookingOrAvailability={"availability"} eventCalls={eventCalls} handleSubmit={(values: any) => handleSubmit(values)} key={keyId} instrumentName={instrumentName} instrumentalists={instrumentalistsList}/>}
     
     </div>
   )

@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import { BsThreeDots } from 'react-icons/bs'
 import TableRowMenu from "./editCalls/tableRowMenu";
 import { GiSandsOfTime } from "react-icons/gi";
+import BookingRowMenu from "./bookingRowMenu";
+import axios from "axios";
 
 interface Musician {
   id: number
@@ -59,6 +61,7 @@ interface tableObjHeader {
 }
 
 interface tableObjMusician {
+  email: string
   name: string
   calls: {
     id: string
@@ -67,25 +70,6 @@ interface tableObjMusician {
   recieved: boolean
   accepted: boolean|null
 }[]
-
-const menuOptions = [
-  {
-    text: "Contact",
-    id: "0"
-  },
-  {
-    text: "Fix/Unfix Player",
-    id: "1"
-  },
-  {
-    text: "View Profile",
-    id: "2"
-  },
-  {
-    text: "Nudge Player",
-    id: "3"
-  },
-]
 
 export const createTable = (eventCalls: any, instrumentSection: any): any => {
   let objArr: any = [{
@@ -105,10 +89,46 @@ export const createTable = (eventCalls: any, instrumentSection: any): any => {
       calls: sortedMusicians[i].calls.map(i => (i.id)),
       recieved: sortedMusicians[i].recieved,
       accepted: sortedMusicians[i].accepted,
+      email: sortedMusicians[i].musicianEmail
     }]
   }
 
   return objArr;
+}
+
+const fixOrUnfix = (fixOrUnfix: boolean, callId: number, musicianEmail: string) => {
+  const reqBody = {
+    playerCallId: callId,
+    musicianEmail: musicianEmail,
+    remove: false,
+    fixOrUnfix: fixOrUnfix
+  }
+  return axios.post("/api/fixing/unfixPlayer", reqBody)
+}
+
+const pokePlayer = (musicianName: string) => {
+  const reqBody = {
+    musicianName,
+    message: `Hi ${musicianName}, Dan Molloy is reminding you to respond to their gig offer.`
+  }
+  return axios.post("/api/fixing/messagePlayer", reqBody)
+} 
+
+const removePlayer = (fixOrUnfix: boolean, callId: number, musicianEmail: string) => {
+  const reqBody = {
+    playerCallId: callId,
+    musicianEmail: musicianEmail, 
+    remove: true,
+    fixOrUnfix: fixOrUnfix
+  }
+  return axios.post("/api/fixing/unfixPlayer", reqBody)
+}
+
+const sendMessage = (musicianName) => {
+  const reqBody = {
+    message: `Dan Molloy sends the following message: "${prompt(`What is your message to ${musicianName}?`)}"`
+  }
+  return axios.post("/api/fixing/messagePlayer", reqBody)
 }
 
 
@@ -152,13 +172,20 @@ export default function BookingTable(props: BookingTableProps) {
                 <button onClick={() => setMenuId(menuId === i.id ? null : i.id)} className="rounded-full p-1 text-zinc-700 hover:text-blue-600 hover:bg-blue-100">
                   <BsThreeDots />
                 </button>
+                
               </TableCell>
               <TableCell>
               {menuId === i.id 
-              && <TableRowMenu menuOptions={menuOptions} />}
+              && <BookingRowMenu 
+                name={i.name}
+                recieved={i.recieved} 
+                accepted={i.accepted} 
+                fixOrUnfix={() => {fixOrUnfix(!i.accepted, i.id, i.email); setMenuId(null)}} 
+                pokePlayer={() => {pokePlayer(i.name); setMenuId(null)}} 
+                removePlayer={() => {removePlayer(false, i.id, i.email); setMenuId(null)}} 
+                sendMessage={() => {sendMessage(i.name); setMenuId(null)}} />}
               </TableCell>
             </TableRow>
-            
           ))}
           </TableBody>
         </Table>

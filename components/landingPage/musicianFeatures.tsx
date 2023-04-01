@@ -20,7 +20,7 @@ const musicianFeatureList: {key: number, title: string, blurb: string, icon: Rea
   },
   {
     key: 2,
-    title: "Direct communication with the fixer",
+    title: "Seamless communication with the fixer",
     blurb: "Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.",
     icon: <SiGooglemessages />
   },

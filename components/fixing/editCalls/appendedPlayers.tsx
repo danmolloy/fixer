@@ -77,7 +77,7 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
                 </TableCell>
                 {showMenu === index 
                 && <TableCell className="w-36 border bg-white">
-                    <TableRowMenu addMessage={() => setAddMessage(index)} removePlayer={() => {remove(showMenu); makeAvailable(appendedPlayers[index])}} />
+                    <TableRowMenu name={i.name} addMessage={() => setAddMessage(index)} removePlayer={() => {remove(showMenu); makeAvailable(appendedPlayers[index])}} />
                   </TableCell>}
                   {addMessage === index 
                 && <TableCell className="w-36 border absolute">

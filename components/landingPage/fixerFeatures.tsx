@@ -24,7 +24,7 @@ export const fixerFeatureList: {key: number, title: string, blurb: string, icon:
   },
   {
     key: 3,
-    title: "Instant fixing",
+    title: "Instantly update your musician's diaries",
     blurb: "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
     icon: <SiFastapi />
   }
