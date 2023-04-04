@@ -72,7 +72,7 @@ export type RequestValues = {
 
 interface EditCallsProps {
   eventId: number
-  handleSubmit: (vals: HandleSubmitValues) => void
+  handleSubmit: (vals: RequestValues) => void
   instrumentName: string
   instrumentalists: Instrumentalist[]
   eventCalls: EventCall[]
