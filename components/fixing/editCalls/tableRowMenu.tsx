@@ -50,7 +50,7 @@ export default function TableRowMenu(props: TableRowMenuProps) {
             Add Message
         </button>
         <div className="p-2 hover:bg-zinc-50 w-full text-center">
-          <a target="_blank" href={`/user/${name}`} >
+          <a target="_blank" rel="noreferrer" href={`/user/${name}`} >
             View Profile
           </a>
         </div>
