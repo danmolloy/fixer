@@ -4,6 +4,8 @@ import Header, { menuItems } from "./header";
 import Menu from "./menu";
 import React from "react";
 import LandingFooter from "../landingPage/landingFooter";
+import { useSession } from "next-auth/react";
+import { landingMenuItems } from "../landingPage/landingPage";
 
 interface LayoutProps {
   children: React.ReactNode
@@ -12,13 +14,15 @@ interface LayoutProps {
 
 export default function Layout(props: LayoutProps) {
   const { children, pageTitle } = props
+  const { data: session } = useSession()
+
 
   const [showMenu, setShowMenu] = useState(false)
   
   return (
     <div className="layout " data-testid="layout-div">
-      <Header setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu}/>
-      {showMenu && <Menu setShowMenu={() => setShowMenu(false)} menuItems={menuItems}/>}
+      <Header setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false}/>
+      {showMenu && <Menu setShowMenu={() => setShowMenu(false)} menuItems={session ? menuItems : landingMenuItems}/>}
       <div className={showMenu ? "w-full p-3 blur":"w-full p-3"}>
         <h1 className="ml-4 text-bold">{pageTitle}</h1>
       </div>
@@ -26,7 +30,7 @@ export default function Layout(props: LayoutProps) {
         {children}
       </div>
       
-      <LandingFooter landingPage={false}/>
+      <LandingFooter session={session ? true : false}/>
     </div>
   )
 }

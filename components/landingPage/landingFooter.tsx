@@ -1,6 +1,8 @@
 import React from "react"
 import { AiOutlineCopyrightCircle, AiOutlineFacebook, AiOutlineTwitter, AiOutlineInstagram } from "react-icons/ai"
 import { signOut } from "next-auth/react"
+import { landingMenuItems } from "./landingPage"
+import Link from "next/link"
 
 export const landingMenu: string[] = ["Features", "Testimonials", "Pricing", "Contact"]
 export const sessionMenu: string[] = ["About", "Settings", "Contact", "Sign Out"]
@@ -27,19 +29,19 @@ export const socialMedia: {
   },
 ]
 interface LandingFooterProps {
-  landingPage: boolean
+  session?: boolean
 }
 
 export default function LandingFooter(props: LandingFooterProps) {
-  const { landingPage } = props
+  const { session } = props
   return (
     <div className="flex flex-col items-center justify-center border-t flex-wrap" data-testid="landing-footer">
       <div className="py-2">
-      {landingPage === true 
-      ? landingMenu.map((i: string) => (
-            <button key={i} className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light">
-              {i}
-            </button>))
+      {!session 
+      ? landingMenuItems.filter(i => i.name !== "Sign in").map((i) => (
+            <Link href={i.link} key={i.id} className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light">
+              {i.name}
+            </Link>))
       : sessionMenu.map((i: string) => (
         <button onClick={() => (
           i === "Sign Out" 

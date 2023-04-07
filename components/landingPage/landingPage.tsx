@@ -7,10 +7,10 @@ import LandingFooter from "./landingFooter"
 import Menu, { MenuItems } from "../layout/menu"
 
 
-const landingMenuItems: MenuItems = [
+export const landingMenuItems: MenuItems = [
   {
     name: "About",
-    link: "/",
+    link: "/about",
     id: "1",
   },
   {
@@ -35,13 +35,13 @@ export default function LandingPage() {
 
   return (
       <div className="flex flex-col w-screen min-h-screen font-nunito ">
-        <LandingHeader setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu}/>
+        {/* <LandingHeader setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu}/>
         {showMenu && <Menu setShowMenu={() => setShowMenu(false)} menuItems={landingMenuItems}/>}
-        <div className={showMenu && "blur"}>
+ */}        <div className={showMenu && "blur"}>
         <Hero />
         <FixerFeatures />
         <MusicianFeatures />
-        <LandingFooter landingPage={true} />
+        {/* <LandingFooter  /> */}
         </div>
       </div>
   )

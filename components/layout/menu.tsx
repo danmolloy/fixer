@@ -1,5 +1,5 @@
 import Link from "next/link"
-import React, { useEffect } from "react"
+import React from "react"
 import { AiOutlineClose } from "react-icons/ai"
 
 export type MenuItems = {
@@ -17,7 +17,7 @@ export default function Menu(props: MenuProps) {
   const { setShowMenu, menuItems } = props
 
   return (
-    <div className="bg-white z-20 mt-24 flex flex-col w-4/5 self-center fixed rounded-2xl border shadow overflow-hidden" data-testid="menu-div">
+    <div className="bg-white z-20 mt-24 flex flex-col w-full sm:w-4/5 self-center fixed rounded-2xl border shadow overflow-hidden" data-testid="menu-div">
         <div className="w-full flex flex-col items-center">
           <button onClick={() => setShowMenu()} className="hover:bg-slate-100 self-end m-1 p-2 rounded-full" data-testid={"close-btn"}>
             <AiOutlineClose />

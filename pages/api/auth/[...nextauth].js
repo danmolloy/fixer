@@ -1,11 +1,37 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { PrismaClient } from "@prisma/client"
-import CredentialsProvider from "next-auth/providers/credentials"
+import prisma from "../../../client"
 
+const getOrCreateUser = async (userEmail) => {
+  let user = await prisma.user.findUnique({
+    where: {
+      email: userEmail
+    },
+    include: {
+      events: {
+        include: {
+          calls: true
+        }
+      },
+      calls: {
+        include: {
+          event: true
+        }
+      }
+    }
+  })
 
-const prisma = new PrismaClient()
+  if (user === null) {
+    user = await prisma.user.create({
+      data: {
+        email: userEmail
+      }
+    })
+  }
+
+  return user
+}
 
 
 export const authOptions = ({
@@ -26,7 +52,7 @@ export const authOptions = ({
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
       console.log(`session API: ${JSON.stringify(session)}`)
-      const sesssionUser = await prisma.user.findUnique({
+      /* const sesssionUser = await prisma.user.findUnique({
         where: {
           email: user.email
         },
@@ -43,7 +69,8 @@ export const authOptions = ({
           }
         }
       })
-      session.userData = sesssionUser
+      session.userData = sesssionUser */
+      session.userData = getOrCreateUser(user.email)
       return session
     }
   }

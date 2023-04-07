@@ -9,7 +9,9 @@ export default function Home() {
 
 if (!session) {
   return (
-    <LandingPage />
+    <Layout>
+      <LandingPage />
+    </Layout>
   )}
 
   return (
