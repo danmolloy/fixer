@@ -22,8 +22,8 @@ const getOrCreateUser = async (userEmail) => {
     }
   })
 
-  if (user === null) {
-    user = await prisma.user.create({
+  if (user.email === null) {
+    user = await prisma.user.update({
       data: {
         email: userEmail
       }
