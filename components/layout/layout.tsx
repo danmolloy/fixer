@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Footer from "./footer";
-import Header from "./header";
+import Header, { menuItems } from "./header";
 import Menu from "./menu";
 import React from "react";
 import LandingFooter from "../landingPage/landingFooter";
@@ -18,7 +18,7 @@ export default function Layout(props: LayoutProps) {
   return (
     <div className="layout " data-testid="layout-div">
       <Header setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu}/>
-      {showMenu && <Menu setShowMenu={() => setShowMenu(false)}/>}
+      {showMenu && <Menu setShowMenu={() => setShowMenu(false)} menuItems={menuItems}/>}
       <div className={showMenu ? "w-full p-3 blur":"w-full p-3"}>
         <h1 className="ml-4 text-bold">{pageTitle}</h1>
       </div>

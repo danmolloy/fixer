@@ -7,10 +7,16 @@ import { AiOutlineMenu } from "react-icons/ai"
 
 export const menu = ["Features", "Testimonials", "Pricing", "Contact"]
 
+interface LandingHeaderProps {
+  setShowMenu: (arg: boolean) => void
+  showMenu: boolean
+}
 
-export default function LandingHeader() {
+export default function LandingHeader(props: LandingHeaderProps) {
+  const { setShowMenu, showMenu } = props;
+
   return (
-    <div className="h-24 flex flex-row items-center justify-between" data-testid="landing-header">
+    <div className={`${showMenu && "blur"} h-24 flex flex-row items-center justify-between`} data-testid="landing-header">
           <h2 className={' p-2 text-2xl sm:mx-10  '}>
             Gig<span className="text-blue-600 font-semibold">Fix</span>
           </h2>
@@ -27,7 +33,7 @@ export default function LandingHeader() {
             <button className="bg-blue-600 hover:bg-blue-500 text-white rounded-full py-2 px-2 sm:px-4 text-sm ">
               Get started
             </button>
-            <button className="px-4 md:hidden">
+            <button className="px-4 md:hidden" onClick={() => setShowMenu(!showMenu)}>
               <AiOutlineMenu className='text-xl' data-testid="menu-icon"/>
             </button>
           </div>

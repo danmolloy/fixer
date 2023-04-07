@@ -1,20 +1,48 @@
-import React from "react"
+import React, { useState } from "react"
 import LandingHeader from "./header"
 import Hero from "./hero"
 import FixerFeatures from "./fixerFeatures"
 import MusicianFeatures from "./musicianFeatures"
 import LandingFooter from "./landingFooter"
+import Menu, { MenuItems } from "../layout/menu"
 
+
+const landingMenuItems: MenuItems = [
+  {
+    name: "About",
+    link: "/",
+    id: "1",
+  },
+  {
+    name: "Pricing",
+    link: "/",
+    id: "3"
+  },
+  {
+    name: "Contact",
+    link: "/",
+    id: "4"
+  },
+  {
+    name: "Sign in",
+    link: "/",
+    id: "5"
+  },
+] 
 
 export default function LandingPage() {
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-      <div className=" w-screen min-h-screen font-nunito ">
-        <LandingHeader />
+      <div className="flex flex-col w-screen min-h-screen font-nunito ">
+        <LandingHeader setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu}/>
+        {showMenu && <Menu setShowMenu={() => setShowMenu(false)} menuItems={landingMenuItems}/>}
+        <div className={showMenu && "blur"}>
         <Hero />
         <FixerFeatures />
         <MusicianFeatures />
         <LandingFooter landingPage={true} />
+        </div>
       </div>
   )
 }
