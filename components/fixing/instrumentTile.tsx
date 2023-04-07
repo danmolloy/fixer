@@ -114,18 +114,15 @@ export default function InstrumentTile(props: InstrumentTileProps) {
         handleSubmit={(values) => handleSubmit(values)} />
 
         :<AvailabilityTab 
-          eventCalls={eventCalls}
-          instrumentalistsList={instrumentalistsList}
-          //appendPlayer={i => appendPlayer(i)}
-          setEditList={i => setEditList(i)}
-          eventId={eventId}
-          keyId={instrumentSection.id}
-          editList={editList}
-          refreshProps={refreshProps}
-          /* instrumentFixed={instrumentFixed} */
-          handleSubmit={(values) => handleSubmit(values)}
-          callsOutId={instrumentSection.id}
-          instrumentName={instrumentSection.instrumentName} />}
+        eventId={eventId}
+        instrumentalistsList={instrumentalistsList}
+        setEditList={i => setEditList(i)}
+        eventCalls={eventCalls}
+        editList={editList}
+        instrumentSection={instrumentSection}
+        refreshProps={refreshProps}
+        instrumentFixed={instrumentFixed}
+        handleSubmit={(values) => handleSubmit(values)} />}
 
   </div>
   )

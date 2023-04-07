@@ -12,8 +12,8 @@ export default function TileHeader(props: TileHeaderProps) {
   return (
     <div className=" p-2" data-testid="tile-header-div">
 {/*       <div className="flex flex-row items-center justify-between">
- */}        <h2 className={instrumentFixed ? "text-green-500" : ""}>{instrumentName}</h2>
-        {instrumentFixed 
+ */}        <h2 className={instrumentFixed && numToBook > 0 ? "text-green-500" : ""}>{instrumentName}</h2>
+        {instrumentFixed && numToBook > 0
         ? <p className="text-green-500 text-sm">Booked {numToBook} player(s)</p>
         : <p className="text-zinc-700 text-sm">Booking {numToBook} player(s)</p>}
       {/* </div> */}

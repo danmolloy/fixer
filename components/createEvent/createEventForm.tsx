@@ -91,7 +91,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           if (values.ensemble === "Other") {
             values.ensemble = values.ensembleName
           }
-          await handleSubmit(values);
+          handleSubmit(values);
           actions.setSubmitting(false);
         }}>
           {(props) => (
@@ -158,7 +158,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 id="additional-info" 
                 className=""/>
               <ButtonPrimary
-                handleClick={() => {}}
+                
                 id="create-event-btn" 
                 type="submit" 
                 className='bg-blue-600 hover:bg-blue-500 text-white w-24 self-end' 

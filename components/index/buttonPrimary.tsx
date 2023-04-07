@@ -1,7 +1,7 @@
 import React from "react"
 
 interface ButtonPrimaryProps {
-  handleClick: (e?: Event) => void
+  handleClick?: (e?: Event) => void
   id: string
   text: string
   className: string
@@ -12,7 +12,7 @@ export default function ButtonPrimary(props: ButtonPrimaryProps) {
   const { handleClick, id, text, className, type } = props
 
   return (
-    <button type={type} className={`${className} border py-1 px-2 m-1 rounded shadow-sm`} data-testid={id} onClick={() => handleClick()}>
+    <button type={type} className={`${className} border py-1 px-2 m-1 rounded shadow-sm`} data-testid={id} onClick={handleClick ? () => handleClick(): null}>
       {text}
     </button>
   )

@@ -3,15 +3,21 @@ import AvailabilityTable from "./availabilityTable"
 import EditCalls from "./editCalls/editCalls"
 import React from "react"
 
-interface EventCall {
+interface Musician {
   id: number
   createdAt: string
   updatedAt: string
-  startTime: string
-  endTime: string
-  venue: string
-  eventId: number
-  fixerEmail: string
+  recieved: boolean
+  accepted: boolean | null
+  musicianEmail: string
+  eventInstrumentId: number
+  bookingOrAvailability: "Booking"|"Availability"
+  musician: {
+    name: string
+  }
+  calls: {
+    id: number
+  }[]
 }
 
 interface AvailabilityTabProps {
@@ -26,28 +32,43 @@ interface AvailabilityTabProps {
     profileInfo: null|string
     isFixer: null|boolean
   }[] 
-  //appendPlayer: (player: any) => void 
-  eventId: number 
-  keyId: number 
-  instrumentName: string 
   refreshProps: () => void
   handleSubmit: (val: any) => void 
-  callsOutId: number
-  eventCalls: EventCall[]
-}
+  instrumentFixed: boolean
+  eventId: number
+  eventCalls: {
+    id: number
+    createdAt: string
+    updatedAt: string
+    startTime: string
+    endTime: string
+    venue: string
+    eventId: number
+    fixerEmail: string
+  }[]  
+  instrumentSection: {
+    id: number
+    createdAt: string
+    updatedAt: string
+    eventId: number
+    instrumentName: string
+    numToBook: number
+    callOrder: string
+    musicians: Musician[]
+}}
 
 export default function AvailabilityTab(props: AvailabilityTabProps) {
   const { 
+    eventCalls,
+    eventId,
     editList,
     setEditList,
     instrumentalistsList, 
-    //appendPlayer, 
-    eventId, 
-    keyId, 
-    instrumentName, 
+    instrumentSection, 
     refreshProps, 
-    handleSubmit, 
-    callsOutId, eventCalls } = props
+    instrumentFixed, 
+    handleSubmit 
+  } = props
 
   return (
     <div data-testid="availability-tab">
@@ -60,8 +81,17 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
               handleClick={() => setEditList(!editList)}
               text={editList ? "Close" : "Edit"} />
           </div>
-        {editList && <EditCalls eventId={eventId} eventInstrumentId={callsOutId} bookingOrAvailability={"availability"} eventCalls={eventCalls} handleSubmit={(values: any) => handleSubmit(values)} key={keyId} instrumentName={instrumentName} instrumentalists={instrumentalistsList}/>}
-    
+          {editList 
+        && <EditCalls
+          bookingOrAvailability={"Availability"}
+          eventInstrumentId={instrumentSection.id}
+          eventId={eventId}
+          eventCalls={eventCalls}
+          handleSubmit={(values) => handleSubmit(values)} 
+          key={instrumentSection.id} 
+          instrumentName={instrumentSection.instrumentName} 
+          instrumentalists={instrumentalistsList}
+          />}
     </div>
   )
 }

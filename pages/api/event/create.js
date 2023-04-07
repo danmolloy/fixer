@@ -2,7 +2,6 @@ import { instrumentArr } from "../../../components/fixing/fixing"
 import prisma from "../../../client"
 
 const formattedCalls = (calls, fixerEmail) => {
-
   return [...calls].map(i => ({
     startTime: new Date(i.startTime),
     endTime: new Date(i.endTime),
@@ -13,7 +12,7 @@ const formattedCalls = (calls, fixerEmail) => {
 
 const formattedSections = () => {
   return [...instrumentArr].map(i => ({
-    instrumentName: i,
+    instrumentName: i,s
   }))
 }
 
@@ -32,7 +31,7 @@ const eventObj = (obj) => {
 }
 
 const createEvent = async(eventObj) => {
-  console.log(eventObj)
+
   return await prisma.event.create({
     data: {
       ensembleName: eventObj.ensemble,
