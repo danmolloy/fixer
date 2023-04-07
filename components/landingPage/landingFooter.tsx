@@ -33,11 +33,11 @@ interface LandingFooterProps {
 export default function LandingFooter(props: LandingFooterProps) {
   const { landingPage } = props
   return (
-    <div className="flex flex-col items-center justify-center border-t" data-testid="landing-footer">
+    <div className="flex flex-col items-center justify-center border-t flex-wrap" data-testid="landing-footer">
       <div className="py-2">
       {landingPage === true 
       ? landingMenu.map((i: string) => (
-            <button key={i} className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light">
+            <button key={i} className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light">
               {i}
             </button>))
       : sessionMenu.map((i: string) => (

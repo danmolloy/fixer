@@ -9,7 +9,7 @@ import LandingFooter from "./landingFooter"
 export default function LandingPage() {
 
   return (
-      <div className=" w-screen min-h-screen font-nunito">
+      <div className=" w-screen min-h-screen font-nunito ">
         <LandingHeader />
         <Hero />
         <FixerFeatures />
