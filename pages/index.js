@@ -10,9 +10,7 @@ export default function Home() {
 if (!session) {
   return (
     <Layout>
-      {!session.userData 
-      ? <p>More info needed</p>
-      : <LandingPage />}
+      <LandingPage />
     </Layout>
   )}
 
