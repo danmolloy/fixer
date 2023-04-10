@@ -2,39 +2,6 @@ import NextAuth, { NextAuthOptions } from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from "../../../client"
-import fetch from "node-fetch"
-
-const getOrCreateUser = async (userEmail) => {
-  let user = await prisma.user.findUnique({
-    where: {
-      email: userEmail
-    },
-    include: {
-      events: {
-        include: {
-          calls: true
-        }
-      },
-      calls: {
-        include: {
-          event: true
-        }
-      }
-    }
-  })
-
-  if (user === null) {
-    user = await prisma.user.create({
-      data: {
-        email: userEmail
-      }
-    })
-  }
-
-
-  return user
-}
-
 
 export const authOptions = ({
   adapter: PrismaAdapter(prisma),
@@ -51,23 +18,12 @@ export const authOptions = ({
   },
   authOptions: {},
   callbacks: {
-    /* signIn: async (profile, account) => {
-      if (account.provider === 'github') {
-        const res = await fetch('https://api.github.com/user/emails', {
-          headers: { Authorization: `token ${account.accessToken}` },
-        })
-        const emails = await res.json()
-        console.log(`emails: ${emails}`)
-        if (emails?.length > 0) {
-          profile.email = emails.sort((a, b) => b.primary - a.primary)[0].email
-        }
-        return true
-      }
-    }, */
-    async session({ session, profile, user }) {
+    async session({ session, user }) {
       // Send properties to the client, like an access_token from a provider.
-      console.log(`session API: ${JSON.stringify(session)}`)
-      /* const sesssionUser = await prisma.user.findUnique({
+      //console.log(`session API: ${JSON.stringify(session)}`)
+      console.log(`user API: ${JSON.stringify(user)}`)
+
+      const sesssionUser = await prisma.user.findUnique({
         where: {
           email: user.email
         },
@@ -84,8 +40,10 @@ export const authOptions = ({
           }
         }
       })
-      session.userData = sesssionUser */
-      session.userData = getOrCreateUser(user.email)
+      session.userData = sesssionUser
+      //session.userData = getOrCreateUser(user.email)
+      console.log(`user API: ${JSON.stringify(user)}`)
+
       return session
     }
   }
