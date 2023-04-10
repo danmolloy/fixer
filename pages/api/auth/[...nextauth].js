@@ -41,8 +41,6 @@ export const authOptions = ({
         }
       })
       session.userData = sesssionUser
-      //session.userData = getOrCreateUser(user.email)
-      console.log(`session API: ${JSON.stringify(session)}`)
 
       return session
     }

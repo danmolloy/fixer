@@ -76,6 +76,7 @@ model Event {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   ensembleName       String
+  eventTitle         String @default("")
   concertProgram     String
   confirmedOrOnHold  String @default("on hold")
   calls              Call[]

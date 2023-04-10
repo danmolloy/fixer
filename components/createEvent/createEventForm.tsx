@@ -42,6 +42,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
       is: "Other",
       then: (schema) => schema.required("Ensemble name required"),
     }),
+    eventTitle: Yup.string().required('Required'),
     concertProgram: Yup.string().required('Required'),
     calls: Yup.array().of(Yup.object({
       id: Yup.string().required(),
@@ -68,6 +69,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           confirmedOrOnHold: initialValues ? initialValues.confirmedOrOnHold : "",
           ensemble: initialValues ? "Other" : "",
           ensembleName: initialValues ? initialValues.ensembleName :"", 
+          eventTitle: initialValues ? initialValues.eventTitle :"", 
           concertProgram: initialValues ? initialValues.concertProgram : "",
           calls: initialValues
           ? initialValues.calls.map(i => ({
@@ -114,7 +116,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 <TextInput 
                 asHtml='input' 
                 label="Concert Title" 
-                name="concertTitle" 
+                name="eventTitle" 
                 id="concert-title" 
                 className=''/>
               <TextInput 

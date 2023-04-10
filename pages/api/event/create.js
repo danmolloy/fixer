@@ -12,13 +12,14 @@ const formattedCalls = (calls, fixerEmail) => {
 
 const formattedSections = () => {
   return [...instrumentArr].map(i => ({
-    instrumentName: i,s
+    instrumentName: i
   }))
 }
 
 const eventObj = (obj) => {
   return {
     ensemble: obj.ensemble,
+    eventTitle: obj.eventTitle,
     concertProgram: obj.concertProgram,
     confirmedOrOnHold: obj.confirmedOrOnHold,
     formattedCalls: formattedCalls(obj.calls, obj.fixerEmail),
@@ -31,10 +32,11 @@ const eventObj = (obj) => {
 }
 
 const createEvent = async(eventObj) => {
-
+  
   return await prisma.event.create({
     data: {
       ensembleName: eventObj.ensemble,
+      eventTitle: eventObj.eventTitle,
       concertProgram: eventObj.concertProgram,
       confirmedOrOnHold: eventObj.confirmedOrOnHold,
       calls: {
@@ -55,6 +57,7 @@ export default async function handle(req, res) {
   const { 
     fixer, 
     ensemble,
+    eventTitle,
     concertProgram,
     confirmedOrOnHold,
     calls,
@@ -65,6 +68,7 @@ export default async function handle(req, res) {
 
   let createEventArg = eventObj({
     ensemble,
+    eventTitle,
     concertProgram,
     confirmedOrOnHold,
     calls,

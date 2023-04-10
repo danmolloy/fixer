@@ -37,7 +37,7 @@ export default function EventInfo(props: EventInfoProps) {
       <div className="flex flex-col lg:flex-row p-4 w-full  lg:items-center lg:justify-evenly" data-testid="event-calls-list">
         <p data-testid="event-calls-count" className="text-slate-600 text-sm lg:w-1/2 ">{props.calls.length} Call(s):</p>
         <div className="flex flex-col lg:w-1/2 ">
-        {props.calls.sort((a, b) => Number(moment.utc(new Date(a.startTime))) - Number(moment.utc(new Date(b.startTime)))).map(i => (
+        {props.calls.sort((a, b) => Number(moment(new Date(a.startTime))) - Number(moment(new Date(b.startTime)))).map(i => (
         <div key={i.id} className="my-2">
           <CallTile {...i} />
         </div>
@@ -51,8 +51,8 @@ export default function EventInfo(props: EventInfoProps) {
       <InfoDiv className="" id="event-additional-info" title="Additional Info" value={additionalInfo} />
       <InfoDiv className="bg-slate-50" id="event-fixer-email" title="Fixer" value={fixerEmail} />
       
-      <InfoDiv className="" id="created-datetime" title="Event created" value={String(moment.utc(new Date(createdAt)).format("h:ma Do MMMM YYYY"))} />
-      <InfoDiv className="bg-slate-50" id="updated-datetime" title="Last updated" value={String(moment.utc(new Date(updatedAt)).format("h:ma Do MMMM YYYY"))} />
+      <InfoDiv className="" id="created-datetime" title="Event created" value={String(moment(new Date(createdAt)).format("h:mm:ssa Do MMMM YYYY"))} />
+      <InfoDiv className="bg-slate-50" id="updated-datetime" title="Last updated" value={String(moment(new Date(updatedAt)).format("h:mm:ssa Do MMMM YYYY"))} />
 
       
     </div>

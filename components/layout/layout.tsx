@@ -22,7 +22,7 @@ export default function Layout(props: LayoutProps) {
   return (
     <div className="layout " data-testid="layout-div">
       <Header setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false}/>
-      {showMenu && <Menu setShowMenu={() => setShowMenu(false)} menuItems={session ? menuItems : landingMenuItems}/>}
+      {showMenu && <Menu signedIn={session ? true : false} setShowMenu={() => setShowMenu(false)} menuItems={session ? menuItems : landingMenuItems}/>}
       <div className={showMenu ? "w-full p-3 blur":"w-full p-3"}>
         <h1 className="ml-4 text-bold">{pageTitle}</h1>
       </div>

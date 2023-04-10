@@ -43,8 +43,8 @@ return arr
 
 export const eventDateFilter = (startTime: string, endTime: string, day: string): boolean => {
   if (
-    moment.utc(new Date(startTime)).isSame(moment.utc(new Date(day)), "date") 
-    || moment.utc(new Date(endTime)).isSame(moment.utc(new Date(day)), "date") 
+    moment(new Date(startTime)).isSame(moment(new Date(day)), "date") 
+    || moment(new Date(endTime)).isSame(moment(new Date(day)), "date") 
     ) {
     return true;
   }

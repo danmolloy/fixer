@@ -1,20 +1,30 @@
+import { signIn, signOut } from "next-auth/react"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import React from "react"
 import { AiOutlineClose } from "react-icons/ai"
 
+
 export type MenuItems = {
   name: string
-  link: string
+  link?: string
   id: string
 }[]
 
 interface MenuProps {
   setShowMenu: () => void
   menuItems: MenuItems
+  signedIn: boolean
 }
 
 export default function Menu(props: MenuProps) {
-  const { setShowMenu, menuItems } = props
+  const { setShowMenu, menuItems, signedIn } = props
+  const router = useRouter()
+
+  const signOutUser = () => {
+    signOut();
+    router.push("/")
+  }
 
   return (
     <div className="bg-white z-20 mt-24 flex flex-col w-full sm:w-4/5 self-center fixed rounded-2xl border shadow overflow-hidden" data-testid="menu-div">
@@ -30,6 +40,16 @@ export default function Menu(props: MenuProps) {
           </div>
         </Link>
       ))}
+      {
+        signedIn
+        ? <button onClick={() => signOutUser()} className="w-full text-start hover:bg-slate-100 py-4 pl-4 font-light">
+            Sign Out
+          </button>
+        : <button onClick={() => signIn("github")} className="w-full text-start hover:bg-slate-100 py-4 pl-4 font-light">
+            Sign In
+          </button>
+      }
+      
     </div>
   )
 }

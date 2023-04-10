@@ -18,7 +18,7 @@ export default function ConfirmedOrOnHold(props: CoohProps) {
           className="mr-2"
           type="radio"
           name="confirmedOrOnHold"
-          value="confirmed"
+          value="Confirmed"
           data-testid={`confirmed-toggle`} />
           Confirmed
         </label>
@@ -27,7 +27,7 @@ export default function ConfirmedOrOnHold(props: CoohProps) {
           className="mr-2"
             type="radio"
             name="confirmedOrOnHold"
-            value="onHold"
+            value="On Hold"
             data-testid={`on-hold-toggle`}
            />
           On Hold
