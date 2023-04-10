@@ -51,7 +51,7 @@ export const authOptions = ({
   },
   authOptions: {},
   callbacks: {
-    signIn: async (profile, account) => {
+    /* signIn: async (profile, account) => {
       if (account.provider === 'github') {
         const res = await fetch('https://api.github.com/user/emails', {
           headers: { Authorization: `token ${account.accessToken}` },
@@ -63,7 +63,7 @@ export const authOptions = ({
         }
         return true
       }
-    },
+    }, */
     async session({ session, profile, user }) {
       // Send properties to the client, like an access_token from a provider.
       console.log(`session API: ${JSON.stringify(session)}`)
@@ -85,7 +85,7 @@ export const authOptions = ({
         }
       })
       session.userData = sesssionUser */
-      session.userData = getOrCreateUser(profile.email)
+      session.userData = getOrCreateUser(user.email)
       return session
     }
   }
