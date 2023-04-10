@@ -1,7 +1,7 @@
 import moment from "moment"
 import React from "react"
 
-interface EventDashboardProps {
+export type EventDashboardProps = {
   setDateRange: (arg: number|null) => void
   setSelectedDate: (arg: moment.Moment) => void
   dateRange: null|number
@@ -10,7 +10,7 @@ interface EventDashboardProps {
 export default function EventDashboard(props: EventDashboardProps) {
   const { setDateRange, setSelectedDate, dateRange } = props
   return (
-    <div data-testid="event-dashboard-div" className=" w-full flex flex-row justify-evenly ">
+    <div data-testid="event-dashboard-div" className="hidden sm:flex w-full flex-row justify-evenly ">
       <button onClick={() => {
         setDateRange(null)
         setSelectedDate(moment(new Date()))

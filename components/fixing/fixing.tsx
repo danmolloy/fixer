@@ -66,9 +66,9 @@ export default function Fixing(props: FixingProps) {
         <h1>Personnel</h1>
         <button onClick={() => refreshProps()} className="secondary-btn">Refresh</button>
       </div>
-      <div className="w-screen flex flex-row flex-wrap items-start justify-center">
+      <div className="w-screen flex flex-row flex-wrap items-start justify-center ">
         {instrumentSections.sort((a, b) => a.id - b.id).map(i => (
-          <div key={i.id} className="instrument-tile">
+          <div key={i.id} className="border sm:border-slate-400 flex flex-col w-full md:w-1/3  rounded m-2 ">
           <InstrumentTile 
             eventCalls={eventCalls} 
             refreshProps={refreshProps} 

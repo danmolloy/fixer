@@ -24,7 +24,7 @@ export default function Layout(props: LayoutProps) {
       <Header setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false}/>
       {showMenu && <Menu signedIn={session ? true : false} setShowMenu={() => setShowMenu(false)} menuItems={session ? menuItems : landingMenuItems}/>}
       <div className={showMenu ? "w-full p-3 blur":"w-full p-3"}>
-        <h1 className="ml-4 text-bold">{pageTitle}</h1>
+        <h1 className="ml-2 text-2xl">{pageTitle}</h1>
       </div>
       <div onFocus={() => setShowMenu(false)} className={showMenu ? "layout-children blur": "layout-children pb-12"} data-testid="main-div">
         {children}

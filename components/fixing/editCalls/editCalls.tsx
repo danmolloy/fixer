@@ -122,7 +122,7 @@ export default function EditCalls(props: EditCallsProps) {
      >
        {props => (
          <form className="edit-calls-form " onSubmit={props.handleSubmit} data-testid={`edit-calls-div`}>
-          <AppendedPlayers makeAvailable={(i: Instrumentalist) => props.values.availablePlayers.push(i)} eventCalls={eventCalls} appendedPlayers={props.values.appendedPlayers} />
+          {props.values.appendedPlayers.length > 0 && <AppendedPlayers makeAvailable={(i: Instrumentalist) => props.values.availablePlayers.push(i)} eventCalls={eventCalls} appendedPlayers={props.values.appendedPlayers} />}
           <AvailablePlayers 
             instrumentName={instrumentName} 
             availablePlayers={props.values.availablePlayers} 

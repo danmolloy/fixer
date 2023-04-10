@@ -15,10 +15,11 @@ interface MenuProps {
   setShowMenu: () => void
   menuItems: MenuItems
   signedIn: boolean
+  signInBtn?: boolean
 }
 
 export default function Menu(props: MenuProps) {
-  const { setShowMenu, menuItems, signedIn } = props
+  const { setShowMenu, menuItems, signedIn, signInBtn } = props
   const router = useRouter()
 
   const signOutUser = () => {
@@ -27,7 +28,7 @@ export default function Menu(props: MenuProps) {
   }
 
   return (
-    <div className="bg-white z-20 mt-24 flex flex-col w-full sm:w-4/5 self-center fixed rounded-2xl border shadow overflow-hidden" data-testid="menu-div">
+    <div className="bg-white z-20 mt-12 flex flex-col w-full sm:w-4/5 self-center fixed rounded-2xl border shadow overflow-hidden" data-testid="menu-div">
         <div className="w-full flex flex-col items-center">
           <button onClick={() => setShowMenu()} className="hover:bg-slate-100 self-end m-1 p-2 rounded-full" data-testid={"close-btn"}>
             <AiOutlineClose />
@@ -40,8 +41,9 @@ export default function Menu(props: MenuProps) {
           </div>
         </Link>
       ))}
-      {
-        signedIn
+      {signInBtn === false
+        ? null
+        : signedIn
         ? <button onClick={() => signOutUser()} className="w-full text-start hover:bg-slate-100 py-4 pl-4 font-light">
             Sign Out
           </button>

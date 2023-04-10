@@ -18,6 +18,7 @@ interface DateRangeViewProps {
       id: number
       createdAt: string
       updatedAt: string
+      eventTitle: string
       ensembleName: string
       concertProgram: string
       confirmedOrOnHold: string
@@ -60,7 +61,7 @@ export default function DateRangeView(props: DateRangeViewProps) {
   const { selectedDate, dateRange, upcomingCalls, sessionEmail } = props
 
   return (
-    <div data-testid="date-range-view" className="w-full p-4 m-2">
+    <div data-testid="date-range-view" className="w-full py-4 sm:p-4">
       {/* <h2>{`${selectedDate.calendar()} to ${selectedDate.add(dateRange, "days").calendar()}`}</h2> */}
       {daysArr(selectedDate, dateRange).map(i => (
         <div key={i.day} className="w-full border my-2 px-2 py-3 shadow-sm">

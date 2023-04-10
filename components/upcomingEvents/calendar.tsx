@@ -15,8 +15,8 @@ export default function Calendar(props: CalendarProps) {
 
   return (
     <div className="flex flex-col w-full md:w-1/2 bg-white" data-testid="date-picker-div"> 
-      <ButtonPrimary handleClick={() => {}} id="add-calendar-btn" text="Add to Diary" className="self-end w-28 text-blue-500 border-blue-500 hover:bg-blue-50" />
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+{/*       <ButtonPrimary handleClick={() => {}} id="add-calendar-btn" text="Add to Diary" className="self-end w-28 text-blue-500 border-blue-500 hover:bg-blue-50" />
+ */}      <LocalizationProvider dateAdapter={AdapterMoment}>
         <CalendarPicker date={selectedDate} onChange={(newDate) => setSelectedDate(moment(newDate))} />
       </LocalizationProvider>
     </div>

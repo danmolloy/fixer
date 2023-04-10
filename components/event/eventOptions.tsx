@@ -1,6 +1,4 @@
-import { FaRegEdit } from 'react-icons/fa'
-import { AiOutlineMessage } from 'react-icons/ai'
-import HomeTile from '../index/homeTile'
+
 import React from 'react'
 import ButtonPrimary from '../index/buttonPrimary'
 

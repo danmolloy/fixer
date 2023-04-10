@@ -4,6 +4,7 @@ import moment from "moment/moment";
 import UpcomingEvents from "./upcomingEvents";
 import EventDashboard from "./dashboard";
 import DateRangeView from "./dateRangeView";
+import MobileDashboard from "./mobileDashboard";
 
 interface EventsIndexProps {
   session: {
@@ -57,6 +58,7 @@ interface EventsIndexProps {
             id: number
             createdAt: string
             updatedAt: string
+            eventTitle: string
             ensembleName: string
             concertProgram: string
             confirmedOrOnHold: string
@@ -87,6 +89,7 @@ export default function EventsIndex(props: EventsIndexProps) {
             dateRange === null && setDateRange(7)
             }}/>
           <div className=" w-full md:w-1/2">
+          <MobileDashboard dateRange={dateRange} setSelectedDate={(arg) => setSelectedDate(arg)} setDateRange={(arg) => setDateRange(arg)}/>
          <EventDashboard dateRange={dateRange} setSelectedDate={(arg) => setSelectedDate(arg)} setDateRange={(arg) => setDateRange(arg)} /* setEventView={(arg) => setEventView(arg)} *//>
           {dateRange === null 
           ? <UpcomingEvents selectedDate={selectedDate} upcomingCalls={session.userData.calls && [...session.userData?.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={session.user.email}/>
