@@ -25,7 +25,7 @@ export const authOptions = ({
 
       const sesssionUser = await prisma.user.findUnique({
         where: {
-          email: user.email
+          id: user.id
         },
         include: {
           events: {
