@@ -1,4 +1,4 @@
-import { FieldArray, Formik } from 'formik'
+import { ErrorMessage, FieldArray, Formik } from 'formik'
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import TextInput from './textInput';
@@ -96,6 +96,12 @@ export default function CreateEventForm(props: CreateEventFormProps) {
         }}>
           {(props) => (
             <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 ' onSubmit={props.handleSubmit}>
+              <ErrorMessage name={"fixer"}>
+                { msg => <div className="p-1 text-red-600 text-sm" data-testid={`fixer-error`}>{msg}</div> }
+              </ErrorMessage>
+              <ErrorMessage name={"fixer.name"}>
+                { msg => <div className="p-1 text-red-600 text-sm" data-testid={`fixer-error`}>{msg}</div> }
+              </ErrorMessage>
               <div className='flex flex-col sm:items-center w-full sm:flex-row'>
                 <EnsembleRadioGroup 
                   ensemble={props.values.ensemble}
