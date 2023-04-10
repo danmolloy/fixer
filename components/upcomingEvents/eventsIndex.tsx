@@ -75,7 +75,7 @@ export default function EventsIndex(props: EventsIndexProps) {
   const [selectedDate, setSelectedDate] = useState(moment())
   const [dateRange, setDateRange] = useState<null|number>(null)
 
-  if (session.userData === undefined) {
+  if (!session.userData) {
     return <p>Loading..</p>
   }
 
@@ -89,7 +89,7 @@ export default function EventsIndex(props: EventsIndexProps) {
           <div className=" w-full md:w-1/2">
          <EventDashboard dateRange={dateRange} setSelectedDate={(arg) => setSelectedDate(arg)} setDateRange={(arg) => setDateRange(arg)} /* setEventView={(arg) => setEventView(arg)} *//>
           {dateRange === null 
-          ? <UpcomingEvents selectedDate={selectedDate} upcomingCalls={[...session.userData?.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={session.user.email}/>
+          ? <UpcomingEvents selectedDate={selectedDate} upcomingCalls={session.userData.calls && [...session.userData?.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={session.user.email}/>
             : <DateRangeView selectedDate={selectedDate} dateRange={dateRange} upcomingCalls={[...session.userData?.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={session.user.email}/>
           } 
         </div>
