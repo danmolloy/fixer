@@ -58,7 +58,8 @@ const createEvent = async(eventObj) => {
 
 export default async function handle(req, res) {
   const { 
-    fixer, 
+    //fixer, 
+    fixerId,
     ensemble,
     eventTitle,
     concertProgram,
@@ -76,7 +77,7 @@ export default async function handle(req, res) {
     confirmedOrOnHold,
     calls,
     //fixerEmail: fixer.email,
-    fixerId: fixer.id,
+    fixerId: fixerId,
     dressCode,
     fee,
     additionalInfo

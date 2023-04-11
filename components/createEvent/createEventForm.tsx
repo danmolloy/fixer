@@ -13,29 +13,19 @@ import ConfirmedOrOnHold from './confirmedOrOnHold';
 interface CreateEventFormProps {
   handleSubmit: (vals: any) => void
   initialValues: any
-  session: {
-    user: {
-      name: string
-      email: string
-      image: string
-      id: string
-    }
-    expires: string
-  }
+  userId: string
+  expires: string
 }
 
 export default function CreateEventForm(props: CreateEventFormProps) {
-  const { handleSubmit, initialValues, session } = props
+  const { handleSubmit, initialValues, userId } = props
 
   const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
 
 
 
   const EventSchema = Yup.object().shape({
-    fixer: Yup.object({
-      name: Yup.string().required("Fixer name required"),
-      id: Yup.string().required("Fixer ID required"),
-  }),
+    fixerId: Yup.string().required("Fixer ID required"),
     id: Yup.string(),
     confirmedOrOnHold: Yup.string().required("Required"),
     ensemble: Yup.string().required('Select ensemble'),
@@ -62,10 +52,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     <div data-testid="create-event-form" className='sm:border sm:shadow-sm p-1 sm:p-2 mb-4 rounded flex flex-col items-center w-full md:w-3/4 '>
       <Formik 
         initialValues={{
-          fixer: {
-            name: session.user?.name,
-            id: session.user?.id,
-          }, 
+          fixerId: userId,
           id: initialValues ? initialValues.id : "",
           confirmedOrOnHold: initialValues ? initialValues.confirmedOrOnHold : "",
           ensemble: initialValues ? "Other" : "",
@@ -95,11 +82,12 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           if (values.ensemble === "Other") {
             values.ensemble = values.ensembleName
           }
-          /* handleSubmit(values); */
+          handleSubmit(values);
           actions.setSubmitting(false);
         }}>
           {(props) => (
             <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 ' onSubmit={props.handleSubmit}>
+              {JSON.stringify(userId)}
               <div className='flex flex-col sm:items-center w-full sm:flex-row'>
                 <EnsembleRadioGroup 
                   ensemble={props.values.ensemble}

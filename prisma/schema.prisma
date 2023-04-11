@@ -78,7 +78,7 @@ model Event {
   ensembleName       String
   eventTitle         String @default("")
   concertProgram     String
-  confirmedOrOnHold  String @default("on hold")
+  confirmedOrOnHold  String @default("On Hold")
   calls              Call[]
   dressCode          String
   fee                String

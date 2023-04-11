@@ -27,10 +27,7 @@ export default function Create() {
     <Layout pageTitle="Create Event">
       <CreateEventForm 
       handleSubmit={(vals) => handleSubmit(vals)}
-      session={{
-        user: {...session.user, id: session.userData.id},
-        expires: session.expires 
-      }}
+      userId={session.userData.id}
         />
     </Layout>
   )
