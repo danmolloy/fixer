@@ -3,7 +3,6 @@ import { useSession } from "next-auth/react"
 import LandingPage from "../components/landingPage/landingPage";
 import EventsIndex from "../components/upcomingEvents/eventsIndex"
 
-
 export default function Home() {
   const { data: session } = useSession()
 

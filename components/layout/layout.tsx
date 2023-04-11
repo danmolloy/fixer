@@ -6,6 +6,7 @@ import React from "react";
 import LandingFooter from "../landingPage/landingFooter";
 import { useSession } from "next-auth/react";
 import { landingMenuItems } from "../landingPage/landingPage";
+import UserInfoForm from "../index/userInfoForm";
 
 interface LayoutProps {
   children: React.ReactNode
@@ -29,7 +30,7 @@ export default function Layout(props: LayoutProps) {
       <div onFocus={() => setShowMenu(false)} className={showMenu ? "layout-children blur": "layout-children pb-12"} data-testid="main-div">
         {children}
       </div>
-      
+      {/* <UserInfoForm /> */}
       <LandingFooter session={session ? true : false}/>
     </div>
   )
