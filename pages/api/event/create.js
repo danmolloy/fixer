@@ -1,12 +1,13 @@
 import { instrumentArr } from "../../../components/fixing/fixing"
 import prisma from "../../../client"
 
-const formattedCalls = (calls, fixerEmail) => {
+const formattedCalls = (calls, fixerId /* fixerEmail */) => {
   return [...calls].map(i => ({
     startTime: new Date(i.startTime),
     endTime: new Date(i.endTime),
     venue: i.venue,
-    fixer: { connect: { email: fixerEmail } }
+    //fixer: { connect: { email: fixerEmail } }
+    fixer: { connect: { id: fixerId } }
   }))
 }
 
@@ -22,12 +23,13 @@ const eventObj = (obj) => {
     eventTitle: obj.eventTitle,
     concertProgram: obj.concertProgram,
     confirmedOrOnHold: obj.confirmedOrOnHold,
-    formattedCalls: formattedCalls(obj.calls, obj.fixerEmail),
+    formattedCalls: formattedCalls(obj.calls, obj.fixerId/* obj.fixerEmail */),
     formattedSections: formattedSections(),
     dressCode: obj.dressCode,
     fee: obj.fee,
     additionalInfo: obj.additionalInfo,
-    fixerEmail: obj.fixerEmail,
+    //fixerEmail: obj.fixerEmail,
+    fixerId: obj.fixerId
   }
 }
 
@@ -45,7 +47,8 @@ const createEvent = async(eventObj) => {
       dressCode: eventObj.dressCode,
       fee: eventObj.fee,         
       additionalInfo: eventObj.additionalInfo,
-      fixer: { connect: { email: eventObj.fixerEmail } },
+      //fixer: { connect: { email: eventObj.fixerEmail } },
+      fixer: { connect: { id: eventObj.fixerId } },
       instrumentSections: {
         create: eventObj.formattedSections
       }
@@ -72,7 +75,8 @@ export default async function handle(req, res) {
     concertProgram,
     confirmedOrOnHold,
     calls,
-    fixerEmail: fixer.email,
+    //fixerEmail: fixer.email,
+    fixerId: fixer.id,
     dressCode,
     fee,
     additionalInfo

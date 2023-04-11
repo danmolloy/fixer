@@ -18,6 +18,7 @@ interface CreateEventFormProps {
       name: string
       email: string
       image: string
+      id: string
     }
     expires: string
   }
@@ -33,7 +34,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
   const EventSchema = Yup.object().shape({
     fixer: Yup.object({
       name: Yup.string().required("Fixer name required"),
-      email: Yup.string().required("Fixer email required"),
+      id: Yup.string().required("Fixer ID required"),
   }),
     id: Yup.string(),
     confirmedOrOnHold: Yup.string().required("Required"),
@@ -49,21 +50,21 @@ export default function CreateEventForm(props: CreateEventFormProps) {
       startTime: Yup.string().required("Required"),
       endTime: Yup.string().required("Required"),
       venue: Yup.string().required("Venue required"),
+      info: Yup.string(),
     })), 
-    dressCode: Yup.string().required('Required'),
-    fee: Yup.string().required('Required'),
+    dressCode: Yup.string(),
+    fee: Yup.string(),
     additionalInfo: Yup.string(),
   })
 
   
   return (
     <div data-testid="create-event-form" className='sm:border sm:shadow-sm p-1 sm:p-2 mb-4 rounded flex flex-col items-center w-full md:w-3/4 '>
-
       <Formik 
         initialValues={{
           fixer: {
             name: session.user?.name,
-            email: session.user?.email
+            id: session.user?.id,
           }, 
           id: initialValues ? initialValues.id : "",
           confirmedOrOnHold: initialValues ? initialValues.confirmedOrOnHold : "",
@@ -83,6 +84,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
             startTime: "",
             endTime: "",
             venue: "",
+            info: "",
           }],
           dressCode: initialValues ? initialValues.dressCode : "",
           fee: initialValues ? initialValues.fee : "",
@@ -93,17 +95,11 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           if (values.ensemble === "Other") {
             values.ensemble = values.ensembleName
           }
-          handleSubmit(values);
+          /* handleSubmit(values); */
           actions.setSubmitting(false);
         }}>
           {(props) => (
             <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 ' onSubmit={props.handleSubmit}>
-              <ErrorMessage name={"fixer"}>
-                { msg => <div className="p-1 text-red-600 text-sm" data-testid={`fixer-error`}>{msg}</div> }
-              </ErrorMessage>
-              <ErrorMessage name={"fixer.name"}>
-                { msg => <div className="p-1 text-red-600 text-sm" data-testid={`fixer-error`}>{msg}</div> }
-              </ErrorMessage>
               <div className='flex flex-col sm:items-center w-full sm:flex-row'>
                 <EnsembleRadioGroup 
                   ensemble={props.values.ensemble}
@@ -166,7 +162,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 id="additional-info" 
                 className=""/>
               <ButtonPrimary
-                
                 id="create-event-btn" 
                 type="submit" 
                 className='bg-blue-600 hover:bg-blue-500 text-white w-24 self-end' 

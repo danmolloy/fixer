@@ -10,7 +10,7 @@ interface EventIndexProps {
   dressCode: string
   fee: string
   additionalInfo: string
-  fixerEmail: string
+  fixerId: string
   createdAt: string
   updatedAt: string
   id: string
@@ -67,7 +67,7 @@ export default function EventIndex(props: EventIndexProps) {
 
   return (
     <div data-testid="event-index-div" className="w-full lg:w-2/3 flex flex-col items-center">
-      {showOptions && <Menu menuItems={props.fixerEmail === props.session.userData.email ? fixerMenu : playerMenu} setShowMenu={() => setShowOptions(!showOptions)} signedIn={true} signInBtn={false}/>}
+      {showOptions && <Menu menuItems={props.fixerId === props.session.userData.id ? fixerMenu : playerMenu} setShowMenu={() => setShowOptions(!showOptions)} signedIn={true} signInBtn={false}/>}
       <EventInfo {...props} setShowOptions={() => setShowOptions(!showOptions)} showOptions={showOptions}/>
     </div>
   )

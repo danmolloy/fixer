@@ -28,7 +28,7 @@ export default function Create() {
       <CreateEventForm 
       handleSubmit={(vals) => handleSubmit(vals)}
       session={{
-        user: session.user,
+        user: {...session.user, id: session.userData.id},
         expires: session.expires 
       }}
         />

@@ -84,8 +84,10 @@ model Event {
   fee                String
   additionalInfo     String?
   instrumentSections EventInstrument[]
-  fixerEmail         String
-  fixer              User     @relation(fields: [fixerEmail], references: [email])
+  //fixerEmail         String
+  fixerId           String
+  fixer              User     @relation(fields: [fixerId], references: [id])
+  //fixer              User     @relation(fields: [fixerEmail], references: [email])
 }
 
 model Call {
@@ -97,8 +99,10 @@ model Call {
   venue              String
   eventId            Int 
   event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  fixerEmail         String
-  fixer              User     @relation(fields: [fixerEmail], references: [email])
+  //fixerEmail         String
+  //fixer              User     @relation(fields: [fixerEmail], references: [email])
+  fixerId           String
+  fixer              User     @relation(fields: [fixerId], references: [id])
   playerCalls        PlayerCall[]
 }
 

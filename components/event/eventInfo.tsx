@@ -10,7 +10,7 @@ interface EventInfoProps {
   dressCode: string
   fee: string
   additionalInfo: string
-  fixerEmail: string
+  fixerId: string
   createdAt: string
   updatedAt: string
   id: string
@@ -27,7 +27,7 @@ interface EventInfoProps {
 
 
 export default function EventInfo(props: EventInfoProps) {
-  const { setShowOptions, showOptions, calls, id, confirmed, ensembleName, concertProgram, dressCode, fee, additionalInfo, fixerEmail, createdAt, updatedAt, session } = props
+  const { setShowOptions, showOptions, calls, id, confirmed, ensembleName, concertProgram, dressCode, fee, additionalInfo, fixerId, createdAt, updatedAt, session } = props
 /*   const formatDate = (e) => {
     return new Date(e).toString().slice(0, 21)
   } */
@@ -56,11 +56,9 @@ export default function EventInfo(props: EventInfoProps) {
       <InfoDiv className="" id="event-dress" title="Dress" value={dressCode} />
       <InfoDiv className="bg-slate-50" id="event-fee" title="Fee" value={fee} />
       <InfoDiv className="" id="event-additional-info" title="Additional Info" value={additionalInfo} />
-      <InfoDiv className="bg-slate-50" id="event-fixer-email" title="Fixer" value={fixerEmail} />
+      <InfoDiv className="bg-slate-50" id="event-fixer-email" title="Fixer" value={fixerId} />
       <InfoDiv className="" id="created-datetime" title="Event created" value={String(moment(new Date(createdAt)).format("h:mm:ssa Do MMMM YYYY"))} />
       <InfoDiv className="bg-slate-50" id="updated-datetime" title="Last updated" value={String(moment(new Date(updatedAt)).format("h:mm:ssa Do MMMM YYYY"))} />
-
-      
     </div>
   )
 }
