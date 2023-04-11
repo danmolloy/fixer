@@ -36,6 +36,6 @@ export default async function handle(req, res) {
     email,
     instrument
   }
-
+  console.log("Hi")
   res.status(200).json(await updateUser(userObj))
 }

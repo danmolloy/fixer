@@ -4,12 +4,12 @@ export default function ProfileBody() {
   return (
     <div className="profile-text" data-testid="profile-body">
       <div className="py-1">
-          <h2 className="text-lg text-slate-500 py-1">History</h2>
+          <h2 className="text-lg text-slate-500 py-1">Your Mutual History</h2>
           <ul>
-            <li className="hover:text-blue-500 hover:cursor-pointer">
+            <li className="text-blue-500 hover:underline hover:cursor-pointer">
               BBCSO: Brahms Symphonies, March 2022
             </li>
-            <li className="hover:text-blue-500 hover:cursor-pointer">
+            <li className="text-blue-500 hover:underline hover:cursor-pointer">
             BBCSO: Austria Tour, April 2022
             </li>
           </ul>

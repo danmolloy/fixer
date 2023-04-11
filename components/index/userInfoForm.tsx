@@ -5,9 +5,23 @@ import { instrumentArr } from "../fixing/fixing";
 import ButtonPrimary from "./buttonPrimary";
 import * as Yup from 'yup';
 
-export default function UserInfoForm() {
+export type userInfoObj = {
+  userId: string
+  name: string
+  email: string
+  instrument: string
+}
+
+interface UserInfoProps {
+  userSession: any
+  handleSubmit: (vals: userInfoObj) => void
+}
+
+export default function UserInfoForm(props: UserInfoProps) { 
+  const { userSession, handleSubmit } = props;
 
   const UserSchema = Yup.object().shape({
+    userId: Yup.string().required("User ID required"),
     firstName: Yup.string().required("First name required"),
     lastName: Yup.string().required("Last name required"),
     email: Yup.string().required("Email required"),
@@ -23,22 +37,23 @@ export default function UserInfoForm() {
       <h1>Your details</h1>
       <Formik 
         initialValues={{ 
-          firstName: '',
-          lastName: '',
-          email: '',
-          instrument: "", 
+          userId: userSession.userData.id,
+          firstName: userSession.userData.name ? userSession.userData.name : '',
+          lastName: userSession.userData.name ? userSession.userData.name : '',
+          email: userSession.userData.email ? userSession.userData.email : '',
+          instrument: userSession.userData.instrument ? userSession.userData.instrument : '', 
           newInstrument: '',
         }}
         validationSchema={UserSchema}
         onSubmit={(values, actions) => {
-          const sumbmitObj = {
+          const sumbmitObj: userInfoObj = {
+            userId: values.userId,
             name: `${values.firstName} ${values.lastName}`,
             email: values.email,
             instrument: values.instrument === "other" ? values.newInstrument : values.instrument
           }
-          alert(sumbmitObj)
-           actions.setSubmitting(false);
-        
+          handleSubmit(sumbmitObj)
+          actions.setSubmitting(false);
        }}>
         {props => (
           <form className="flex flex-col w-full lg:w-2/3 " onSubmit={props.handleSubmit}>
