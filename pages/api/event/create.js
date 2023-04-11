@@ -29,6 +29,7 @@ const eventObj = (obj) => {
     fee: obj.fee,
     additionalInfo: obj.additionalInfo,
     //fixerEmail: obj.fixerEmail,
+    fixerName: obj.fixerName,
     fixerId: obj.fixerId
   }
 }
@@ -49,6 +50,7 @@ const createEvent = async(eventObj) => {
       additionalInfo: eventObj.additionalInfo,
       //fixer: { connect: { email: eventObj.fixerEmail } },
       fixer: { connect: { id: eventObj.fixerId } },
+      fixerName: eventObj.fixerName,
       instrumentSections: {
         create: eventObj.formattedSections
       }
@@ -60,6 +62,7 @@ export default async function handle(req, res) {
   const { 
     //fixer, 
     fixerId,
+    fixerName,
     ensemble,
     eventTitle,
     concertProgram,
@@ -78,6 +81,7 @@ export default async function handle(req, res) {
     calls,
     //fixerEmail: fixer.email,
     fixerId: fixerId,
+    fixerName: fixerName,
     dressCode,
     fee,
     additionalInfo

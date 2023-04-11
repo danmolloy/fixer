@@ -85,8 +85,9 @@ model Event {
   additionalInfo     String?
   instrumentSections EventInstrument[]
   //fixerEmail         String
-  fixerId           String
+  fixerId            String
   fixer              User     @relation(fields: [fixerId], references: [id])
+  fixerName          String?
   //fixer              User     @relation(fields: [fixerEmail], references: [email])
 }
 

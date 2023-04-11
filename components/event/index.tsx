@@ -11,6 +11,7 @@ interface EventIndexProps {
   fee: string
   additionalInfo: string
   fixerId: string
+  fixerName: string
   createdAt: string
   updatedAt: string
   id: string

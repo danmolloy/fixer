@@ -28,6 +28,7 @@ export default function Create() {
       <CreateEventForm 
       handleSubmit={(vals) => handleSubmit(vals)}
       userId={session.userData.id}
+      userName={session.user.name}
         />
     </Layout>
   )

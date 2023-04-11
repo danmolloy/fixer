@@ -16,7 +16,7 @@ export default function Event(props) {
   const [exportObj, setExportObj] = useState({})
   const router = useRouter();
 
-  useEffect(() => {
+/*   useEffect(() => {
 
     let obj = {
       "ID": props.id,
@@ -47,7 +47,7 @@ export default function Event(props) {
       .find(i => i.instrumentName === e)
       .musicians.filter(i => i.accepted === true)
       .map(i => i.musician.name)
-  }
+  } */
 
   const refreshData = () => {
     router.replace(router.asPath);
@@ -76,7 +76,7 @@ export default function Event(props) {
         fixerEmail={props.fixerEmail} 
         session={session} />
         
-      {session && session.user.email === props.fixerEmail && 
+      {session && session.userData.id === props.fixerId && 
       <Fixing eventCalls={props.calls} refreshProps={() => refreshData()} eventId={props.id} instrumentSections={props.instrumentSections} />}
     </Layout>
   )

@@ -14,17 +14,19 @@ interface CreateEventFormProps {
   handleSubmit: (vals: any) => void
   initialValues: any
   userId: string
+  userName: string
   expires: string
 }
 
 export default function CreateEventForm(props: CreateEventFormProps) {
-  const { handleSubmit, initialValues, userId } = props
+  const { handleSubmit, initialValues, userId, userName } = props
 
   const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
 
 
 
   const EventSchema = Yup.object().shape({
+    fixerName: Yup.string().required("Fixer name required"),
     fixerId: Yup.string().required("Fixer ID required"),
     id: Yup.string(),
     confirmedOrOnHold: Yup.string().required("Required"),
@@ -52,6 +54,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     <div data-testid="create-event-form" className='sm:border sm:shadow-sm p-1 sm:p-2 mb-4 rounded flex flex-col items-center w-full md:w-3/4 '>
       <Formik 
         initialValues={{
+          fixerName: userName,
           fixerId: userId,
           id: initialValues ? initialValues.id : "",
           confirmedOrOnHold: initialValues ? initialValues.confirmedOrOnHold : "",
