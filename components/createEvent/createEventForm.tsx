@@ -87,7 +87,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
         }}>
           {(props) => (
             <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 ' onSubmit={props.handleSubmit}>
-              {JSON.stringify(userId)}
               <div className='flex flex-col sm:items-center w-full sm:flex-row'>
                 <EnsembleRadioGroup 
                   ensemble={props.values.ensemble}
