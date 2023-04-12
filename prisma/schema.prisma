@@ -39,13 +39,15 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
+  name          String? // To be deprecated
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   instrument    String?
   profileInfo   String?
-  isFixer       Boolean?
+  firstName     String?
+  lastName      String?
+  mobileNumber  String?
   accounts      Account[]
   sessions      Session[]
   quickFixes    QuickFix[]

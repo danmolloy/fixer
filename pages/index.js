@@ -4,9 +4,11 @@ import LandingPage from "../components/landingPage/landingPage";
 import EventsIndex from "../components/upcomingEvents/eventsIndex"
 import UserInfoForm from "../components/index/userInfoForm";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const { data: session } = useSession()
+  const router = useRouter()
 
   const profileIncomplete = session 
   && session?.userData 

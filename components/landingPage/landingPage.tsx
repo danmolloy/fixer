@@ -32,7 +32,7 @@ export default function LandingPage() {
       <div className="flex flex-col w-screen min-h-screen font-nunito ">
         {/* <LandingHeader setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu}/>
         {showMenu && <Menu setShowMenu={() => setShowMenu(false)} menuItems={landingMenuItems}/>}
- */}        <div className={showMenu === true && "blur"}>
+ */}        <div className={showMenu === true ? "blur" : undefined}>
         <Hero />
         <FixerFeatures />
         <MusicianFeatures />

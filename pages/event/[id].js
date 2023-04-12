@@ -73,7 +73,7 @@ export default function Event(props) {
         concertProgram={props.concertProgram}
         ensembleName={props.ensembleName}
         id={props.id}
-        fixerEmail={props.fixerEmail} 
+        fixerId={props.fixerId} 
         session={session} />
         
       {session && session.userData.id === props.fixerId && 

@@ -34,7 +34,7 @@ export default function EventInfo(props: EventInfoProps) {
   } */
   
   return (
-    <div data-testid="event-info-div" className={`${showOptions === true && "blur"} w-full border shadow rounded-lg py-4`}>
+    <div data-testid="event-info-div" className={showOptions === true ? "blur w-full border shadow rounded-lg py-4":  "w-full border shadow rounded-lg py-4"}>
       <div className="w-full flex flex-col">
         <button className="self-end border p-1 mr-2 rounded-md shadow-sm border-amber-600 text-amber-600 bg-white hover:bg-amber-50" onClick={() => setShowOptions()}>Options</button>
       </div>

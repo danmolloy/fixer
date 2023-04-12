@@ -17,7 +17,7 @@ interface LandingHeaderProps {
 export default function LandingHeader(props: LandingHeaderProps) {
   const { setShowMenu, showMenu } = props;
   return (
-    <div className={`${showMenu === true && "blur"} h-24 flex flex-row items-center justify-between`} data-testid="landing-header">
+    <div className={showMenu === true ? "blur h-24 flex flex-row items-center justify-between" : "h-24 flex flex-row items-center justify-between"} data-testid="landing-header">
           <Link href="/" className={' p-2 text-2xl sm:mx-10  '}>
             Gig<span className="text-blue-600 font-semibold">Fix</span>
           </Link>

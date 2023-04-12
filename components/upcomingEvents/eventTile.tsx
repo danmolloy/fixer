@@ -58,7 +58,7 @@ export default function EventTile(props: EventTileProps) {
         </div>
       </div>
       {showMenu 
-      && <EventTileMenu eventId={call.event.id} setShowMenu={() => setShowMenu(!showMenu)}/>}
+      && <EventTileMenu eventTitle={call.event.eventTitle} eventId={call.event.id} setShowMenu={() => setShowMenu(!showMenu)}/>}
     </div>
   )
 }

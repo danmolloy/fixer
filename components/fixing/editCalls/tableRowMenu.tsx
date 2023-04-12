@@ -1,59 +1,53 @@
 import Link from "next/link"
 import React from "react"
+import MenuShell from "../../index/menuShell"
+import { Field, FieldArray } from "formik"
+import { Instrumentalist } from "./appendedPlayers"
+import TextInput from "../../createEvent/textInput"
+import ButtonPrimary from "../../index/buttonPrimary"
 
 interface TableRowMenuProps {
   menuOptions?: {
     id: string
     text: string
   }[]
-  removePlayer: () => void
-  addMessage: () => void
-  name: string
+  setShowMenu: () => void
+  appendedPlayers: Instrumentalist[]
+  menuIndex: number|null
+  makeAvailable: (arg: Instrumentalist) => void
 }
 
-const menuOptions = [
-  {
-    text: "Add Message",
-    id: "0"
-  },
-  {
-    text: "Fix Player",
-    id: "1"
-  },
-  {
-    text: "View Profile",
-    id: "2"
-  },
-  {
-    text: "Remove Player",
-    id: "3"
-  },
-]
-
 export default function TableRowMenu(props: TableRowMenuProps) {
-  const { menuOptions, removePlayer, addMessage, name } = props;
+  const { makeAvailable, appendedPlayers, menuIndex, setShowMenu } = props;
 
   return (
-    <div data-testid="table-row-menu" className="border absolute mr-4 bg-white shadow-sm rounded">
-      <button 
-        onClick={(e) => {
-          e.preventDefault();
-          removePlayer();
-          }}  className="p-2 hover:bg-zinc-50 w-full">
-            Remove
-        </button>
-        <button 
-        onClick={(e) => {
-          e.preventDefault();
-          addMessage()
-          }}  className="p-2 hover:bg-zinc-50 w-full">
-            Add Message
-        </button>
-        <div className="p-2 hover:bg-zinc-50 w-full text-center">
-          <a target="_blank" rel="noreferrer" href={`/user/${name}`} >
-            View Profile
-          </a>
-        </div>
-      </div>
+    <FieldArray name="appendedPlayers">
+            {({ insert, remove, push}) => (
+          <MenuShell title={appendedPlayers[menuIndex].name} setShowMenu={() => setShowMenu()}>
+                <div className=" w-full flex flex-col px-2 ">
+                <button className="text-start py-2 hover:bg-zinc-50">
+                  <a target="_blank" rel="noreferrer" href={`/user/${appendedPlayers[menuIndex].name}`} >
+                    View Profile
+                  </a>
+                </button>
+                <button className="text-start py-2 hover:bg-zinc-50" onClick={(e) => {
+                e.preventDefault();
+                remove(menuIndex);
+                makeAvailable(appendedPlayers[menuIndex])
+                }}>
+                  Remove from List
+                </button>
+                <TextInput 
+                  asHtml="textarea"
+                  name={`appendedPlayers[${menuIndex}]playerMessage`} 
+                  id={`appendedPlayers[${menuIndex}]playerMessage`}
+                  min={"0"}
+                  max={"250"}
+                  label={"Add Message"} />
+                  <ButtonPrimary id="" text="Done" className="border-blue-500 text-blue-500 hover:bg-blue-50 w-16" handleClick={() => setShowMenu()} />
+                  </div>
+              </MenuShell>
+            )}
+            </FieldArray>
   );
 }

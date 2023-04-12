@@ -13,8 +13,8 @@ export default function CallTile(props: CallTileProps) {
   const {id, startTime, endTime, venue} = props
   return (
     <div data-testid="call-tile-div" className="">
-      <p>{String(moment(new Date(startTime)).format("HMm Do MMMM YYYY"))} <span className="text-sm">to</span></p>
-      <p>{String(moment(new Date(endTime)).format("HMm Do MMMM YYYY"))}</p>
+      <p>{String(moment(new Date(startTime)).format("Hmm Do MMMM YYYY"))} <span className="text-sm">to</span></p>
+      <p>{String(moment(new Date(endTime)).format("Hmm Do MMMM YYYY"))}</p>
       <div className="text-slate-600 flex flex-row items-center">
         <HiLocationMarker />
         <p className="ml-2">{venue}</p>

@@ -139,7 +139,15 @@ export default function BookingTable(props: BookingTableProps) {
   let filledTable = createTable(eventCalls, instrumentSection)
 
   return (
-    <div data-testid="booking-table-div" className="">
+    <div data-testid="booking-table-div" className="flex flex-col">
+      {menuId !== null
+      && <BookingRowMenu 
+      musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
+      setShowMenu={() => setMenuId(null)}
+      removePlayer={(fixOrUnfix, callId, musicianEmail) => removePlayer(fixOrUnfix, callId, musicianEmail)}
+      sendMessage={(name) => sendMessage(name)}
+      pokePlayer={(name) => pokePlayer(name)}
+      fixOrUnfix={(fixingBool, callId, musicianEmail) => fixOrUnfix(fixingBool, callId, musicianEmail)}/>}
       <TableContainer>
         <Table>
           <TableHead >
@@ -173,17 +181,6 @@ export default function BookingTable(props: BookingTableProps) {
                   <BsThreeDots />
                 </button>
                 
-              </TableCell>
-              <TableCell>
-              {menuId === i.id 
-              && <BookingRowMenu 
-                name={i.name}
-                recieved={i.recieved} 
-                accepted={i.accepted} 
-                fixOrUnfix={() => {fixOrUnfix(!i.accepted, i.id, i.email); setMenuId(null)}} 
-                pokePlayer={() => {pokePlayer(i.name); setMenuId(null)}} 
-                removePlayer={() => {removePlayer(false, i.id, i.email); setMenuId(null)}} 
-                sendMessage={() => {sendMessage(i.name); setMenuId(null)}} />}
               </TableCell>
             </TableRow>
           ))}
