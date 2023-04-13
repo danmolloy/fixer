@@ -132,7 +132,7 @@ model PlayerCall {
   musician           User     @relation(fields: [musicianId], references: [id])
   recieved           Boolean @default(false)
   accepted           Boolean? 
-  musicianId         String
+  musicianId         String @default("clg6usgbg0000l80846i92lbb")
   eventInstrumentId  Int
   playerMessage      String?
   calls             Call[]
