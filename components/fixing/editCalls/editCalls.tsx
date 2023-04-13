@@ -53,6 +53,7 @@ export type HandleSubmitValues = {
 export type RequestValues = {
   eventId: number
   musicians: {
+    musicianId: string
     musicianEmail: string
     callsOffered: {
       id: number
@@ -102,6 +103,7 @@ export default function EditCalls(props: EditCallsProps) {
           let requestObj: RequestValues = {
             eventId: eventId,
             musicians: values.appendedPlayers.filter(i => i.calls.length > 0).map(i => ({
+              musicianId: i.id,
               musicianEmail: i.email,
               callsOffered: [...i.calls.map(i => ({id: Number(i)}))],
               playerMessage: i.playerMessage,

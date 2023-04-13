@@ -129,10 +129,10 @@ model PlayerCall {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   eventInstrument    EventInstrument     @relation(fields: [eventInstrumentId], references: [id], onDelete: Cascade)
-  musician           User     @relation(fields: [musicianEmail], references: [email])
+  musician           User     @relation(fields: [musicianId], references: [id])
   recieved           Boolean @default(false)
   accepted           Boolean? 
-  musicianEmail      String
+  musicianId         String
   eventInstrumentId  Int
   playerMessage      String?
   calls             Call[]

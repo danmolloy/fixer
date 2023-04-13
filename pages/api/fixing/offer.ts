@@ -51,10 +51,11 @@ const handleBooking = async (instrumentObj: RequestValues) => {
   if (instrumentObj.musicians.length > 0) {
     for (let i = 0; i < instrumentObj.musicians.length; i++) {
 
-      if (eventInstrument.musicians.find(j => j.musicianEmail === instrumentObj.musicians[i].musicianEmail) === undefined) {
+      if (eventInstrument.musicians.find(j => String(j.id) === instrumentObj.musicians[i].musicianId) === undefined) {
         arr = [...arr, await prisma.playerCall.create({
           data: {
-            musicianEmail: instrumentObj.musicians[i].musicianEmail,
+            //musicianEmail: instrumentObj.musicians[i].musicianEmail,
+            musicianId: instrumentObj.musicians[i].musicianId,
             eventInstrumentId: Number(instrumentObj.eventInstrumentId),
             playerMessage: instrumentObj.musicians[i].playerMessage,
             offerExpiry: instrumentObj.musicians[i].offerExpiry,
