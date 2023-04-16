@@ -18,7 +18,7 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
 
 
   return (
-    <div className="directory" id="player-directory" data-testid="player-directory-div">
+    <div className="w-screen flex flex-col items-center" id="player-directory" data-testid="player-directory-div">
         <select onChange={e => setSelectedInstrument(e.target.value)} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
           <option value={null}>Select instrument</option>
           {instrumentArr.map(i => (

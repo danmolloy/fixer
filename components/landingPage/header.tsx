@@ -1,5 +1,5 @@
 import React from "react"
-import { useSession, signIn, signOut } from "next-auth/react"
+import { signIn, signOut } from "next-auth/react"
 import Header, { menuItems } from "../layout/header"
 import Layout from "../layout/layout"
 import { AiOutlineMenu } from "react-icons/ai"

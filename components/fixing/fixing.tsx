@@ -64,7 +64,7 @@ export default function Fixing(props: FixingProps) {
     <div className="w-screen flex flex-col justify-center" data-testid="event-fixing">
       <div className="flex flex-row items-center justify-between border-t border-slate-400 px-8 py-4 mt-4">
         <h1>Personnel</h1>
-        <button onClick={() => refreshProps()} className="secondary-btn">Refresh</button>
+        <button onClick={() => refreshProps()} className="border border-blue-300 text-blue-600 m-2 rounded p-2 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">Refresh</button>
       </div>
       <div className="w-screen flex flex-row flex-wrap items-start justify-center ">
         {instrumentSections.sort((a, b) => a.id - b.id).map(i => (

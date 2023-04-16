@@ -33,7 +33,7 @@ export default function ConfirmedOrOnHold(props: CoohProps) {
           On Hold
         </label>
         <ErrorMessage name={`confirmedOrOnHold`}>
-            { msg => <div className="form-error" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
+            { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
         </ErrorMessage>
       </div>
       </div>

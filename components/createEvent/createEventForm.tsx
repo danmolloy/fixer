@@ -167,7 +167,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 <ToggleButton value="confirmed" onClick={e => setConfirmedOrOnHold("confirmed")} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
                 <ToggleButton value="onHold" onClick={e => setConfirmedOrOnHold("onHold")} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
                 <ErrorMessage name={`confirmedOrOnHold`}>
-                    { msg => <div className="form-error" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
+                    { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
                 </ErrorMessage>
               </Field> */}
               {/* <div>
@@ -207,6 +207,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                   
                 </Field>
                 <ErrorMessage name={`ensemble`}>
-                    { msg => <div className="form-error" data-testid={`create-form-error-ensemble`}>{msg}</div> }
+                    { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`create-form-error-ensemble`}>{msg}</div> }
                   </ErrorMessage>
               </div> */}

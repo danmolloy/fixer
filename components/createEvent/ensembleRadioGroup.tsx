@@ -1,6 +1,4 @@
 import React from "react"
-import { RadioGroup, ToggleButtonGroup } from 'formik-mui';
-import { FormControlLabel, FormLabel, Radio, ToggleButton } from '@mui/material';
 import { ErrorMessage, Field } from "formik"
 import TextInput from "./textInput";
 
@@ -58,7 +56,7 @@ export default function EnsembleRadioGroup(props: EnsembleRadioProps) {
         
       </div>
       <ErrorMessage name={`ensemble`}>
-          { msg => <div className="form-error" data-testid={`create-form-error-ensemble`}>{msg}</div> }
+          { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`create-form-error-ensemble`}>{msg}</div> }
         </ErrorMessage>
     </div>
   )

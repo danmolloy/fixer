@@ -32,7 +32,7 @@ describe("Header component", () => {
     expect(getStarted).toBeInTheDocument()
   })
   it("Menu icon is in the document", () => {
-    const menuIcon = screen.getByTestId("menu-icon")
+    const menuIcon = screen.getByTestId("")
     expect(menuIcon).toBeInTheDocument()
   })
   //it("Menu icon calls showMenu", () => {})

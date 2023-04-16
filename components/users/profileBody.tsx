@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ProfileBody() {
   return (
-    <div className="profile-text" data-testid="profile-body">
+    <div className="p-2 m-2" data-testid="profile-body">
       <div className="py-1">
           <h2 className="text-lg text-slate-500 py-1">Your Mutual History</h2>
           <ul>

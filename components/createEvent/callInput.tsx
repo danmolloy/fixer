@@ -1,5 +1,4 @@
 import { ErrorMessage, Field } from "formik"
-import { TextField } from "formik-mui"
 import React from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import TextInput from "./textInput"
@@ -33,7 +32,7 @@ export default function CallInput(props: CallInputProps) {
           type="datetime-local"
         />
         <ErrorMessage name={`calls.${index}.startTime`}>
-          { msg => <div className="form-error" data-testid={`calls-${index}-startTime-error`}>{msg}</div> }
+          { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`calls-${index}-startTime-error`}>{msg}</div> }
         </ErrorMessage>
         </div>
         
@@ -49,7 +48,7 @@ export default function CallInput(props: CallInputProps) {
           type="datetime-local"
         />
         <ErrorMessage name={`calls.${index}.endTime`}>
-          { msg => <div className="form-error" data-testid={`calls-${index}-endTime-error`}>{msg}</div> }
+          { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`calls-${index}-endTime-error`}>{msg}</div> }
         </ErrorMessage>
         </div>
         </div>

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Fixing from "../../components/fixing/fixing";
 import Layout from "../../components/layout/layout";
 import { parse } from "json2csv";
@@ -10,13 +10,13 @@ import EventIndex from "../../components/event";
 
 
 
-export default function Event(props) {
+export default function Event({ props }) {
   const { data: session } = useSession()
   const [fixing, setFixing] = useState(false)
   const [exportObj, setExportObj] = useState({})
   const router = useRouter();
-
-/*   useEffect(() => {
+ 
+  useEffect(() => {
 
     let obj = {
       "ID": props.id,
@@ -47,7 +47,7 @@ export default function Event(props) {
       .find(i => i.instrumentName === e)
       .musicians.filter(i => i.accepted === true)
       .map(i => i.musician.name)
-  } */
+  } 
 
   const refreshData = () => {
     router.replace(router.asPath);
@@ -55,14 +55,14 @@ export default function Event(props) {
 
   if (!session) {
     return <p>Loading..</p>
-  }
+  } 
 
 
 
 
   return (
     <Layout pageTitle="Event">
-      <EventIndex
+       <EventIndex
         confirmed={props.confirmedOrOnHold}
         updatedAt={props.updatedAt}
         createdAt={props.createdAt}
@@ -78,14 +78,12 @@ export default function Event(props) {
         
       {session && session.userData.id === props.fixerId && 
       <Fixing eventCalls={props.calls} refreshProps={() => refreshData()} eventId={props.id} instrumentSections={props.instrumentSections} />}
-    </Layout>
+   </Layout>
   )
 }
 
 
-export const getServerSideProps = async (context) => {
-  /* console.log(context.params.id)
-  console.log("severSide called") */
+/* export const getServerSideProps = async (context) => {
 
   const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
   const data = await res.json()
@@ -95,4 +93,22 @@ export const getServerSideProps = async (context) => {
     }
   }
   return { props: { ...data } }
+} */
+
+export async function getStaticPaths() {
+  const res = await fetch(`${process.env.URL}/api/event/findAll`)
+  const allEvents = await res.json()
+  console.log(allEvents)
+  return {
+    paths: [...allEvents],
+    fallback: false, // can also be true or 'blocking'
+  }
+}
+
+export async function getStaticProps(context) {
+  const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
+  const props = await res.json()
+  return {
+    props: { props }, // will be passed to the page component as props
+  }
 }

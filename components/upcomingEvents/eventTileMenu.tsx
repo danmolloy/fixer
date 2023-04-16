@@ -1,6 +1,6 @@
 import Link from "next/link"
 import React from "react"
-import { AiOutlineClose } from "react-icons/ai"
+import { AiOutlineClose } from "react-icons/ai" 
 import MenuShell from "../index/menuShell"
 import MenuItem from "../index/menuItem"
 

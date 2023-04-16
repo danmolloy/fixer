@@ -23,11 +23,11 @@ export default function AvailablePlayers(props: AvailablePlayersProps) {
     <div data-testid="available-players-div">
         <FieldArray  name="availablePlayers" data-testid={`${instrumentName}-not-called`}>
         {({ insert, remove, push}) => (
-          <div className="call-list-div available-players-list">
+          <div className="p-2  available-players-list">
         <h3 className="text-sm pl-4">Select players</h3>
             {availablePlayers.length > 0 
             ? availablePlayers.map((i, index) => (
-              <button className="call-list-item edit-calls-item" onClick={() => {
+              <button className="border border-slate-400 flex flex-row items-center justify-between p-4 w-full hover:bg-slate-100" onClick={() => {
                 appendPlayer(i);
                 remove(index)
                 }} key={i.id} >

@@ -20,9 +20,7 @@ export const authOptions = ({
   callbacks: {
     async session({ session, user }) {
       // Send properties to the client, like an access_token from a provider.
-      
-      console.log(`user API: ${JSON.stringify(user)}`)
-
+    
       const sesssionUser = await prisma.user.findUnique({
         where: {
           id: user.id
@@ -41,6 +39,7 @@ export const authOptions = ({
         }
       })
       session.userData = sesssionUser
+      console.log(`[...nextauth] called`)
 
       return session
     }

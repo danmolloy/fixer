@@ -1,4 +1,4 @@
-const { faker } = require('@faker-js/faker');
+/* const { faker } = require('@faker-js/faker');
 const instrumentArr = ["Violin", "Viola", "Cello", "Double Bass", "Flute", "Oboe", "Clarinet", "Bassoon", "Horn", "Trumpet", "Trombone", "Tuba", "Harp", "Timpani", "Percussion"]
 import prisma from '../../client'
 
@@ -19,10 +19,10 @@ async function createUsers() {
   return await prisma.user.createMany({
     data: [...arr]
   })
-}
+} */
 
 export default async function handle(req, res) {
 
 
-  res.status(200).json({result: await createUsers()})
+  res.status(200).json({result: "Hello"})
 }

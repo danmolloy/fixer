@@ -11,7 +11,7 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
   const { instrumentName, isSubmitting, } = props
   return (
     <div data-testid="edit-calls-options">
-      <div className="edit-div-sans-lists flex flex-col">
+      <div className="p-2 flex flex-col">
             <div className="my-2 w-full ">
               <TextInput 
                 className=" w-24 h-8"

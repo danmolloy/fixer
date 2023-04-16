@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
-import { useSession } from "next-auth/react"
 import React from 'react'
-import Menu from './menu'
 import LandingHeader from '../landingPage/header'
 
 interface HeaderProps {
@@ -65,8 +63,8 @@ export default function Header(props: HeaderProps) {
         </div>
         <button onClick={() => setShowMenu(!showMenu)} data-testid="menu-icon-btn" className='md:hidden'>
           {showMenu 
-          ? <AiOutlineClose className='menu-icon' data-testid="close-menu-icon"/>
-          : <AiOutlineMenu className='menu-icon' data-testid="menu-icon"/>} 
+          ? <AiOutlineClose className='p-2 mr-2 w-10 h-10 text-black hover:bg-blue-50 active:bg-blue-100 rounded-full' data-testid="close-menu-icon"/>
+          : <AiOutlineMenu className='p-2 mr-2 w-10 h-10 text-black hover:bg-blue-50 active:bg-blue-100 rounded-full' data-testid="menu-icon"/>} 
           
         </button> 
     </div>
