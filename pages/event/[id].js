@@ -7,47 +7,13 @@ import { CSVLink } from "react-csv";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import EventIndex from "../../components/event";
+import { findEvent } from "../api/event/[id]";
 
 
 
-export default function Event({ props }) {
+export default function Event({props}) {
   const { data: session } = useSession()
-  const [fixing, setFixing] = useState(false)
-  const [exportObj, setExportObj] = useState({})
   const router = useRouter();
- 
-  useEffect(() => {
-
-    let obj = {
-      "ID": props.id,
-      "Last Updated": props.updatedAt,
-      Ensemble: props.ensembleName,
-      Program: props.concertProgram,
-      Fee: props.fee,
-      Dress: props.dressCode,
-      "Additional Info": props.additionalInfo,
-      Violin: musicianNameArr("Violin"),
-      Viola: musicianNameArr("Viola"),
-      Cello: musicianNameArr("Cello"),
-      Bass: musicianNameArr("Bass"),
-      // calls
-    }
-    
-
-    setExportObj(obj)
-    
-  }, [props])
-
-  const musicianNameArr = (e) => {
-    if ([...props.instrumentSections]
-      .find(i => i.instrumentName === e) === undefined) {
-        return "null"
-      }
-    return [...props.instrumentSections]
-      .find(i => i.instrumentName === e)
-      .musicians.filter(i => i.accepted === true)
-      .map(i => i.musician.name)
-  } 
 
   const refreshData = () => {
     router.replace(router.asPath);
@@ -56,9 +22,6 @@ export default function Event({ props }) {
   if (!session) {
     return <p>Loading..</p>
   } 
-
-
-
 
   return (
     <Layout pageTitle="Event">
@@ -85,14 +48,16 @@ export default function Event({ props }) {
 
 /* export const getServerSideProps = async (context) => {
 
-  const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
-  const data = await res.json()
+  //const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
+  //const data = await res.json()
+  const data = JSON.stringify(await findEvent(parseInt(context.params.id)))
+
   if (!data) {
     return {
       notFound: true,
     }
   }
-  return { props: { ...data } }
+  return { props: {...data} }
 } */
 
 export async function getStaticPaths() {
@@ -102,13 +67,14 @@ export async function getStaticPaths() {
   return {
     paths: [...allEvents],
     fallback: false, // can also be true or 'blocking'
-  }
-}
+  } 
+} 
 
 export async function getStaticProps(context) {
-  const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
-  const props = await res.json()
+  //const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
+  //const props = await res.json()
+  const props = JSON.parse(JSON.stringify(await findEvent(Number(context.params.id))))
   return {
-    props: { props }, // will be passed to the page component as props
+    props: {props}
   }
 }

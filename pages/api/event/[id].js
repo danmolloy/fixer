@@ -29,7 +29,7 @@ export const findEvent = async (uniqueId) => {
   }) 
 }
 
-
 export default async function handle(req, res) {  
   res.status(200).json(await findEvent(parseInt(req.query.id)))
+
 }

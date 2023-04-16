@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import EventInfo from "./eventInfo"
-import EventOptions from "./eventOptions"
 import Menu, { MenuItems } from "../layout/menu"
 
 interface EventIndexProps {

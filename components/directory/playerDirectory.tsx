@@ -1,4 +1,3 @@
-import InstrumentDiv from "./instrumentDiv"
 import { instrumentArr } from "../fixing/fixing"
 import React, { useState } from "react"
 import PlayerTile from "./playerTile"

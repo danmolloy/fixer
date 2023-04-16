@@ -1,4 +1,4 @@
-import { ErrorMessage, FieldArray, Formik } from 'formik'
+import { FieldArray, Formik } from 'formik'
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import TextInput from './textInput';
@@ -162,51 +162,3 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     </div>
   )
 }
-
-{/* <Field component={ToggleButtonGroup} type="checkbox" name="confirmedOrOnHold" exclusive value={confirmedOrOnHold} className="flex flex-col w-1/2 p-2" data-testid={`confirm-or-hold-toggle-group`}>
-                <ToggleButton value="confirmed" onClick={e => setConfirmedOrOnHold("confirmed")} data-testid={`confirmed-toggle`}>Confirmed</ToggleButton>
-                <ToggleButton value="onHold" onClick={e => setConfirmedOrOnHold("onHold")} data-testid={`on-hold-toggle`}>On Hold</ToggleButton>
-                <ErrorMessage name={`confirmedOrOnHold`}>
-                    { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`create-form-error-confirm-on-hold`}>{msg}</div> }
-                </ErrorMessage>
-              </Field> */}
-              {/* <div>
-                <FormLabel id="ensemble">Ensemble</FormLabel>
-                <Field aria-labelledby="ensemble" label="Ensemble" component={RadioGroup} name="ensemble" data-testid="ensemble-radio-fieldset">
-                  <FormControlLabel 
-                  value="BBC Symphony Orchestra"
-                  control={<Radio disabled={props.isSubmitting} />}
-                  label="BBC Symphony Orchestra"
-                  disabled={props.isSubmitting}/>
-
-                  <FormControlLabel 
-                  value="London Symphony Orchestra"
-                  control={<Radio disabled={props.isSubmitting} />}
-                  label="London Symphony Orchestra"
-                  disabled={props.isSubmitting}/>
-                  <div className='flex flex-row'>
-                  <FormControlLabel 
-                  data-testid="other-ensemble-radio"
-                  value="Other"
-                  control={<Radio disabled={props.isSubmitting} />}
-                  label="Other"
-                  disabled={props.isSubmitting}/>
-                  {props.values.ensemble === "Other" 
-                  && <Field
-                    asHtml='input'
-                    label="Ensemble Name"
-                    id="other-ensemble-input"
-                    className='border shadow-sm p-2 rounded '
-                    placeholder="Ensemble Name"
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.ensembleName}
-                    name="ensembleName"
-                  /> }
-                  </div>
-                  
-                </Field>
-                <ErrorMessage name={`ensemble`}>
-                    { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`create-form-error-ensemble`}>{msg}</div> }
-                  </ErrorMessage>
-              </div> */}
