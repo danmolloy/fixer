@@ -1,13 +1,10 @@
 import { useRouter } from "next/router";
-import { Suspense, useEffect, useState } from "react";
 import Fixing from "../../components/fixing/fixing";
 import Layout from "../../components/layout/layout";
-import { parse } from "json2csv";
-import { CSVLink } from "react-csv";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import EventIndex from "../../components/event";
 import { findEvent } from "../api/event/[id]";
+import { allEvents } from '../api/event/findAll'
 
 
 
@@ -61,11 +58,12 @@ export default function Event({props}) {
 } */
 
 export async function getStaticPaths() {
-  const res = await fetch(`${process.env.URL}/api/event/findAll`)
-  const allEvents = await res.json()
-  console.log(allEvents)
+  //const res = await fetch(`${process.env.URL}/api/event/findAll`)
+  //const allEvents = await res.json()
+  const eventList = JSON.parse(JSON.stringify(await allEvents()))
+  console.log(eventList)
   return {
-    paths: [...allEvents],
+    paths: [...eventList],
     fallback: false, // can also be true or 'blocking'
   } 
 } 
@@ -73,7 +71,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   //const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
   //const props = await res.json()
-  const props = JSON.parse(JSON.stringify(await findEvent(Number(context.params.id))))
+  const props = JSON.parse(JSON.stringify(await findEvent(parseInt(context.params.id))))
   return {
     props: {props}
   }
