@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import EventIndex from "../../components/event";
 import { findEvent } from "../api/event/[id]";
 import { allEvents } from '../api/event/findAll'
+import prisma from "../../client";
 
 
 
@@ -19,11 +20,11 @@ export default function Event({props}) {
 
   if (!session) {
     return <p>Loading..</p>
-  } 
+  }
 
   return (
     <Layout pageTitle="Event">
-       <EventIndex
+      <EventIndex
         confirmed={props.confirmedOrOnHold}
         updatedAt={props.updatedAt}
         createdAt={props.createdAt}
@@ -39,26 +40,18 @@ export default function Event({props}) {
         
       {session && session.userData.id === props.fixerId && 
       <Fixing eventCalls={props.calls} refreshProps={() => refreshData()} eventId={props.id} instrumentSections={props.instrumentSections} />}
-
    </Layout>
   )
 }
 
-
-/* export async function getServerSideProps() {
-
-  //const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
-  //const data = await res.json()
-  //const props = await findEvent(parseInt(context.params.id))
-  //const data = JSON.parse(JSON.stringify(props))
+export async function getServerSideProps(context) {
+  const props = JSON.parse(JSON.stringify(await findEvent(parseInt(context.params.id))))
   return {
-    props: {
-      data: {"Hello": "World"}
-    }
+    props: {props},
   }
-} */
+}
 
-
+/* 
 export async function getStaticPaths() {
   const eventList = JSON.parse(JSON.stringify(await allEvents()))
   console.log(eventList)
@@ -73,4 +66,4 @@ export async function getStaticProps(context) {
   return {
     props: {props},
   }
-}   
+}    */
