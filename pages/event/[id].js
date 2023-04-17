@@ -13,6 +13,7 @@ export default function Event({props}) {
   const router = useRouter();
 
   const refreshData = () => {
+    
     router.replace(router.asPath);
   }
 
@@ -38,41 +39,38 @@ export default function Event({props}) {
         
       {session && session.userData.id === props.fixerId && 
       <Fixing eventCalls={props.calls} refreshProps={() => refreshData()} eventId={props.id} instrumentSections={props.instrumentSections} />}
+
    </Layout>
   )
 }
 
 
-/* export const getServerSideProps = async (context) => {
+/* export async function getServerSideProps() {
 
   //const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
   //const data = await res.json()
-  const data = JSON.stringify(await findEvent(parseInt(context.params.id)))
-
-  if (!data) {
-    return {
-      notFound: true,
+  //const props = await findEvent(parseInt(context.params.id))
+  //const data = JSON.parse(JSON.stringify(props))
+  return {
+    props: {
+      data: {"Hello": "World"}
     }
   }
-  return { props: {...data} }
 } */
 
+
 export async function getStaticPaths() {
-  //const res = await fetch(`${process.env.URL}/api/event/findAll`)
-  //const allEvents = await res.json()
   const eventList = JSON.parse(JSON.stringify(await allEvents()))
   console.log(eventList)
   return {
     paths: [...eventList],
-    fallback: false, // can also be true or 'blocking'
+    fallback: false, 
   } 
 } 
 
 export async function getStaticProps(context) {
-  //const res = await fetch(`${process.env.URL}/api/event/${context.params.id}`)
-  //const props = await res.json()
   const props = JSON.parse(JSON.stringify(await findEvent(parseInt(context.params.id))))
   return {
-    props: {props}
+    props: {props},
   }
-}
+}   
