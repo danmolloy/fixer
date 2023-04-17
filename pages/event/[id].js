@@ -44,14 +44,14 @@ export default function Event({props}) {
   )
 }
 
-export async function getServerSideProps(context) {
+/* export async function getServerSideProps(context) {
   const props = JSON.parse(JSON.stringify(await findEvent(parseInt(context.params.id))))
   return {
     props: {props},
   }
-}
+} */
 
-/* 
+
 export async function getStaticPaths() {
   const eventList = JSON.parse(JSON.stringify(await allEvents()))
   console.log(eventList)
@@ -65,5 +65,6 @@ export async function getStaticProps(context) {
   const props = JSON.parse(JSON.stringify(await findEvent(parseInt(context.params.id))))
   return {
     props: {props},
+    revalidate: 10
   }
-}    */
+}   
