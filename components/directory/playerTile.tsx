@@ -9,13 +9,12 @@ interface PlayerTileProps {
     name: string
     instrument: string
     email: string
-  },
-  fixing?: boolean
+  }
 
 }
 
 export default function PlayerTile(props: PlayerTileProps) {
-  const { player, fixing } = props
+  const { player } = props
   return (
       <div data-testid={"player-tile-div"} className={"w-72 m-2 bg-white rounded-md shadow flex flex-col items-center"}>
       <div className="rounded-full overflow-hidden w-36  m-8">
@@ -35,7 +34,6 @@ export default function PlayerTile(props: PlayerTileProps) {
           <p className='p-2'>Profile</p>
         </button>
       </Link>
-
         <button className="hover:bg-slate-100 h-12 w-1/2 flex flex-row justify-center items-center" data-testid="player-contact-btn" onClick={() => alert("Function not implemented")}>
             <MdPhone />
             <p className='p-2'>Contact</p>

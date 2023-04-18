@@ -1,15 +1,23 @@
 import Layout from "../../components/layout/layout";
 import PlayerDirectory from "../../components/directory/playerDirectory";
 import prisma from "../../client";
+import useSWR from "swr";
+
+const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 
-export default function Directory({ users }) {
+export default function Directory() {
+  const { data, error, /* isLoading */ } = useSWR('/api/user/findAll', fetcher)
+ 
+  if (error) return <div>failed to load</div>
+  //if (isLoading) return <div>loading...</div>
 
-  if (!users) return <p>Loading..</p>
+
 
   return (
     <Layout pageTitle="Directory">
-      <PlayerDirectory data={users} />
+      <PlayerDirectory data={data} />
+      {/* <PlayerDirectory data={users} /> */}
     </Layout>
   )
 }
@@ -26,7 +34,7 @@ export default function Directory({ users }) {
 }
  */
 
-export async function getServerSideProps() {
+/* export async function getServerSideProps() {
   const users = await prisma.user.findMany({})
 
   return {
@@ -34,4 +42,4 @@ export async function getServerSideProps() {
       users,
     },
   }
-}
+} */
