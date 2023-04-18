@@ -43,7 +43,7 @@ if (!session) {
 
   return (
     <Layout pageTitle="Calendar">
-      <EventsIndex session={session}/>
+      <EventsIndex /* session={session} *//>
     </Layout>
   )
 }
