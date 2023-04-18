@@ -13,9 +13,9 @@ export const authOptions = ({
     }),
     // ...add more providers here
   ],
-  jwt: {
+ /*  jwt: {
     signingKey: process.env.JWT_SIGNING_PRIVATE_KEY,
-  },
+  }, */
   authOptions: {},
   callbacks: {
     async session({ session, user }) {

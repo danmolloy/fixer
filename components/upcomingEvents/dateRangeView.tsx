@@ -1,11 +1,12 @@
 import moment from "moment"
 import React from "react"
 import EventTile from "./eventTile"
+import IsLoadingEventTile from "./isLoadingEventTile"
 
 interface DateRangeViewProps {
   selectedDate: moment.Moment
   dateRange: number
-  upcomingCalls: {
+  upcomingCalls?: {
     id: number
     createdAt: string
     updatedAt: string
@@ -28,7 +29,7 @@ interface DateRangeViewProps {
       fixerEmail: string
     }
   }[]
-  sessionEmail: string
+  sessionEmail?: string
 }
 
 export const daysArr = (selectedDate: moment.Moment, dateRange: number): { day: string; }[] => {
@@ -68,7 +69,13 @@ export default function DateRangeView(props: DateRangeViewProps) {
           <h3 className="text-md text-slate-700">
             {moment(new Date(i.day)).format("dddd Do MMMM YYYY")}
           </h3>
-            {upcomingCalls.filter(j => (
+          {upcomingCalls === undefined 
+          ? <div className="w-full  flex flex-col items-center">
+              <IsLoadingEventTile />
+              <IsLoadingEventTile />
+              <IsLoadingEventTile />
+            </div>
+           : upcomingCalls.filter(j => (
               eventDateFilter(j.startTime, j.endTime, i.day) === true )).length > 0
               ? upcomingCalls.filter(j => (
                 eventDateFilter(j.startTime, j.endTime, i.day) === true)
