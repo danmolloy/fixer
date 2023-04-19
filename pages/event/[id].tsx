@@ -6,40 +6,48 @@ import EventIndex from "../../components/event";
 import { findEvent } from "../api/event/[id]";
 import { allEvents } from '../api/event/findAll'
 import prisma from "../../client";
+import useSWR from "swr";
+import IsLoadingEventIndex from "../../components/event/isLoadingEventIndex";
 
-
+const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 export default function Event({props}) {
-  const { data: session } = useSession()
+  //const { data: session } = useSession()
   const router = useRouter();
+  const { id } = router.query;
+  const { data, error, /* isLoading */ } = useSWR(id ? `/api/event/${id}` : null, fetcher)
+
 
   const refreshData = () => {
     
     router.replace(router.asPath);
   }
 
-  if (!session) {
+/*   if (!session) {
     return <p>Loading..</p>
-  }
+  }  */
 
   return (
     <Layout pageTitle="Event">
-      <EventIndex
-        confirmed={props.confirmedOrOnHold}
-        updatedAt={props.updatedAt}
-        createdAt={props.createdAt}
-        calls={props.calls}
-        additionalInfo={props.additionalInfo}
-        fee={props.fee}
-        dressCode={props.dressCode}
-        concertProgram={props.concertProgram}
-        ensembleName={props.ensembleName}
-        id={props.id}
-        fixerId={props.fixerId} 
-        session={session} />
+      {data 
+      ? <EventIndex
+        confirmed={data.confirmedOrOnHold}
+        updatedAt={data.updatedAt}
+        createdAt={data.createdAt}
+        calls={data.calls}
+        additionalInfo={data.additionalInfo}
+        fee={data.fee}
+        dressCode={data.dressCode}
+        concertProgram={data.concertProgram}
+        ensembleName={data.ensembleName}
+        id={data.id}
+        fixerName={data.fixerName}
+        fixerId={data.fixerId} 
+        session={data.session} /> 
+        : <IsLoadingEventIndex />}
         
-      {session && session.userData.id === props.fixerId && 
-      <Fixing eventCalls={props.calls} refreshProps={() => refreshData()} eventId={props.id} instrumentSections={props.instrumentSections} />}
+      {data && data.session.userData.id === data.fixerId && 
+      <Fixing eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
    </Layout>
   )
 }
@@ -52,7 +60,7 @@ export default function Event({props}) {
 } */
 
 
-export async function getStaticPaths() {
+/* export async function getStaticPaths() {
   const eventList = JSON.parse(JSON.stringify(await allEvents()))
   console.log(eventList)
   return {
@@ -67,4 +75,4 @@ export async function getStaticProps(context) {
     props: {props},
     revalidate: 10
   }
-}   
+}    */
