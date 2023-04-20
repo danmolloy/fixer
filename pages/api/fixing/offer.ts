@@ -82,6 +82,9 @@ const numToCall = (eventInstrument) => {
 }
 
 const makeCalls = async (eventInstrumentId: number) => {
+  if (process.env.TWILIO_ACTIVE === "false") {
+    return;
+  }
   let eventInstrument = await getEventInstrument(eventInstrumentId)
   let numCalls = numToCall(eventInstrument)
 

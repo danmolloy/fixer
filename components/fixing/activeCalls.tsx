@@ -52,7 +52,7 @@ interface ActiveCallsProps {
   instrumentSection: InstrumentSection
   editList: boolean
   instrumentFixed: boolean
-  refreshProps: Function
+  refreshProps: () => void
   closeEdit: Function
 }
 
@@ -64,17 +64,31 @@ export default function ActiveCalls(props: ActiveCallsProps) {
     setCallList([...instrumentSection.musicians.sort((a, b) => Number(a.id) - Number(b.id))])
   }, [editList])
 
-  const removePlayer = e => {
-    let obj = {
-      playerCallId: e.id,
-      musicianEmail: e.musicianEmail
-    };
+  const removePlayer = async(fixOrUnfix: boolean, callId: number, musicianEmail: string): Promise<void> => {
+    const reqBody = {
+      playerCallId: callId,
+      musicianEmail: musicianEmail, 
+      remove: true,
+      fixOrUnfix: fixOrUnfix
+    }
+    return axios.post("/api/fixing/unfixPlayer", reqBody).then(() => {
+      refreshProps();
+    })
+  .catch(function (error) {
+    console.log(error);
+  });
+  }
 
-    axios.post('/api/fixing/unfixPlayer', obj)
-    .then(() => {
-        closeEdit();
-        refreshProps();
-      })
+  const fixOrUnfixPlayer = (fixOrUnfix: boolean, callId: number, musicianEmail: string): Promise<void> => {
+    const reqBody = {
+      playerCallId: callId,
+      musicianEmail: musicianEmail,
+      remove: false,
+      fixOrUnfix: fixOrUnfix
+    }
+    return axios.post("/api/fixing/unfixPlayer", reqBody).then(() => {
+      refreshProps();
+    })
     .catch(function (error) {
       console.log(error);
     });
@@ -98,7 +112,12 @@ export default function ActiveCalls(props: ActiveCallsProps) {
 
   return (
     <div className="active-calls-div" data-testid={`active-calls-div`}>
-      <BookingTable eventCalls={eventCalls} instrumentSection={instrumentSection}/>
+      <BookingTable 
+        removePlayer={(fixOrUnfix, callId, musicianEmail) => removePlayer(fixOrUnfix, callId, musicianEmail)} 
+        fixOrUnfixPlayer={(fixOrUnfix, callId, musicianEmail) => fixOrUnfixPlayer(fixOrUnfix, callId, musicianEmail)}
+        eventCalls={eventCalls} 
+
+        instrumentSection={instrumentSection}/>
     </div>
   )
 }

@@ -15,20 +15,20 @@ export default function Event({props}) {
   //const { data: session } = useSession()
   const router = useRouter();
   const { id } = router.query;
-  const { data, error, /* isLoading */ } = useSWR(id ? `/api/event/${id}` : null, fetcher)
+  const { data, mutate, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
 
 
   const refreshData = () => {
     
-    router.replace(router.asPath);
+    mutate();
   }
 
-/*   if (!session) {
+  if (isLoading) {
     return <p>Loading..</p>
-  }  */
+  }
 
   return (
-    <Layout pageTitle="Event">
+    <Layout pageTitle={data ? data.eventTitle : "Event"}>
       {data 
       ? <EventIndex
         confirmed={data.confirmedOrOnHold}

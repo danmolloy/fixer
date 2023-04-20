@@ -37,12 +37,11 @@ export default function BookingRowMenu(props: TableRowMenuProps) {
 
   return (
     <MenuShell title={musician.name} setShowMenu={() => setShowMenu()}>
-      <button
-        onClick={(e) => {e.preventDefault(); }}  className="text-center p-2 hover:bg-zinc-50 w-full">
-          <Link  href={`/user/${musician.name}`}>
+          <Link  href={`/user/${musician.name}`} className="text-center p-2 hover:bg-zinc-50 w-full ">
+            <p className="">
             View Profile
+            </p>
           </Link>
-        </button>
         <button 
         onClick={(e) => {e.preventDefault(); removePlayer(false, musician.id, musician.email)}}  className="p-2 hover:bg-zinc-50 w-full">
             Remove from list

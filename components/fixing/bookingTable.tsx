@@ -50,6 +50,8 @@ interface EventCall {
 interface BookingTableProps {
   eventCalls: EventCall[]
   instrumentSection: InstrumentSection
+  removePlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => Promise<void>
+  fixOrUnfixPlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => Promise<void>
 }
 
 interface tableObjHeader {
@@ -96,15 +98,6 @@ export const createTable = (eventCalls: any, instrumentSection: any): any => {
   return objArr;
 }
 
-const fixOrUnfix = (fixOrUnfix: boolean, callId: number, musicianEmail: string) => {
-  const reqBody = {
-    playerCallId: callId,
-    musicianEmail: musicianEmail,
-    remove: false,
-    fixOrUnfix: fixOrUnfix
-  }
-  return axios.post("/api/fixing/unfixPlayer", reqBody)
-}
 
 const pokePlayer = (musicianName: string) => {
   const reqBody = {
@@ -114,15 +107,6 @@ const pokePlayer = (musicianName: string) => {
   return axios.post("/api/fixing/messagePlayer", reqBody)
 } 
 
-const removePlayer = (fixOrUnfix: boolean, callId: number, musicianEmail: string) => {
-  const reqBody = {
-    playerCallId: callId,
-    musicianEmail: musicianEmail, 
-    remove: true,
-    fixOrUnfix: fixOrUnfix
-  }
-  return axios.post("/api/fixing/unfixPlayer", reqBody)
-}
 
 const sendMessage = (musicianName) => {
   const reqBody = {
@@ -133,7 +117,7 @@ const sendMessage = (musicianName) => {
 
 
 export default function BookingTable(props: BookingTableProps) {
-  const {eventCalls, instrumentSection} = props;
+  const {eventCalls, instrumentSection, removePlayer, fixOrUnfixPlayer } = props;
   const [menuId, setMenuId] = useState(null)
 
   let filledTable = createTable(eventCalls, instrumentSection)
@@ -144,17 +128,17 @@ export default function BookingTable(props: BookingTableProps) {
       && <BookingRowMenu 
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
       setShowMenu={() => setMenuId(null)}
-      removePlayer={(fixOrUnfix, callId, musicianEmail) => removePlayer(fixOrUnfix, callId, musicianEmail)}
+      removePlayer={(fixOrUnfix, callId, musicianEmail) => {removePlayer(fixOrUnfix, callId, musicianEmail); setMenuId(null)}}
       sendMessage={(name) => sendMessage(name)}
       pokePlayer={(name) => pokePlayer(name)}
-      fixOrUnfix={(fixingBool, callId, musicianEmail) => fixOrUnfix(fixingBool, callId, musicianEmail)}/>}
+      fixOrUnfix={(fixingBool, callId, musicianEmail) => {fixOrUnfixPlayer(fixingBool, callId, musicianEmail); setMenuId(null)}}/>}
       <TableContainer>
         <Table>
           <TableHead >
             <TableRow>
-            <TableCell></TableCell>
+            <TableCell>Name</TableCell>
             {filledTable.find((i: any) => i.name === "Header").calls.map(i => (
-              <TableCell key={i.id}>{moment(new Date(i.startTime)).format("DD MMMM")}</TableCell>
+              <TableCell key={i.id} title={moment(new Date(i.startTime)).format("DD MMMM")}>{moment(new Date(i.startTime)).format("DD/MM")}</TableCell>
             ))}
             <TableCell></TableCell>
             </TableRow>

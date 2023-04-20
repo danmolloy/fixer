@@ -71,7 +71,7 @@ export default function Fixing(props: FixingProps) {
           <div key={i.id} className="border sm:border-slate-400 flex flex-col w-full md:w-1/3  rounded m-2 ">
           <InstrumentTile 
             eventCalls={eventCalls} 
-            refreshProps={refreshProps} 
+            refreshProps={() => refreshProps()} 
             eventId={eventId} 
             instrumentSection={i} 
             instrumentalists={data.filter(j => j.instrument === i.instrumentName)}

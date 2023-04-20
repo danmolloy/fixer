@@ -24,6 +24,9 @@ const updatePlayer = async(id) => {
 }
 
 const sendMessages = async (reqBody) => {
+  if (process.env.TWILIO_ACTIVE === "false") {
+    return;
+  }
 
   const eventInstrument = await findInstrument(reqBody[0].eventInstrumentId)
   if (eventInstrument.musicians
