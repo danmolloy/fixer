@@ -10,14 +10,15 @@ interface TextInputProps {
   type?: string
   min?: string
   max?: string
+  optional?: boolean
 }
 
 export default function TextInput(props: TextInputProps) {
-  const { name, id, className, label, asHtml, type, min, max } = props;
+  const { name, id, className, label, asHtml, type, min, max, optional } = props;
 
   return (
     <div className="flex flex-col py-4" data-testid={`${id}-div`}>
-      <label htmlFor={name} className="text-slate-700">{label}</label>
+      <label htmlFor={name} className="text-slate-700">{label} {optional && <span className="text-slate-400 text-sm ml-2">Optional</span>}</label>
       <Field
         as={asHtml}
         id={name}

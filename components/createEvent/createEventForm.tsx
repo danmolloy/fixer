@@ -132,20 +132,22 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 </div> 
               )}
               </FieldArray>
-              
-              <TextInput 
+              <TextInput
+                optional={true} 
                 asHtml='input' 
                 label="Dress Code" 
                 name="dressCode" 
                 id="dress-code" 
                 className=''/>
               <TextInput 
+                optional={true} 
                 asHtml='input' 
                 label="Fee" 
                 name="fee" 
                 className='' 
                 id="fee"/>
-              <TextInput 
+              <TextInput
+                optional={true} 
                 asHtml="textarea" 
                 label="Additional Information" 
                 name="additionalInfo" 
