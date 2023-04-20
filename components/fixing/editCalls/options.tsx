@@ -23,13 +23,15 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
                 min={"1"}
                 max={"50"}
                 />
-              <TextInput 
+              <TextInput
+                optional={true}  
                 label="Message to all"
                 id="instrument-msg"
                 name="messageToAll"
                 asHtml="textarea"
                 className=""/>
-                <TextInput 
+                <TextInput                 
+                optional={true} 
                 className=" w-24 h-8"
                 name={"offerExpiry"} 
                 id={"offer-expiry-input"} 
@@ -39,7 +41,8 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
                 min={"1"}
                 max={"72"}
                 />
-                <TextInput 
+                <TextInput
+                optional={true} 
                 label="Fixer reminder"
                 id="fixer-note-input"
                 name="fixerNote"
