@@ -7,8 +7,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  const { data: session } = useSession()
   const router = useRouter()
+  const { data: session } = useSession()
 
   const profileIncomplete = session 
   && session?.userData 
