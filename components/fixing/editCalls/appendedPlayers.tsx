@@ -25,7 +25,7 @@ export type Instrumentalist = {
   emailVerified: boolean|null
   instrument: string
   profileInfo: null|string
-  isFixer: null|boolean
+  isFixer?: null|boolean
   calls: string[]
   playerMessage?: string
 }

@@ -52,14 +52,16 @@ export default function CallInput(props: CallInputProps) {
         </ErrorMessage>
         </div>
         </div>
-          <TextInput 
+          <TextInput
+
           label="Venue"
           className=""
           id={`calls.${index}.venue`}
           name={`calls.${index}.venue`}
           asHtml="input"
         /> 
-        <TextInput 
+        <TextInput
+        optional={true} 
           label={`Call Information`}
           className=""
           id={`calls.${index}.info`}

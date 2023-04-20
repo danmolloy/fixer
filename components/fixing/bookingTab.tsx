@@ -2,6 +2,7 @@ import ActiveCalls from "./activeCalls"
 import EditCalls from "./editCalls/editCalls"
 import React from "react"
 import ButtonPrimary from "../index/buttonPrimary"
+import { User } from "./fixing"
 
 interface Musician {
   id: number
@@ -23,15 +24,7 @@ interface Musician {
 interface BookingTabProps {
   editList: boolean
   setEditList: (arg: boolean) => void
-  instrumentalistsList: {
-    id: string
-    name: string
-    email: string
-    emailVerified: boolean|null
-    instrument: string
-    profileInfo: null|string
-    isFixer: null|boolean
-  }[] 
+  instrumentalistsList: User[] 
   refreshProps: () => void
   handleSubmit: (val: any) => void 
   instrumentFixed: boolean

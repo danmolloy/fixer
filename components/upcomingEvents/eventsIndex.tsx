@@ -24,7 +24,7 @@ interface EventsIndexProps {
       image: string
       instrument: string
       profileInfo: null|string
-      isFixer: null|boolean
+      isFixer?: null|boolean
       events: {
         id: number
         createdAt: string

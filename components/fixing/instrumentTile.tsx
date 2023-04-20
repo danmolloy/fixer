@@ -6,6 +6,7 @@ import React from "react";
 import TileHeader from "./tileHeader";
 import TileTabBar from "./tileTabBar";
 import { RequestValues } from "./editCalls/editCalls";
+import { User } from "./fixing";
 
 interface Musicians {
   id: number
@@ -48,15 +49,7 @@ interface InstrumentTileProps {
     fixerEmail: string
   }[]
   eventId: number
-  instrumentalists: {
-    id: string
-    name: string
-    email: string
-    emailVerified: boolean|null
-    instrument: string
-    profileInfo: null|string
-    isFixer: null|boolean
-  }[]
+  instrumentalists: User[]
   instrumentSection: InstrumentSection
   refreshProps: () => void
 }

@@ -1,20 +1,12 @@
 import { FieldArray } from "formik";
 import React from "react"
+import { User } from "../fixing";
 
-interface Instrumentalist {
-  id: string
-  name: string
-  email: string
-  emailVerified: boolean|null
-  instrument: string
-  profileInfo: null|string
-  isFixer: null|boolean
-}
 
 interface AvailablePlayersProps {
   instrumentName: string
-  availablePlayers: Instrumentalist[]
-  appendPlayer: (arg: Instrumentalist) => void
+  availablePlayers: User[]
+  appendPlayer: (arg: User) => void
 }
 
 export default function AvailablePlayers(props: AvailablePlayersProps) {

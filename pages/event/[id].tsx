@@ -46,8 +46,8 @@ export default function Event({props}) {
         session={data.session} /> 
         : <p>Error</p>}
         
-      {data && data.session.userData.id === data.fixerId && 
-      <Fixing eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
+      {data && data.users && 
+        <Fixing users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
    </Layout>
   )
 }

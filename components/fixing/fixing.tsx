@@ -13,6 +13,19 @@ interface EventCall {
   fixerEmail: string
 }
 
+export type User = {
+  id: string
+  name: string
+  email: null|string
+  emailVerified: null|boolean
+  image: null|string
+  instrument: string
+  profileInfo: null|string
+  firstName: null|string
+  lastName: null|string
+  mobileNumber: null|string
+}
+
 interface Musician {
   id: number
   createdAt: string
@@ -46,18 +59,19 @@ interface FixingProps {
   instrumentSections: InstrumentSection[]
   eventId: any
   refreshProps: () => void
+  users: User[]
 }
 
-const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
+//const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 export const instrumentArr = ["Violin", "Viola", "Cello", "Double Bass", "Flute", "Oboe", "Clarinet", "Bassoon", "Horn", "Trumpet", "Trombone", "Tuba", "Harp", "Timpani", "Percussion"]
 
 
 export default function Fixing(props: FixingProps) {
-  const { eventCalls, instrumentSections, eventId, refreshProps } = props
-  const { data, error } = useSwr('/api/user/findAll', fetcher)
+  const { eventCalls, instrumentSections, eventId, refreshProps, users } = props
+  //const { data, error } = useSwr('/api/user/findAll', fetcher)
 
-  if (error) return <p data-testid="error-msg">Error</p>
-  if (!data) return <p data-testid="loading-msg">Loading..</p>
+  //if (error) return <p data-testid="error-msg">Error</p>
+  //if (!data) return <p data-testid="loading-msg">Loading..</p>
 
 
   return (
@@ -74,7 +88,7 @@ export default function Fixing(props: FixingProps) {
             refreshProps={() => refreshProps()} 
             eventId={eventId} 
             instrumentSection={i} 
-            instrumentalists={data.filter(j => j.instrument === i.instrumentName)}
+            instrumentalists={users.filter(j => j.instrument === i.instrumentName)}
             />
           </div>
           )) }

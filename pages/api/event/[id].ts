@@ -33,6 +33,10 @@ export const findEvent = async (uniqueId) => {
   }) 
 }
 
+const findUsers = async () => {
+  return await prisma.user.findMany({})
+}
+
 export default async function handle(req, res) {  
   const session = await getServerSession(req, res, authOptions)
   let eventData;
@@ -46,6 +50,11 @@ export default async function handle(req, res) {
     console.log("No Session")
     res.status(401).end()
   }
+
+  if (eventData.fixerId === session.userData.id) {
+    eventData = {...eventData, users: await findUsers()}
+  }
+
   res.status(200).json({...eventData, session: session})
 
 }

@@ -4,6 +4,7 @@ import EditCallsOptions from "./options";
 import AvailablePlayers from "./availablePlayers";
 import AppendedPlayers from "./appendedPlayers";
 import ButtonPrimary from "../../index/buttonPrimary";
+import { User } from "../fixing";
 
 interface EventCall {
   id: number
@@ -23,17 +24,10 @@ interface Instrumentalist {
   emailVerified: boolean|null
   instrument: string
   profileInfo: null|string
-  isFixer: null|boolean
+  isFixer?: null|boolean
 }
 
-interface AppendedInstrumentalist {
-  id: string
-  name: string
-  email: string
-  emailVerified: boolean|null
-  instrument: string
-  profileInfo: null|string
-  isFixer: null|boolean
+interface AppendedInstrumentalist extends User {
   calls: string[]
   playerMessage?: string
 }
@@ -41,7 +35,7 @@ interface AppendedInstrumentalist {
 export type HandleSubmitValues = {
   numToBook: number
   appendedPlayers: AppendedInstrumentalist[]
-  availablePlayers: Instrumentalist[]
+  availablePlayers: User[]
   callOrder: "Ordered"|"Random"|"Simultaneous"
   bookingOrAvailability: string/* "Booking"|"Availability" */
   messageToAll: string
@@ -75,7 +69,7 @@ interface EditCallsProps {
   eventId: number
   handleSubmit: (vals: RequestValues) => void
   instrumentName: string
-  instrumentalists: Instrumentalist[]
+  instrumentalists: User[]
   eventCalls: EventCall[]
   eventInstrumentId: number
   bookingOrAvailability: string /* "Booking"|"Availability"  */
@@ -124,7 +118,7 @@ export default function EditCalls(props: EditCallsProps) {
      >
        {props => (
          <form className="edit-calls-form " onSubmit={props.handleSubmit} data-testid={`edit-calls-div`}>
-          {props.values.appendedPlayers.length > 0 && <AppendedPlayers makeAvailable={(i: Instrumentalist) => props.values.availablePlayers.push(i)} eventCalls={eventCalls} appendedPlayers={props.values.appendedPlayers} />}
+          {props.values.appendedPlayers.length > 0 && <AppendedPlayers makeAvailable={(i: User) => props.values.availablePlayers.push(i)} eventCalls={eventCalls} appendedPlayers={props.values.appendedPlayers} />}
           <AvailablePlayers 
             instrumentName={instrumentName} 
             availablePlayers={props.values.availablePlayers} 
