@@ -34,7 +34,7 @@ interface UpcomingEventsProps {
 export default function UpcomingEvents(props: UpcomingEventsProps) {
   const { upcomingCalls, sessionEmail, selectedDate } = props
   return (
-    <div data-testid="upcoming-events-div" className="w-full flex flex-col items-center pt-4">
+    <div data-testid="upcoming-events-div" className=" w-full flex flex-col items-center pt-4">
       <div className="w-full  flex flex-col items-center" data-testid="event-list">
         {upcomingCalls === undefined 
         ? <div className="w-full  flex flex-col items-center">

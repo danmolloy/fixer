@@ -24,7 +24,7 @@ export default function Event({props}) {
   }
 
   if (isLoading) {
-    return <p>Loading..</p>
+    return <IsLoadingEventIndex />
   }
 
   return (
@@ -44,7 +44,7 @@ export default function Event({props}) {
         fixerName={data.fixerName}
         fixerId={data.fixerId} 
         session={data.session} /> 
-        : <IsLoadingEventIndex />}
+        : <p>Error</p>}
         
       {data && data.session.userData.id === data.fixerId && 
       <Fixing eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }

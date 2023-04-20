@@ -90,7 +90,7 @@ export default function EventsIndex(/* props: EventsIndexProps */) {
   } */
 
   return (
-      <div data-testid="events-index-div" className="w-screen p-2 flex flex-col md:flex-row-reverse items-center md:items-start ">
+      <div data-testid="events-index-div" className="w-screen p-2 flex flex-col md:flex-row-reverse items-center md:items-start min-h-screen sm:min-h-0">
          <Calendar selectedDate={selectedDate} 
           setSelectedDate={(e) => {
             setSelectedDate(e)
@@ -99,10 +99,12 @@ export default function EventsIndex(/* props: EventsIndexProps */) {
           <div className=" w-full md:w-1/2">
           <MobileDashboard dateRange={dateRange} setSelectedDate={(arg) => setSelectedDate(arg)} setDateRange={(arg) => setDateRange(arg)}/>
          <EventDashboard dateRange={dateRange} setSelectedDate={(arg) => setSelectedDate(arg)} setDateRange={(arg) => setDateRange(arg)} /* setEventView={(arg) => setEventView(arg)} *//>
+         <div className=" min-h-1/2">
           {dateRange === null 
          ? <UpcomingEvents selectedDate={selectedDate} upcomingCalls={data && [...data.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={data?.email}/>
            : <DateRangeView selectedDate={selectedDate} dateRange={dateRange} upcomingCalls={data && [...data.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={data?.email}/>
          }
+         </div>
         </div>
       </div>
   )

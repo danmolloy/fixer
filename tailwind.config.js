@@ -12,6 +12,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      minHeight: {
+        '1/2': '50%',
+        'main': '80%'
+      },
       fontFamily: {
         title: ['var(--font-lobster)', ...fontFamily.sans],
         nunito: ['var(--font-nunito)', ...fontFamily.sans],
