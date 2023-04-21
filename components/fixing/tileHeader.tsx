@@ -1,4 +1,5 @@
 import React from "react"
+import { TiTick } from "react-icons/ti"
 
 interface TileHeaderProps {
   instrumentFixed: boolean
@@ -12,9 +13,12 @@ export default function TileHeader(props: TileHeaderProps) {
   return (
     <div className=" p-2" data-testid="tile-header-div">
 {/*       <div className="flex flex-row items-center justify-between">
- */}        <h2 className={instrumentFixed && numToBook > 0 ? "text-green-500" : ""}>{instrumentName}</h2>
+ */}        <h2 className={""}>{instrumentName}</h2>
         {instrumentFixed && numToBook > 0
-        ? <p className="text-green-500 text-sm">Booked {numToBook} player(s)</p>
+        ? <div className="flex flex-row items-center">
+            <p className="text-sm">Booked {numToBook} player(s)</p>
+            <div className="text-green-600"><TiTick /></div>
+          </div>
         : <p className="text-zinc-700 text-sm">Booking {numToBook} player(s)</p>}
       {/* </div> */}
       <div className=" text-sm font-bold py-2 text-red-500">

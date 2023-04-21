@@ -66,20 +66,6 @@ export default function InstrumentTile(props: InstrumentTileProps) {
   let instrumentalistsList = instrumentSection !== null ? instrumentalists.filter(i => !instrumentSection.musicians.map(i => i.musicianEmail).includes(i.email)) : instrumentalists
   
   const handleSubmit = (vals: RequestValues) => {
-    /* let obj = {
-      eventId: eventId, 
-      instrumentName: instrumentSection.instrumentName,
-      musicians: String(vals.callOrder).toLowerCase() === "random"
-        ? [...vals.appendedPlayers].sort(() => Math.random() - 0.5).map(i => ({musicianEmail: i.email})) 
-        : [...vals.appendedPlayers].map(i => ({
-          musicianEmail: i.email,
-          callsOffered: [...eventCalls.map(i => (i.id))]
-        })),
-      callsOutId: instrumentSection.id,
-      callOrder: vals.callOrder,
-      numToBook: vals.numToBook,
-      bookingOrAvailability: 'Availability'
-    } */
     
     axios.post('/api/fixing/offer', vals).then(() => {
       setEditList(false)
@@ -91,7 +77,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
   }
 
   return (
-    <div data-testid={`instrument-tile`} className={instrumentFixed /* && !editList */ ? "border-green-500 " : "w-full h-full"} key={instrumentSection.id}>
+    <div data-testid={`instrument-tile`} className={"w-full h-full"} key={instrumentSection.id}>
       <TileHeader fixerNote={instrumentSection.fixerNote} instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} numToBook={instrumentSection.numToBook} />
       <TileTabBar selectedTab={selectedTab} setSelectedTab={arg => setSelectedTab(arg)} />
       {selectedTab === "Booking"
