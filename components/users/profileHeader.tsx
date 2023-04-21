@@ -5,10 +5,11 @@ import React from "react"
 interface ProfileHeaderProps {
   userName: string
   instrument: string
+  setShowContactInfo: () => void
 }
 
 export default function ProfileHeader(props: ProfileHeaderProps) {
-  const { userName, instrument } = props
+  const { userName, instrument, setShowContactInfo } = props
   return (
     <div className="rounded-md flex flex-col sm:flex-row sm:items-center lg:w-2/3 border shadow-sm" data-testid="profile-header-div">
       <div className="flex flex-row w-full">
@@ -25,7 +26,7 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
       </div>
       </div>
       <div className="flex flex-col">
-        <button className="shadow hover:bg-blue-500 bg-blue-600 text-white m-2 sm:m-1 sm:mr-4 p-2 sm:px-4 rounded-md"  data-testid="profile-contact-btn" onClick={() => alert("Function not implemented")}>
+        <button className="shadow hover:bg-blue-500 bg-blue-600 text-white m-2 sm:m-1 sm:mr-4 p-2 sm:px-4 rounded-md"  data-testid="profile-contact-btn" onClick={() => setShowContactInfo()}>
             Contact
           </button>
           <Link className="shadow-sm hover:bg-slate-100 border border-slate-400 m-2 sm:m-1 sm:mr-4 p-2 sm:px-4 text-center rounded-md" href="/directory" data-testid="directory-btn" >

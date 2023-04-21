@@ -1,25 +1,21 @@
 import UserProfile from "../../components/users/profile";
 import Layout from '../../components/layout/layout'
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
-const dummyData = {
-  "id":"cl5jlqw1e0057t6u07993b5w1",
-  "name":"Roy Dereks",
-  "email":"Daphne38@gmail.com",
-  "emailVerified":null,
-  "image":null,
-  "instrument":"Trombone",
-  "profileInfo":null,
-  "isFixer":null,
-}
+const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 
 export default function UserPage() {
   const router = useRouter();
+  const { id } = router.query;
+  const { data, error, isLoading } = useSWR(id ? `/api/user/${id}` : null, fetcher)
+
+
   
   return (
     <Layout pageTitle={null}>
-      <UserProfile user={dummyData}/>
+      {data && <UserProfile user={data}/>}
     </Layout>
   )
 }

@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import { SessionProvider } from "next-auth/react"
-import { Lobster, Roboto, Nunito } from '@next/font/google'
+import { Lobster, Roboto, Nunito } from 'next/font/google'
 
 const title = Lobster({
   subsets: ['latin'],
