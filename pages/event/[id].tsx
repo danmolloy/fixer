@@ -12,13 +12,8 @@ export default function Event({props}) {
   const { id } = router.query;
   const { data, mutate, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
 
-
   const refreshData = () => {
     mutate();
-  }
-
-  if (isLoading) {
-    return <IsLoadingEventIndex />
   }
 
   return (

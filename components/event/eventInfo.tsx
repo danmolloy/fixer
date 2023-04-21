@@ -29,9 +29,6 @@ interface EventInfoProps {
 
 export default function EventInfo(props: EventInfoProps) {
   const { setShowOptions, showOptions, calls, id, confirmed, ensembleName, concertProgram, dressCode, fee, additionalInfo, fixerName, createdAt, updatedAt, session } = props
-/*   const formatDate = (e) => {
-    return new Date(e).toString().slice(0, 21)
-  } */
   
   return (
     <div data-testid="event-info-div" className={showOptions === true ? "blur w-full border shadow rounded-lg py-4":  "w-full border shadow rounded-lg py-4"}>

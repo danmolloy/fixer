@@ -82,30 +82,34 @@ const numToCall = (eventInstrument) => {
 }
 
 const makeCalls = async (eventInstrumentId: number) => {
-  if (process.env.TWILIO_ACTIVE === "false") {
+  /* if (process.env.TWILIO_ACTIVE === "false") {
     return;
-  }
+  } */
   let eventInstrument = await getEventInstrument(eventInstrumentId)
   let numCalls = numToCall(eventInstrument)
+  let msgBody;
 
   for (let i = 0; i < numCalls; i++) {
-    twilioClient.messages 
+    msgBody = `Hi ${eventInstrument?.musicians[i].musician.name}, Dan Molloy ${eventInstrument?.musicians[i].bookingOrAvailability === "Booking" 
+    ? 'offers' 
+    : 'checks your availablity for'
+  } ${process.env.NGROK_URL}/event/${eventInstrument?.eventId}
+    ${eventInstrument?.messageToAll !== "" ? `\n Dan says to all ${eventInstrument.instrumentName} players for this gig: "${eventInstrument?.messageToAll}"` : ""}
+    ${eventInstrument?.musicians[i].playerMessage !== null ? `\n Dan says to you: "${eventInstrument?.musicians[i].playerMessage}"`: ""} 
+    \n Reply YES ${eventInstrument?.musicians[i].id} or NO ${eventInstrument?.musicians[i].id}. 
+    \n If your availiabilty for this project is mixed, log in to you account to indicate your availability.
+    \n For other options, contact Dan directly.
+    ${eventInstrument?.callOrder === "Simultaneous" ? "There are other calls out" : ""}`
+    console.log(msgBody)
+    /* twilioClient.messages 
           .create({ 
-             body: `Hi ${eventInstrument?.musicians[i].musician.name}, Dan Molloy ${eventInstrument?.musicians[i].bookingOrAvailability === "Booking" 
-             ? 'offers' 
-             : 'checks your availablity for'} ${process.env.NGROK_URL}/event/${eventInstrument?.eventId}
-             ${eventInstrument?.messageToAll !== null ? `\n Dan says to all ${eventInstrument.instrumentName} players for this gig: "${eventInstrument?.messageToAll}"` : ""}
-             ${eventInstrument?.musicians[i].playerMessage !== null ? `\n Dan says to you: "${eventInstrument?.musicians[i].playerMessage}"`: ""} 
-             \n Reply YES ${eventInstrument?.musicians[i].id} or NO ${eventInstrument?.musicians[i].id}. 
-             \n If your availiabilty for this project is mixed, log in to you account to indicate your availability.
-             \n For other options, contact Dan directly.
-             ${eventInstrument?.callOrder === "Simultaneous" ? "There are other calls out" : ""}`,  
+             body: msgBody,  
              messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
              to: process.env.PHONE 
            }) 
           .then(message => console.log(message.sid))
           .then(async () => await updatePlayer(eventInstrument?.musicians[i].id))
-          .done();
+          .done(); */
   }
 
 }

@@ -23,33 +23,7 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
                 min={"1"}
                 max={"50"}
                 />
-              <TextInput
-                optional={true}  
-                label="Message to all"
-                id="instrument-msg"
-                name="messageToAll"
-                asHtml="textarea"
-                className=""/>
-                <TextInput                 
-                optional={true} 
-                className=" w-24 h-8"
-                name={"offerExpiry"} 
-                id={"offer-expiry-input"} 
-                label={"Offer Expiry (hours)"} 
-                type={"number"}
-                asHtml={"input"}
-                min={"1"}
-                max={"72"}
-                />
-                <TextInput
-                optional={true} 
-                label="Fixer reminder"
-                id="fixer-note-input"
-                name="fixerNote"
-                asHtml="textarea"
-                className=""/>
-            </div>
-          <div className="flex flex-col">
+                <div className="flex flex-col">
             <label htmlFor="callOrder" className="text-slate-700">Call Order</label>
             <div className="flex flex-col py-1" role="group" aria-label="callOrder" data-testid={`call-order-drop-down`}>
               <label>
@@ -78,6 +52,32 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
               </label>
             </div>
           </div>
+              <TextInput
+                optional={true}  
+                label="Message to all"
+                id="instrument-msg"
+                name="messageToAll"
+                asHtml="textarea"
+                className=""/>
+                <TextInput                 
+                optional={true} 
+                className=" w-24 h-8"
+                name={"offerExpiry"} 
+                id={"offer-expiry-input"} 
+                label={"Offer Expiry (hours)"} 
+                type={"number"}
+                asHtml={"input"}
+                min={"1"}
+                max={"72"}
+                />
+                <TextInput
+                optional={true} 
+                label="Fixer reminder"
+                id="fixer-note-input"
+                name="fixerNote"
+                asHtml="textarea"
+                className=""/>
+            </div>
     </div>
     </div>
   )

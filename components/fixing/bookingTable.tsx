@@ -50,7 +50,7 @@ interface EventCall {
 interface BookingTableProps {
   eventCalls: EventCall[]
   instrumentSection: InstrumentSection
-  removePlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => Promise<void>
+  removePlayer: (callId: number) => Promise<void>
   fixOrUnfixPlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => Promise<void>
 }
 
@@ -128,7 +128,7 @@ export default function BookingTable(props: BookingTableProps) {
       && <BookingRowMenu 
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
       setShowMenu={() => setMenuId(null)}
-      removePlayer={(fixOrUnfix, callId, musicianEmail) => {removePlayer(fixOrUnfix, callId, musicianEmail); setMenuId(null)}}
+      removePlayer={(callId) => {removePlayer(callId); setMenuId(null)}}
       sendMessage={(name) => sendMessage(name)}
       pokePlayer={(name) => pokePlayer(name)}
       fixOrUnfix={(fixingBool, callId, musicianEmail) => {fixOrUnfixPlayer(fixingBool, callId, musicianEmail); setMenuId(null)}}/>}

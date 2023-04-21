@@ -64,14 +64,11 @@ export default function ActiveCalls(props: ActiveCallsProps) {
     setCallList([...instrumentSection.musicians.sort((a, b) => Number(a.id) - Number(b.id))])
   }, [editList])
 
-  const removePlayer = async(fixOrUnfix: boolean, callId: number, musicianEmail: string): Promise<void> => {
+  const removePlayer = async(callId: number): Promise<void> => {
     const reqBody = {
-      playerCallId: callId,
-      musicianEmail: musicianEmail, 
-      remove: true,
-      fixOrUnfix: fixOrUnfix
+      playerCallId: callId
     }
-    return axios.post("/api/fixing/unfixPlayer", reqBody).then(() => {
+    return axios.post("/api/fixing/removePlayer", reqBody).then(() => {
       refreshProps();
     })
   .catch(function (error) {
@@ -86,12 +83,21 @@ export default function ActiveCalls(props: ActiveCallsProps) {
       remove: false,
       fixOrUnfix: fixOrUnfix
     }
-    return axios.post("/api/fixing/unfixPlayer", reqBody).then(() => {
-      refreshProps();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    if (fixOrUnfix === true) {
+      return axios.post("/api/fixing/fixPlayer", reqBody).then(() => {
+        refreshProps();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    } else {
+        return axios.post("/api/fixing/unfixPlayer", reqBody).then(() => {
+          refreshProps();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }
 
   const acceptPlayer = e => {
@@ -113,7 +119,7 @@ export default function ActiveCalls(props: ActiveCallsProps) {
   return (
     <div className="active-calls-div" data-testid={`active-calls-div`}>
       <BookingTable 
-        removePlayer={(fixOrUnfix, callId, musicianEmail) => removePlayer(fixOrUnfix, callId, musicianEmail)} 
+        removePlayer={(callId) => removePlayer(callId)} 
         fixOrUnfixPlayer={(fixOrUnfix, callId, musicianEmail) => fixOrUnfixPlayer(fixOrUnfix, callId, musicianEmail)}
         eventCalls={eventCalls} 
 

@@ -23,7 +23,7 @@ interface TableRowMenuProps {
     accepted: boolean|null
     }
   setShowMenu: () => void
-  removePlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => void
+  removePlayer: (callId: number) => void
   sendMessage: (name: string) => void
   pokePlayer: (name: string) => void
   fixOrUnfix: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => void
@@ -42,10 +42,11 @@ export default function BookingRowMenu(props: TableRowMenuProps) {
             View Profile
             </p>
           </Link>
-        <button 
-        onClick={(e) => {e.preventDefault(); removePlayer(false, musician.id, musician.email)}}  className="p-2 hover:bg-zinc-50 w-full">
+        {musician.recieved === false || musician.accepted === false
+        && <button 
+        onClick={(e) => {e.preventDefault(); removePlayer(musician.id)}}  className="p-2 hover:bg-zinc-50 w-full">
             Remove from list
-        </button>
+        </button>}
         <button 
         onClick={(e) => {
           e.preventDefault();
@@ -57,7 +58,11 @@ export default function BookingRowMenu(props: TableRowMenuProps) {
       && <button onClick={e => {e.preventDefault(); fixOrUnfix(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
         Fix Player
       </button>}
-      {musician.recieved && !musician.accepted 
+      {musician.accepted 
+      && <button onClick={e => {e.preventDefault(); fixOrUnfix(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
+        Unfix Player
+      </button>}
+      {musician.recieved && musician.accepted === null
       && <button onClick={e => {e.preventDefault(); pokePlayer(musician.name)}} className="p-2 hover:bg-zinc-50 w-full">
         Poke
       </button>}
