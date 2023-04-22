@@ -16,7 +16,7 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
       <div className="rounded-full shadow overflow-hidden m-4" data-testid="profile-img">
           <Image src={"http://placebeard.it/200/200"} width={150} height={150} alt="Placeholder for a profile pic" title="Profile picture placeholder" />
       </div>
-      <div className="flex flex-col w-full m-4 p-2">
+      <div className="flex flex-col w-full mt-4 mx-2 ">
         <h1 data-testid="user-name" className="text-2xl font-extrabold">
         {userName}
         </h1>
