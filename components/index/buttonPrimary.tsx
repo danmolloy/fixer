@@ -1,6 +1,9 @@
 import React from "react"
+import { AiOutlineLoading } from 'react-icons/ai';
+
 
 interface ButtonPrimaryProps {
+  isSubmitting?: boolean
   handleClick?: (e?: Event) => void
   id: string
   text: string
@@ -9,11 +12,15 @@ interface ButtonPrimaryProps {
 }
 
 export default function ButtonPrimary(props: ButtonPrimaryProps) {
-  const { handleClick, id, text, className, type } = props
+  const { handleClick, id, text, className, type, isSubmitting } = props
 
   return (
-    <button type={type} className={`${className} border py-1 px-2 m-1 rounded shadow-sm`} data-testid={id} onClick={handleClick ? () => handleClick(): null}>
-      {text}
+    <button disabled={isSubmitting} type={type} className={`${className} border py-1 px-2 m-1 rounded shadow-sm flex items-center justify-center`} data-testid={id} onClick={handleClick ? () => handleClick(): null}>
+      {isSubmitting 
+      ? <div className="p-1 animate-spin text-blue-600">
+          <AiOutlineLoading />
+        </div>
+      : text}
     </button>
   )
 }

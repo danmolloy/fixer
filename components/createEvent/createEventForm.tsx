@@ -154,10 +154,17 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 id="additional-info" 
                 className=""/>
               <ButtonPrimary
+                isSubmitting={props.isSubmitting}
                 id="create-event-btn" 
                 type="submit" 
-                className='bg-blue-600 hover:bg-blue-500 text-white w-24 self-end' 
+                className='disabled:bg-blue-100 bg-blue-600 hover:bg-blue-500 text-white w-24 self-end' 
                 text="Create"/>
+                <div className=' h-8'>
+                {props.errors 
+                && <p className='text-sm text-center text-red-600'>
+                    Please revise your form. Errors are stated in red.
+                  </p>}
+                  </div>
             </form>
           )}
       </Formik>
