@@ -82,9 +82,9 @@ const numToCall = (eventInstrument) => {
 }
 
 const makeCalls = async (eventInstrumentId: number) => {
-  /* if (process.env.TWILIO_ACTIVE === "false") {
+  if (process.env.TWILIO_ACTIVE === "false") {
     return;
-  } */
+  }
   let eventInstrument = await getEventInstrument(eventInstrumentId)
   let numCalls = numToCall(eventInstrument)
   let msgBody;
@@ -100,8 +100,8 @@ const makeCalls = async (eventInstrumentId: number) => {
     \n If your availiabilty for this project is mixed, log in to you account to indicate your availability.
     \n For other options, contact Dan directly.
     ${eventInstrument?.callOrder === "Simultaneous" ? "There are other calls out" : ""}`
-    console.log(msgBody)
-    /* twilioClient.messages 
+    //console.log(msgBody)
+   twilioClient.messages 
           .create({ 
              body: msgBody,  
              messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
@@ -109,7 +109,7 @@ const makeCalls = async (eventInstrumentId: number) => {
            }) 
           .then(message => console.log(message.sid))
           .then(async () => await updatePlayer(eventInstrument?.musicians[i].id))
-          .done(); */
+          .done();
   }
 
 }
