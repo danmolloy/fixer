@@ -29,18 +29,18 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     fixerName: Yup.string().required("Fixer name required"),
     fixerId: Yup.string().required("Fixer ID required"),
     id: Yup.string(),
-    confirmedOrOnHold: Yup.string().required("Required"),
+    confirmedOrOnHold: Yup.string().required("Event confirmation status required"),
     ensemble: Yup.string().required('Select ensemble'),
     ensembleName: Yup.string().when("ensemble", {
       is: "Other",
       then: (schema) => schema.required("Ensemble name required"),
     }),
-    eventTitle: Yup.string().required('Required'),
-    concertProgram: Yup.string().required('Required'),
+    eventTitle: Yup.string().required('Event title required'),
+    concertProgram: Yup.string().required('Concert Program required'),
     calls: Yup.array().of(Yup.object({
       id: Yup.string().required(),
-      startTime: Yup.string().required("Required"),
-      endTime: Yup.string().required("Required"),
+      startTime: Yup.string().required("Call start time required"),
+      endTime: Yup.string().required("Call end time equired"),
       venue: Yup.string().required("Venue required"),
       info: Yup.string(),
     })), 
@@ -85,7 +85,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           if (values.ensemble === "Other") {
             values.ensemble = values.ensembleName
           }
-          handleSubmit(values);
+          
+          //handleSubmit(values);
           actions.setSubmitting(false);
         }}>
           {(props) => (
@@ -160,7 +161,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 className='disabled:bg-blue-100 bg-blue-600 hover:bg-blue-500 text-white w-24 self-end' 
                 text="Create"/>
                 <div className=' h-8'>
-                {props.errors 
+                {Object.keys(props.errors).length > 0 
                 && <p className='text-sm text-center text-red-600'>
                     Please revise your form. Errors are stated in red.
                   </p>}

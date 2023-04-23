@@ -124,6 +124,8 @@ export default async function handler(req, res) {
         Body
     } = req.body
 
+    console.log("The API has recieved a message")
+
     handleMessage(Body)
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
