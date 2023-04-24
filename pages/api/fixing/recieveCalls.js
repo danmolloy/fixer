@@ -31,13 +31,12 @@ const handleUndefined = () => {
 }
 
 const handleTrue = async (msgBody) => {
-    console.log(`Top of handleTrue`)
-    twiml.message('Would you answer the red phone?');
-
     const idRegex = /\d+/g;
+    const id = Number(msgBody.match(idRegex)[0])
+
     let result = await prisma.playerCall.update({
         where: {
-            id: Number(msgBody.match(idRegex)[0])
+            id: id
         },
         data: {
             accepted: true

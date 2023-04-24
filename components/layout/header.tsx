@@ -30,6 +30,12 @@ export const menuItems: {
     id: "create-event-link"
   },
   {
+    name: "Your Details",
+    link: "/settings",
+    id: "your-details-link"
+  },
+  
+  {
     name: "Notifications",
     link: "/",
     id: "notificatons-link"

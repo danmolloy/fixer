@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import Layout from "../components/layout/layout";
-import SettingsIndex from "../components/index/settings";
+import SettingsIndex from "../components/settings/settings";
 
 export default function SettingsPage() {
   const { data: session } = useSession()
@@ -8,7 +8,7 @@ export default function SettingsPage() {
   if (!session) return <div>No session</div>
 
   return (
-    <Layout pageTitle="Settings">
+    <Layout pageTitle="Your Settings">
       <SettingsIndex />
     </Layout>
   )

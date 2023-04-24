@@ -24,7 +24,7 @@ export default function TextInput(props: TextInputProps) {
         id={name}
         label={label ? label : name}
         data-testid={`${id}-input`}
-        className={`border rounded p-2 my-1 shadow-sm ${className}`}
+        className={`border rounded px-1 my-1 shadow-sm h-8 ${className}`}
         name={name}
         type={type ? type: "text"}
         min={min}

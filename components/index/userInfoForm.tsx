@@ -70,7 +70,7 @@ export default function UserInfoForm(props: UserInfoProps) {
               id="last-name" 
               className=''/>
             <TextInput 
-              asHtml='input' 
+              asHtml='email' 
               label="Email" 
               name="email" 
               id="email-input" 
