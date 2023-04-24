@@ -7,6 +7,7 @@ import { twilioClient } from "../../../twilio"
 const twiml = new MessagingResponse();
 
 const regExCheck = (msgBody) => {
+    console.log(`regExCheck msgBody: ${msgBody}`)
     const yesRegex = /["']?\s?(yes)\s?\d+\s?["']?/i
     const noRegex = /["']?\s?(no)\s?\d+\s?["']?/i
     //const idRegex = /\d+/g;
@@ -107,6 +108,7 @@ const handleNextCall = (result) => {
 }
 
 const handleMessage = (msgBody) => {
+    console.log(`handleMessage msgBody: ${msgBody}`)
     let response = regExCheck(msgBody)
 
      if (response === true) {
