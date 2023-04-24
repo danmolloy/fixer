@@ -41,7 +41,7 @@ export default function EventTile(props: EventTileProps) {
   
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-full">
       {showMenu 
       && <EventTileMenu eventTitle={call.event.eventTitle} eventId={call.event.id} setShowMenu={() => setShowMenu(!showMenu)}/>}
       <div className="w-full flex flex-row justify-end -mb-10">
