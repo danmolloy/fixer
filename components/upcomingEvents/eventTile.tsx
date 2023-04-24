@@ -41,10 +41,15 @@ export default function EventTile(props: EventTileProps) {
   
 
   return (
-    <div className={"w-full border-b p-2 flex flex-col my-2 "} data-testid="event-tile-div">
+    <div className="flex flex-col items-center">
+      {showMenu 
+      && <EventTileMenu eventTitle={call.event.eventTitle} eventId={call.event.id} setShowMenu={() => setShowMenu(!showMenu)}/>}
+      <div className="w-full flex flex-row justify-end -mb-10">
+        <button className="z-10 self-end text-xs mr-1 hover:bg-slate-100  rounded-full p-2 text-slate-800" onClick={() => {setShowMenu(!showMenu)}} data-testid="event-menu-icon" >•••</button>
+      </div>
+    <Link href={`/event/${call.eventId}`} className={"rounded w-full border-b p-2 flex flex-col my-2 hover:bg-slate-100"} data-testid="event-tile-div">
       <div className="flex flex-row justify-between">
       <h2 className=" text-lg">{call.event.eventTitle}</h2>
-      <button className="text-xs mr-1 hover:bg-slate-100  rounded-full p-1 text-slate-800" onClick={() => setShowMenu(!showMenu)} data-testid="event-menu-icon" >•••</button>
       </div>
       <p className="">{call.event.ensembleName}</p>
       <div className="flex flex-col md:flex-row text-slate-800 md:py-2 md:mb-1">
@@ -57,8 +62,7 @@ export default function EventTile(props: EventTileProps) {
             <p className="ml-2">{call.venue}</p> 
         </div>
       </div>
-      {showMenu 
-      && <EventTileMenu eventTitle={call.event.eventTitle} eventId={call.event.id} setShowMenu={() => setShowMenu(!showMenu)}/>}
+    </Link>
     </div>
   )
 }
