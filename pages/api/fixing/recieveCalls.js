@@ -46,9 +46,9 @@ const handleTrue = async(msgBody) => {
             }
         }
     })
-    
+    console.log(`Hello from handleTrue. idRegEx: ${idRegex}`)
     twiml.message('We have notified the fixer you have accepted this work.');
-    twiml.toString()
+    twiml.toString();
     return handleNextCall(result);
 }
 
@@ -124,7 +124,7 @@ export default async function handler(req, res) {
         Body
     } = req.body
 
-    console.log("The API has recieved a message")
+    console.log(`Body at handler: ${Body}`)
 
     handleMessage(Body)
     res.writeHead(200, {'Content-Type': 'text/xml'});
