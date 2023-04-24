@@ -20,6 +20,7 @@ const regExCheck = (msgBody) => {
     } else if (noRegex.test(msgBody.trim().toUpperCase())) {
         result = false
     }
+    console.log(`result at regExCheck: ${result}`)
 
     return result;
 }
@@ -30,6 +31,7 @@ const handleUndefined = () => {
 }
 
 const handleTrue = async(msgBody) => {
+    console.log(`Top of handleTrue`)
     const idRegex = /\d+/g;
     let result = await prisma.playerCall.update({
         where: {
@@ -50,7 +52,7 @@ const handleTrue = async(msgBody) => {
     console.log(`Hello from handleTrue. idRegEx: ${idRegex}`)
     twiml.message('We have notified the fixer you have accepted this work.');
     twiml.toString();
-    return handleNextCall(result);
+    return handleNextCall(await result());
 }
 
 const handleFalse = async(msgBody) => {
@@ -112,6 +114,7 @@ const handleMessage = (msgBody) => {
     let response = regExCheck(msgBody)
 
      if (response === true) {
+        console.log(`handleMessage response === true`)
         return handleTrue(msgBody)
     } else if (response === false) {
         return handleFalse(msgBody)
