@@ -2,12 +2,14 @@ import Layout from "../../components/layout/layout";
 import PlayerDirectory from "../../components/directory/playerDirectory";
 import prisma from "../../client";
 import useSWR from "swr";
+import { useState } from "react";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 
 export default function Directory() {
   const { data, error, /* isLoading */ } = useSWR('/api/user/findAll', fetcher)
+  const [pageTitle, setPageTitle] = useState<string>("Directory")
  
   if (error) return <div>failed to load</div>
   //if (isLoading) return <div>loading...</div>
@@ -15,8 +17,8 @@ export default function Directory() {
 
 
   return (
-    <Layout pageTitle="Directory">
-      <PlayerDirectory data={data} />
+    <Layout pageTitle={pageTitle}>
+      <PlayerDirectory data={data} setPageTitle={(instrument) => setPageTitle(instrument)}/>
       {/* <PlayerDirectory data={users} /> */}
     </Layout>
   )

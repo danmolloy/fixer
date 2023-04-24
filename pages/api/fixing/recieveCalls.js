@@ -30,8 +30,10 @@ const handleUndefined = () => {
     return;
 }
 
-const handleTrue = async(msgBody) => {
+const handleTrue = async (msgBody) => {
     console.log(`Top of handleTrue`)
+    twiml.message('Would you answer the red phone?');
+
     const idRegex = /\d+/g;
     let result = await prisma.playerCall.update({
         where: {
@@ -48,10 +50,11 @@ const handleTrue = async(msgBody) => {
                 }
             }
         }
+    }).then(() => {
+        twiml.message('We have notified the fixer you have accepted this work.');
+        twiml.toString();
     })
-    console.log(`Hello from handleTrue. idRegEx: ${idRegex}`)
-    twiml.message('We have notified the fixer you have accepted this work.');
-    twiml.toString();
+    
     return handleNextCall(await result());
 }
 
