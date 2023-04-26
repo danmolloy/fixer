@@ -5,10 +5,11 @@ import EventsIndex from "../components/upcomingEvents/eventsIndex"
 import UserInfoForm from "../components/index/userInfoForm";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Loading from "../components/index/loading";
 
 export default function Home() {
   const router = useRouter()
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
 
   const profileIncomplete = session 
   && session?.userData 
@@ -27,12 +28,18 @@ export default function Home() {
           });
   }
 
-if (!session) {
-  return (
-    <Layout>
-      <LandingPage />
-    </Layout>
-  )}
+  if (status === "loading") {
+    return (
+     <Loading />
+    )
+  } 
+
+  if (!session) {
+    return (
+      <Layout>
+        <LandingPage />
+      </Layout>
+    )}
 
   if (profileIncomplete) {
     return ( 
@@ -43,7 +50,7 @@ if (!session) {
 
   return (
     <Layout pageTitle="Calendar">
-      <EventsIndex /* session={session} *//>
+      <EventsIndex />
     </Layout>
   )
 }
