@@ -34,6 +34,9 @@ const handleTrue = async (msgBody) => {
     const idRegex = /\d+/g;
     const id = Number(msgBody.match(idRegex)[0])
 
+    twiml.message("We have notified the fixer you have accepted this work.");
+    twiml.toString();
+
     let result = await prisma.playerCall.update({
         where: {
             id: id
@@ -49,16 +52,15 @@ const handleTrue = async (msgBody) => {
                 }
             }
         }
-    }).then(() => {
-        twiml.message('We have notified the fixer you have accepted this work.');
-        twiml.toString();
     })
-    
-    return handleNextCall(await result());
+
+    return handleNextCall(result);
 }
 
 const handleFalse = async(msgBody) => {
     const idRegex = /\d+/g;
+    twiml.message('We have notified the fixer you have declined this work.');
+    twiml.toString()
     let result = await prisma.playerCall.update({
         where: {
             id: Number(msgBody.match(idRegex)[0])
@@ -76,8 +78,7 @@ const handleFalse = async(msgBody) => {
         }
     })
 
-    twiml.message('We have notified the fixer you have declined this work.');
-    twiml.toString()
+
     return handleNextCall(result);
 }
 
