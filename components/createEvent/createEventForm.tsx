@@ -86,7 +86,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
             values.ensemble = values.ensembleName
           }
           
-          //handleSubmit(values);
+          handleSubmit(values);
           actions.setSubmitting(false);
         }}>
           {(props) => (

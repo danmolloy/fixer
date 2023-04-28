@@ -30,14 +30,14 @@ export const menuItems: {
     id: "create-event-link"
   },
   {
-    name: "Your Details",
+    name: "Your Account",
     link: "/settings",
     id: "your-details-link"
   },
   
   {
     name: "Notifications",
-    link: "/",
+    link: "/notifications",
     id: "notificatons-link"
   },
 ]

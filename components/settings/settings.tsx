@@ -51,6 +51,16 @@ export default function SettingsIndex() {
       </div>        <Image className="rounded-full ml-2 mt-2" src={"http://placebeard.it/200/200"} width={120} height={120} alt="Placeholder for a profile pic" title="Profile picture placeholder" />
       </div>
       <DetailsDiv 
+      id="fixing-ensembles"
+      title="Ensembles You Fix"
+      className=""
+      value={`London Symphony Orchestra, BBC Symphony Orchestra`} />
+      <DetailsDiv 
+      id="profile-cv"
+      title="Your Profile CV"
+      className=""
+      value={`Lorem Ipsum`} />
+      <DetailsDiv 
       id="blocked-users"
       title="Blocked Users"
       className=""

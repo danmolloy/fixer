@@ -15,7 +15,7 @@ export default function SettingsPage() {
   if (!session) return <div>No session</div>
 
   return (
-    <Layout pageTitle="Your Settings">
+    <Layout pageTitle="Your Account">
       <SettingsIndex />
     </Layout>
   )
