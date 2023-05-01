@@ -23,33 +23,21 @@ const regExCheck = (msgBody) => {
     return result;
 }
 
-const handleUndefined = () => {
-    twiml.message('Please respond either YES to accept or NO to decline');
-    return;
-}
-
 const handleTrue = async (msgBody) => {
     const idRegex = /\d+/g;
-    const id = Number(msgBody.match(idRegex)[0])
-    console.log(`id: ${id}`)
-    //twiml.toString();
-    let result;
-
-    try {
-       result = await prisma.playerCall.update({
+    const callId = Number(msgBody.match(idRegex)[0])
+    
+    let result = await prisma.playerCall.update({
         where: {
-            id: id
+          id: callId
         },
         data: {
-            accepted: true
+          accepted: true
         }
-    })}
-    catch (error) {
-        console.log(error)
-    }
-    twiml.message(`We have notified the fixer you have accepted offer ${result.id}.`);
-
+      }).then(() => twiml.message(`We have notified the fixer you have accepted offer ${result.id}.`))
+    
     return handleNextCall(result);
+   
 }
 
 const handleFalse = async(msgBody) => {
@@ -83,16 +71,13 @@ const handleNextCall = (result) => {
 }
 
 const handleMessage = (msgBody) => {
-    console.log(`handleMessage msgBody: ${msgBody}`)
     let response = regExCheck(msgBody)
-
      if (response === true) {
-        console.log(`handleMessage response === true`)
         return handleTrue(msgBody)
     } else if (response === false) {
         return handleFalse(msgBody)
     } else {
-        return handleUndefined()
+        return twiml.message('Please respond either YES to accept or NO to decline');
     }
 
 }
