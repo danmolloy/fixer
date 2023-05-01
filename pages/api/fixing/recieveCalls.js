@@ -33,16 +33,20 @@ const handleTrue = async (msgBody) => {
     const id = Number(msgBody.match(idRegex)[0])
     console.log(`id: ${id}`)
     //twiml.toString();
-    
+    let result;
 
-    let result = await prisma.playerCall.update({
+    try {
+       result = await prisma.playerCall.update({
         where: {
             id: id
         },
         data: {
             accepted: true
         }
-    })
+    })}
+    catch (error) {
+        console.log(error)
+    }
     twiml.message(`We have notified the fixer you have accepted offer ${result.id}.`);
 
     return handleNextCall(result);
