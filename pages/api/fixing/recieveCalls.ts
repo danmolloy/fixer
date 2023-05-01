@@ -90,8 +90,8 @@ export default async function handler(req, res) {
     console.log(`Body at handler: ${Body}`)
 
     //handleMessage(Body)
-    res.writeHead(200, {'Content-Type': 'text/xml'}).json(await handleMessage(Body));
-    res.end(twiml.toString());
+    res.status(200).json(await handleMessage(Body));
+    //res.end(twiml.toString());
 }
  
 
