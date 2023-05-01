@@ -112,7 +112,11 @@ const sendMessage = (musicianName) => {
   const reqBody = {
     message: `Dan Molloy sends the following message: "${prompt(`What is your message to ${musicianName}?`)}"`
   }
-  return axios.post("/api/fixing/messagePlayer", reqBody)
+  if (reqBody.message === null || reqBody.message.length === 0) {
+    return;
+  } else {
+    return axios.post("/api/fixing/messagePlayer", reqBody);
+  }
 }
 
 
