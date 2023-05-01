@@ -34,7 +34,8 @@ const handleTrue = async (msgBody) => {
         data: {
           accepted: true
         }
-      }).then(() => twiml.message(`We have notified the fixer you have accepted offer ${result.id}.`))
+      })
+      twiml.message(`We have notified the fixer you have accepted offer ${result.id}.`)
     
     return handleNextCall(result);
    
@@ -70,12 +71,12 @@ const handleNextCall = (result) => {
     return;
 }
 
-const handleMessage = (msgBody) => {
+const handleMessage = async (msgBody) => {
     let response = regExCheck(msgBody)
      if (response === true) {
-        return handleTrue(msgBody)
+        return await handleTrue(msgBody)
     } else if (response === false) {
-        return handleFalse(msgBody)
+        return await handleFalse(msgBody)
     } else {
         return twiml.message('Please respond either YES to accept or NO to decline');
     }
@@ -88,29 +89,31 @@ export default async function handler(req, res) {
 
     console.log(`Body at handler: ${Body}`)
 
-    handleMessage(Body)
+    //handleMessage(Body)
     res.writeHead(200, {'Content-Type': 'text/xml'}).json(await handleMessage(Body));
     res.end(twiml.toString());
 }
-/* 
+ 
 
 const updateAccepted = async (msgBody: string) => {
-    const yesOrNo = handleMessage(msgBody)
-    if (yesOrNo !== true && yesOrNo !== false) {
+    const yesOrNo = regExCheck(msgBody)
+    if (yesOrNo === undefined) {
       return;
     }
     const idRegex = /\d+/g;
     const callId = Number(msgBody.match(idRegex)[0])
-    return await prisma.playerCall.update({
+    const updatedPlayer = await prisma.playerCall.update({
       where: {
         id: callId
       },
       data: {
         accepted: yesOrNo
       }
-    }).then(() => nextCall(eventInstrumentId))
+    })
+    twiml.message(`We have notified the fixer you have accepted offer ${updatedPlayer.id}.`)
+    return(updatedPlayer)
   }
-  
+  /* 
   const nextCall = async (eventInstrumentId: number) => {
     const eventInstrument = await getEventInstrument(eventInstrumentId)
     return makeCalls(eventInstrument);
@@ -198,4 +201,4 @@ const updateAccepted = async (msgBody: string) => {
     
     return body;
   }
-   */
+    */
