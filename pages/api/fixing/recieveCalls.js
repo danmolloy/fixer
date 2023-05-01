@@ -33,9 +33,8 @@ const handleUndefined = () => {
 const handleTrue = async (msgBody) => {
     const idRegex = /\d+/g;
     const id = Number(msgBody.match(idRegex)[0])
-
-    twiml.message("We have notified the fixer you have accepted this work.");
-    twiml.toString();
+    console.log(`id: ${id}`)
+    //twiml.toString();
 
     let result = await prisma.playerCall.update({
         where: {
@@ -53,6 +52,7 @@ const handleTrue = async (msgBody) => {
             }
         }
     })
+    twiml.message(`We have notified the fixer you have accepted offer ${result.id}.`);
 
     return handleNextCall(result);
 }
