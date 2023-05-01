@@ -35,7 +35,7 @@ const handleTrue = async (msgBody) => {
           accepted: true
         }
       })
-      twiml.message(`We have notified the fixer you have accepted offer ${result.id}.`)
+      twiml.message(`We have notified the fixer you have accepted offer ${idRegex}.`)
     
     return handleNextCall(result);
    
@@ -90,7 +90,7 @@ export default async function handler(req, res) {
     console.log(`Body at handler: ${Body}`)
 
     //handleMessage(Body)
-    res.status(200).json(await handleMessage(Body));
+    res.status(200).json(await updateAccepted(Body));
     //res.end(twiml.toString());
 }
  
@@ -110,7 +110,7 @@ const updateAccepted = async (msgBody: string) => {
         accepted: yesOrNo
       }
     })
-    twiml.message(`We have notified the fixer you have accepted offer ${updatedPlayer.id}.`)
+    twiml.message(`We have notified the fixer you have accepted offer ${idRegex}.`)
     return(updatedPlayer)
   }
   /* 
