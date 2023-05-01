@@ -10,9 +10,9 @@ export default function NotificationTile(props) {
   const { notification, mutate } = props;
   const [updateStatus, setUpdateStatus] = useState<string>("idle")
 
-  const handleSubmit = (accepted: boolean, callId: number) => {
+  const handleSubmit = (accepted: boolean, callId: number, eventInstrumentId: number) => {
     setUpdateStatus("updating")
-    axios.post('/api/notifications/accept', {accepted, callId}).then(() => {
+    axios.post('/api/notifications/accept', {accepted, callId, eventInstrumentId}).then(() => {
       mutate();
       setUpdateStatus("idle");
     }).catch(() => {
@@ -54,11 +54,11 @@ export default function NotificationTile(props) {
         </div>
         {notification.accepted === null 
         && <div className="flex flex-row justify-evenly border-t ">
-          <button disabled={updateStatus === 'updating' ? true: false} onClick={() => handleSubmit(false, notification.id)} className="disabled:text-zinc-400 border-r hover:bg-slate-100 h-12 w-1/2 flex flex-row justify-center items-center">
+          <button disabled={updateStatus === 'updating' ? true: false} onClick={() => handleSubmit(false, notification.id, notification.eventInstrumentId)} className="disabled:text-zinc-400 border-r hover:bg-slate-100 h-12 w-1/2 flex flex-row justify-center items-center">
             <p className="p-2">Decline</p>
             <TiTimes />
             </button>
-          <button disabled={updateStatus === 'updating' ? true: false} onClick={() => handleSubmit(true, notification.id)} className="disabled:text-zinc-400 hover:bg-slate-100 h-12 w-1/2 flex flex-row justify-center items-center">
+          <button disabled={updateStatus === 'updating' ? true: false} onClick={() => handleSubmit(true, notification.id, notification.eventInstrumentId)} className="disabled:text-zinc-400 hover:bg-slate-100 h-12 w-1/2 flex flex-row justify-center items-center">
             <p className="p-2">Accept</p>
             <TiTick />
           </button>

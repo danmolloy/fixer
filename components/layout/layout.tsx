@@ -7,6 +7,9 @@ import LandingFooter from "../landingPage/landingFooter";
 import { useSession } from "next-auth/react";
 import { landingMenuItems } from "../landingPage/landingPage";
 import UserInfoForm from "../index/userInfoForm";
+import useSWR from "swr";
+
+const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 interface LayoutProps {
   children: React.ReactNode
@@ -16,12 +19,13 @@ interface LayoutProps {
 export default function Layout(props: LayoutProps) {
   const { children, pageTitle } = props
   const { data: session } = useSession()
+  const { data, error, isLoading, mutate } = useSWR(`/api/user/getNotifications`, fetcher)
+
   const [showMenu, setShowMenu] = useState(false)
   
   return (
     <div className="min-h-screen w-screen flex flex-col justify-between font-nunito " data-testid="layout-div">
-      <Header setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false}/>
-
+      <Header setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={data?.playerCalls.filter(i => i.accepted === null).length > 0 ? true : false}/>
       {showMenu && <Menu signedIn={session ? true : false} setShowMenu={() => setShowMenu(false)} menuItems={session ? menuItems : landingMenuItems}/>}
       <div className={showMenu ? "w-full p-3 blur":"w-full p-3"}>
         <h1 className="ml-2 text-2xl">{pageTitle}</h1>
