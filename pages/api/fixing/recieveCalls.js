@@ -41,7 +41,7 @@ const handleTrue = async (msgBody) => {
         },
         data: {
             accepted: true
-        },
+        }
     })
     twiml.message(`We have notified the fixer you have accepted offer ${result.id}.`);
 

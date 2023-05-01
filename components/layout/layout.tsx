@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { landingMenuItems } from "../landingPage/landingPage";
 import UserInfoForm from "../index/userInfoForm";
 import useSWR from "swr";
+import Loading from "../index/loading";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -18,10 +19,16 @@ interface LayoutProps {
 
 export default function Layout(props: LayoutProps) {
   const { children, pageTitle } = props
-  const { data: session } = useSession()
-  const { data, error, isLoading, mutate } = useSWR(`/api/user/getNotifications`, fetcher)
+  const { data: session, status } = useSession()
+  const { data, error, isLoading, mutate } = useSWR(session ? `/api/user/getNotifications` : null, fetcher)
 
   const [showMenu, setShowMenu] = useState(false)
+
+  if (status === "loading") {
+    return (
+     <Loading />
+    )
+  } 
   
   return (
     <div className="min-h-screen w-screen flex flex-col justify-between font-nunito " data-testid="layout-div">

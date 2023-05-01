@@ -28,11 +28,6 @@ export default function Home() {
           });
   }
 
-  if (status === "loading") {
-    return (
-     <Loading />
-    )
-  } 
 
   if (!session) {
     return (
