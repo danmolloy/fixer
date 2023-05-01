@@ -79,7 +79,6 @@ const handleMessage = (msgBody) => {
     } else {
         return twiml.message('Please respond either YES to accept or NO to decline');
     }
-
 }
 
 export default async function handler(req, res) {
@@ -90,12 +89,101 @@ export default async function handler(req, res) {
     console.log(`Body at handler: ${Body}`)
 
     handleMessage(Body)
-    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.writeHead(200, {'Content-Type': 'text/xml'}).json(await handleMessage(Body));
     res.end(twiml.toString());
 }
+/* 
 
-
-const msgBody = (playerCall) => {
+const updateAccepted = async (msgBody: string) => {
+    const yesOrNo = handleMessage(msgBody)
+    if (yesOrNo !== true && yesOrNo !== false) {
+      return;
+    }
+    const idRegex = /\d+/g;
+    const callId = Number(msgBody.match(idRegex)[0])
+    return await prisma.playerCall.update({
+      where: {
+        id: callId
+      },
+      data: {
+        accepted: yesOrNo
+      }
+    }).then(() => nextCall(eventInstrumentId))
+  }
+  
+  const nextCall = async (eventInstrumentId: number) => {
+    const eventInstrument = await getEventInstrument(eventInstrumentId)
+    return makeCalls(eventInstrument);
+  }
+  
+  
+  const getEventInstrument = async (eventInstrumentId: number) => {
+    const eventInstrument = await prisma.eventInstrument.findUnique({
+      where: {
+        id: eventInstrumentId
+      }, 
+      include: {
+        musicians: true
+      }
+    })
+    
+    return eventInstrument;
+  }
+  
+  const makeCalls = async (eventInstrument: any) => {
+    const numBooked = eventInstrument.musicians.filter(i => i.accepted === true).length
+    const numToBook = eventInstrument.numToBook - numBooked
+    const yetToBeCalled = eventInstrument.musicians.filter(i => i.recieved === false)
+  
+    if (numBooked === eventInstrument.numToBook) {
+      console.log("Instrument booked.")
+      return;
+    } else if (yetToBeCalled.length === 0) {
+      console.log("Add musicians to list.")
+      return;
+    } else if (numToBook > yetToBeCalled) {
+      console.log("List is running low.")
+      return;
+    } else {
+  
+      for (let i = 0; i < numToBook; i ++) {
+        console.log("else loop called")
+        console.log(`callId: ${Number(eventInstrument.musicians[i].id)}`)
+        await callPlayer(Number(eventInstrument.musicians[i].id))
+      }
+    }
+    
+    return;
+  }
+  
+  const callPlayer = async (callId: number) => {
+    const playerCall = await prisma.playerCall.update({
+      where: {
+        id: callId
+      },
+      data: {
+        recieved: true
+      },
+      include: {
+        musician: true,
+        eventInstrument: {
+          include: {
+            event: true
+          }
+        }
+      }
+    })
+  
+    twilioClient.messages 
+    .create({ 
+        body: msgBody(playerCall),  
+        messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
+        to: process.env.PHONE 
+      })
+    return;
+  }
+  
+  const msgBody = (playerCall) => {
     const body = `
       Hi ${playerCall.musician.name},
   
@@ -110,4 +198,4 @@ const msgBody = (playerCall) => {
     
     return body;
   }
-  
+   */
