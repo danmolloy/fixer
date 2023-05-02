@@ -32,6 +32,7 @@ export default function TableRowMenu(props: TableRowMenuProps) {
                 </button>
                 <button className="text-start py-2 hover:bg-zinc-50" onClick={(e) => {
                 e.preventDefault();
+                setShowMenu();
                 remove(menuIndex);
                 makeAvailable(appendedPlayers[menuIndex])
                 }}>

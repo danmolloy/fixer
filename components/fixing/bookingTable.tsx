@@ -127,7 +127,7 @@ export default function BookingTable(props: BookingTableProps) {
   let filledTable = createTable(eventCalls, instrumentSection)
 
   return (
-    <div data-testid="booking-table-div" className="flex flex-col">
+    <div data-testid="booking-table-div" className="flex flex-col mx-2">
       {menuId !== null
       && <BookingRowMenu 
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}

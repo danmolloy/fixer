@@ -45,13 +45,13 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
 
 
   return (
-    <div data-testid="appended-players-div" className="flex flex-col mb-8 w-full">
+    <div data-testid="appended-players-div" className="flex flex-col mb-8 border rounded shadow-sm mx-2">
       {menuIndex !== null
       && <TableRowMenu makeAvailable={(arg) => makeAvailable(arg)} setShowMenu={() => setMenuIndex(null)} menuIndex={menuIndex} appendedPlayers={appendedPlayers} />}
       <TableContainer>
         <Table>
           <TableHead>
-            <TableRow>
+            <TableRow className="">
               <TableCell>
                 Name
               </TableCell>
@@ -69,18 +69,21 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
               {appendedPlayers.length === 0
               ? <TableRow>
                 <TableCell>
-                  <PulsingDiv classNames="h-4 w-16"/>
+                  <p>Choose players from below</p>
                 </TableCell>
                 <TableCell>
-                <PulsingDiv classNames="h-4 w-4"/>
+                <div className="h-4 w-4"/>
                 </TableCell>
                 <TableCell>
-                <PulsingDiv classNames="h-4 w-4"/>
+                <div className="h-4 w-4"/>
                 </TableCell>
               </TableRow>
               : appendedPlayers.map((i, index) => (
                 <TableRow className="flex" key={i.id} data-testid={`${i.id}-row`} role="group" aria-labelledby="checkbox-group">
-                  <TableCell>{i.name}</TableCell>
+                  <TableCell>
+                    <p >{i.name}</p>
+                    </TableCell>
+
                 {eventCalls.map(j=> (
                   <TableCell key={j.id}>
                     <Field 
