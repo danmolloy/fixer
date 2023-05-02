@@ -62,7 +62,8 @@ const updateAccepted = async (msgBody: string) => {
   const makeCalls = async (eventInstrument: any) => {
     console.log("At makeCalls")
     const numBooked = eventInstrument.musicians.filter(i => i.accepted === true).length
-    const numToBook = eventInstrument.numToBook - numBooked
+    const numAwaitingReply = eventInstrument.musicians.filter(i => i.recieved === true && i.accepted === null)
+    const numToBook = eventInstrument.numToBook + numAwaitingReply - numBooked
     const yetToBeCalled = eventInstrument.musicians.filter(i => i.recieved === false)
   
     if (numBooked === eventInstrument.numToBook) {
@@ -77,8 +78,8 @@ const updateAccepted = async (msgBody: string) => {
     } else {
   
       for (let i = 0; i < numToBook; i ++) {
-        console.log("else loop called")
-        console.log(`callId: ${Number(eventInstrument.musicians[i].id)}`)
+        //console.log("else loop called")
+        //console.log(`callId: ${Number(eventInstrument.musicians[i].id)}`)
         await callPlayer(Number(eventInstrument.musicians[i].id))
       }
     }

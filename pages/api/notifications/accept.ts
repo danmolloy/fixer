@@ -39,7 +39,8 @@ const getEventInstrument = async (eventInstrumentId: number) => {
 
 const makeCalls = async (eventInstrument: any) => {
   const numBooked = eventInstrument.musicians.filter(i => i.accepted === true).length
-  const numToBook = eventInstrument.numToBook - numBooked
+  const numAwaitingReply = eventInstrument.musicians.filter(i => i.recieved === true && i.accepted === null)
+  const numToBook = eventInstrument.numToBook + numAwaitingReply - numBooked
   const yetToBeCalled = eventInstrument.musicians.filter(i => i.recieved === false)
 
   if (numBooked === eventInstrument.numToBook) {
