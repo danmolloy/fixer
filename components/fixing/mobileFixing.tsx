@@ -22,7 +22,7 @@ export default function MobileFixing(props: MobileFixingProps) {
          <select onChange={e => setSelectedInstrument(e.target.value)} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
           <option value={""}>Select instrument</option>
           {instrumentSections.map(i => (
-            <option value={i.instrumentName} key={i.id} className="outline">
+            <option value={i.instrumentName} key={i.id} className="">
               <p>{i.instrumentName} {i.numToBook > 0 && `(${i.musicians.filter(i => i.accepted === true).length} of ${i.numToBook} booked)`}
               </p>
             </option>
