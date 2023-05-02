@@ -14,14 +14,17 @@ type MobileFixingProps = {
 export default function MobileFixing(props: MobileFixingProps) {
   const {instrumentSections, selectedInstrument, setSelectedInstrument, eventCalls, refreshProps, eventId, users } = props;
 
+
+
   return (
     <div className="sm:hidden flex flex-col items-center w-full">
       <div className="flex flex-col w-full items-center">
          <select onChange={e => setSelectedInstrument(e.target.value)} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
           <option value={""}>Select instrument</option>
           {instrumentSections.map(i => (
-            <option value={i.instrumentName} key={i.id}>
-              {i.instrumentName}
+            <option value={i.instrumentName} key={i.id} className="outline">
+              <p>{i.instrumentName} {i.numToBook > 0 && `(${i.musicians.filter(i => i.accepted === true).length} of ${i.numToBook} booked)`}
+              </p>
             </option>
           ))}
         </select>
