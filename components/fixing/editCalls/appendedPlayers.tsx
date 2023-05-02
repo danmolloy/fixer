@@ -6,6 +6,7 @@ import TableRowMenu from "./tableRowMenu";
 import MenuShell from "../../index/menuShell";
 import MenuItem from "../../index/menuItem";
 import { AiOutlineMail } from "react-icons/ai";
+import PulsingDiv from "../../layout/pulsingDiv";
 
 interface EventCall {
   id: number
@@ -44,7 +45,7 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
 
 
   return (
-    <div data-testid="appended-players-div" className="flex flex-col">
+    <div data-testid="appended-players-div" className="flex flex-col mb-8 w-full">
       {menuIndex !== null
       && <TableRowMenu makeAvailable={(arg) => makeAvailable(arg)} setShowMenu={() => setMenuIndex(null)} menuIndex={menuIndex} appendedPlayers={appendedPlayers} />}
       <TableContainer>
@@ -55,10 +56,9 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
                 Name
               </TableCell>
               {eventCalls.map(i => (
-              <TableCell key={i.id}>{moment(new Date(i.startTime)).format("H:mma DD[/]MM")}</TableCell>
+              <TableCell key={i.id}>{moment(new Date(i.startTime)).format("DD[/]MM")}</TableCell>
             ))}
             <TableCell>
-              
             </TableCell>
             </TableRow>
           </TableHead>
@@ -66,7 +66,19 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
           <FieldArray name="appendedPlayers">
             {({ insert, remove, push}) => (
               <TableBody className="">
-              {appendedPlayers.map((i, index) => (
+              {appendedPlayers.length === 0
+              ? <TableRow>
+                <TableCell>
+                  <PulsingDiv classNames="h-4 w-16"/>
+                </TableCell>
+                <TableCell>
+                <PulsingDiv classNames="h-4 w-4"/>
+                </TableCell>
+                <TableCell>
+                <PulsingDiv classNames="h-4 w-4"/>
+                </TableCell>
+              </TableRow>
+              : appendedPlayers.map((i, index) => (
                 <TableRow className="flex" key={i.id} data-testid={`${i.id}-row`} role="group" aria-labelledby="checkbox-group">
                   <TableCell>{i.name}</TableCell>
                 {eventCalls.map(j=> (

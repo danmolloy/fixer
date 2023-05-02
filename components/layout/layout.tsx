@@ -1,13 +1,10 @@
 import { useState } from "react";
-import Footer from "./footer";
 import Header, { menuItems } from "./header";
 import Menu from "./menu";
 import React from "react";
 import LandingFooter from "../landingPage/landingFooter";
 import { useSession } from "next-auth/react";
 import { landingMenuItems } from "../landingPage/landingPage";
-import UserInfoForm from "../index/userInfoForm";
-import useSWR from "swr";
 import Loading from "../index/loading";
 
 
