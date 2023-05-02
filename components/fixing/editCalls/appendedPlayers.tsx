@@ -45,7 +45,7 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
 
 
   return (
-    <div data-testid="appended-players-div" className="flex flex-col mb-8 border rounded shadow-sm mx-2">
+    <div data-testid="appended-players-div" className="flex flex-col mb-8  mx-2">
       {menuIndex !== null
       && <TableRowMenu makeAvailable={(arg) => makeAvailable(arg)} setShowMenu={() => setMenuIndex(null)} menuIndex={menuIndex} appendedPlayers={appendedPlayers} />}
       <TableContainer>
@@ -62,7 +62,6 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
             </TableCell>
             </TableRow>
           </TableHead>
-          
           <FieldArray name="appendedPlayers">
             {({ insert, remove, push}) => (
               <TableBody className="">

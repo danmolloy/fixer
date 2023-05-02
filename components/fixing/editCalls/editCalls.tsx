@@ -118,11 +118,14 @@ export default function EditCalls(props: EditCallsProps) {
      >
        {props => (
          <form className="edit-calls-form " onSubmit={props.handleSubmit} data-testid={`edit-calls-div`}>
+          <div className="border m-2 rounded shadow-sm py-4">
+          <label htmlFor="appendedPlayers" className="m-4 p-2 text-lg">Add Players</label>
           <AppendedPlayers makeAvailable={(i: User) => props.values.availablePlayers.push(i)} eventCalls={eventCalls} appendedPlayers={props.values.appendedPlayers} />
           <AvailablePlayers 
             instrumentName={instrumentName} 
             availablePlayers={props.values.availablePlayers} 
             appendPlayer={(i) => props.values.appendedPlayers.push({...i, calls: [...eventCalls.map(i => String(i.id))]})} />
+          </div>
           <EditCallsOptions instrumentName={instrumentName} isSubmitting={props.isSubmitting}/>
           <div className="w-full p-4 flex flex-row justify-between">
             <ButtonPrimary 
