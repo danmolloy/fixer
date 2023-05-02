@@ -5,7 +5,6 @@ import { twilioClient } from "../../../twilio"
 const twiml = new MessagingResponse();
 
 const regExCheck = (msgBody) => {
-    console.log(`regExCheck msgBody: ${msgBody}`)
     const yesRegex = /["']?\s?(yes)\s?\d+\s?["']?/i
     const noRegex = /["']?\s?(no)\s?\d+\s?["']?/i
     //const idRegex = /\d+/g;
@@ -18,7 +17,6 @@ const regExCheck = (msgBody) => {
     } else if (noRegex.test(msgBody.trim().toUpperCase())) {
         result = false
     }
-    console.log(`result at regExCheck: ${result}`)
 
     return result;
 }
@@ -28,7 +26,6 @@ export default async function handler(req, res) {
         Body
     } = req.body
 
-    console.log(`Body at handler: ${Body}`)
 
     await updateAccepted(Body)
     //res.status(200).json(await updateAccepted(Body));
@@ -61,10 +58,11 @@ const updateAccepted = async (msgBody: string) => {
     })
     twiml.message(`We have notified the fixer you have ${yesOrNo === true ? "accepted": "declined"} offer ${callId}.`)
     
-    return makeCalls(updatedPlayer.eventInstrument)
+    return await makeCalls(updatedPlayer.eventInstrument)
   }
   
   const makeCalls = async (eventInstrument: any) => {
+    console.log("At makeCalls")
     const numBooked = eventInstrument.musicians.filter(i => i.accepted === true).length
     const numToBook = eventInstrument.numToBook - numBooked
     const yetToBeCalled = eventInstrument.musicians.filter(i => i.recieved === false)
