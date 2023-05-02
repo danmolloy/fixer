@@ -47,7 +47,7 @@ export const menuItems: {
 
 export default function Header(props: HeaderProps) {
   const { showMenu, setShowMenu, session } = props
-  const { data } = useSWR(session ? `/api/user/getNotifications` : null, fetcher)
+  const { data, error } = useSWR(session ? `/api/user/getNotifications` : null, fetcher)
 
 
   if (session === false) {
@@ -56,7 +56,7 @@ export default function Header(props: HeaderProps) {
     )
   }
 
-  const notifications = data && data.playerCalls.filter(i => i.accepted === null).length > 0  
+  const notifications = data && !error && data.playerCalls.filter(i => i.accepted === null).length > 0  
 
 
   return (
