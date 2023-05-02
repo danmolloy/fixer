@@ -60,13 +60,13 @@ export default function Header(props: HeaderProps) {
 
   return (
     <div className={showMenu === true ? "blur h-20 flex flex-row items-center justify-between" : "h-20 flex flex-row items-center justify-between"} data-testid="layout-header">
-      <Link href={"/"}>
+      <button onClick={() => setShowMenu(!showMenu)}>
       <h2 className={' p-2 text-2xl mx-2 md:mx-10  '}>
         Gig<span className="text-blue-600 font-semibold">Fix</span>
       </h2>
        
-      </Link>
-
+      </button>
+        
         <div className='w-full justify-end hidden md:flex flex-row mr-2' data-testid="nav-bar">
           {menuItems.map(i => (
             <Link href={i.link} key={i.id} data-testid={i.id} className='hover:bg-slate-100 p-1 mx-4 rounded text-slate-600 text-sm flex flex-row items-center'>

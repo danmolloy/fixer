@@ -69,7 +69,7 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
               {appendedPlayers.length === 0
               ? <TableRow>
                 <TableCell>
-                  <p>Choose players from below</p>
+                  <div className="h-4 w-16"/>
                 </TableCell>
                 <TableCell>
                 <div className="h-4 w-4"/>
