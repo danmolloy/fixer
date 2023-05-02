@@ -22,7 +22,7 @@ const regExCheck = (msgBody) => {
 
     return result;
 }
-
+/* 
 const handleTrue = async (msgBody) => {
     const idRegex = /\d+/g;
     const callId = Number(msgBody.match(idRegex)[0])
@@ -80,7 +80,7 @@ const handleMessage = async (msgBody) => {
     } else {
         return twiml.message('Please respond either YES to accept or NO to decline');
     }
-}
+} */
 
 export default async function handler(req, res) {
     const {
@@ -92,7 +92,6 @@ export default async function handler(req, res) {
     await updateAccepted(Body)
     //res.status(200).json(await updateAccepted(Body));
     res.writeHead(200, {'Content-Type': 'text/xml'}).end(twiml.toString());
-    //res.end(twiml.toString());
 }
  
 
@@ -111,10 +110,10 @@ const updateAccepted = async (msgBody: string) => {
         accepted: yesOrNo
       }
     })
-    twiml.message(`We have notified the fixer you have accepted offer ${idRegex}.`)
+    twiml.message(`We have notified the fixer you have ${yesOrNo === true ? "accepted": "declined"} offer ${callId}.`)
     return updatedPlayer
   }
-  /* 
+  
   const nextCall = async (eventInstrumentId: number) => {
     const eventInstrument = await getEventInstrument(eventInstrumentId)
     return makeCalls(eventInstrument);
@@ -201,5 +200,4 @@ const updateAccepted = async (msgBody: string) => {
     `
     
     return body;
-  }
-    */
+}
