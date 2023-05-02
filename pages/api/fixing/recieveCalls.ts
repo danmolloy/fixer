@@ -89,8 +89,9 @@ export default async function handler(req, res) {
 
     console.log(`Body at handler: ${Body}`)
 
-    //handleMessage(Body)
-    res.status(200).json(await updateAccepted(Body));
+    await updateAccepted(Body)
+    //res.status(200).json(await updateAccepted(Body));
+    res.writeHead(200, {'Content-Type': 'text/xml'}).end(twiml.toString());
     //res.end(twiml.toString());
 }
  
@@ -111,7 +112,7 @@ const updateAccepted = async (msgBody: string) => {
       }
     })
     twiml.message(`We have notified the fixer you have accepted offer ${idRegex}.`)
-    return(updatedPlayer)
+    return updatedPlayer
   }
   /* 
   const nextCall = async (eventInstrumentId: number) => {
