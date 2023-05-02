@@ -10,6 +10,7 @@ interface HeaderProps {
   showMenu: boolean
   setShowMenu: (bool: boolean) => void
   session?: boolean
+  notifications: boolean
 }
 
 export const menuItems: {
@@ -46,7 +47,7 @@ export const menuItems: {
 ]
 
 export default function Header(props: HeaderProps) {
-  const { showMenu, setShowMenu, session } = props
+  const { showMenu, setShowMenu, session, notifications } = props
 
 
   if (session === false) {
@@ -69,15 +70,15 @@ export default function Header(props: HeaderProps) {
         <div className='w-full justify-end hidden md:flex flex-row mr-2' data-testid="nav-bar">
           {menuItems.map(i => (
             <Link href={i.link} key={i.id} data-testid={i.id} className='hover:bg-slate-100 p-1 mx-4 rounded text-slate-600 text-sm flex flex-row items-center'>
-              {/* notifications && i.name === "Notifications"
-                && <div  className='animate-ping w-2 h-2 rounded-full z-10 absolute bg-red-500 ml-20 mb-4'/> */}
+              {notifications && i.name === "Notifications"
+                && <div  className='animate-ping w-2 h-2 rounded-full z-10 absolute bg-red-500 ml-20 mb-4'/>}
               {i.name}
             </Link>
           ))}
         </div>
         <div className='md:hidden flex flex-row items-center'>
         <Link href="/notifications" className='flex items-center justify-center text-2xl p-2 mr-2 w-10 h-10 text-black hover:bg-blue-50 active:bg-blue-100 rounded-full'>
-         {/* notifications && <div  className='animate-ping w-2 h-2 rounded-full z-10 absolute bg-red-500 -mr-4 -mt-4'/> */}
+         {notifications && <div  className='animate-ping w-2 h-2 rounded-full z-10 absolute bg-red-500 -mr-4 -mt-4'/>}
           <AiOutlineBell />
         </Link>
         <button onClick={() => setShowMenu(!showMenu)} data-testid="menu-icon-btn" >

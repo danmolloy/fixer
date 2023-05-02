@@ -7,8 +7,7 @@ const twiml = new MessagingResponse();
 const regExCheck = (msgBody) => {
     const yesRegex = /["']?\s?(yes)\s?\d+\s?["']?/i
     const noRegex = /["']?\s?(no)\s?\d+\s?["']?/i
-    //const idRegex = /\d+/g;
-    let result;
+    let result: null|undefined|boolean;
 
     if (!yesRegex.test(msgBody.trim().toUpperCase()) && !noRegex.test(msgBody.trim().toUpperCase())) {
         result = undefined
@@ -28,7 +27,6 @@ export default async function handler(req, res) {
 
 
     await updateAccepted(Body)
-    //res.status(200).json(await updateAccepted(Body));
     res.writeHead(200, {'Content-Type': 'text/xml'}).end(twiml.toString());
 }
  
@@ -131,64 +129,3 @@ const updateAccepted = async (msgBody: string) => {
     return body;
 }
 
-
-
-/* 
-const handleTrue = async (msgBody) => {
-    const idRegex = /\d+/g;
-    const callId = Number(msgBody.match(idRegex)[0])
-    
-    let result = await prisma.playerCall.update({
-        where: {
-          id: callId
-        },
-        data: {
-          accepted: true
-        }
-      })
-      twiml.message(`We have notified the fixer you have accepted offer ${idRegex}.`)
-    
-    return handleNextCall(result);
-   
-}
-
-const handleFalse = async(msgBody) => {
-    const idRegex = /\d+/g;
-    twiml.message('We have notified the fixer you have declined this work.');
-    twiml.toString()
-    let result = await prisma.playerCall.update({
-        where: {
-            id: Number(msgBody.match(idRegex)[0])
-        },
-        data: {
-            accepted: false,
-        },
-        include: { 
-            eventInstrument: {
-                include: {
-                    musicians: true,
-                    event: true
-                }
-            }
-        }
-    })
-
-
-    return handleNextCall(result);
-}
-
-const handleNextCall = (result) => {
-    
-    return;
-}
-
-const handleMessage = async (msgBody) => {
-    let response = regExCheck(msgBody)
-     if (response === true) {
-        return await handleTrue(msgBody)
-    } else if (response === false) {
-        return await handleFalse(msgBody)
-    } else {
-        return twiml.message('Please respond either YES to accept or NO to decline');
-    }
-} */

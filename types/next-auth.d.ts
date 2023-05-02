@@ -64,6 +64,18 @@ declare module "next-auth" {
             fixerEmail: string
           }
       }[]
+      playerCalls: {
+        id: number
+        createdAt: string
+        updatedAt: string
+        recieved: boolean
+        accepted?: boolean
+        musicianId: string
+        eventInstrumentId: number
+        playerMessage?: string
+        bookingOrAvailability: string
+        offerExpiry?: number
+      }[]
     }
   }
 }

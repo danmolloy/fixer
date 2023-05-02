@@ -35,7 +35,8 @@ export const authOptions = ({
             include: {
               event: true
             }
-          }
+          },
+          playerCalls: true
         }
       })
       session.userData = sesssionUser
