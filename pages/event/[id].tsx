@@ -27,7 +27,10 @@ export default function Event({props}) {
   return (
     <Layout pageTitle={data ? data.eventTitle : "Event"}>
       {isLoading 
-      ? <IsLoadingEventIndex />
+      ? <>
+          <IsLoadingEventIndex />
+          <IsLoadingInstrumentTile />
+        </>
       : data 
       ? <EventIndex
         confirmed={data.confirmedOrOnHold}
@@ -44,10 +47,7 @@ export default function Event({props}) {
         fixerId={data.fixerId} 
         session={data.session} /> 
         : <p>Error</p>}
-        {<IsLoadingInstrumentTile />}
-      {data && data.users 
-      ? <Fixing lastUpdated={lastUpdated} isLoading={isLoading} users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> 
-      : <IsLoadingInstrumentTile />}
+      {data && data.users && <Fixing lastUpdated={lastUpdated} isLoading={isLoading} users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
    </Layout>
   )
 }
