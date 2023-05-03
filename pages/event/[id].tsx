@@ -4,6 +4,7 @@ import Layout from "../../components/layout/layout";
 import EventIndex from "../../components/event";
 import useSWR from "swr";
 import IsLoadingEventIndex from "../../components/event/isLoadingEventIndex";
+import { useEffect, useState } from "react";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -11,9 +12,15 @@ export default function Event({props}) {
   const router = useRouter();
   const { id } = router.query;
   const { data, mutate, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
+  const [lastUpdated, setLastUpdated] = useState<null|Date>(null)
+
+  useEffect(() => {
+    setLastUpdated(new Date())
+  }, [data])
 
   const refreshData = () => {
     mutate();
+    setLastUpdated(new Date());
   }
 
   return (
@@ -38,7 +45,7 @@ export default function Event({props}) {
         : <p>Error</p>}
         
       {data && data.users && 
-        <Fixing users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
+        <Fixing lastUpdated={lastUpdated} isLoading={isLoading} users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
    </Layout>
   )
 }

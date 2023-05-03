@@ -52,12 +52,13 @@ interface InstrumentTileProps {
   instrumentalists: User[]
   instrumentSection: InstrumentSection
   refreshProps: () => void
+  isLoading: boolean
 }
 
 
 
 export default function InstrumentTile(props: InstrumentTileProps) {
-  const { eventCalls,  eventId, instrumentalists, instrumentSection, refreshProps } = props
+  const { eventCalls,  eventId, instrumentalists, instrumentSection, refreshProps, isLoading } = props
    const [editList, setEditList] = useState(false)
    const [selectedTab, setSelectedTab] = useState("Booking")
 
@@ -78,7 +79,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
 
   return (
     <div data-testid={`instrument-tile`} className={"w-full h-full"} key={instrumentSection.id}>
-      <TileHeader fixerNote={instrumentSection.fixerNote} instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} numToBook={instrumentSection.numToBook} />
+      <TileHeader isLoading={isLoading} fixerNote={instrumentSection.fixerNote} instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} numToBook={instrumentSection.numToBook} />
       <TileTabBar selectedTab={selectedTab} setSelectedTab={arg => setSelectedTab(arg)} />
       {selectedTab === "Booking"
       ? <BookingTab 

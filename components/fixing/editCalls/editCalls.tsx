@@ -92,7 +92,7 @@ export default function EditCalls(props: EditCallsProps) {
         bookingStatus: "",
         offerExpiry: "",
       }}
-       onSubmit={(values: HandleSubmitValues, actions): void => {
+       onSubmit={(values: HandleSubmitValues, actions) => {
           
           let requestObj: RequestValues = {
             eventId: eventId,
@@ -134,6 +134,7 @@ export default function EditCalls(props: EditCallsProps) {
               text="Pause fixing" 
               className="px-5 text-white bg-red-600 border-red-600 hover:bg-red-500"/>
             <ButtonPrimary
+              isSubmitting={props.isSubmitting}
               type="submit" 
               handleClick={() => {}} 
               id="fix-btn" 

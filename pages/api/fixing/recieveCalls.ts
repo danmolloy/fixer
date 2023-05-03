@@ -25,7 +25,6 @@ export default async function handler(req, res) {
         Body
     } = req.body
 
-
     await updateAccepted(Body)
     res.writeHead(200, {'Content-Type': 'text/xml'}).end(twiml.toString());
 }
