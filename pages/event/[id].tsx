@@ -5,6 +5,7 @@ import EventIndex from "../../components/event";
 import useSWR from "swr";
 import IsLoadingEventIndex from "../../components/event/isLoadingEventIndex";
 import { useEffect, useState } from "react";
+import IsLoadingInstrumentTile from "../../components/fixing/isLoadingTile";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -43,9 +44,10 @@ export default function Event({props}) {
         fixerId={data.fixerId} 
         session={data.session} /> 
         : <p>Error</p>}
-        
-      {data && data.users && 
-        <Fixing lastUpdated={lastUpdated} isLoading={isLoading} users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
+        {<IsLoadingInstrumentTile />}
+      {data && data.users 
+      ? <Fixing lastUpdated={lastUpdated} isLoading={isLoading} users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> 
+      : <IsLoadingInstrumentTile />}
    </Layout>
   )
 }
