@@ -9,10 +9,11 @@ type MobileFixingProps = {
   refreshProps: () => void
   eventId: number
   users: User[]
+  isLoading: boolean
 }
 
 export default function MobileFixing(props: MobileFixingProps) {
-  const {instrumentSections, selectedInstrument, setSelectedInstrument, eventCalls, refreshProps, eventId, users } = props;
+  const {isLoading, instrumentSections, selectedInstrument, setSelectedInstrument, eventCalls, refreshProps, eventId, users } = props;
 
 
 
@@ -37,6 +38,7 @@ export default function MobileFixing(props: MobileFixingProps) {
           : instrumentSections.filter(i => i.instrumentName === selectedInstrument).map(i => (
             <div key={i.id} className="border sm:border-slate-400 flex flex-col w-screen rounded m-2 ">
               <InstrumentTile 
+                isLoading={isLoading}
                 eventCalls={eventCalls} 
                 refreshProps={() => refreshProps()} 
                 eventId={eventId} 
