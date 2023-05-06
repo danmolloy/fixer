@@ -4,6 +4,14 @@ import PlayerTile from "./playerTile"
 import IsLoadingTile from "./isLoadingTile"
 import ButtonPrimary from "../index/buttonPrimary"
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 interface PlayerDirectoryProps {
   data: {
     id: string
@@ -47,7 +55,13 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
           {data.filter(i => i.instrument === selectedInstrument).length < 1
           ? <h3 className="p-16 text-slate-700">No musicians found.</h3>
           : <div className="flex flex-row flex-wrap justify-center  w-screen">
-            {data.filter(j => j.instrument === selectedInstrument).sort((a, b) => sortedList && a.name.localeCompare(b.name)).map(i => (
+            {sortedList 
+            ? data.filter(j => j.instrument === selectedInstrument).sort((a, b) => a.name.localeCompare(b.name)).map(i => (
+              <div key={i.id}>
+                <PlayerTile player={i} />
+              </div>
+            ))
+            : shuffleArray(data).filter(j => j.instrument === selectedInstrument).map(i => (
               <div key={i.id}>
                 <PlayerTile player={i} />
               </div>
