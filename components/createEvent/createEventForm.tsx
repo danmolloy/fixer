@@ -23,8 +23,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
 
   const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
 
-
-
   const EventSchema = Yup.object().shape({
     fixerName: Yup.string().required("Fixer name required"),
     fixerId: Yup.string().required("Fixer ID required"),
@@ -85,9 +83,9 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           if (values.ensemble === "Other") {
             values.ensemble = values.ensembleName
           }
-          
           handleSubmit(values);
           actions.setSubmitting(false);
+          
         }}>
           {(props) => (
             <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 ' onSubmit={props.handleSubmit}>
@@ -162,6 +160,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 text="Create"/>
                 <div className=' h-8'>
                 {Object.keys(props.errors).length > 0 
+                && props.submitCount > 0
                 && <p className='text-sm text-center text-red-600'>
                     Please revise your form. Errors are stated in red.
                   </p>}
