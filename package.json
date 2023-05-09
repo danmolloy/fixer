@@ -41,6 +41,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@testing-library/cypress": "^8.0.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",

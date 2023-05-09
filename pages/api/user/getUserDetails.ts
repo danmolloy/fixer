@@ -44,4 +44,4 @@ export default async function handle(req, res) {
   res.status(200).json(userDetails)
 }
 
-export { getUser };
+export { getUser, emailGetUser };

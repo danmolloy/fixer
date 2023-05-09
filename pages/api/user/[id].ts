@@ -1,6 +1,6 @@
 import prisma from "../../../client"
 
-const findUser = async (userId: string) => {
+export const findUser = async (userId: string) => {
   return await prisma.user.findUnique({
     where: {
       id: userId

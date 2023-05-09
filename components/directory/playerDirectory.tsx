@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import PlayerTile from "./playerTile"
 import IsLoadingTile from "./isLoadingTile"
 import ButtonPrimary from "../index/buttonPrimary"
+import ToggleSwitch from "../index/toggleSwitch"
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -31,7 +32,7 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
   return (
     <div className="w-screen flex flex-col items-center" id="player-directory" data-testid="player-directory-div">
       <div className="flex flex-col w-full items-center">
-         <select onChange={e => {setSelectedInstrument(e.target.value); setPageTitle(e.target.value)}} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
+         <select onChange={e => {setSelectedInstrument(e.target.value); setPageTitle(e.target.value); setSortedList(false)}} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
           <option value={""}>Select instrument</option>
           {instrumentArr.map(i => (
             <option value={i} key={i}>
@@ -39,7 +40,7 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
             </option>
           ))}
         </select>
-        {selectedInstrument !== "" && <ButtonPrimary id="sort-btn" className="my-2 w-24 border-blue-600 text-blue-600 hover:bg-blue-50" handleClick={() => setSortedList(!sortedList)} text={sortedList ? "Random" : "Sort"} />}
+      <ToggleSwitch label="Alphabetical" toggled={sortedList} setToggled={() => setSortedList(!sortedList)} />
       </div>
         {selectedInstrument === ""
         ? <div>

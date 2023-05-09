@@ -60,10 +60,11 @@ export default function Header(props: HeaderProps) {
 
   return (
     <div className={showMenu === true ? "blur h-20 flex flex-row items-center justify-between" : "h-20 flex flex-row items-center justify-between"} data-testid="layout-header">
+      <Link href="/">
       <h2 className={' p-2 text-2xl mx-2 md:mx-10  '}>
         Gig<span className="text-blue-600 font-semibold">Fix</span>
       </h2>
-
+      </Link>
         
         <div className='w-full justify-end hidden md:flex flex-row mr-2' data-testid="nav-bar">
           {menuItems.map(i => (
