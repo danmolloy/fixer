@@ -18,13 +18,13 @@ export const fixerFeatureList: {key: number, title: string, blurb: string, icon:
   },
   {
     key: 2,
-    title: "Direct communication with the players",
+    title: "Update the orchestra's diary in seconds",
     blurb: "Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.",
     icon: <SiGooglemessages />
   },
   {
     key: 3,
-    title: "Instantly update your musician's diaries",
+    title: "Find new players in the directory",
     blurb: "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
     icon: <SiFastapi />
   }
