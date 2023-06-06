@@ -40,7 +40,7 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
             </option>
           ))}
         </select>
-      {selectedInstrument !== null && <ToggleSwitch label="Alphabetical" toggled={sortedList} setToggled={() => setSortedList(!sortedList)} />}
+      {selectedInstrument !== "" && <ToggleSwitch label="Alphabetical" toggled={sortedList} setToggled={() => setSortedList(!sortedList)} />}
       </div>
         {selectedInstrument === ""
         ? <div>

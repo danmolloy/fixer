@@ -6,6 +6,7 @@ import UserInfoForm from "../components/index/userInfoForm";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Loading from "../components/index/loading";
+import Dashboard from "../components/index/dashboard";
 
 export default function Home() {
   const router = useRouter()
@@ -44,8 +45,8 @@ export default function Home() {
   )}
 
   return (
-    <Layout pageTitle="Calendar">
-      <EventsIndex />
+    <Layout pageTitle="Hi, Daniel">
+      <Dashboard />
     </Layout>
   )
 }
