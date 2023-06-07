@@ -10,14 +10,14 @@ export default function Hero() {
         for fixers and musicians.
       </h1>
       <p className="p-4 text-slate-700">
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. 
+        Seamless communication and effortless fixing for orchestras and musicians. 
       </p>
       <div className="flex flex-row flex-wrap w-full justify-center">
         <button className="m-2 bg-black hover:bg-slate-700 text-white rounded-full py-2 px-4 text-sm ">
-          Get 6 months free
+          Start now
         </button>
         <button className="m-2 border hover:border-slate-300 text-black rounded-full py-2 px-4 text-sm ">
-          Watch video
+          Learn more
         </button>
       </div>
     </div>
