@@ -1,3 +1,5 @@
+import { signIn } from "next-auth/react"
+import Link from "next/link"
 import React from "react"
 
 export default function Hero() {
@@ -13,12 +15,12 @@ export default function Hero() {
         Seamless communication and effortless fixing for orchestras and musicians. 
       </p>
       <div className="flex flex-row flex-wrap w-full justify-center">
-        <button className="m-2 bg-black hover:bg-slate-700 text-white rounded-full py-2 px-4 text-sm ">
+        <button onClick={() => signIn("github")} className="m-2 bg-black hover:bg-slate-700 text-white rounded-full py-2 px-4 text-sm ">
           Start now
         </button>
-        <button className="m-2 border hover:border-slate-300 text-black rounded-full py-2 px-4 text-sm ">
+        <Link href="/about" className="m-2 border hover:border-slate-300 text-black rounded-full py-2 px-4 text-sm ">
           Learn more
-        </button>
+        </Link>
       </div>
     </div>
   )

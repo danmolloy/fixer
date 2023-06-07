@@ -31,7 +31,7 @@ export default function LandingHeader(props: LandingHeaderProps) {
             <button onClick={() => signIn("github")} className="hidden md:flex  hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
                 Sign in
             </button>
-            <button className="bg-blue-600 hover:bg-blue-500 text-white rounded-full py-2 px-2 sm:px-4 mr-2 text-sm ">
+            <button onClick={() => signIn("github")} className="bg-blue-600 hover:bg-blue-500 text-white rounded-full py-2 px-2 sm:px-4 mr-2 text-sm ">
               Get started
             </button>
             <button className="p-2 rounded-full mx-2 md:hidden hover:bg-zinc-100" onClick={() => setShowMenu(!showMenu)}>
