@@ -66,8 +66,9 @@ export default function BookingTab(props: BookingTabProps) {
   return (
     <div data-testid="booking-tab" className="">
       
-      {instrumentSection.musicians.length > 0
-        ? <ActiveCalls 
+      {instrumentSection.musicians.filter(i => i.bookingOrAvailability === "Booking").length > 0
+        ? <ActiveCalls
+          bookingOrAvailability="Booking" 
           eventCalls={eventCalls} 
           closeEdit={() => setEditList(false)} 
           instrumentName={instrumentSection.instrumentName} 
@@ -97,6 +98,7 @@ export default function BookingTab(props: BookingTabProps) {
           key={instrumentSection.id} 
           instrumentName={instrumentSection.instrumentName} 
           instrumentalists={instrumentalistsList}
+          contactedPlayers={instrumentSection.musicians.map(i => i.musician.name)}
           />}
           
     </div>

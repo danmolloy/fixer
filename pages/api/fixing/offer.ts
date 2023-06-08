@@ -59,6 +59,7 @@ const handleBooking = async (instrumentObj: RequestValues) => {
             eventInstrumentId: Number(instrumentObj.eventInstrumentId),
             playerMessage: instrumentObj.musicians[i].playerMessage,
             offerExpiry: instrumentObj.musicians[i].offerExpiry,
+            bookingOrAvailability: instrumentObj.bookingOrAvailability,
             calls: {
               connect: instrumentObj.musicians[i].callsOffered
             }

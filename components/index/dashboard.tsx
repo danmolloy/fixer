@@ -1,7 +1,7 @@
-import { AiFillCalendar } from "react-icons/ai";
-import { IoIosCreate } from "react-icons/io";
+import { AiOutlineCalendar } from "react-icons/ai";
+import { IoCreateOutline } from "react-icons/io5";
 import HomeTile from "./homeTile";
-import { FaUserFriends } from "react-icons/fa";
+import { FiUsers } from "react-icons/fi";
 
 export default function Dashboard() {
   return (
@@ -9,18 +9,18 @@ export default function Dashboard() {
 
       <HomeTile title={"Calendar"} link={"/calendar"}>
         <div className="text-2xl m-1 text-zinc-900">
-          <AiFillCalendar />
+          <AiOutlineCalendar />
         </div>
       </HomeTile>
       <HomeTile title={"Directory"} link={"/directory"}>
       <div className="text-2xl m-1 text-zinc-900">
-          <FaUserFriends />
+          <FiUsers />
         </div>
       </HomeTile>
 
       <HomeTile title={"Create Event"} link={"/event/create"}>
         <div className="text-2xl m-1 text-zinc-900">
-          <IoIosCreate />
+          <IoCreateOutline />
         </div>
       </HomeTile>
 

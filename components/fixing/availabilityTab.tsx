@@ -3,6 +3,7 @@ import AvailabilityTable from "./availabilityTable"
 import EditCalls from "./editCalls/editCalls"
 import React from "react"
 import { User } from "./fixing"
+import ActiveCalls from "./activeCalls"
 
 interface Musician {
   id: number
@@ -65,8 +66,21 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
 
   return (
     <div data-testid="availability-tab">
-      
-        <AvailabilityTable />
+        {instrumentSection.musicians.filter(i => i.bookingOrAvailability === "Availability").length > 0
+        ? <ActiveCalls 
+          bookingOrAvailability={"Availability"}
+          eventCalls={eventCalls} 
+          closeEdit={() => setEditList(false)} 
+          instrumentName={instrumentSection.instrumentName} 
+          refreshProps={refreshProps} 
+          instrumentSection={instrumentSection} 
+          editList={editList} 
+          instrumentFixed={instrumentFixed}
+          />
+        : 
+        <div className="text-zinc-500 text-center py-16">
+          <p className="">No availability checks have been made.</p>
+        </div>}
         <div className="w-full flex flex-row justify-end">
             <ButtonPrimary
               id={`availability-edit-btn`} 
@@ -84,6 +98,7 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
           key={instrumentSection.id} 
           instrumentName={instrumentSection.instrumentName} 
           instrumentalists={instrumentalistsList}
+          contactedPlayers={instrumentSection.musicians.map(i => i.musician.name)}
           />}
     </div>
   )

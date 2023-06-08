@@ -6,6 +6,7 @@ import { List, ListItem, Table, TableCell, TableContainer, TableHead, TableRow }
 import moment from 'moment/moment'
 import BookingTable from './bookingTable'
 import React from 'react'
+import AvailabilityTable from './availabilityTable'
 
 interface Musician {
   id: number
@@ -54,10 +55,11 @@ interface ActiveCallsProps {
   instrumentFixed: boolean
   refreshProps: () => void
   closeEdit: Function
+  bookingOrAvailability: string
 }
 
 export default function ActiveCalls(props: ActiveCallsProps) {
-  const {eventCalls, instrumentSection, editList, refreshProps, closeEdit} = props
+  const {eventCalls, instrumentSection, editList, refreshProps, closeEdit, bookingOrAvailability} = props
   const [callList, setCallList] = useState<any>([])
 
   useEffect(() => {
@@ -118,12 +120,17 @@ export default function ActiveCalls(props: ActiveCallsProps) {
 
   return (
     <div className="active-calls-div" data-testid={`active-calls-div`}>
-      <BookingTable 
+      {bookingOrAvailability === "Booking" 
+      ? <BookingTable 
         removePlayer={(callId) => removePlayer(callId)} 
         fixOrUnfixPlayer={(fixOrUnfix, callId, musicianEmail) => fixOrUnfixPlayer(fixOrUnfix, callId, musicianEmail)}
         eventCalls={eventCalls} 
-
         instrumentSection={instrumentSection}/>
+      : <AvailabilityTable 
+        removePlayer={(callId) => removePlayer(callId)} 
+        fixOrUnfixPlayer={(fixOrUnfix, callId, musicianEmail) => fixOrUnfixPlayer(fixOrUnfix, callId, musicianEmail)}
+        eventCalls={eventCalls} 
+        instrumentSection={instrumentSection}/>}
     </div>
   )
 }

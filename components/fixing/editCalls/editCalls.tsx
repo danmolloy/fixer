@@ -73,11 +73,11 @@ interface EditCallsProps {
   eventCalls: EventCall[]
   eventInstrumentId: number
   bookingOrAvailability: string /* "Booking"|"Availability"  */
-
+  contactedPlayers: string[]
 }
 
 export default function EditCalls(props: EditCallsProps) {
-  const { handleSubmit, instrumentName, instrumentalists, eventCalls, eventId, eventInstrumentId, bookingOrAvailability } = props
+  const {contactedPlayers, handleSubmit, instrumentName, instrumentalists, eventCalls, eventId, eventInstrumentId, bookingOrAvailability } = props
 
   return (
     <Formik
@@ -86,7 +86,7 @@ export default function EditCalls(props: EditCallsProps) {
         appendedPlayers: [],
         availablePlayers: instrumentalists,
         callOrder: "Ordered",
-        bookingOrAvailability: "Booking",
+        bookingOrAvailability: bookingOrAvailability,
         messageToAll: "",
         fixerNote: "",
         bookingStatus: "",
@@ -122,6 +122,7 @@ export default function EditCalls(props: EditCallsProps) {
           <label htmlFor="appendedPlayers" className="m-4 p-2 text-lg">Add Players</label>
           <AppendedPlayers makeAvailable={(i: User) => props.values.availablePlayers.push(i)} eventCalls={eventCalls} appendedPlayers={props.values.appendedPlayers} />
           <AvailablePlayers 
+            contactedPlayers={contactedPlayers}
             instrumentName={instrumentName} 
             availablePlayers={props.values.availablePlayers} 
             appendPlayer={(i) => props.values.appendedPlayers.push({...i, calls: [...eventCalls.map(i => String(i.id))]})} />
@@ -131,14 +132,14 @@ export default function EditCalls(props: EditCallsProps) {
             <ButtonPrimary 
               id="pause-btn" 
               handleClick={() => {}} 
-              text="Pause fixing" 
+              text={bookingOrAvailability === "Availability" ? "Pause checks" : "Pause fixing"} 
               className="px-5 text-white bg-red-600 border-red-600 hover:bg-red-500"/>
             <ButtonPrimary
               isSubmitting={props.isSubmitting}
               type="submit" 
               handleClick={() => {}} 
               id="fix-btn" 
-              text="Fix" 
+              text={bookingOrAvailability === "Availability" ? "Check availability" : "Fix"} 
               className="px-5 text-white bg-emerald-500 border-emerald-500 hover:bg-emerald-400" />
 
           </div>

@@ -82,7 +82,7 @@ export const createTable = (eventCalls: any, instrumentSection: any): any => {
     }))
   }]
 
-  let sortedMusicians = instrumentSection.musicians.sort((a: any, b: any) => Number(a.id) - Number(b.id))
+  let sortedMusicians = instrumentSection.musicians.filter(i => i.bookingOrAvailability === "Booking").sort((a: any, b: any) => Number(a.id) - Number(b.id))
 
   for (let i = 0; i < sortedMusicians.length; i ++) {
     objArr = [...objArr, {
