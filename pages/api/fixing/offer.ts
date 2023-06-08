@@ -94,21 +94,22 @@ const makeCalls = async (eventInstrumentId: number, bookingOrAvailability: strin
     return;
   }
   let eventInstrument = await getEventInstrument(eventInstrumentId)
+  let eventInstrumentMusicians = eventInstrument.musicians.filter(i => i.bookingOrAvailability === bookingOrAvailability)
   let numCalls = numToCall(eventInstrument, bookingOrAvailability)
   let msgBody;
 
 
   for (let i = 0; i < numCalls; i++) {
-    msgBody = `Hi ${eventInstrument?.musicians[i].musician.name}, 
-    Dan Molloy ${eventInstrument?.musicians[i].bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"} 
+    msgBody = `Hi ${eventInstrumentMusicians[i].musician.name}, 
+    Dan Molloy ${eventInstrumentMusicians[i].bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"} 
     
     ${process.env.NGROK_URL}/event/${eventInstrument?.eventId}
 
     ${eventInstrument?.messageToAll !== "" ? `\n Dan says to all ${eventInstrument.instrumentName} players for this gig: "${eventInstrument?.messageToAll}"` : ""}
 
-    ${eventInstrument?.musicians[i].playerMessage !== null ? `\n Dan says to you: "${eventInstrument?.musicians[i].playerMessage}"`: ""}
+    ${eventInstrumentMusicians[i].playerMessage !== null ? `\n Dan says to you: "${eventInstrumentMusicians[i].playerMessage}"`: ""}
 
-    Reply YES ${eventInstrument?.musicians[i].id} to accept or NO ${eventInstrument?.musicians[i].id} to decline. 
+    Reply YES ${eventInstrumentMusicians[i].id} to accept or NO ${eventInstrumentMusicians[i].id} to decline. 
     
     For other options, contact Dan directly.
 
@@ -121,7 +122,7 @@ const makeCalls = async (eventInstrumentId: number, bookingOrAvailability: strin
              to: process.env.PHONE 
            }) 
           .then(message => console.log(message.sid))
-          .then(async () => await updatePlayer(eventInstrument?.musicians[i].id))
+          .then(async () => await updatePlayer(eventInstrumentMusicians[i].id))
           .done();
   }
 
