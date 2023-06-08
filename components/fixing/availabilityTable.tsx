@@ -8,6 +8,7 @@ import TableRowMenu from "./editCalls/tableRowMenu";
 import { GiSandsOfTime } from "react-icons/gi";
 import BookingRowMenu from "./bookingRowMenu";
 import axios from "axios";
+import AvailabilityRowMenu from "./availabilityRowMenu";
 
 interface Musician {
   id: number
@@ -51,7 +52,7 @@ interface BookingTableProps {
   eventCalls: EventCall[]
   instrumentSection: InstrumentSection
   removePlayer: (callId: number) => Promise<void>
-  fixOrUnfixPlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => Promise<void>
+  offerOrDecline: (offerOrDecline: boolean, callId: number, musicianEmail: string) => Promise<void>
 }
 
 interface tableObjHeader {
@@ -121,7 +122,7 @@ const sendMessage = (musicianName) => {
 
 
 export default function AvailabilityTable(props: BookingTableProps) {
-  const {eventCalls, instrumentSection, removePlayer, fixOrUnfixPlayer } = props;
+  const {eventCalls, instrumentSection, removePlayer, offerOrDecline } = props;
   const [menuId, setMenuId] = useState(null)
 
   let filledTable = createTable(eventCalls, instrumentSection)
@@ -129,13 +130,13 @@ export default function AvailabilityTable(props: BookingTableProps) {
   return (
     <div data-testid="booking-table-div" className="flex flex-col mx-2">
       {menuId !== null
-      && <BookingRowMenu 
+      && <AvailabilityRowMenu 
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
       setShowMenu={() => setMenuId(null)}
       removePlayer={(callId) => {removePlayer(callId); setMenuId(null)}}
       sendMessage={(name) => sendMessage(name)}
       pokePlayer={(name) => pokePlayer(name)}
-      fixOrUnfix={(fixingBool, callId, musicianEmail) => {fixOrUnfixPlayer(fixingBool, callId, musicianEmail); setMenuId(null)}}/>}
+      offerOrDecline={(offerOrDeclineBool, callId, musicianEmail) => {offerOrDecline(offerOrDeclineBool, callId, musicianEmail); setMenuId(null)}}/>}
       <TableContainer>
         <Table>
           <TableHead >

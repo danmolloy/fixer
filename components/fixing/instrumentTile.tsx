@@ -62,8 +62,9 @@ export default function InstrumentTile(props: InstrumentTileProps) {
    const [editList, setEditList] = useState(false)
    const [selectedTab, setSelectedTab] = useState("Booking")
 
-  let instrumentFixed = instrumentSection.musicians.filter(i => i.accepted === true).length === instrumentSection.numToBook
-
+  let instrumentFixed = instrumentSection.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length === instrumentSection.numToBook
+  let numAvailablityConfirmed = instrumentSection.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Availability").length
+  let availablityChecksOut = instrumentSection.musicians.filter(i => i.bookingOrAvailability === "Availability").length > 0 ? true : false
   let instrumentalistsList = instrumentSection !== null ? instrumentalists.filter(i => !instrumentSection.musicians.map(i => i.musicianEmail).includes(i.email)) : instrumentalists
   
   const handleSubmit = (vals: RequestValues) => {
@@ -79,7 +80,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
 
   return (
     <div data-testid={`instrument-tile`} className={"w-full h-full"} key={instrumentSection.id}>
-      <TileHeader isLoading={isLoading} fixerNote={instrumentSection.fixerNote} instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} numToBook={instrumentSection.numToBook} />
+      <TileHeader availablityChecksOut={availablityChecksOut} numAvailablityConfirmed={numAvailablityConfirmed} isLoading={isLoading} fixerNote={instrumentSection.fixerNote} instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} numToBook={instrumentSection.numToBook} />
       <TileTabBar selectedTab={selectedTab} setSelectedTab={arg => setSelectedTab(arg)} />
       {selectedTab === "Booking"
       ? <BookingTab 

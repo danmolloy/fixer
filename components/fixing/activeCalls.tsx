@@ -102,21 +102,30 @@ export default function ActiveCalls(props: ActiveCallsProps) {
     }
   }
 
-  const acceptPlayer = e => {
-    let obj = {
-      playerCallId: e.id,
-      musicianEmail: e.musicianEmail
-    };
-
-    axios.post('/api/fixing/fixPlayer', obj)
-    .then(() => {
-        closeEdit();
+  const offerOrDecline = (offerOrDecline: boolean, callId: number, musicianEmail: string): Promise<void> => {
+    const reqBody = {
+      playerCallId: callId,
+      musicianEmail: musicianEmail,
+      remove: false,
+      offerOrDecline: offerOrDecline
+    }
+    if (offerOrDecline === true) {
+      return /* axios.post("/api/fixing/offer", reqBody).then(() => {
         refreshProps();
       })
-    .catch(function (error) {
-      console.log(error);
-    });
+      .catch(function (error) {
+        console.log(error);
+      });
+    } else {
+        return axios.post("/api/fixing/declinePlayer", reqBody).then(() => {
+          refreshProps();
+        })
+        .catch(function (error) {
+          console.log(error);
+        }); */
+    }
   }
+
 
   return (
     <div className="active-calls-div" data-testid={`active-calls-div`}>
@@ -128,7 +137,7 @@ export default function ActiveCalls(props: ActiveCallsProps) {
         instrumentSection={instrumentSection}/>
       : <AvailabilityTable 
         removePlayer={(callId) => removePlayer(callId)} 
-        fixOrUnfixPlayer={(fixOrUnfix, callId, musicianEmail) => fixOrUnfixPlayer(fixOrUnfix, callId, musicianEmail)}
+        offerOrDecline={(offerOrDeclineBool, callId, musicianEmail) => offerOrDecline(offerOrDeclineBool, callId, musicianEmail)}
         eventCalls={eventCalls} 
         instrumentSection={instrumentSection}/>}
     </div>
