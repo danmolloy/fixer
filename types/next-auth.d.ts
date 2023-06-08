@@ -73,7 +73,7 @@ declare module "next-auth" {
         musicianId: string
         eventInstrumentId: number
         playerMessage?: string
-        bookingOrAvailability: string
+        bookingOrAvailability: "Booking"|"Availability"
         offerExpiry?: number
       }[]
     }

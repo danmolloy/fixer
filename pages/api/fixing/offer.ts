@@ -70,25 +70,33 @@ const handleBooking = async (instrumentObj: RequestValues) => {
       }
     }
 }
-  
-  makeCalls(instrumentObj.eventInstrumentId)
+
+  makeCalls(instrumentObj.eventInstrumentId, instrumentObj.bookingOrAvailability)
   return arr;
 }
 
 
-const numToCall = (eventInstrument) => {
-  let activeCallsAndBookedLength = eventInstrument.musicians.filter(i => i.recieved === true && i.accepted !== false).length
-  let numToCall = eventInstrument.numToBook - activeCallsAndBookedLength
+const numToCall = (eventInstrument, bookingOrAvailability) => {
+  let activeCallsAndBookedLength;
+  let numToCall;
+  if (bookingOrAvailability === "Booking") {
+    activeCallsAndBookedLength = eventInstrument.musicians.filter(i => i.recieved === true && i.accepted !== false && i.bookingOrAvailability === "Booking").length
+    numToCall = eventInstrument.numToBook - activeCallsAndBookedLength
+  } else {
+    activeCallsAndBookedLength = eventInstrument.musicians.filter(i => i.recieved === true && i.accepted !== false && i.bookingOrAvailability === "Availability").length
+    numToCall = eventInstrument.numToBook - activeCallsAndBookedLength
+  }
   return numToCall
 }
 
-const makeCalls = async (eventInstrumentId: number) => {
+const makeCalls = async (eventInstrumentId: number, bookingOrAvailability: string) => {
   if (process.env.TWILIO_ACTIVE === "false") {
     return;
   }
   let eventInstrument = await getEventInstrument(eventInstrumentId)
-  let numCalls = numToCall(eventInstrument)
+  let numCalls = numToCall(eventInstrument, bookingOrAvailability)
   let msgBody;
+
 
   for (let i = 0; i < numCalls; i++) {
     msgBody = `Hi ${eventInstrument?.musicians[i].musician.name}, 

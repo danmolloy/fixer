@@ -55,7 +55,7 @@ interface ActiveCallsProps {
   instrumentFixed: boolean
   refreshProps: () => void
   closeEdit: Function
-  bookingOrAvailability: string
+  bookingOrAvailability: "Booking"|"Availability"
 }
 
 export default function ActiveCalls(props: ActiveCallsProps) {

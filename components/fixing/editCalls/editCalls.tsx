@@ -37,7 +37,7 @@ export type HandleSubmitValues = {
   appendedPlayers: AppendedInstrumentalist[]
   availablePlayers: User[]
   callOrder: "Ordered"|"Random"|"Simultaneous"
-  bookingOrAvailability: string/* "Booking"|"Availability" */
+  bookingOrAvailability: "Booking"|"Availability"
   messageToAll: string
   fixerNote: string
   bookingStatus: string
@@ -59,7 +59,7 @@ export type RequestValues = {
   eventInstrumentId: number
   numToBook: number
   callOrder: "Ordered"|"Random"|"Simultaneous"
-  bookingOrAvailability: string /* "Booking"|"Availability" */
+  bookingOrAvailability: "Booking"|"Availability"
   messageToAll: string
   fixerNote: string
   bookingStatus: string
@@ -72,7 +72,7 @@ interface EditCallsProps {
   instrumentalists: User[]
   eventCalls: EventCall[]
   eventInstrumentId: number
-  bookingOrAvailability: string /* "Booking"|"Availability"  */
+  bookingOrAvailability: "Booking"|"Availability"
   contactedPlayers: string[]
 }
 
