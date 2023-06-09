@@ -56,7 +56,7 @@ interface ActiveCallsProps {
   refreshProps: () => void
   closeEdit: Function
   bookingOrAvailability: "Booking"|"Availability"
-  setSelectedTab: (i: string) => void
+  setSelectedTab?: (i: string) => void
 }
 
 export default function ActiveCalls(props: ActiveCallsProps) {

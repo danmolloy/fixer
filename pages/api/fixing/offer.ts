@@ -30,23 +30,6 @@ const checkNumToBook = async (eventInstrumentId: number) => {
 }
 
 
-/* const getEventInstrument = async (eventInstrumentId: number) => {
-  
-  let callsOut = await prisma.eventInstrument.findUnique({
-    where: {
-      id: eventInstrumentId
-    },
-    include: {
-      musicians: {
-        include: {
-          musician: true
-        }
-      }
-    }
-  })
-  return callsOut
-} */
-
 const updatePlayerCall = async (playerCallId: number, recieved: boolean) => {
   let updatedPlayerCall = await prisma.playerCall.update({
     where: {
@@ -73,15 +56,12 @@ const handleOffer = async (playerCallId: number) => {
   } else {
     return;
   }
-  
-  //return arr;
-}
+  }
 
 const makeCall = async (playerCall: any) => {
   if (process.env.TWILIO_ACTIVE === "false") {
     return;
   }
-  //let eventInstrument = await getEventInstrument(playerCall.eventInstrumentId)
 
   let msgBody = `Hi ${playerCall.musician.name}, 
     Dan Molloy ${playerCall.bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"} 
@@ -96,8 +76,6 @@ const makeCall = async (playerCall: any) => {
     
     For other options, contact Dan directly.
 `
-    //${eventInstrument?.callOrder === "Simultaneous" ? "There are other calls out" : ""}
-    //console.log(msgBody)
    twilioClient.messages 
           .create({ 
              body: msgBody,  
