@@ -5,7 +5,7 @@ import AvailabilityTab from "./availabilityTab";
 import React from "react";
 import TileHeader from "./tileHeader";
 import TileTabBar from "./tileTabBar";
-import { RequestValues } from "./editCalls/editCalls";
+import { AvailabilityRequestValues, RequestValues } from "./editCalls/editCalls";
 import { User } from "./fixing";
 
 interface Musicians {
@@ -67,9 +67,15 @@ export default function InstrumentTile(props: InstrumentTileProps) {
   let availablityChecksOut = instrumentSection.musicians.filter(i => i.bookingOrAvailability === "Availability").length > 0 ? true : false
   let instrumentalistsList = instrumentSection !== null ? instrumentalists.filter(i => !instrumentSection.musicians.map(i => i.musicianEmail).includes(i.email)) : instrumentalists
   
-  const handleSubmit = (vals: RequestValues) => {
-    
-    axios.post('/api/fixing/offer', vals).then(() => {
+  const handleSubmit = (vals: RequestValues|AvailabilityRequestValues) => {
+    console.log("Hello from handleSubmit")
+    let apiRoute: string; 
+    if (vals.bookingOrAvailability === "Booking") {
+      apiRoute = "/api/fixing/offer"
+    } else {
+      apiRoute = "/api/fixing/availabilityCheck"
+    }
+    axios.post(apiRoute, vals).then(() => {
       setEditList(false)
       refreshProps();
     })
@@ -93,8 +99,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
         refreshProps={refreshProps}
         instrumentFixed={instrumentFixed}
         handleSubmit={(values) => handleSubmit(values)} />
-
-        :<AvailabilityTab 
+        : <AvailabilityTab 
         eventId={eventId}
         instrumentalistsList={instrumentalistsList}
         setEditList={i => setEditList(i)}
@@ -104,7 +109,6 @@ export default function InstrumentTile(props: InstrumentTileProps) {
         refreshProps={refreshProps}
         instrumentFixed={instrumentFixed}
         handleSubmit={(values) => handleSubmit(values)} />}
-
   </div>
   )
 }

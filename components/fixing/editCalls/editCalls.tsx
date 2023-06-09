@@ -65,9 +65,27 @@ export type RequestValues = {
   bookingStatus: string
 }
 
+export type AvailabilityRequestValues = {
+  eventId: number
+  musicians: {
+    musicianId: string
+    musicianEmail: string
+    callsOffered: {
+      id: number
+    }[]
+    eventInstrumentId: number
+    playerMessage?: string
+    offerExpiry?: number
+  }[]
+  eventInstrumentId: number
+  bookingOrAvailability: "Booking"|"Availability"
+  messageToAll: string
+  bookingStatus: string
+}
+
 interface EditCallsProps {
   eventId: number
-  handleSubmit: (vals: RequestValues) => void
+  handleSubmit: (vals: RequestValues|AvailabilityRequestValues) => void
   instrumentName: string
   instrumentalists: User[]
   eventCalls: EventCall[]
@@ -93,24 +111,42 @@ export default function EditCalls(props: EditCallsProps) {
         offerExpiry: "",
       }}
        onSubmit={(values: HandleSubmitValues, actions) => {
-          
-          let requestObj: RequestValues = {
-            eventId: eventId,
-            musicians: values.appendedPlayers.filter(i => i.calls.length > 0).map(i => ({
-              musicianId: i.id,
-              musicianEmail: i.email,
-              callsOffered: [...i.calls.map(i => ({id: Number(i)}))],
-              playerMessage: i.playerMessage,
+          let requestObj: RequestValues|AvailabilityRequestValues; 
+          if (bookingOrAvailability === "Booking") {
+            requestObj = {
+              eventId: eventId,
+              musicians: values.appendedPlayers.filter(i => i.calls.length > 0).map(i => ({
+                musicianId: i.id,
+                musicianEmail: i.email,
+                callsOffered: [...i.calls.map(i => ({id: Number(i)}))],
+                playerMessage: i.playerMessage,
+                eventInstrumentId: eventInstrumentId,
+                offerExpiry: Number(values.offerExpiry)
+              })),
               eventInstrumentId: eventInstrumentId,
-              offerExpiry: Number(values.offerExpiry)
-            })),
-            eventInstrumentId: eventInstrumentId,
-            numToBook: values.numToBook, 
-            callOrder: values.callOrder, 
-            bookingOrAvailability: bookingOrAvailability, 
-            messageToAll: values.messageToAll,
-            fixerNote: values.fixerNote, 
-            bookingStatus: values.bookingStatus
+              numToBook: values.numToBook, 
+              callOrder: values.callOrder, 
+              bookingOrAvailability: bookingOrAvailability, 
+              messageToAll: values.messageToAll,
+              fixerNote: values.fixerNote, 
+              bookingStatus: values.bookingStatus
+            }
+          } else {
+            requestObj = {
+              eventId: eventId,
+              musicians: values.appendedPlayers.filter(i => i.calls.length > 0).map(i => ({
+                musicianId: i.id,
+                musicianEmail: i.email,
+                callsOffered: [...i.calls.map(i => ({id: Number(i)}))],
+                playerMessage: i.playerMessage,
+                eventInstrumentId: eventInstrumentId,
+                offerExpiry: Number(values.offerExpiry)
+              })),
+              eventInstrumentId: eventInstrumentId,
+              bookingOrAvailability: bookingOrAvailability, 
+              messageToAll: values.messageToAll,
+              bookingStatus: values.bookingStatus
+            }
           }
           handleSubmit(requestObj)
           actions.setSubmitting(false);
@@ -127,7 +163,7 @@ export default function EditCalls(props: EditCallsProps) {
             availablePlayers={props.values.availablePlayers} 
             appendPlayer={(i) => props.values.appendedPlayers.push({...i, calls: [...eventCalls.map(i => String(i.id))]})} />
           </div>
-          <EditCallsOptions instrumentName={instrumentName} isSubmitting={props.isSubmitting}/>
+          <EditCallsOptions bookingOrAvailability={bookingOrAvailability} instrumentName={instrumentName} isSubmitting={props.isSubmitting}/>
           <div className="w-full p-4 flex flex-row justify-between">
             <ButtonPrimary 
               id="pause-btn" 

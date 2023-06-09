@@ -5,14 +5,16 @@ import TextInput from '../../createEvent/textInput'
 interface EditCallsOptionsProps {
   instrumentName: string
   isSubmitting: boolean
+  bookingOrAvailability: "Booking"|"Availability"
 }
 
 export default function EditCallsOptions(props: EditCallsOptionsProps) {
-  const { instrumentName, isSubmitting, } = props
+  const { instrumentName, isSubmitting, bookingOrAvailability } = props
   return (
     <div data-testid="edit-calls-options">
       <div className="p-2 flex flex-col">
-            <div className="my-2 w-full ">
+      {bookingOrAvailability === "Booking" 
+      && <div className="my-2 w-full ">
               <TextInput 
                 className=" w-24 h-8"
                 name={"numToBook"} 
@@ -52,6 +54,8 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
               </label>
             </div>
           </div>
+          </div>
+}
               <TextInput
                 optional={true}  
                 label="Message to all"
@@ -59,7 +63,9 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
                 name="messageToAll"
                 asHtml="textarea"
                 className=""/>
-                <TextInput                 
+                {bookingOrAvailability === "Booking" 
+      && <div>
+      <TextInput                 
                 optional={true} 
                 className=" w-24 h-8"
                 name={"offerExpiry"} 
@@ -77,7 +83,7 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
                 name="fixerNote"
                 asHtml="textarea"
                 className=""/>
-            </div>
+                </div>}
     </div>
     </div>
   )
