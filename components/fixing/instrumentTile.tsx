@@ -100,6 +100,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
         instrumentFixed={instrumentFixed}
         handleSubmit={(values) => handleSubmit(values)} />
         : <AvailabilityTab 
+        setSelectedTab={i => setSelectedTab(i)}
         eventId={eventId}
         instrumentalistsList={instrumentalistsList}
         setEditList={i => setEditList(i)}

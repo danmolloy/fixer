@@ -4,8 +4,33 @@ import { twilioClient } from "../../../twilio"
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+const checkNumToBook = async (eventInstrumentId: number) => {
 
-const getEventInstrument = async (eventInstrumentId: number) => {
+  let eventInstrument = await prisma.eventInstrument.findUnique({
+    where: {
+      id: eventInstrumentId
+    },
+    include: {
+      musicians: {
+        include: {
+          musician: true
+        }
+      }
+    }
+  })
+
+  const numPlayersBooked = eventInstrument.musicians.filter(i => i.bookingOrAvailability === "Booking" && i.accepted === true).length
+  const numPlayersAwaiting = eventInstrument.musicians.filter(i => i.bookingOrAvailability === "Booking" && i.accepted === null && i.recieved === true).length
+
+  if (eventInstrument.numToBook > (numPlayersBooked + numPlayersAwaiting)) {
+    return true
+  } else {
+    return false
+  }
+}
+
+
+/* const getEventInstrument = async (eventInstrumentId: number) => {
   
   let callsOut = await prisma.eventInstrument.findUnique({
     where: {
@@ -20,100 +45,58 @@ const getEventInstrument = async (eventInstrumentId: number) => {
     }
   })
   return callsOut
-}
+} */
 
-const updateEventDetails = async (instrumentObj) => {
-  let updatedEventInstrument = await prisma.eventInstrument.update({
+const updatePlayerCall = async (playerCallId: number, recieved: boolean) => {
+  let updatedPlayerCall = await prisma.playerCall.update({
     where: {
-      id: instrumentObj.eventInstrumentId
+      id: playerCallId
     },
     data: {
-      callOrder: instrumentObj.callOrder,
-      numToBook: Number(instrumentObj.numToBook),
-      messageToAll: instrumentObj.messageToAll,
-      fixerNote: instrumentObj.fixerNote,
-    },
+      bookingOrAvailability: "Booking",
+      recieved: recieved,
+      accepted: null
+    }, 
     include: {
-      musicians: true
+      musician: true
     }
   })
 
-  return updatedEventInstrument;
+  return updatedPlayerCall;
 
 }
 
-const handleBooking = async (instrumentObj: RequestValues) => {
-  let arr: any = []
-  let eventInstrument = await updateEventDetails(instrumentObj)
-  //console.log(`eventInstrument: ${JSON.stringify(eventInstrument)}`)
-
-  // Add players to call list on DB
-  if (instrumentObj.musicians.length > 0) {
-    for (let i = 0; i < instrumentObj.musicians.length; i++) {
-
-      if (eventInstrument.musicians.find(j => String(j.id) === instrumentObj.musicians[i].musicianId) === undefined) {
-        arr = [...arr, await prisma.playerCall.create({
-          data: {
-            //musicianEmail: instrumentObj.musicians[i].musicianEmail,
-            musicianId: instrumentObj.musicians[i].musicianId,
-            eventInstrumentId: Number(instrumentObj.eventInstrumentId),
-            playerMessage: instrumentObj.musicians[i].playerMessage,
-            offerExpiry: instrumentObj.musicians[i].offerExpiry,
-            bookingOrAvailability: instrumentObj.bookingOrAvailability,
-            calls: {
-              connect: instrumentObj.musicians[i].callsOffered
-            }
-          }
-        })]
-      } else {
-        console.log(`${instrumentObj.musicians[i].musicianEmail} already on call list`)
-      }
-    }
-}
-
-  makeCalls(instrumentObj.eventInstrumentId, instrumentObj.bookingOrAvailability)
-  return arr;
-}
-
-
-const numToCall = (eventInstrument, bookingOrAvailability) => {
-  let activeCallsAndBookedLength;
-  let numToCall;
-  if (bookingOrAvailability === "Booking") {
-    activeCallsAndBookedLength = eventInstrument.musicians.filter(i => i.recieved === true && i.accepted !== false && i.bookingOrAvailability === "Booking").length
-    numToCall = eventInstrument.numToBook - activeCallsAndBookedLength
+const handleOffer = async (playerCallId: number) => {
+  let updatedPlayerCall = await updatePlayerCall(playerCallId, false)
+  if (await checkNumToBook(updatedPlayerCall.eventInstrumentId) === true) {
+    return makeCall(updatedPlayerCall)
   } else {
-    activeCallsAndBookedLength = eventInstrument.musicians.filter(i => i.recieved === true && i.accepted !== false && i.bookingOrAvailability === "Availability").length
-    numToCall = eventInstrument.numToBook - activeCallsAndBookedLength
+    return;
   }
-  return numToCall
+  
+  //return arr;
 }
 
-const makeCalls = async (eventInstrumentId: number, bookingOrAvailability: string) => {
+const makeCall = async (playerCall: any) => {
   if (process.env.TWILIO_ACTIVE === "false") {
     return;
   }
-  let eventInstrument = await getEventInstrument(eventInstrumentId)
-  let eventInstrumentMusicians = eventInstrument.musicians.filter(i => i.bookingOrAvailability === bookingOrAvailability)
-  let numCalls = numToCall(eventInstrument, bookingOrAvailability)
-  let msgBody;
+  //let eventInstrument = await getEventInstrument(playerCall.eventInstrumentId)
 
-
-  for (let i = 0; i < numCalls; i++) {
-    msgBody = `Hi ${eventInstrumentMusicians[i].musician.name}, 
-    Dan Molloy ${eventInstrumentMusicians[i].bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"} 
+  let msgBody = `Hi ${playerCall.musician.name}, 
+    Dan Molloy ${playerCall.bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"} 
     
-    ${process.env.NGROK_URL}/event/${eventInstrument?.eventId}
+    ${process.env.NGROK_URL}/event/${playerCall.eventId}
 
-    ${eventInstrument?.messageToAll !== "" ? `\n Dan says to all ${eventInstrument.instrumentName} players for this gig: "${eventInstrument?.messageToAll}"` : ""}
+    ${playerCall.messageToAll !== "" ? `\n Dan says to all ${playerCall.instrumentName} players for this gig: "${playerCall.messageToAll}"` : ""}
 
-    ${eventInstrumentMusicians[i].playerMessage !== null ? `\n Dan says to you: "${eventInstrumentMusicians[i].playerMessage}"`: ""}
+    ${playerCall.playerMessage !== null ? `\n Dan says to you: "${playerCall.playerMessage}"`: ""}
 
-    Reply YES ${eventInstrumentMusicians[i].id} to accept or NO ${eventInstrumentMusicians[i].id} to decline. 
+    Reply YES ${playerCall.id} to accept or NO ${playerCall.id} to decline. 
     
     For other options, contact Dan directly.
-
-    ${eventInstrument?.callOrder === "Simultaneous" ? "There are other calls out" : ""}`
+`
+    //${eventInstrument?.callOrder === "Simultaneous" ? "There are other calls out" : ""}
     //console.log(msgBody)
    twilioClient.messages 
           .create({ 
@@ -122,67 +105,19 @@ const makeCalls = async (eventInstrumentId: number, bookingOrAvailability: strin
              to: process.env.PHONE 
            }) 
           .then(message => console.log(message.sid))
-          .then(async () => await updatePlayer(eventInstrumentMusicians[i].id))
+          .then(async () => await updatePlayerCall(playerCall.id, true))
           .done();
   }
-
-}
-
-const updatePlayer = async(callId) => {
-  // Needs to state whether booking or availability
-    let updateRecieved = await prisma.playerCall.update({
-      where: {
-        id: callId
-      },
-      data: {
-        recieved: true
-      }
-    })
-
-    return updateRecieved; 
-}
 
 
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const {
-    eventId, //
-    musicians,
-    //callsOutId,
-    eventInstrumentId, //
-    callOrder,
-    numToBook,
-    bookingOrAvailability,
-    messageToAll, //
-    fixerNote, //
-    bookingStatus, //
+    playerCallId  
   } = req.body
 
-  const instrumentObj: RequestValues = {
-    eventId,
-    musicians,
-    eventInstrumentId,
-    numToBook,
-    callOrder,
-    bookingOrAvailability,
-    messageToAll,
-    fixerNote,
-    bookingStatus,
-  }
-
-  /* const instrumentObj = {
-    eventInstrumentId: callsOutId,
-    callOrder: callOrder,
-    numToBook: numToBook,
-    bookingOrAvailability: bookingOrAvailability,
-    musicians: musicians
-  } */
-
- //console.log(instrumentObj)
-
-
   
- res.status(200).json(await handleBooking(instrumentObj))
+ res.status(200).json(await handleOffer(playerCallId))
   
 
 }

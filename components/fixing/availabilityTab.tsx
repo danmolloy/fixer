@@ -23,6 +23,7 @@ interface Musician {
 }
 
 interface AvailabilityTabProps {
+  setSelectedTab: (i: string) => void
   editList: boolean
   setEditList: (arg: boolean) => void
   instrumentalistsList: User[] 
@@ -61,13 +62,15 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
     instrumentSection, 
     refreshProps, 
     instrumentFixed, 
-    handleSubmit 
+    handleSubmit,
+    setSelectedTab
   } = props
 
   return (
     <div data-testid="availability-tab">
         {instrumentSection.musicians.filter(i => i.bookingOrAvailability === "Availability").length > 0
         ? <ActiveCalls 
+          setSelectedTab={i => setSelectedTab(i)}
           bookingOrAvailability={"Availability"}
           eventCalls={eventCalls} 
           closeEdit={() => setEditList(false)} 

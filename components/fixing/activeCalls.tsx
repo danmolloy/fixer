@@ -56,10 +56,11 @@ interface ActiveCallsProps {
   refreshProps: () => void
   closeEdit: Function
   bookingOrAvailability: "Booking"|"Availability"
+  setSelectedTab: (i: string) => void
 }
 
 export default function ActiveCalls(props: ActiveCallsProps) {
-  const {eventCalls, instrumentSection, editList, refreshProps, closeEdit, bookingOrAvailability} = props
+  const {eventCalls, instrumentSection, editList, refreshProps, closeEdit, bookingOrAvailability, setSelectedTab} = props
   const [callList, setCallList] = useState<any>([])
 
   useEffect(() => {
@@ -105,25 +106,23 @@ export default function ActiveCalls(props: ActiveCallsProps) {
   const offerOrDecline = (offerOrDecline: boolean, callId: number, musicianEmail: string): Promise<void> => {
     const reqBody = {
       playerCallId: callId,
-      musicianEmail: musicianEmail,
-      remove: false,
-      offerOrDecline: offerOrDecline
     }
     if (offerOrDecline === true) {
-      return /* axios.post("/api/fixing/offer", reqBody).then(() => {
+      return axios.post("/api/fixing/offer", reqBody).then(() => {
         refreshProps();
+        setSelectedTab("Booking")
       })
       .catch(function (error) {
         console.log(error);
       });
-    } else {
+    } /* else {
         return axios.post("/api/fixing/declinePlayer", reqBody).then(() => {
           refreshProps();
         })
         .catch(function (error) {
           console.log(error);
-        }); */
-    }
+        }); 
+    } */
   }
 
 
