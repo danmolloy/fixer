@@ -45,8 +45,8 @@ export default function Home() {
   )}
 
   return (
-    <Layout pageTitle="Hi, Daniel">
-      <Dashboard />
+    <Layout pageTitle="Calendar">
+      <EventsIndex />
     </Layout>
   )
 }

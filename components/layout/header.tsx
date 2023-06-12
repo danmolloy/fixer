@@ -33,11 +33,11 @@ export const menuItems: {
     link: "/event/create",
     id: "create-event-link"
   },
-  {
+/*   {
     name: "Your Account",
     link: "/settings",
     id: "your-details-link"
-  },
+  }, */
   
   {
     name: "Notifications",

@@ -5,7 +5,7 @@ import { landingMenuItems } from "./landingPage"
 import Link from "next/link"
 
 export const landingMenu: string[] = ["Features", "Testimonials", "Pricing", "Contact"]
-export const sessionMenu: string[] = ["About", "Settings", "Contact", "Sign Out"]
+export const sessionMenu: string[] = ["About", "Your Account", "Contact", "Sign Out"]
 
 export const socialMedia: {
   key: number, 
