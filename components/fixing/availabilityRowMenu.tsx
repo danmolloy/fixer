@@ -47,17 +47,18 @@ export default function AvailabilityRowMenu(props: TableRowMenuProps) {
         onClick={(e) => {e.preventDefault(); removePlayer(musician.id)}}  className="p-2 hover:bg-zinc-50 w-full">
             Remove from list
         </button>}
-        <button 
+        <button
+        data-testid="send-msg-btn" 
         onClick={(e) => {
           e.preventDefault();
           sendMessage(musician.name)
           }}  className="p-2 hover:bg-zinc-50 w-full">
             Send Message
         </button>
-        <button onClick={e => {e.preventDefault(); offerOrDecline(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
+        <button data-testid="offer-btn" onClick={e => {e.preventDefault(); offerOrDecline(true, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
         Offer
       </button>
-      <button onClick={e => {e.preventDefault(); offerOrDecline(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
+      <button data-testid="decline-btn" onClick={e => {e.preventDefault(); offerOrDecline(false, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
         Decline
       </button>
       {musician.recieved && musician.accepted === null
