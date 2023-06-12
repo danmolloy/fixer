@@ -36,7 +36,7 @@ export default function AvailabilityRowMenu(props: TableRowMenuProps) {
   const { musician, setShowMenu, removePlayer, sendMessage, pokePlayer, offerOrDecline } = props;
 
   return (
-    <MenuShell title={musician.name} setShowMenu={() => setShowMenu()}>
+    <MenuShell testId={"availability-row-menu"} title={musician.name} setShowMenu={() => setShowMenu()}>
           <Link  href={`/user/${musician.name}`} className="text-center p-2 hover:bg-zinc-50 w-full ">
             <p className="">
             View Profile

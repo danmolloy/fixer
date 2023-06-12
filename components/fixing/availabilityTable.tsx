@@ -48,7 +48,7 @@ interface EventCall {
   fixerEmail: string
 }
 
-interface BookingTableProps {
+interface AvailabilityTableProps {
   eventCalls: EventCall[]
   instrumentSection: InstrumentSection
   removePlayer: (callId: number) => Promise<void>
@@ -121,14 +121,14 @@ const sendMessage = (musicianName) => {
 }
 
 
-export default function AvailabilityTable(props: BookingTableProps) {
+export default function AvailabilityTable(props: AvailabilityTableProps) {
   const {eventCalls, instrumentSection, removePlayer, offerOrDecline } = props;
   const [menuId, setMenuId] = useState(null)
 
   let filledTable = createTable(eventCalls, instrumentSection)
 
   return (
-    <div data-testid="booking-table-div" className="flex flex-col mx-2">
+    <div data-testid="availability-table-div" className="flex flex-col mx-2">
       {menuId !== null
       && <AvailabilityRowMenu 
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}

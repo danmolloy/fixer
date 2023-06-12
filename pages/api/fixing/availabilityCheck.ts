@@ -73,7 +73,7 @@ const handleBooking = async (instrumentObj: AvailabilityRequestValues) => {
 }
 
 
-const numToCall = (eventInstrument, bookingOrAvailability) => {
+/* const numToCall = (eventInstrument, bookingOrAvailability) => {
   let activeCallsAndBookedLength;
   let numToCall;
   if (bookingOrAvailability === "Booking") {
@@ -83,19 +83,19 @@ const numToCall = (eventInstrument, bookingOrAvailability) => {
     numToCall = eventInstrument.musicians.filter(i => i.recieved === false && i.bookingOrAvailability === "Availability").length
   }
   return numToCall
-}
+} */
 
 const makeCalls = async (eventInstrumentId: number, bookingOrAvailability: string) => {
   if (process.env.TWILIO_ACTIVE === "false") {
     return;
   }
   let eventInstrument = await getEventInstrument(eventInstrumentId)
-  let eventInstrumentMusicians = eventInstrument.musicians.filter(i => i.bookingOrAvailability === bookingOrAvailability)
-  let numCalls = numToCall(eventInstrument, bookingOrAvailability)
+  let eventInstrumentMusicians = eventInstrument.musicians.filter(i => i.recieved === false && i.bookingOrAvailability === "Availability")
+  //let numCalls = numToCall(eventInstrument, bookingOrAvailability)
   let msgBody;
 
 
-  for (let i = 0; i < numCalls; i++) {
+  for (let i = 0; i < eventInstrumentMusicians.length; i++) {
     msgBody = `Hi ${eventInstrumentMusicians[i].musician.name}, 
     Dan Molloy ${eventInstrumentMusicians[i].bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"} 
     
@@ -163,3 +163,5 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   
 
 }
+
+export { updatePlayer, makeCalls, handleBooking, updateEventDetails, getEventInstrument }
