@@ -54,14 +54,12 @@ export default function AvailabilityRowMenu(props: TableRowMenuProps) {
           }}  className="p-2 hover:bg-zinc-50 w-full">
             Send Message
         </button>
-        {!musician.accepted 
-      && <button onClick={e => {e.preventDefault(); offerOrDecline(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
+        <button onClick={e => {e.preventDefault(); offerOrDecline(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
         Offer
-      </button>}
-      {musician.accepted 
-      && <button onClick={e => {e.preventDefault(); offerOrDecline(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
+      </button>
+      <button onClick={e => {e.preventDefault(); offerOrDecline(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
         Decline
-      </button>}
+      </button>
       {musician.recieved && musician.accepted === null
       && <button onClick={e => {e.preventDefault(); pokePlayer(musician.name)}} className="p-2 hover:bg-zinc-50 w-full">
         Poke
