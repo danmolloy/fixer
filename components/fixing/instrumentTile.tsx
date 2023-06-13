@@ -71,7 +71,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
     console.log("Hello from handleSubmit")
     let apiRoute: string; 
     if (vals.bookingOrAvailability === "Booking") {
-      apiRoute = "/api/fixing/offer"
+      apiRoute = "/api/fixing/sendOffers"
     } else {
       apiRoute = "/api/fixing/availabilityCheck"
     }
