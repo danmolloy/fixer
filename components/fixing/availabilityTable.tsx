@@ -152,7 +152,7 @@ export default function AvailabilityTable(props: AvailabilityTableProps) {
           {createTable(eventCalls, instrumentSection).filter(i => i.name !== "Header").map(i => (
             <TableRow key={i.id}>
               <TableCell className={""}>
-                <p className={i.recieved === false || i.accepted === false ? "text-zinc-300 ": ""}>{i.name}</p>
+                <p className={i.accepted === false ? "text-zinc-300 ": ""}>{i.name}</p>
               </TableCell>
               {i.calls.map(call => (
                 <TableCell key={call}>
