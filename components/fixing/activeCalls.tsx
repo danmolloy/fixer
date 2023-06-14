@@ -23,6 +23,7 @@ interface Musician {
   calls: {
     id: number
   }[]
+  status: string
 }
 
 interface InstrumentSection {

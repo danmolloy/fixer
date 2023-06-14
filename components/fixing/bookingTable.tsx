@@ -54,7 +54,6 @@ interface BookingTableProps {
   instrumentSection: InstrumentSection
   removePlayer: (callId: number) => Promise<void>
   fixOrUnfixPlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => Promise<void>
-  replace: (playerCallId) => void
 }
 
 interface tableObjHeader {
