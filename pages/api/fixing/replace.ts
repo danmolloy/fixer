@@ -47,6 +47,7 @@ const updateToDepOut = async(playerCallId) => {
       status: "DEP OUT"
     }
   })
+  return playerCall
 }
 
 
@@ -70,7 +71,7 @@ const callPlayer = async (playerCall) => {
   
   ${process.env.NGROK_URL}/event/${playerCall.eventId}
 
-  ${playerCall.messageToAll !== "" ? `\n Dan says to all ${playerCall.instrumentName} players for this gig: "${playerCall.messageToAll}"` : ""}
+  ${playerCall.messageToAll !== "" && playerCall.messageToAll !== undefined ? `\n Dan says to all ${playerCall.instrumentName} players for this gig: "${playerCall.messageToAll}"` : ""}
 
   ${playerCall.playerMessage !== null ? `\n Dan says to you: "${playerCall.playerMessage}"`: ""}
 

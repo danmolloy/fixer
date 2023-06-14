@@ -135,14 +135,16 @@ export default function BookingTable(props: BookingTableProps) {
   const replacePlayer = (playerCallId, ) => {
 
     console.log("Hello from replacePlayer")
+    
     return axios.post("/api/fixing/replace", {playerCallId, eventInstrumentId: instrumentSection.id})
+    
   }
 
   return (
     <div data-testid="booking-table-div" className="flex flex-col mx-2">
       {menuId !== null
       && <BookingRowMenu 
-      replace={(playerCallId) => replacePlayer(playerCallId)}
+      replace={(playerCallId) => {replacePlayer(playerCallId); setMenuId(null)}}
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
       setShowMenu={() => setMenuId(null)}
       removePlayer={(callId) => {removePlayer(callId); setMenuId(null)}}
