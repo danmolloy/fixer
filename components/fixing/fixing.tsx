@@ -43,6 +43,7 @@ export type Musician = {
   calls: {
     id: number
   }[]
+  status: string
 }
 
 export type InstrumentSection = {
