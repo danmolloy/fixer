@@ -23,8 +23,8 @@ const updatePlayerCall = async(offerObj) => {
       id: offerObj.playerCallIdToStepIn
     },
     data: {
-      toDepPlayerCallId: offerObj.playerCallIdToRemove,
-      recieved: false,
+/*       toDepPlayerCallId: offerObj.playerCallIdToRemove,
+ */      recieved: false,
       accepted: null
     },
     include: {
@@ -92,7 +92,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   }
 
   
- res.status(200).json(await handleOffer(offerObj))
+ res.status(200)//.json(await handleOffer(offerObj))
   
 
 }
