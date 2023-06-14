@@ -139,4 +139,5 @@ model PlayerCall {
   calls             Call[]
   bookingOrAvailability String @default ("Booking")
   offerExpiry       Int?
+  status            String @default("OK") // 
 }

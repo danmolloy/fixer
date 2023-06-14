@@ -8,6 +8,7 @@ import TableRowMenu from "./editCalls/tableRowMenu";
 import { GiSandsOfTime } from "react-icons/gi";
 import BookingRowMenu from "./bookingRowMenu";
 import axios from "axios";
+import { BiExit } from "react-icons/bi";
 
 interface Musician {
   id: number
@@ -18,6 +19,7 @@ interface Musician {
   musicianEmail: string
   eventInstrumentId: number
   bookingOrAvailability: "Booking"|"Availability"
+  status: string
   musician: {
     name: string
   }
@@ -52,6 +54,7 @@ interface BookingTableProps {
   instrumentSection: InstrumentSection
   removePlayer: (callId: number) => Promise<void>
   fixOrUnfixPlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => Promise<void>
+  replace: (playerCallId) => void
 }
 
 interface tableObjHeader {
@@ -71,6 +74,7 @@ interface tableObjMusician {
   }[]
   recieved: boolean
   accepted: boolean|null
+  status: string
 }[]
 
 export const createTable = (eventCalls: any, instrumentSection: any): any => {
@@ -86,6 +90,7 @@ export const createTable = (eventCalls: any, instrumentSection: any): any => {
 
   for (let i = 0; i < sortedMusicians.length; i ++) {
     objArr = [...objArr, {
+      status: sortedMusicians[i].status,
       id: sortedMusicians[i].id,
       name: sortedMusicians[i].musician.name,
       calls: sortedMusicians[i].calls.map(i => (i.id)),
@@ -120,16 +125,25 @@ const sendMessage = (musicianName) => {
 }
 
 
+
+
 export default function BookingTable(props: BookingTableProps) {
-  const {eventCalls, instrumentSection, removePlayer, fixOrUnfixPlayer } = props;
+  const { eventCalls, instrumentSection, removePlayer, fixOrUnfixPlayer } = props;
   const [menuId, setMenuId] = useState(null)
 
   let filledTable = createTable(eventCalls, instrumentSection)
+
+  const replacePlayer = (playerCallId, ) => {
+
+    console.log("Hello from replacePlayer")
+    return axios.post("/api/fixing/replace", {playerCallId, eventInstrumentId: instrumentSection.id})
+  }
 
   return (
     <div data-testid="booking-table-div" className="flex flex-col mx-2">
       {menuId !== null
       && <BookingRowMenu 
+      replace={(playerCallId) => replacePlayer(playerCallId)}
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
       setShowMenu={() => setMenuId(null)}
       removePlayer={(callId) => {removePlayer(callId); setMenuId(null)}}
@@ -155,7 +169,9 @@ export default function BookingTable(props: BookingTableProps) {
               </TableCell>
               {i.calls.map(call => (
                 <TableCell key={call}>
-                  {String(i.accepted).toLowerCase() === "true" 
+                  {String(i.status) === "DEP OUT"
+                  ? <div className="text-amber-600"><BiExit /></div>
+                  : String(i.accepted).toLowerCase() === "true" 
                   ? <div className="text-green-600"><TiTick /></div>
                   : String(i.accepted).toLowerCase() === "false"
                   ? <div className="text-slate-400"><TiTimes /></div>

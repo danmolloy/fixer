@@ -57,9 +57,28 @@ const updateAccepted = async (msgBody: string) => {
     
     return await makeCalls(updatedPlayer.eventInstrument)
   }
+
+  const updateDepOut = async(playerCallId) => {
+    let updatedDepOut = await prisma.playerCall.update({
+      where: {
+        id: playerCallId
+      },
+      data: {
+        status: "RELEASED",
+        accepted: false
+      }
+    })
+    return twiml.message(`Dan Molloy has released you from offer ${updatedDepOut.id}.`)
+    
+  }
   
   const makeCalls = async (eventInstrument: any) => {
     console.log("At makeCalls")
+    const deppingOut = eventInstrument.musicians.find(i => i.status === "DEP OUT")
+    if (deppingOut !== undefined) {
+      await updateDepOut(deppingOut.id)
+    }
+
     const numBooked = eventInstrument.musicians.filter(i => i.accepted === true).length
     const numAwaitingReply = eventInstrument.musicians.filter(i => i.recieved === true && i.accepted === null)
     const numToBook = eventInstrument.numToBook + numAwaitingReply - numBooked

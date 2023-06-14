@@ -27,13 +27,13 @@ interface TableRowMenuProps {
   sendMessage: (name: string) => void
   pokePlayer: (name: string) => void
   fixOrUnfix: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => void
-
+  replace: (playerCallId) => void
 }
 
 
 
 export default function BookingRowMenu(props: TableRowMenuProps) {
-  const { musician, setShowMenu, removePlayer, sendMessage, pokePlayer, fixOrUnfix } = props;
+  const { replace, musician, setShowMenu, removePlayer, sendMessage, pokePlayer, fixOrUnfix } = props;
 
   return (
     <MenuShell title={musician.name} setShowMenu={() => setShowMenu()}>
@@ -61,6 +61,10 @@ export default function BookingRowMenu(props: TableRowMenuProps) {
       {musician.accepted 
       && <button onClick={e => {e.preventDefault(); fixOrUnfix(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
         Unfix Player
+      </button>}
+      {musician.accepted 
+      && <button onClick={e => {e.preventDefault(); replace(musician.id)}} className="p-2 hover:bg-zinc-50 w-full">
+        Replace
       </button>}
       {musician.recieved && musician.accepted === null
       && <button onClick={e => {e.preventDefault(); pokePlayer(musician.name)}} className="p-2 hover:bg-zinc-50 w-full">

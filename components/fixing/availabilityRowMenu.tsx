@@ -58,9 +58,9 @@ export default function AvailabilityRowMenu(props: TableRowMenuProps) {
         <button data-testid="offer-btn" onClick={e => {e.preventDefault(); offerOrDecline(true, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
         Offer
       </button>
-      <button data-testid="offer-btn" onClick={e => alert("Not yet implemented")} className="p-2 hover:bg-zinc-50 w-full">
+{/*       <button data-testid="offer-btn" onClick={e => alert("Not yet implemented")} className="p-2 hover:bg-zinc-50 w-full">
         Offer to replace..
-      </button>
+      </button> */}
       <button data-testid="decline-btn" onClick={e => {e.preventDefault(); offerOrDecline(false, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
         Decline
       </button>

@@ -25,6 +25,7 @@ interface Musician {
   calls: {
     id: number
   }[]
+  status: string
 }
 interface InstrumentSection {
   id: number
@@ -156,7 +157,7 @@ export default function AvailabilityTable(props: AvailabilityTableProps) {
               </TableCell>
               {i.calls.map(call => (
                 <TableCell key={call}>
-                  {String(i.accepted).toLowerCase() === "true" 
+                  { String(i.accepted).toLowerCase() === "true" 
                   ? <div className="text-green-600"><TiTick /></div>
                   : String(i.accepted).toLowerCase() === "false"
                   ? <div className="text-slate-400"><TiTimes /></div>
