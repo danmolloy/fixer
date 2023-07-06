@@ -25,8 +25,9 @@ export default async function handler(req, res) {
     } = req.body
     const twiml = new MessagingResponse();
 
-
+    await prisma.$connect()
     await updateAccepted(Body, twiml)
+    await prisma.$disconnect()
     res.writeHead(200, {'Content-Type': 'text/xml'}).end(twiml.toString());
 }
  
