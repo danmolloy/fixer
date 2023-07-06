@@ -44,7 +44,6 @@ const handleBooking = async (instrumentObj: AvailabilityRequestValues) => {
   let arr: any = []
   let eventInstrument = await updateEventDetails(instrumentObj)
   //console.log(`eventInstrument: ${JSON.stringify(eventInstrument)}`)
-
   // Add players to call list on DB
   if (instrumentObj.musicians.length > 0) {
     for (let i = 0; i < instrumentObj.musicians.length; i++) {

@@ -39,3 +39,5 @@ export default async function handle(req, res) {
   console.log("Hi")
   res.status(200).json(await updateUser(userObj))
 }
+
+export { updateUser };

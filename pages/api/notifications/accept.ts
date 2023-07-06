@@ -24,7 +24,7 @@ const nextCall = async (eventInstrumentId: number) => {
 }
 
 
-const getEventInstrument = async (eventInstrumentId: number) => {
+export const getEventInstrument = async (eventInstrumentId: number) => {
   const eventInstrument = await prisma.eventInstrument.findUnique({
     where: {
       id: eventInstrumentId

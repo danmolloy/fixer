@@ -18,3 +18,5 @@ export default async function handle(req, res) {
     res.status(200).json(await removePlayerCall(playerCallId))
 
   }
+  
+  export { removePlayerCall };

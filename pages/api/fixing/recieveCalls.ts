@@ -2,7 +2,6 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 import prisma from '../../../client'
 import { twilioClient } from "../../../twilio"
 
-const twiml = new MessagingResponse();
 
 const regExCheck = (msgBody) => {
     const yesRegex = /["']?\s?(yes)\s?\d+\s?["']?/i
@@ -24,13 +23,16 @@ export default async function handler(req, res) {
     const {
         Body
     } = req.body
+    const twiml = new MessagingResponse();
 
-    await updateAccepted(Body)
+
+    await updateAccepted(Body, twiml)
     res.writeHead(200, {'Content-Type': 'text/xml'}).end(twiml.toString());
 }
  
 
-const updateAccepted = async (msgBody: string) => {
+const updateAccepted = async (msgBody: string, twiml) => {
+
     const yesOrNo = regExCheck(msgBody)
     if (yesOrNo === undefined) {
       return;
@@ -53,12 +55,13 @@ const updateAccepted = async (msgBody: string) => {
         }
       }
     })
-    twiml.message(`We have notified the fixer you have ${yesOrNo === true ? "accepted": "declined"} offer ${callId}.`)
     
-    return await makeCalls(updatedPlayer.eventInstrument)
+    await twiml.message(`We have notified the fixer you have ${yesOrNo === true ? "accepted": "declined"} offer ${updatedPlayer.id}.`)
+    
+    return await makeCalls(updatedPlayer.eventInstrument, twiml)
   }
 
-  const updateDepOut = async(playerCallId) => {
+  const updateDepOut = async(playerCallId, twiml) => {
     let updatedDepOut = await prisma.playerCall.update({
       where: {
         id: playerCallId
@@ -68,15 +71,16 @@ const updateAccepted = async (msgBody: string) => {
         accepted: false
       }
     })
+
     return twiml.message(`Dan Molloy has released you from offer ${updatedDepOut.id}.`)
     
   }
   
-  const makeCalls = async (eventInstrument: any) => {
-    console.log("At makeCalls")
+  const makeCalls = async (eventInstrument: any, twiml) => {
+
     const deppingOut = eventInstrument.musicians.find(i => i.status === "DEP OUT")
     if (deppingOut !== undefined) {
-      await updateDepOut(deppingOut.id)
+      await updateDepOut(deppingOut.id, twiml)
     }
 
     const numBooked = eventInstrument.musicians.filter(i => i.accepted === true).length
@@ -106,6 +110,7 @@ const updateAccepted = async (msgBody: string) => {
   }
   
   const callPlayer = async (callId: number) => {
+
     const playerCall = await prisma.playerCall.update({
       where: {
         id: callId
@@ -139,6 +144,10 @@ const updateAccepted = async (msgBody: string) => {
       ${playerCall.eventInstrument.event.fixerName} ${playerCall.bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"}
       
       ${`${process.env.URL}/event/${playerCall.eventInstrument.eventId}`}
+
+      ${playerCall.messageToAll !== "" ? `\n Dan says to all ${playerCall.instrumentName} players for this gig: "${playerCall.messageToAll}"` : ""}
+
+      ${playerCall.playerMessage !== null ? `\n Dan says to you: "${playerCall.playerMessage}"`: ""}
       
       Reply YES ${playerCall.id} to accept or NO ${playerCall.id} to decline.
       

@@ -1,46 +1,7 @@
 import prisma from "../../../client"
 import { getServerSession } from "next-auth"
 import { authOptions } from '../auth/[...nextauth]'
-
-const getUser = async (userId: string) => {
-  const userDetails = await prisma.user.findUnique({
-    where: {
-      id: userId
-    },
-    include: {
-      playerCalls: {
-        include: {
-          eventInstrument: {
-            include: {
-              event: true
-            }
-          }
-        }
-      }
-    }
-  })
-  return userDetails
-}
-
-const emailGetUser = async (userEmail: string) => {
-  const userDetails = await prisma.user.findUnique({
-    where: {
-      email: userEmail
-    },
-    include: {
-      playerCalls: {
-        include: {
-          eventInstrument: {
-            include: {
-              event: true
-            }
-          }
-        }
-      }
-    }
-  })
-  return userDetails
-}
+import { getUser, emailGetUser } from "./getNotificationsFunctions"
 
 export default async function handle(req, res) {
   const session = await getServerSession(req, res, authOptions)
@@ -59,4 +20,4 @@ export default async function handle(req, res) {
   res.status(200).json(userDetails)
 }
 
-export { getUser };
+export { getUser, emailGetUser };

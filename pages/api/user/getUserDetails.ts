@@ -1,31 +1,6 @@
-import prisma from "../../../client"
 import { getServerSession } from "next-auth"
 import { authOptions } from '../auth/[...nextauth]'
-
-const getUser = async (userId: string) => {
-  const userDetails = await prisma.user.findUnique({
-    where: {
-      id: userId
-    }
-  })
-  return userDetails
-}
-
-const emailGetUser = async (userEmail: string) => {
-  const userDetails = await prisma.user.findUnique({
-    where: {
-      email: userEmail
-    },
-    include: {
-      calls: {
-        include: {
-          event: true
-        }
-      }
-    }
-  })
-  return userDetails
-}
+import { getUser, emailGetUser } from "./getUserDetailsFunctions";
 
 export default async function handle(req, res) {
   const session = await getServerSession(req, res, authOptions)

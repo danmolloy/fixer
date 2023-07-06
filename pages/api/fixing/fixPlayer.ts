@@ -1,8 +1,8 @@
 import { twilioClient } from "../../../twilio"
 import prisma from '../../../client'
 
-const updatePlayerCall = async (playerCallId) => {
-  const playerCall = await prisma.playerCall.update({
+export const updatePlayerCall = async (playerCallId) => {
+  let playerCall = await prisma.playerCall.update({
       where: {
         id: playerCallId
       },
@@ -18,7 +18,7 @@ const updatePlayerCall = async (playerCallId) => {
     return playerCall;
 }
 
-const sendMessage = (res) => {
+export const sendMessage = (res) => {
   if (process.env.TWILIO_ACTIVE === "false") {
     return;
   }
@@ -46,3 +46,4 @@ export default async function handle(req, res) {
     res.status(200).json(await updateAndMessage(playerCallId))
 
   }
+

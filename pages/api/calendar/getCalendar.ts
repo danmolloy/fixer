@@ -1,34 +1,8 @@
 import prisma from "../../../client"
 import { getServerSession } from "next-auth"
 import { authOptions } from '../auth/[...nextauth]'
+import { getCalendar, emailGetCalendar } from "./getCalendarFunctions"
 
-const getCalendar = async (userId: string) => {
-  const userCalendar = await prisma.user.findUnique({
-    where: {
-      id: userId
-    },
-    include: {
-      calls: true
-    }
-  })
-  return userCalendar
-}
-
-const emailGetCalendar = async (userEmail: string) => {
-  const userCalendar = await prisma.user.findUnique({
-    where: {
-      email: userEmail
-    },
-    include: {
-      calls: {
-        include: {
-          event: true
-        }
-      }
-    }
-  })
-  return userCalendar
-}
 
 export default async function handle(req, res) {
   const session = await getServerSession(req, res, authOptions)
@@ -47,4 +21,4 @@ export default async function handle(req, res) {
   res.status(200).json(userDetails)
 }
 
-export { getCalendar };
+export { getCalendar, emailGetCalendar };

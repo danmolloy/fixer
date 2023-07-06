@@ -2,9 +2,13 @@ import { twilioClient } from "../../../twilio"
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 
+export const mockFunction = () => {
+  return 1;
+}
 
-const messagePlayer = (message) => {
-  if (process.env.TWILIO_ACTIVE === "false") {
+export const messagePlayer = (message) => {
+  if (process.env.TWILIO_ACTIVE === "false" && process.env.NODE_ENV !== "test") {
+    console.log("Twilio not active")
     return;
   }
 
