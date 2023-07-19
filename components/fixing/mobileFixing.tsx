@@ -1,9 +1,9 @@
 import { Call, User } from "@prisma/client"
 import { InstrumentSection } from "./fixing"
-import InstrumentTile from "./instrumentTile"
+import InstrumentTile, { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile"
 
 type MobileFixingProps = {
-  instrumentSections: InstrumentSection[]
+  instrumentSections: EventInstrumentWithMusiciansWithMusician[]
   selectedInstrument: string
   setSelectedInstrument: (instrument: string) => void
   eventCalls: Call[]

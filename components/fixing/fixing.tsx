@@ -1,5 +1,5 @@
 import useSwr from 'swr'
-import InstrumentTile from './instrumentTile'
+import InstrumentTile, { EventInstrumentWithMusiciansWithMusician } from './instrumentTile'
 import React, { useState } from 'react'
 import MobileFixing from './mobileFixing'
 import moment from 'moment'
@@ -61,7 +61,7 @@ export type InstrumentSection = {
 
 export type FixingProps = {
   eventCalls: Call[]
-  instrumentSections: InstrumentSection[]
+  instrumentSections: EventInstrumentWithMusiciansWithMusician[]
   eventId: number
   refreshProps: () => void
   users: User[]
@@ -89,7 +89,7 @@ export default function Fixing(props: FixingProps) {
           <button onClick={() => refreshProps()} className="border border-yellow-500 text-yellow-600 m-1 rounded p-1 shadow hover:border-yellow-600 hover:bg-yellow-50 active:bg-yellow-300">Refresh</button>
         </div>
       </div>
-      {viewList && <OrchestraList setViewList={(arg) => setViewList(arg)} instrumentSections={instrumentSections}/>}
+      {/* viewList && <OrchestraList setViewList={(arg) => setViewList(arg)} instrumentSections={instrumentSections}/> */}
       <MobileFixing 
         {...props}
         
