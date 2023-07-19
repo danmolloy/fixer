@@ -3,7 +3,7 @@ const twilioClientMock = {
     messages: {
       create: jest.fn()
     },
-  }
+  },
 };
 
 module.exports = twilioClientMock;

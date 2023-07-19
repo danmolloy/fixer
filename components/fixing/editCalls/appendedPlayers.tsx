@@ -7,6 +7,7 @@ import MenuShell from "../../index/menuShell";
 import MenuItem from "../../index/menuItem";
 import { AiOutlineMail } from "react-icons/ai";
 import PulsingDiv from "../../layout/pulsingDiv";
+import { Call } from "@prisma/client";
 
 interface EventCall {
   id: number
@@ -23,7 +24,7 @@ export type Instrumentalist = {
   id: string
   name: string
   email: string
-  emailVerified: boolean|null
+  emailVerified: Date
   instrument: string
   profileInfo: null|string
   isFixer?: null|boolean
@@ -33,7 +34,7 @@ export type Instrumentalist = {
 
 interface AppendedPlayersProps {
   appendedPlayers: Instrumentalist[]
-  eventCalls: EventCall[]
+  eventCalls: Call[]
   makeAvailable: any
 }
 

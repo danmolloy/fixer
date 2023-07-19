@@ -1,15 +1,10 @@
+import { Call } from "@prisma/client"
 import moment from "moment"
 import React from "react"
 import { HiLocationMarker } from "react-icons/hi"
 
-interface CallTileProps {
-  id: string
-  startTime: string
-  endTime: string
-  venue: string
-}
 
-export default function CallTile(props: CallTileProps) {
+export default function CallTile(props: Call) {
   const {id, startTime, endTime, venue} = props
   return (
     <div data-testid="call-tile-div" className="">

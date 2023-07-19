@@ -18,7 +18,7 @@ const customJestConfig = {
   testEnvironmentOptions: {},
   clearMocks: true,
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: "jsdom",
   setupFilesAfterEnv: ['<rootDir>/__mocks__/singleton.ts'],
 }
 

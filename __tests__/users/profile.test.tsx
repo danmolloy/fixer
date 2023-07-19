@@ -1,14 +1,12 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import '@testing-library/jest-dom'
-import UserProfile from "../../components/users/profile"
+import UserProfile, { UserProfileProps } from "../../components/users/profile"
 import React from "react"
+import { mockUser } from "../../__mocks__/models/user"
 
 
 const mockProps = {
-  user: {
-    name: "mockName",
-    instrument: "mockInstrument"
-  }
+  user: mockUser
 }
 
 describe("Profile Page", () => {
@@ -37,6 +35,14 @@ describe("Profile Page", () => {
   it("User instrument is in the document", () => {
     const profileComponent = screen.getByTestId("user-profile-div")
     expect(profileComponent.textContent).toMatch(mockProps.user.instrument)
+  })
+  it("ContactInfo shown when button clicked", () => {
+    const contactBtn = screen.getByTestId("profile-contact-btn")
+    act(() => {
+      fireEvent.click(contactBtn)
+    })
+    const contactInfo = screen.getByTestId("contact-info")
+    expect(contactInfo).toBeInTheDocument()
   })
 
 })

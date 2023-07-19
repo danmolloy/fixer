@@ -4,6 +4,7 @@ import PlayerTile from "./playerTile"
 import IsLoadingTile from "./isLoadingTile"
 import ButtonPrimary from "../index/buttonPrimary"
 import ToggleSwitch from "../index/toggleSwitch"
+import { User } from "@prisma/client"
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -13,18 +14,14 @@ function shuffleArray(array) {
   return array;
 }
 
-interface PlayerDirectoryProps {
-  data: {
-    id: string
-    name: string
-    instrument: string
-    email: string
-  }[] | undefined
-    setPageTitle: (arg: string) => void
+export interface PlayerDirectoryProps {
+  data: User[] | undefined
+  setPageTitle: (arg: string) => void
+  preview?: boolean
 }
 
 export default function PlayerDirectory(props: PlayerDirectoryProps) {
-  const { data, setPageTitle } = props;
+  const { data, setPageTitle, preview } = props;
   const [selectedInstrument, setSelectedInstrument] = useState<string>("")
   const [sortedList, setSortedList] = useState<boolean>(false)
 
@@ -34,7 +31,11 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
       <div className="flex flex-col w-full items-center">
          <select onChange={e => {setSelectedInstrument(e.target.value); setPageTitle(e.target.value); setSortedList(false)}} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
           <option value={""}>Select instrument</option>
-          {instrumentArr.map(i => (
+          {preview === true ?
+          <option value={"Viola"} >
+          Viola
+          </option>
+          : instrumentArr.map(i => (
             <option value={i} key={i}>
               {i}
             </option>
@@ -64,7 +65,7 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
             ))
             : shuffleArray(data).filter(j => j.instrument === selectedInstrument).map(i => (
               <div key={i.id}>
-                <PlayerTile player={i} />
+                <PlayerTile player={i} preview={preview} />
               </div>
             ))}
             </div>}

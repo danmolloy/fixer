@@ -7,6 +7,8 @@ import moment from 'moment/moment'
 import BookingTable from './bookingTable'
 import React from 'react'
 import AvailabilityTable from './availabilityTable'
+import { Call } from '@prisma/client'
+import { EventInstrumentWithMusiciansWithMusician } from './instrumentTile'
 
 interface Musician {
   id: number
@@ -49,19 +51,20 @@ interface EventCall {
 }
 
 interface ActiveCallsProps {
-  eventCalls: EventCall[]
+  eventCalls: Call[]
   instrumentName: string
-  instrumentSection: InstrumentSection
+  instrumentSection: EventInstrumentWithMusiciansWithMusician
   editList: boolean
   instrumentFixed: boolean
   refreshProps: () => void
   closeEdit: Function
   bookingOrAvailability: "Booking"|"Availability"
   setSelectedTab?: (i: string) => void
+  preview?: boolean
 }
 
 export default function ActiveCalls(props: ActiveCallsProps) {
-  const {eventCalls, instrumentSection, editList, refreshProps, closeEdit, bookingOrAvailability, setSelectedTab} = props
+  const {eventCalls, instrumentSection, editList, refreshProps, closeEdit, bookingOrAvailability, setSelectedTab, preview} = props
   const [callList, setCallList] = useState<any>([])
 
   useEffect(() => {
@@ -71,6 +74,9 @@ export default function ActiveCalls(props: ActiveCallsProps) {
   const removePlayer = async(callId: number): Promise<void> => {
     const reqBody = {
       playerCallId: callId
+    }
+    if (preview === true) {
+      return;
     }
     return axios.post("/api/fixing/removePlayer", reqBody).then(() => {
       refreshProps();
@@ -86,6 +92,9 @@ export default function ActiveCalls(props: ActiveCallsProps) {
       musicianEmail: musicianEmail,
       remove: false,
       fixOrUnfix: fixOrUnfix
+    }
+    if (preview === true) {
+      return;
     }
     if (fixOrUnfix === true) {
       return axios.post("/api/fixing/fixPlayer", reqBody).then(() => {
@@ -107,6 +116,9 @@ export default function ActiveCalls(props: ActiveCallsProps) {
   const offerOrDecline = (offerOrDecline: boolean, callId: number, musicianEmail: string): Promise<void> => {
     const reqBody = {
       playerCallId: callId,
+    }
+    if (preview === true) {
+      return;
     }
     if (offerOrDecline === true) {
       return axios.post("/api/fixing/offer", reqBody).then(() => {
@@ -131,11 +143,13 @@ export default function ActiveCalls(props: ActiveCallsProps) {
     <div className="active-calls-div" data-testid={`active-calls-div`}>
       {bookingOrAvailability === "Booking" 
       ? <BookingTable 
+        preview={preview}
         removePlayer={(callId) => removePlayer(callId)} 
         fixOrUnfixPlayer={(fixOrUnfix, callId, musicianEmail) => fixOrUnfixPlayer(fixOrUnfix, callId, musicianEmail)}
         eventCalls={eventCalls} 
         instrumentSection={instrumentSection}/>
-      : <AvailabilityTable 
+      : <AvailabilityTable
+      preview={preview} 
         removePlayer={(callId) => removePlayer(callId)} 
         offerOrDecline={(offerOrDeclineBool, callId, musicianEmail) => offerOrDecline(offerOrDeclineBool, callId, musicianEmail)}
         eventCalls={eventCalls} 

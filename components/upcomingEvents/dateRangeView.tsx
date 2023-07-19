@@ -2,33 +2,13 @@ import moment from "moment"
 import React from "react"
 import EventTile from "./eventTile"
 import IsLoadingEventTile from "./isLoadingEventTile"
+import { Event } from "@prisma/client"
+import { CallWithEvent } from "./upcomingEvents"
 
 interface DateRangeViewProps {
   selectedDate: moment.Moment
   dateRange: number
-  upcomingCalls?: {
-    id: number
-    createdAt: string
-    updatedAt: string
-    startTime: string
-    endTime: string
-    venue: string
-    eventId: number
-    fixerEmail: string
-    event: {
-      id: number
-      createdAt: string
-      updatedAt: string
-      eventTitle: string
-      ensembleName: string
-      concertProgram: string
-      confirmedOrOnHold: string
-      dressCode: string
-      fee: string
-      additionalInfo: string
-      fixerEmail: string
-    }
-  }[]
+  upcomingCalls?: CallWithEvent[]
   sessionEmail?: string
 }
 
@@ -76,9 +56,9 @@ export default function DateRangeView(props: DateRangeViewProps) {
               <IsLoadingEventTile />
             </div>
            : upcomingCalls.filter(j => (
-              eventDateFilter(j.startTime, j.endTime, i.day) === true )).length > 0
+              eventDateFilter(String(j.startTime), String(j.endTime), i.day) === true )).length > 0
               ? upcomingCalls.filter(j => (
-                eventDateFilter(j.startTime, j.endTime, i.day) === true)
+                eventDateFilter(String(j.startTime), String(j.endTime), i.day) === true)
                 ).map(i => (
                 <div key={i.id} className="w-full">
                  <EventTile call={i} sessionEmail={sessionEmail}/>

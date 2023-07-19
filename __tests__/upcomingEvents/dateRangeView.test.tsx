@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom"
 import DateRangeView, { daysArr, eventDateFilter } from "../../components/upcomingEvents/dateRangeView";
 import moment from "moment";
+import { mockCall } from "../../__mocks__/models/call";
 
 const selectedDate = moment.utc(new Date("Tue, 21 Feb 2023 12:06:40 GMT"))
 const startTime = String(moment.utc( new Date("Tue, 21 Feb 2023 16:06:40 GMT")))
@@ -10,28 +11,7 @@ const endTime =  String(moment.utc(new Date("Tue, 21 Feb 2023 19:06:40 GMT")))
 const mockProps = {
   selectedDate: selectedDate,
   dateRange: 14,
-  upcomingCalls: [{
-    id: 1,
-    createdAt: "createdAt",
-    updatedAt: "updatedAt",
-    startTime: startTime,
-    endTime: endTime,
-    venue: "mock Venue",
-    eventId: 2,
-    fixerEmail: "email@email.com",
-    event: {
-      id: 2,
-      createdAt: "eventCreated",
-      updatedAt: "eventUpdated",
-      ensembleName: "LSO",
-      concertProgram: "Brahms",
-      confirmedOrOnHold: "Confirmed",
-      dressCode: "Blacks",
-      fee: "400",
-      additionalInfo: "additionalInfo",
-      fixerEmail: "email@email.com",
-    }
-  }],
+  upcomingCalls: [{...mockCall}],
   sessionEmail: "email@email.com"
 }
 

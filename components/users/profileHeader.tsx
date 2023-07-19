@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import React from "react"
 
-interface ProfileHeaderProps {
+export type ProfileHeaderProps = {
   userName: string
   instrument: string
   setShowContactInfo: () => void

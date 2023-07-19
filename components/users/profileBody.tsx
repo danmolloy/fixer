@@ -3,7 +3,7 @@ import React from "react";
 export default function ProfileBody() {
   return (
     <div className="p-2 m-2" data-testid="profile-body">
-      <div className="py-1">
+      <div className="py-1" data-testid="mutual-history-div">
           <h2 className="text-lg text-slate-500 py-1">Your Mutual History</h2>
           <ul>
             <li className="text-blue-500 hover:underline hover:cursor-pointer">

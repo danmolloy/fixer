@@ -1,11 +1,12 @@
-import { render, screen, act } from "@testing-library/react"; 
+import { render, screen, act, fireEvent } from "@testing-library/react"; 
 import "@testing-library/jest-dom"
-import ProfileHeader from "../../components/users/profileHeader";
+import ProfileHeader, { ProfileHeaderProps } from "../../components/users/profileHeader";
 import React from "react";
 
-const mockProps = {
+const mockProps: ProfileHeaderProps = {
   userName: "mockUser",
-  instrument: "mockInstrument"
+  instrument: "mockInstrument",
+  setShowContactInfo: jest.fn()
 }
 
 describe("ProfileHeader component", () => {
@@ -33,6 +34,13 @@ describe("ProfileHeader component", () => {
     const contactBtn = screen.getByTestId("profile-contact-btn")
     expect(contactBtn).toBeInTheDocument()
     expect(contactBtn.textContent).toMatch(/^Contact$/)
+  })
+  it("Contact button calls setShowContactInfo onClick", () => {
+    const contactBtn = screen.getByTestId("profile-contact-btn")
+    act(() => {
+      fireEvent.click(contactBtn)
+    })
+    expect(mockProps.setShowContactInfo).toHaveBeenCalled()
   })
   it("Directory button is in the document", () => {
     const directoryBtn = screen.getByTestId("directory-btn")

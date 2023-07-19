@@ -5,12 +5,13 @@ import FixerFeatures from "./fixerFeatures"
 import MusicianFeatures from "./musicianFeatures"
 import LandingFooter from "./landingFooter"
 import Menu, { MenuItems } from "../layout/menu"
+import About from "../index/about"
 
 
 export const landingMenuItems: MenuItems = [
   {
     name: "About",
-    link: "/about",
+    link: "/",
     id: "1",
   },
   {
@@ -36,6 +37,7 @@ export default function LandingPage() {
         <Hero />
         <FixerFeatures />
         <MusicianFeatures />
+        <About />
         {/* <LandingFooter  /> */}
         </div>
       </div>

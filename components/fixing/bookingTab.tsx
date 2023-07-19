@@ -2,7 +2,9 @@ import ActiveCalls from "./activeCalls"
 import EditCalls from "./editCalls/editCalls"
 import React from "react"
 import ButtonPrimary from "../index/buttonPrimary"
-import { User } from "./fixing"
+//import { User } from "./fixing"
+import { Call, User } from "@prisma/client"
+import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile"
 
 interface Musician {
   id: number
@@ -26,30 +28,15 @@ interface BookingTabProps {
   editList: boolean
   setEditList: (arg: boolean) => void
   instrumentalistsList: User[] 
+  instrumentalists: User[]
   refreshProps: () => void
   handleSubmit: (val: any) => void 
   instrumentFixed: boolean
   eventId: number
-  eventCalls: {
-    id: number
-    createdAt: string
-    updatedAt: string
-    startTime: string
-    endTime: string
-    venue: string
-    eventId: number
-    fixerEmail: string
-  }[]  
-  instrumentSection: {
-    id: number
-    createdAt: string
-    updatedAt: string
-    eventId: number
-    instrumentName: string
-    numToBook: number
-    callOrder: string
-    musicians: Musician[]
-}}
+  eventCalls: Call[]  
+  instrumentSection: EventInstrumentWithMusiciansWithMusician
+  preview?: boolean
+}
 
 export default function BookingTab(props: BookingTabProps) {
   const { 
@@ -57,11 +44,13 @@ export default function BookingTab(props: BookingTabProps) {
     eventId,
     editList,
     setEditList,
+    instrumentalists,
     instrumentalistsList, 
     instrumentSection, 
     refreshProps, 
     instrumentFixed, 
     handleSubmit, 
+    preview,
      } = props
   
   return (
@@ -69,6 +58,7 @@ export default function BookingTab(props: BookingTabProps) {
       
       {instrumentSection.musicians.filter(i => i.bookingOrAvailability === "Booking").length > 0
         ? <ActiveCalls
+        preview={preview}
           bookingOrAvailability="Booking" 
           eventCalls={eventCalls} 
           closeEdit={() => setEditList(false)} 
@@ -98,10 +88,9 @@ export default function BookingTab(props: BookingTabProps) {
           handleSubmit={(values) => handleSubmit(values)} 
           key={instrumentSection.id} 
           instrumentName={instrumentSection.instrumentName} 
-          instrumentalists={instrumentalistsList}
-          contactedPlayers={instrumentSection.musicians.map(i => i.musician.name)}
+          instrumentalists={instrumentalists}
+          contactedPlayers={instrumentSection.musicians.map(i => i.musicianId)}
           />}
-          
     </div>
   )
 }

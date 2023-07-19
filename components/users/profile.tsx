@@ -2,14 +2,10 @@ import React, { useState } from "react";
 import ProfileHeader from "./profileHeader";
 import ProfileBody from "./profileBody";
 import ContactInfo from "../directory/contactInfo";
+import { User } from "@prisma/client";
 
-interface UserProfileProps {
-  user: {
-    name: string
-    instrument: string
-    email: string
-    id: string
-  }
+export type UserProfileProps = {
+  user: User
 }
 
 export default function UserProfile(props: UserProfileProps) {

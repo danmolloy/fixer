@@ -27,21 +27,27 @@ interface TableRowMenuProps {
   sendMessage: (name: string) => void
   pokePlayer: (name: string) => void
   offerOrDecline: (offerOrDecline: boolean, callId: number, musicianEmail: string) => void
-
+  preview?: boolean
 }
 
 
 
 export default function AvailabilityRowMenu(props: TableRowMenuProps) {
-  const { musician, setShowMenu, removePlayer, sendMessage, pokePlayer, offerOrDecline } = props;
+  const { musician, setShowMenu, removePlayer, sendMessage, pokePlayer, offerOrDecline, preview } = props;
 
   return (
     <MenuShell testId={"availability-row-menu"} title={musician.name} setShowMenu={() => setShowMenu()}>
-          <Link  href={`/user/${musician.name}`} className="text-center p-2 hover:bg-zinc-50 w-full ">
+          {preview 
+          ? <button className="text-center p-2 hover:bg-zinc-50 w-full ">
+              <p className="">
+              View Profile
+              </p>
+            </button>
+          : <Link  href={`/user/${musician.name}`} className="text-center p-2 hover:bg-zinc-50 w-full ">
             <p className="">
             View Profile
             </p>
-          </Link>
+          </Link>}
         {musician.recieved === false || musician.accepted === false
         && <button 
         onClick={(e) => {e.preventDefault(); removePlayer(musician.id)}}  className="p-2 hover:bg-zinc-50 w-full">

@@ -9,6 +9,8 @@ import { GiSandsOfTime } from "react-icons/gi";
 import BookingRowMenu from "./bookingRowMenu";
 import axios from "axios";
 import AvailabilityRowMenu from "./availabilityRowMenu";
+import { Call } from "@prisma/client";
+import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile";
 
 interface Musician {
   id: number
@@ -50,10 +52,11 @@ interface EventCall {
 }
 
 interface AvailabilityTableProps {
-  eventCalls: EventCall[]
-  instrumentSection: InstrumentSection
+  eventCalls: Call[]
+  instrumentSection: EventInstrumentWithMusiciansWithMusician
   removePlayer: (callId: number) => Promise<void>
   offerOrDecline: (offerOrDecline: boolean, callId: number, musicianEmail: string) => Promise<void>
+  preview?: boolean
 }
 
 interface tableObjHeader {
@@ -101,18 +104,24 @@ export const createTable = (eventCalls: any, instrumentSection: any): any => {
 }
 
 
-const pokePlayer = (musicianName: string) => {
+const pokePlayer = (musicianName: string, preview) => {
   const reqBody = {
     musicianName,
     message: `Hi ${musicianName}, Dan Molloy is reminding you to respond to their gig offer.`
+  }
+  if (preview === true) {
+    return;
   }
   return axios.post("/api/fixing/messagePlayer", reqBody)
 } 
 
 
-const sendMessage = (musicianName) => {
+const sendMessage = (musicianName, preview) => {
   const reqBody = {
     message: `Dan Molloy sends the following message: "${prompt(`What is your message to ${musicianName}?`)}"`
+  }
+  if (preview === true) {
+    return;
   }
   if (reqBody.message === null || reqBody.message.length === 0) {
     return;
@@ -123,7 +132,7 @@ const sendMessage = (musicianName) => {
 
 
 export default function AvailabilityTable(props: AvailabilityTableProps) {
-  const {eventCalls, instrumentSection, removePlayer, offerOrDecline } = props;
+  const {eventCalls, instrumentSection, removePlayer, offerOrDecline, preview } = props;
   const [menuId, setMenuId] = useState(null)
 
   let filledTable = createTable(eventCalls, instrumentSection)
@@ -135,8 +144,8 @@ export default function AvailabilityTable(props: AvailabilityTableProps) {
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
       setShowMenu={() => setMenuId(null)}
       removePlayer={(callId) => {removePlayer(callId); setMenuId(null)}}
-      sendMessage={(name) => sendMessage(name)}
-      pokePlayer={(name) => pokePlayer(name)}
+      sendMessage={(name) => sendMessage(name, preview)}
+      pokePlayer={(name) => pokePlayer(name, preview)}
       offerOrDecline={(offerOrDeclineBool, callId, musicianEmail) => {offerOrDecline(offerOrDeclineBool, callId, musicianEmail); setMenuId(null)}}/>}
       <TableContainer>
         <Table>

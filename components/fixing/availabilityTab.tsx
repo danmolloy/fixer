@@ -2,8 +2,10 @@ import ButtonPrimary from "../index/buttonPrimary"
 import AvailabilityTable from "./availabilityTable"
 import EditCalls from "./editCalls/editCalls"
 import React from "react"
-import { User } from "./fixing"
+//import { User } from "./fixing"
 import ActiveCalls from "./activeCalls"
+import { Call, User } from "@prisma/client"
+import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile"
 
 interface Musician {
   id: number
@@ -32,26 +34,10 @@ interface AvailabilityTabProps {
   handleSubmit: (val: any) => void 
   instrumentFixed: boolean
   eventId: number
-  eventCalls: {
-    id: number
-    createdAt: string
-    updatedAt: string
-    startTime: string
-    endTime: string
-    venue: string
-    eventId: number
-    fixerEmail: string
-  }[]  
-  instrumentSection: {
-    id: number
-    createdAt: string
-    updatedAt: string
-    eventId: number
-    instrumentName: string
-    numToBook: number
-    callOrder: string
-    musicians: Musician[]
-}}
+  eventCalls: Call[]  
+  instrumentSection: EventInstrumentWithMusiciansWithMusician
+  preview?: boolean
+}
 
 export default function AvailabilityTab(props: AvailabilityTabProps) {
   const { 
@@ -64,13 +50,15 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
     refreshProps, 
     instrumentFixed, 
     handleSubmit,
-    setSelectedTab
+    setSelectedTab,
+    preview
   } = props
 
   return (
     <div data-testid="availability-tab">
         {instrumentSection.musicians.filter(i => i.bookingOrAvailability === "Availability").length > 0
         ? <ActiveCalls 
+          preview={preview}
           setSelectedTab={i => setSelectedTab(i)}
           bookingOrAvailability={"Availability"}
           eventCalls={eventCalls} 
@@ -102,7 +90,7 @@ export default function AvailabilityTab(props: AvailabilityTabProps) {
           key={instrumentSection.id} 
           instrumentName={instrumentSection.instrumentName} 
           instrumentalists={instrumentalistsList}
-          contactedPlayers={instrumentSection.musicians.map(i => i.musician.name)}
+          contactedPlayers={instrumentSection.musicians.map(i => i.musicianId)}
           />}
     </div>
   )

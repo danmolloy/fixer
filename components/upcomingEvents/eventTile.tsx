@@ -4,50 +4,27 @@ import { HiLocationMarker } from "react-icons/hi"
 import { AiOutlineCalendar } from "react-icons/ai"
 import EventTileMenu from "./eventTileMenu"
 import moment from "moment"
+import { CallWithEvent } from "./upcomingEvents"
 
-interface EventTileProps {
-  call: {
-    id: number
-    createdAt: string
-    updatedAt: string
-    startTime: string
-    endTime: string
-    venue: string
-    eventId: number
-    fixerEmail: string
-    event: {
-      id: number
-      createdAt: string
-      updatedAt: string
-      eventTitle: string
-      ensembleName: string
-      concertProgram: string
-      confirmedOrOnHold: string
-      dressCode: string
-      fee: string
-      additionalInfo: string
-      fixerEmail: string
-    }
-  }
-  sessionEmail: string
+
+export type EventTileProps = {
+  call: CallWithEvent
+  sessionEmail: string,
+  preview?: boolean
 }
 
 export default function EventTile(props: EventTileProps) {
-  const { call, sessionEmail,  } = props
+  const { call, sessionEmail, preview, } = props
   const [showMenu, setShowMenu] = useState<boolean>(false)
-  
-  
-
-  
 
   return (
     <div className="flex flex-col items-center w-full">
       {showMenu 
       && <EventTileMenu eventTitle={call.event.eventTitle} eventId={call.event.id} setShowMenu={() => setShowMenu(!showMenu)}/>}
       <div className="w-full flex flex-row justify-end -mb-10">
-        <button className="z-10 self-end text-xs mr-1 hover:bg-slate-100  rounded-full p-2 text-slate-800" onClick={() => {setShowMenu(!showMenu)}} data-testid="event-menu-icon" >•••</button>
+        <button className="z-10 self-end text-xs mr-1 hover:bg-slate-100  rounded-full p-2 text-slate-800" onClick={() => {!preview && setShowMenu(!showMenu)}} data-testid="event-menu-icon" >•••</button>
       </div>
-    <Link href={`/event/${call.eventId}`} className={"rounded w-full border-b p-2 flex flex-col my-2 hover:bg-slate-100"} data-testid="event-tile-div">
+    <Link href={preview ? "/": `/event/${call.eventId}`} className={"rounded w-full border-b p-2 flex flex-col my-2 hover:bg-slate-100"} data-testid="event-tile-div">
       <div className="flex flex-row justify-between">
       <h2 className=" text-lg">{call.event.eventTitle}</h2>
       </div>

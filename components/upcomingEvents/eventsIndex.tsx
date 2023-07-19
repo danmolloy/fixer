@@ -6,70 +6,36 @@ import EventDashboard from "./dashboard";
 import DateRangeView from "./dateRangeView";
 import MobileDashboard from "./mobileDashboard";
 import useSWR from "swr";
+import { User } from "next-auth";
+import { Event, Prisma } from "@prisma/client";
 
+export type EventWithCalls = Prisma.EventGetPayload<{
+  include: { 
+    calls: true
+ }
+}>
 
-interface EventsIndexProps {
+export type CallWithEvent = Prisma.CallGetPayload<{
+  include: {
+    event: true
+  }
+}>
+
+export interface EventsIndexProps {
   session: {
-    user: {
-      name: string
-      email: string
-      image: string
-    }
+    user: User
     expires: string
     userData?: {
       id: string
       name: string
       email: string
-      emailVerified: null|boolean
+      emailVerified: Date
       image: string
       instrument: string
       profileInfo: null|string
       isFixer?: null|boolean
-      events: {
-        id: number
-        createdAt: string
-        updatedAt: string
-        ensembleName: string
-        concertProgram: string
-        confirmedOrOnHold: string
-        dressCode: string
-        fee: string
-        additionalInfo: string
-        fixerEmail: string
-        calls: {
-          id: number
-          createdAt: string
-          updatedAt: string
-          startTime: string
-          endTime: string
-          venue: string
-          eventId: number
-          fixerEmail: string
-        }[]
-      }[]
-      calls: {
-        id: number
-          createdAt: string
-          updatedAt: string
-          startTime: string
-          endTime: string
-          venue: string
-          eventId: number
-          fixerEmail: string
-          event: {
-            id: number
-            createdAt: string
-            updatedAt: string
-            eventTitle: string
-            ensembleName: string
-            concertProgram: string
-            confirmedOrOnHold: string
-            dressCode: string
-            fee: string
-            additionalInfo: string
-            fixerEmail: string
-          }
-      }[]
+      events: EventWithCalls[]
+      calls: CallWithEvent[]
     }
   }
 }

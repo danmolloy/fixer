@@ -6,6 +6,7 @@ import useSWR from "swr";
 import IsLoadingEventIndex from "../../components/event/isLoadingEventIndex";
 import { useEffect, useState } from "react";
 import IsLoadingInstrumentTile from "../../components/fixing/isLoadingTile";
+import { EventWithCalls } from "../../components/upcomingEvents/eventsIndex";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -24,6 +25,7 @@ export default function Event({props}) {
     setLastUpdated(new Date());
   }
 
+
   return (
     <Layout pageTitle={data ? data.eventTitle : "Event"}>
       {isLoading 
@@ -32,22 +34,28 @@ export default function Event({props}) {
           <IsLoadingInstrumentTile />
         </>
       : data 
-      ? <EventIndex
-        confirmed={data.confirmedOrOnHold}
-        updatedAt={data.updatedAt}
-        createdAt={data.createdAt}
-        calls={data.calls}
-        additionalInfo={data.additionalInfo}
-        fee={data.fee}
-        dressCode={data.dressCode}
-        concertProgram={data.concertProgram}
-        ensembleName={data.ensembleName}
-        id={data.id}
-        fixerName={data.fixerName}
-        fixerId={data.fixerId} 
-        session={data.session} /> 
+      ? <EventIndex 
+      event={{
+        eventTitle: data.eventTitle,
+    confirmedOrOnHold: data.confirmedOrOnHold,
+    updatedAt: data.updatedAt,
+    createdAt: data.createdAt,
+    calls: data.calls,
+    additionalInfo: data.additionalInfo,
+    fee: data.fee,
+    dressCode: data.dressCode,
+    concertProgram: data.concertProgram,
+    ensembleName: data.ensembleName,
+    id: data.id,
+    fixerName: data.fixerName,
+    fixerId: data.fixerId,
+      }}
+      session={data.session} />
         : <p>Error</p>}
       {data && data.users && <Fixing lastUpdated={lastUpdated} isLoading={isLoading} users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
    </Layout>
   )
 }
+{/* <EventIndex
+        event={data}
+        session={data.session} />  */}

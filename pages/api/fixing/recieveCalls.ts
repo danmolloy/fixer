@@ -3,18 +3,18 @@ import prisma from '../../../client'
 import { twilioClient } from "../../../twilio"
 
 
-const regExCheck = (msgBody) => {
+export const regExCheck = (msgBody: string): boolean|undefined => {
     const yesRegex = /["']?\s?(yes)\s?\d+\s?["']?/i
     const noRegex = /["']?\s?(no)\s?\d+\s?["']?/i
-    let result: null|undefined|boolean;
-
-    if (!yesRegex.test(msgBody.trim().toUpperCase()) && !noRegex.test(msgBody.trim().toUpperCase())) {
-        result = undefined
-    } else if (yesRegex.test(msgBody.trim().toUpperCase())) {
+    let result: undefined|boolean;
+    if (yesRegex.test(msgBody.trim().toUpperCase()) && !noRegex.test(msgBody.trim().toUpperCase())) {
         result = true
-    } else if (noRegex.test(msgBody.trim().toUpperCase())) {
+    } else if (!yesRegex.test(msgBody.trim().toUpperCase()) && noRegex.test(msgBody.trim().toUpperCase())) {
         result = false
-    }
+    } else {
+      result = undefined
+
+  }
 
     return result;
 }
@@ -32,12 +32,14 @@ export default async function handler(req, res) {
 }
  
 
-const updateAccepted = async (msgBody: string, twiml) => {
+export const updateAccepted = async (msgBody: string, twiml) => {
 
     const yesOrNo = regExCheck(msgBody)
     if (yesOrNo === undefined) {
-      return;
+
+      return undefined;
     }
+
     const idRegex = /\d+/g;
     const callId = Number(msgBody.match(idRegex)[0])
     const updatedPlayer = await prisma.playerCall.update({
@@ -62,22 +64,22 @@ const updateAccepted = async (msgBody: string, twiml) => {
     return await makeCalls(updatedPlayer.eventInstrument, twiml)
   }
 
-  const updateDepOut = async(playerCallId, twiml) => {
-    let updatedDepOut = await prisma.playerCall.update({
-      where: {
-        id: playerCallId
-      },
-      data: {
-        status: "RELEASED",
-        accepted: false
-      }
-    })
+export const updateDepOut = async(playerCallId, twiml) => {
+  let updatedDepOut = await prisma.playerCall.update({
+    where: {
+      id: playerCallId
+    },
+    data: {
+      status: "RELEASED",
+      accepted: false
+    }
+  })
 
-    return twiml.message(`Dan Molloy has released you from offer ${updatedDepOut.id}.`)
-    
-  }
+  return twiml.message(`Dan Molloy has released you from offer ${updatedDepOut.id}.`)
   
-  const makeCalls = async (eventInstrument: any, twiml) => {
+}
+  
+export const makeCalls = async (eventInstrument: any, twiml) => {
 
     const deppingOut = eventInstrument.musicians.find(i => i.status === "DEP OUT")
     if (deppingOut !== undefined) {
@@ -90,11 +92,9 @@ const updateAccepted = async (msgBody: string, twiml) => {
     const yetToBeCalled = eventInstrument.musicians.filter(i => i.recieved === false)
   
     if (numBooked === eventInstrument.numToBook) {
-      console.log("Instrument booked.")
-      return;
+      return "Instrument booked."
     } else if (yetToBeCalled.length === 0) {
-      console.log("Add musicians to list.")
-      return;
+      return "Add musicians to list."
     } else if (numToBook > yetToBeCalled) {
       console.log("List is running low.")
       return;

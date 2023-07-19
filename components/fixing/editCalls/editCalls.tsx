@@ -4,7 +4,8 @@ import EditCallsOptions from "./options";
 import AvailablePlayers from "./availablePlayers";
 import AppendedPlayers from "./appendedPlayers";
 import ButtonPrimary from "../../index/buttonPrimary";
-import { User } from "../fixing";
+//import { User } from "../fixing";
+import { Call, PlayerCall, User } from "@prisma/client";
 
 interface EventCall {
   id: number
@@ -27,7 +28,14 @@ interface Instrumentalist {
   isFixer?: null|boolean
 }
 
-interface AppendedInstrumentalist extends User {
+type AppendedInstrumentalist = {
+  id: string
+  name: string
+  email: string
+  emailVerified: Date
+  instrument: string
+  profileInfo: null|string
+  isFixer?: null|boolean
   calls: string[]
   playerMessage?: string
 }
@@ -88,7 +96,7 @@ interface EditCallsProps {
   handleSubmit: (vals: RequestValues|AvailabilityRequestValues) => void
   instrumentName: string
   instrumentalists: User[]
-  eventCalls: EventCall[]
+  eventCalls: Call[]
   eventInstrumentId: number
   bookingOrAvailability: "Booking"|"Availability"
   contactedPlayers: string[]
@@ -177,7 +185,6 @@ export default function EditCalls(props: EditCallsProps) {
               id="fix-btn" 
               text={bookingOrAvailability === "Availability" ? "Check availability" : "Fix"} 
               className="px-5 text-white bg-emerald-500 border-emerald-500 hover:bg-emerald-400" />
-
           </div>
         </form>
        )}

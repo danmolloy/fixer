@@ -9,6 +9,8 @@ import { GiSandsOfTime } from "react-icons/gi";
 import BookingRowMenu from "./bookingRowMenu";
 import axios from "axios";
 import { BiExit } from "react-icons/bi";
+import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile";
+import { Call } from "@prisma/client";
 
 interface Musician {
   id: number
@@ -38,7 +40,7 @@ interface InstrumentSection {
   musicians: Musician[]
 }
 
-interface EventCall {
+/* interface EventCall {
   id: number
   createdAt: string
   updatedAt: string
@@ -47,13 +49,14 @@ interface EventCall {
   venue: string
   eventId: number
   fixerEmail: string
-}
+} */
 
 interface BookingTableProps {
-  eventCalls: EventCall[]
-  instrumentSection: InstrumentSection
+  eventCalls: Call[]
+  instrumentSection: EventInstrumentWithMusiciansWithMusician
   removePlayer: (callId: number) => Promise<void>
   fixOrUnfixPlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => Promise<void>
+  preview?: boolean
 }
 
 interface tableObjHeader {
@@ -103,16 +106,22 @@ export const createTable = (eventCalls: any, instrumentSection: any): any => {
 }
 
 
-const pokePlayer = (musicianName: string) => {
+const pokePlayer = (musicianName: string, preview) => {
   const reqBody = {
     musicianName,
     message: `Hi ${musicianName}, Dan Molloy is reminding you to respond to their gig offer.`
+  }
+  if (preview) {
+    return;
   }
   return axios.post("/api/fixing/messagePlayer", reqBody)
 } 
 
 
-const sendMessage = (musicianName) => {
+const sendMessage = (musicianName, preview) => {
+  if (preview ) {
+    return;
+  }
   const reqBody = {
     message: `Dan Molloy sends the following message: "${prompt(`What is your message to ${musicianName}?`)}"`
   }
@@ -127,7 +136,7 @@ const sendMessage = (musicianName) => {
 
 
 export default function BookingTable(props: BookingTableProps) {
-  const { eventCalls, instrumentSection, removePlayer, fixOrUnfixPlayer } = props;
+  const { eventCalls, instrumentSection, removePlayer, fixOrUnfixPlayer, preview } = props;
   const [menuId, setMenuId] = useState(null)
 
   let filledTable = createTable(eventCalls, instrumentSection)
@@ -144,12 +153,13 @@ export default function BookingTable(props: BookingTableProps) {
     <div data-testid="booking-table-div" className="flex flex-col mx-2">
       {menuId !== null
       && <BookingRowMenu 
+      preview={preview}
       replace={(playerCallId) => {replacePlayer(playerCallId); setMenuId(null)}}
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
       setShowMenu={() => setMenuId(null)}
       removePlayer={(callId) => {removePlayer(callId); setMenuId(null)}}
-      sendMessage={(name) => sendMessage(name)}
-      pokePlayer={(name) => pokePlayer(name)}
+      sendMessage={(name) => sendMessage(name, preview)}
+      pokePlayer={(name) => pokePlayer(name, preview)}
       fixOrUnfix={(fixingBool, callId, musicianEmail) => {fixOrUnfixPlayer(fixingBool, callId, musicianEmail); setMenuId(null)}}/>}
       <TableContainer>
         <Table>

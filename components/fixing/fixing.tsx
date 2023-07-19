@@ -3,8 +3,10 @@ import InstrumentTile from './instrumentTile'
 import React, { useState } from 'react'
 import MobileFixing from './mobileFixing'
 import moment from 'moment'
+import OrchestraList from './orchestraList'
+import { Call, User } from '@prisma/client'
 
-export type EventCall = {
+/* export type EventCall = {
   id: number
   createdAt: string
   updatedAt: string
@@ -13,9 +15,9 @@ export type EventCall = {
   venue: string
   eventId: number
   fixerEmail: string
-}
+} */
 
-export type User = {
+/* export type User = {
   id: string
   name: string
   email: null|string
@@ -26,7 +28,7 @@ export type User = {
   firstName: null|string
   lastName: null|string
   mobileNumber: null|string
-}
+} */
 
 export type Musician = {
   id: number
@@ -58,7 +60,7 @@ export type InstrumentSection = {
 }
 
 export type FixingProps = {
-  eventCalls: EventCall[]
+  eventCalls: Call[]
   instrumentSections: InstrumentSection[]
   eventId: number
   refreshProps: () => void
@@ -73,6 +75,7 @@ export const instrumentArr = ["Violin", "Viola", "Cello", "Double Bass", "Flute"
 export default function Fixing(props: FixingProps) {
   const { lastUpdated, eventCalls, instrumentSections, eventId, refreshProps, users, isLoading } = props
   const [selectedInstrument, setSelectedInstrument] = useState<string>("")
+  const [viewList, setViewList] = useState<boolean>(false)
 
   return (
     <div className="w-screen flex flex-col justify-center" data-testid="event-fixing">
@@ -81,8 +84,12 @@ export default function Fixing(props: FixingProps) {
         <h1>Personnel</h1>
         {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last updated {String(moment(lastUpdated).format("HH:mm:ss D MMMM YYYY"))}</p>}
         </div>
-        <button onClick={() => refreshProps()} className="border border-blue-300 text-blue-600 m-2 rounded p-2 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">Refresh</button>
+        <div>
+          <button onClick={() => setViewList(!viewList)} className="border border-blue-300 text-blue-600 m-1 rounded p-1 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">View List</button>
+          <button onClick={() => refreshProps()} className="border border-yellow-500 text-yellow-600 m-1 rounded p-1 shadow hover:border-yellow-600 hover:bg-yellow-50 active:bg-yellow-300">Refresh</button>
+        </div>
       </div>
+      {viewList && <OrchestraList setViewList={(arg) => setViewList(arg)} instrumentSections={instrumentSections}/>}
       <MobileFixing 
         {...props}
         

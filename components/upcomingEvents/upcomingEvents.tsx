@@ -2,33 +2,16 @@ import React from "react";
 import EventTile from "./eventTile"
 import moment from "moment";
 import IsLoadingEventTile from "./isLoadingEventTile";
+import { Call, Event, Prisma } from "@prisma/client";
+
+export type CallWithEvent = Prisma.CallGetPayload<{
+  include: { event: true }
+}>
 
 interface UpcomingEventsProps {
   selectedDate: any
   sessionEmail?: string
-  upcomingCalls: undefined|{
-    id: number
-    createdAt: string
-    updatedAt: string
-    startTime: string
-    endTime: string
-    venue: string
-    eventId: number
-    fixerEmail: string
-    event: {
-      id: number
-      createdAt: string
-      updatedAt: string
-      eventTitle: string
-      ensembleName: string
-      concertProgram: string
-      confirmedOrOnHold: string
-      dressCode: string
-      fee: string
-      additionalInfo: string
-      fixerEmail: string
-    }
-  }[]
+  upcomingCalls: CallWithEvent[]
 }
 
 export default function UpcomingEvents(props: UpcomingEventsProps) {

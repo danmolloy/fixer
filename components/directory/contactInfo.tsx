@@ -10,7 +10,7 @@ export default function ContactInfo(props: ContactInfoProps) {
   const { setShowContactInfo, player } = props;
   
   return (
-    <MenuShell title={player.name} setShowMenu={setShowContactInfo}>
+    <MenuShell title={player.name} setShowMenu={setShowContactInfo} testId="contact-info">
       <InfoDiv id="" className="" title={"email"} value={"violin@viola.com"} />
       <InfoDiv id="" className="" title={"phone"} value={"07479 016 386"} />
       <InfoDiv id="" className="" title={"preferred method"} value={"WhatsApp"} />

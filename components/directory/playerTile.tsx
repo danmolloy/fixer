@@ -4,19 +4,15 @@ import { AiOutlineUser } from 'react-icons/ai'
 import React, { useState } from 'react'
 import { MdPhone } from 'react-icons/md'
 import ContactInfo from './contactInfo'
+import { User } from '@prisma/client'
 
 export type PlayerTileProps = {
-  player: {
-    name: string
-    instrument: string
-    email: string
-    id: string
-  }
-
+  player: User
+  preview?: boolean
 }
 
 export default function PlayerTile(props: PlayerTileProps) {
-  const { player } = props;
+  const { player, preview } = props;
   const [showContactInfo, setShowContactInfo] = useState<boolean>(false);
 
   return (
@@ -32,12 +28,17 @@ export default function PlayerTile(props: PlayerTileProps) {
         <p className='text-slate-500'>{player.instrument}</p>
       </div>
       <div className='border-t w-full flex flex-row justify-evenly'>
-      <Link href={`/user/${player.id}`} className='h-12 border-r w-1/2 text-center'>
-        <button className="hover:bg-slate-100 w-full h-full flex flex-row justify-center items-center" data-testid="view-profile-btn">
+      {preview 
+      ? <button className="hover:bg-slate-100 border-r w-1/2 h-12 text-center flex flex-row justify-center items-center" data-testid="view-profile-btn">
           <AiOutlineUser />
           <p className='p-2'>Profile</p>
         </button>
-      </Link>
+      : <Link href={`/user/${player.id}`} className='h-12 border-r w-1/2 text-center'>
+        <button disabled={preview} className="hover:bg-slate-100 w-full h-full flex flex-row justify-center items-center" data-testid="view-profile-btn">
+          <AiOutlineUser />
+          <p className='p-2'>Profile</p>
+        </button>
+      </Link>}
         <button className="hover:bg-slate-100 h-12 w-1/2 flex flex-row justify-center items-center" data-testid="player-contact-btn" onClick={() => setShowContactInfo(!showContactInfo)}>
             <MdPhone />
             <p className='p-2'>Contact</p>
