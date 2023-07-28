@@ -1,10 +1,10 @@
 import { render, screen, act, fireEvent } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import AvailabilityRowMenu from "../../components/fixing/availabilityRowMenu"
+import AvailabilityRowMenu, { TableRowMenuProps } from "../../components/fixing/availabilityRowMenu"
 
 const recieved = Math.random() > 0.4 ? true : false
 const accepted = recieved === false ? null : Math.random() > 0.6 ? true : Math.random() > 0.3 ? false : null
-const mockProps = {
+const mockProps: TableRowMenuProps = {
   musician: {
     id: 1,
     email: "mock@email.com",

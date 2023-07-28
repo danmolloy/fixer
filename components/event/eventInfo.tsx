@@ -7,7 +7,7 @@ import { EventWithCalls } from "../upcomingEvents/eventsIndex";
 
 
 
-interface EventInfoProps {
+export type EventInfoProps = {
   event: EventWithCalls
   session: any
   setShowOptions: () => void
@@ -22,7 +22,7 @@ export default function EventInfo(props: EventInfoProps) {
   return (
     <div data-testid="event-info-div" className={showOptions === true ? "blur w-full border shadow rounded-lg py-4":  "w-full border shadow rounded-lg py-4"}>
       <div className="w-full flex flex-col">
-        <button className="self-end border p-1 mr-2 rounded-md shadow-sm border-amber-600 text-amber-600 bg-white hover:bg-amber-50" onClick={() => {!preview && setShowOptions()}}>Options</button>
+        <button data-testid="options-btn" className="self-end border p-1 mr-2 rounded-md shadow-sm border-amber-600 text-amber-600 bg-white hover:bg-amber-50" onClick={() => {!preview && setShowOptions()}}>Options</button>
       </div>
       <div className="">
       <p className="flex flex-row items-center justify-center text-center p-3">This event is {event.confirmedOrOnHold.toLowerCase()}</p>
@@ -43,7 +43,7 @@ export default function EventInfo(props: EventInfoProps) {
       <InfoDiv className="" id="event-dress" title="Dress" value={event.dressCode} />
       <InfoDiv className="bg-slate-50" id="event-fee" title="Fee" value={event.fee} />
       <InfoDiv className="" id="event-additional-info" title="Additional Info" value={event.additionalInfo} />
-      <InfoDiv className="bg-slate-50" id="event-fixer-email" title="Fixer" value={event.fixerName} />
+      <InfoDiv className="bg-slate-50" id="event-fixer-name" title="Fixer" value={event.fixerName} />
       <InfoDiv className="text-slate-600 text-sm" id="created-datetime" title="Event created" value={String(moment(new Date(event.createdAt)).format("HH:mm:ss D MMMM YYYY"))} />
       <InfoDiv className="text-slate-600 text-sm bg-slate-50" id="updated-datetime" title="Last updated" value={String(moment(new Date(event.updatedAt)).format("HH:mm:ss D MMMM YYYY"))} />
     </div>

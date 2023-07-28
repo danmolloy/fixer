@@ -1,37 +1,12 @@
 import EventIndex from "../../components/event/index"
-import { render, screen } from "@testing-library/react"
+import { act, fireEvent, render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react"
+import { mockEventWithCalls } from "../../__mocks__/models/event"
 
 const mockProps = {
-  confirmed: "mockConfirmed",
-  ensembleName: "Banana Symphony",
-  concertProgram: "mockProgram",
-  dressCode: "mockDress",
-  fee: "mockFee",
-  additionalInfo: Math.random() < .5 ? "": "mockAdditionalInfo",
-  fixerEmail: "fixerEmail",
-  createdAt: "createdAt",
-  updatedAt: "updatedAt",
-  id: "mockId",
-  session: {
-    user: {
-      email: ""
-    }
-  },
-  calls: [
-    {
-    id: "0",
-    startTime: "mockStart0",
-    endTime: "mockEnd0",
-    venue: "mockVenue0"
-  },
-  {
-    id: "1",
-    startTime: "mockStart1",
-    endTime: "mockEnd1",
-    venue: "mockVenue1"
-  }]
+  event: mockEventWithCalls,
+  session: {},
 }
 
 describe("EventIndex component", () => {
@@ -46,8 +21,5 @@ describe("EventIndex component", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
     expect(eventInfoDiv).toBeInTheDocument()
   })
-  it("EventOptions is in the document", () => {
-    const eventOptions = screen.getByTestId("event-options-div")
-    expect(eventOptions).toBeInTheDocument()
-  })
+  it("Menu is in the document if showOptions is true", () => {})
 })

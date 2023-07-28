@@ -9,7 +9,7 @@
     "lint": "next lint",
     "test:e2e:open": "cypress open",
     "test:e2e:run": "cypress run",
-    "test": "jest --watch"
+    "test": "jest --watchAll"
   },
   "dependencies": {
     "@date-io/moment": "^2.16.1",

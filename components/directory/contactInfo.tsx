@@ -11,9 +11,9 @@ export default function ContactInfo(props: ContactInfoProps) {
   
   return (
     <MenuShell title={player.name} setShowMenu={setShowContactInfo} testId="contact-info">
-      <InfoDiv id="" className="" title={"email"} value={"violin@viola.com"} />
-      <InfoDiv id="" className="" title={"phone"} value={"07479 016 386"} />
-      <InfoDiv id="" className="" title={"preferred method"} value={"WhatsApp"} />
+      <InfoDiv id="email-info" className="" title={"email"} value={"violin@viola.com"} />
+      <InfoDiv id="phone-info" className="" title={"phone"} value={"07479 016 386"} />
+      <InfoDiv id="preferred-info" className="" title={"preferred method"} value={"WhatsApp"} />
     </MenuShell>
   )
 }

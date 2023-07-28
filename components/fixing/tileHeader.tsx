@@ -2,7 +2,7 @@ import React from "react"
 import { AiOutlineLoading } from "react-icons/ai"
 import { TiTick } from "react-icons/ti"
 
-interface TileHeaderProps {
+export type TileHeaderProps = {
   instrumentFixed: boolean
   instrumentName: string
   numToBook: number

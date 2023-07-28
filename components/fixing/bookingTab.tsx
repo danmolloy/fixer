@@ -6,25 +6,9 @@ import ButtonPrimary from "../index/buttonPrimary"
 import { Call, User } from "@prisma/client"
 import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile"
 
-interface Musician {
-  id: number
-  createdAt: string
-  updatedAt: string
-  recieved: boolean
-  accepted: boolean | null
-  musicianEmail: string
-  eventInstrumentId: number
-  bookingOrAvailability: "Booking"|"Availability"
-  musician: {
-    name: string
-  }
-  calls: {
-    id: number
-  }[]
-  status: string
-}
 
-interface BookingTabProps {
+
+export type BookingTabProps = {
   editList: boolean
   setEditList: (arg: boolean) => void
   instrumentalistsList: User[] 

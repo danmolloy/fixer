@@ -3,14 +3,7 @@ import Link from "next/link"
 import React from "react"
 import MenuShell from "../index/menuShell"
 
-interface TableRowMenuProps {
-  /* removePlayer: () => void
-  fixOrUnfix: (arg:"unfix"|"fix") => void
-  sendMessage: () => void
-  pokePlayer: () => void
-  recieved: boolean
-  accepted: boolean|null
-  name: string */
+export type TableRowMenuProps = {
   musician: {
     id: number
     email: string

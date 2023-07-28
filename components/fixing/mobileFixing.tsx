@@ -1,8 +1,7 @@
 import { Call, User } from "@prisma/client"
-import { InstrumentSection } from "./fixing"
 import InstrumentTile, { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile"
 
-type MobileFixingProps = {
+export type MobileFixingProps = {
   instrumentSections: EventInstrumentWithMusiciansWithMusician[]
   selectedInstrument: string
   setSelectedInstrument: (instrument: string) => void
@@ -19,14 +18,14 @@ export default function MobileFixing(props: MobileFixingProps) {
 
 
   return (
-    <div className="sm:hidden flex flex-col items-center w-full">
+    <div data-testid="mobile-fixing-div" className="sm:hidden flex flex-col items-center w-full">
       <div className="flex flex-col w-full items-center">
-         <select onChange={e => setSelectedInstrument(e.target.value)} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
+         <select data-testid="select-menu" onChange={e => setSelectedInstrument(e.target.value)} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
           <option value={""}>Select instrument</option>
           {instrumentSections.map(i => (
             <option value={i.instrumentName} key={i.id} className="">
-              <p>{i.instrumentName} {i.numToBook > 0 && `(${i.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length} of ${i.numToBook} booked)`}
-              </p>
+              {i.instrumentName} {i.numToBook > 0 && `(${i.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length} of ${i.numToBook} booked)`}
+              
             </option>
           ))}
         </select>

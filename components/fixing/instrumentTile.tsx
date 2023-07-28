@@ -6,7 +6,7 @@ import React from "react";
 import TileHeader from "./tileHeader";
 import TileTabBar from "./tileTabBar";
 import { AvailabilityRequestValues, RequestValues } from "./editCalls/editCalls";
-import { Call, EventInstrument, Prisma, User } from "@prisma/client";
+import { Call, Prisma, User } from "@prisma/client";
 
 export type EventInstrumentWithMusiciansWithMusician = Prisma.EventInstrumentGetPayload<{
   include: {
@@ -19,37 +19,9 @@ export type EventInstrumentWithMusiciansWithMusician = Prisma.EventInstrumentGet
   }
 }>
 
-interface Musicians {
-  id: number
-  createdAt: string
-  updatedAt: string
-  recieved: boolean
-  accepted: boolean|null
-  musicianEmail: string
-  eventInstrumentId: number
-  bookingOrAvailability: "Booking"|"Availability"
-  musician: {
-    name: string
-  }
-  calls: {
-    id: number
-  }[]
-  status: string
-}
 
-interface InstrumentSection {
-  id: number
-  createdAt: string
-  updatedAt: string
-  eventId: number
-  instrumentName: string
-  numToBook: number
-  callOrder: string
-  musicians: Musicians[]
-  fixerNote?: string
-}
 
-export interface InstrumentTileProps {
+export type InstrumentTileProps = {
   eventCalls: Call[]
   eventId: number
   instrumentalists: User[]
@@ -75,7 +47,6 @@ export default function InstrumentTile(props: InstrumentTileProps) {
     if (preview === true) {
       return;
     }
-    console.log("Hello from handleSubmit")
     let apiRoute: string; 
     if (vals.bookingOrAvailability === "Booking") {
       apiRoute = "/api/fixing/sendOffers"
@@ -92,7 +63,7 @@ export default function InstrumentTile(props: InstrumentTileProps) {
   }
 
   return (
-    <div data-testid={`instrument-tile`} className={"w-full h-full"} key={instrumentSection.id}>
+    <div data-testid={`${instrumentSection.instrumentName}-instrument-tile`} className={"w-full h-full"} key={instrumentSection.id}>
       <TileHeader availablityChecksOut={availablityChecksOut} numAvailablityConfirmed={numAvailablityConfirmed} isLoading={isLoading} fixerNote={instrumentSection.fixerNote} instrumentFixed={instrumentFixed} instrumentName={instrumentSection.instrumentName} numToBook={instrumentSection.numToBook} />
       <TileTabBar selectedTab={selectedTab} setSelectedTab={arg => setSelectedTab(arg)} />
       {selectedTab === "Booking"

@@ -1,6 +1,6 @@
 import React from "react"
 
-interface InfoDivProps {
+export type InfoDivProps = {
   id: string
   className: string
   title: string

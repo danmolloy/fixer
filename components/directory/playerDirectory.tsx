@@ -36,7 +36,7 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
           Viola
           </option>
           : instrumentArr.map(i => (
-            <option value={i} key={i}>
+            <option value={i} key={i} data-testid={`${i}-option`}>
               {i}
             </option>
           ))}

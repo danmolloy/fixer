@@ -1,13 +1,12 @@
-import { act, fireEvent, render, screen } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import '@testing-library/jest-dom'
 import PlayerTile from "../../components/directory/playerTile"
-import { instrumentArr } from "../../components/fixing/fixing"
+import { mockUser } from "../../__mocks__/models/user"
 
-const mockPlayer = {"id":"cl5jltw9i0177t6u0at4zsqd3","name":"Darnell Graham","email":"Abelardo_Vandervort71@hotmail.com","emailVerified":null,"image":null,"instrument":"Trombone","profileInfo":null,"isFixer":null}
 
 describe("PlayerTile component", () => {
   beforeEach(() => {
-    render(<PlayerTile player={mockPlayer}/>)
+    render(<PlayerTile player={mockUser}/>)
   })
   it("Renders", () => {
     const playerTile = screen.getByTestId("player-tile-div")
@@ -17,12 +16,12 @@ describe("PlayerTile component", () => {
 
   it("Player tile has name", () => {
     const playerTile = screen.getByTestId("player-tile-div")
-    expect(playerTile.textContent).toMatch(mockPlayer.name)
+    expect(playerTile.textContent).toMatch(mockUser.name)
   })
 
   it("Player tile has instrument", () => {
     const playerTile = screen.getByTestId("player-tile-div")
-    expect(playerTile.textContent).toMatch(mockPlayer.instrument)
+    expect(playerTile.textContent).toMatch(mockUser.instrument)
   })
 
   it("Player tile has profile picture", () => {

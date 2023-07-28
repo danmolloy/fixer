@@ -2,30 +2,12 @@ import ButtonPrimary from "../index/buttonPrimary"
 import AvailabilityTable from "./availabilityTable"
 import EditCalls from "./editCalls/editCalls"
 import React from "react"
-//import { User } from "./fixing"
 import ActiveCalls from "./activeCalls"
 import { Call, User } from "@prisma/client"
 import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile"
 
-interface Musician {
-  id: number
-  createdAt: string
-  updatedAt: string
-  recieved: boolean
-  accepted: boolean | null
-  musicianEmail: string
-  eventInstrumentId: number
-  bookingOrAvailability: "Booking"|"Availability"
-  musician: {
-    name: string
-  }
-  calls: {
-    id: number
-  }[]
-  status: string
-}
 
-interface AvailabilityTabProps {
+export type AvailabilityTabProps = {
   setSelectedTab: (i: string) => void
   editList: boolean
   setEditList: (arg: boolean) => void

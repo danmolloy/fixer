@@ -6,58 +6,6 @@ import moment from 'moment'
 import OrchestraList from './orchestraList'
 import { Call, User } from '@prisma/client'
 
-/* export type EventCall = {
-  id: number
-  createdAt: string
-  updatedAt: string
-  startTime: string
-  endTime: string
-  venue: string
-  eventId: number
-  fixerEmail: string
-} */
-
-/* export type User = {
-  id: string
-  name: string
-  email: null|string
-  emailVerified: null|boolean
-  image: null|string
-  instrument: string
-  profileInfo: null|string
-  firstName: null|string
-  lastName: null|string
-  mobileNumber: null|string
-} */
-
-export type Musician = {
-  id: number
-  createdAt: string
-  updatedAt: string
-  recieved: boolean
-  accepted: boolean|null
-  musicianEmail: string
-  eventInstrumentId: number
-  bookingOrAvailability: "Booking"|"Availability"
-  musician: {
-    name: string
-  }
-  calls: {
-    id: number
-  }[]
-  status: string
-}
-
-export type InstrumentSection = {
-  id: number
-  createdAt: string
-  updatedAt: string
-  eventId: number
-  instrumentName: string
-  numToBook: number
-  callOrder: string
-  musicians: Musician[]
-}
 
 export type FixingProps = {
   eventCalls: Call[]
@@ -80,13 +28,13 @@ export default function Fixing(props: FixingProps) {
   return (
     <div className="w-screen flex flex-col justify-center" data-testid="event-fixing">
       <div className="flex flex-row items-center justify-between   px-8 py-4 mt-8">
-        <div>
+        <div data-testid="fixing-header">
         <h1>Personnel</h1>
         {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last updated {String(moment(lastUpdated).format("HH:mm:ss D MMMM YYYY"))}</p>}
         </div>
         <div>
-          <button onClick={() => setViewList(!viewList)} className="border border-blue-300 text-blue-600 m-1 rounded p-1 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">View List</button>
-          <button onClick={() => refreshProps()} className="border border-yellow-500 text-yellow-600 m-1 rounded p-1 shadow hover:border-yellow-600 hover:bg-yellow-50 active:bg-yellow-300">Refresh</button>
+          <button data-testid="view-list-btn" onClick={() => setViewList(!viewList)} className="border border-blue-300 text-blue-600 m-1 rounded p-1 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">View List</button>
+          <button data-testid="refresh-btn" onClick={() => refreshProps()} className="border border-yellow-500 text-yellow-600 m-1 rounded p-1 shadow hover:border-yellow-600 hover:bg-yellow-50 active:bg-yellow-300">Refresh</button>
         </div>
       </div>
       {/* viewList && <OrchestraList setViewList={(arg) => setViewList(arg)} instrumentSections={instrumentSections}/> */}

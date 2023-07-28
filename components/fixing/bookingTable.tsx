@@ -1,10 +1,8 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import moment from "moment/moment";
-import { TiMail, TiTick, TiTimes } from "react-icons/ti";
-import {FiCoffee } from "react-icons/fi"
+import { TiTick, TiTimes } from "react-icons/ti";
 import React, { useState } from "react";
 import { BsThreeDots } from 'react-icons/bs'
-import TableRowMenu from "./editCalls/tableRowMenu";
 import { GiSandsOfTime } from "react-icons/gi";
 import BookingRowMenu from "./bookingRowMenu";
 import axios from "axios";
@@ -12,46 +10,8 @@ import { BiExit } from "react-icons/bi";
 import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile";
 import { Call } from "@prisma/client";
 
-interface Musician {
-  id: number
-  createdAt: string
-  updatedAt: string
-  recieved: boolean
-  accepted: boolean | null
-  musicianEmail: string
-  eventInstrumentId: number
-  bookingOrAvailability: "Booking"|"Availability"
-  status: string
-  musician: {
-    name: string
-  }
-  calls: {
-    id: number
-  }[]
-}
-interface InstrumentSection {
-  id: number
-  createdAt: string
-  updatedAt: string
-  eventId: number
-  instrumentName: string
-  numToBook: number
-  callOrder: string
-  musicians: Musician[]
-}
 
-/* interface EventCall {
-  id: number
-  createdAt: string
-  updatedAt: string
-  startTime: string
-  endTime: string
-  venue: string
-  eventId: number
-  fixerEmail: string
-} */
-
-interface BookingTableProps {
+export type BookingTableProps = {
   eventCalls: Call[]
   instrumentSection: EventInstrumentWithMusiciansWithMusician
   removePlayer: (callId: number) => Promise<void>
@@ -59,25 +19,6 @@ interface BookingTableProps {
   preview?: boolean
 }
 
-interface tableObjHeader {
-  name: string
-  calls: {
-    id: string
-    startTime: string
-  }[]
-}
-
-interface tableObjMusician {
-  email: string
-  name: string
-  calls: {
-    id: string
-    startTime: string
-  }[]
-  recieved: boolean
-  accepted: boolean|null
-  status: string
-}[]
 
 export const createTable = (eventCalls: any, instrumentSection: any): any => {
   let objArr: any = [{
@@ -131,8 +72,6 @@ const sendMessage = (musicianName, preview) => {
     return axios.post("/api/fixing/messagePlayer", reqBody);
   }
 }
-
-
 
 
 export default function BookingTable(props: BookingTableProps) {

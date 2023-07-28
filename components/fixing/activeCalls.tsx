@@ -1,56 +1,12 @@
 import { useEffect, useState } from 'react'
-import { GiEnvelope, GiConfirmed, GiCancel } from 'react-icons/gi'
-import { IoIosRemoveCircleOutline } from 'react-icons/io'
 import axios from "axios"
-import { List, ListItem, Table, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import moment from 'moment/moment'
 import BookingTable from './bookingTable'
 import React from 'react'
 import AvailabilityTable from './availabilityTable'
 import { Call } from '@prisma/client'
 import { EventInstrumentWithMusiciansWithMusician } from './instrumentTile'
 
-interface Musician {
-  id: number
-  createdAt: string
-  updatedAt: string
-  recieved: boolean
-  accepted: boolean | null
-  musicianEmail: string
-  eventInstrumentId: number
-  bookingOrAvailability: "Booking"|"Availability"
-  musician: {
-    name: string
-  }
-  calls: {
-    id: number
-  }[]
-  status: string
-}
-
-interface InstrumentSection {
-  id: number
-  createdAt: string
-  updatedAt: string
-  eventId: number
-  instrumentName: string
-  numToBook: number
-  callOrder: string
-  musicians: Musician[]
-}
-
-interface EventCall {
-  id: number
-  createdAt: string
-  updatedAt: string
-  startTime: string
-  endTime: string
-  venue: string
-  eventId: number
-  fixerEmail: string
-}
-
-interface ActiveCallsProps {
+export type ActiveCallsProps = {
   eventCalls: Call[]
   instrumentName: string
   instrumentSection: EventInstrumentWithMusiciansWithMusician

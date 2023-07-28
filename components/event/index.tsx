@@ -13,24 +13,6 @@ export type EventIndexProps = {
   event: EventWithCalls
   session: any
   preview?: boolean
-  /* confirmed: string
-  ensembleName: string
-  concertProgram: string
-  dressCode: string
-  fee: string
-  additionalInfo: string
-  fixerId: string
-  fixerName: string
-  createdAt: string
-  updatedAt: string
-  id: string
-  session: any
-  calls: {
-    id: string
-    startTime: string
-    endTime: string
-    venue: string
-  }[] */
 }
 
 const fixerMenu: MenuItems = [

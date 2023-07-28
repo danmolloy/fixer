@@ -1,34 +1,15 @@
-import EventInfo from "../../components/event/eventInfo"
-import { render, screen } from "@testing-library/react"
+import EventInfo, { EventInfoProps } from "../../components/event/eventInfo"
+import { act, fireEvent, render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react"
 import moment from "moment"
+import { mockEventWithCalls } from "../../__mocks__/models/event"
 
-const mockProps = {
-  confirmed: "Confirmed",
-  ensembleName: "Banana Symphony",
-  concertProgram: "mockProgram",
-  dressCode: "mockDress",
-  fee: "mockFee",
-  additionalInfo: Math.random() < .5 ? "": "mockAdditionalInfo",
-  fixerEmail: "fixerEmail",
-  createdAt: "createdAt",
-  updatedAt: "updatedAt",
-  id: "mockId",
+const mockProps: EventInfoProps = {
+  event: mockEventWithCalls,
   session: {},
-  calls: [
-    {
-    id: "0",
-    startTime: "Tue, 21 Feb 2023 12:06:40 GMT",
-    endTime: "Tue, 21 Feb 2023 15:06:40 GMT",
-    venue: "mockVenue0"
-  },
-  {
-    id: "1",
-    startTime: "Tue, 21 Feb 2023 16:06:40 GMT",
-    endTime: "Tue, 21 Feb 2023 17:06:40 GMT",
-    venue: "mockVenue1"
-  }]
+  setShowOptions: jest.fn(),
+  showOptions: true
 }
 
 describe("EventInfo component", () => {
@@ -39,48 +20,58 @@ describe("EventInfo component", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
     expect(eventInfoDiv).toBeInTheDocument()
   })
+  it("showOptions are in the document (if true), and calls setShowOptions onClick", () => {
+    if (mockProps.showOptions === true) {
+      const optionsBtn = screen.getByTestId("options-btn");
+      expect(optionsBtn).toBeInTheDocument()
+      act(() => {
+        fireEvent.click(optionsBtn)
+      })
+      expect(mockProps.setShowOptions).toBeCalled()
+    }
+  })
   it("Confirmed or On Hold is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(/^This event is confirmed/)
+    expect(eventInfoDiv.textContent).toMatch(`This event is ${mockProps.event.confirmedOrOnHold.toLowerCase()}`)
   })
   it("Ensemble name is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(mockProps.ensembleName)
+    expect(eventInfoDiv.textContent).toMatch(mockProps.event.ensembleName)
   })
   it("Concert Program is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(mockProps.concertProgram)
+    expect(eventInfoDiv.textContent).toMatch(mockProps.event.concertProgram)
   })
   it("Dress code is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(`Dress${mockProps.dressCode}`)
+    expect(eventInfoDiv.textContent).toMatch(`Dress${mockProps.event.dressCode}`)
   })
   it("Fee is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(`Fee${mockProps.fee}`)
+    expect(eventInfoDiv.textContent).toMatch(`Fee${mockProps.event.fee}`)
   })
   it("Additional info is in the document, even if empty string", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(`Additional Info${mockProps.additionalInfo}`)
+    expect(eventInfoDiv.textContent).toMatch(`Additional Info${mockProps.event.additionalInfo}`)
   })
-  it("Fixer email is in the document", () => {
+  it("Fixer name is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(`Fixer${mockProps.fixerEmail}`)
+    expect(eventInfoDiv.textContent).toMatch(`Fixer${mockProps.event.fixerName}`)
   })
   it("All calls are in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    for (let i = 0; i < mockProps.calls.length; i++) {
-      expect(eventInfoDiv.textContent).toMatch(String(moment.utc(new Date(mockProps.calls[i].startTime)).format("HMm Do MMMM YYYY")))
-      expect(eventInfoDiv.textContent).toMatch(mockProps.calls[i].venue)
+    for (let i = 0; i < mockProps.event.calls.length; i++) {
+      expect(eventInfoDiv.textContent).toMatch(String(moment(new Date(mockProps.event.calls[i].startTime)).format("HH:mm D MMMM YYYY")))
+      expect(eventInfoDiv.textContent).toMatch(mockProps.event.calls[i].venue)
     }
   })
 
   it("createdAt is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(String(moment.utc(new Date(mockProps.createdAt)).format("h:ma Do MMMM YYYY")))
+    expect(eventInfoDiv.textContent).toMatch(String(moment(new Date(mockProps.event.createdAt)).format("HH:mm:ss D MMMM YYYY")))
   })
   it("Last updated is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(String(moment.utc(new Date(mockProps.updatedAt)).format("h:ma Do MMMM YYYY")))
+    expect(eventInfoDiv.textContent).toMatch(String(moment(new Date(mockProps.event.updatedAt)).format("HH:mm:ss D MMMM YYYY")))
   })
 })

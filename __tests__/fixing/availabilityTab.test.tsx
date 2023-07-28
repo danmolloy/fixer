@@ -1,34 +1,28 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import '@testing-library/jest-dom'
-import AvailabilityTab from '../../components/fixing/availabilityTab'
+import AvailabilityTab, { AvailabilityTabProps } from '../../components/fixing/availabilityTab'
+import { mockEventInstrumentWithMAndM } from "../../__mocks__/models/eventInstrument"
+import { mockUser } from "../../__mocks__/models/user"
+import { mockCall } from "../../__mocks__/models/call"
 
-const setEditList = jest.fn()
 const editList = Math.random() > .5 ? true : false
 
-const mockData = {
+const mockData: AvailabilityTabProps = {
+  setSelectedTab: jest.fn(),
   editList: editList,
-  setEditList: setEditList,
-  instrumentalistsList: [{
-    id: "321",
-    name: "Patrick Viola",
-    email: "321",
-    emailVerified: null,
-    instrument: "Viola",
-    profileInfo: null,
-    isFixer: null,
-  }],
-  //appendPlayer: (player: any) => void 
-  eventId: 1, 
-  keyId: 2, 
-  instrumentName: "Viola", 
+  setEditList: jest.fn(),
+  instrumentalistsList: [mockUser],
   refreshProps: jest.fn(),
   handleSubmit: jest.fn(), 
-  callsOutId: 3
+  instrumentFixed: Math.random() > .5 ? true : false,
+  eventId: mockEventInstrumentWithMAndM.eventId, 
+  eventCalls: [mockCall],
+  instrumentSection: mockEventInstrumentWithMAndM,
 }
 
 describe("AvailabilityTab component", () => {
   beforeEach(() => {
-    render(<AvailabilityTab props={mockData}/>)
+    render(<AvailabilityTab {...mockData}/>)
   })
   it("Renders", () => {
     const tabDiv = screen.getByTestId("availability-tab")
@@ -50,13 +44,21 @@ describe("AvailabilityTab component", () => {
       act(() => {
         fireEvent.click(editBtn)
       })
-      expect(setEditList).toBeCalledWith(false)
+      expect(mockData.setEditList).toBeCalledWith(false)
     }
   })
   //it("if editList is true, Close button in the document and calls setEditList(false) on click", () => {})
-  it("AvailabilityTable is in the document", () => {
-    const availabilityTable = screen.getByTestId("availability-table-div")
-    expect(availabilityTable).toBeInTheDocument()
+  it("AvailabilityTable is in the document if calls are out", () => {
+    const availabilityCalls = mockEventInstrumentWithMAndM.musicians.filter(i => i.bookingOrAvailability === "Availability")
+    const tabDiv = screen.getByTestId("availability-tab")
+    if (availabilityCalls.length > 0) {
+      const availabilityTable = screen.getByTestId("availability-table-div")
+      expect(availabilityTable).toBeInTheDocument()
+      expect(tabDiv.textContent).not.toMatch(/No availability checks have been made./)
+    } else {
+      const tabDiv = screen.getByTestId("availability-tab")
+      expect(tabDiv.textContent).toMatch(/No availability checks have been made./)
+    }
   })
   it("if editList is true, EditCalls is in the document", () => {
     if (editList === true) {

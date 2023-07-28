@@ -1,12 +1,15 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import TileHeader from "../../components/fixing/tileHeader"
+import TileHeader, { TileHeaderProps } from "../../components/fixing/tileHeader"
 import React from "react"
 
-const mockProps = {
+const mockProps: TileHeaderProps = {
   instrumentFixed: Math.random() < .5 ? true : false,
   instrumentName: "Viola",
-  numToBook: 2
+  numToBook: 2,
+  isLoading: false,
+  numAvailablityConfirmed: 1,
+  availablityChecksOut: true
 }
 
 describe("TileHeader component", () => {
@@ -32,6 +35,12 @@ describe("TileHeader component", () => {
       expect(tileHeader.textContent).toMatch(`Booked ${mockProps.numToBook} player(s)`)
     } else {
       expect(tileHeader.textContent).toMatch(`Booking ${mockProps.numToBook} player(s)`)
+    }
+  })
+  it("Number of players confirmed available is in the document", () => {
+    const tileHeader = screen.getByTestId("tile-header-div")
+    if (mockProps.availablityChecksOut === true) {
+      expect(tileHeader.textContent).toMatch(`${mockProps.numAvailablityConfirmed} player(s) confirmed available`)
     }
   })
 })

@@ -3,17 +3,18 @@ import "@testing-library/jest-dom"
 import CallTile from "../../components/event/callTile";
 import React from "react";
 import moment from "moment";
+import { mockCall } from "../../__mocks__/models/call";
 
-const mockProps = {
+/* const mockProps = {
   id: "mockId",
   startTime: "Tue, 21 Feb 2023 12:06:40 GMT",
   endTime: "Tue, 21 Feb 2023 15:06:40 GMT",
   venue: "mockVenue",
-}
+} */
 
 describe("CallTile component", () => {
   beforeEach(() => {
-    render(<CallTile {...mockProps} />)
+    render(<CallTile {...mockCall} />)
   })
   it("Renders", () => {
     const callTile = screen.getByTestId("call-tile-div")
@@ -21,14 +22,14 @@ describe("CallTile component", () => {
   })
   it("startTime is in the document", () => {
     const callTile = screen.getByTestId("call-tile-div")
-    expect(callTile.textContent).toMatch(String(moment.utc(new Date(mockProps.startTime)).format("HMm Do MMMM YYYY")))
+    expect(callTile.textContent).toMatch(String(moment(new Date(mockCall.startTime)).format("HH:mm D MMMM YYYY")))
   })
   it("endTime is in the document", () => {
     const callTile = screen.getByTestId("call-tile-div")
-    expect(callTile.textContent).toMatch(String(moment.utc( new Date(mockProps.endTime)).format("HMm Do MMMM YYYY")))
+    expect(callTile.textContent).toMatch(String(moment( new Date(mockCall.endTime)).format("HH:mm D MMMM YYYY")))
   })
   it("venue is in the document", () => {
     const callTile = screen.getByTestId("call-tile-div")
-    expect(callTile.textContent).toMatch(mockProps.venue)
+    expect(callTile.textContent).toMatch(mockCall.venue)
   })
 })
