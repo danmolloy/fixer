@@ -1,10 +1,10 @@
 import { EventInstrument } from "@prisma/client";
 import { AiOutlineClose } from "react-icons/ai";
-import { InstrumentSection } from "./fixing";
+import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile";
 
 type OrchestraListProps = {
   setViewList: (boolean) => void
-  instrumentSections: InstrumentSection[]
+  instrumentSections: EventInstrumentWithMusiciansWithMusician[]
 }
 
 export default function OrchestraList(props: OrchestraListProps) {
