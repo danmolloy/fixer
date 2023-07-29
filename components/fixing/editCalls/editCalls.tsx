@@ -7,42 +7,16 @@ import ButtonPrimary from "../../index/buttonPrimary";
 //import { User } from "../fixing";
 import { Call, PlayerCall, User } from "@prisma/client";
 
-interface EventCall {
-  id: number
-  createdAt: string
-  updatedAt: string
-  startTime: string
-  endTime: string
-  venue: string
-  eventId: number
-  fixerEmail: string
-}
 
-interface Instrumentalist {
-  id: string
-  name: string
-  email: string
-  emailVerified: boolean|null
-  instrument: string
-  profileInfo: null|string
-  isFixer?: null|boolean
-}
 
-type AppendedInstrumentalist = {
-  id: string
-  name: string
-  email: string
-  emailVerified: Date
-  instrument: string
-  profileInfo: null|string
-  isFixer?: null|boolean
+export interface UserWithCalls extends User {
   calls: string[]
   playerMessage?: string
 }
 
 export type HandleSubmitValues = {
   numToBook: number
-  appendedPlayers: AppendedInstrumentalist[]
+  appendedPlayers: UserWithCalls[]
   availablePlayers: User[]
   callOrder: "Ordered"|"Random"|"Simultaneous"
   bookingOrAvailability: "Booking"|"Availability"
@@ -91,7 +65,7 @@ export type AvailabilityRequestValues = {
   bookingStatus: string
 }
 
-interface EditCallsProps {
+export type EditCallsProps = {
   eventId: number
   handleSubmit: (vals: RequestValues|AvailabilityRequestValues) => void
   instrumentName: string

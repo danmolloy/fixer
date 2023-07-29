@@ -2,31 +2,31 @@ import Link from "next/link"
 import React from "react"
 import MenuShell from "../../index/menuShell"
 import { Field, FieldArray } from "formik"
-import { Instrumentalist } from "./appendedPlayers"
 import TextInput from "../../createEvent/textInput"
 import ButtonPrimary from "../../index/buttonPrimary"
+import { UserWithCalls } from "./editCalls"
 
-interface TableRowMenuProps {
+export type EditTableRowMenuProps = {
   menuOptions?: {
     id: string
     text: string
   }[]
   setShowMenu: () => void
-  appendedPlayers: Instrumentalist[]
+  appendedPlayers: UserWithCalls[]
   menuIndex: number|null
-  makeAvailable: (arg: Instrumentalist) => void
+  makeAvailable: (arg: UserWithCalls) => void
 }
 
-export default function TableRowMenu(props: TableRowMenuProps) {
+export default function TableRowMenu(props: EditTableRowMenuProps) {
   const { makeAvailable, appendedPlayers, menuIndex, setShowMenu } = props;
 
   return (
     <FieldArray name="appendedPlayers">
             {({ insert, remove, push}) => (
-          <MenuShell title={appendedPlayers[menuIndex].name} setShowMenu={() => setShowMenu()}>
+          <MenuShell testId="table-row-menu" title={appendedPlayers[menuIndex].name} setShowMenu={() => setShowMenu()}>
                 <div className=" w-full flex flex-col px-2 ">
                 <button className="text-start py-2 hover:bg-zinc-50">
-                  <a target="_blank" rel="noreferrer" href={`/user/${appendedPlayers[menuIndex].name}`} >
+                  <a data-testid="profile-link" target="_blank" rel="noreferrer" href={`/user/${appendedPlayers[menuIndex].name}`} >
                     View Profile
                   </a>
                 </button>
@@ -35,6 +35,7 @@ export default function TableRowMenu(props: TableRowMenuProps) {
                 setShowMenu();
                 remove(menuIndex);
                 makeAvailable(appendedPlayers[menuIndex])
+                
                 }}>
                   Remove from List
                 </button>

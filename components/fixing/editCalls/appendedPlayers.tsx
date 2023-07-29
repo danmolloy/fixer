@@ -8,34 +8,13 @@ import MenuItem from "../../index/menuItem";
 import { AiOutlineMail } from "react-icons/ai";
 import PulsingDiv from "../../layout/pulsingDiv";
 import { Call } from "@prisma/client";
+import { UserWithCalls } from "./editCalls";
 
-interface EventCall {
-  id: number
-  createdAt: string
-  updatedAt: string
-  startTime: string
-  endTime: string
-  venue: string
-  eventId: number
-  fixerEmail: string
-}
 
-export type Instrumentalist = {
-  id: string
-  name: string
-  email: string
-  emailVerified: Date
-  instrument: string
-  profileInfo: null|string
-  isFixer?: null|boolean
-  calls: string[]
-  playerMessage?: string
-}
-
-interface AppendedPlayersProps {
-  appendedPlayers: Instrumentalist[]
+export type AppendedPlayersProps = {
+  appendedPlayers: UserWithCalls[]
   eventCalls: Call[]
-  makeAvailable: any
+  makeAvailable: (arg: any) => void
 }
 
 
@@ -89,13 +68,13 @@ export default function AppendedPlayers(props: AppendedPlayersProps) {
                     <Field 
                       data-testid={`${i.id}-row-call-${j.id}`} 
                       type="checkbox" 
-                      value={`${j.id}`} 
+                      value={`${j.id}`}
                       name={`appendedPlayers[${index}]calls`} />
                   </TableCell>
                 ))}
                 <TableCell className="flex flex-row">
                   <div className="flex flex-row">
-                    <button className="text-xs hover:bg-slate-100  rounded-full p-1 text-slate-800" onClick={(e) => {e.preventDefault(); setMenuIndex(menuIndex === index ? null : index)}} data-testid="player-menu-icon" >•••</button>
+                    <button className="text-xs hover:bg-slate-100  rounded-full p-1 text-slate-800" onClick={(e) => {e.preventDefault(); setMenuIndex(menuIndex === index ? null : index)}} data-testid={`${i.id}-player-menu-icon`} >•••</button>
                     {appendedPlayers[index].playerMessage 
                     && <div title={appendedPlayers[index].playerMessage} className="absolute mt-1 ml-6 text-amber-600">
                         <AiOutlineMail />

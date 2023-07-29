@@ -4,7 +4,7 @@ import Image from "next/image";
 import { User } from "@prisma/client";
 
 
-interface AvailablePlayersProps {
+export type AvailablePlayersProps = {
   instrumentName: string
   availablePlayers: User[]
   appendPlayer: (arg: User) => void
@@ -26,7 +26,7 @@ export default function AvailablePlayers(props: AvailablePlayersProps) {
                 appendPlayer(i);
                 remove(index)
                 }} key={i.id} >
-              <div className="rounded-full shadow overflow-hidden mx-2" data-testid="profile-img">
+              <div className="rounded-full shadow overflow-hidden mx-2" data-testid={`${i.id}-img`}>
                 <Image src={"http://placebeard.it/25/25"} width={25} height={25} alt="Placeholder for a profile pic" title="Profile picture placeholder" />
               </div>
               <p>{i.name}</p>

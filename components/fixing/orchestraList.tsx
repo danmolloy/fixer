@@ -1,4 +1,3 @@
-import { EventInstrument } from "@prisma/client";
 import { AiOutlineClose } from "react-icons/ai";
 import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile";
 

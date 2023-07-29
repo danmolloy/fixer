@@ -38,7 +38,7 @@ describe("BookingRowMenu component", () => {
     expect(viewProfileBtn).toHaveAttribute("href", `/user/${mockProps.musician.name}`)
   })
   it("'Remove from List' button is in document if !recieved and !accepted", () => { // Should this be accepted === null?
-    if (mockProps.musician.recieved === false && mockProps.musician.accepted === null) {
+    if (mockProps.musician.recieved === false && mockProps.musician.accepted === false) {
       const removeBtn = screen.getByTestId("remove-btn")
       expect(removeBtn).toBeInTheDocument()
     }

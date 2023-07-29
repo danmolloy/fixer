@@ -51,7 +51,7 @@ interface EventCall {
   fixerEmail: string
 }
 
-interface AvailabilityTableProps {
+export type AvailabilityTableProps = {
   eventCalls: Call[]
   instrumentSection: EventInstrumentWithMusiciansWithMusician
   removePlayer: (callId: number) => Promise<void>

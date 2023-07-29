@@ -1,5 +1,6 @@
 import { User } from "@prisma/client";
 import {faker} from '@faker-js/faker'
+import { UserWithCalls } from "../../components/fixing/editCalls/editCalls";
 
 
 export const mockUser: User = {
@@ -15,3 +16,9 @@ export const mockUser: User = {
   mobileNumber: faker.phone.number(),
 }
 
+export const mockUserWithCalls: UserWithCalls = {
+  ...mockUser,
+  calls: [
+    "1", "2", "3"
+  ]
+}

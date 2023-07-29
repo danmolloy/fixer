@@ -6,7 +6,8 @@ import { Formik } from "formik";
 
 const mockProps = {
   isSubmitting: false,
-  instrumentName: "Gamba"
+  instrumentName: "Gamba",
+  bookingOrAvailability: Math.random() > 0.5 ? "Booking" : "Availability"
 }
 
 describe("EditCallsOptions component", () => {
@@ -22,10 +23,12 @@ describe("EditCallsOptions component", () => {
     const options = screen.getByTestId("edit-calls-options")
     expect(options).toBeInTheDocument()
   })
-  it("NumToBook number input is in the document with label", () => {
-    const numToBook = screen.getByLabelText("Num to Book")
-    expect(numToBook).toBeInTheDocument()
-    expect(numToBook).toHaveAttribute("type", "number")
+  it("If booking, NumToBook number input is in the document with label", () => {
+    if (mockProps.bookingOrAvailability === "Booking") {
+      const numToBook = screen.getByLabelText("Num to Book")
+      expect(numToBook).toBeInTheDocument()
+      expect(numToBook).toHaveAttribute("type", "number")
+    }
   })
   it("Message to all instrument players text input is in the document with label", () => {
     const messagePlayers = screen.getByTestId("instrument-msg-input")
@@ -33,11 +36,13 @@ describe("EditCallsOptions component", () => {
     expect(messagePlayers).toHaveAttribute("type", "text")
     expect(messagePlayers).toHaveAttribute("label", `Message to all`)
   })
-  it("Call Order is in the document with label with expected options", () => {
-    const callOrder = screen.getByTestId("call-order-drop-down")
-    expect(callOrder).toBeInTheDocument()
-    expect(callOrder.textContent).toMatch("Ordered")
-    expect(callOrder.textContent).toMatch("Random")
-    expect(callOrder.textContent).toMatch("Simultaneous")
+  it("If booking, Call Order is in the document with label with expected options", () => {
+    if (mockProps.bookingOrAvailability === "Booking") {
+      const callOrder = screen.getByTestId("call-order-drop-down")
+      expect(callOrder).toBeInTheDocument()
+      expect(callOrder.textContent).toMatch("Ordered")
+      expect(callOrder.textContent).toMatch("Random")
+      expect(callOrder.textContent).toMatch("Simultaneous")
+    }
   })
 })

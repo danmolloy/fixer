@@ -2,10 +2,10 @@ import { Field } from "formik"
 import React from "react"
 import TextInput from '../../createEvent/textInput'
 
-interface EditCallsOptionsProps {
+export type EditCallsOptionsProps = {
   instrumentName: string
   isSubmitting: boolean
-  bookingOrAvailability: "Booking"|"Availability"
+  bookingOrAvailability: "Booking"|"Availability"|string
 }
 
 export default function EditCallsOptions(props: EditCallsOptionsProps) {
