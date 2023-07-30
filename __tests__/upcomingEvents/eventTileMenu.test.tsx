@@ -1,13 +1,25 @@
-import { act, fireEvent, getByLabelText, getByTestId, render, screen, waitFor } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import EventTileMenu from '../../components/upcomingEvents/eventTileMenu'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import EventTileMenu, { EventTileMenuProps } from '../../components/upcomingEvents/eventTileMenu'
 import React from 'react'
+import "@testing-library/jest-dom"
 
-const setShowMenu = jest.fn()
+const mockProps: EventTileMenuProps = {
+  setShowMenu: jest.fn(),
+  eventId: 129,
+  eventTitle: "Classical Spectacular"
+}
 
 describe("EventTile Component", () => {
+  //it("Clicking Gig Link renders gig page", () => {})
+  //it("Clicking Maps link renders google maps", () => {})
+  //it("Click parts link renders confirmation to request parts", () => {})
+  //it("Clicking fixer details renders fixer info", () => {})
+  //it("Clicking Maps link renders google maps", () => {})
+  //it("Click parts link renders confirmation to request parts", () => {})
+  //it("Menu has Google Maps link", () => {})
+
   beforeEach(() => {
-    render(<EventTileMenu eventId={1} setShowMenu={setShowMenu()}/>)
+    render(<EventTileMenu {...mockProps}/>)
   })
   it("Renders", () => {
     const eventTileMenu = screen.getByTestId("event-tile-menu")
@@ -18,30 +30,24 @@ describe("EventTile Component", () => {
     const gigLink = screen.getByTestId("gig-link")
     expect(gigLink).toBeInTheDocument()
   })
-  //it("Clicking Gig Link renders gig page", () => {})
   it("Menu has Fixer Details link", () => {
     const fixerLink = screen.getByTestId('fixer-link')
     expect(fixerLink).toBeInTheDocument()
   })
-  //it("Clicking fixer details renders fixer info", () => {})
   it("Menu has Request Parts link", () => {
     const partsLink = screen.getByTestId("parts-link")
     expect(partsLink).toBeInTheDocument()
   })
-  //it("Menu has Google Maps link", () => {})
   it("Close menu button exists", () => {
     const closeBtn = screen.getByTestId("event-tile-menu")
     expect(closeBtn).toBeInTheDocument()
   })
   it("Close menu button calls setCloseMenu", () => {
-    const closeBtn = screen.getByTestId("event-tile-menu")
+    const closeBtn = screen.getByTestId("close-btn")
     act(() => {
       fireEvent.click(closeBtn)
     })
-    expect(setShowMenu).toBeCalled()
+    expect(mockProps.setShowMenu).toBeCalled()
   })
-  //it("Clicking Maps link renders google maps", () => {})
-  //it("Click parts link renders confirmation to request parts", () => {})
-
 
 })

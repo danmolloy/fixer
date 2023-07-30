@@ -8,7 +8,7 @@ export type CallWithEvent = Prisma.CallGetPayload<{
   include: { event: true }
 }>
 
-interface UpcomingEventsProps {
+export type UpcomingEventsProps = {
   selectedDate: any
   sessionEmail?: string
   upcomingCalls: CallWithEvent[]

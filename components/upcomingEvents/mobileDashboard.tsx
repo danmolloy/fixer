@@ -8,7 +8,7 @@ export default function MobileDashboard(props: EventDashboardProps) {
 
   const handleChange = (val: number) => {
     if (val === 0) {
-      setDateRange(null);
+      setDateRange(undefined); // Should be undefined
       setSelectedDate(moment(new Date()));
     } else {
       setDateRange(val)
@@ -16,8 +16,9 @@ export default function MobileDashboard(props: EventDashboardProps) {
   }
 
   return (
-    <div className="sm:hidden flex flex-col items-center">
+    <div data-testid="mobile-dashboard" className="sm:hidden flex flex-col items-center">
       <select 
+        data-testid="select-menu"
         className=" border shadow-sm p-1 rounded w-1/2"
         value={dateRange} 
         onChange={e => handleChange(Number(e.target.value))} >

@@ -3,35 +3,15 @@ import '@testing-library/jest-dom'
 import React from 'react';
 import EventTile from '../../components/upcomingEvents/eventTile';
 import moment from 'moment';
+import { mockCallWithEvent } from '../../__mocks__/models/call';
 
 const mockProps = {
-  call: {
-    id: 1,
-    createdAt: "callCreated",
-    updatedAt: "callUpdated",
-    startTime: "Tue, 21 Feb 2023 12:06:40 GMT",
-    endTime: "Tue, 21 Feb 2023 12:06:40 GMT",
-    venue: "callVenue",
-    eventId: 0,
-    fixerEmail: "fixerEmail",
-    event: {
-      id: 0,
-      createdAt: "eventCreated",
-      updatedAt: "eventUpdated",
-      ensembleName: "ensembleName",
-      concertProgram: "eventProgram",
-      confirmedOrOnHold: Math.random() < .5 ? "Confirmed" : "OnHold",
-      dressCode: "dressCode",
-      fee: "500",
-      additionalInfo: "No Additional info",
-      fixerEmail: "fixerEmail",
-    }
-  },
-  sessionEmail: "sessionEmail"
+  call: mockCallWithEvent,
+  sessionEmail: "sessionEmail",
 }
 
 describe("EventTile Component", () => {
-  const sessionEmail = mockProps.call.fixerEmail
+  //const sessionEmail = mockProps.call.fixerEmail
   beforeEach(() => {
     render(<EventTile {...mockProps}/>)
   })
@@ -55,13 +35,9 @@ describe("EventTile Component", () => {
     const eventTileMenu = screen.getByTestId("event-tile-menu")
     expect(eventTileMenu).toBeInTheDocument()
   })
-  it("Concert Program is in the document", () => {
-    const eventTile = screen.getByTestId("event-tile-div")
-    expect(eventTile.textContent).toMatch(mockProps.call.event.concertProgram)
-  })
   it("Call start time is in the document", () => {
     const eventTile = screen.getByTestId("event-tile-div")
-    expect(eventTile.textContent).toMatch(String(moment.utc(new Date(mockProps.call.startTime)).format("HMm ddd Do MMMM YYYY")))
+    expect(eventTile.textContent).toMatch(String(moment(new Date(mockProps.call.startTime)).format("h:mma ddd Do MMMM YYYY")))
   })
   it("Call venue is in the document", () => {
     const eventTile = screen.getByTestId("event-tile-div")

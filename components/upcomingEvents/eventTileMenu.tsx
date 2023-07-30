@@ -4,16 +4,16 @@ import { AiOutlineClose } from "react-icons/ai"
 import MenuShell from "../index/menuShell"
 import MenuItem from "../index/menuItem"
 
-interface EventTileMenu {
+export type EventTileMenuProps = {
   setShowMenu: () => void
   eventId: number
   eventTitle: string
 }
 
-export default function EventTileMenu(props: EventTileMenu) {
+export default function EventTileMenu(props: EventTileMenuProps) {
   const { setShowMenu, eventId, eventTitle } = props
   return (
-    <MenuShell title={eventTitle} setShowMenu={() => setShowMenu()}>
+    <MenuShell testId="event-tile-menu" title={eventTitle} setShowMenu={() => setShowMenu()}>
       <MenuItem>
         <Link className="w-full " href={`/event/${eventId}`} data-testid={"gig-link"}>
           <p className=" w-full">
