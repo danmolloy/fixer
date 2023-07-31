@@ -55,8 +55,8 @@ describe("CallInput component", () => {
     expect(venueInput).toHaveAttribute("type", "text")
   })
   it("Call information input is in the document with label", () => {
-    const callInfo = screen.getByLabelText("Call Information")
+    const callInfo = screen.getByTestId(`calls.${mockProps.index}.info-div`)
     expect(callInfo).toBeInTheDocument()
-    expect(callInfo).toHaveAttribute("type", "text")
+    expect(callInfo.textContent).toMatch("Call Information")
   })
 })

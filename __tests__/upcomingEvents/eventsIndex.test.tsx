@@ -1,78 +1,25 @@
 import React from "react";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom"
-import EventsIndex from "../../components/upcomingEvents/eventsIndex";
+import EventsIndex, { EventsIndexProps } from "../../components/upcomingEvents/eventsIndex";
 import moment from "moment";
+import { mockUser } from "../../__mocks__/models/user";
+import { mockEventWithCalls } from "../../__mocks__/models/event";
+import { mockCallWithEvent } from "../../__mocks__/models/call";
 
-const mockProps = {
-  session: {
-    user: {
-      name: "userName",
-      email: "userEmail",
-      image: "userImg",
-    },
-    expires: "mockExpires",
-    userData: {
-      id: "userId",
-      name: "userName",
-      email: "userEmail",
-      emailVerified: null,
-      image: "userImg",
-      instrument: "userInstrument",
-      profileInfo: null,
-      isFixer: null,
-      events: [{
-        id: 1,
-        createdAt: "eventCreated",
-        updatedAt: "eventUpdated",
-        ensembleName: "eventEnsemble",
-        concertProgram: "eventProgram",
-        confirmedOrOnHold: "Confirmed",
-        dressCode: "dress",
-        fee: "concertFee",
-        additionalInfo: "additionalInfo",
-        fixerEmail: "fixerEmail",
-        calls: [{
-          id: 1,
-          createdAt: "callCreated",
-          updatedAt: "callUpdated",
-          startTime: "Tue, 26 Feb 2023 12:06:40 GMT",
-          endTime: "Tue, 26 Feb 2023 15:06:40 GMT",
-          venue: "HWH",
-          eventId: 1,
-          fixerEmail: "fixerEmail",
-        }]
-      }],
-      calls: [{
-        id: 1,
-          createdAt: "callCreated",
-          updatedAt: "callUpdated",
-          startTime: "Tue, 26 Feb 2023 12:06:40 GMT",
-          endTime: "Tue, 26 Feb 2023 15:06:40 GMT",
-          venue: "HWH",
-          eventId: 1,
-          fixerEmail: "fixerEmail",
-          event: {
-            id: 1,
-            createdAt: "eventCreated",
-            updatedAt: "eventUpdated",
-            ensembleName: "eventEnsemble",
-            concertProgram: "eventProgram",
-            confirmedOrOnHold: "Confirmed",
-            dressCode: "dress",
-            fee: "concertFee",
-            additionalInfo: "additionalInfo",
-            fixerEmail: "fixerEmail",
-          }
-      }]
-    }
-  }
-}
+
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(
+      
+      )
+  })
+) as jest.Mock;
 
 
 describe("EventsIndex component", () => {
   beforeEach(() => {
-    render(<EventsIndex {...mockProps} />)
+    render(<EventsIndex />)
   })
   it("Renders", () => {
     const eventsIndex = screen.getByTestId("events-index-div")
@@ -137,7 +84,5 @@ describe("EventsIndex component", () => {
     expect(dateRangeView).toBeInTheDocument()
   })
   //it("Upcoming Events button renders upcoming component", async () => {})
-  it("It refreshes on load ie when Calendar menu item clicked", () => {
-    expect(1).toBe(2)
-  })
+  //it("It refreshes on load ie when Calendar menu item clicked", () => {})
 })

@@ -1,19 +1,14 @@
 import { render, screen, act, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom"
-import CreateEventForm from "../../components/createEvent/createEventForm";
+import CreateEventForm, { CreateEventFormProps } from "../../components/createEvent/createEventForm";
 import React from "react";
 
-const mockProps = {
-  handleSubmit: jest.fn(),
-  initialValues: null,
-  session: {
-    user: {
-      name: "userName",
-      email: "userEmail",
-      image: "userImg",
-    },
+const mockProps: CreateEventFormProps = {
+    handleSubmit: jest.fn(),
+    initialValues: null,
+    userId: "mockId",
+    userName: "mockName",
     expires: "mockExpires",
-  }
 }
 
 describe("CreateEventForm component", () => {
@@ -37,10 +32,8 @@ describe("CreateEventForm component", () => {
     expect(ensembleOptions).toBeInTheDocument()
     const otherOption = screen.getByLabelText(/Other/)
     expect(otherOption).toBeInTheDocument()
-    await act(async() => {
-      await waitFor(() => {
-        fireEvent.click(otherOption)
-      })
+    await waitFor(() => {
+      fireEvent.click(otherOption)
     })
     const otherEnsembleName = screen.getByTestId("other-ensemble-input")
     expect(otherEnsembleName).toBeInTheDocument()
@@ -68,10 +61,8 @@ describe("CreateEventForm component", () => {
     expect(callsArray).toHaveTextContent(/^Call 1/)
     expect(callsArray).not.toHaveTextContent(/Call 2/gi)
     expect(callsArray.children[1]).toHaveTextContent(/^Add Call$/)
-    await act(async () => {
-      await waitFor(() => {
-        fireEvent.click(callsArray.children[1])
-      })
+    await waitFor(() => {
+      fireEvent.click(callsArray.children[1])
     })
     
     expect(callsArray).toHaveTextContent(/Call 2/g)
@@ -79,11 +70,9 @@ describe("CreateEventForm component", () => {
   it("All Calls have Delete Call Button, except for Call 1", async () => {
     const callsArray = screen.getByTestId("calls-array")
     const addCallBtn = screen.getByText("Add Call")
-    await act(async () => {
       await waitFor(() => {
         fireEvent.click(addCallBtn)
       })
-    })
     const deleteBtn = screen.getByTestId("calls-1-delete")
     expect(deleteBtn).toBeInTheDocument()
   })

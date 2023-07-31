@@ -10,7 +10,7 @@ import EnsembleRadioGroup from './ensembleRadioGroup';
 import ConfirmedOrOnHold from './confirmedOrOnHold';
 
 
-interface CreateEventFormProps {
+export type CreateEventFormProps = {
   handleSubmit: (vals: any) => void
   initialValues: any
   userId: string

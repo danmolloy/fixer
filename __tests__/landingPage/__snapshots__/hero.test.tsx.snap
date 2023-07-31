@@ -33,7 +33,7 @@ exports[`Hero component Matches snapshot 1`] = `
     </button>
     <a
       class="m-2 border hover:border-slate-300 text-black rounded-full py-2 px-4 text-sm "
-      href="/about"
+      href="/"
     >
       Learn more
     </a>

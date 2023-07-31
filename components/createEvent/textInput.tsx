@@ -18,7 +18,8 @@ export default function TextInput(props: TextInputProps) {
 
   return (
     <div className="flex flex-col py-4" data-testid={`${id}-div`}>
-      <label htmlFor={name} className="text-slate-700">{label} {optional && <span className="text-slate-400 text-sm ml-2">Optional</span>}</label>
+      <label htmlFor={name} className="text-slate-700">{label}</label>
+      {optional && <span className="text-slate-400 text-sm ml-2">Optional</span>}
       <Field
         as={asHtml}
         id={name}

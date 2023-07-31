@@ -1,12 +1,21 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import Menu from "../../components/layout/menu"
+import Menu, { MenuProps } from "../../components/layout/menu"
 import React from "react"
 import { menuItems } from "../../components/layout/header"
 
+jest.mock('next/router');
+
+const mockProps: MenuProps = {
+  setShowMenu: jest.fn(),
+  menuItems: menuItems,
+  signedIn: Math.random() > .5 ? true : false,
+
+}
+
 describe("Menu component", () => {
   beforeEach(() => {
-    render(<Menu />)
+    render(<Menu {...mockProps} />)
   })
   it("Renders", () => {
     const menuDiv = screen.getByTestId("menu-div")

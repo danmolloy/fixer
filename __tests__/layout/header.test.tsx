@@ -1,25 +1,14 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import Header, { menuItems } from "../../components/layout/header"
+import Header, { HeaderProps, menuItems } from "../../components/layout/header"
 import React from "react"
 
-jest.mock("next-auth/react", () => {
-  const originalModule = jest.requireActual('next-auth/react');
-  const mockSession = {}
-  return {
-    __esModule: true,
-    ...originalModule,
-    useSession: jest.fn(() => {
-      return {data: mockSession, status: 'authenticated'}  // return type is [] in v3 but changed to {} in v4
-    }),
-  };
-});
+jest.mock("next-auth/react");
 
-const setShowMenu = jest.fn()
-
-const mockProps = {
+const mockProps: HeaderProps = {
   showMenu: Math.random() < 0.4 ? true: false,
-  setShowMenu: setShowMenu
+  setShowMenu: jest.fn(),
+  notifications: Math.random() < 0.5 ? true: false
 }
 
 describe("Header component", () => {
@@ -50,7 +39,7 @@ describe("Header component", () => {
       act(() => {
         fireEvent.click(menuIconBtn)
       })
-      expect(setShowMenu).toBeCalledWith(true)
+      expect(mockProps.setShowMenu).toBeCalledWith(true)
     }
   })
   it("Close-menu-icon calls setShowMenu and renders menu-icon", async () => {
@@ -61,7 +50,7 @@ describe("Header component", () => {
       act(() => {
         fireEvent.click(menuIconBtn)
       })
-      expect(setShowMenu).toBeCalledWith(false)
+      expect(mockProps.setShowMenu).toBeCalledWith(false)
     }
   })
 })

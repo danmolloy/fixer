@@ -8,7 +8,7 @@ import { landingMenuItems } from "../landingPage/landingPage";
 import Loading from "../index/loading";
 
 
-interface LayoutProps {
+export type LayoutProps = {
   children: React.ReactNode
   pageTitle?: string
 }

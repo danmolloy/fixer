@@ -6,7 +6,7 @@ exports[`SignOutBtn component Matches snapshot 1`] = `
   data-testid="signout-btn"
 >
   <button
-    class="sign-in-btn justify-center"
+    class="m-2 border p-2 rounded flex flex-row items-center w-72 hover:bg-slate-200 active:bg-slate-300 justify-center"
   >
     Sign out
   </button>

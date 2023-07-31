@@ -6,7 +6,7 @@ import useSWR from "swr";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
-interface HeaderProps {
+export type HeaderProps = {
   showMenu: boolean
   setShowMenu: (bool: boolean) => void
   session?: boolean

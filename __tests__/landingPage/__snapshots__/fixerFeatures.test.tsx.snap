@@ -6,15 +6,15 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
   data-testid="fixer-features"
 >
   <div
-    class="py-8 px-6 "
+    class="sm:py-8 px-4 sm:px-6"
   >
     <p
-      class="text-blue-600 font-bold text-xl"
+      class="text-blue-600 text-xl"
     >
       Fix faster
     </p>
     <h2
-      class="text-3xl font-extrabold py-2"
+      class="text-3xl  py-2"
     >
       Everything you need to book an orchestra
     </h2>
@@ -23,7 +23,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
     class="flex flex-col px-6 md:flex-row flex-wrap"
   >
     <div
-      class="flex flex-row  my-4  md:w-1/2"
+      class="flex flex-row  my-2 sm:my-4  md:w-1/2"
     >
       <div
         class="text-blue-600 text-2xl py-2 md:px-2"
@@ -46,7 +46,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
         class="flex flex-col px-4"
       >
         <h3
-          class="text-lg font-extrabold py-2"
+          class="text-lg py-2"
         >
           Automated fixing
         </h3>
@@ -54,7 +54,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="flex flex-row  my-4  md:w-1/2"
+      class="flex flex-row  my-2 sm:my-4  md:w-1/2"
     >
       <div
         class="text-blue-600 text-2xl py-2 md:px-2"
@@ -80,7 +80,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
         class="flex flex-col px-4"
       >
         <h3
-          class="text-lg font-extrabold py-2"
+          class="text-lg py-2"
         >
           Gig interface
         </h3>
@@ -88,7 +88,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="flex flex-row  my-4  md:w-1/2"
+      class="flex flex-row  my-2 sm:my-4  md:w-1/2"
     >
       <div
         class="text-blue-600 text-2xl py-2 md:px-2"
@@ -113,15 +113,15 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
         class="flex flex-col px-4"
       >
         <h3
-          class="text-lg font-extrabold py-2"
+          class="text-lg py-2"
         >
-          Direct communication with the players
+          Update the orchestra's diary in seconds
         </h3>
                   
       </div>
     </div>
     <div
-      class="flex flex-row  my-4  md:w-1/2"
+      class="flex flex-row  my-2 sm:my-4  md:w-1/2"
     >
       <div
         class="text-blue-600 text-2xl py-2 md:px-2"
@@ -146,9 +146,9 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
         class="flex flex-col px-4"
       >
         <h3
-          class="text-lg font-extrabold py-2"
+          class="text-lg py-2"
         >
-          Instant fixing
+          Find new players in the directory
         </h3>
                   
       </div>

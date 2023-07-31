@@ -2,7 +2,7 @@ import React from "react"
 import { ErrorMessage, Field } from "formik"
 import TextInput from "./textInput";
 
-interface EnsembleRadioProps {
+export type EnsembleRadioProps = {
   isSubmitting: boolean
   ensemble: string
   ensembleName: string
@@ -13,7 +13,7 @@ interface EnsembleRadioProps {
 export default function EnsembleRadioGroup(props: EnsembleRadioProps) {
   const { ensembleName, handleChange, handleBlur, isSubmitting, ensemble } = props
   return (
-    <div className="flex flex-col py-3 sm:w-1/2 sm:self-start ">
+    <div data-testid="ensemble-radio" className="flex flex-col py-3 sm:w-1/2 sm:self-start ">
       <label htmlFor="ensemble" className="text-slate-700">Ensemble</label>
       <div aria-labelledby="ensemble" role="group" data-testid="ensemble-radio-fieldset" className="flex flex-col py-1">
         <label className="py-1">

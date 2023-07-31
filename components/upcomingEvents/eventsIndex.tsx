@@ -21,7 +21,7 @@ export type CallWithEvent = Prisma.CallGetPayload<{
   }
 }>
 
-export interface EventsIndexProps {
+export type EventsIndexProps = {
   session: {
     user: User
     expires: string
@@ -45,7 +45,7 @@ const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json(
 export default function EventsIndex(/* props: EventsIndexProps */) {
   //const { session } = props
   const [selectedDate, setSelectedDate] = useState(moment())
-  const [dateRange, setDateRange] = useState<null|number>(null)
+  const [dateRange, setDateRange] = useState<undefined|number>(undefined)
   const { data, error, /* isLoading */ } = useSWR('/api/calendar/getCalendar', fetcher)
  
   if (error) return <div>failed to load</div>
@@ -60,13 +60,13 @@ export default function EventsIndex(/* props: EventsIndexProps */) {
          <Calendar selectedDate={selectedDate} 
           setSelectedDate={(e) => {
             setSelectedDate(e)
-            dateRange === null && setDateRange(7)
+            dateRange === undefined && setDateRange(7)
             }}/>
           <div className=" w-full md:w-1/2">
           <MobileDashboard dateRange={dateRange} setSelectedDate={(arg) => setSelectedDate(arg)} setDateRange={(arg) => setDateRange(arg)}/>
          <EventDashboard dateRange={dateRange} setSelectedDate={(arg) => setSelectedDate(arg)} setDateRange={(arg) => setDateRange(arg)} /* setEventView={(arg) => setEventView(arg)} *//>
          <div className=" min-h-1/2">
-          {dateRange === null 
+          {dateRange === undefined 
          ? <UpcomingEvents selectedDate={selectedDate} upcomingCalls={data && [...data.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={data?.email}/>
            : <DateRangeView selectedDate={selectedDate} dateRange={dateRange} upcomingCalls={data && [...data.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={data?.email}/>
          }

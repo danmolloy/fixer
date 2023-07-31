@@ -11,7 +11,7 @@ export type MenuItems = {
   id: string
 }[]
 
-interface MenuProps {
+export type MenuProps = {
   setShowMenu: () => void
   menuItems: MenuItems
   signedIn: boolean

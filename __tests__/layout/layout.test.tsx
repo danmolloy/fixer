@@ -1,11 +1,15 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import Layout from "../../components/layout/layout"
+import Layout, { LayoutProps } from "../../components/layout/layout"
 import React from "react"
 
 jest.mock("next-auth/react", () => {
   const originalModule = jest.requireActual('next-auth/react');
-  const mockSession = {}
+  const mockSession = {
+    userData: {
+      playerCalls: []
+    }
+  }
   return {
     __esModule: true,
     ...originalModule,
@@ -15,7 +19,7 @@ jest.mock("next-auth/react", () => {
   };
 });
 
-const mockProps = {
+const mockProps: LayoutProps = {
   children: <div data-testid="mock-children"></div>,
   pageTitle: "Mock Title"
 }

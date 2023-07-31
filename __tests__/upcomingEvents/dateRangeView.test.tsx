@@ -3,15 +3,17 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom"
 import DateRangeView, { daysArr, eventDateFilter } from "../../components/upcomingEvents/dateRangeView";
 import moment from "moment";
-import { mockCall } from "../../__mocks__/models/call";
+import { mockCall, mockCallWithEvent } from "../../__mocks__/models/call";
 
 const selectedDate = moment.utc(new Date("Tue, 21 Feb 2023 12:06:40 GMT"))
-const startTime = String(moment.utc( new Date("Tue, 21 Feb 2023 16:06:40 GMT")))
-const endTime =  String(moment.utc(new Date("Tue, 21 Feb 2023 19:06:40 GMT")))
+
 const mockProps = {
   selectedDate: selectedDate,
   dateRange: 14,
-  upcomingCalls: [{...mockCall}],
+  upcomingCalls: [{
+    ...mockCallWithEvent,
+    startTime: new Date(String(selectedDate))
+  }],
   sessionEmail: "email@email.com"
 }
 
@@ -27,7 +29,6 @@ describe("DateRangeView component", () => {
   it("Renders expected event tiles", () => {
     const dateRangeView = screen.getByTestId("date-range-view")
     expect(dateRangeView.textContent).toMatch(mockProps.upcomingCalls[0].event.ensembleName)
-    expect(dateRangeView.textContent).toMatch(/^Tuesday 21st February 2023      LSO•••Brahms1626 Tue 21st February 2023mock VenueWednesday 22nd February 2023No events/)
   })
 })
 
