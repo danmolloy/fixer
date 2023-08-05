@@ -12,10 +12,10 @@ import ConfirmedOrOnHold from './confirmedOrOnHold';
 
 export type CreateEventFormProps = {
   handleSubmit: (vals: any) => void
-  initialValues: any
+  initialValues?: any
   userId: string
   userName: string
-  expires: string
+  expires?: string
 }
 
 export default function CreateEventForm(props: CreateEventFormProps) {

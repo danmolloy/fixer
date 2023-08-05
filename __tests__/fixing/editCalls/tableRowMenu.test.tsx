@@ -1,4 +1,4 @@
-import { render, screen, act, fireEvent } from "@testing-library/react";
+import { render, screen, act, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom"
 import TableRowMenu, { EditTableRowMenuProps } from "../../../components/fixing/editCalls/tableRowMenu";
 import React from "react";
@@ -35,9 +35,9 @@ describe("TableRowMenu component", () => {
     const removeBtn = screen.getByText("Remove from List")
     expect(removeBtn).toBeInTheDocument()
   })
-  it("'Remove from list' calls makeAvailable onClick with expected arg", () => {
+  it("'Remove from list' calls makeAvailable onClick with expected arg", async () => {
     const removeBtn = screen.getByText("Remove from List")
-    act(() => {
+    await waitFor(() => {
       fireEvent.click(removeBtn)
     })
     expect(menuProps.makeAvailable).toBeCalledWith(menuProps.appendedPlayers[menuProps.menuIndex])

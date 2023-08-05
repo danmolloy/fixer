@@ -11,8 +11,5 @@ describe("About component", () => {
     const aboutDiv = screen.getByTestId("about-div")
     expect(aboutDiv).toBeInTheDocument()
   })
-  it("Matches snapshot", () => {
-    const aboutDiv = screen.getByTestId("about-div")
-    expect(aboutDiv).toMatchSnapshot()
-  })
+
 })

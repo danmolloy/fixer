@@ -9,7 +9,7 @@ import Link from "next/link"
 
 export const menu = ["Features", "Testimonials", "Pricing", "Contact"]
 
-interface LandingHeaderProps {
+export type LandingHeaderProps = {
   setShowMenu: (arg: boolean) => void
   showMenu: boolean
 }

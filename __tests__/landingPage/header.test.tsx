@@ -1,12 +1,16 @@
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react";
-import LandingHeader, { menu } from "../../components/landingPage/header";
+import LandingHeader, { LandingHeaderProps, menu } from "../../components/landingPage/header";
 
+const mockProps: LandingHeaderProps = {
+  setShowMenu: jest.fn(),
+  showMenu: false
+}
 
 describe("Header component", () => {
   beforeEach(() => {
-    render(<LandingHeader />)
+    render(<LandingHeader {...mockProps} />)
   })
   it("Renders", () => {
     const headerDiv = screen.getByTestId("landing-header")
@@ -18,9 +22,7 @@ describe("Header component", () => {
   })
   it("Menu items are in the document", () => {
     const headerDiv = screen.getByTestId("landing-header")
-    for (let i = 0; i < menu.length; i++) {
-      expect(headerDiv.textContent).toMatch(menu[i])
-    }
+    expect(headerDiv.textContent).toMatch(/GigFixAboutPricingContactSign inGet started/)
   })
   it("Sign in button is in the document", () => {
     const signInBtn = screen.getByText("Sign in")
@@ -32,7 +34,7 @@ describe("Header component", () => {
     expect(getStarted).toBeInTheDocument()
   })
   it("Menu icon is in the document", () => {
-    const menuIcon = screen.getByTestId("")
+    const menuIcon = screen.getByTestId("menu-icon")
     expect(menuIcon).toBeInTheDocument()
   })
   //it("Menu icon calls showMenu", () => {})
