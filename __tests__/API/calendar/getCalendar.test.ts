@@ -1,7 +1,16 @@
-import { prismaMock } from "../../../__mocks__/singleton";
-import { emailGetCalendar, getCalendar } from "../../../pages/api/calendar/getCalendarFunctions";
+import { prismaMock } from "../../../__mocks__/singleton" ;
+import { emailGetCalendar, getCalendar } from "../../../pages/api/calendar/getCalendar";
 import { mockUser } from "../../../__mocks__/models/user";
 import { mockCall } from "../../../__mocks__/models/call";
+import { getServerSession } from "next-auth"
+import { authOptions } from "../../../pages/api/auth/[...nextauth]"
+
+jest.mock('next-auth', () => ({
+  getServerSession: jest.fn(),
+}));
+jest.mock("../../../pages/api/auth/[...nextauth]", () => ({
+  authOptions: {}
+}))
 
 const mockUserCalendar = {
       ...mockUser,

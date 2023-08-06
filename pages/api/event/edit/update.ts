@@ -35,7 +35,7 @@ const eventObj = (obj) => {
 }
 
 const updateEvent = async(eventObj) => {
-  console.log(eventObj)
+
   return await prisma.event.update({
     where: {
       id: parseInt(eventObj.eventId)

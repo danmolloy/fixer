@@ -1,51 +1,68 @@
+import { mockCall } from "../../../__mocks__/models/call"
+import { mockEvent, mockEventWithCalls } from "../../../__mocks__/models/event"
+import { mockUser } from "../../../__mocks__/models/user"
+import { prismaMock } from "../../../__mocks__/singleton"
+import { instrumentArr } from "../../../components/fixing/fixing"
 import { formattedCalls, formattedSections, eventObj, createEvent } from "../../../pages/api/event/create"
 
-const mockCalls = [{"id":"1beb5694-4686-44de-9795-7772e554c7b5","startTime":"2022-12-10T10:00","endTime":"2022-12-10T13:00","venue":"MV"},{"id":"867462f5-f07e-4c1d-a84e-5b001bb7cbc0","startTime":"2022-12-10T14:00","endTime":"2022-12-10T15:00","venue":"MV"},{"id":"6f05aa59-a170-44f1-9071-132d3b2cf7ae","startTime":"2022-12-11T19:30","endTime":"2022-12-11T22:30","venue":"Barbican"}]
-const mockEvent = {"fixer":{"name":"danmolloy","email":"danielmolloy_6@icloud.com"},"confirmOrHold":"confirmed","ensemble":"BBC Symphony Orchestra","ensembleName":"","concertProgram":"Mozart","calls":[{"id":"1beb5694-4686-44de-9795-7772e554c7b5","startTime":"2022-12-10T10:00","endTime":"2022-12-10T13:00","venue":"MV"},{"id":"867462f5-f07e-4c1d-a84e-5b001bb7cbc0","startTime":"2022-12-10T14:00","endTime":"2022-12-10T15:00","venue":"MV"},{"id":"6f05aa59-a170-44f1-9071-132d3b2cf7ae","startTime":"2022-12-11T19:30","endTime":"2022-12-11T22:30","venue":"Barbican"}],"dressCode":"Blacks","fee":"100","additionalInfo":""}
-
-describe("Create Event", () => {
-  it("1 is 1", () => {
-    expect(1).toBe(1)
+describe("formattedCalls function", () => {
+  it("Returns expect value", () => {
+    expect(formattedCalls([mockCall], mockUser.id)).toEqual([mockCall].map(i => ({
+      startTime: new Date(i.startTime),
+      endTime: new Date(i.endTime),
+      venue: i.venue,
+      fixer: {
+        connect: {
+          id: mockUser.id
+        }
+      }
+    })))
   })
-  /* it("formattedCalls returns expected object", () => {
-    const expectedCallsReturn = [...mockCalls].map(i => ({
-      
-        startTime: new Date(i.startTime),
-        endTime: new Date(i.endTime),
-        venue: i.venue,
-        fixer: { connect: { email: mockEvent.fixer.email } }
-      
-    }))
+})
 
-    expect(formattedCalls(mockCalls, mockEvent.fixer.email)).toEqual(expectedCallsReturn)
+describe("formattedSections function", () => {
+  it("returns expected value", () => {
+    expect(formattedSections()).toEqual([...instrumentArr].map(i => ({
+      instrumentName: i
+    })))
   })
+})
 
-  it("formattedSections returns expected value2", () => {
-    const expectedReturn = [{"instrumentName": "Violin"}, {"instrumentName": "Viola"}, {"instrumentName": "Cello"}, {"instrumentName": "Double Bass"}, {"instrumentName": "Flute"}, {"instrumentName": "Oboe"}, {"instrumentName": "Clarinet"}, {"instrumentName": "Bassoon"}, {"instrumentName": "Horn"}, {"instrumentName": "Trumpet"}, {"instrumentName": "Trombone"}, {"instrumentName": "Tuba"}, {"instrumentName": "Harp"}, {"instrumentName": "Timpani"}, {"instrumentName": "Percussion"}]
-    expect(formattedSections()).toEqual(expectedReturn)
-  })
-
-  it("eventObj returns expected object", () => {
+describe("eventObj function", () => {
+  it("Returns expected value", () => {
     const eventObjArg = {
-      ensemble: mockEvent.ensemble,
-      concertProgram: mockEvent.concertProgram,
-      calls: mockEvent.calls,
-      fixerEmail: mockEvent.fixer.email,
-      dressCode: mockEvent.dressCode,
-      fee: mockEvent.fee,
-      additionalInfo: mockEvent.additionalInfo
+      ensemble: mockEventWithCalls.ensembleName,
+      eventTitle: mockEventWithCalls.eventTitle,
+      concertProgram: mockEventWithCalls.concertProgram,
+      confirmedOrOnHold: mockEventWithCalls.confirmedOrOnHold,
+      calls: mockEventWithCalls.calls,
+      fixerId: mockUser.id,
+      fixerName: mockUser.name,
+      dressCode: mockEventWithCalls.dressCode,
+      fee: mockEventWithCalls.fee,
+      additionalInfo: mockEventWithCalls.additionalInfo,
+      id: mockEventWithCalls.id
     }
+    expect(eventObj(eventObjArg)).toEqual({
+      eventTitle: eventObjArg.eventTitle,
+      ensemble: eventObjArg.ensemble,
+      concertProgram: eventObjArg.concertProgram,
+      confirmedOrOnHold: eventObjArg.confirmedOrOnHold,
+      formattedCalls: formattedCalls(eventObjArg.calls, eventObjArg.fixerId),
+      formattedSections: formattedSections(),
+      dressCode: eventObjArg.dressCode,
+      fee: eventObjArg.fee,
+      additionalInfo: eventObjArg.additionalInfo,
+      fixerId: eventObjArg.fixerId,
+      fixerName: eventObjArg.fixerName
+    })
+  })
+})
 
-    const returnObj = {
-      ensemble: mockEvent.ensemble,
-      concertProgram: mockEvent.concertProgram,
-      formattedCalls: formattedCalls(mockEvent.calls, mockEvent.fixer.email),
-      fixerEmail: mockEvent.fixer.email,
-      dressCode: mockEvent.dressCode,
-      fee: mockEvent.fee,
-      additionalInfo: mockEvent.additionalInfo
-    }
 
-    expect(eventObj(eventObjArg)).toEqual(returnObj)
-  }) */
+describe("createEvent function", () => {
+  it("returns expected value", async () => {
+    prismaMock.event.create.mockResolvedValue(mockEvent)
+    await expect(createEvent({})).resolves.toEqual(mockEvent)
+  })
 })
