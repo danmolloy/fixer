@@ -30,15 +30,12 @@ export default function LandingPage() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-      <div className="flex flex-col w-screen min-h-screen font-nunito ">
-        {/* <LandingHeader setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu}/>
-        {showMenu && <Menu setShowMenu={() => setShowMenu(false)} menuItems={landingMenuItems}/>}
- */}        <div className={showMenu === true ? "blur" : undefined}>
+      <div data-testid="landing-page-div" className="flex flex-col w-screen min-h-screen font-nunito ">
+        <div className={showMenu === true ? "blur" : undefined}>
         <Hero />
         <FixerFeatures />
         <MusicianFeatures />
         <About />
-        {/* <LandingFooter  /> */}
         </div>
       </div>
   )

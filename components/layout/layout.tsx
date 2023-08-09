@@ -6,6 +6,7 @@ import LandingFooter from "../landingPage/landingFooter";
 import { useSession } from "next-auth/react";
 import { landingMenuItems } from "../landingPage/landingPage";
 import Loading from "../index/loading";
+import LoadingHeader from "./loadingHeader";
 
 
 export type LayoutProps = {
@@ -19,11 +20,17 @@ export default function Layout(props: LayoutProps) {
 
   const [showMenu, setShowMenu] = useState(false)
 
-  if (status === "loading") {
+if (status === "loading") {
     return (
-     <Loading />
-    )
-  } 
+      <div className="min-h-screen w-screen flex flex-col justify-between font-nunito " data-testid="layout-div">
+        <LoadingHeader />
+        <div className={"layout-children w-screen p-2 flex flex-col items-center bg-white pb-12"} data-testid="main-div">
+        <Loading />
+        </div>
+    </div>
+  )
+    
+  }
   
   return (
     <div className="min-h-screen w-screen flex flex-col justify-between font-nunito " data-testid="layout-div">

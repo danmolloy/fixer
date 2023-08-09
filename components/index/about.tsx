@@ -168,7 +168,7 @@ const aboutSectionsArr: {
     blurb: "Find players in our modern directory.",
     children: <PlayerDirectory {...directoryProps} />
   },
-  {
+   {
     key: 2, 
     title: "Gig Interface",
     blurb: "Create an event with our intuitive form. All players and admin view the same information, so no one misses any details.",

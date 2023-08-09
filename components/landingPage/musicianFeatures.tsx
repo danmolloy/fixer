@@ -34,7 +34,7 @@ const musicianFeatureList: {key: number, title: string, blurb: string, icon: Rea
 
 export default function MusicianFeatures() {
   return (
-    <div className="border mx-2 my-8 py-4 rounded-lg">
+    <div data-testid="musician-features" className="border mx-2 my-8 py-4 rounded-lg">
       <div className="sm:py-8 px-4 sm:px-6 ">
       <p className="text-blue-600  text-xl">A modern diary</p>
       <h2 className="text-3xl  py-2">An efficient diary for the modern musician</h2>
