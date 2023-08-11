@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { FiCalendar, FiFilePlus, FiMoreHorizontal, FiUsers } from "react-icons/fi";
 
+/* 
+This component is not currently being used.
+IMHO the web browser screen is too cluttered with this fixed.
+*/
+
 export default function MobileMenuPanel () {
   return (
     <div data-testid="mobile-menu-panel" className="fixed bottom-0 bg-white sm:hidden flex flex-row w-screen border-t h-[10vh] justify-evenly items-center">

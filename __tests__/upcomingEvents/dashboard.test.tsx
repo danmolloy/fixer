@@ -26,7 +26,7 @@ describe("EventDashboard component", () => {
     act(() => {
       fireEvent.click(upcomingEvents)
     })
-    expect(setDateRange).toBeCalledWith(null)
+    expect(setDateRange).toBeCalledWith(undefined)
   })
   it("Week btn calls setDateRange with expected arg on click", () => {
     const weekBtn = screen.getByTestId("week-btn")

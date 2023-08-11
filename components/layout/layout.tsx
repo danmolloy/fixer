@@ -40,11 +40,11 @@ if (status === "loading") {
       <div className={showMenu ? "w-full p-3 blur text-center":"w-full p-3 text-center"}>
         <h1 className="ml-2 tex-center text-3xl ">{pageTitle}</h1>
       </div>
-      <div onFocus={() => setShowMenu(false)} className={showMenu ? "layout-children w-screen p-2 flex flex-col items-center bg-white blur": "layout-children w-screen p-2 flex flex-col items-center bg-white pb-12 mb-24 sm:mb-0"} data-testid="main-div">
+      <div onFocus={() => setShowMenu(false)} className={showMenu ? "layout-children w-screen p-2 flex flex-col items-center bg-white blur": "layout-children w-screen p-2 flex flex-col items-center bg-white pb-12 "} data-testid="main-div">
         {children}
       </div>
       <LandingFooter session={session ? true : false}/>
-      {session && <MobileMenuPanel />}
+      {/* session && <MobileMenuPanel /> */}
     </div>
   )
 }
