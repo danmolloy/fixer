@@ -35,7 +35,7 @@ interface LandingFooterProps {
 export default function LandingFooter(props: LandingFooterProps) {
   const { session } = props
   return (
-    <div className="flex flex-col items-center justify-center border-t flex-wrap" data-testid="landing-footer">
+    <div className={`${session ? "hidden sm:flex" : "flex"} flex-col items-center justify-center border-t flex-wrap" data-testid="landing-footer`}>
       <div className="py-2">
       {!session 
       ? landingMenuItems.filter(i => i.name !== "Sign in").map((i) => (

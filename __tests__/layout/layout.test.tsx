@@ -44,4 +44,8 @@ describe("Layout component", () => {
     const mockChildren = screen.getByTestId("mock-children")
     expect(mockChildren).toBeInTheDocument()
   })
+  it("MobileMenuPanel is in the document", () => {
+    const mobileMenuPanel = screen.getByTestId("mobile-menu-panel")
+    expect(mobileMenuPanel).toBeInTheDocument()
+  })
 })

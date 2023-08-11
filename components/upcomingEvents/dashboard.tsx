@@ -4,7 +4,7 @@ import React from "react"
 export type EventDashboardProps = {
   setDateRange: (arg: number|null) => void
   setSelectedDate: (arg: moment.Moment) => void
-  dateRange: null|number
+  dateRange: undefined|number
 }
 
 export default function EventDashboard(props: EventDashboardProps) {
@@ -12,9 +12,9 @@ export default function EventDashboard(props: EventDashboardProps) {
   return (
     <div data-testid="event-dashboard-div" className="hidden sm:flex w-full flex-row justify-evenly ">
       <button onClick={() => {
-        setDateRange(null)
+        setDateRange(undefined)
         setSelectedDate(moment(new Date()))
-        }} data-testid="view-all-btn" className={dateRange === null ? "py-2 border-b-2 border-blue-600 text-blue-600" :"text-slate-400 py-2"}>
+        }} data-testid="view-all-btn" className={dateRange === undefined ? "py-2 border-b-2 border-blue-600 text-blue-600" :"text-slate-400 py-2"}>
         Upcoming Events
       </button>
       <button onClick={() => setDateRange(7)} data-testid="week-btn" className={dateRange === 7 ? "py-2 border-b-2 border-blue-600 text-blue-600" :"text-slate-400 py-2"}>
