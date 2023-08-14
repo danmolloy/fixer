@@ -1,5 +1,89 @@
 import { Call, User } from "@prisma/client"
 import InstrumentTile, { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile"
+import { useState } from "react"
+
+
+const instrumentFamilyArr: {
+  id: number
+  name: string
+  family: string
+}[] = [
+  {
+    id: 0,
+    name: "Violin",
+    family: "Strings",
+  },
+  {
+    id: 1,
+    name: "Viola",
+    family: "Strings",
+  },
+  {
+    id: 2,
+    name: "Cello",
+    family: "Strings",
+  },{
+    id: 3,
+    name: "Double Bass",
+    family: "Strings",
+  },
+  {
+    id: 4,
+    name: "Flute",
+    family: "Woodwinds",
+  },
+  {
+    id: 5,
+    name: "Oboe",
+    family: "Woodwinds",
+  },{
+    id: 6,
+    name: "Clarinet",
+    family: "Woodwinds",
+  },
+  {
+    id: 7,
+    name: "Bassoon",
+    family: "Woodwinds",
+  },
+  {
+    id: 8,
+    name: "Horn",
+    family: "Brass",
+  },
+  {
+    id: 9,
+    name: "Trumpet",
+    family: "Brass",
+  },
+  {
+    id: 10,
+    name: "Trombone",
+    family: "Brass",
+  },
+  {
+    id: 11,
+    name: "Tuba",
+    family: "Brass",
+  },
+  {
+    id: 12,
+    name: "Harp",
+    family: "Strings",
+  },
+  {
+    id: 13,
+    name: "Timpani",
+    family: "Percussion",
+  },
+  {
+    id: 14,
+    name: "Percussion",
+    family: "Percussion",
+  },
+]
+
+
 
 export type MobileFixingProps = {
   instrumentSections: EventInstrumentWithMusiciansWithMusician[]
@@ -15,7 +99,15 @@ export type MobileFixingProps = {
 export default function MobileFixing(props: MobileFixingProps) {
   const {isLoading, instrumentSections, selectedInstrument, setSelectedInstrument, eventCalls, refreshProps, eventId, users } = props;
 
-
+  const instrumentFamilies = () => {
+    let families: string[] = []
+    for (let i = 0; i < instrumentFamilyArr.length; i ++) {
+      if (!families.includes(instrumentFamilyArr[i].family)) {
+        families = [...families, instrumentFamilyArr[i].family]
+      }
+    }
+    return families
+  }
 
   return (
     <div data-testid="mobile-fixing-div" className="sm:hidden flex flex-col items-center w-full">
@@ -25,9 +117,9 @@ export default function MobileFixing(props: MobileFixingProps) {
           {instrumentSections.map(i => (
             <option value={i.instrumentName} key={i.id} className="">
               {i.instrumentName} {i.numToBook > 0 && `(${i.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length} of ${i.numToBook} booked)`}
-              
             </option>
           ))}
+         
         </select>
       </div>
       <div>

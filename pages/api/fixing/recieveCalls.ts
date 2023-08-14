@@ -92,6 +92,7 @@ export const makeCalls = async (eventInstrument: any, twiml) => {
     const yetToBeCalled = eventInstrument.musicians.filter(i => i.recieved === false)
   
     if (numBooked === eventInstrument.numToBook) {
+      await checkIfAllEventBooked(eventInstrument.eventId)
       return "Instrument booked."
     } else if (yetToBeCalled.length === 0) {
       return "Add musicians to list."
@@ -108,6 +109,39 @@ export const makeCalls = async (eventInstrument: any, twiml) => {
     }
     
     return;
+  }
+
+  const checkIfAllEventBooked = async (eventId) => {
+    const event = await prisma.event.findUnique({
+      where: {
+        id: eventId
+      }, 
+      include: {
+        instrumentSections: {
+          include: {
+            musicians: true
+          }
+        }
+      }
+    })
+    let allBooked = true
+    for (let i = 0; i < event.instrumentSections.length; i++) {
+      let numBooked = event.instrumentSections[i].musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length
+      if (numBooked !== event.instrumentSections[i].numToBook) {
+        allBooked = false
+        console.log(`${event.instrumentSections[i].instrumentName} not yet booked`)
+        console.log(event.instrumentSections[i])
+        return;
+      }
+    }
+    console.log("All booked")
+    twilioClient.messages 
+    .create({ 
+        body: `All instruments are booked for ${event.eventTitle}`,  
+        messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
+        to: process.env.PHONE 
+      })
+    return
   }
   
   const callPlayer = async (callId: number) => {

@@ -37,12 +37,20 @@ describe("EditCallsOptions component", () => {
     expect(messagePlayers).toHaveAttribute("label", `Message to all`)
   })
   it("If booking, Call Order is in the document with label with expected options", () => {
+    mockProps.bookingOrAvailability = "Booking"
     if (mockProps.bookingOrAvailability === "Booking") {
       const callOrder = screen.getByTestId("call-order-drop-down")
       expect(callOrder).toBeInTheDocument()
       expect(callOrder.textContent).toMatch("Ordered")
       expect(callOrder.textContent).toMatch("Random")
       expect(callOrder.textContent).toMatch("Simultaneous")
+    }
+  })
+  it("If availability, there is a checkbox for 'strictly tied'", () => {
+    mockProps.bookingOrAvailability = "Availability"
+    if (mockProps.bookingOrAvailability === "Availability") {
+      const strictlyTiedToggle = screen.getByTestId("strictly-tied-toggle")
+      expect(strictlyTiedToggle).toBeInTheDocument()
     }
   })
 })
