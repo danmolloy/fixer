@@ -15,10 +15,10 @@ export default function ButtonPrimary(props: ButtonPrimaryProps) {
   const { handleClick, id, text, className, type, isSubmitting } = props
 
   return (
-    <button disabled={isSubmitting} type={type} className={`${className} border py-1 px-2 m-1 rounded shadow-sm flex items-center justify-center`} data-testid={id} onClick={handleClick ? () => handleClick(): null}>
-      {isSubmitting 
+    <button disabled={isSubmitting === true ? true : false} type={type} className={`${className} border py-1 px-2 m-1 rounded shadow-sm flex items-center justify-center`} data-testid={id} onClick={handleClick ? () => handleClick(): null}>
+      {isSubmitting === true
       ? <div className="p-1 animate-spin text-blue-600">
-          <AiOutlineLoading />
+          {<AiOutlineLoading />}
         </div>
       : text}
     </button>

@@ -8,6 +8,7 @@ import CallInput from './callInput';
 import ButtonPrimary from "../index/buttonPrimary"
 import EnsembleRadioGroup from './ensembleRadioGroup';
 import ConfirmedOrOnHold from './confirmedOrOnHold';
+import AddAdmin from './addAdmin';
 
 
 export type CreateEventFormProps = {
@@ -20,7 +21,6 @@ export type CreateEventFormProps = {
 
 export default function CreateEventForm(props: CreateEventFormProps) {
   const { handleSubmit, initialValues, userId, userName } = props
-
   const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
 
   const EventSchema = Yup.object().shape({
@@ -89,6 +89,10 @@ export default function CreateEventForm(props: CreateEventFormProps) {
         }}>
           {(props) => (
             <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 ' onSubmit={props.handleSubmit}>
+              
+              <AddAdmin />
+
+              
               <div className='flex flex-col sm:items-center w-full sm:flex-row'>
                 <EnsembleRadioGroup 
                   ensemble={props.values.ensemble}
@@ -153,7 +157,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 id="additional-info" 
                 className=""/>
               <ButtonPrimary
-                isSubmitting={props.isSubmitting}
+                isSubmitting={props.isSubmitting.toString() === "true" ? true: false}
                 id="create-event-btn" 
                 type="submit" 
                 className='disabled:bg-blue-100 bg-blue-600 hover:bg-blue-500 text-white w-24 self-end' 
