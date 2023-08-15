@@ -1,5 +1,5 @@
 import { Field } from "formik"
-import React from "react"
+import React, { useState } from "react"
 import TextInput from '../../createEvent/textInput'
 
 export type EditCallsOptionsProps = {
@@ -10,6 +10,7 @@ export type EditCallsOptionsProps = {
 
 export default function EditCallsOptions(props: EditCallsOptionsProps) {
   const { instrumentName, isSubmitting, bookingOrAvailability } = props
+
   return (
     <div data-testid="edit-calls-options">
       <div className="p-2 flex flex-col">
@@ -56,6 +57,13 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
           </div>
           </div>
 }
+              {bookingOrAvailability === "Availability"
+              && <label className="flex flex-row p-2">
+                <input type="checkbox" className="mx-2"/>
+                Calls are strictly tied
+                </label>
+
+              }
               <TextInput
                 optional={true}  
                 label="Message to all"
