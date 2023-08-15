@@ -37,7 +37,7 @@ export default function Fixing(props: FixingProps) {
           <button data-testid="refresh-btn" onClick={() => refreshProps()} className="border border-yellow-500 text-yellow-600 m-1 rounded p-1 shadow hover:border-yellow-600 hover:bg-yellow-50 active:bg-yellow-300">Refresh</button>
         </div>
       </div>
-      {/* viewList && <OrchestraList setViewList={(arg) => setViewList(arg)} instrumentSections={instrumentSections}/> */}
+      {viewList && <OrchestraList setViewList={(arg) => setViewList(arg)} instrumentSections={instrumentSections}/>}
       <MobileFixing 
         {...props}
         
