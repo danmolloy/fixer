@@ -35,7 +35,7 @@ export default function LandingPage() {
         <Hero />
         <FixerFeatures />
         <MusicianFeatures />
-        <About />
+        {/* <About /> */}
         </div>
       </div>
   )
