@@ -30,7 +30,7 @@ describe("CreateEventForm component", () => {
   it("Ensemble has radio options, including 'other' option/text input, which is visible only when other is selected", async() => {
     const ensembleOptions = screen.getByTestId("ensemble-radio-fieldset")
     expect(ensembleOptions).toBeInTheDocument()
-    const otherOption = screen.getByLabelText(/Other/)
+    const otherOption = screen.getByTestId("other-option")
     expect(otherOption).toBeInTheDocument()
     await waitFor(() => {
       fireEvent.click(otherOption)

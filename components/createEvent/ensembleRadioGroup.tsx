@@ -35,8 +35,9 @@ export default function EnsembleRadioGroup(props: EnsembleRadioProps) {
           London Symphony Orchestra
         </label>
         <div className=''>
-        <label className="py-1">
+        <label className="py-1" >
           <Field
+          data-testid="other-option"
           className="mr-2"
           type="radio"
           name="ensemble"

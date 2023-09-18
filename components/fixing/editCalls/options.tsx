@@ -84,13 +84,13 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
                 min={"1"}
                 max={"72"}
                 />
-                <TextInput
+                {/* <TextInput
                 optional={true} 
                 label="Fixer reminder"
                 id="fixer-note-input"
                 name="fixerNote"
                 asHtml="textarea"
-                className=""/>
+                className=""/> */}
                 </div>}
     </div>
     </div>
