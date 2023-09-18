@@ -11,7 +11,7 @@ export default function Footer() {
       </Link>
       <LoginBtn />
       <div className='flex flex-col mr-2'>
-      <Link href="/about">
+      <Link href="/">
           <div className='flex flex-col mr-2'>
             About
           </div>
