@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import { SessionProvider } from "next-auth/react"
 import { Lobster, Roboto, Nunito, Inconsolata } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react';
 
 const title = Lobster({
   subsets: ['latin'],
@@ -34,6 +35,7 @@ function MyApp({
     <SessionProvider session={session}>
       <main className={`${title.variable} ${nunito.variable} ${inconsolata.variable}`}>
       <Component {...pageProps} />
+      <Analytics />
       </main>
     </SessionProvider>
   )
