@@ -79,18 +79,19 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           additionalInfo: initialValues ? initialValues.additionalInfo : "",
         }}
         validationSchema={EventSchema}
-        onSubmit={async(values, actions) => {
+        onSubmit={(values, actions) => {
           if (values.ensemble === "Other") {
             values.ensemble = values.ensembleName
           }
+          actions.setSubmitting(true);
           handleSubmit(values);
-          actions.setSubmitting(false);
+          //actions.setSubmitting(false);
           
         }}>
           {(props) => (
             <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 ' onSubmit={props.handleSubmit}>
               
-              <AddAdmin />
+              {/* <AddAdmin /> Let's keep it simple for now. */}
 
               
               <div className='flex flex-col sm:items-center w-full sm:flex-row'>
