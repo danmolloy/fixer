@@ -2,16 +2,38 @@ import { ErrorMessage, Field } from "formik"
 import React from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import TextInput from "./textInput"
+import ComboBox from "./comboBox"
+
+export const venueOptions = [
+  {
+    id: "0",
+    textPrimary: "BBC Maida Vale Studios"
+  },
+  {
+    id: "1",
+    textPrimary: "LSO St Lukes"
+  },
+  {
+    id: "2",
+    textPrimary: "Barbican Concert Hall"
+  },
+  {
+    id: "3",
+    textPrimary: "Royal Festival Hall"
+  }
+]
 
 interface CallInputProps {
   index: any
   id: any
   remove: (arg: any) => void
+  propsValueVenue: string
+  setVenue: (venue: string) => void
 }
 
 
 export default function CallInput(props: CallInputProps) {
-  const { index, remove } = props
+  const { index, remove, propsValueVenue, setVenue } = props
   return (
     <div data-testid="call-input-div" className="flex flex-col">
       <div className='flex flex-row items-center justify-between'>
@@ -52,8 +74,11 @@ export default function CallInput(props: CallInputProps) {
         </ErrorMessage>
         </div>
         </div>
-          <TextInput
-
+         {/*  <TextInput */}
+          <ComboBox
+          setVenue={(venue) => setVenue(venue)}
+          options={venueOptions}
+          propsValue={propsValueVenue}
           label="Venue"
           className=""
           id={`calls.${index}.venue`}

@@ -119,7 +119,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 <div  data-testid="calls-array" className='flex flex-col'>
                   {props.values.calls.map((call, index) => (
                     <div className='border p-4 my-4 rounded shadow-sm' key={call.id} data-testid={`call-${index + 1}-div`}>
-                      <CallInput id={call.id} index={index} remove={(arg) => remove(arg)}/>
+                      <CallInput setVenue={(venue) => props.setFieldValue(`calls.${index}.venue`, venue)} propsValueVenue={call.venue} id={call.id} index={index} remove={(arg) => remove(arg)}/>
                     </div>
                   ))}
                   <ButtonPrimary

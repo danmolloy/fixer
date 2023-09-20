@@ -1,7 +1,7 @@
 import { ErrorMessage, Field } from "formik";
 import React from "react";
 
-interface TextInputProps {
+export interface TextInputProps {
   name: string
   id: string
   className?: string
