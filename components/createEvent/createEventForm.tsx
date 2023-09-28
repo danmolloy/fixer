@@ -9,11 +9,19 @@ import ButtonPrimary from "../index/buttonPrimary"
 import EnsembleRadioGroup from './ensembleRadioGroup';
 import ConfirmedOrOnHold from './confirmedOrOnHold';
 import AddAdmin from './addAdmin';
+import { Prisma } from '@prisma/client';
+
+export type EventWithCallsAndInstruments = Prisma.EventGetPayload<{
+  include: {
+    calls: true,
+    instrumentSections: true
+  }
+}>
 
 
 export type CreateEventFormProps = {
   handleSubmit: (vals: any) => void
-  initialValues?: any
+  initialValues?: EventWithCallsAndInstruments
   userId: string
   userName: string
   expires?: string
@@ -63,8 +71,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           calls: initialValues
           ? initialValues.calls.map(i => ({
             id: i.id,
-            startTime: i.startTime.slice(0, -8),
-            endTime: i.endTime.slice(0, -8),
+            startTime: String(i.startTime).slice(0, -8),
+            endTime: String(i.endTime).slice(0, -8),
             venue: i.venue,
           }))
           : [{
