@@ -60,26 +60,43 @@ const updateEvent = async (eventObj: Event) => {
   return updatedEvent
 }
 
-const updateCall = async (callObj: Call) => {
-  const updatedCall = await prisma.call.update({
-    where: {
-      id: callObj.id
-    },
-    data: {
-      startTime: new Date(callObj.startTime),
-      endTime: new Date(callObj.endTime),
-      venue: callObj.venue,
-      updatedAt: new Date()
-    }
-  })
+const updateOrCreateCall = async (callObj: Call) => {
 
-  return updatedCall
+  try {
+    const updatedCall = await prisma.call.update({
+      where: {
+        id: callObj.id
+      },
+      data: {
+        startTime: new Date(callObj.startTime),
+        endTime: new Date(callObj.endTime),
+        venue: callObj.venue,
+        updatedAt: new Date()
+      }
+    })
+  
+    return updatedCall
+  }
+
+  catch(e) {
+    console.log(e)
+    const createCall = await prisma.call.create({
+      data: {
+        startTime: new Date(callObj.startTime),
+        endTime: new Date(callObj.endTime),
+        venue: callObj.venue,
+        eventId: callObj.eventId,
+        fixerId: callObj.fixerId
+      }
+    })
+    return createCall
+  } 
 }
 
-const updateCalls = async(callsArr: Call[]) => {
+const updateCalls = async(callsArr: Call[], fixerId: string, eventId: number) => {
   let updatedCalls = []
   for (let i = 0; i < callsArr.length; i++) {
-    let updatedCall = await updateCall(callsArr[i])
+    let updatedCall = await updateOrCreateCall({...callsArr[i], fixerId: fixerId, eventId: eventId})
     updatedCalls = [...updatedCalls, updatedCall]
   }
   return updatedCalls;
@@ -91,10 +108,10 @@ const updateEventandCallsandMsg = async (eventAndCalls: {
 }) => {
 
   
-  //const event = await updateEvent(eventAndCalls.eventObj)
-  //const calls = await updateCalls(eventAndCalls.callsArr)
+  const event = await updateEvent(eventAndCalls.eventObj)
+  const calls = await updateCalls(eventAndCalls.callsArr, eventAndCalls.eventObj.fixerId, eventAndCalls.eventObj.id)
   const msgPlayers = await getandMsgAllPlayers(eventAndCalls.eventObj.id)
-  return {/* event, calls, */ msgPlayers}
+  return { event, calls, msgPlayers}
 }
 
 export default async function handle(req, res) {
@@ -102,8 +119,6 @@ export default async function handle(req, res) {
     eventObj,
     callsArr
   } = req.body
-
-
 
   res.status(200).json(await updateEventandCallsandMsg({eventObj, callsArr}))
 }

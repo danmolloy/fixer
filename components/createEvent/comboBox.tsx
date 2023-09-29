@@ -40,7 +40,7 @@ export default function ComboBox(props: ComboBoxProps) {
         <ErrorMessage name={name}>
           { msg => <div className="p-1 text-red-600 text-sm" data-testid={`${name}-error`}>{msg}</div> }
         </ErrorMessage>
-        {props.propsValue.length > 1 
+        {props.propsValue?.length > 1 
           && !options.find(i => i.textPrimary === propsValue)
           &&
         <div data-testid="combo-options-div" className="mt-16 w-[88vw] md:w-[66vw] lg:w-[45vw] bg-white absolute p-1 border rounded shadow">

@@ -44,7 +44,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     eventTitle: Yup.string().required('Event title required'),
     concertProgram: Yup.string().required('Concert Program required'),
     calls: Yup.array().of(Yup.object({
-      id: Yup.string().required(),
+      id: Yup.string(),
       startTime: Yup.string().required("Call start time required"),
       endTime: Yup.string().required("Call end time equired"),
       venue: Yup.string().required("Venue required"),
@@ -76,7 +76,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
             venue: i.venue,
           }))
           : [{
-            id: uuidv4(),
+            id: 0,
             startTime: "",
             endTime: "",
             venue: "",
