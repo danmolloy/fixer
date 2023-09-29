@@ -15,28 +15,7 @@ export type EventIndexProps = {
   preview?: boolean
 }
 
-const fixerMenu: MenuItems = [
-  {
-    name: "Edit Event",
-    id: "0"
-  },
-  {
-    name: "Message Players",
-    id: "1"
-  },
-  {
-    name: "Export CSV",
-    id: "2"
-  },
-  {
-    name: "Add to Calendar",
-    id: "3"
-  },
-  {
-    name: "Cancel Event",
-    id: "4"
-  }
-]
+
 
 
 const playerMenu: MenuItems = [
@@ -54,12 +33,40 @@ const playerMenu: MenuItems = [
   },
 ]
 
+
+
 export default function EventIndex(props: EventIndexProps) {
   const [showOptions, setShowOptions] = useState<boolean>(false)
 
+  const fixerMenu: MenuItems = [
+    {
+      name: "Edit Event",
+      id: "0",
+      link: `/event/edit/${props.event.id}`
+    },
+    {
+      name: "Message Players",
+      id: "1",
+    },
+    {
+      name: "Export CSV",
+      id: "2"
+    },
+    {
+      name: "Add to Calendar",
+      id: "3"
+    },
+    {
+      name: "Cancel Event",
+      id: "4"
+    }
+  ]
+
+
+
   return (
     <div data-testid="event-index-div" className="w-full lg:w-2/3 flex flex-col items-center">
-      {showOptions && <Menu menuItems={props.event.fixerId === props.session.userData.id ? fixerMenu : playerMenu} setShowMenu={() => setShowOptions(!showOptions)} signedIn={true} signInBtn={false}/>}
+      {showOptions && <Menu eventId={props.event.id} fixerMenu={props.event.fixerId === props.session.userData.id && true} menuItems={props.event.fixerId === props.session.userData.id ? fixerMenu : playerMenu} setShowMenu={() => setShowOptions(!showOptions)} signedIn={true} signInBtn={false}/>}
       <EventInfo {...props} setShowOptions={() => setShowOptions(!showOptions)} showOptions={showOptions}/>
     </div>
   )
