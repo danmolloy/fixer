@@ -33,14 +33,16 @@ export default function CalendarEventLink(props: CalendarEventLinkProps) {
       icalArr = [...icalArr, createICSEvent(data.calls[i])]
     }
 
-    const blob = new Blob(icalArr, { type: 'text/calendar' });
+    alert(JSON.stringify(icalArr))
+
+    /* const blob = new Blob(icalArr, { type: 'text/calendar' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', `event-${data.id}.ics`);
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    document.body.removeChild(link); */
   }
 
   return (
