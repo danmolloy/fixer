@@ -1,5 +1,7 @@
 import { Call } from "@prisma/client";
 import { EventWithCalls } from "../upcomingEvents/eventsIndex";
+import { createEvents } from 'ics';
+
 
 export type CalendarEventLinkProps = {
   data: EventWithCalls
@@ -8,41 +10,58 @@ export type CalendarEventLinkProps = {
 export default function CalendarEventLink(props: CalendarEventLinkProps) {
   const { data } = props;
 
+  const getDateArr = (date: Date) => {
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth(); // Months are zero-based (0 = January, 1 = February, ...)
+    const day = date.getUTCDate();
+    const hour = date.getUTCHours();
+    const minute = date.getUTCMinutes();
+    return [year, month, day, hour, minute];
+  }
+
   const createICSEvent = (call: Call) => {
-    const ical = `
-    BEGIN:VCALENDAR
-    VERSION:2.0
-    PRODID:-//GigFix//Event Calendar//EN
-    BEGIN:VEVENT
-    DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '')}Z
-    DTSTART:${new Date(call.startTime).toISOString().replace(/[-:]/g, '')}Z
-    DTEND:${new Date(call.endTime).toISOString().replace(/[-:]/g, '')}Z
-    SUMMARY:${data.eventTitle}
-    LOCATION:${call.venue}
-    DESCRIPTION:${data.ensembleName}
-    END:VEVENT
-    END:VCALENDAR
-    `;
+
+    const ical = {
+      start: getDateArr(new Date(call.startTime)),
+      end: getDateArr(new Date(call.endTime)),
+      title: data.eventTitle,
+      description: `${data.ensembleName} (${data.confirmedOrOnHold})`,
+      location: call.venue,
+      //organiser: {name: data.fixerName}
+    }
     return ical
   }
 
-  const downloadICS = () => {
+  const downloadICS = async() => {
     let icalArr = [];
 
     for (let i = 0; i < data.calls.length; i++) {
-      icalArr = [...icalArr, createICSEvent(data.calls[i])]
+      icalArr.push(createICSEvent(data.calls[i]));
     }
 
-    alert(JSON.stringify(icalArr))
+    const filename = `Event-${data.id}.ics`
+    const file: any = await new Promise((resolve, reject) => {
+      createEvents(icalArr, (error, value) => {
+        if (error) {
+          reject(error)
+        }
 
-    /* const blob = new Blob(icalArr, { type: 'text/calendar' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `event-${data.id}.ics`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link); */
+        resolve(new File([value], filename, { type: 'text/calendar' }))
+      })
+    })
+    const url = URL.createObjectURL(file);
+
+    // trying to assign the file URL to a window could cause cross-site
+    // issues so this is a workaround using HTML5
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = filename;
+
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+
+    URL.revokeObjectURL(url);
   }
 
   return (
