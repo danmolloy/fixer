@@ -66,7 +66,7 @@ export default function EventIndex(props: EventIndexProps) {
 
   return (
     <div data-testid="event-index-div" className="w-full lg:w-2/3 flex flex-col items-center">
-      {showOptions && <Menu eventId={props.event.id} fixerMenu={props.event.fixerId === props.session.userData.id && true} menuItems={props.event.fixerId === props.session.userData.id ? fixerMenu : playerMenu} setShowMenu={() => setShowOptions(!showOptions)} signedIn={true} signInBtn={false}/>}
+      {showOptions && <Menu data={props.event.fixerId === props.session.userData.id ? props.event : null} eventId={props.event.id} fixerMenu={props.event.fixerId === props.session.userData.id && true} menuItems={props.event.fixerId === props.session.userData.id ? fixerMenu : playerMenu} setShowMenu={() => setShowOptions(!showOptions)} signedIn={true} signInBtn={false}/>}
       <EventInfo {...props} setShowOptions={() => setShowOptions(!showOptions)} showOptions={showOptions}/>
     </div>
   )

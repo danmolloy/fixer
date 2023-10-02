@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import React, { useEffect, useRef } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import FixerMenu from "../event/fixerMenu"
+import { EventWithCalls } from "../upcomingEvents/eventsIndex"
 
 
 export type MenuItems = {
@@ -19,10 +20,11 @@ export type MenuProps = {
   signInBtn?: boolean
   fixerMenu?: boolean
   eventId?: number
+  data?: EventWithCalls
 }
 
 export default function Menu(props: MenuProps) {
-  const { setShowMenu, menuItems, signedIn, signInBtn, fixerMenu, eventId } = props;
+  const { setShowMenu, menuItems, signedIn, signInBtn, fixerMenu, eventId, data } = props;
   const router = useRouter();
   const ref = useRef(null)
 
@@ -43,7 +45,7 @@ export default function Menu(props: MenuProps) {
           </button>
         </div>
       {fixerMenu 
-      ? <FixerMenu eventId={eventId} />
+      ? <FixerMenu data={data} eventId={eventId} />
       : menuItems.map(i => (
         i.link 
         ? <Link key={i.id} href={`${i.link}`}>

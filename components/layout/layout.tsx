@@ -8,6 +8,7 @@ import { landingMenuItems } from "../landingPage/landingPage";
 import Loading from "../index/loading";
 import LoadingHeader from "./loadingHeader";
 import MobileMenuPanel from "../index/mobileMenuPanel";
+import { EventWithCalls } from "../upcomingEvents/eventsIndex";
 
 
 export type LayoutProps = {

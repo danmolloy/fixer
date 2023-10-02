@@ -4,18 +4,22 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useEffect, useRef } from "react"
 import { AiOutlineClose } from "react-icons/ai"
+import { CSVLink } from "react-csv";
+import { EventWithCalls } from "../upcomingEvents/eventsIndex"
+import CalendarEventLink from "./calendarEventLink"
 
 
 export type FixerMenuProps = {
   eventId: number
+  data: EventWithCalls
 }
 
 
 export default function FixerMenu(props: FixerMenuProps) {
-  const { eventId } = props;
+  const { eventId, data } = props;
   const router = useRouter()
 
-  const messageAll = () => {
+  const messageAll = async () => {
     const fixerMessage = prompt(`What is your message to all booked musicians?`)
     const reqBody = {
       message: 
@@ -30,7 +34,7 @@ export default function FixerMenu(props: FixerMenuProps) {
     }
   }
 
-  const cancelEvent = () => {
+  const cancelEvent = async () => {
     const fixerMessage = prompt(`What is your message to all booked musicians about the cancellation?`)
     const reqBody = {
       message: 
@@ -45,10 +49,15 @@ export default function FixerMenu(props: FixerMenuProps) {
     }
   }
 
-  const exportToCSV = () => {}
+  const exportToCSV = () => {
+    let csvData = [];
+    for (const property in data) {
+      csvData = [...csvData, [property, data[property]]]
+    }
+    alert(JSON.stringify(csvData))
+   //return csvData
+  }
     
-
-  const exportToCalendar = () => {}
 
   return (
     <div className="" data-testid="menu-div">
@@ -62,16 +71,17 @@ export default function FixerMenu(props: FixerMenuProps) {
           Message All
         </div>
       </button>
+     {/* <CSVLink data={() => exportToCSV()} className="cursor-pointer w-full text-start" data-testid={"msg-all-btn"}>
+        <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
+          Export to CSV
+        </div>
+      </CSVLink> */}
       <button onClick={() => exportToCSV()} className="cursor-pointer w-full text-start" data-testid={"msg-all-btn"}>
         <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
           Export to CSV
         </div>
       </button>
-      <button onClick={() => exportToCalendar()} className="cursor-pointer w-full text-start" data-testid={"msg-all-btn"}>
-        <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
-          Export to Calendar
-        </div>
-      </button>
+      <CalendarEventLink data={data}/>
       <button onClick={() => cancelEvent()} className="cursor-pointer w-full text-start" data-testid={"msg-all-btn"}>
         <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
           Cancel Event
