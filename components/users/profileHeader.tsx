@@ -29,7 +29,7 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
         <button className="shadow hover:bg-blue-500 bg-blue-600 text-white m-2 sm:m-1 sm:mr-4 p-2 sm:px-4 rounded-md"  data-testid="profile-contact-btn" onClick={() => setShowContactInfo()}>
             Contact
           </button>
-          <Link className="shadow-sm hover:bg-slate-100 border border-slate-400 m-2 sm:m-1 sm:mr-4 p-2 sm:px-4 text-center rounded-md" href="/directory" data-testid="directory-btn" >
+          <Link className="shadow-sm hover:bg-slate-100 border border-slate-400 m-2 sm:m-1 sm:mr-4 p-2 sm:px-4 text-center rounded-md" href={`/directory/?instrument=${instrument.toLowerCase()}`} data-testid="directory-btn" >
               Directory
           </Link>
         </div>
