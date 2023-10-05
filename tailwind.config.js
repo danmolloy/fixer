@@ -17,7 +17,6 @@ module.exports = {
         'main': '80%'
       },
       fontFamily: {
-        title: ['var(--font-lobster)', ...fontFamily.sans],
         nunito: ['var(--font-nunito)', ...fontFamily.sans],
         mono: ['var(--font-inconsolata)', ...fontFamily.mono]
       },

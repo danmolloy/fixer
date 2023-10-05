@@ -9,6 +9,7 @@ import Loading from "../index/loading";
 import LoadingHeader from "./loadingHeader";
 import MobileMenuPanel from "../index/mobileMenuPanel";
 import { EventWithCalls } from "../upcomingEvents/eventsIndex";
+import Banner from "./banner";
 
 
 export type LayoutProps = {
@@ -31,13 +32,13 @@ if (status === "loading") {
         </div>
     </div>
   )
-    
   }
   
   return (
     <div className="min-h-screen w-screen flex flex-col justify-between font-nunito " data-testid="layout-div">
       <Header setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={session && session.userData.playerCalls.filter(i => i.accepted === null).length > 0 ? true: false}/>
       {showMenu && <Menu signedIn={session ? true : false} setShowMenu={() => setShowMenu(false)} menuItems={session ? menuItems : landingMenuItems}/>}
+      {session && session.userData.playerCalls.filter(i => i.accepted === null).length > 0 && <Banner notificationCount={session.userData.playerCalls.filter(i => i.accepted === null).length} />}
       <div className={showMenu ? "w-full p-3 blur text-center":"w-full p-3 text-center"}>
         <h1 className="ml-2 tex-center text-3xl ">{pageTitle}</h1>
       </div>
