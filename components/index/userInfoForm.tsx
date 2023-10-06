@@ -37,11 +37,11 @@ export default function UserInfoForm(props: UserInfoProps) {
       <h1>Your details</h1>
       <Formik 
         initialValues={{ 
-          userId: userSession.userData.id,
-          firstName: userSession.userData.name ? userSession.userData.name : '',
-          lastName: userSession.userData.name ? userSession.userData.name : '',
-          email: userSession.userData.email ? userSession.userData.email : '',
-          instrument: userSession.userData.instrument ? userSession.userData.instrument : '', 
+          userId: userSession.user.id,
+          firstName: userSession.user.name ? userSession.user.name : '',
+          lastName: userSession.user.name ? userSession.user.name : '',
+          email: userSession.user.email ? userSession.user.email : '',
+          instrument: userSession.user.instrument ? userSession.user.instrument : '', 
           newInstrument: '',
         }}
         validationSchema={UserSchema}

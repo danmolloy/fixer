@@ -51,7 +51,7 @@ export default async function handle(req, res) {
     res.status(401).end()
   }
 
-  if (eventData.fixerId === session.userData.id) {
+  if (eventData.fixerId === session.user.id) {
     eventData = {...eventData, users: await findUsers()}
   }
 

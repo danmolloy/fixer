@@ -8,7 +8,11 @@ const getCalendar = async (userId: string) => {
       id: userId
     },
     include: {
-      calls: true
+      calls: {
+        include: {
+          event: true
+        }
+      }
     }
   })
   return userCalendar

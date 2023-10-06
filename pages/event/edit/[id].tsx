@@ -60,7 +60,7 @@ export default function EditEvent(props) {
       <CreateEventForm
        initialValues={data} 
        handleSubmit={(vals) => handleSubmit(vals)}
-        userId={session.userData.id}
+        userId={session.user.id}
         userName={session.user.name}
        />
     </Layout>

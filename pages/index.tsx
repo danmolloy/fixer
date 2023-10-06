@@ -7,16 +7,19 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Loading from "../components/index/loading";
 import Dashboard from "../components/index/dashboard";
+import useSWR from "swr";
+
+const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 export default function Home() {
   const router = useRouter()
   const { data: session, status } = useSession()
+  const { data, error, /* isLoading */ } = useSWR('/api/index/getUserData', fetcher)
 
   const profileIncomplete = session 
-  && session?.userData 
-  && session?.userData.email === null 
-  || session?.userData.instrument === null 
-  || session?.userData.name === null 
+  && session?.user.email === null 
+  || session?.user.instrument === null 
+  || session?.user.name === null 
 
   const handleSubmit = async (vals) => {
     console.log("Hello from handleSubmit");

@@ -9,6 +9,8 @@ declare module "next-auth" {
       name: string
       email: string
       image: string
+      instrument?: string|null
+      id: string
     }
     expires: string
     userData?: {

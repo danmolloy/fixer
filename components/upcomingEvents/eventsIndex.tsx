@@ -51,9 +51,9 @@ export default function EventsIndex(/* props: EventsIndexProps */) {
   if (error) return <div>failed to load</div>
 
 
- /*  if (!session.userData) {
+ if (!data) {
     return <p>Loading..</p>
-  } */
+  }
 
   return (
       <div data-testid="events-index-div" className="w-screen p-2 flex flex-col md:flex-row-reverse items-center md:items-start min-h-screen sm:min-h-0">
