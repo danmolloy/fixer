@@ -77,18 +77,3 @@ export default function EventsIndex(/* props: EventsIndexProps */) {
 }
 
 
-
-
-//<Calendar selectedDate={selectedDate} 
-//          setSelectedDate={(e) => {
-//            setSelectedDate(e)
-//            dateRange === null && setDateRange(7)
-//            }}/>
-//          <div className=" w-full md:w-1/2">
-//          <MobileDashboard dateRange={dateRange} setSelectedDate={(arg) => setSelectedDate(arg)} setDateRange={(arg) => setDateRange(arg)}/>
-//         <EventDashboard dateRange={dateRange} setSelectedDate={(arg) => setSelectedDate(arg)} setDateRange={(arg) => setDateRange(arg)} /* setEventView={(arg) => setEventView(arg)} *//>
-//          {dateRange === null 
-//         ? <UpcomingEvents selectedDate={selectedDate} upcomingCalls={session.userData.calls && [...session.userData?.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={session.user.email}/>
-//           : <DateRangeView selectedDate={selectedDate} dateRange={dateRange} upcomingCalls={[...session.userData?.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={session.user.email}/>
-//          } 
-//        </div>
