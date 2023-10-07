@@ -6,8 +6,8 @@ import moment from "moment"
 export default function MobileDashboard(props: EventDashboardProps) {
   const { setDateRange, setSelectedDate, dateRange } = props
 
-  const handleChange = (val: number) => {
-    if (val === 0) {
+  const handleChange = (val: number|string|undefined) => {
+    if (val === undefined) {
       setDateRange(undefined); // Should be undefined
       setSelectedDate(moment(new Date()));
     } else {
@@ -17,12 +17,13 @@ export default function MobileDashboard(props: EventDashboardProps) {
 
   return (
     <div data-testid="mobile-dashboard" className="sm:hidden flex flex-col items-center">
+      {dateRange}
       <select 
         data-testid="select-menu"
         className=" border shadow-sm p-1 rounded w-1/2"
         value={dateRange} 
-        onChange={e => handleChange(Number(e.target.value))} >
-        <option value={0}>
+        onChange={e => handleChange(e.target.value)} >
+        <option value={undefined}>
           All Upcoming 
         </option>
         <option value={7}>
@@ -33,6 +34,9 @@ export default function MobileDashboard(props: EventDashboardProps) {
         </option>
         <option value={28}>
           Four Weeks
+        </option>
+        <option value={"past"}>
+          Past Events
         </option>
       </select>
     </div>

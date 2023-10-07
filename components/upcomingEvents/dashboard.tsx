@@ -2,9 +2,9 @@ import moment from "moment"
 import React from "react"
 
 export type EventDashboardProps = {
-  setDateRange: (arg: number|null) => void
+  setDateRange: (arg: string|number|null) => void
   setSelectedDate: (arg: moment.Moment) => void
-  dateRange: undefined|number
+  dateRange: undefined|number|string
 }
 
 export default function EventDashboard(props: EventDashboardProps) {
@@ -25,6 +25,12 @@ export default function EventDashboard(props: EventDashboardProps) {
       </button>
       <button onClick={() => setDateRange(28)} data-testid="month-btn" className={dateRange === 28 ? "py-2 border-b-2 border-blue-600 text-blue-600" :"text-slate-400 py-2"}>
         Four Weeks
+      </button>
+      <button onClick={() => {
+        setDateRange("past")
+        setSelectedDate(moment(new Date()))
+        }} data-testid="view-all-btn" className={dateRange === "past" ? "py-2 border-b-2 border-orange-600 text-orange-600" :"text-slate-400 py-2"}>
+        Past Events
       </button>
     </div>
   )

@@ -8,6 +8,7 @@ import MobileDashboard from "./mobileDashboard";
 import useSWR from "swr";
 import { User } from "next-auth";
 import { Event, Prisma } from "@prisma/client";
+import PastEvents from "./pastEvents";
 
 export type EventWithCalls = Prisma.EventGetPayload<{
   include: { 
@@ -45,7 +46,7 @@ const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json(
 export default function EventsIndex(/* props: EventsIndexProps */) {
   //const { session } = props
   const [selectedDate, setSelectedDate] = useState(moment())
-  const [dateRange, setDateRange] = useState<undefined|number>(undefined)
+  const [dateRange, setDateRange] = useState<undefined|number|string>(undefined)
   const { data, error, /* isLoading */ } = useSWR('/api/calendar/getCalendar', fetcher)
  
   if (error) return <div>failed to load</div>
@@ -68,12 +69,12 @@ export default function EventsIndex(/* props: EventsIndexProps */) {
          <div className=" min-h-1/2">
           {dateRange === undefined 
          ? <UpcomingEvents selectedDate={selectedDate} upcomingCalls={data && [...data.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={data?.email}/>
-           : <DateRangeView selectedDate={selectedDate} dateRange={dateRange} upcomingCalls={data && [...data.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={data?.email}/>
+         : dateRange === "past" 
+         ? <PastEvents selectedDate={selectedDate} pastEvents={data.events} allCalls={data && [...data.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={data?.email}/>
+         : <DateRangeView selectedDate={selectedDate} dateRange={Number(dateRange)} upcomingCalls={data && [...data.calls].sort((a, b) => Number(new Date(a.startTime)) - Number(new Date(b.startTime)))} sessionEmail={data?.email}/>
          }
          </div>
         </div>
       </div>
   )
 }
-
-

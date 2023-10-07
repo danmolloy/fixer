@@ -12,6 +12,11 @@ const getCalendar = async (userId: string) => {
         include: {
           event: true
         }
+      },
+      events: {
+        include: {
+          calls: true
+        }
       }
     }
   })
@@ -28,7 +33,8 @@ const emailGetCalendar = async (userEmail: string) => {
         include: {
           event: true
         }
-      }
+      },
+      events: true
     }
   })
   return userCalendar
