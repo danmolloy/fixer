@@ -52,14 +52,14 @@ if (status === "loading"|| isLoading) {
   
   return (
     <div className="min-h-screen w-screen flex flex-col justify-between font-nunito " data-testid="layout-div">
-      <Header reducedHeader={reducedHeader} setReducedHeader={(arg) => setReducedHeader(arg)} setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={data && data.playerCalls.filter(i => i.accepted === null).length > 0 ? true: false}/>
+      <Header  reducedHeader={reducedHeader} setReducedHeader={(arg) => setReducedHeader(arg)} setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={data && data.playerCalls.filter(i => i.accepted === null).length > 0 ? true: false}/>
       <div className="mt-20">
       {showMenu && <Menu signedIn={session ? true : false} setShowMenu={() => setShowMenu(false)} menuItems={session ? menuItems : landingMenuItems}/>}
       {data && data.playerCalls.filter(i => i.accepted === null).length > 0 && <Banner notificationCount={data?.playerCalls.filter(i => i.accepted === null).length} />}
       <div className={showMenu ? "w-full p-3 blur text-center":"w-full p-3 text-center"}>
         <h1 className="ml-2 tex-center text-3xl ">{pageTitle}</h1>
       </div>
-      <div onFocus={() => setShowMenu(false)} className={`${showMenu && "blur"} layout-children w-screen p-2 flex flex-col items-center bg-white pb-12`} data-testid="main-div">
+      <div onFocus={() => setShowMenu(false)} className={`${showMenu ? "blur": ""} layout-children w-screen p-2 flex flex-col items-center bg-white pb-12`} data-testid="main-div">
         {children}
       </div>
       </div>

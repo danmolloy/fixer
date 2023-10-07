@@ -16,7 +16,7 @@ function shuffleArray(array) {
   return array;
 }
 
-export interface PlayerDirectoryProps {
+export type PlayerDirectoryProps = {
   data: User[] | undefined
   setPageTitle: (arg: string) => void
   preview?: boolean

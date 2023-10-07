@@ -10,7 +10,7 @@ const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json(
 export default function Directory() {
   const { data, error, /* isLoading */ } = useSWR('/api/user/findAll', fetcher)
   const [pageTitle, setPageTitle] = useState<string>("Directory")
- 
+
   if (error) return <div>failed to load</div>
   //if (isLoading) return <div>loading...</div>
 
