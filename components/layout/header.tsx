@@ -1,16 +1,15 @@
 import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose, AiOutlineBell } from 'react-icons/ai'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import LandingHeader from '../landingPage/header'
-import useSWR from "swr";
-
-const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 export type HeaderProps = {
   showMenu: boolean
   setShowMenu: (bool: boolean) => void
   session?: boolean
   notifications: boolean
+  setReducedHeader: (arg: boolean) => void
+  reducedHeader: boolean
 }
 
 export const menuItems: {
@@ -47,8 +46,27 @@ export const menuItems: {
 ]
 
 export default function Header(props: HeaderProps) {
-  const { showMenu, setShowMenu, session, notifications } = props
+  const { showMenu, setShowMenu, session, notifications, reducedHeader, setReducedHeader } = props
+  const [scrollPosition, setScrollPosition] = useState(0);
 
+  useEffect(() => {
+    function handleScroll() {
+      const currentPosition = window.scrollY;
+      if (currentPosition > scrollPosition + 50) {
+        setScrollPosition(currentPosition);
+        setReducedHeader(true)
+      } else if (currentPosition < scrollPosition - 5) {
+        setScrollPosition(currentPosition);
+        setReducedHeader(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrollPosition]);
 
   if (session === false) {
     return (
@@ -59,11 +77,12 @@ export default function Header(props: HeaderProps) {
 
 
   return (
-    <div className={showMenu === true ? "blur h-20 flex flex-row items-center justify-between" : "h-20 flex flex-row items-center justify-between"} data-testid="layout-header">
-      <Link href="/">
-      <h2 className={' p-2 text-2xl mx-2 md:mx-10  '}>
+    <div className={`${showMenu === true && "blur"} ${reducedHeader ? "h-12" : "h-20"} transition-all bg-white fixed w-screen shadow z-30 flex flex-row items-center justify-between`} data-testid="layout-header">
+      <Link href="/" >
+      <h2 className={`${reducedHeader && "hidden"} p-2 text-2xl mx-2 md:mx-10`}>
         Gig<span className="text-blue-600 font-semibold">Fix</span>
       </h2>
+      
       </Link>
         
         <div className='w-full justify-end hidden md:flex flex-row mr-2' data-testid="nav-bar">
