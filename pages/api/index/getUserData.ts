@@ -30,5 +30,14 @@ const getUserData = async (id: string) => {
 export default async function handle(req, res) {
   const session = await getServerSession(req, res, authOptions)
   
-  res.status(200).json(await getUserData(session.user.id))
+  if (session === null) {
+
+    console.log("If")
+
+    res.status(200).json({hello: "world"})
+  } else {
+    console.log("Else")
+
+    res.status(200).json(await getUserData(session.user.id))
+  }
 }

@@ -13,7 +13,7 @@ const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json(
 export default function EditEvent(props) {
   const router = useRouter()
   const { id } = router.query;
-  const { data, mutate, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
+  const { data, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
   const { data: session } = useSession()
   
 

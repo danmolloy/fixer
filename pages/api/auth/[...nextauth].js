@@ -21,7 +21,7 @@ export const authOptions = ({
     async session({ session, user }) {
       // Send properties to the client, like an access_token from a provider.
     
-      /* const sesssionUser = await prisma.user.findUnique({
+      const sesssionUser = await prisma.user.findUnique({
         where: {
           id: user.id
         },
@@ -38,8 +38,8 @@ export const authOptions = ({
           },
           playerCalls: true
         }
-      }) */
-      //session.userData = sesssionUser
+      })
+      session.userData = sesssionUser
       session.user.id = user.id
       session.user.instrument =  sesssionUser.instrument
       
