@@ -17,7 +17,6 @@ export default function MobileDashboard(props: EventDashboardProps) {
 
   return (
     <div data-testid="mobile-dashboard" className="sm:hidden flex flex-col items-center">
-      {dateRange}
       <select 
         data-testid="select-menu"
         className=" border shadow-sm p-1 rounded w-1/2"

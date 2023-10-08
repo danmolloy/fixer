@@ -19,10 +19,10 @@ export default function Calendar(props: CalendarProps) {
   const { selectedDate, setSelectedDate} = props
 
   return (
-    <div className="flex flex-col w-full md:w-1/2 bg-white" data-testid="date-picker-div"> 
+    <div className="md:sticky md:top-20 md:h-screen md:flex md:justify-center w-full md:w-1/2 bg-white" data-testid="date-picker-div"> 
 {/*       <ButtonPrimary handleClick={() => {}} id="add-calendar-btn" text="Add to Diary" className="self-end w-28 text-blue-500 border-blue-500 hover:bg-blue-50" />
  */}      
-      <div className="hidden md:flex">
+      <div className="hidden md:flex w-full  md:absolute ">
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <CalendarPicker  date={selectedDate} onChange={(newDate) => setSelectedDate(moment(newDate))} /> 
         </LocalizationProvider>
