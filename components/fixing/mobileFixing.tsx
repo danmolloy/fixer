@@ -1,6 +1,7 @@
 import { Call, User } from "@prisma/client"
 import InstrumentTile, { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile"
 import { useState } from "react"
+import SelectMenu from "../index/selectMenu"
 
 
 const instrumentFamilyArr: {
@@ -112,7 +113,7 @@ export default function MobileFixing(props: MobileFixingProps) {
   return (
     <div data-testid="mobile-fixing-div" className="sm:hidden flex flex-col items-center w-full">
       <div className="flex flex-col w-full items-center">
-         <select data-testid="select-menu" onChange={e => setSelectedInstrument(e.target.value)} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
+         {/* <select data-testid="select-menu" onChange={e => setSelectedInstrument(e.target.value)} className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
           <option value={""}>Select instrument</option>
           {instrumentSections.map(i => (
             <option value={i.instrumentName} key={i.id} className="">
@@ -120,7 +121,18 @@ export default function MobileFixing(props: MobileFixingProps) {
             </option>
           ))}
          
-        </select>
+        </select> */}
+        <SelectMenu 
+          tickSelected={false}
+          values={instrumentSections.map(i => (
+            {
+              val: i.instrumentName, 
+              id: i.id,
+              secondary: `${i.numToBook > 0 ? `(${i.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length} of ${i.numToBook} booked)` : ""}`
+              
+            }))} 
+          selectedVal={selectedInstrument} 
+          handleSelect={arg => setSelectedInstrument(arg)} />
       </div>
       <div>
           {selectedInstrument === ""

@@ -6,6 +6,7 @@ import ButtonPrimary from "../index/buttonPrimary"
 import ToggleSwitch from "../index/toggleSwitch"
 import { User } from "@prisma/client"
 import { useRouter } from 'next/router'
+import SelectMenu from "../index/selectMenu"
 
 
 function shuffleArray(array) {
@@ -54,7 +55,8 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
   return (
     <div className="w-screen flex flex-col items-center" id="player-directory" data-testid="player-directory-div">
       <div className="flex flex-col w-full items-center">
-         <select 
+        <SelectMenu tickSelected={true} selectedVal={selectedInstrument} values={instrumentArr.map(i => ({val: i}))} handleSelect={val => {setSelectedInstrument(val); setPageTitle(val); setSortedList(false)}}  />
+         {/* <select 
           value={selectedInstrument} 
           onChange={e => {setSelectedInstrument(e.target.value); setPageTitle(e.target.value); setSortedList(false)}} 
           className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
@@ -68,7 +70,7 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
               {i}
             </option>
           ))}
-        </select>
+        </select> */}
       {selectedInstrument !== "" && <ToggleSwitch label="Alphabetical" toggled={sortedList} setToggled={() => setSortedList(!sortedList)} />}
       </div>
         {selectedInstrument === ""
