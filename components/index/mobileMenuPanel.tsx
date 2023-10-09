@@ -18,7 +18,7 @@ export default function MobileMenuPanel () {
       <Link href="/directory" data-testid="directory-link" className="w-full h-full flex items-center justify-center text-3xl active:bg-zinc-50">
         <FiUsers />
       </Link>
-      <Link href="/settings" data-testid="user-account-link" className="w-full h-full flex items-center justify-center text-3xl active:bg-zinc-50">
+      <Link href="/account" data-testid="user-account-link" className="w-full h-full flex items-center justify-center text-3xl active:bg-zinc-50">
         <FiMoreHorizontal />
       </Link>
     </div>

@@ -5,7 +5,9 @@ import { landingMenuItems } from "./landingPage"
 import Link from "next/link"
 
 export const landingMenu: string[] = ["Features", "Testimonials", "Pricing", "Contact"]
-export const sessionMenu: string[] = ["About", "Your Account", "Contact", "Sign Out"]
+export const sessionMenu: {
+  name: string, link: string
+}[] = [{name: "About", link: "/"}, {name: "Your Account", link: "/account"}, {name: "Contact", link: "/contact"}, {name: "Sign Out", link: ""}]
 
 export const socialMedia: {
   key: number, 
@@ -42,13 +44,17 @@ export default function LandingFooter(props: LandingFooterProps) {
             <Link href={i.link} key={i.id} className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light">
               {i.name}
             </Link>))
-      : sessionMenu.map((i: string) => (
-        <button onClick={() => (
-          i === "Sign Out" 
-          && signOut()
-        )} key={i} className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light">
-          {i}
-        </button>))
+      : sessionMenu.map((i: {name: string, link: string}) => (
+        i.name === "Sign Out" 
+        ? <button onClick={() => (
+          signOut()
+        )} key={i.name} className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light">
+          {i.name}
+        </button>
+        : <Link key={i.name} className="hover:bg-slate-100 text-slate-800 p-1 mx-4 rounded text-sm font-light" href={i.link}>
+          {i.name}
+          </Link>
+        ))
             }
       </div>
       <div className="flex flex-row text-xl">
