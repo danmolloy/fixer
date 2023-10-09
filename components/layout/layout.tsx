@@ -11,6 +11,7 @@ import MobileMenuPanel from "../index/mobileMenuPanel";
 import { EventWithCalls } from "../upcomingEvents/eventsIndex";
 import Banner from "./banner";
 import useSWR from "swr";
+import SettingsIndex from "../settings/settings";
 
 
 export type LayoutProps = {
@@ -23,10 +24,15 @@ const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json(
 export default function Layout(props: LayoutProps) {
   const { children, pageTitle } = props
   const { data: session, status } = useSession()
-  const { data, error, isLoading } = useSWR('/api/index/getUserData', fetcher)
+  const { data, mutate, error, isLoading } = useSWR('/api/index/getUserData', fetcher)
 
   const [showMenu, setShowMenu] = useState(false)
   const [reducedHeader, setReducedHeader] = useState(false)
+
+/*   const profileIncomplete = data 
+  && data?.user.email === null 
+  || session?.user.instrument === null 
+  || session?.user.name === null  */
 
 if (status === "loading"|| isLoading) {
     return (
@@ -47,6 +53,19 @@ if (status === "loading"|| isLoading) {
         <p>Error</p>
         </div>
     </div>
+    )
+  }
+
+
+  if (data?.email === null || data?.instrument === null || data?.name === null || data?.mobileNumber === null || data?.mobileNumber.length === 0) {
+    return (
+      <div className="items-center min-h-screen w-screen flex flex-col justify-between font-nunito " data-testid="layout-div">
+        <Header  reducedHeader={reducedHeader} setReducedHeader={(arg) => setReducedHeader(arg)} setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={data && data.playerCalls.filter(i => i.accepted === null).length > 0 ? true: false}/>
+        <div className="mt-32 w-full flex justify-center">
+        <SettingsIndex missingInfo={true} mutateData={() => mutate()} />
+        </div>
+        <LandingFooter session={session ? true : false}/>
+      </div>
     )
   }
   

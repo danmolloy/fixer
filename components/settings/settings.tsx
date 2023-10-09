@@ -7,8 +7,9 @@ import axios from "axios";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
-export default function SettingsIndex() {
+export default function SettingsIndex(props: {missingInfo?: boolean, mutateData?: () => void}) {
   const { data, mutate, error, isLoading } = useSWR(`/api/user/getUserDetails`, fetcher)
+  const { missingInfo, mutateData } = props;
 
   if (isLoading) {
     return (
@@ -19,7 +20,10 @@ export default function SettingsIndex() {
   return (
     <div className="sm:border sm:shadow-sm p-1 sm:p-2 mb-4 rounded flex flex-col w-full md:w-3/4 ">
      <div>
+      {missingInfo 
+      && <h2 className="p-2 text-center text-lg">We just need some more information from you.</h2>}
      <DetailsDiv 
+      mutateData={() => mutateData()}
       updateData={() => mutate()}
       schemaValue={Yup.string().required("Name required")}
       inputType="text"
@@ -30,6 +34,7 @@ export default function SettingsIndex() {
       userId={data.id}
       value={data.name} />
       <DetailsDiv 
+        mutateData={() => mutateData()}
         updateData={() => mutate()}
         schemaValue={Yup.string().email("Invalid Email").required("Email required")}
         inputType="email"
@@ -41,8 +46,9 @@ export default function SettingsIndex() {
         userId={data.id}
         value={data.email} />
       <DetailsDiv 
+        mutateData={() => mutateData()}
         updateData={() => mutate()}
-        schemaValue={Yup.number().required("Phone number required")}
+        schemaValue={Yup.number()}
         inputType="number"
         id="mobile"
         displayTitle="Mobile"
@@ -50,7 +56,8 @@ export default function SettingsIndex() {
         className=""
         userId={data.id}
         value={data.mobileNumber} />
-        <DetailsDiv 
+        <DetailsDiv
+          mutateData={() => mutateData()}
         updateData={() => mutate()}
         schemaValue={Yup.string().required("Instrument required")}
         inputType="text"

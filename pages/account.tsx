@@ -16,7 +16,7 @@ export default function AccountPage() {
 
   return (
     <Layout pageTitle="Your Account">
-      <SettingsIndex />
+      <SettingsIndex mutateData={() => {}} />
     </Layout>
   )
 }

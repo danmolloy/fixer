@@ -17,10 +17,11 @@ export type DetailsDivProps = {
   userId: string
   inputType: string
   schemaValue: RequiredStringSchema<string, AnyObject>|RequiredNumberSchema<number, AnyObject>
+  mutateData?: () => void
 }
 
 export default function DetailsDiv(props: DetailsDivProps) {
-  const { updateData, displayTitle, id, className, title, value, userId, inputType } = props
+  const { updateData, displayTitle, id, className, title, value, userId, inputType, mutateData } = props
   const [editData, setEditData] = useState(false)
 
   const handleUpdate = async (args: {data: {[x: string]: string}, userId: string}) => {
@@ -28,7 +29,8 @@ export default function DetailsDiv(props: DetailsDivProps) {
       .then(() => {
         updateData()
       }).then(async() => {
-        setTimeout(() => setEditData(false), 250)
+        setTimeout(() => {setEditData(false); mutateData()}, 250)
+
       })
   }
 
@@ -36,7 +38,10 @@ export default function DetailsDiv(props: DetailsDivProps) {
   return (
     <div className={`${className} flex flex-col  p-4 w-full lg:justify-evenly `} data-testid={id}>
       <div className="text-slate-600 text-sm lg:w-full flex flex-row justify-between">
-      <p>{  displayTitle ? displayTitle : title}</p>
+      <div className="flex flex-row">
+        <p>{  displayTitle ? displayTitle : title}</p>
+        <p className="ml-4 text-red-500">{value === null || value.length < 1 && "No data"}</p>
+      </div>
       <button onClick={() => setEditData(!editData)} className="hover:underline">
         Edit
       </button>
