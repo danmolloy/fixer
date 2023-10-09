@@ -14,14 +14,9 @@ const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json(
 export default function Home() {
   const router = useRouter()
   const { data: session, status } = useSession()
-  const { data, error, /* isLoading */ } = useSWR('/api/index/getUserData', fetcher)
+  //const { data, error, /* isLoading */ } = useSWR('/api/index/getUserData', fetcher)
 
-  const profileIncomplete = session 
-  && session?.user.email === null 
-  || session?.user.instrument === null 
-  || session?.user.name === null 
-
-  const handleSubmit = async (vals) => {
+  /* const handleSubmit = async (vals) => {
     console.log("Hello from handleSubmit");
     return axios.post('/api/user/edit', vals)
           .then(response => {
@@ -30,7 +25,7 @@ export default function Home() {
           .catch(function (error) {
             console.log(error);
           });
-  }
+  } */
 
 
   if (!session) {
@@ -40,12 +35,6 @@ export default function Home() {
       </Layout>
     )}
 
-  if (profileIncomplete) {
-    return ( 
-      <Layout>
-        <UserInfoForm userSession={session} handleSubmit={(arg) => handleSubmit(arg)}/>
-      </Layout>
-  )}
 
   return (
     <Layout pageTitle="Calendar">

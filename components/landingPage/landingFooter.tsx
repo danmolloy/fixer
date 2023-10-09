@@ -7,7 +7,7 @@ import Link from "next/link"
 export const landingMenu: string[] = ["Features", "Testimonials", "Pricing", "Contact"]
 export const sessionMenu: {
   name: string, link: string
-}[] = [{name: "About", link: "/"}, {name: "Your Account", link: "/account"}, {name: "Contact", link: "/contact"}, {name: "Sign Out", link: ""}]
+}[] = [{name: "About", link: "/"}, {name: "Your Account", link: "/account"}, {name: "Contact", link: "/contact"}, {name: "FAQ", link: "/faq"}, {name: "Sign Out", link: ""}]
 
 export const socialMedia: {
   key: number, 
