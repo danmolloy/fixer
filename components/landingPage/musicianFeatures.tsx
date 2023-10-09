@@ -5,7 +5,7 @@ import { BsFillPersonCheckFill } from "react-icons/bs"
 import { FiUserPlus } from 'react-icons/fi'
 
 
-const musicianFeatureList: {key: number, title: string, blurb: string, icon: React.ReactNode}[] = [
+export const musicianFeatureList: {key: number, title: string, blurb: string, icon: React.ReactNode}[] = [
   {
     key: 0,
     title: "An intuitive calendar interface",
