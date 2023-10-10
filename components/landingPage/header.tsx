@@ -17,16 +17,16 @@ export type LandingHeaderProps = {
 export default function LandingHeader(props: LandingHeaderProps) {
   const { setShowMenu, showMenu } = props;
   return (
-    <div className={showMenu === true ? "blur h-24 flex flex-row items-center justify-between" : "h-24 flex flex-row items-center justify-between"} data-testid="landing-header">
+    <div className={showMenu === true ? "blur h-24 flex flex-row items-center justify-between border-b" : "border-b h-24 flex flex-row items-center justify-between"} data-testid="landing-header">
           <Link href="/" className={' p-2 text-2xl sm:mx-10  '}>
             Gig<span className="text-blue-600 font-semibold">Fix</span>
           </Link>
-          <div className="hidden md:flex " >
+          {/* <div className="hidden md:flex " >
             {landingMenuItems.filter(i => i.name !== "Sign in").map(i => (
             <Link href={i.link} key={i.id} className="hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
               {i.name}
             </Link>))}
-          </div>
+          </div> */}
           <div className="flex flex-row items-center sm:mx-4">
             <button onClick={() => signIn("github")} className="hidden md:flex  hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
                 Sign in

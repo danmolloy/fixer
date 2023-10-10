@@ -4,7 +4,7 @@ export default function ContactInfo() {
   return (
     <div className="bg-slate-50 px-4 py-12">
       <h1 className="font-bold ">Get in touch</h1>
-      <p className="py-4 ">
+      <p className="py-4 md:w-2/3">
       Proin volutpat consequat porttitor cras nullam gravida at. Orci molestie a eu arcu. Sed ut tincidunt integer elementum id sem. Arcu sed malesuada et magna.
       </p>
       <div className="flex flex-row items-center my-2">

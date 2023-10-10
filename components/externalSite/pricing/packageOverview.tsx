@@ -39,8 +39,8 @@ export default function PackageOverview() {
           <div className="text-slate-600 text-2xl py-2 md:px-2">
             <AiOutlineTeam />
           </div>
-          <div className="flex flex-col px-4">
-          <p className="text-slate-600"><span className="text-black font-bold">We offer packages for admin teams. </span>Contact us for further information on our group solutions.</p>
+          <div className="flex flex-col px-4 justify-center">
+          <p className="text-slate-600 "><span className="text-black font-bold">We offer packages for admin teams. </span>Contact us for further information on our group solutions.</p>
           </div>
         </div>
     </div>

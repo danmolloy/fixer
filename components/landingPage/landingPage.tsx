@@ -11,17 +11,17 @@ import About from "../index/about"
 export const landingMenuItems: MenuItems = [
   {
     name: "About",
-    link: "/",
+    link: "/about",
     id: "1",
   },
   {
-    name: "Pricing",
-    link: "/",
-    id: "3"
+    name: "FAQ",
+    link: "/faq",
+    id: "2",
   },
   {
     name: "Contact",
-    link: "/",
+    link: "/contact",
     id: "4"
   },
 ] 

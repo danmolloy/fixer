@@ -4,7 +4,7 @@ import { fixerFeatureList } from "../../landingPage/fixerFeatures";
 export default function FixerFeaturesLong() {
   return (
     <div className="">
-      <div className="py-6">
+      <div className="pb-6">
       <p className="text-indigo-600 text-xl">Fix faster</p>
       <h2 className="text-3xl  py-2">Everything you need to book an orchestra</h2>
       {/* <p className="text-slate-600 font-thin md:w-2/3">

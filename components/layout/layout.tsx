@@ -57,10 +57,10 @@ if (status === "loading"|| isLoading) {
   }
 
 
-  if (data?.email === null || data?.instrument === null || data?.name === null || data?.mobileNumber === null || data?.mobileNumber.length === 0) {
+  if (session && data && data?.email === null || data?.instrument === null || data?.name === null || data?.mobileNumber === null) {
     return (
       <div className="items-center min-h-screen w-screen flex flex-col justify-between font-nunito " data-testid="layout-div">
-        <Header  reducedHeader={reducedHeader} setReducedHeader={(arg) => setReducedHeader(arg)} setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={data && data.playerCalls.filter(i => i.accepted === null).length > 0 ? true: false}/>
+        <Header  reducedHeader={reducedHeader} setReducedHeader={(arg) => setReducedHeader(arg)} setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={session && data && data.playerCalls.filter(i => i.accepted === null).length > 0 ? true: false}/>
         <div className="mt-32 w-full flex justify-center">
         <SettingsIndex missingInfo={true} mutateData={() => mutate()} />
         </div>
@@ -71,10 +71,10 @@ if (status === "loading"|| isLoading) {
   
   return (
     <div className="min-h-screen w-screen flex flex-col justify-between font-nunito " data-testid="layout-div">
-      <Header  reducedHeader={reducedHeader} setReducedHeader={(arg) => setReducedHeader(arg)} setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={data && data.playerCalls.filter(i => i.accepted === null).length > 0 ? true: false}/>
+      <Header  reducedHeader={reducedHeader} setReducedHeader={(arg) => setReducedHeader(arg)} setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={session && data && data.playerCalls.filter(i => i.accepted === null).length > 0 ? true: false}/>
       <div className="mt-20">
       {showMenu && <Menu signedIn={session ? true : false} setShowMenu={() => setShowMenu(false)} menuItems={session ? menuItems : landingMenuItems}/>}
-      {data && data.playerCalls.filter(i => i.accepted === null).length > 0 && <Banner notificationCount={data?.playerCalls.filter(i => i.accepted === null).length} />}
+      {session && data && data.playerCalls.filter(i => i.accepted === null).length > 0 && <Banner notificationCount={session && data?.playerCalls.filter(i => i.accepted === null).length} />}
       <div className={showMenu ? "w-full p-3 blur text-center":"w-full p-3 text-center"}>
         <h1 className="ml-2 tex-center text-3xl ">{pageTitle}</h1>
       </div>
