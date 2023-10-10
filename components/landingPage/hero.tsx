@@ -4,8 +4,9 @@ import React from "react"
 
 export default function Hero() {
   return (
-    <div className=" flex flex-col items-center text-center px-1 md:px-10 py-12 md:py-32" data-testid="hero-div">
-      <h1 className="text-4xl md:text-6xl py-4">Communication{" "}
+    <div className=" h-[60vh] flex flex-col items-center text-center bg-gradient-to-b from-white via-blue-500 to-white  " data-testid="hero-div">
+      <div className="backdrop-blur-xl bg-white/80 h-full ">
+      <h1 className="text-4xl md:text-6xl py-4 px-12">Communication{" "}
         <span className="text-blue-600">
           made simple
         </span>{" "}
@@ -21,6 +22,7 @@ export default function Hero() {
         <Link href="/" className="m-2 border hover:border-slate-300 text-black rounded-full py-2 px-4 text-sm ">
           Learn more
         </Link>
+      </div>
       </div>
     </div>
   )
