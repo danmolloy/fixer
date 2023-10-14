@@ -1,7 +1,19 @@
-import { PlayerCall } from "@prisma/client"
+import { PlayerCall, Prisma } from "@prisma/client"
 import prisma from "../../../client"
-import { EventInstrumentWithMusicians, EventInstrumentWithMusiciansAndEvent, sendMessage } from "./recieveCalls"
-import { OfferMessageArg, getOfferMsgBody } from "./messages"
+import { OfferMessageArg, getOfferMsgBody, sendMessage } from "./messages"
+
+export type EventInstrumentWithMusiciansAndEvent = Prisma.EventInstrumentGetPayload<{
+  include: {
+    musicians: true,
+    event: true
+  }
+}>
+
+export type EventInstrumentWithMusicians = Prisma.EventInstrumentGetPayload<{
+  include: {
+    musicians: true
+  }
+}>
 
 export const updatePlayerCall = async (playerCallId: number, data: {}): Promise<PlayerCall> => {
   const updatedPlayerCall = await prisma.playerCall.update({
@@ -116,12 +128,12 @@ export const makeOffers = async (instrumentId: number): Promise<any> => {
   let numOnListYetToBook = eventInstrument.musicians.filter(i => i.recieved === false && i.bookingOrAvailability === "Booking")
 
   if (numToBook === 0) {
-    return sendMessage(`${eventInstrument.instrumentName} is fixed for Event ${eventInstrument.event.eventTitle}.`)
+    return sendMessage(`${eventInstrument.instrumentName} is fixed for Event ${eventInstrument.event.eventTitle}.`, process.env.PHONE)
   }
 
   for (let i = 0; i < numToBook; i++) {
     if (i >= numOnListYetToBook.length) {
-      return sendMessage(`You need to add more ${eventInstrument.instrumentName} to Event ${eventInstrument.event.eventTitle}.`)
+      return sendMessage(`You need to add more ${eventInstrument.instrumentName} to Event ${eventInstrument.event.eventTitle}.`, process.env.PHONE)
     } 
     let data = {
       recieved: true
@@ -129,7 +141,7 @@ export const makeOffers = async (instrumentId: number): Promise<any> => {
     let playerId = numOnListYetToBook[i].id
     await updatePlayerCall(playerId, data)
     let msgBody = getOfferMsgBody(eventInstrument, playerId)
-    sendMessage(msgBody)
+    sendMessage(msgBody, process.env.PHONE)
   }
 
 }
@@ -144,6 +156,6 @@ export const availabilityCheck = async (instrumentId: number): Promise<any> => {
     let playerId = playersToCheck[i].id
     await updatePlayerCall(playerId, data)
     let msgBody = getOfferMsgBody(eventInstrument, playerId)
-    sendMessage(msgBody)
+    sendMessage(msgBody, process.env.PHONE)
   }
 }
