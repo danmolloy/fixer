@@ -12,7 +12,7 @@ import { EventWithCalls } from "../upcomingEvents/eventsIndex";
 import Banner from "./banner";
 import useSWR from "swr";
 import SettingsIndex from "../settings/settings";
-import { redirect } from 'next/navigation'
+import { useRouter } from "next/router";
 
 
 
@@ -27,6 +27,8 @@ export default function Layout(props: LayoutProps) {
   const { children, pageTitle } = props
   const { data: session, status } = useSession()
   const { data, mutate, error, isLoading } = useSWR('/api/index/getUserData', fetcher)
+  const router = useRouter()
+
 
 
   const [showMenu, setShowMenu] = useState(false)
@@ -48,9 +50,6 @@ if (status === "loading"|| isLoading) {
   )
   }
 
-if (!session) {
-  redirect("/")
-}
 
   if (error) {
     return (

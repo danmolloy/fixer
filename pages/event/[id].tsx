@@ -7,6 +7,9 @@ import IsLoadingEventIndex from "../../components/event/isLoadingEventIndex";
 import { useEffect, useState } from "react";
 import IsLoadingInstrumentTile from "../../components/fixing/isLoadingTile";
 import { EventWithCalls } from "../../components/upcomingEvents/eventsIndex";
+import Loading from "../../components/index/loading";
+import { useSession } from "next-auth/react";
+import LandingPage from "../../components/landingPage/landingPage";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -15,6 +18,7 @@ export default function Event({props}) {
   const { id } = router.query;
   const { data, mutate, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
   const [lastUpdated, setLastUpdated] = useState<null|Date>(null)
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     setLastUpdated(new Date())
@@ -25,6 +29,18 @@ export default function Event({props}) {
     setLastUpdated(new Date());
   }
 
+  if (isLoading) {
+    return <Loading />
+  }
+
+
+
+  if (!session) {
+    return (
+      <Layout>
+        <LandingPage />
+      </Layout>
+    )}
 
   return (
     <Layout pageTitle={data ? data.eventTitle : "Event"}>

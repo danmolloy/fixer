@@ -3,6 +3,8 @@ import PlayerDirectory from "../../components/directory/playerDirectory";
 import prisma from "../../client";
 import useSWR from "swr";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import LandingPage from "../../components/landingPage/landingPage";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -10,11 +12,17 @@ const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json(
 export default function Directory() {
   const { data, error, /* isLoading */ } = useSWR('/api/user/findAll', fetcher)
   const [pageTitle, setPageTitle] = useState<string>("Directory")
+  const { data: session, status } = useSession()
 
   if (error) return <div>failed to load</div>
   //if (isLoading) return <div>loading...</div>
 
-
+  if (!session) {
+    return (
+      <Layout>
+        <LandingPage />
+      </Layout>
+    )}
 
   return (
     <Layout pageTitle={pageTitle}>

@@ -7,6 +7,7 @@ import CreateEventForm from '../../../components/createEvent/createEventForm';
 import useSWR from "swr";
 import { Call, Event } from '@prisma/client';
 import { EventWithCalls } from '../../../components/event';
+import LandingPage from '../../../components/landingPage/landingPage';
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -17,9 +18,18 @@ export default function EditEvent(props) {
   const { data: session } = useSession()
   
 
-  if (isLoading || !session) {
+  if (isLoading) {
     return <p>Loading..</p>
   }
+  
+  if (!session) {
+    return (
+      <Layout>
+        <LandingPage />
+      </Layout>
+    )
+  }
+
 
   const handleSubmit = async(vals: EventWithCalls) => {
 

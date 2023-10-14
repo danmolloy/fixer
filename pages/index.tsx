@@ -28,12 +28,12 @@ export default function Home() {
   } */
 
 
- /*  if (!session) {
+  if (!session) {
     return (
       <Layout>
         <LandingPage />
       </Layout>
-    )} */
+    )}
 
 
   return (
