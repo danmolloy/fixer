@@ -1,4 +1,4 @@
-import { PlayerCall, Prisma } from "@prisma/client"
+import { EventInstrument, PlayerCall, Prisma } from "@prisma/client"
 import prisma from "../../../client"
 import { OfferMessageArg, getOfferMsgBody, sendMessage } from "./messages"
 
@@ -103,16 +103,19 @@ export const releaseDeppers = async (instrumentId: number) => {
   const eventInstrument = await getEventInstrumentAndMusicians(instrumentId)
   let numToBook = getNumToBook(eventInstrument)
   let deppers = eventInstrument.musicians.filter(i => i.status === "DEP OUT")
-  if (numToBook < 0 && deppers.length > 0) {
-    for (let i = 0; i < Math.abs(numToBook) && i < deppers.length; i ++) {
+  console.log(`Deppers: ${deppers.length}`)
+  if (numToBook <= 0 && deppers.length > 0) {
+    for (let i = 0; i < deppers.length; i ++) {
       let data = {
         accepted: false,
         status: "RELEASED"
       }
       await updatePlayerCall(deppers[i].id, data)
+      let msgBody = `${eventInstrument.event.fixerName} has released you from ${eventInstrument.event.eventTitle}.`
+      sendMessage(msgBody, process.env.PHONE)
     }
   }
-  return 
+  
 }
 
 
@@ -127,9 +130,6 @@ export const makeOffers = async (instrumentId: number): Promise<any> => {
   let numToBook = getNumToBook(eventInstrument)
   let numOnListYetToBook = eventInstrument.musicians.filter(i => i.recieved === false && i.bookingOrAvailability === "Booking")
 
-  if (numToBook === 0) {
-    return sendMessage(`${eventInstrument.instrumentName} is fixed for Event ${eventInstrument.event.eventTitle}.`, process.env.PHONE)
-  }
 
   for (let i = 0; i < numToBook; i++) {
     if (i >= numOnListYetToBook.length) {
@@ -158,4 +158,35 @@ export const availabilityCheck = async (instrumentId: number): Promise<any> => {
     let msgBody = getOfferMsgBody(eventInstrument, playerId)
     sendMessage(msgBody, process.env.PHONE)
   }
+}
+
+export type CreatePlayerCallData = {
+  musicianId: string;
+  eventInstrumentId: number;
+  playerMessage: string;
+  offerExpiry: number;
+  bookingOrAvailability: "Booking" | "Availability";
+  calls: {
+      connect: {
+          id: number;
+      }[];
+  };
+}
+
+export const createPlayerCall = async (data: CreatePlayerCallData): Promise<PlayerCall> => {
+  return await prisma.playerCall.create({
+    data
+  })
+}
+
+export const updateEventInstrument = async(eventInstrumentId: number, data: {}): Promise<EventInstrumentWithMusicians> => {
+  return await prisma.eventInstrument.update({
+    where: {
+      id: eventInstrumentId
+    },
+    data: data,
+    include: {
+      musicians: true
+    }
+  })
 }
