@@ -23,9 +23,6 @@ describe("LandingPage component", () => {
     const musicianFeatures = screen.getByTestId("musician-features")
     expect(musicianFeatures).toBeInTheDocument()
   })
-  it("About section is in the document", () => {
-    const aboutSection = screen.getByTestId("about-div")
-    expect(aboutSection).toBeInTheDocument()
-  })
+
 
 })

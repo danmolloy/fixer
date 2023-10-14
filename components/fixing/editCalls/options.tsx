@@ -59,7 +59,7 @@ export default function EditCallsOptions(props: EditCallsOptionsProps) {
 }
               {bookingOrAvailability === "Availability"
               && <label className="flex flex-row p-2">
-                <input type="checkbox" className="mx-2"/>
+                <input data-testid="strictly-tied-toggle" type="checkbox" className="mx-2"/>
                 Calls are strictly tied
                 </label>
 

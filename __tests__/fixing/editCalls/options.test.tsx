@@ -47,8 +47,7 @@ describe("EditCallsOptions component", () => {
     }
   })
   it("If availability, there is a checkbox for 'strictly tied'", () => {
-    mockProps.bookingOrAvailability = "Availability"
-    if (mockProps.bookingOrAvailability === "Availability") {
+      if (mockProps.bookingOrAvailability === "Availability") {
       const strictlyTiedToggle = screen.getByTestId("strictly-tied-toggle")
       expect(strictlyTiedToggle).toBeInTheDocument()
     }

@@ -22,7 +22,7 @@ describe("Header component", () => {
   })
   it("Menu items are in the document", () => {
     const headerDiv = screen.getByTestId("landing-header")
-    expect(headerDiv.textContent).toMatch(/GigFixAboutPricingContactSign inGet started/)
+    expect(headerDiv.textContent).toMatch(/GigFixSign inGet started/)
   })
   it("Sign in button is in the document", () => {
     const signInBtn = screen.getByText("Sign in")

@@ -22,39 +22,34 @@ export type CallWithEvent = Prisma.CallGetPayload<{
   }
 }>
 
-export type EventsIndexProps = {
-  session: {
-    user: User
-    expires: string
-    userData?: {
-      id: string
-      name: string
-      email: string
-      emailVerified: Date
-      image: string
-      instrument: string
-      profileInfo: null|string
-      isFixer?: null|boolean
-      events: EventWithCalls[]
-      calls: CallWithEvent[]
+export type UserWithEventsAndCalls = Prisma.UserGetPayload<{
+  include: {
+    calls: {
+      include: {
+        event: true
+      },
+    },
+    events: {
+      include: {
+        calls: true
+      }
     }
   }
+}>
+
+
+
+export type EventsIndexProps = {
+  data: UserWithEventsAndCalls
 }
 
-const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
-export default function EventsIndex(/* props: EventsIndexProps */) {
-  //const { session } = props
+export default function EventsIndex(props: EventsIndexProps ) {
+  const { data } = props
   const [selectedDate, setSelectedDate] = useState(moment())
   const [dateRange, setDateRange] = useState<undefined|number|string>(undefined)
-  const { data, error, /* isLoading */ } = useSWR('/api/calendar/getCalendar', fetcher)
- 
-  if (error) return <div>failed to load</div>
+  //const { data, error, /* isLoading */ } = useSWR('/api/calendar/getCalendar', fetcher)
 
-
- if (!data) {
-    return <p>Loading..</p>
-  }
 
   return (
       <div data-testid="events-index-div" className="w-screen p-2 flex flex-col md:flex-row-reverse items-center md:items-start min-h-screen sm:min-h-0">

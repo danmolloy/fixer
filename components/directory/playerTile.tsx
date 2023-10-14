@@ -27,7 +27,7 @@ export default function PlayerTile(props: PlayerTileProps) {
           {player.name}
         </h3>
         <p className='text-slate-500'>{player.instrument}</p>
-        <div title={player.name} data-testId="contact-info" className={`${!showContactInfo ? "hidden" : "h-auto"}  `}>
+        <div title={player.name} data-testid="contact-info" className={`${!showContactInfo ? "hidden" : "h-auto"}  `}>
           <p>e: violin@viola.com</p>
           <p>p: 07479 016 386</p>
           <p>WhatsApp preferred</p>

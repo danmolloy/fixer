@@ -3,23 +3,12 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import EventsIndex, { EventsIndexProps } from "../../components/upcomingEvents/eventsIndex";
 import moment from "moment";
-import { mockUser } from "../../__mocks__/models/user";
-import { mockEventWithCalls } from "../../__mocks__/models/event";
-import { mockCallWithEvent } from "../../__mocks__/models/call";
-
-
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve(
-      
-      )
-  })
-) as jest.Mock;
-
+import { mockUserWithCallsAndEvents } from "../../__mocks__/models/user";
 
 describe("EventsIndex component", () => {
   beforeEach(() => {
-    render(<EventsIndex />)
+    const mockData = {data: {...mockUserWithCallsAndEvents}}
+    render(<EventsIndex {...mockData}/>)
   })
   it("Renders", () => {
     const eventsIndex = screen.getByTestId("events-index-div")

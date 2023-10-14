@@ -16,7 +16,7 @@ describe("Landing Footer component", () => {
   it("Landing Menu in document if landingPage === true", () => {
     if(landingPage === true) {
       const footerDiv = screen.getByTestId("landing-footer")
-      expect(footerDiv.textContent).toMatch(/AboutPricingContact2023 Gig Fix Limited/)
+      expect(footerDiv.textContent).toMatch(/AboutFAQContact2023 Gig Fix Limited/)
     }
   })
   it("Session Menu in the document if landingPage === false", () => {

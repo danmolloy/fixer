@@ -14,7 +14,7 @@ const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json(
 export default function Home() {
   const router = useRouter()
   const { data: session, status } = useSession()
-  //const { data, error, /* isLoading */ } = useSWR('/api/index/getUserData', fetcher)
+  const { data, error, /* isLoading */ } = useSWR('/api/calendar/getCalendar', fetcher)
 
   /* const handleSubmit = async (vals) => {
     console.log("Hello from handleSubmit");
@@ -28,17 +28,17 @@ export default function Home() {
   } */
 
 
-  if (!session) {
+ /*  if (!session) {
     return (
       <Layout>
         <LandingPage />
       </Layout>
-    )}
+    )} */
 
 
   return (
     <Layout pageTitle="Calendar">
-      <EventsIndex />
+      <EventsIndex data={data}/>
     </Layout>
   )
 }
