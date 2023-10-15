@@ -12,7 +12,10 @@ export default function NotificationTile(props) {
 
   const handleSubmit = (accepted: boolean, callId: number, eventInstrumentId: number) => {
     setUpdateStatus("updating")
-    axios.post('/api/notifications/accept', {accepted, callId, eventInstrumentId}).then(() => {
+    const data = {
+      accepted: accepted
+    }
+    axios.post('/api/fixing/updatePlayer', {playerCallId: callId, data: data}).then(() => {
       mutate();
       setUpdateStatus("idle");
     }).catch(() => {
