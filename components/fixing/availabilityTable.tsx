@@ -55,8 +55,8 @@ export type AvailabilityTableProps = {
   eventCalls: Call[]
   instrumentSection: EventInstrumentWithMusiciansWithMusician
   removePlayer: (callId: number) => Promise<void>
-  offerOrDecline: (offerOrDecline: boolean, callId: number, musicianEmail: string) => Promise<void>
   preview?: boolean
+  updatePlayer: (playerCallId: number, data: {}) => void
 }
 
 interface tableObjHeader {
@@ -132,7 +132,7 @@ const sendMessage = (musicianName, preview) => {
 
 
 export default function AvailabilityTable(props: AvailabilityTableProps) {
-  const {eventCalls, instrumentSection, removePlayer, offerOrDecline, preview } = props;
+  const {eventCalls, instrumentSection, removePlayer, preview, updatePlayer } = props;
   const [menuId, setMenuId] = useState(null)
 
   let filledTable = createTable(eventCalls, instrumentSection)
@@ -141,12 +141,12 @@ export default function AvailabilityTable(props: AvailabilityTableProps) {
     <div data-testid="availability-table-div" className="flex flex-col mx-2">
       {menuId !== null
       && <AvailabilityRowMenu 
+      updatePlayer={(playerCallId, data) => updatePlayer(playerCallId, data)}
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
       setShowMenu={() => setMenuId(null)}
       removePlayer={(callId) => {removePlayer(callId); setMenuId(null)}}
       sendMessage={(name) => sendMessage(name, preview)}
-      pokePlayer={(name) => pokePlayer(name, preview)}
-      offerOrDecline={(offerOrDeclineBool, callId, musicianEmail) => {offerOrDecline(offerOrDeclineBool, callId, musicianEmail); setMenuId(null)}}/>}
+      pokePlayer={(name) => pokePlayer(name, preview)}/>}
       <TableContainer>
         <Table>
           <TableHead >

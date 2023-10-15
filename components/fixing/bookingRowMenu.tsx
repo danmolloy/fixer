@@ -19,15 +19,14 @@ export type BookingTableRowMenuProps = {
   removePlayer: (callId: number) => void
   sendMessage: (name: string) => void
   pokePlayer: (name: string) => void
-  fixOrUnfix: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => void
-  replace: (playerCallId) => void
   preview?: boolean
+  updatePlayer: (playerCallId: number, data: {}) => void
 }
 
 
 
 export default function BookingRowMenu(props: BookingTableRowMenuProps) {
-  const { replace, musician, setShowMenu, removePlayer, sendMessage, pokePlayer, fixOrUnfix, preview } = props;
+  const { updatePlayer, musician, setShowMenu, removePlayer, sendMessage, pokePlayer, preview } = props;
 
   return (
     <MenuShell testId="booking-row-menu" title={musician.name} setShowMenu={() => setShowMenu()}>
@@ -57,15 +56,15 @@ export default function BookingRowMenu(props: BookingTableRowMenuProps) {
             Send Message
         </button>
         {!musician.accepted 
-      && <button data-testid="fix-btn" onClick={e => {e.preventDefault(); fixOrUnfix(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
+      && <button data-testid="fix-btn" onClick={e => {e.preventDefault(); updatePlayer(musician.id, {recieved: true, accepted: true})}} className="p-2 hover:bg-zinc-50 w-full">
         Fix Player
       </button>}
       {musician.accepted 
-      && <button data-testid="unfix-btn" onClick={e => {e.preventDefault(); fixOrUnfix(!musician.accepted, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
+      && <button data-testid="unfix-btn" onClick={e => {e.preventDefault(); updatePlayer(musician.id, {accepted: false, status: "RELEASED"})}} className="p-2 hover:bg-zinc-50 w-full">
         Unfix Player
       </button>}
       {musician.accepted 
-      && <button data-testid="replace-btn" onClick={e => {e.preventDefault(); replace(musician.id)}} className="p-2 hover:bg-zinc-50 w-full">
+      && <button data-testid="replace-btn" onClick={e => {e.preventDefault(); updatePlayer(musician.id, {status: "DEP OUT"})}} className="p-2 hover:bg-zinc-50 w-full">
         Replace
       </button>}
       {musician.recieved && musician.accepted === null

@@ -42,72 +42,32 @@ export default function ActiveCalls(props: ActiveCallsProps) {
   });
   }
 
-  const fixOrUnfixPlayer = (fixOrUnfix: boolean, callId: number, musicianEmail: string): Promise<void> => {
-    const reqBody = {
-      playerCallId: callId,
-      musicianEmail: musicianEmail,
-      remove: false,
-      fixOrUnfix: fixOrUnfix
-    }
-    if (preview === true) {
-      return;
-    }
-    if (fixOrUnfix === true) {
-      return axios.post("/api/fixing/fixPlayer", reqBody).then(() => {
-        refreshProps();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    } else {
-        return axios.post("/api/fixing/unfixPlayer", reqBody).then(() => {
-          refreshProps();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+
+  const updatePlayer = async (playerCallId: number, data: {}): Promise<void> => {
+    const reqBody = {playerCallId: playerCallId, data: data}
+    return await axios.post("/api/fixing/updatePlayerCall", reqBody).then(() => {
+      refreshProps();
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 
-  const offerOrDecline = (offerOrDecline: boolean, callId: number, musicianEmail: string): Promise<void> => {
-    const reqBody = {
-      playerCallId: callId,
-    }
-    if (preview === true) {
-      return;
-    }
-    if (offerOrDecline === true) {
-      return axios.post("/api/fixing/offer", reqBody).then(() => {
-        refreshProps();
-        setSelectedTab("Booking")
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    } /* else {
-        return axios.post("/api/fixing/declinePlayer", reqBody).then(() => {
-          refreshProps();
-        })
-        .catch(function (error) {
-          console.log(error);
-        }); 
-    } */
-  }
+  
 
 
   return (
     <div className="active-calls-div" data-testid={`active-calls-div`}>
       {bookingOrAvailability === "Booking" 
       ? <BookingTable 
+        updatePlayer={(playerCallId, data) => updatePlayer(playerCallId, data)}
         preview={preview}
         removePlayer={(callId) => removePlayer(callId)} 
-        fixOrUnfixPlayer={(fixOrUnfix, callId, musicianEmail) => fixOrUnfixPlayer(fixOrUnfix, callId, musicianEmail)}
         eventCalls={eventCalls} 
         instrumentSection={instrumentSection}/>
       : <AvailabilityTable
-      preview={preview} 
+        updatePlayer={(playerCallId, data) => updatePlayer(playerCallId, data)}
+        preview={preview} 
         removePlayer={(callId) => removePlayer(callId)} 
-        offerOrDecline={(offerOrDeclineBool, callId, musicianEmail) => offerOrDecline(offerOrDeclineBool, callId, musicianEmail)}
         eventCalls={eventCalls} 
         instrumentSection={instrumentSection}/>}
     </div>

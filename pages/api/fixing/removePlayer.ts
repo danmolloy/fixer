@@ -1,12 +1,14 @@
 import prisma from '../../../client'
+import { handleFixing } from './bookingFunctions'
 
 const removePlayerCall = async (playerCallId) => {
 
-  return await prisma.playerCall.delete({
+  await prisma.playerCall.delete({
     where: {
       id: playerCallId
     }
   })
+  await handleFixing(playerCallId)
 }
 
 

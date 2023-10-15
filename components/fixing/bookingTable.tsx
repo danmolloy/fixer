@@ -15,8 +15,8 @@ export type BookingTableProps = {
   eventCalls: Call[]
   instrumentSection: EventInstrumentWithMusiciansWithMusician
   removePlayer: (callId: number) => Promise<void>
-  fixOrUnfixPlayer: (fixOrUnfix: boolean, callId: number, musicianEmail: string) => Promise<void>
   preview?: boolean
+  updatePlayer: (playerCallId: number, data: {}) => void
 }
 
 
@@ -75,31 +75,23 @@ const sendMessage = (musicianName, preview) => {
 
 
 export default function BookingTable(props: BookingTableProps) {
-  const { eventCalls, instrumentSection, removePlayer, fixOrUnfixPlayer, preview } = props;
+  const { updatePlayer, eventCalls, instrumentSection, removePlayer, preview } = props;
   const [menuId, setMenuId] = useState(null)
 
   let filledTable = createTable(eventCalls, instrumentSection)
 
-  const replacePlayer = (playerCallId, ) => {
-
-    console.log("Hello from replacePlayer")
-    
-    return axios.post("/api/fixing/replace", {playerCallId, eventInstrumentId: instrumentSection.id})
-    
-  }
 
   return (
     <div data-testid="booking-table-div" className="flex flex-col mx-2">
       {menuId !== null
       && <BookingRowMenu 
+      updatePlayer={(playerCallId, data) => updatePlayer(playerCallId, data)}
       preview={preview}
-      replace={(playerCallId) => {replacePlayer(playerCallId); setMenuId(null)}}
       musician={createTable(eventCalls, instrumentSection).find(i => i.id === menuId)}
       setShowMenu={() => setMenuId(null)}
       removePlayer={(callId) => {removePlayer(callId); setMenuId(null)}}
       sendMessage={(name) => sendMessage(name, preview)}
-      pokePlayer={(name) => pokePlayer(name, preview)}
-      fixOrUnfix={(fixingBool, callId, musicianEmail) => {fixOrUnfixPlayer(fixingBool, callId, musicianEmail); setMenuId(null)}}/>}
+      pokePlayer={(name) => pokePlayer(name, preview)}/>}
       <TableContainer>
         <Table>
           <TableHead >

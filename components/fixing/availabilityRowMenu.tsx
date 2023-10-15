@@ -19,14 +19,14 @@ export type TableRowMenuProps = {
   removePlayer: (callId: number) => void
   sendMessage: (name: string) => void
   pokePlayer: (name: string) => void
-  offerOrDecline: (offerOrDecline: boolean, callId: number, musicianEmail: string) => void
   preview?: boolean
+  updatePlayer: (playerCallId: number, data: {}) => void
 }
 
 
 
 export default function AvailabilityRowMenu(props: TableRowMenuProps) {
-  const { musician, setShowMenu, removePlayer, sendMessage, pokePlayer, offerOrDecline, preview } = props;
+  const { updatePlayer, musician, setShowMenu, removePlayer, sendMessage, pokePlayer, preview } = props;
 
   return (
     <MenuShell testId={"availability-row-menu"} title={musician.name} setShowMenu={() => setShowMenu()}>
@@ -54,13 +54,11 @@ export default function AvailabilityRowMenu(props: TableRowMenuProps) {
           }}  className="p-2 hover:bg-zinc-50 w-full">
             Send Message
         </button>
-        <button data-testid="offer-btn" onClick={e => {e.preventDefault(); offerOrDecline(true, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
+        <button data-testid="offer-btn" onClick={e => {e.preventDefault(); updatePlayer(musician.id, {recieved: false, accepted: null, bookingOrAvailability: "Booking"})}} className="p-2 hover:bg-zinc-50 w-full">
         Offer
       </button>
-{/*       <button data-testid="offer-btn" onClick={e => alert("Not yet implemented")} className="p-2 hover:bg-zinc-50 w-full">
-        Offer to replace..
-      </button> */}
-      <button data-testid="decline-btn" onClick={e => {e.preventDefault(); offerOrDecline(false, musician.id, musician.email)}} className="p-2 hover:bg-zinc-50 w-full">
+
+      <button data-testid="decline-btn" onClick={e => {e.preventDefault(); updatePlayer(musician.id, {recieved: true, accepted: false})}} className="p-2 hover:bg-zinc-50 w-full">
         Decline
       </button>
       {musician.recieved && musician.accepted === null
