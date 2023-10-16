@@ -33,7 +33,8 @@ export const fixerFeatureList: {key: number, title: string, blurb: string, icon:
 export default function FixerFeatures() {
   return (
     <div className="border mx-2 my-4 py-4 rounded-lg" data-testid="fixer-features">
-      <div className="sm:py-8 px-4 sm:px-6">
+      <div className="bg-white/80  backdrop-blur ">
+      <div className="sm:py-8 px-4 sm:px-6 ">
       <p className="text-blue-600 text-xl">Fix faster</p>
       <h2 className="text-3xl  py-2">Everything you need to book an orchestra</h2>
       {/* <p className="text-slate-600 font-thin md:w-2/3">
@@ -53,6 +54,7 @@ export default function FixerFeatures() {
  */}          </div>
         </div>
       ))}
+      </div>
       </div>
     </div>
   )

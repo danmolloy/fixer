@@ -89,7 +89,6 @@ if (status === "loading"|| isLoading) {
       </div>
       </div>
       <LandingFooter session={session ? true : false}/>
-      {/* session && <MobileMenuPanel /> */}
     </div>
   )
 }

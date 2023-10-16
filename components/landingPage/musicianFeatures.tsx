@@ -34,7 +34,9 @@ export const musicianFeatureList: {key: number, title: string, blurb: string, ic
 
 export default function MusicianFeatures() {
   return (
-    <div data-testid="musician-features" className="border mx-2 my-8 py-4 rounded-lg">
+    <div data-testid="musician-features" className="border mx-2 my-8 rounded-lg py-4">
+      <div className="rounded-full w-12 h-12 absolute mt-12 ml-32 bg-blue-600"></div>
+      <div className=" backdrop-blur-xl bg-white/60">
       <div className="sm:py-8 px-4 sm:px-6 ">
       <p className="text-blue-600  text-xl">A modern diary</p>
       <h2 className="text-3xl  py-2">An efficient diary for the modern musician</h2>
@@ -43,7 +45,7 @@ export default function MusicianFeatures() {
         Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.
       </p> */}
       </div>
-      <div className="flex flex-col px-6 md:flex-row flex-wrap">
+      <div className="flex flex-col px-6 md:flex-row flex-wrap backdrop-blur-xl">
       {musicianFeatureList.map(i => (
         <div key={i.key} className="flex flex-row my-2 sm:my-4 md:w-1/2">
           <div className="text-blue-600 text-2xl py-2 md:px-2">
@@ -55,6 +57,7 @@ export default function MusicianFeatures() {
  */}          </div>
         </div>
       ))}
+      </div>
       </div>
     </div>
   )
