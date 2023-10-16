@@ -1,7 +1,8 @@
 import prisma from '../../../client'
 import MessagingResponse from 'twilio/lib/twiml/MessagingResponse';
 import { replyToMessage } from './messages';
-import { getEventInstrumentStatus, getEventInstrumentandMusiciansFromCall, handleFixing  } from './bookingFunctions';
+import { getEventInstrumentStatus, handleFixing  } from './bookingFunctions';
+import { getEventInstrumentandMusiciansFromCall } from './bookingFunctions/prismaFunctions';
 import { updatePlayerCall } from './bookingFunctions/prismaFunctions';
 /* Can I do twilioClient.twml.messagingResponse? */
 

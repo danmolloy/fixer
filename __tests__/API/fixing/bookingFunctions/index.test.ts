@@ -1,16 +1,14 @@
-import { mockEventInstrumentWithMusiciansAndEvent } from '../../../__mocks__/models/eventInstrument'
-import { mockPlayerCall, mockPlayerCallWithInstrumentAndMs } from '../../../__mocks__/models/playerCall'
-import { prismaMock } from '../../../__mocks__/singleton'
-import * as bookingFunctions from '../../../pages/api/fixing/bookingFunctions'
+import { mockEvenInstrumentWithMusicians, mockEventInstrumentWithMusiciansAndEvent } from '../../../../__mocks__/models/eventInstrument'
+import { mockPlayerCall, mockPlayerCallWithInstrumentAndMs } from '../../../../__mocks__/models/playerCall'
+import { prismaMock } from '../../../../__mocks__/singleton'
+import * as bookingFunctions from '../../../../pages/api/fixing/bookingFunctions'
+import * as messaging from "../../../../pages/api/fixing/messages/index"
+import * as prismaFunctions from '../../../../pages/api/fixing/bookingFunctions/prismaFunctions'
 
+jest.mock("../../../../pages/api/fixing/messages/index", () => {})
 
-describe("updatePlayerCall()", () => {
-  const updatePlayerCall = bookingFunctions.updatePlayerCall
-  it("resolves with expected object", async() => {
-    const data = {accepted: true}
-    prismaMock.playerCall.update.mockResolvedValue(mockPlayerCall)
-    await expect(updatePlayerCall(mockPlayerCall.id, data)).resolves.toEqual(mockPlayerCall)
-  })
+describe("handleFixing()", () => {
+  const handleFixing = bookingFunctions.handleFixing
 })
 
 describe("getEventInstrumentStatus()", () => {
@@ -30,14 +28,6 @@ describe("getEventInstrumentStatus()", () => {
   })
 })
 
-describe("getEventInstrumentandMusiciansFromCall()", () => {
-  const getInstrumentFromCallId = bookingFunctions.getEventInstrumentandMusiciansFromCall
-  it("returns expected event obj", async () => {
-    prismaMock.playerCall.findUnique.mockResolvedValue(mockPlayerCallWithInstrumentAndMs)
-    await expect(getInstrumentFromCallId(2)).resolves.toEqual(mockPlayerCallWithInstrumentAndMs.eventInstrument)
-  })
-})
-
 describe("getNumToBook()", () => {
   const getNumToBook = bookingFunctions.getNumToBook
   it("returns expected number", () => {
@@ -47,14 +37,6 @@ describe("getNumToBook()", () => {
   })
 })
 
-describe("getEventInstrumentAndMusicians()", () => {
-  const getInstrument = bookingFunctions.getEventInstrumentAndMusicians
-  it("returns expected value", async () => {
-    const mock = mockEventInstrumentWithMusiciansAndEvent
-    prismaMock.eventInstrument.findUnique.mockResolvedValue(mock)
-    await expect(getInstrument(mock.id)).resolves.toEqual(mock)
-  })
-})
 
 describe("releaseDeppers()", () => {
   const releaseDeppers = bookingFunctions.releaseDeppers

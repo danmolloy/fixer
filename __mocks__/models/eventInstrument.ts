@@ -4,8 +4,9 @@ import { mockEvent } from "./event";
 import { randBool } from "./playerCall";
 import { EventInstrumentWithMusiciansWithMusician } from "../../components/fixing/instrumentTile";
 import { mockCall } from "./call";
-import { EventInstrumentWithMusiciansAndEvent } from "../../pages/api/fixing/recieveCalls";
+import { EventInstrumentWithMusiciansAndEvent } from "../../pages/api/fixing/bookingFunctions/prismaFunctions"; 
 import { OfferMessageArg } from "../../pages/api/fixing/messages";
+import { EventInstrumentWithMusicians } from "../../pages/api/fixing/bookingFunctions/prismaFunctions";
 
 export const mockEventInstrument: EventInstrument = {
   id: faker.number.int(),
@@ -147,4 +148,22 @@ event: {
   fixerId: faker.string.uuid(),
   fixerName: faker.person.fullName()
 }
+}
+
+export const mockEvenInstrumentWithMusicians: EventInstrumentWithMusicians = {
+  ...mockEventInstrument,
+  musicians: [
+    {
+      id: faker.number.int(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    recieved: randBool(),
+    accepted: Math.random() > .5 ? randBool() : null,
+    musicianId: fakeMusicianId,
+    eventInstrumentId: faker.number.int(),
+    playerMessage: null,
+    bookingOrAvailability: randBool() === true ? "Booking" : "Availability",
+    offerExpiry: null,
+    status: "active",
+}],
 }

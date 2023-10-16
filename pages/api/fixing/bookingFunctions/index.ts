@@ -25,21 +25,7 @@ export const getEventInstrumentStatus = async (eventInstrumentId: number) => {
   return statusObj
 }
 
-export const getEventInstrumentandMusiciansFromCall = async (playerCallId: number): Promise<EventInstrumentWithMusicians> => {
-  const playerCall = await prisma.playerCall.findUnique({
-    where: {
-      id: playerCallId
-    },
-    include: {
-      eventInstrument: {
-        include: {
-          musicians: true
-        }
-      }
-    }
-  })
-  return playerCall.eventInstrument
-}
+
 
 export const getNumToBook = (eventInstrument: EventInstrumentWithMusicians): number => {
   const numBooked = eventInstrument.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking" && i.status !== "DEP OUT").length

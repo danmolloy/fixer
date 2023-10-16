@@ -85,3 +85,19 @@ export const updatePlayerCall = async (playerCallId: number, data: {}): Promise<
   })
   return updatedPlayerCall
 }
+
+export const getEventInstrumentandMusiciansFromCall = async (playerCallId: number): Promise<EventInstrumentWithMusicians> => {
+  const playerCall = await prisma.playerCall.findUnique({
+    where: {
+      id: playerCallId
+    },
+    include: {
+      eventInstrument: {
+        include: {
+          musicians: true
+        }
+      }
+    }
+  })
+  return playerCall.eventInstrument
+}
