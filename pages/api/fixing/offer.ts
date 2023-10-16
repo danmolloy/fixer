@@ -1,11 +1,6 @@
-import prisma from '../../../client'
-import { RequestValues } from '../../../components/fixing/editCalls/editCalls'
-import { twilioClient } from "../../../twilio"
-
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { handleFixing, updatePlayerCall } from './bookingFunctions'
-
-
+import { handleFixing } from './bookingFunctions'
+import { updatePlayerCall } from './bookingFunctions/prismaFunctions'
 
 
 const handleOffer = async (playerCallId: number) => {

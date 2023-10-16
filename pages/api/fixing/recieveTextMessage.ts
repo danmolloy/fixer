@@ -1,10 +1,8 @@
-import { EventInstrument, PlayerCall, Prisma } from '@prisma/client';
 import prisma from '../../../client'
-import { twilioClient } from "../../../twilio"
 import MessagingResponse from 'twilio/lib/twiml/MessagingResponse';
-import { getOfferMsgBody, replyToMessage, sendMessage } from './messages';
-import { getEventInstrumentStatus, getEventInstrumentandMusiciansFromCall, handleFixing, makeOffers, releaseDeppers, updatePlayerCall } from './bookingFunctions';
-
+import { replyToMessage } from './messages';
+import { getEventInstrumentStatus, getEventInstrumentandMusiciansFromCall, handleFixing  } from './bookingFunctions';
+import { updatePlayerCall } from './bookingFunctions/prismaFunctions';
 /* Can I do twilioClient.twml.messagingResponse? */
 
 export default async function handler(req, res) {

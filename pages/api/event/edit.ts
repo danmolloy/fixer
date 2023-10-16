@@ -2,13 +2,16 @@ import { Call, Event } from "@prisma/client"
 import prisma from "../../../client"
 import { EventWithCalls } from "../../../components/event"
 import { twilioClient } from "../../../twilio"
+import { sendMessage } from "../fixing/messages"
 
 const getandMsgAllPlayers = async (eventId: number) => {
   
   const allPlayers = await getAllPlayers(eventId)
   let sentMsgs =  []
+  const msgBody = `Dan Molloy has updated Event ${eventId}. View the event page to see the changes.`;
+
   for (let i = 0; i < allPlayers.length; i ++) {
-    sentMsgs = [sentMsgs, await sendMessage(eventId)]
+    sentMsgs = [sentMsgs, await sendMessage(msgBody, process.env.PHONE)]
   }
   
   return sentMsgs
@@ -30,21 +33,6 @@ const getAllPlayers = async (eventId: number) => {
     allPlayers = [...allPlayers, ...allCalls[i].playerCalls.filter(i => i.accepted !== false && i.recieved === true && !allPlayers.includes(i.musicianId)).map(i => i.musicianId)]
   }
   return allPlayers
-}
-
-export const sendMessage = async (eventId: number) => {
-  if (process.env.TWILIO_ACTIVE === "false") {
-    return;
-  }
-  const msgBody = `Dan Molloy has updated Event ${eventId}. View the event page to see the changes.`;
-  const MSS = 'MGa3507a546e0e4a6374af6d5fe19e9e16';
-  const toNum = process.env.PHONE
-  return await twilioClient.messages 
-  .create({ 
-     body: msgBody, 
-     messagingServiceSid: MSS,      
-     to: toNum 
-   }) 
 }
 
 const updateEvent = async (eventObj: Event) => {

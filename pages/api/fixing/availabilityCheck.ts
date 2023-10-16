@@ -1,9 +1,8 @@
-import prisma from '../../../client'
 import { AvailabilityRequestValues } from '../../../components/fixing/editCalls/editCalls'
-import { twilioClient } from "../../../twilio"
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createPlayerCall, handleFixing, updateEventInstrument } from './bookingFunctions'
+import { handleFixing, } from './bookingFunctions'
+import { updateEventInstrument, createPlayerCall } from './bookingFunctions/prismaFunctions' 
 
 
 

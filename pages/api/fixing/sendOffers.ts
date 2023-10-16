@@ -1,10 +1,7 @@
-import prisma from '../../../client'
 import { RequestValues } from '../../../components/fixing/editCalls/editCalls'
-import { twilioClient } from "../../../twilio"
-
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createPlayerCall, getEventInstrumentAndMusicians, handleFixing, updateEventInstrument } from './bookingFunctions'
-
+import { handleFixing } from './bookingFunctions'
+import { createPlayerCall, updateEventInstrument } from './bookingFunctions/prismaFunctions'
 
 export const handleBooking = async (instrumentObj: RequestValues) => {
   let arr: any = []

@@ -1,29 +1,7 @@
-import { EventInstrument, PlayerCall, Prisma } from "@prisma/client"
-import prisma from "../../../client"
-import { OfferMessageArg, getOfferMsgBody, sendMessage } from "./messages"
-
-export type EventInstrumentWithMusiciansAndEvent = Prisma.EventInstrumentGetPayload<{
-  include: {
-    musicians: true,
-    event: true
-  }
-}>
-
-export type EventInstrumentWithMusicians = Prisma.EventInstrumentGetPayload<{
-  include: {
-    musicians: true
-  }
-}>
-
-export const updatePlayerCall = async (playerCallId: number, data: {}): Promise<PlayerCall> => {
-  const updatedPlayerCall = await prisma.playerCall.update({
-    where: {
-      id: playerCallId
-    },
-    data: data
-  })
-  return updatedPlayerCall
-}
+import { PlayerCall } from "@prisma/client"
+import prisma from "../../../../client"
+import { getOfferMsgBody, sendMessage } from "../messages"
+import { EventInstrumentWithMusicians, getEventInstrumentAndMsAndMs, getEventInstrumentAndMusicians, updatePlayerCall } from "./prismaFunctions"
 
 
 export const getEventInstrumentStatus = async (eventInstrumentId: number) => {
@@ -68,36 +46,6 @@ export const getNumToBook = (eventInstrument: EventInstrumentWithMusicians): num
   return eventInstrument.numToBook - numBooked
 }
 
-
-export const getEventInstrumentAndMusicians = async (eventInstrumentId: number): Promise<EventInstrumentWithMusiciansAndEvent> => {
-  const eventInstrument = await prisma.eventInstrument.findUnique({
-    where: {
-      id: eventInstrumentId
-    },
-    include: {
-      musicians: true,
-      event: true
-    }
-  })
-  return eventInstrument
-}
-
-export const getEventInstrumentAndMsAndMs = async (eventInstrumentId: number): Promise<OfferMessageArg> => {
-  const eventInstrument = await prisma.eventInstrument.findUnique({
-    where: {
-      id: eventInstrumentId
-    },
-    include: {
-      musicians: {
-        include: {
-          musician: true
-        }
-      },
-      event: true
-    }
-  })
-  return eventInstrument
-}
 
 export const releaseDeppers = async (instrumentId: number) => {
   const eventInstrument = await getEventInstrumentAndMusicians(instrumentId)
@@ -160,33 +108,5 @@ export const availabilityCheck = async (instrumentId: number): Promise<any> => {
   }
 }
 
-export type CreatePlayerCallData = {
-  musicianId: string;
-  eventInstrumentId: number;
-  playerMessage: string;
-  offerExpiry: number;
-  bookingOrAvailability: "Booking" | "Availability";
-  calls: {
-      connect: {
-          id: number;
-      }[];
-  };
-}
 
-export const createPlayerCall = async (data: CreatePlayerCallData): Promise<PlayerCall> => {
-  return await prisma.playerCall.create({
-    data
-  })
-}
 
-export const updateEventInstrument = async(eventInstrumentId: number, data: {}): Promise<EventInstrumentWithMusicians> => {
-  return await prisma.eventInstrument.update({
-    where: {
-      id: eventInstrumentId
-    },
-    data: data,
-    include: {
-      musicians: true
-    }
-  })
-}

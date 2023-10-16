@@ -1,4 +1,5 @@
-import { handleFixing, updatePlayerCall } from "./bookingFunctions"
+import { handleFixing } from "./bookingFunctions"
+import { updatePlayerCall } from "./bookingFunctions/prismaFunctions"
 
 const handleUpdate = async (playerCallId: number, data: {}): Promise<any> => {
   const playerCall = await updatePlayerCall(playerCallId, data)

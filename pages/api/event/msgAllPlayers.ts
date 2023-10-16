@@ -1,5 +1,6 @@
 import prisma from "../../../client";
 import { twilioClient } from "../../../twilio";
+import { sendMessage } from "../fixing/messages";
 
 
 
@@ -8,7 +9,7 @@ const msgAllPlayers = async (message: string, eventId: number) => {
   const allPlayers = await getAllPlayers(eventId)
   let sentMsgs =  []
   for (let i = 0; i < allPlayers.length; i ++) {
-    sentMsgs = [sentMsgs, await sendMessage(message, eventId)]
+    sentMsgs = [sentMsgs, await sendMessage(message, process.env.PHONE)]
   }
   
   return sentMsgs
@@ -32,20 +33,6 @@ const getAllPlayers = async (eventId: number) => {
   return allPlayers
 }
 
-export const sendMessage = async (message: string, eventId: number) => {
-  if (process.env.TWILIO_ACTIVE === "false") {
-    return;
-  }
-  const msgBody = message;
-  const MSS = 'MGa3507a546e0e4a6374af6d5fe19e9e16';
-  const toNum = process.env.PHONE
-  return await twilioClient.messages 
-  .create({ 
-     body: msgBody, 
-     messagingServiceSid: MSS,      
-     to: toNum 
-   }) 
-}
 
 export default async function handle(req, res) {
   const { message, eventId } = req.body
