@@ -5,9 +5,8 @@ import { mockUser } from "../../../../__mocks__/models/user"
 import PlayerRow, { PlayerRowProps } from "../../../../components/fixing/instrument/table/playerRow"
 import { mockCall } from "../../../../__mocks__/models/call"
 
-const mockProps = {
+const mockProps: PlayerRowProps = {
   playerCall: mockPlayerCallForTable,
-
   allEventCalls: [mockCall]
 }
 
@@ -52,15 +51,20 @@ describe("<PlayerRow />", () => {
 
 })
 
-describe("Dep out", () => {
+describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
 
-  const mockProps = {
+  const mockProps: PlayerRowProps = {
     playerCall: {...mockPlayerCallForTable, status: "DEP OUT", calls: mockCalls},
     allEventCalls: mockCalls
   }
   beforeEach(() => {
-    render(<PlayerRow {...mockProps}/>)
+    render(
+    <table data-testid="table">
+      <tbody>
+        <PlayerRow {...mockProps}/>
+      </tbody>
+    </table>)
   })
   it("indicates if call is being depped out", () => {
 
@@ -69,7 +73,7 @@ describe("Dep out", () => {
   })
 })
 
-describe("Call accepted", () => {
+describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
 
   const mockProps = {
@@ -77,7 +81,12 @@ describe("Call accepted", () => {
     allEventCalls: mockCalls
   }
   beforeEach(() => {
-    render(<PlayerRow {...mockProps}/>)
+    render(
+      <table data-testid="table">
+        <tbody>
+          <PlayerRow {...mockProps}/>
+        </tbody>
+      </table>)
   })
   it("indicates if call is accepted", () => {
 
@@ -86,14 +95,19 @@ describe("Call accepted", () => {
   })
 })
 
-describe("Call declined", () => {
+describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
   const mockProps = {
     playerCall: {...mockPlayerCallForTable, accepted: false, calls: mockCalls},
     allEventCalls: mockCalls
   }
   beforeEach(() => {
-    render(<PlayerRow {...mockProps}/>)
+    render(
+      <table data-testid="table">
+        <tbody>
+          <PlayerRow {...mockProps}/>
+        </tbody>
+      </table>)
   })
   it("indicates if call is accepted", () => {
 
@@ -102,7 +116,7 @@ describe("Call declined", () => {
   })
 })
 
-describe("Response pending", () => {
+describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
 
   const mockProps = {
@@ -110,7 +124,12 @@ describe("Response pending", () => {
     allEventCalls: mockCalls
   }
   beforeEach(() => {
-    render(<PlayerRow {...mockProps}/>)
+    render(
+      <table data-testid="table">
+        <tbody>
+          <PlayerRow {...mockProps}/>
+        </tbody>
+      </table>)
   })
   it("indicates if response pending", () => {
 
@@ -120,14 +139,19 @@ describe("Response pending", () => {
 })
 
 
-describe("Not asked", () => {
+describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
   const mockProps = {
     playerCall: {...mockPlayerCallForTable, accepted: null, recieved: false, calls: mockCalls},
     allEventCalls: mockCalls
   }
   beforeEach(() => {
-    render(<PlayerRow {...mockProps}/>)
+    render(
+      <table data-testid="table">
+        <tbody>
+          <PlayerRow {...mockProps}/>
+        </tbody>
+      </table>)
   })
   it("indicates if not yet asked", () => {
 

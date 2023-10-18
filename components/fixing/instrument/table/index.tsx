@@ -12,20 +12,26 @@ export type PlayerCallsForTable = Prisma.PlayerCallGetPayload<{
 export type FixingTableProps = {
   eventCalls: Call[]
   playerCalls: PlayerCallsForTable[]
+  selectedTab: "Booking"|"Availability"
 }
 
 export default function FixingTable(props: FixingTableProps) {
-  const { eventCalls, playerCalls } = props;
+  const { eventCalls, playerCalls, selectedTab } = props;
 
-  if (playerCalls.length === 0) {
-    return (<div><p>No calls made</p></div>)
+  if (playerCalls.filter(i => i.bookingOrAvailability === selectedTab).length === 0) {
+    return (
+    <div>
+      {selectedTab === "Booking" 
+      ? <p>No offers made</p> 
+      : <p>No availability checks made</p>}
+    </div>)
   }
 
   return (
     <table data-testid="fixing-table">
       <TableHead eventCalls={eventCalls} />
       <tbody>
-      {playerCalls.map(i => (
+      {playerCalls.filter(i => i.bookingOrAvailability === selectedTab).map(i => (
         <PlayerRow key={i.id} allEventCalls={eventCalls} playerCall={i} />
       ))}
       </tbody>

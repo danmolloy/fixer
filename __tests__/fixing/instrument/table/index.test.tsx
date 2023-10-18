@@ -4,12 +4,17 @@ import FixingTable, { FixingTableProps } from "../../../../components/fixing/ins
 import { mockPlayerCallForTable } from "../../../../__mocks__/models/playerCall"
 import { mockCall } from "../../../../__mocks__/models/call"
 
-const mockProps: FixingTableProps = {
-  playerCalls: [mockPlayerCallForTable],
-  eventCalls: [mockCall]
-}
+
 
 describe("<FixingTable />", () => {
+  const mockProps: FixingTableProps = {
+    playerCalls: [{
+      ...mockPlayerCallForTable,
+      bookingOrAvailability: "Booking",
+    }],
+    eventCalls: [mockCall],
+    selectedTab: "Booking"
+  }
   beforeEach(() => {
     render(<FixingTable {...mockProps} />)
   })
@@ -29,12 +34,38 @@ describe("<FixingTable />", () => {
   })
 })
 
-describe("<FixingTable playerCalls=[] />", () => {
+describe("<FixingTable />", () => {
+  const mockProps: FixingTableProps = {
+    playerCalls: [{
+      ...mockPlayerCallForTable,
+      bookingOrAvailability: "Booking",
+    }],
+    eventCalls: [mockCall],
+    selectedTab: "Availability"
+  }
   beforeEach(() => {
-    render(<FixingTable eventCalls={mockProps.eventCalls} playerCalls={[]} />)
+    render(<FixingTable {...mockProps} />)
   })
-  it("states that no calls made", () => {
-    const message = screen.getByText("No calls made")
+  it("states that no offers made if all calls are availability", () => {
+    const message = screen.getByText("No availability checks made")
+    expect(message).toBeInTheDocument()
+  })
+})
+
+describe("<FixingTable />", () => {
+  const mockProps: FixingTableProps = {
+    playerCalls: [{
+      ...mockPlayerCallForTable,
+      bookingOrAvailability: "Availability",
+    }],
+    eventCalls: [mockCall],
+    selectedTab: "Booking"
+  }
+  beforeEach(() => {
+    render(<FixingTable {...mockProps} />)
+  })
+  it("states that no calls made if Booking selected and all calls are Availability", () => {
+    const message = screen.getByText("No offers made")
     expect(message).toBeInTheDocument()
   })
 })

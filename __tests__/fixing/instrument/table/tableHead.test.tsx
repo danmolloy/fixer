@@ -10,7 +10,10 @@ const mockProps: TableHeadProps = {
 
 describe("<TableHead />", () => {
   beforeEach(() => {
-    render(<TableHead {...mockProps} />)
+    render(
+      <table>
+        <TableHead {...mockProps} />
+      </table>)
   })
   it("table-head is in document", () => {
     const tableHead = screen.getByTestId("table-head")
@@ -23,7 +26,6 @@ describe("<TableHead />", () => {
   it("each event call has a cell and start time is format 'DAY DD/MM/YYYY HH:MM PM'", () => {
     for (let i = 0; i < mockProps.eventCalls.length; i++) {
       let formattedStartTime = DateTime.fromJSDate(new Date(mockProps.eventCalls[i].startTime)).toFormat("ccc f")
-      console.log(formattedStartTime)
       let callCell = screen.getByText(formattedStartTime)
       expect(callCell).toBeInTheDocument()
     }
