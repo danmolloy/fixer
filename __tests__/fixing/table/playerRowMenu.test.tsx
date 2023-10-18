@@ -1,7 +1,7 @@
 import { render, screen, act, fireEvent, waitFor } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import { mockPlayerCall } from "../../__mocks__/models/playerCall"
-import FixingPlayerMenu, { FixingPlayerMenuProps } from "../../components/fixing/finxingPlayerMenu"
+import { mockPlayerCall } from "../../../__mocks__/models/playerCall"
+import PlayerRowMenu, { PlayerRowMenuProps } from "../../../components/fixing/table/playerRowMenu"
 import axios from "axios";
 
 jest.spyOn(window, "prompt").mockImplementation(() => "Mocked User Input");
@@ -9,8 +9,8 @@ jest.spyOn(window, "prompt").mockImplementation(() => "Mocked User Input");
 
 jest.mock("axios")
 
-describe("<FixingPlayerMenu /> in Availability", () => {
-  const availabilityProps: FixingPlayerMenuProps = {
+describe("<PlayerRowMenu /> in Availability", () => {
+  const availabilityProps: PlayerRowMenuProps = {
     playerCall: {
       ...mockPlayerCall,
       bookingOrAvailability: "Availability"
@@ -18,11 +18,11 @@ describe("<FixingPlayerMenu /> in Availability", () => {
     setShowMenu: jest.fn()
   }
   beforeEach(() => {
-    render(<FixingPlayerMenu {...availabilityProps} />)
+    render(<PlayerRowMenu {...availabilityProps} />)
   })
-  it("fixing-player-menu is in the document", () => {
-    const fixingPlayerMenu = screen.getByTestId("fixing-player-menu")
-    expect(fixingPlayerMenu).toBeInTheDocument()
+  it("player-row-menu is in the document", () => {
+    const PlayerRowMenu = screen.getByTestId("player-row-menu")
+    expect(PlayerRowMenu).toBeInTheDocument()
   })
   it("View profile link is in the document", () => {
     const profileLink = screen.getByTestId("profile-link")
@@ -90,7 +90,7 @@ describe("<FixingPlayerMenu /> in Availability", () => {
 })
 
 describe("<FixingPlayerMenu /> in Booking", () => {
-  const bookingProps: FixingPlayerMenuProps = {
+  const bookingProps: PlayerRowMenuProps = {
     playerCall: {
       ...mockPlayerCall,
       bookingOrAvailability: "Booking"
@@ -98,11 +98,11 @@ describe("<FixingPlayerMenu /> in Booking", () => {
     setShowMenu: jest.fn()
   }
   beforeEach(() => {
-    render(<FixingPlayerMenu {...bookingProps} />)
+    render(<PlayerRowMenu {...bookingProps} />)
   })
-  it("fixing-player-menu is in the document", () => {
-    const fixingPlayerMenu = screen.getByTestId("fixing-player-menu")
-    expect(fixingPlayerMenu).toBeInTheDocument()
+  it("player-row-menu is in the document", () => {
+    const PlayerRowMenu = screen.getByTestId("player-row-menu")
+    expect(PlayerRowMenu).toBeInTheDocument()
   })
   it("View profile link is in the document", () => {
     const profileLink = screen.getByTestId("profile-link")

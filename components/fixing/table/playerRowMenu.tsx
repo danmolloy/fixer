@@ -2,13 +2,13 @@ import { PlayerCall } from "@prisma/client"
 import axios from "axios";
 import Link from "next/link";
 
-export type FixingPlayerMenuProps = {
+export type PlayerRowMenuProps = {
   playerCall: PlayerCall
   setShowMenu: (arg: boolean) => void
 
 }
 
-export default function FixingPlayerMenu(props: FixingPlayerMenuProps) {
+export default function PlayerRowMenu(props: PlayerRowMenuProps) {
   const { playerCall, setShowMenu } = props;
 
   const updatePlayer = async (data: {}) => {
@@ -38,7 +38,7 @@ export default function FixingPlayerMenu(props: FixingPlayerMenuProps) {
   }
 
   return (
-    <div data-testid="fixing-player-menu">
+    <div data-testid="player-row-menu">
       <Link data-testid="profile-link"  href={`/user/${playerCall.musicianId}`}>
         View profile
       </Link>

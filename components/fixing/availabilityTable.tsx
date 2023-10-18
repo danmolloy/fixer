@@ -147,6 +147,7 @@ export default function AvailabilityTable(props: AvailabilityTableProps) {
       removePlayer={(callId) => {removePlayer(callId); setMenuId(null)}}
       sendMessage={(name) => sendMessage(name, preview)}
       pokePlayer={(name) => pokePlayer(name, preview)}/>}
+      
       <TableContainer>
         <Table>
           <TableHead >
