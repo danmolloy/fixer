@@ -3,6 +3,7 @@ import { mockEventInstrument } from "./eventInstrument";
 import { faker } from "@faker-js/faker";
 import { mockUser, mockUserId } from "./user";
 import { playerCallMsging } from "../../pages/api/fixing/recieveCalls";
+import { PlayerCallsForTable } from "../../components/fixing/instrument/table";
 
 export const randBool = () => Math.random() > .5 ? false : true
 
@@ -100,5 +101,39 @@ export const mockPlayerCallWithInstrumentAndMs: PlayerCallWithInstrumentAndMs = 
       status: "active"
     }
   ]
+  }
+}
+
+export const mockPlayerCallForTable: PlayerCallsForTable = {
+  id: faker.number.int(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  recieved: Math.random() > .5 ? false : true,
+  accepted: Math.random() > .3 ? true: Math.random() > .6 ? false : null,
+  musicianId: /* mockUserId, */faker.string.uuid(),
+  eventInstrumentId: faker.number.int(),
+  playerMessage: null,
+  bookingOrAvailability: Math.random() > .5 ?  "Booking" : "Availability",
+  offerExpiry: null,
+  status: "active",
+  calls: [{id: faker.number.int(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    startTime: new Date(),
+    endTime: new Date(),
+    venue: faker.lorem.words(),
+    eventId: faker.number.int(),
+    fixerId: faker.string.uuid()}],
+  musician: {
+    id: faker.string.uuid(),
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    profileInfo: faker.lorem.paragraph(),
+    emailVerified: new Date(),
+    image: faker.image.urlLoremFlickr(),
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    instrument: "Viola",
+    mobileNumber: faker.phone.number(),
   }
 }

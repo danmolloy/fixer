@@ -1,35 +1,38 @@
 import { render, screen, act, fireEvent, waitFor } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import { mockPlayerCall } from "../../../__mocks__/models/playerCall"
-import { mockUser } from "../../../__mocks__/models/user"
-import PlayerRow, { PlayerRowProps } from "../../../components/fixing/table/playerRow"
-import { mockCall } from "../../../__mocks__/models/call"
+import { mockPlayerCall, mockPlayerCallForTable } from "../../../../__mocks__/models/playerCall"
+import { mockUser } from "../../../../__mocks__/models/user"
+import PlayerRow, { PlayerRowProps } from "../../../../components/fixing/instrument/table/playerRow"
+import { mockCall } from "../../../../__mocks__/models/call"
 
 const mockProps = {
-  playerCall: mockPlayerCall,
-  user: mockUser,
-  eventCallsForPlayer: [mockCall],
+  playerCall: mockPlayerCallForTable,
+
   allEventCalls: [mockCall]
 }
 
 describe("<PlayerRow />", () => {
   beforeEach(() => {
-    render(<PlayerRow {...mockProps}/>)
+    render(
+    <table data-testid="table">
+      <tbody>
+        <PlayerRow {...mockProps}/>
+      </tbody>
+    </table>)
   })
 
   it("player-row is in the document", () => {
-    const playerRow = screen.getByTestId("player-row")
+    const playerRow = screen.getByTestId(`${mockProps.playerCall.id}-row`)
     expect(playerRow).toBeInTheDocument()
   })
   it("user image is in the document", () => {
-    const userImg = screen.getByTestId(`${mockProps.user.name}-img`)
+    const userImg = screen.getByTestId(`${mockProps.playerCall.musician.name}-img`)
     expect(userImg).toBeInTheDocument()
   })
   it("user name is in the document", () => {
-    const userName = screen.getByText(mockProps.user.name)
+    const userName = screen.getByText(mockProps.playerCall.musician.name)
     expect(userName).toBeInTheDocument()
   })
-
 
   it("playerRowMenu btn is in the document, rendering playerRowMenu on click", () => {
     const menuBtn = screen.getByTestId('player-row-menu-btn')
@@ -47,16 +50,14 @@ describe("<PlayerRow />", () => {
     }
   })
 
-
-  
 })
 
 describe("Dep out", () => {
+  const mockCalls = [mockCall]
+
   const mockProps = {
-    playerCall: {...mockPlayerCall, status: "DEP OUT"},
-    user: mockUser,
-    eventCallsForPlayer: [mockCall],
-    allEventCalls: [mockCall]
+    playerCall: {...mockPlayerCallForTable, status: "DEP OUT", calls: mockCalls},
+    allEventCalls: mockCalls
   }
   beforeEach(() => {
     render(<PlayerRow {...mockProps}/>)
@@ -69,11 +70,11 @@ describe("Dep out", () => {
 })
 
 describe("Call accepted", () => {
+  const mockCalls = [mockCall]
+
   const mockProps = {
-    playerCall: {...mockPlayerCall, accepted: true},
-    user: mockUser,
-    eventCallsForPlayer: [mockCall],
-    allEventCalls: [mockCall]
+    playerCall: {...mockPlayerCallForTable, accepted: true, calls: mockCalls},
+    allEventCalls: mockCalls
   }
   beforeEach(() => {
     render(<PlayerRow {...mockProps}/>)
@@ -86,11 +87,10 @@ describe("Call accepted", () => {
 })
 
 describe("Call declined", () => {
+  const mockCalls = [mockCall]
   const mockProps = {
-    playerCall: {...mockPlayerCall, accepted: false},
-    user: mockUser,
-    eventCallsForPlayer: [mockCall],
-    allEventCalls: [mockCall]
+    playerCall: {...mockPlayerCallForTable, accepted: false, calls: mockCalls},
+    allEventCalls: mockCalls
   }
   beforeEach(() => {
     render(<PlayerRow {...mockProps}/>)
@@ -103,11 +103,11 @@ describe("Call declined", () => {
 })
 
 describe("Response pending", () => {
+  const mockCalls = [mockCall]
+
   const mockProps = {
-    playerCall: {...mockPlayerCall, accepted: null, recieved: true},
-    user: mockUser,
-    eventCallsForPlayer: [mockCall],
-    allEventCalls: [mockCall]
+    playerCall: {...mockPlayerCallForTable, accepted: null, recieved: true, calls: mockCalls},
+    allEventCalls: mockCalls
   }
   beforeEach(() => {
     render(<PlayerRow {...mockProps}/>)
@@ -121,11 +121,10 @@ describe("Response pending", () => {
 
 
 describe("Not asked", () => {
+  const mockCalls = [mockCall]
   const mockProps = {
-    playerCall: {...mockPlayerCall, accepted: null, recieved: false},
-    user: mockUser,
-    eventCallsForPlayer: [mockCall],
-    allEventCalls: [mockCall]
+    playerCall: {...mockPlayerCallForTable, accepted: null, recieved: false, calls: mockCalls},
+    allEventCalls: mockCalls
   }
   beforeEach(() => {
     render(<PlayerRow {...mockProps}/>)

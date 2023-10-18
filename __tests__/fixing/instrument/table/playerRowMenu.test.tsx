@@ -1,7 +1,7 @@
 import { render, screen, act, fireEvent, waitFor } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import { mockPlayerCall } from "../../../__mocks__/models/playerCall"
-import PlayerRowMenu, { PlayerRowMenuProps } from "../../../components/fixing/table/playerRowMenu"
+import { mockPlayerCall } from "../../../../__mocks__/models/playerCall"
+import PlayerRowMenu, { PlayerRowMenuProps } from "../../../../components/fixing/instrument/table/playerRowMenu"
 import axios from "axios";
 
 jest.spyOn(window, "prompt").mockImplementation(() => "Mocked User Input");

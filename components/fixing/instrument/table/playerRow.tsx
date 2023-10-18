@@ -4,44 +4,45 @@ import PlayerRowMenu from "./playerRowMenu";
 import { useState } from "react";
 import { BsCheck, BsQuestion, BsThreeDotsVertical, BsX } from "react-icons/bs";
 import { BiExit } from "react-icons/bi";
-
-
+import { PlayerCallsForTable } from ".";
 
 export type PlayerRowProps = {
-  playerCall: PlayerCall,
-  eventCallsForPlayer: Call[],
+  playerCall: PlayerCallsForTable,
   allEventCalls: Call[],
-  user: User
 }
 
 export default function PlayerRow(props: PlayerRowProps) {
   const [showMenu, setShowMenu] = useState(false);
-  const { playerCall, eventCallsForPlayer, allEventCalls, user} = props;
+  const { playerCall, allEventCalls } = props;
   return (
-    <div data-testid="player-row">
-      <div data-testid={`${user.name}-img`}>
-        <Image src={"http://placebeard.it/25/25"} width={25} height={25} alt={`${user.name} profile image`} title={`${user.name} profile image`} />
+    <tr data-testid={`${playerCall.id}-row`}>
+      <td>
+      <div data-testid={`${playerCall.musician.name}-img`}>
+        <Image src={"http://placebeard.it/25/25"} width={25} height={25} alt={`${playerCall.musician.name} profile image`} title={`${playerCall.musician.name} profile image`} />
       </div>
       <p>
-        {user.name}
+        {playerCall.musician.name}
       </p>
+      </td>
       {allEventCalls.map(i => (
-        <div key={i.id} data-testid={`${i.id}-cell`}>
-          {playerCall.status === "DEP OUT"
+        <td key={i.id} data-testid={`${i.id}-cell`}>
+          {playerCall.status === "DEP OUT" && playerCall.calls.filter(j => j.id === i.id).length > 0
           ? <div data-testid={`${i.id}-dep-out`}><BiExit /></div>
-          : playerCall.accepted === true
+          : playerCall.accepted === true && playerCall.calls.filter(j => j.id === i.id).length > 0
           ? <div data-testid={`${i.id}-tick`}><BsCheck /></div>
-          : playerCall.accepted === false
+          : playerCall.accepted === false && playerCall.calls.filter(j => j.id === i.id).length > 0
           ? <div data-testid={`${i.id}-cross`}><BsX /></div>
-          : playerCall.recieved === true && playerCall.accepted === null
+          : playerCall.recieved === true && playerCall.accepted === null && playerCall.calls.filter(j => j.id === i.id).length > 0
           ? <div data-testid={`${i.id}-pending`}><BsQuestion /></div>
           : <div data-testid={`${i.id}-not-asked`}></div>}
-        </div>
+        </td>
       ))}
+      <td>
       <button data-testid="player-row-menu-btn" onClick={() => setShowMenu(!showMenu)}>
         <BsThreeDotsVertical />
       </button>
       {showMenu && <PlayerRowMenu setShowMenu={(arg) => setShowMenu(arg)} playerCall={playerCall} />}
-    </div>
+      </td>
+    </tr>
   )
 }

@@ -69,15 +69,3 @@ export default function PlayerRowMenu(props: PlayerRowMenuProps) {
     </div>
   )
 }
-
-/* 
-View Profile
-Unbook/Remove from list
-Book/Confirm availability player
-Offer to book
-Dep Out/Replace 
-Send Message
-Poke player
-
-
-*/

@@ -5,6 +5,7 @@ import MobileFixing from './mobileFixing'
 import moment from 'moment'
 import OrchestraList from './orchestraList'
 import { Call, User } from '@prisma/client'
+import FixingTable from './instrument/table'
 
 
 export type FixingProps = {

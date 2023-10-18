@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { mockCall } from "../../../__mocks__/models/call";
-import TableHead, { TableHeadProps } from "../../../components/fixing/table/tableHead";
+import { mockCall } from "../../../../__mocks__/models/call";
+import TableHead, { TableHeadProps } from "../../../../components/fixing/instrument/table/tableHead";
 import { DateTime } from "luxon";
 import "@testing-library/jest-dom"
 
