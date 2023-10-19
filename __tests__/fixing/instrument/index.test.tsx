@@ -5,9 +5,10 @@ import { mockCall } from "../../../__mocks__/models/call"
 import { mockPlayerCall, mockPlayerCallForTable } from "../../../__mocks__/models/playerCall"
 import { mockEventInstrument } from "../../../__mocks__/models/eventInstrument"
 
+
 const mockProps: FixingInstrumentProps = {
   eventCalls: [mockCall],
-  playerCalls: [mockPlayerCallForTable],
+  playerCalls: [{...mockPlayerCallForTable, bookingOrAvailability: "Booking"}],
   eventInstrument: mockEventInstrument
 }
 

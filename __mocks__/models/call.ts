@@ -12,7 +12,7 @@ export const mockCall: Call = {
   endTime: new Date(),
   venue: faker.lorem.words(),
   eventId: faker.number.int(),
-  fixerId: faker.string.uuid()
+  fixerId: faker.string.uuid(),
 }
 
 export const mockCallWithEvent: CallWithEvent = {
