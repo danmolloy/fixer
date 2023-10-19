@@ -1,11 +1,11 @@
 import { Field } from "formik";
 import TextInput from "../../../createEvent/textInput";
 
-export type EditOptions = {
+export type EditOptionsProps = {
   bookingOrAvailability: "Booking"|"Availability"|string
 }
 
-export default function EditOptions(props: EditOptions) {
+export default function EditOptions(props: EditOptionsProps) {
   const { bookingOrAvailability } = props
 
   return (

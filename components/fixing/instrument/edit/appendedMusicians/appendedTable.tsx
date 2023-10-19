@@ -9,7 +9,6 @@ export type AppendedTableProps = {
     calls: Call[]
   }[]
   allEventCalls: Call[]
-  values: any
 }
 
 export default function AppendedTable(props: AppendedTableProps) {
