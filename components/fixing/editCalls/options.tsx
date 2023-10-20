@@ -5,7 +5,7 @@ import TextInput from '../../createEvent/textInput'
 export type EditCallsOptionsProps = {
   instrumentName: string
   isSubmitting: boolean
-  bookingOrAvailability: "Booking"|"Availability"|string
+  bookingOrAvailability: "Booking"|"Availability"
 }
 
 export default function EditCallsOptions(props: EditCallsOptionsProps) {

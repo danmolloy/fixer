@@ -2,7 +2,7 @@ import { Field } from "formik";
 import TextInput from "../../../createEvent/textInput";
 
 export type EditOptionsProps = {
-  bookingOrAvailability: "Booking"|"Availability"|string
+  bookingOrAvailability: "Booking"|"Availability"
 }
 
 export default function EditOptions(props: EditOptionsProps) {

@@ -15,14 +15,14 @@ export type InstrumentFormProps = {
   }[],
   eventInstrumentId: number,
   callOrder: string
-  bookingOrAvailability: string
+  bookingOrAvailability: "Booking"|"Availability"
   messageToAll: string
   bookingStatus: string
 }
 
 export type EditInstrumentProps = {
   eventInstrument: EventInstrumentWithMusiciansWithMusician
-  bookingOrAvailability: string
+  bookingOrAvailability: "Booking"|"Availability"
   handleSubmit: (vals: InstrumentFormProps) => void
   directoryMusicians: User[]
   allEventCalls: Call[]
@@ -52,7 +52,7 @@ export default function EditInstrument(props: EditInstrumentProps) {
           <form data-testid="edit-instrument-form" onSubmit={props.handleSubmit}>
              {props.values.musicians.length > 0 
              && <AppendedTable allEventCalls={allEventCalls} musicians={props.values.musicians} />}
-             <DirectoryMusicians musicians={directoryMusicians}/>
+             <DirectoryMusicians musicians={directoryMusicians} allEventCalls={allEventCalls}/>
              <EditOptions bookingOrAvailability={bookingOrAvailability} />
              <ButtonPrimary
               isSubmitting={props.isSubmitting}

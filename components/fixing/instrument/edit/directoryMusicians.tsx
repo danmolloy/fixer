@@ -1,14 +1,15 @@
-import { User } from "@prisma/client"
+import { Call, User } from "@prisma/client"
 import { FieldArray } from "formik"
 import MusicianTile from "./musicianTile"
 
 export type DirectoryMusiciansProps = {
   musicians: User[]
+  allEventCalls: Call[]
 }
 
 
 export default function DirectoryMusicians(props: DirectoryMusiciansProps) {
-  const { musicians } = props
+  const { musicians, allEventCalls } = props
 
   return (
     <div data-testid="directory-musicians">
@@ -21,7 +22,13 @@ export default function DirectoryMusicians(props: DirectoryMusiciansProps) {
         {({insert, remove, push}) => (
           <div>
             {musicians.map(i => (
-              <MusicianTile appendPlayer={() => push(i)} key={i.id} musician={i}/>
+              <MusicianTile 
+                appendPlayer={() => push({
+                  user: i,
+                  addedMessage: "",
+                  calls: allEventCalls,
+                })} 
+                key={i.id} musician={i}/>
             ))}
           </div>
           )}

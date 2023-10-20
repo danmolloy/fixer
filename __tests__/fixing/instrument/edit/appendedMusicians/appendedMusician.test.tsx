@@ -8,7 +8,11 @@ import { Formik } from "formik"
 import { mockMessage } from "../../../../../__mocks__/models/messages"
 
 const mockProps: AppendedMusicianProps = {
-  musician: mockUser,
+  musician: {
+    user: mockUser,
+    addedMessage: mockMessage,
+    calls: [mockCall]
+  },
   allEventCalls: [mockCall],
   index: Math.floor(Math.random()) * 10,
   remove: jest.fn(),
@@ -38,7 +42,7 @@ describe("<AppendedMusician />", () => {
 
   })
   it("user name is in the document", () => {
-    const userName = screen.getByText(mockProps.musician.name)
+    const userName = screen.getByText(mockProps.musician.user.name)
     expect(userName).toBeInTheDocument()
   })
   it("showMenu btn is in the document and calls showMenu() onClick", () => {
@@ -47,7 +51,7 @@ describe("<AppendedMusician />", () => {
   })
   it("all eventCalls are in the document and have checkboxes and call addEventCall onClick", () => {
     for (let i = 0; i < mockProps.allEventCalls.length; i ++) {
-      let eventCall = screen.getByTestId(`${mockProps.musician.id}-row-call-${mockProps.allEventCalls[i].id}`)
+      let eventCall = screen.getByTestId(`${mockProps.musician.user.id}-row-call-${mockProps.allEventCalls[i].id}`)
       expect(eventCall).toBeInTheDocument()
       expect(eventCall).toHaveAttribute("type", "checkbox")
     }

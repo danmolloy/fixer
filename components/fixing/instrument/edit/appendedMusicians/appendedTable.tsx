@@ -5,7 +5,7 @@ import AppendedMusician from "./appendedMusician"
 export type AppendedTableProps = {
   musicians: {
     user: User,
-    addedMessage?: string
+    addedMessage: string
     calls: Call[]
   }[]
   allEventCalls: Call[]
@@ -19,7 +19,7 @@ export default function AppendedTable(props: AppendedTableProps) {
       {({ insert, remove, push }) => (
         <tbody data-testid="appended-player-table">
           {musicians.map((i, index) => (
-            <AppendedMusician addedMessage={`values.appendedPlayers[${index}]playerMessage`} remove={() => remove(index)} index={index} allEventCalls={allEventCalls} key={i.user.id} musician={i.user}/>
+            <AppendedMusician addedMessage={`values.appendedPlayers[${index}]playerMessage`} remove={() => remove(index)} index={index} allEventCalls={allEventCalls} key={i.user.id} musician={i}/>
           ))}
         </tbody>
       )}

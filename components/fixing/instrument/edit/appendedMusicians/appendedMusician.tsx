@@ -6,7 +6,11 @@ import AppendedMusicianMenu from "./appendedMusicianMenu";
 import { Field } from "formik";
 
 export type AppendedMusicianProps = {
-  musician: User
+  musician: {
+    user: User,
+    addedMessage: string
+    calls: Call[]
+  },
   allEventCalls: Call[],
   index: number,
   remove: () => void
@@ -21,11 +25,11 @@ export default function AppendedMusician(props: AppendedMusicianProps) {
     <tr data-testid="appended-musician">
       <td>
       <div data-testid={`profile-img`}>
-        <Image src={"http://placebeard.it/25/25"} width={25} height={25} alt={`${musician.name} profile image`} title={`${musician.name} profile image`} />
+        <Image src={"http://placebeard.it/25/25"} width={25} height={25} alt={`${musician.user.name} profile image`} title={`${musician.user.name} profile image`} />
       </div>
       <div>
       <p>
-        {musician.name}
+        {musician.user.name}
       </p>
       <p data-testid="added-message">{addedMessage}</p>
       </div>
@@ -33,7 +37,7 @@ export default function AppendedMusician(props: AppendedMusicianProps) {
       {allEventCalls.map(i => (
         <td key={i.id}>
           <Field 
-            data-testid={`${musician.id}-row-call-${i.id}`} 
+            data-testid={`${musician.user.id}-row-call-${i.id}`} 
             type="checkbox" 
             value={`${i.id}`}
             name={`appendedPlayers[${index}]calls`} />
@@ -44,7 +48,7 @@ export default function AppendedMusician(props: AppendedMusicianProps) {
           <BsThreeDotsVertical />
         </button>
         {showMenu 
-          && <AppendedMusicianMenu setShowMenu={(arg) => setShowMenu(arg)} index={index} remove={() => remove()} userId={musician.id} />}
+          && <AppendedMusicianMenu setShowMenu={(arg) => setShowMenu(arg)} index={index} remove={() => remove()} userId={musician.user.id} />}
       </td>
     </tr>
   )

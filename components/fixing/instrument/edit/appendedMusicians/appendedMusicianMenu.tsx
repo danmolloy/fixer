@@ -19,8 +19,8 @@ export default function AppendedMusicianMenu(props: AppendedMusicianMenuProps) {
       <button onClick={() => remove()}>Remove from List</button>
       <TextInput
         asHtml="textarea"
-        name={`appendedPlayers[${index}]playerMessage`} 
-        id={`appendedPlayers[${index}]playerMessage`}
+        name={`appendedPlayers[${index}]addedMessage`} 
+        id={`appendedPlayers[${index}]addedMessage`}
         min={"0"}
         max={"250"}
         label={"Add Message"} />
