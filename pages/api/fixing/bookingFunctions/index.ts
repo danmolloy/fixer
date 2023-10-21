@@ -34,11 +34,14 @@ export const getNumToBook = (eventInstrument: EventInstrumentWithMusicians): num
 
 
 export const releaseDeppers = async (instrumentId: number) => {
+  console.log("At releaseDeppers")
   const eventInstrument = await getEventInstrumentAndMusicians(instrumentId)
   let numToBook = getNumToBook(eventInstrument)
   let deppers = eventInstrument.musicians.filter(i => i.status === "DEP OUT")
   console.log(`Deppers: ${deppers.length}`)
   if (numToBook <= 0 && deppers.length > 0) {
+    console.log("inside if at releaseDeppers")
+
     for (let i = 0; i < deppers.length; i ++) {
       let data = {
         accepted: false,

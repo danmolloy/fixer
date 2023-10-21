@@ -1,4 +1,5 @@
 import { EventInstrument, PlayerCall } from "@prisma/client";
+import { BiUser, BiUserCheck } from "react-icons/bi";
 
 export type InstrumentHeaderProps = {
   eventInstrument: EventInstrument,
@@ -16,17 +17,19 @@ export default function InstrumentHeader(props: InstrumentHeaderProps) {
   
   return (
     <div data-testid="instrument-header">
-      <div>
+      <div className="flex flex-row justify-between">
         <h2>{eventInstrument.instrumentName}</h2>
-        <button data-testid="edit-btn" onClick={() => setShowEdit(!showEdit)}>
+        <button className="bg-indigo-600 text-white rounded px-2  shadow hover:bg-indigo-500" data-testid="edit-btn" onClick={() => setShowEdit(!showEdit)}>
           Edit
         </button>
       </div>
-      <div>
-        {(eventInstrument.numToBook > 0 || numBooked > 0) && (<p>{`${numBooked} of ${eventInstrument.numToBook} booked`}</p>)}
-        {numAvailable > 0 && <p>{`${numAvailable} available`}</p>}
-        {numDepping > 0 && <p>{`${numDepping} looking for dep`}</p>}
-      </div>
+      {(eventInstrument.numToBook > 0 || numBooked > 0) &&
+      <div className="flex flex-row items-center text-sm text-slate-400">
+        <BiUser />
+        {(eventInstrument.numToBook > 0 || numBooked > 0) && (<p className="ml-1">{`${numBooked} of ${eventInstrument.numToBook} booked`}</p>)}
+        {numAvailable > 0 && <p className="ml-1">{`${numAvailable} available`}</p>}
+        {numDepping > 0 && <p className="ml-1">{`${numDepping} looking for dep`}</p>}
+      </div>}
     </div>
   )
 }

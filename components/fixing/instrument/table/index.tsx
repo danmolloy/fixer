@@ -20,18 +20,18 @@ export default function FixingTable(props: FixingTableProps) {
 
   if (playerCalls.filter(i => i.bookingOrAvailability === selectedTab).length === 0) {
     return (
-    <div>
+    <div className="h-24 flex items-center justify-center border m-2 bg-slate-50">
       {selectedTab === "Booking" 
-      ? <p>No offers made</p> 
-      : <p>No availability checks made</p>}
+      ? <p className="font-bold ">No offers made</p> 
+      : <p className="font-bold ">No availability checks made</p>}
     </div>)
   }
 
   return (
-    <table data-testid="fixing-table">
+    <table data-testid="fixing-table" className="border m-2">
       <TableHead eventCalls={eventCalls} />
       <tbody>
-      {playerCalls.filter(i => i.bookingOrAvailability === selectedTab).map(i => (
+      {playerCalls.filter(i => i.bookingOrAvailability === selectedTab).sort((a,b) => a.id - b.id).map(i => (
         <PlayerRow key={i.id} allEventCalls={eventCalls} playerCall={i} />
       ))}
       </tbody>

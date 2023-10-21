@@ -26,10 +26,11 @@ export type EditInstrumentProps = {
   handleSubmit: (vals: InstrumentFormProps) => void
   directoryMusicians: User[]
   allEventCalls: Call[]
+  eventMusicianIds: string[]
 }
 
 export default function EditInstrument(props: EditInstrumentProps) {
-  const { allEventCalls, eventInstrument, bookingOrAvailability, handleSubmit, directoryMusicians } = props;
+  const { eventMusicianIds, allEventCalls, eventInstrument, bookingOrAvailability, handleSubmit, directoryMusicians } = props;
 
   const initialVals: InstrumentFormProps = {
     numToBook: eventInstrument.numToBook,
@@ -49,10 +50,16 @@ export default function EditInstrument(props: EditInstrumentProps) {
         actions.setSubmitting(false);
       }}>
         {props => (
-          <form data-testid="edit-instrument-form" onSubmit={props.handleSubmit}>
-             {props.values.musicians.length > 0 
-             && <AppendedTable allEventCalls={allEventCalls} musicians={props.values.musicians} />}
-             <DirectoryMusicians musicians={directoryMusicians} allEventCalls={allEventCalls}/>
+          <form data-testid="edit-instrument-form" onSubmit={props.handleSubmit} className="flex flex-col">
+
+              {props.values.musicians.length > 0 
+              && <AppendedTable  setMessage={(field, msg) => props.setFieldValue(field, msg)} allEventCalls={allEventCalls} musicians={props.values.musicians} />}
+              <DirectoryMusicians 
+                eventMusicianIds={[
+                  ...props.values.musicians.map(i => i.user.id), 
+                  ...eventMusicianIds]} 
+                musicians={directoryMusicians} 
+                allEventCalls={allEventCalls}/>
              <EditOptions bookingOrAvailability={bookingOrAvailability} />
              <ButtonPrimary
               isSubmitting={props.isSubmitting}
@@ -60,7 +67,7 @@ export default function EditInstrument(props: EditInstrumentProps) {
               handleClick={() => {}} 
               id="fix-btn" 
               text={bookingOrAvailability === "Availability" ? "Check availability" : "Fix"} 
-              className="px-5 text-white bg-emerald-500 border-emerald-500 hover:bg-emerald-400" />
+              className={`${bookingOrAvailability === "Availability" ? "w-40": "w-24"} self-end m-2  text-white bg-emerald-500 border-emerald-500 hover:bg-emerald-400`} />
           </form> 
         )}
     </Formik>

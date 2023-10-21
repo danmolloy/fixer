@@ -38,4 +38,5 @@ describe("<AppendedMusicianMenu />", () => {
     expect(msgBtn).toBeInTheDocument()
 
   })
+  //it("setShowMenu is called onBlur", () => {})
 })

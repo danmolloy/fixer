@@ -20,6 +20,8 @@ describe("<PlayerRowMenu /> in Availability", () => {
   beforeEach(() => {
     render(<PlayerRowMenu {...availabilityProps} />)
   })
+  //it("Closes on blur", () => {})
+
   it("player-row-menu is in the document", () => {
     const PlayerRowMenu = screen.getByTestId("player-row-menu")
     expect(PlayerRowMenu).toBeInTheDocument()

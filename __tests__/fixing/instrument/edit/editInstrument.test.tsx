@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { mockEventInstrumentWithMAndM } from "../../../../__mocks__/models/eventInstrument"
-import { mockUser } from "../../../../__mocks__/models/user"
+import { mockUser, mockUserId } from "../../../../__mocks__/models/user"
 import { mockCall } from "../../../../__mocks__/models/call"
 import EditInstrument, { EditInstrumentProps } from "../../../../components/fixing/instrument/edit"
 
@@ -10,7 +10,8 @@ const mockProps: EditInstrumentProps = {
   bookingOrAvailability: "Booking",
   handleSubmit: jest.fn(),
   directoryMusicians: [mockUser],
-  allEventCalls: [mockCall]
+  allEventCalls: [mockCall],
+  eventMusicianIds: [mockUserId]
 }
 
 describe("<EditInstrument />", () => {
@@ -30,6 +31,7 @@ describe("<EditInstrument />", () => {
     expect(submitBtn).toBeInTheDocument()
   })
   //it("submit btn calls handleSubmit with expected args onClick", () => {})
-  
+  //it("players are disabled who are in eventMusicianIds", () => {})
+  //it("players are disabled who are in appendedMusicians", () => {})
   //it("appended-players is in the document", () => {})
 })

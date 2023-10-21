@@ -18,7 +18,7 @@ export default function TabSelect(props: TabSelectProps) {
       <button
         data-testid="availability-tab-toggle" 
         onClick={() => setSelectedTab("Availability")}
-        className={selectedTab === "Availability" ? "py-2 border-b-2 border-blue-600 text-blue-600" :"text-slate-400 py-2"}>
+        className={selectedTab === "Availability" ? "py-2 border-b-2 border-amber-600 text-amber-600" :"text-slate-400 py-2"}>
         Availability
       </button>
     </div>

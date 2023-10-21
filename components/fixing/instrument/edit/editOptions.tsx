@@ -9,7 +9,7 @@ export default function EditOptions(props: EditOptionsProps) {
   const { bookingOrAvailability } = props
 
   return (
-    <div data-testid="edit-calls-options">
+    <div data-testid="edit-calls-options" className="m-2">
       <div className="p-2 flex flex-col">
       {bookingOrAvailability === "Booking" 
       && <div className="my-2 w-full ">

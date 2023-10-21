@@ -3,12 +3,14 @@ import { act, fireEvent, render, screen } from "@testing-library/react"
 import MusicianTile, { MusicianTileProps } from "../../../../components/fixing/instrument/edit/musicianTile"
 import { mockUser } from "../../../../__mocks__/models/user"
 
-const mockProps: MusicianTileProps = {
-  musician: mockUser,
-  appendPlayer: jest.fn()
-}
+
 
 describe("<MusicianTile />", () => {
+  const mockProps: MusicianTileProps = {
+    musician: mockUser,
+    appendPlayer: jest.fn(),
+    disabled: false
+  }
   beforeEach(() => {
     render(<MusicianTile {...mockProps}/>)
   })
@@ -42,3 +44,22 @@ describe("<MusicianTile />", () => {
 
 
 
+describe("<MusicianTile />", () => {
+  const mockProps: MusicianTileProps = {
+    musician: mockUser,
+    appendPlayer: jest.fn(),
+    disable: true
+  }
+  beforeEach(() => {
+    render(<MusicianTile {...mockProps}/>)
+  })
+  it("if disabled, add to list btn does not call appendPlayer ", () => {
+    const addBtn = screen.getByText("Add to List")
+    expect(addBtn).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(addBtn)
+    })
+    expect(mockProps.appendPlayer).not.toBeCalled()
+  })
+
+})

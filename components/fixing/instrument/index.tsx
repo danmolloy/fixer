@@ -31,7 +31,7 @@ export default function FixingInstrument(props: FixingInstrumentProps) {
   }
   
   return (
-    <div data-testid="fixing-instrument">
+    <div data-testid="fixing-instrument" className="w-screen md:w-1/2 m-2 p-2 border rounded shadow-sm flex flex-col">
       <InstrumentHeader 
         showEdit={showEdit} 
         setShowEdit={setShowEdit} 
@@ -41,6 +41,7 @@ export default function FixingInstrument(props: FixingInstrumentProps) {
       <FixingTable eventCalls={eventCalls} playerCalls={playerCalls} selectedTab={selectedTab} />
       {showEdit 
       && <EditInstrument 
+          eventMusicianIds={playerCalls.map((i): string => i.musician.id)}
           bookingOrAvailability={selectedTab}
           directoryMusicians={directoryMusicians}
           handleSubmit={(args) => handleSubmit(args)}

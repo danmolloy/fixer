@@ -6,6 +6,7 @@ import moment from 'moment'
 import OrchestraList from './orchestraList'
 import { Call, User } from '@prisma/client'
 import FixingTable from './instrument/table'
+import FixingInstrument from './instrument'
 
 
 export type FixingProps = {
@@ -25,6 +26,10 @@ export default function Fixing(props: FixingProps) {
   const { lastUpdated, eventCalls, instrumentSections, eventId, refreshProps, users, isLoading } = props
   const [selectedInstrument, setSelectedInstrument] = useState<string>("")
   const [viewList, setViewList] = useState<boolean>(false)
+
+  if (isLoading) {
+    return <p>Loading</p>
+  }
 
   return (
     <div className="w-screen flex flex-col justify-center" data-testid="event-fixing">
@@ -47,7 +52,7 @@ export default function Fixing(props: FixingProps) {
         selectedInstrument={selectedInstrument}/>
       <div className="hidden w-screen sm:flex flex-row flex-wrap items-start justify-center ">
         {instrumentSections.sort((a, b) => a.id - b.id).map(i => (
-          <div key={i.id} className="border sm:border-slate-400 flex flex-col w-full md:w-1/3  rounded m-2 ">
+          /* <div key={i.id} className="border sm:border-slate-400 flex flex-col w-full md:w-1/3  rounded m-2 ">
           <InstrumentTile 
             isLoading={isLoading}
             eventCalls={eventCalls} 
@@ -56,7 +61,15 @@ export default function Fixing(props: FixingProps) {
             instrumentSection={i} 
             instrumentalists={users.filter(j => j.instrument === i.instrumentName)}
             />
-          </div>
+            </div> */
+            <FixingInstrument
+              key={i.id}
+              playerCalls={i.musicians}
+              directoryMusicians={users.filter(j => j.instrument === i.instrumentName)}
+              eventCalls={eventCalls}
+              eventInstrument={i}
+              refreshProps={() => refreshProps()} />
+          
           )) }
       </div>
     </div>

@@ -42,7 +42,7 @@ export const handleBooking = async (instrumentObj: InstrumentFormProps) => {
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   
- res.status(200).json(await handleBooking(req.body))
+  res.status(200).json(await handleBooking(req.body))
   
 
 }
