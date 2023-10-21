@@ -1,5 +1,5 @@
 import { AiOutlineClose } from "react-icons/ai";
-import { EventInstrumentWithMusiciansWithMusician } from "./instrumentTile";
+import { EventInstrumentWithMusiciansWithMusician } from "./fixing"; 
 
 type OrchestraListProps = {
   setViewList: (boolean) => void

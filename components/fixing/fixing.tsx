@@ -1,13 +1,21 @@
 import useSwr from 'swr'
-import InstrumentTile, { EventInstrumentWithMusiciansWithMusician } from './instrumentTile'
 import React, { useState } from 'react'
 import MobileFixing from './mobileFixing'
 import moment from 'moment'
 import OrchestraList from './orchestraList'
-import { Call, User } from '@prisma/client'
-import FixingTable from './instrument/table'
+import { Call, Prisma, User } from '@prisma/client'
 import FixingInstrument from './instrument'
 
+export type EventInstrumentWithMusiciansWithMusician = Prisma.EventInstrumentGetPayload<{
+  include: {
+    musicians: {
+      include: {
+        musician: true,
+        calls: true
+      }
+    }
+  }
+}>
 
 export type FixingProps = {
   eventCalls: Call[]
@@ -52,16 +60,6 @@ export default function Fixing(props: FixingProps) {
         selectedInstrument={selectedInstrument}/>
       <div className="hidden w-screen sm:flex flex-row flex-wrap items-start justify-center ">
         {instrumentSections.sort((a, b) => a.id - b.id).map(i => (
-          /* <div key={i.id} className="border sm:border-slate-400 flex flex-col w-full md:w-1/3  rounded m-2 ">
-          <InstrumentTile 
-            isLoading={isLoading}
-            eventCalls={eventCalls} 
-            refreshProps={() => refreshProps()} 
-            eventId={eventId} 
-            instrumentSection={i} 
-            instrumentalists={users.filter(j => j.instrument === i.instrumentName)}
-            />
-            </div> */
             <FixingInstrument
               key={i.id}
               playerCalls={i.musicians}

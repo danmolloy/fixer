@@ -16,13 +16,10 @@ export const findEvent = async (uniqueId) => {
           musicians: {
             include: {
               musician: true,
-              calls: {
-                select: {
-                  id: true
-                }
-              }
+              calls: true,
             }
-          }
+          },
+        
         }
       }
     }
