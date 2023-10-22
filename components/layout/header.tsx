@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose, AiOutlineBell } from 'react-icons/ai'
 import React, { useEffect, useState } from 'react'
 import LandingHeader from '../landingPage/header'
+import Banner from './banner'
 
 export type HeaderProps = {
   showMenu: boolean

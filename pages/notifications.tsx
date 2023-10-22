@@ -27,9 +27,10 @@ export default function NotificationsPage() {
       </Layout>
     )}
 
+
   return (
     <Layout pageTitle="Notifications">
-      <NotificationsIndex data={data} mutate={() => mutate()}/>
+      <NotificationsIndex playerCalls={data.playerCalls} mutate={() => mutate()}/>
     </Layout>
   )
 }
