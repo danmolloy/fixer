@@ -3,7 +3,7 @@ import React from "react";
 import AboutSection from "./aboutSection";
 import EventIndex, { EventIndexProps } from "../event";
 import PlayerDirectory, { PlayerDirectoryProps } from "../directory/playerDirectory";
-import InstrumentTile, { InstrumentTileProps } from "../fixing/instrumentTile";
+//import InstrumentTile, { InstrumentTileProps } from "../fixing/instrumentTile";
 import EventsIndex, { EventWithCalls, EventsIndexProps } from "../upcomingEvents/eventsIndex";
 import { string } from "yup";
 import EventTile, { EventTileProps } from "../upcomingEvents/eventTile";
@@ -81,7 +81,7 @@ const directoryProps: PlayerDirectoryProps = {
   preview: true
 }
 
-const instrumentTileProps: InstrumentTileProps = {
+const instrumentTileProps: any = {
   eventCalls: [...eventIndexProps.event.calls],
   eventId: eventIndexProps.event.id,
   instrumentalists: [...directoryProps.data],
@@ -178,7 +178,7 @@ const aboutSectionsArr: {
     key: 3,
     title: "Automated Fixing",
     blurb: "We handle the bookings and availability checks with our flexible fixing features.",
-    children: <InstrumentTile {...instrumentTileProps} />
+    children: <div></div>
   },
   {
     key: 4,

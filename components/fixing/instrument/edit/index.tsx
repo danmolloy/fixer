@@ -1,6 +1,6 @@
 import { Call, User } from "@prisma/client";
 import { Formik } from "formik";
-import { EventInstrumentWithMusiciansWithMusician } from "../../instrumentTile";
+import { EventInstrumentWithMusiciansWithMusician } from "../../fixing"; 
 import ButtonPrimary from "../../../index/buttonPrimary";
 import AppendedTable from "./appendedMusicians/appendedTable";
 import EditOptions from "./editOptions";

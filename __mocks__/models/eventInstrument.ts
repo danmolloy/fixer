@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 import { EventInstrument } from "@prisma/client";
 import { mockEvent } from "./event";
 import { randBool } from "./playerCall";
-import { EventInstrumentWithMusiciansWithMusician } from "../../components/fixing/instrumentTile";
+import { EventInstrumentWithMusiciansWithMusician } from "../../components/fixing/fixing"; 
 import { mockCall } from "./call";
 import { EventInstrumentWithMusiciansAndEvent } from "../../pages/api/fixing/bookingFunctions/prismaFunctions"; 
 import { OfferMessageArg } from "../../pages/api/fixing/messages";
