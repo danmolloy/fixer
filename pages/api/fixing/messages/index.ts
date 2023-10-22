@@ -32,15 +32,11 @@ export const replyToMessage = async (msgBody: string, twiml: MessagingResponse) 
 }
 
 export const sendMessage = async (body: string, number: string) => {
-  if (process.env.TWILIO_ACTIVE === "false") {
-    console.log("Twilio Inactive")
-    return;
-  } else {
     return twilioClient.messages 
       .create({ 
           body: body,  
           messagingServiceSid: 'MGa3507a546e0e4a6374af6d5fe19e9e16',      
           to: number 
         })
-  }
+  
 }

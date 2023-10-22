@@ -31,7 +31,7 @@ export default function FixingInstrument(props: FixingInstrumentProps) {
   }
   
   return (
-    <div data-testid="fixing-instrument" className="w-[96vw] md:w-1/2 m-2 p-2 border rounded shadow-sm flex flex-col">
+    <div data-testid={`${eventInstrument.instrumentName}-fixing`} className="w-[96vw] md:w-1/2 m-2 p-2 border rounded shadow-sm flex flex-col">
       <InstrumentHeader 
         showEdit={showEdit} 
         setShowEdit={setShowEdit} 

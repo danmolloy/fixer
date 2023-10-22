@@ -1,14 +1,16 @@
 import "@testing-library/jest-dom"
 import { screen, render, act, fireEvent } from "@testing-library/react"
 import AppendedMusicianMenu, { AppendedMusicianMenuProps } from "../../../../../components/fixing/instrument/edit/appendedMusicians/appendedMusicianMenu"
-import { mockUserId } from "../../../../../__mocks__/models/user"
+import { mockUser, mockUserId } from "../../../../../__mocks__/models/user"
 import { Formik } from "formik"
 
 const mockProps: AppendedMusicianMenuProps = {
   remove: jest.fn(),
   index: Math.floor(Math.random()) * 10,
   userId: mockUserId,
-  setShowMenu: jest.fn()
+  setShowMenu: jest.fn(),
+  setMessage: jest.fn(),
+  musicianName: mockUser.name
 }
 
 describe("<AppendedMusicianMenu />", () => {
@@ -33,10 +35,11 @@ describe("<AppendedMusicianMenu />", () => {
     })
     expect(mockProps.remove).toBeCalled()
   })
-  it("add message input is in the document with label", () => {
-    const msgBtn = screen.getByLabelText("Add Message")
+  it("add message btn is in the document", () => {
+    const msgBtn = screen.getByText("Add Message")
     expect(msgBtn).toBeInTheDocument()
 
   })
+  //it("add message btn calls sendmessage with expected args", () => {})
   //it("setShowMenu is called onBlur", () => {})
 })

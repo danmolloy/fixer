@@ -4,9 +4,12 @@ import FixingInstrument, { FixingInstrumentProps } from "../../../components/fix
 import { mockCall } from "../../../__mocks__/models/call"
 import { mockPlayerCall, mockPlayerCallForTable } from "../../../__mocks__/models/playerCall"
 import { mockEventInstrument } from "../../../__mocks__/models/eventInstrument"
+import { mockUser } from "../../../__mocks__/models/user"
 
 
 const mockProps: FixingInstrumentProps = {
+  directoryMusicians: [mockUser],
+  refreshProps: jest.fn(),
   eventCalls: [mockCall],
   playerCalls: [{...mockPlayerCallForTable, bookingOrAvailability: "Booking"}],
   eventInstrument: mockEventInstrument
@@ -16,8 +19,8 @@ describe("<FixingInstrument />", () => {
   beforeEach(() => {
     render(<FixingInstrument {...mockProps} />)
   })
-  it("fixing-instrument is in the document", () => {
-    const fixingInstrument = screen.getByTestId("fixing-instrument")
+  it("[X]-fixing is in the document", () => {
+    const fixingInstrument = screen.getByTestId(`${mockProps.eventInstrument.instrumentName}-fixing`)
     expect(fixingInstrument).toBeInTheDocument()
   })
   it("instrument-header is in the document", () => {

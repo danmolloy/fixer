@@ -61,7 +61,7 @@ describe("Fixing component", () => {
   })
   it("All instrument sections are in the document", () => {
     for (let i = 0; i < mockProps.instrumentSections.length; i++) {
-      let instrumentTile = screen.getByTestId(`${mockProps.instrumentSections[i].instrumentName}-instrument-tile`)
+      let instrumentTile = screen.getByTestId(`${mockProps.instrumentSections[i].instrumentName}-fixing`)
       expect(instrumentTile).toBeInTheDocument()
     }
   })

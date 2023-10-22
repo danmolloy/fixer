@@ -48,7 +48,7 @@ describe("<MusicianTile />", () => {
   const mockProps: MusicianTileProps = {
     musician: mockUser,
     appendPlayer: jest.fn(),
-    disable: true
+    disabled: true
   }
   beforeEach(() => {
     render(<MusicianTile {...mockProps}/>)

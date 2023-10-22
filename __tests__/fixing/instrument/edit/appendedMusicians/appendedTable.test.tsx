@@ -15,7 +15,7 @@ const mockProps: AppendedTableProps = {
     }
   ],
   allEventCalls: [mockCall],
-  values: {}
+  setMessage: jest.fn()
 }
 
 
@@ -24,9 +24,7 @@ describe("<AppendedTable />", () => {
     render(
       <Formik initialValues={{}} onSubmit={jest.fn()}>
         {props => (
-          <table>
           <AppendedTable {...mockProps} />
-        </table>
         )}
       </Formik>)
   })

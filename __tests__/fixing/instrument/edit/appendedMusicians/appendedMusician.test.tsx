@@ -16,7 +16,8 @@ const mockProps: AppendedMusicianProps = {
   allEventCalls: [mockCall],
   index: Math.floor(Math.random()) * 10,
   remove: jest.fn(),
-  addedMessage: mockMessage
+  addedMessage: mockMessage,
+  setMessage: jest.fn()
 }
 
 describe("<AppendedMusician />", () => {

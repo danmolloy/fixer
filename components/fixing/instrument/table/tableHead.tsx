@@ -13,7 +13,7 @@ export default function TableHead(props: TableHeadProps) {
       <tr>
         <th data-testid="name-cell"></th>
         {eventCalls.map(i => (
-          <th key={i.id}>
+          <th key={i.id} data-testid={`${i.id}-cell`}>
             <p className="text-sm"> 
             {DateTime.fromJSDate(new Date(i.startTime)).toFormat("hh:mm a")}
             </p>

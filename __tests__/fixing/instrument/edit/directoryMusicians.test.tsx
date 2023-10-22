@@ -3,9 +3,12 @@ import { render, screen } from "@testing-library/react"
 import DirectoryMusicians, { DirectoryMusiciansProps } from "../../../../components/fixing/instrument/edit/directoryMusicians"
 import { mockUser } from "../../../../__mocks__/models/user"
 import { Formik } from "formik"
+import { mockCall } from "../../../../__mocks__/models/call"
 
 const mockProps: DirectoryMusiciansProps = {
-  musicians: [mockUser]
+  musicians: [mockUser],
+  eventMusicianIds: [mockUser.id],
+  allEventCalls: [mockCall]
 }
 
 describe("<DirectoryMusicians />", () => {
@@ -23,7 +26,7 @@ describe("<DirectoryMusicians />", () => {
     expect(directory).toBeInTheDocument()
   })
   it("title is in the document", () => {
-    const title = screen.getByText("Directory")
+    const title = screen.getByText("Select from Directory")
     expect(title).toBeInTheDocument()
   })
   it("all musicians are in the document", () => {

@@ -23,11 +23,11 @@ describe("<TableHead />", () => {
     const nameCell = screen.getByTestId("name-cell")
     expect(nameCell).toBeInTheDocument()
   })
-  it("each event call has a cell and start time is format 'DAY DD/MM/YYYY HH:MM PM'", () => {
+  it("each event call has a cell and start time is format 'hh:mm a dd LLL'", () => {
     for (let i = 0; i < mockProps.eventCalls.length; i++) {
-      let formattedStartTime = DateTime.fromJSDate(new Date(mockProps.eventCalls[i].startTime)).toFormat("ccc f")
-      let callCell = screen.getByText(formattedStartTime)
-      expect(callCell).toBeInTheDocument()
+      let formattedStartTime = DateTime.fromJSDate(new Date(mockProps.eventCalls[i].startTime)).toFormat("hh:mm add LLL")
+      let callCell = screen.getByTestId(`${mockProps.eventCalls[i].id}-cell`)
+      expect(callCell.textContent).toMatch(formattedStartTime)
     }
   })
   it("action cell is in document", () => {
