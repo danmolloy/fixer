@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { CallWithEvent } from "../upcomingEvents/upcomingEvents"
+import { CallWithEvent } from "../../upcomingEvents/upcomingEvents"
 import { BsThreeDotsVertical } from "react-icons/bs"
 import { DateTime } from "luxon"
 
@@ -12,7 +12,7 @@ export default function CallTile(props: CallTileProps) {
   const [showMenu, setShowMenu] = useState<boolean>(false)
 
   return (
-    <div data-testid="call-tile">
+    <div data-testid={`${eventCall.id}-call-tile`}>
       <button data-testid="menu-icon" onClick={() => setShowMenu(!showMenu)}>
         <BsThreeDotsVertical />
       </button>

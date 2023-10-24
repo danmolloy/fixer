@@ -19,17 +19,17 @@ export default function DatePicker(props: DatePickerProps) {
     let weekNumArr: number[] = []
     let numWeeks: number = monthEnd - monthStart
 
-    for (let i = 0; i < numWeeks; i ++) {
+    for (let i = 0; i <= numWeeks; i ++) {
       weekNumArr = [...weekNumArr, monthStart + i]
     }
     return weekNumArr
   }
   
   return (
-    <table data-testid="month-calendar">
+    <table data-testid="date-picker" >
       <DatePickerHeader selectedDate={selectedDate} setSelectedDate={(date) => setSelectedDate(date)}/>
       <DaysRow />
-      <tbody>
+      <tbody className="shadow-sm">
         {getWeekNumArray().map(i => (
           <WeekRow
             year={selectedDate.year}

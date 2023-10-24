@@ -39,7 +39,7 @@ export default function DaysRow() {
     <thead>
       <tr>
       {daysArr.map(i => (
-        <th key={i.index} className="h-12 w-12">
+        <th key={i.index} className="h-12 w-12 text-slate-500">
           {i.day[0]}
         </th>
       ))}

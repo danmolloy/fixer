@@ -16,7 +16,7 @@ describe("<DatePicker />", () => {
     render(<DatePicker {...mockProps} />)
   })
   it("monthCalendar is in the document", () => {
-    const datePicker = screen.getByTestId("month-calendar")
+    const datePicker = screen.getByTestId("date-picker")
     expect(datePicker).toBeInTheDocument()
   })
   it("dp-header is in the document", () => {

@@ -19,7 +19,7 @@ export default function MonthCalendar(props: MonthCalendarProps) {
     let weekNumArr: number[] = []
     let numWeeks: number = monthEnd - monthStart
 
-    for (let i = 0; i < numWeeks; i ++) {
+    for (let i = 0; i <= numWeeks; i ++) {
       weekNumArr = [...weekNumArr, monthStart + i]
     }
     return weekNumArr

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen } from "@testing-library/react"
-import CallTile, { CallTileProps } from "../../components/calendar/callTile"
-import { mockCallWithEvent } from "../../__mocks__/models/call"
+import CallTile, { CallTileProps } from "../../../components/calendar/CallList/callTile"
+import { mockCallWithEvent } from "../../../__mocks__/models/call"
 import { DateTime } from "luxon"
 
 const mockProps: CallTileProps = {
@@ -12,8 +12,8 @@ describe("<EventCallTile />", () => {
   beforeEach(() => {
     render(<CallTile {...mockProps} />)
   })
-  it("call-tile is in the document", () => {
-    const callTile = screen.getByTestId("call-tile")
+  it("[X]-call-tile is in the document", () => {
+    const callTile = screen.getByTestId(`${mockProps.eventCall.id}-call-tile`)
     expect(callTile).toBeInTheDocument()
   })
   it("ensemble name is in the document", () => {

@@ -11,6 +11,16 @@ describe("<CalendarIndex />", () => {
   beforeEach(() => {
     render(<CalendarIndex {...mockProps} />)
   })
-  it("calendar-index is in the document", () => {})
-  it("date-picker is in the document", () => {})
+  it("calendar-index is in the document", () => {
+    const calendarIndex = screen.getByTestId("calendar-index")
+    expect(calendarIndex).toBeInTheDocument()
+  })
+  it("date-picker is in the document", () => {
+    const datePicker = screen.getByTestId('date-picker')
+    expect(datePicker).toBeInTheDocument()
+  })
+  it("call-list is in the document", () => {
+    const callList = screen.getByTestId('call-list')
+    expect(callList).toBeInTheDocument()
+  })
 })

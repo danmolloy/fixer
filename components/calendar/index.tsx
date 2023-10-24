@@ -3,6 +3,7 @@ import DatePicker from "./datepicker"
 import { DateTime } from "luxon"
 import { useState } from "react"
 import MonthCalendar from "./monthCalendar"
+import CallList from "./CallList"
 
 export type UserWithEventsAndCalls = Prisma.UserGetPayload<{
   include: {
@@ -28,7 +29,7 @@ export default function CalendarIndex(props: CalendarIndexProps) {
   const [selectedDate, setSelectedDate] = useState<DateTime>(DateTime.now())
 
   return (
-    <div>
+    <div data-testid="calendar-index">
       <DatePicker 
         selectedDate={selectedDate}
         eventCalls={data.calls}
@@ -37,6 +38,7 @@ export default function CalendarIndex(props: CalendarIndexProps) {
         selectedDate={selectedDate}
         eventCalls={data.calls}
         setSelectedDate={setSelectedDate}/>
+      <CallList eventCalls={data.calls} selectedDate={selectedDate} />
     </div>
   )
 }
