@@ -7,8 +7,6 @@ import { useSession } from "next-auth/react";
 import { landingMenuItems } from "../landingPage/landingPage";
 import Loading from "../index/loading";
 import LoadingHeader from "./loadingHeader";
-import MobileMenuPanel from "../index/mobileMenuPanel";
-import { EventWithCalls } from "../upcomingEvents/eventsIndex";
 import Banner from "./banner";
 import useSWR from "swr";
 import SettingsIndex from "../settings/settings";
@@ -27,17 +25,10 @@ export default function Layout(props: LayoutProps) {
   const { children, pageTitle } = props
   const { data: session, status } = useSession()
   const { data, mutate, error, isLoading } = useSWR('/api/index/getUserData', fetcher)
-  const router = useRouter()
-
-
-
   const [showMenu, setShowMenu] = useState(false)
   const [reducedHeader, setReducedHeader] = useState(false)
 
-/*   const profileIncomplete = data 
-  && data?.user.email === null 
-  || session?.user.instrument === null 
-  || session?.user.name === null  */
+
 
 if (status === "loading"|| isLoading) {
     return (
