@@ -16,7 +16,12 @@ describe("<CalendarRow />", () => {
   }
   beforeEach(() => {
     
-    render(<CalendarRow {...mockProps} />)
+    render(
+      <table>
+        <tbody>
+          <CalendarRow {...mockProps} />
+        </tbody>
+      </table>)
   })
   it("[X]-row is in the document", () => {
     const weekRow = screen.getByTestId(`calendar-${mockProps.weekNumber}-row`)

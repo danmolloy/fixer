@@ -10,14 +10,20 @@ export default function CalendarHeader(props: CalendarHeaderProps) {
   const { selectedDate, setSelectedDate } = props;
 
   return (
-    <div data-testid="calendar-header">
+    <thead data-testid="calendar-header">
+      <tr>
+      <th colSpan={2}>
       <button data-testid="back-toggle" onClick={() => setSelectedDate(selectedDate.minus({month: 1}).startOf("month"))}>
         <BsChevronLeft />
       </button>
+      </th><th colSpan={3}>
       <h2>{selectedDate.toFormat("LLLL")}</h2>
+      </th><th colSpan={2}>
       <button data-testid="forward-toggle" onClick={() => setSelectedDate(selectedDate.plus({month: 1}).startOf("month"))}>
         <BsChevronRight />
       </button>
-    </div>
+      </th>
+      </tr>
+    </thead>
   )
 }

@@ -25,15 +25,15 @@ export default function CalendarRow(props: CalendarRowProps) {
   }
 
   return (
-    <div data-testid={`calendar-${weekNumber}-row`}>
+    <tr data-testid={`calendar-${weekNumber}-row`}>
       {getWeekArr().map(i => (
         <DayBlock 
           calendarDayDate={i} 
-          eventCalls={eventCalls} 
+          eventCalls={eventCalls.filter(j => DateTime.fromJSDate(new Date(j.startTime)).hasSame(i, "day"))} 
           selectedDate={selectedDate} 
           setSelectedDate={(arg) => setSelectedDate(arg)}  
           key={i.day} />
       ))}
-    </div>
+    </tr>
   )
 }

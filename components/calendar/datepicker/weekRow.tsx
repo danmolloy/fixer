@@ -25,15 +25,15 @@ export default function WeekRow(props: WeekRowProps) {
   }
 
   return (
-    <div data-testid={`${weekNumber}-row`}>
+    <tr data-testid={`${weekNumber}-row`}>
       {getWeekArr().map(i => (
         <DayTile 
           tileDate={i} 
-          eventCalls={eventCalls} 
+          eventCalls={eventCalls.filter(j => DateTime.fromJSDate(new Date(j.startTime)).hasSame(i, "day"))} 
           selectedDate={selectedDate} 
           setSelectedDate={(arg) => setSelectedDate(arg)}  
           key={i.day} />
       ))}
-    </div>
+    </tr>
   )
 }

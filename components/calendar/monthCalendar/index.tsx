@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import CalendarRow from "./calendarRow";
 import CalendarHeader from "./calendarHeader";
 import { CallWithEvent } from "./calendarDay";
+import DaysRow from "./daysRow";
 
 export type MonthCalendarProps = {
   selectedDate: DateTime
@@ -25,17 +26,20 @@ export default function MonthCalendar(props: MonthCalendarProps) {
   }
   
   return (
-    <div data-testid="month-calendar">
+    <table data-testid="month-calendar" className="w-[96vw]">
       <CalendarHeader selectedDate={selectedDate} setSelectedDate={(date) => setSelectedDate(date)}/>
-      {getWeekNumArray().map(i => (
-        <CalendarRow
-          year={selectedDate.year}
-          weekNumber={i}
-          setSelectedDate={setSelectedDate}
-          eventCalls={eventCalls}
-          selectedDate={selectedDate}
-          key={i} />
-      ))}
-    </div>
+      <DaysRow />
+      <tbody>
+        {getWeekNumArray().map(i => (
+          <CalendarRow
+            year={selectedDate.year}
+            weekNumber={i}
+            setSelectedDate={setSelectedDate}
+            eventCalls={eventCalls}
+            selectedDate={selectedDate}
+            key={i} />
+        ))}
+      </tbody>
+    </table>
   )
 }

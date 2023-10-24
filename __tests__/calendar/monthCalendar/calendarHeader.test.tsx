@@ -10,7 +10,10 @@ const mockProps: CalendarHeaderProps = {
 
 describe("<DatePickerHeader />", () => {
   beforeEach(() => {
-    render(<CalendarHeader {...mockProps} />)
+    render(
+      <table>
+        <CalendarHeader {...mockProps} />
+      </table>)
   })
   it("calendar-header is in the document", () => {
     const calendarHeader = screen.getByTestId("calendar-header")

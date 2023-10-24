@@ -4,8 +4,6 @@ import WeekRow, { WeekRowProps } from "../../../components/calendar/datepicker/w
 import { mockCall } from "../../../__mocks__/models/call"
 import { DateTime } from "luxon"
 
-
-
 describe("<WeekRow />", () => {
   const mockProps: WeekRowProps = {
     weekNumber: Math.ceil(Math.random() * 52),
@@ -15,8 +13,12 @@ describe("<WeekRow />", () => {
     setSelectedDate: jest.fn()
   }
   beforeEach(() => {
-    
-    render(<WeekRow {...mockProps} />)
+    render(
+      <table>
+        <tbody>
+          <WeekRow {...mockProps} />
+        </tbody>
+      </table>)
   })
   it("[X]-row is in the document", () => {
     const weekRow = screen.getByTestId(`${mockProps.weekNumber}-row`)
@@ -31,5 +33,7 @@ describe("<WeekRow />", () => {
       expect(dayTile).toBeInTheDocument()
     }
   })
+
+  //it("Doesn't pass all events to each dayTile", () => {})
 
 })

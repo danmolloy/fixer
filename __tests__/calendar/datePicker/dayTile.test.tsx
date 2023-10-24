@@ -14,7 +14,14 @@ describe("<DayTile />", () => {
     setSelectedDate: jest.fn()
   }
   beforeEach(() => {
-    render(<DayTile {...mockProps} />)
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <DayTile {...mockProps} />
+          </tr>
+        </tbody>
+      </table>)
   })
   it("[X]-tile is in the document", () => {
     const dayTile = screen.getByTestId(`${mockProps.tileDate}-tile`)

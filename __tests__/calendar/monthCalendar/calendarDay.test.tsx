@@ -13,7 +13,14 @@ describe("<CalendarDay />", () => {
     setSelectedDate: jest.fn()
   }
   beforeEach(() => {
-    render(<CalendarDay {...mockProps} />)
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <CalendarDay {...mockProps} />
+          </tr>
+        </tbody>
+      </table>)
   })
   it("[X]-day is in the document", () => {
     const dayTile = screen.getByTestId(`${mockProps.calendarDayDate}-day`)
@@ -39,5 +46,7 @@ describe("<CalendarDay />", () => {
       expect(event.textContent).toMatch(String(startTime))
     }
   })
+    //it("Doesnt pass all events to each day", () => {})
+
 })
 

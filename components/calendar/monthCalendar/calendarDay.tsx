@@ -19,15 +19,17 @@ export default function CalendarDay(props: CalendarDayProps) {
   const { calendarDayDate, eventCalls, selectedDate, setSelectedDate } = props;
   
   return (
-    <button data-testid={`${calendarDayDate}-day`} onClick={() => setSelectedDate(calendarDayDate)}>
-      <h3>
-        {calendarDayDate.day}
-      </h3>
-      {eventCalls.map(i => (
-        <p key={i.id} data-testid={`${i.id}-preview`}>
-          {i.event.ensembleName} {DateTime.fromJSDate(new Date(i.startTime)).toFormat("ha")}
-        </p>
-      ))}
-    </button>
+    <td>
+      <button data-testid={`${calendarDayDate}-day`} onClick={() => setSelectedDate(calendarDayDate)}>
+        <h3>
+          {calendarDayDate.day}
+        </h3>
+        {eventCalls.map(i => (
+          <p key={i.id} data-testid={`${i.id}-preview`}>
+            {i.event.ensembleName} {DateTime.fromJSDate(new Date(i.startTime)).toFormat("ha")}
+          </p>
+        ))}
+      </button>
+    </td>
   )
 }

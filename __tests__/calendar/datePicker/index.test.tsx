@@ -34,4 +34,6 @@ describe("<DatePicker />", () => {
       expect(weekRow).toBeInTheDocument()
     }
   })
+
+  //it("WeekRow is in the document", () => {})
 })

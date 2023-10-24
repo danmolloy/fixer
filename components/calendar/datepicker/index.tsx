@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import WeekRow from "./weekRow";
 import { Call } from "@prisma/client";
 import DatePickerHeader from "./header";
+import DaysRow from "./daysRow";
 
 export type DatePickerProps = {
   selectedDate: DateTime
@@ -25,17 +26,20 @@ export default function DatePicker(props: DatePickerProps) {
   }
   
   return (
-    <div data-testid="month-calendar">
+    <table data-testid="month-calendar">
       <DatePickerHeader selectedDate={selectedDate} setSelectedDate={(date) => setSelectedDate(date)}/>
-      {getWeekNumArray().map(i => (
-        <WeekRow
-          year={selectedDate.year}
-          weekNumber={i}
-          setSelectedDate={setSelectedDate}
-          eventCalls={eventCalls}
-          selectedDate={selectedDate}
-          key={i} />
-      ))}
-    </div>
+      <DaysRow />
+      <tbody>
+        {getWeekNumArray().map(i => (
+          <WeekRow
+            year={selectedDate.year}
+            weekNumber={i}
+            setSelectedDate={setSelectedDate}
+            eventCalls={eventCalls}
+            selectedDate={selectedDate}
+            key={i} />
+        ))}
+      </tbody>
+    </table>
   )
 }

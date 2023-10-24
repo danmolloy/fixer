@@ -10,7 +10,10 @@ const mockProps: DatePickerHeaderProps = {
 
 describe("<DatePickerHeader />", () => {
   beforeEach(() => {
-    render(<DatePickerHeader {...mockProps} />)
+    render(
+      <table>
+        <DatePickerHeader {...mockProps} />
+      </table>)
   })
   it("dp-header is in the document", () => {
     const dpHeader = screen.getByTestId("date-picker-header")

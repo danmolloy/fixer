@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Loading from "../components/index/loading";
 import Dashboard from "../components/index/dashboard";
 import useSWR from "swr";
+import CalendarIndex from "../components/calendar";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -38,7 +39,8 @@ export default function Home() {
 
   return (
     <Layout pageTitle="Calendar">
-      <EventsIndex data={data}/>
+      {/* <EventsIndex data={data}/> */}
+      <CalendarIndex data={data}/>
     </Layout>
   )
 }
