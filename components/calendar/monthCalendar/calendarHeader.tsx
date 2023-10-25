@@ -10,7 +10,7 @@ export default function CalendarHeader(props: CalendarHeaderProps) {
   const { selectedDate, setSelectedDate } = props;
 
   return (
-    <thead data-testid="calendar-header">
+    <thead data-testid="calendar-header" className="h-10">
       <tr>
       <th colSpan={2}>
       <button data-testid="back-toggle" onClick={() => setSelectedDate(selectedDate.minus({month: 1}).startOf("month"))}>

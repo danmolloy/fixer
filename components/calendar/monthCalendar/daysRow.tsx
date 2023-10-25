@@ -37,9 +37,9 @@ const daysArr: {
 export default function DaysRow() {
   return (
     <thead>
-      <tr>
+      <tr >
       {daysArr.map(i => (
-        <th key={i.index} className="h-12 w-12">
+        <th key={i.index} className="border w-12">
           {i.day.slice(0, 3)}
         </th>
       ))}

@@ -26,10 +26,10 @@ export default function DatePicker(props: DatePickerProps) {
   }
   
   return (
-    <table data-testid="date-picker" >
+    <table data-testid="date-picker" className="">
       <DatePickerHeader selectedDate={selectedDate} setSelectedDate={(date) => setSelectedDate(date)}/>
       <DaysRow />
-      <tbody className="shadow-sm">
+      <tbody className="shadow-sm ">
         {getWeekNumArray().map(i => (
           <WeekRow
             year={selectedDate.year}

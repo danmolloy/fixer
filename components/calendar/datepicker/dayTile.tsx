@@ -15,7 +15,7 @@ export default function DayTile(props: DayTileProps) {
   return (
     <td className={`${tileDate.hasSame(selectedDate, 'month') ? "bg-white" : "bg-slate-50" } border w-12 h-12`}>
       <button 
-      className={`${tileDate.hasSame(selectedDate, 'day') ? "bg-indigo-600 text-white" : ""} w-full h-full flex flex-col items-center`} data-testid={`${tileDate}-tile`} onClick={() => setSelectedDate(tileDate)}>
+      className={`${tileDate.hasSame(selectedDate, 'day') ? "bg-indigo-600 text-white" : ""} w-full h-full flex flex-col items-center font-thin hover:bg-indigo-50 hover:text-black`} data-testid={`${tileDate}-tile`} onClick={() => setSelectedDate(tileDate)}>
         <p className={`${tileDate.hasSame(DateTime.now(), 'day') && !tileDate.hasSame(selectedDate, 'day') ? "text-indigo-500": ""}`}>
           {tileDate.day}
         </p>
