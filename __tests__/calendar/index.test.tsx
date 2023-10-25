@@ -11,6 +11,10 @@ describe("<CalendarIndex />", () => {
   beforeEach(() => {
     render(<CalendarIndex {...mockProps} />)
   })
+  it("calendar-header is in the document", () => {
+    const calendarHeader = screen.getByTestId("calendar-header")
+    expect(calendarHeader).toBeInTheDocument()
+  })
   it("calendar-index is in the document", () => {
     const calendarIndex = screen.getByTestId("calendar-index")
     expect(calendarIndex).toBeInTheDocument()

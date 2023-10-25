@@ -38,7 +38,7 @@ export default function Home() {
 
 
   return (
-    <Layout pageTitle="Calendar">
+    <Layout pageTitle="">
       {/* <EventsIndex data={data}/> */}
       <CalendarIndex data={data}/>
     </Layout>
