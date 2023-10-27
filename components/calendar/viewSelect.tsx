@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-export const viewOptions = ["Day", "Week", "Month", "Year"]
+export const viewOptions = ["Day", "Month", "Year"]
 
 export type ViewSelectProps = {
-  selectedView: "Day"|"Week"|"Month"|"Year"
-  setSelectedView: (arg: "Day"|"Week"|"Month"|"Year") => void
+  selectedView: "Day"|"Month"|"Year"
+  setSelectedView: (arg: "Day"|"Month"|"Year") => void
 }
 
 export default function ViewSelect(props: ViewSelectProps) {
@@ -24,7 +24,7 @@ export default function ViewSelect(props: ViewSelectProps) {
       </button>
       {showOptions 
       && <ul className="mt-9 w-28 bg-white  border rounded shadow absolute">
-        {viewOptions.map((i: "Day"|"Week"|"Month"|"Year") => (
+        {viewOptions.map((i: "Day"|"Month"|"Year") => (
           <li key={i} data-testid={`${i}-option`}>
             <button className="w-full h-full p-1 text-start hover:bg-indigo-600 hover:text-white"  onClick={() => setSelectedView(i)}>
               {i}

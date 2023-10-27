@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import { CallWithEvent } from "../monthCalendar/calendarDay";
 import CallList from "../CallList";
 import DatePicker from "../datepicker";
+import WeekDayPicker from "../weekDayPicker";
 
 export type DayViewProps = {
   selectedDate: DateTime
@@ -13,12 +14,20 @@ export default function DayView(props: DayViewProps) {
   const { selectedDate, setSelectedDate, eventCalls } = props;
 
   return (
-    <div data-testid="day-view" className="py-4 flex flex-row justify-center">
+    <div data-testid="day-view" className="md:py-4 flex flex-col md:flex-row justify-center">
+      <div className="md:hidden">
+        <WeekDayPicker 
+          selectedDate={selectedDate}
+          eventCalls={eventCalls}
+          setSelectedDate={setSelectedDate}/>
+      </div>
       <CallList eventCalls={eventCalls} selectedDate={selectedDate} />
-      <DatePicker 
-        selectedDate={selectedDate}
-        eventCalls={eventCalls}
-        setSelectedDate={setSelectedDate}/>
+      <div className="hidden md:flex">
+        <DatePicker 
+          selectedDate={selectedDate}
+          eventCalls={eventCalls}
+          setSelectedDate={setSelectedDate}/>
+      </div>
     </div>
   )
 }

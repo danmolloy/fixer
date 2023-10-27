@@ -4,8 +4,8 @@ import ViewSelect from "./viewSelect";
 export type CalendarHeaderProps = {
   selectedDate: DateTime
   setSelectedDate: (arg: DateTime) => void
-  selectedView: "Day"|"Week"|"Month"|"Year"
-  setSelectedView: (arg: "Day"|"Week"|"Month"|"Year") => void
+  selectedView: "Day"|"Month"|"Year"
+  setSelectedView: (arg: "Day"|"Month"|"Year") => void
 }
 
 export default function CalendarHeader(props: CalendarHeaderProps) {

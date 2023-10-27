@@ -2,10 +2,12 @@ import "@testing-library/jest-dom"
 import { screen, render, act, fireEvent } from "@testing-library/react"
 import WeekDayPicker, { WeekDayPickerProps } from "../../components/calendar/weekDayPicker"
 import { DateTime } from "luxon"
+import { mockCall } from "../../__mocks__/models/call"
 
 const mockProps: WeekDayPickerProps = {
   selectedDate: DateTime.now(),
-  setSelectedDate: jest.fn()
+  setSelectedDate: jest.fn(),
+  eventCalls: [mockCall]
 }
 
 describe("<WeekDayPicker />", () => {
@@ -45,4 +47,5 @@ describe("<WeekDayPicker />", () => {
     } 
 
   })
+  it("indicates if there is an event on particular day", () => {})
 })

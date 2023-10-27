@@ -7,6 +7,7 @@ import CallList from "./CallList"
 import CalendarHeader from "./header"
 import DayView from "./views/dayView"
 import MonthView from "./views/monthView"
+import YearView from "./views/yearView"
 
 export type UserWithEventsAndCalls = Prisma.UserGetPayload<{
   include: {
@@ -30,7 +31,12 @@ export type CalendarIndexProps  = {
 export default function CalendarIndex(props: CalendarIndexProps) {
   const { data } = props;
   const [selectedDate, setSelectedDate] = useState<DateTime>(DateTime.now())
-  const [selectedView, setSelectedView] = useState<"Day"|"Week"|"Month"|"Year">("Day")
+  const [selectedView, setSelectedView] = useState<"Day"|"Month"|"Year">("Day")
+
+  if (!data) {
+    return <p>Loading..</p>
+  }
+
   return (
     <div data-testid="calendar-index" className="flex flex-col items-center w-screen">
       <CalendarHeader 
@@ -38,7 +44,12 @@ export default function CalendarIndex(props: CalendarIndexProps) {
         setSelectedView={(arg) => setSelectedView(arg)}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}/>
-        {selectedView === "Day" 
+        {selectedView === "Year" 
+        ? <YearView
+          selectedDate={selectedDate}
+          eventCalls={data.calls}
+          setSelectedDate={setSelectedDate}/> 
+        : selectedView === "Day" 
         ? <DayView 
             selectedDate={selectedDate}
             eventCalls={data.calls}

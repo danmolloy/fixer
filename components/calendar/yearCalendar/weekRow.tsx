@@ -1,18 +1,18 @@
 import { Call } from "@prisma/client"
 import { DateTime } from "luxon"
-import DayBlock, { CallWithEvent } from "./calendarDay"
+import DayTile from "./dayTile"
 
-export type CalendarRowProps = {
+export type WeekRowProps = {
+  startOfWeekDate: DateTime
+  month: number
   weekNumber: number
-  year: number
-  eventCalls: CallWithEvent[]
+  eventCalls: Call[]
   selectedDate: DateTime
   setSelectedDate: (arg: DateTime) => void
-  startOfWeekDate: DateTime
 }
 
-export default function CalendarRow(props: CalendarRowProps) {
-  const { startOfWeekDate, year, weekNumber, eventCalls, selectedDate, setSelectedDate } = props
+export default function WeekRow(props: WeekRowProps) {
+  const { month, startOfWeekDate, weekNumber, eventCalls, selectedDate, setSelectedDate } = props
   
   const getWeekArr = () => {
     
@@ -26,10 +26,12 @@ export default function CalendarRow(props: CalendarRowProps) {
   }
 
   return (
-    <tr data-testid={`calendar-${weekNumber}-row`}>
+    <tr data-testid={`${weekNumber}-row`}>
       {getWeekArr().map(i => (
-        <DayBlock 
-          calendarDayDate={i} 
+        <DayTile 
+          month={month}
+          year={i.year}
+          tileDate={i} 
           eventCalls={eventCalls.filter(j => DateTime.fromJSDate(new Date(j.startTime)).hasSame(i, "day"))} 
           selectedDate={selectedDate} 
           setSelectedDate={(arg) => setSelectedDate(arg)}  

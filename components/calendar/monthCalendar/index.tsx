@@ -14,13 +14,13 @@ export default function MonthCalendar(props: MonthCalendarProps) {
   const { selectedDate, eventCalls, setSelectedDate } = props;
 
   const getWeekNumArray = () => {
-    let monthStart: number = selectedDate.startOf("month").weekNumber
-    let monthEnd: number = selectedDate.endOf("month").weekNumber
-    let weekNumArr: number[] = []
-    let numWeeks: number = monthEnd - monthStart
+    let monthStart: DateTime = DateTime.fromObject({month: selectedDate.month, year: selectedDate.year}).startOf("month")
+    let monthEnd: DateTime = DateTime.fromObject({month: selectedDate.month, year: selectedDate.year}).endOf("month").startOf("week")
+    let weekNumArr: DateTime[] = []
+    let numWeeks: number = Math.ceil(monthEnd.diff(monthStart, 'weeks').as('weeks'))
 
     for (let i = 0; i <= numWeeks; i ++) {
-      weekNumArr = [...weekNumArr, monthStart + i]
+      weekNumArr = [...weekNumArr, monthStart.plus({weeks: i}).startOf("week")]
     }
     return weekNumArr
   }
@@ -32,12 +32,13 @@ export default function MonthCalendar(props: MonthCalendarProps) {
       <tbody>
         {getWeekNumArray().map(i => (
           <CalendarRow
+            startOfWeekDate={i}
             year={selectedDate.year}
-            weekNumber={i}
+            weekNumber={i.weekNumber}
             setSelectedDate={setSelectedDate}
             eventCalls={eventCalls}
             selectedDate={selectedDate}
-            key={i} />
+            key={i.day} />
         ))}
       </tbody>
     </table>
