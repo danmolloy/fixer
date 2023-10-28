@@ -3,7 +3,7 @@ import Layout from '../../../components/layout/layout'
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import CreateEventForm from '../../../components/createEvent/createEventForm';
+import CreateEventForm from '../../../components/event/createEvent/createEventForm';
 import useSWR from "swr";
 import { Call, Event } from '@prisma/client';
 import { EventWithCalls } from '../../../components/event';

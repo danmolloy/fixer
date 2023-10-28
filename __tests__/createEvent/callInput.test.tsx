@@ -1,4 +1,4 @@
-import CallInput from "../../components/createEvent/callInput";
+import CallInput from "../../components/event/createEvent/callInput";
 import "@testing-library/jest-dom"
 import { render, screen, act, fireEvent } from "@testing-library/react";
 import { Formik } from "formik";

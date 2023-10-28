@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import CreateEventForm from "../../components/createEvent/createEventForm";
+import CreateEventForm from "../../components/event/createEvent/createEventForm";
 import Layout from "../../components/layout/layout";
 import axios from "axios";
 import { Router, useRouter } from "next/router";

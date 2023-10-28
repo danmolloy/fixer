@@ -1,10 +1,10 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom"
-import TextInput from "../../components/createEvent/textInput";
+import TextInput from "../../components/event/createEvent/textInput";
 import React from "react";
 import { Formik } from "formik";
-import ComboBox, { ComboBoxProps } from "../../components/createEvent/comboBox";
-import { venueOptions } from "../../components/createEvent/callInput";
+import ComboBox, { ComboBoxProps } from "../../components/event/createEvent/comboBox";
+import { venueOptions } from "../../components/event/createEvent/callInput";
 
 const mockProps = {
   name: "Venue Name",

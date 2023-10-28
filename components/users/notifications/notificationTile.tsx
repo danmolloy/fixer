@@ -1,5 +1,5 @@
 import moment from "moment";
-import ButtonPrimary from "../index/buttonPrimary";
+import ButtonPrimary from "../../index/buttonPrimary";
 import { TiTick, TiTimes } from "react-icons/ti";
 import axios from "axios";
 import { useState } from "react";

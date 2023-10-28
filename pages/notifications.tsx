@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import Loading from "../components/index/loading";
 import LandingPage from "../components/externalSite/landingPage/landingPage";
 import Layout from "../components/layout/layout";
-import NotificationsIndex from "../components/notifications/notificationsIndex";
+import NotificationsIndex from "../components/users/notifications/notificationsIndex";
 import useSWR from "swr";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())

@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom"
-import EnsembleRadioGroup, { EnsembleRadioProps } from "../../components/createEvent/ensembleRadioGroup"
+import EnsembleRadioGroup, { EnsembleRadioProps } from "../../components/event/createEvent/ensembleRadioGroup"
 import { render, screen } from "@testing-library/react"
 import { Formik } from "formik"
 

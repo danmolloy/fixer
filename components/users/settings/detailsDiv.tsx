@@ -5,7 +5,7 @@ import { RequiredNumberSchema } from "yup/lib/number"
 import { AnyObject } from "yup/lib/types"
 import axios from "axios"
 import EditInstrument from "./editInstrument"
-import { instrumentArr } from "../fixing/fixing"
+import { instrumentArr } from "../../fixing/fixing"
 
 export type DetailsDivProps = {
   id: string

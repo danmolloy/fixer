@@ -1,5 +1,5 @@
 import { Field } from "formik";
-import TextInput from "../../../createEvent/textInput";
+import TextInput from "../../../event/createEvent/textInput";
 
 export type EditOptionsProps = {
   bookingOrAvailability: "Booking"|"Availability"

@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Formik } from "formik";
 import React from "react";
-import TextInput from "../createEvent/textInput";
+import TextInput from "../event/createEvent/textInput";
 import { instrumentArr } from "../fixing/fixing";
 import ButtonPrimary from "./buttonPrimary";
 import * as Yup from 'yup';

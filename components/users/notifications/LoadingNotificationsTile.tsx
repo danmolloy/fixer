@@ -1,5 +1,5 @@
-import ButtonPrimary from "../index/buttonPrimary";
-import PulsingDiv from "../layout/pulsingDiv";
+import ButtonPrimary from "../../index/buttonPrimary";
+import PulsingDiv from "../../layout/pulsingDiv";
 
 export default function LoadingNotificationsTile() {
   return (

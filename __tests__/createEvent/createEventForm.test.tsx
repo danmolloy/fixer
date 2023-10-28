@@ -1,6 +1,6 @@
 import { render, screen, act, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom"
-import CreateEventForm, { CreateEventFormProps } from "../../components/createEvent/createEventForm";
+import CreateEventForm, { CreateEventFormProps } from "../../components/event/createEvent/createEventForm";
 import React from "react";
 
 const mockProps: CreateEventFormProps = {
