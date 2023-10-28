@@ -3,7 +3,7 @@ import DatePicker from "./datepicker"
 import { DateTime } from "luxon"
 import { useState } from "react"
 import MonthCalendar from "./monthCalendar"
-import CallList from "./CallList"
+import CallList from "./callList"
 import CalendarHeader from "./header"
 import DayView from "./views/dayView"
 import MonthView from "./views/monthView"
@@ -46,6 +46,7 @@ export default function CalendarIndex(props: CalendarIndexProps) {
         setSelectedDate={setSelectedDate}/>
         {selectedView === "Year" 
         ? <YearView
+          setSelectedView={(arg) => setSelectedView(arg)}
           selectedDate={selectedDate}
           eventCalls={data.calls}
           setSelectedDate={setSelectedDate}/> 

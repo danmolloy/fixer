@@ -9,10 +9,11 @@ export type WeekRowProps = {
   eventCalls: Call[]
   selectedDate: DateTime
   setSelectedDate: (arg: DateTime) => void
+  setSelectedView: (arg: "Day"|"Month"|"Year") => void
 }
 
 export default function WeekRow(props: WeekRowProps) {
-  const { month, startOfWeekDate, weekNumber, eventCalls, selectedDate, setSelectedDate } = props
+  const { setSelectedView, month, startOfWeekDate, weekNumber, eventCalls, selectedDate, setSelectedDate } = props
   
   const getWeekArr = () => {
     
@@ -29,6 +30,7 @@ export default function WeekRow(props: WeekRowProps) {
     <tr data-testid={`${weekNumber}-row`}>
       {getWeekArr().map(i => (
         <DayTile 
+          setSelectedView={(arg) => setSelectedView(arg)}
           month={month}
           year={i.year}
           tileDate={i} 

@@ -3,8 +3,7 @@ import React from 'react'
 import CallTile from "./callTile";
 import InfoDiv from "./infoDiv";
 import { Call } from "@prisma/client";
-import { EventWithCalls } from "../upcomingEvents/eventsIndex";
-
+import { EventWithCalls } from "./calendarEventLink";
 
 
 export type EventInfoProps = {

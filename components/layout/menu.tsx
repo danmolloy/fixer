@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import React, { useEffect, useRef } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import FixerMenu from "../event/fixerMenu"
-import { EventWithCalls } from "../upcomingEvents/eventsIndex"
+import { EventWithCalls } from "../event/calendarEventLink" 
 
 
 export type MenuItems = {

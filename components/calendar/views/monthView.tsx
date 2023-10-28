@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import { CallWithEvent } from "../monthCalendar/calendarDay";
-import CallList from "../CallList";
+import CallList from "../callList";
 import MonthCalendar from "../monthCalendar";
 import DatePicker from "../datepicker";
 

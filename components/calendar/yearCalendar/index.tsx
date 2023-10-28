@@ -10,10 +10,11 @@ export type DatePickerProps = {
   eventCalls: Call[]
   month: number
   year: number
+  setSelectedView: (arg: "Day"|"Month"|"Year") => void
 }
 
 export default function YearCalendar(props: DatePickerProps) {
-  const { year, month, selectedDate, eventCalls, setSelectedDate } = props;
+  const { setSelectedView, year, month, selectedDate, eventCalls, setSelectedDate } = props;
 
   const getWeekNumArray = () => {
     let monthStart: DateTime = DateTime.fromObject({month: month, year: year}).startOf("month")
@@ -31,12 +32,13 @@ export default function YearCalendar(props: DatePickerProps) {
   
   
   return (
-    <table data-testid="date-picker" className="">
+    <table data-testid="date-picker" className="m-2 flex flex-col items-center md:items-start">
       <YearCalendarHeader year={year} month={month} />
       <DaysRow />
       <tbody className="shadow-sm ">
         {getWeekNumArray().map(i => (
           <WeekRow
+            setSelectedView={(arg) => setSelectedView(arg)}
             startOfWeekDate={i}
             month={month}
             weekNumber={i.weekNumber}

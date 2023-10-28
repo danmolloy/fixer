@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { CallWithEvent } from "../../upcomingEvents/upcomingEvents"
+import { CallWithEvent } from "../monthCalendar/calendarDay";
 import CallTile from "./callTile";
 
 export type CallListProps = {
@@ -13,7 +13,7 @@ export default function CallList(props: CallListProps) {
   const daysWork = eventCalls.filter(i => DateTime.fromJSDate(new Date(i.startTime)).hasSame(selectedDate, 'day'))
 
   return (
-    <div data-testid="call-list" className="m-2 ">
+    <div data-testid="call-list" className="m-2">
       <h2>Events on {selectedDate.toFormat("DDD")}</h2>
       <div>
         {daysWork.length > 0 ?

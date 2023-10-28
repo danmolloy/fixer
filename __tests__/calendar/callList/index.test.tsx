@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import CallList, { CallListProps } from "../../../components/calendar/CallList"
+import CallList, { CallListProps } from "../../../components/calendar/callList"
 import { DateTime } from "luxon"
 import { mockCallWithEvent } from "../../../__mocks__/models/call"
 

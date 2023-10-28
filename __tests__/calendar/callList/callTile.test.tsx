@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen } from "@testing-library/react"
-import CallTile, { CallTileProps } from "../../../components/calendar/CallList/callTile"
+import CallTile, { CallTileProps } from "../../../components/calendar/callList/callTile"
 import { mockCallWithEvent } from "../../../__mocks__/models/call"
 import { DateTime } from "luxon"
 

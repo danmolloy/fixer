@@ -6,7 +6,6 @@ import useSWR from "swr";
 import IsLoadingEventIndex from "../../components/event/isLoadingEventIndex";
 import { useEffect, useState } from "react";
 import IsLoadingInstrumentTile from "../../components/fixing/isLoadingTile";
-import { EventWithCalls } from "../../components/upcomingEvents/eventsIndex";
 import Loading from "../../components/index/loading";
 import { useSession } from "next-auth/react";
 import LandingPage from "../../components/landingPage/landingPage";

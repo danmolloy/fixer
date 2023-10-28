@@ -1,7 +1,7 @@
 import { Call } from "@prisma/client";
 import { mockEventInstrument } from "./eventInstrument";
 import { faker } from "@faker-js/faker";
-import { CallWithEvent } from "../../components/upcomingEvents/upcomingEvents";
+import { CallWithEvent } from "../../components/calendar/monthCalendar/calendarDay";
 import { mockEvent } from "./event";
 
 export const mockCall: Call = {

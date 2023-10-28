@@ -14,13 +14,13 @@ export default function DatePicker(props: DatePickerProps) {
   const { selectedDate, eventCalls, setSelectedDate } = props;
 
   const getWeekNumArray = () => {
-    let monthStart: number = selectedDate.startOf("month").weekNumber
-    let monthEnd: number = selectedDate.endOf("month").weekNumber
-    let weekNumArr: number[] = []
-    let numWeeks: number = monthEnd - monthStart
+    let monthStart: DateTime = selectedDate.startOf("month")
+    let monthEnd: DateTime = selectedDate.endOf("month")
+    let weekNumArr: DateTime[] = []
+    let numWeeks: number = Math.ceil(monthEnd.startOf("week").diff(monthStart, "weeks").as("weeks"))
 
     for (let i = 0; i <= numWeeks; i ++) {
-      weekNumArr = [...weekNumArr, monthStart + i]
+      weekNumArr = [...weekNumArr, monthStart.plus({weeks: i})]
     }
     return weekNumArr
   }
@@ -32,12 +32,11 @@ export default function DatePicker(props: DatePickerProps) {
       <tbody className="shadow-sm ">
         {getWeekNumArray().map(i => (
           <WeekRow
-            year={selectedDate.year}
-            weekNumber={i}
+            startOfWeekDate={i.startOf("week")}
             setSelectedDate={setSelectedDate}
             eventCalls={eventCalls}
             selectedDate={selectedDate}
-            key={i} />
+            key={String(i.toJSDate)} />
         ))}
       </tbody>
     </table>

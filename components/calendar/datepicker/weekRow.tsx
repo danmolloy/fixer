@@ -3,20 +3,19 @@ import { DateTime } from "luxon"
 import DayTile from "./dayTile"
 
 export type WeekRowProps = {
-  weekNumber: number
-  year: number
+  startOfWeekDate: DateTime
   eventCalls: Call[]
   selectedDate: DateTime
   setSelectedDate: (arg: DateTime) => void
 }
 
 export default function WeekRow(props: WeekRowProps) {
-  const { year, weekNumber, eventCalls, selectedDate, setSelectedDate } = props
+  const { startOfWeekDate, eventCalls, selectedDate, setSelectedDate } = props
   
   const getWeekArr = () => {
     
     let weekArr: DateTime[] = [];
-    let weekStart = DateTime.fromObject({weekNumber: weekNumber}).set({year: year}).startOf("week")
+    let weekStart = startOfWeekDate
     for (let i = 0; i < 7; i++) {
       weekArr = [...weekArr, weekStart.plus({days: i})]
     }
@@ -25,7 +24,7 @@ export default function WeekRow(props: WeekRowProps) {
   }
 
   return (
-    <tr data-testid={`${weekNumber}-row`}>
+    <tr data-testid={`${startOfWeekDate.weekNumber}-row`}>
       {getWeekArr().map(i => (
         <DayTile 
           tileDate={i} 

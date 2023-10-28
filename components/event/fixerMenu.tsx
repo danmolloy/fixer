@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import React, { useEffect, useRef } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import { CSVLink } from "react-csv";
-import { EventWithCalls } from "../upcomingEvents/eventsIndex"
+import { EventWithCalls } from "./calendarEventLink" 
 import CalendarEventLink from "./calendarEventLink"
 
 

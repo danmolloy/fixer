@@ -1,7 +1,11 @@
-import { Call } from "@prisma/client";
-import { EventWithCalls } from "../upcomingEvents/eventsIndex";
+import { Call, Prisma } from "@prisma/client";
 import { createEvents } from 'ics';
 
+export type EventWithCalls = Prisma.EventGetPayload<{
+  include: {
+    calls: true
+  }
+}>
 
 export type CalendarEventLinkProps = {
   data: EventWithCalls
