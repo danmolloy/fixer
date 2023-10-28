@@ -37,7 +37,7 @@ export default function WeekRow(props: WeekRowProps) {
           eventCalls={eventCalls.filter(j => DateTime.fromJSDate(new Date(j.startTime)).hasSame(i, "day"))} 
           selectedDate={selectedDate} 
           setSelectedDate={(arg) => setSelectedDate(arg)}  
-          key={i.day} />
+          key={String(i.toISO)} />
       ))}
     </tr>
   )

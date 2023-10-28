@@ -46,7 +46,7 @@ export default function YearView(props: YearViewProps) {
           <YearCalendar
             setSelectedView={(arg) => setSelectedView(arg)}
             year={i.year} 
-            key={i.month}
+            key={String(i.toFormat("yyyy LLL dd"))}
             month={i.month}
             eventCalls={eventCalls}
             setSelectedDate={(arg) => setSelectedDate(arg)}

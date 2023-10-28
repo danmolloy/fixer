@@ -6,8 +6,7 @@ import { DateTime } from "luxon"
 
 describe("<WeekRow />", () => {
   const mockProps: WeekRowProps = {
-    weekNumber: Math.ceil(Math.random() * 52),
-    year: Math.floor(Math.random() * 30) + 2000,
+    startOfWeekDate: DateTime.now().startOf("week"),
     eventCalls: [mockCall],
     selectedDate: DateTime.now(),
     setSelectedDate: jest.fn()
@@ -21,11 +20,11 @@ describe("<WeekRow />", () => {
       </table>)
   })
   it("[X]-row is in the document", () => {
-    const weekRow = screen.getByTestId(`${mockProps.weekNumber}-row`)
+    const weekRow = screen.getByTestId(`${mockProps.startOfWeekDate.weekNumber}-row`)
     expect(weekRow).toBeInTheDocument()
   })
   it("All days of that week are in the document", () => {
-    const weekStart: DateTime = DateTime.fromObject({weekNumber: mockProps.weekNumber}).set({year: mockProps.year}).startOf("week")
+    const weekStart: DateTime = DateTime.fromObject({weekNumber: mockProps.startOfWeekDate.weekNumber}).set({year: mockProps.startOfWeekDate.year}).startOf("week")
   
     for (let i = 0; i < 7; i ++) {
 

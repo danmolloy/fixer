@@ -30,7 +30,7 @@ export default function WeekDayPicker(props: WeekDayPickerProps) {
         <BsChevronLeft />
       </button>
       {getWeekArr().map(i => (
-        <button className=" px-2" onClick={() => setSelectedDate(i)} key={i.day} data-testid={`${i.day}-weekday-tile`}>
+        <button className=" px-2" onClick={() => setSelectedDate(i)} key={String(i.toISO)} data-testid={`${i.day}-weekday-tile`}>
           <p className="text-gray-500">{i.toFormat("ccc")}</p>
           <div className={`${selectedDate.hasSame(i, "day") ? "bg-black text-white" : "hover:bg-slate-100"} rounded-full p-1 justify-center flex flex-col items-center`}>
             <p className={`${DateTime.now().hasSame(i, "day") && !selectedDate.hasSame(i, "day") && "text-indigo-600"} `}>{i.toFormat("dd")}</p>

@@ -43,23 +43,7 @@ describe("<CalendarHeader />", () => {
 })
 
 
-describe("<CalendarHeader />", () => {
-  const mockProps: CalendarHeaderProps = {
-    selectedDate: DateTime.now(),
-    setSelectedDate: jest.fn(),
-    setSelectedView: jest.fn(),
-    selectedView: "Week",
-  }
-  beforeEach(() => {
-    render(<CalendarHeader {...mockProps} />)
-  })
-  it("selectedDate is in the document in expected format for week view", () => {
-    const formattedDate = mockProps.selectedDate.toFormat("DDDcccc")
-    const selectedDate = screen.getByTestId("selected-date")
-    expect(selectedDate).toBeInTheDocument()
-    expect(selectedDate.textContent).toMatch(formattedDate)
-  })
-})
+
 
 describe("<CalendarHeader />", () => {
   const mockProps: CalendarHeaderProps = {
@@ -92,7 +76,7 @@ describe("<CalendarHeader />", () => {
     render(<CalendarHeader {...mockProps} />)
   })
   it("selectedDate is in the document in expected format for year view", () => {
-    const formattedDate = mockProps.selectedDate.toFormat("DDDcccc")
+    const formattedDate = mockProps.selectedDate.toFormat("yyyy")
     const selectedDate = screen.getByTestId("selected-date")
     expect(selectedDate).toBeInTheDocument()
     expect(selectedDate.textContent).toMatch(formattedDate)

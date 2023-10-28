@@ -3,8 +3,6 @@ import { DateTime } from "luxon"
 import DayBlock, { CallWithEvent } from "./calendarDay"
 
 export type CalendarRowProps = {
-  weekNumber: number
-  year: number
   eventCalls: CallWithEvent[]
   selectedDate: DateTime
   setSelectedDate: (arg: DateTime) => void
@@ -12,7 +10,7 @@ export type CalendarRowProps = {
 }
 
 export default function CalendarRow(props: CalendarRowProps) {
-  const { startOfWeekDate, year, weekNumber, eventCalls, selectedDate, setSelectedDate } = props
+  const { startOfWeekDate, eventCalls, selectedDate, setSelectedDate } = props
   
   const getWeekArr = () => {
     
@@ -26,7 +24,7 @@ export default function CalendarRow(props: CalendarRowProps) {
   }
 
   return (
-    <tr data-testid={`calendar-${weekNumber}-row`}>
+    <tr data-testid={`calendar-${startOfWeekDate.weekNumber}-row`}>
       {getWeekArr().map(i => (
         <DayBlock 
           calendarDayDate={i} 
