@@ -1,6 +1,6 @@
 import Layout from "../components/layout/layout";
 import { useSession } from "next-auth/react"
-import LandingPage from "../components/landingPage/landingPage";
+import LandingPage from "../components/externalSite/landingPage/landingPage";
 import UserInfoForm from "../components/index/userInfoForm";
 import axios from "axios";
 import { useRouter } from "next/router";

@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import Loading from "../components/index/loading";
-import LandingPage from "../components/landingPage/landingPage";
+import LandingPage from "../components/externalSite/landingPage/landingPage";
 import Layout from "../components/layout/layout";
 import NotificationsIndex from "../components/notifications/notificationsIndex";
 import useSWR from "swr";

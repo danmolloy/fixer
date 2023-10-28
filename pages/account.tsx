@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import Layout from "../components/layout/layout";
 import SettingsIndex from "../components/settings/settings";
 import Loading from "../components/index/loading";
-import LandingPage from "../components/landingPage/landingPage";
+import LandingPage from "../components/externalSite/landingPage/landingPage";
 
 export default function AccountPage() {
   const { data: session, status } = useSession()

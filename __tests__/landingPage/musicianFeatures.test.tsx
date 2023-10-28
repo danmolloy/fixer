@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react";
-import MusicianFeatures from "../../components/landingPage/musicianFeatures"
+import MusicianFeatures from "../../components/externalSite/landingPage/musicianFeatures"
 
 describe("FixerFeatures component", () => {
   beforeEach(() => {

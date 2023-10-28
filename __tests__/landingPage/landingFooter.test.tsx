@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react";
-import LandingFooter, { landingMenu, sessionMenu, socialMedia } from "../../components/landingPage/landingFooter";
+import LandingFooter, { landingMenu, sessionMenu, socialMedia } from "../../components/externalSite/landingPage/landingFooter";
 
 const landingPage = Math.random() < .5 ? true : false
 

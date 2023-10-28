@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react";
-import LandingPage from "../../components/landingPage/landingPage";
+import LandingPage from "../../components/externalSite/landingPage/landingPage";
 
 describe("LandingPage component", () => {
   beforeEach(() => {

@@ -7,7 +7,7 @@ import CreateEventForm from '../../../components/createEvent/createEventForm';
 import useSWR from "swr";
 import { Call, Event } from '@prisma/client';
 import { EventWithCalls } from '../../../components/event';
-import LandingPage from '../../../components/landingPage/landingPage';
+import LandingPage from '../../../components/externalSite/landingPage/landingPage';
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 

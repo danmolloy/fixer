@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import FixerFeatures, { fixerFeatureList } from "../../components/landingPage/fixerFeatures";
+import FixerFeatures, { fixerFeatureList } from "../../components/externalSite/landingPage/fixerFeatures";
 import React from "react";
 
 describe("FixerFeatures component", () => {

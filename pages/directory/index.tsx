@@ -4,7 +4,7 @@ import prisma from "../../client";
 import useSWR from "swr";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import LandingPage from "../../components/landingPage/landingPage";
+import LandingPage from "../../components/externalSite/landingPage/landingPage";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 

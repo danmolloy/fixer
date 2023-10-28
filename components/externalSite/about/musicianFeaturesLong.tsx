@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { musicianFeatureList } from "../../landingPage/musicianFeatures";
+import { musicianFeatureList } from "../landingPage/musicianFeatures";
 
 export default function MusicianFeaturesLong() {
   return (

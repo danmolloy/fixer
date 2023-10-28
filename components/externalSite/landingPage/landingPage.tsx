@@ -4,8 +4,8 @@ import Hero from "./hero"
 import FixerFeatures from "./fixerFeatures"
 import MusicianFeatures from "./musicianFeatures"
 import LandingFooter from "./landingFooter"
-import Menu, { MenuItems } from "../layout/menu"
-import About from "../index/about"
+import Menu, { MenuItems } from "../../layout/menu"
+import About from "../../index/about"
 
 
 export const landingMenuItems: MenuItems = [

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import FixerFeatures from "../../landingPage/fixerFeatures";
+import FixerFeatures from "../landingPage/fixerFeatures";
 import FixerFeaturesLong from "./fixerFeaturesLong";
 import MusicianFeaturesLong from "./musicianFeaturesLong";
 import { useState } from "react";

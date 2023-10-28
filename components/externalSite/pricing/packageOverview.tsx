@@ -1,5 +1,5 @@
 import { AiOutlineTeam } from "react-icons/ai";
-import { musicianFeatureList } from "../../landingPage/musicianFeatures";
+import { musicianFeatureList } from "../landingPage/musicianFeatures";
 
 export default function PackageOverview() {
   return (

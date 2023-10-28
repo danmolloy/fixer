@@ -5,7 +5,7 @@ import useSWR from "swr";
 import IsLoadingProfile from "../../components/users/isLoadingProfile";
 import Loading from "../../components/index/loading";
 import { useSession } from "next-auth/react";
-import LandingPage from "../../components/landingPage/landingPage";
+import LandingPage from "../../components/externalSite/landingPage/landingPage";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { fixerFeatureList } from "../../landingPage/fixerFeatures";
+import { fixerFeatureList } from "../landingPage/fixerFeatures";
 
 export default function FixerFeaturesLong() {
   return (
