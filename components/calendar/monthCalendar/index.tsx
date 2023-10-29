@@ -33,12 +33,10 @@ export default function MonthCalendar(props: MonthCalendarProps) {
         {getWeekNumArray().map(i => (
           <CalendarRow
             startOfWeekDate={i}
-            year={selectedDate.year}
-            weekNumber={i.weekNumber}
             setSelectedDate={setSelectedDate}
             eventCalls={eventCalls}
             selectedDate={selectedDate}
-            key={i.day} />
+            key={i.toFormat("dd LLL yyyy")} />
         ))}
       </tbody>
     </table>

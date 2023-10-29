@@ -36,7 +36,7 @@ export default function DatePicker(props: DatePickerProps) {
             setSelectedDate={setSelectedDate}
             eventCalls={eventCalls}
             selectedDate={selectedDate}
-            key={String(i.toJSDate)} />
+            key={i.toFormat("dd LLL yyyy")} />
         ))}
       </tbody>
     </table>
