@@ -45,7 +45,7 @@ export default function YearCalendar(props: DatePickerProps) {
             setSelectedDate={setSelectedDate}
             eventCalls={eventCalls}
             selectedDate={selectedDate}
-            key={String(i.toISO)} />
+            key={i.toFormat("dd LLL yyyy")} />
         ))}
       </tbody>
     </table>
