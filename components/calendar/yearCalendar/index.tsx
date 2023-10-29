@@ -4,7 +4,7 @@ import { Call } from "@prisma/client";
 import YearCalendarHeader from "./header";
 import DaysRow from "./daysRow";
 
-export type DatePickerProps = {
+export type YearCalendarProps = {
   selectedDate: DateTime
   setSelectedDate: (arg: DateTime) => void
   eventCalls: Call[]
@@ -13,7 +13,7 @@ export type DatePickerProps = {
   setSelectedView: (arg: "Day"|"Month"|"Year") => void
 }
 
-export default function YearCalendar(props: DatePickerProps) {
+export default function YearCalendar(props: YearCalendarProps) {
   const { setSelectedView, year, month, selectedDate, eventCalls, setSelectedDate } = props;
 
   const getWeekNumArray = () => {

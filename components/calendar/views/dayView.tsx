@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { CallWithEvent } from "../monthCalendar/calendarDay";
 import DatePicker from "../datepicker";
 import WeekDayPicker from "../weekDayPicker";
-import CallList from "../callList/index";
+import CallList from "../callList";
 
 export type DayViewProps = {
   selectedDate: DateTime
