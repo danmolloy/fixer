@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 export type YearCalendarHeaderProps = {
   month: number
@@ -10,7 +9,7 @@ export default function YearCalendarHeader(props: YearCalendarHeaderProps) {
   const { month, year } = props;
 
   return (
-    <thead data-testid="date-picker-header">
+    <thead data-testid="year-header">
       <tr>
       <th colSpan={2}>
 

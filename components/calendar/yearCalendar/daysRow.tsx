@@ -1,5 +1,5 @@
 
-const daysArr: {
+export const daysArr: {
   index: number
   day: string
 }[] = [
@@ -36,10 +36,10 @@ const daysArr: {
 
 export default function DaysRow() {
   return (
-    <thead>
+    <thead data-testid="days-row">
       <tr>
       {daysArr.map(i => (
-        <th key={i.index} className="h-12 w-12 text-slate-500">
+        <th data-testid={`${i.day}-col`} key={i.index} className="h-12 w-12 text-slate-500">
           {i.day[0]}
         </th>
       ))}

@@ -18,9 +18,11 @@ describe("<CalendarHeader />", () => {
   })
   it("calendar-header is in the document", () => {
     const calendarHeader = screen.getByTestId("calendar-header")
+    expect(calendarHeader).toBeInTheDocument()
   })
   it("view-select is in the document", () => {
     const viewSelect = screen.getByTestId("view-select")
+    expect(viewSelect).toBeInTheDocument()
   })
   it("today button is in the document", () => {
     const todayBtn = screen.getByTestId("today-btn")

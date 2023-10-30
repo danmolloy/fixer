@@ -16,13 +16,10 @@ export default function WeekRow(props: WeekRowProps) {
   const { setSelectedView, month, startOfWeekDate, weekNumber, eventCalls, selectedDate, setSelectedDate } = props
   
   const getWeekArr = () => {
-    
     let weekArr: DateTime[] = [];
-    let weekStart = startOfWeekDate
     for (let i = 0; i < 7; i++) {
-      weekArr = [...weekArr, weekStart.plus({days: i})]
+      weekArr = [...weekArr, startOfWeekDate.plus({days: i})]
     }
-
     return weekArr
   }
 

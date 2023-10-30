@@ -32,7 +32,7 @@ export default function YearCalendar(props: YearCalendarProps) {
   
   
   return (
-    <table data-testid="date-picker" className="m-2 flex flex-col items-center md:items-start">
+    <table data-testid="year-calendar" className="m-2 flex flex-col items-center md:items-start">
       <YearCalendarHeader year={year} month={month} />
       <DaysRow />
       <tbody className="shadow-sm ">
