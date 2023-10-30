@@ -2,8 +2,8 @@ import { DateTime } from "luxon";
 import { CallWithEvent } from "../monthCalendar/calendarDay";
 import DatePicker from "../datepicker";
 import WeekDayPicker from "../weekDayPicker";
-import CallList from "../callList/index";
-
+/* import CallList from "../callList/index";
+ */
 export type DayViewProps = {
   selectedDate: DateTime
   eventCalls: CallWithEvent[]
@@ -21,8 +21,8 @@ export default function DayView(props: DayViewProps) {
           eventCalls={eventCalls}
           setSelectedDate={setSelectedDate}/>
       </div>
-      <CallList eventCalls={eventCalls} selectedDate={selectedDate} />
-      <div className="hidden md:flex">
+{/*       <CallList eventCalls={eventCalls} selectedDate={selectedDate} />
+ */}      <div className="hidden md:flex">
         <DatePicker 
           selectedDate={selectedDate}
           eventCalls={eventCalls}
