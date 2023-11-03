@@ -3,7 +3,7 @@ import prisma from "../../client";
 import useSWR from "swr";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import LandingPage from "../../components/externalSite/landingPage/landingPage";
+import LandingPage from "../../components/externalSite/landingPage";
 import LayoutIndex from "../../components/layout";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())

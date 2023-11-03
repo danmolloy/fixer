@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FixerFeatures component Matches snapshot 1`] = `
+<div
+  class="border mx-2 my-8 rounded-lg py-4"
+  data-testid="musician-features"
+>
+  <div
+    class="rounded-full w-12 h-12 absolute mt-12 ml-32 bg-blue-600"
+  />
+  <div
+    class=" backdrop-blur-xl bg-white/60"
+  >
+    <div
+      class="sm:py-8 px-4 sm:px-6 "
+    >
+      <p
+        class="text-blue-600  text-xl"
+      >
+        A modern diary
+      </p>
+      <h2
+        class="text-3xl  py-2"
+      >
+        An efficient diary for the modern musician
+      </h2>
+    </div>
+    <div
+      class="flex flex-col px-6 md:flex-row flex-wrap backdrop-blur-xl"
+    >
+      <div
+        class="flex flex-row my-2 sm:my-4 md:w-1/2"
+      >
+        <div
+          class="text-blue-600 text-2xl py-2 md:px-2"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 1V3H15V1H17V3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H7V1H9ZM20 11H4V19H20V11ZM8 13V15H6V13H8ZM13 13V15H11V13H13ZM18 13V15H16V13H18ZM7 5H4V9H20V5H17V7H15V5H9V7H7V5Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex flex-col px-4"
+        >
+          <h3
+            class="text-lg  py-2"
+          >
+            An intuitive calendar interface
+          </h3>
+                    
+        </div>
+      </div>
+      <div
+        class="flex flex-row my-2 sm:my-4 md:w-1/2"
+      >
+        <div
+          class="text-blue-600 text-2xl py-2 md:px-2"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"
+              fill-rule="evenodd"
+            />
+            <path
+              d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex flex-col px-4"
+        >
+          <h3
+            class="text-lg  py-2"
+          >
+            Never miss any information
+          </h3>
+                    
+        </div>
+      </div>
+      <div
+        class="flex flex-row my-2 sm:my-4 md:w-1/2"
+      >
+        <div
+          class="text-blue-600 text-2xl py-2 md:px-2"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            role="img"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title />
+            <path
+              d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zM4.911 7.089h11.456a2.197 2.197 0 0 1 2.165 2.19v5.863a2.213 2.213 0 0 1-2.177 2.178H8.04c-1.174 0-2.04-.99-2.04-2.178v-4.639L4.503 7.905c-.31-.42-.05-.816.408-.816zm3.415 2.19c-.347 0-.68.21-.68.544 0 .334.333.544.68.544h7.905c.346 0 .68-.21.68-.544 0-.334-.334-.545-.68-.545zm0 2.177c-.347 0-.68.21-.68.544 0 .334.333.544.68.544h7.905c.346 0 .68-.21.68-.544 0-.334-.334-.544-.68-.544zm-.013 2.19c-.346 0-.68.21-.68.544 0 .334.334.544.68.544h5.728c.347 0 .68-.21.68-.544 0-.334-.333-.545-.68-.545z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex flex-col px-4"
+        >
+          <h3
+            class="text-lg  py-2"
+          >
+            Seamless communication with the fixer
+          </h3>
+                    
+        </div>
+      </div>
+      <div
+        class="flex flex-row my-2 sm:my-4 md:w-1/2"
+      >
+        <div
+          class="text-blue-600 text-2xl py-2 md:px-2"
+        >
+          <svg
+            fill="none"
+            height="1em"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+            />
+            <circle
+              cx="8.5"
+              cy="7"
+              r="4"
+            />
+            <line
+              x1="20"
+              x2="20"
+              y1="8"
+              y2="14"
+            />
+            <line
+              x1="23"
+              x2="17"
+              y1="11"
+              y2="11"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex flex-col px-4"
+        >
+          <h3
+            class="text-lg  py-2"
+          >
+            Get discovered in the directory
+          </h3>
+                    
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

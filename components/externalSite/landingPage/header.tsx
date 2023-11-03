@@ -3,7 +3,7 @@ import { signIn, signOut } from "next-auth/react"
 import Header, { menuItems } from "../../layout/header"
 import { AiOutlineMenu } from "react-icons/ai"
 import { landingMenu } from "./landingFooter"
-import { landingMenuItems } from "./landingPage"
+import { landingMenuItems } from "."
 import Link from "next/link"
 
 export const menu = ["Features", "Testimonials", "Pricing", "Contact"]

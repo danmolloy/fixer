@@ -6,7 +6,7 @@ import CreateEventForm from '../../../components/event/createEvent/createEventFo
 import useSWR from "swr";
 import { Call, Event } from '@prisma/client';
 import { EventWithCalls } from '../../../components/event';
-import LandingPage from '../../../components/externalSite/landingPage/landingPage';
+import LandingPage from '../../../components/externalSite/landingPage';
 import LayoutIndex from '../../../components/layout';
 import ExternalLayout from '../../../components/layout/external';
 import LoadingLayout from '../../../components/layout/loading';

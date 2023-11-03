@@ -4,7 +4,7 @@ import Menu from "./menu";
 import React from "react";
 import LandingFooter from "../externalSite/landingPage/landingFooter";
 import { useSession } from "next-auth/react";
-import { landingMenuItems } from "../externalSite/landingPage/landingPage";
+import { landingMenuItems } from "../externalSite/landingPage";
 import Loading from "../index/loading";
 import LoadingHeader from "./loading/loadingHeader";
 import Banner from "./banner";

@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import SettingsIndex from "../components/users/settings/settings";
 import Loading from "../components/index/loading";
-import LandingPage from "../components/externalSite/landingPage/landingPage";
+import LandingPage from "../components/externalSite/landingPage";
 import LayoutIndex from "../components/layout";
 import LoadingLayout from "../components/layout/loading";
 

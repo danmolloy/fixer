@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react";
-import LandingHeader, { LandingHeaderProps, menu } from "../../components/externalSite/landingPage/header";
+import LandingHeader, { LandingHeaderProps, menu } from "../../../components/externalSite/landingPage/header";
 
 const mockProps: LandingHeaderProps = {
   setShowMenu: jest.fn(),

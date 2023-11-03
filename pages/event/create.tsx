@@ -5,7 +5,7 @@ import { Router, useRouter } from "next/router";
 import LayoutIndex from "../../components/layout";
 import LoadingLayout from "../../components/layout/loading";
 import ExternalLayout from "../../components/layout/external";
-import LandingPage from "../../components/externalSite/landingPage/landingPage";
+import LandingPage from "../../components/externalSite/landingPage";
 
 export default function Create() {
   const { data: session, status } = useSession()

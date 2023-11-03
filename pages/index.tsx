@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react"
-import LandingPage from "../components/externalSite/landingPage/landingPage";
+import LandingPage from "../components/externalSite/landingPage";
 import UserInfoForm from "../components/index/userInfoForm";
 import axios from "axios";
 import { useRouter } from "next/router";
