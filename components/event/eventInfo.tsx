@@ -11,17 +11,16 @@ export type EventInfoProps = {
   session: any
   setShowOptions: () => void
   showOptions: boolean
-  preview?: boolean
 }
 
 
 export default function EventInfo(props: EventInfoProps) {
-  const { setShowOptions, event, showOptions, session, preview } = props
+  const { setShowOptions, event, showOptions, session } = props
   
   return (
     <div data-testid="event-info-div" className={showOptions === true ? "blur w-full border shadow rounded-lg py-4":  "w-full border shadow rounded-lg py-4"}>
       <div className="w-full flex flex-col">
-        <button data-testid="options-btn" className="self-end border p-1 mr-2 rounded-md shadow-sm border-amber-600 text-amber-600 bg-white hover:bg-amber-50" onClick={() => {!preview && setShowOptions()}}>Options</button>
+        <button data-testid="options-btn" className="self-end border p-1 mr-2 rounded-md shadow-sm border-amber-600 text-amber-600 bg-white hover:bg-amber-50" onClick={() => {setShowOptions()}}>Options</button>
       </div>
       <div className="">
       <p className="flex flex-row items-center justify-center text-center p-3">This event is {event.confirmedOrOnHold.toLowerCase()}</p>

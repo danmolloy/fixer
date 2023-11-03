@@ -12,7 +12,6 @@ export type EventWithCalls = Prisma.EventGetPayload<{
 export type EventIndexProps = {
   event: EventWithCalls
   session: any
-  preview?: boolean
 }
 
 
