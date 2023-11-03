@@ -14,11 +14,15 @@ export default function LayoutIndex(props: LayoutIndexProps) {
 
   if (session) {
     return (
-      <SessionLayout children={children}/>
+      <SessionLayout>
+        {children}
+      </SessionLayout>
     )
   }
 
   return (
-   <ExternalLayout children={children}/>
+   <ExternalLayout>
+    {children}
+   </ExternalLayout>
   )
 }
