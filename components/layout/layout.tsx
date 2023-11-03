@@ -61,7 +61,7 @@ if (status === "loading"|| isLoading) {
         <div className="mt-32 w-full flex justify-center">
         <SettingsIndex missingInfo={true} mutateData={() => mutate()} />
         </div>
-        <LandingFooter session={session ? true : false}/>
+        <LandingFooter />
       </div>
     )
   }
