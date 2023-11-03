@@ -1,5 +1,5 @@
 import Image from "next/image";
-import PulsingDiv from "../layout/pulsingDiv";
+import PulsingDiv from "../layout/loading/pulsingDiv";
 
 export default function IsLoadingProfile() {
   return (

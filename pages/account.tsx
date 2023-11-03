@@ -1,29 +1,30 @@
 import { useSession } from "next-auth/react";
-import Layout from "../components/layout/layout";
 import SettingsIndex from "../components/users/settings/settings";
 import Loading from "../components/index/loading";
 import LandingPage from "../components/externalSite/landingPage/landingPage";
+import LayoutIndex from "../components/layout";
+import LoadingLayout from "../components/layout/loading";
 
 export default function AccountPage() {
   const { data: session, status } = useSession()
 
   if (status === "loading") {
     return (
-     <Loading />
+     <LoadingLayout />
     )
   } 
 
   
   if (!session) {
     return (
-      <Layout>
+      <LayoutIndex>
         <LandingPage />
-      </Layout>
+      </LayoutIndex>
     )}
 
   return (
-    <Layout pageTitle="Your Account">
+    <LayoutIndex pageTitle="Your Account">
       <SettingsIndex mutateData={() => {}} />
-    </Layout>
+    </LayoutIndex>
   )
 }

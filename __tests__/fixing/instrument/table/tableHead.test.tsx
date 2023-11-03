@@ -25,7 +25,7 @@ describe("<TableHead />", () => {
   })
   it("each event call has a cell and start time is format 'hh:mm a dd LLL'", () => {
     for (let i = 0; i < mockProps.eventCalls.length; i++) {
-      let formattedStartTime = DateTime.fromJSDate(new Date(mockProps.eventCalls[i].startTime)).weekday
+      let formattedStartTime = DateTime.fromJSDate(new Date(mockProps.eventCalls[i].startTime)).toFormat("hh:mm add LLL")
       let callCell = screen.getByTestId(`${mockProps.eventCalls[i].id}-cell`)
       expect(callCell.textContent).toMatch(formattedStartTime)
     }

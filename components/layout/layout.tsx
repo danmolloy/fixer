@@ -6,7 +6,7 @@ import LandingFooter from "../externalSite/landingPage/landingFooter";
 import { useSession } from "next-auth/react";
 import { landingMenuItems } from "../externalSite/landingPage/landingPage";
 import Loading from "../index/loading";
-import LoadingHeader from "./loadingHeader";
+import LoadingHeader from "./loading/loadingHeader";
 import Banner from "./banner";
 import useSWR from "swr";
 import SettingsIndex from "../users/settings/settings";
@@ -71,7 +71,6 @@ if (status === "loading"|| isLoading) {
       <Header  reducedHeader={reducedHeader} setReducedHeader={(arg) => setReducedHeader(arg)} setShowMenu={(bool) => setShowMenu(bool)} showMenu={showMenu} session={session ? true : false} notifications={session && data && data.playerCalls.filter(i => i.accepted === null).length > 0 ? true: false}/>
       <div className="mt-[72px]">
       {showMenu && <Menu signedIn={session ? true : false} setShowMenu={() => setShowMenu(false)} menuItems={session ? menuItems : landingMenuItems}/>}
-      {session && data && data.playerCalls.filter(i => i.accepted === null).length > 0 && <Banner notificationCount={session && data?.playerCalls.filter(i => i.accepted === null).length} />}
       {pageTitle.length > 0 
       && <div className={showMenu ? "w-full p-3 blur text-center":"w-full p-3 text-center"}>
         <h1 className="ml-2 tex-center text-3xl ">{pageTitle}</h1>

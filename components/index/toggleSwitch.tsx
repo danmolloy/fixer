@@ -10,7 +10,7 @@ export default function ToggleSwitch(props: ToggleProps) {
   const { toggled, label, setToggled } = props;
 
   return (
-    <div onClick={() => setToggled(!toggled)} className="hover:cursor-pointer flex flex-row flex-wrap items-center">
+    <div data-testid="toggle-switch" onClick={() => setToggled(!toggled)} className="hover:cursor-pointer flex flex-row flex-wrap items-center">
     <div className={toggled ? "bg-blue-500 overflow-y-visible w-8 h-4 flex flex-row items-center  rounded-full" : " overflow-y-visible w-8 h-4 flex flex-row items-center rounded-full bg-zinc-50 border"}>
       <div className={toggled ? "bg-zinc-100 border shadow w-5 h-5 rounded-full translate-x-full duration-200" : " -ml-2 bg-zinc-100 border shadow w-5 h-5 rounded-full duration-200"} />
     </div>

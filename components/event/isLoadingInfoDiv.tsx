@@ -1,5 +1,5 @@
 import React from "react"
-import PulsingDiv from "../layout/pulsingDiv"
+import PulsingDiv from "../layout/loading/pulsingDiv"
 
 type IsLoadingInfoProps = {
   className: string

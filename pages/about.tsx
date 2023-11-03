@@ -1,10 +1,10 @@
 import AboutIndex from "../components/externalSite/about/aboutIndex";
-import Layout from "../components/layout/layout"
+import LayoutIndex from "../components/layout";
 
 export default function AboutPage() {
   return (
-    <Layout>
+    <LayoutIndex>
       <AboutIndex />
-    </Layout>
+    </LayoutIndex>
   )
 }

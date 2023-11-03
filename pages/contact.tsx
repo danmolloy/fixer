@@ -1,10 +1,10 @@
 import ContactIndex from "../components/externalSite/contact";
-import Layout from "../components/layout/layout";
+import LayoutIndex from "../components/layout";
 
 export default function Contact() {
   return (
-    <Layout>
+    <LayoutIndex>
       <ContactIndex />
-    </Layout>
+    </LayoutIndex>
   )
 }

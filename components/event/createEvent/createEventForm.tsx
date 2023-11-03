@@ -97,12 +97,12 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           
         }}>
           {(props) => (
-            <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 ' onSubmit={props.handleSubmit}>
+            <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 py-8' onSubmit={props.handleSubmit}>
               
               {/* <AddAdmin /> Let's keep it simple for now. */}
 
               
-              <div className='flex flex-col sm:items-center w-full sm:flex-row'>
+              <div className='flex flex-col sm:items-center w-full sm:flex-row '>
                 <EnsembleRadioGroup 
                   ensemble={props.values.ensemble}
                   handleChange={props.handleChange}

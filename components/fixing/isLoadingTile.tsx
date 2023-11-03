@@ -1,4 +1,4 @@
-import PulsingDiv from "../layout/pulsingDiv";
+import PulsingDiv from "../layout/loading/pulsingDiv";
 
 export default function IsLoadingInstrumentTile() {
   return (

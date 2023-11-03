@@ -18,7 +18,8 @@ module.exports = {
       },
       fontFamily: {
         nunito: ['var(--font-nunito)', ...fontFamily.sans],
-        mono: ['var(--font-inconsolata)', ...fontFamily.mono]
+        raleway: ['var(--font-raleway)', ...fontFamily.sans],
+
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

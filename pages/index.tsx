@@ -1,4 +1,3 @@
-import Layout from "../components/layout/layout";
 import { useSession } from "next-auth/react"
 import LandingPage from "../components/externalSite/landingPage/landingPage";
 import UserInfoForm from "../components/index/userInfoForm";
@@ -8,38 +7,35 @@ import Loading from "../components/index/loading";
 import Dashboard from "../components/index/dashboard";
 import useSWR from "swr";
 import CalendarIndex from "../components/calendar";
+import LayoutIndex from "../components/layout";
+import LoadingLayout from "../components/layout/loading";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 export default function Home() {
   const router = useRouter()
-  const { data: session, status } = useSession()
-  const { data, error, /* isLoading */ } = useSWR('/api/calendar/getCalendar', fetcher)
+  const { data, error, isLoading} = useSWR('/api/calendar/getCalendar', fetcher)
 
-  /* const handleSubmit = async (vals) => {
-    console.log("Hello from handleSubmit");
-    return axios.post('/api/user/edit', vals)
-          .then(response => {
-            router.push(`/`)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-  } */
-
-
-  if (!session) {
+  if (!data) {
     return (
-      <Layout>
+      <LayoutIndex>
         <LandingPage />
-      </Layout>
+      </LayoutIndex>
     )}
 
+    return (
+      <LayoutIndex pageTitle="">
+        <CalendarIndex data={data}/>
+      </LayoutIndex>
+    )
+  
+}
 
-  return (
+
+/* 
+return (
     <Layout pageTitle="">
-      {/* <EventsIndex data={data}/> */}
       <CalendarIndex data={data}/>
     </Layout>
   )
-}
+*/

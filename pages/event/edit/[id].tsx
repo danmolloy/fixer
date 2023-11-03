@@ -1,5 +1,4 @@
 import { Field, FieldArray, Formik } from 'formik'
-import Layout from '../../../components/layout/layout'
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -8,6 +7,9 @@ import useSWR from "swr";
 import { Call, Event } from '@prisma/client';
 import { EventWithCalls } from '../../../components/event';
 import LandingPage from '../../../components/externalSite/landingPage/landingPage';
+import LayoutIndex from '../../../components/layout';
+import ExternalLayout from '../../../components/layout/external';
+import LoadingLayout from '../../../components/layout/loading';
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -19,14 +21,14 @@ export default function EditEvent(props) {
   
 
   if (isLoading) {
-    return <p>Loading..</p>
+    return <LoadingLayout />
   }
   
   if (!session) {
     return (
-      <Layout>
+      <ExternalLayout>
         <LandingPage />
-      </Layout>
+      </ExternalLayout>
     )
   }
 
@@ -66,13 +68,13 @@ export default function EditEvent(props) {
   }
 
   return (
-    <Layout>
+    <LayoutIndex>
       <CreateEventForm
        initialValues={data} 
        handleSubmit={(vals) => handleSubmit(vals)}
         userId={session.user.id}
         userName={session.user.name}
        />
-    </Layout>
+    </LayoutIndex>
   )
 }

@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import { SessionProvider } from "next-auth/react"
-import { Roboto, Nunito, Inconsolata } from 'next/font/google'
+import { Roboto, Nunito, Inconsolata, Raleway } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react';
 
 
@@ -22,6 +22,11 @@ const inconsolata = Inconsolata({
   variable:"--font-inconsolata"
 })
 
+const raleway = Raleway({
+  subsets: ['latin'],
+  variable: '--font-raleway',
+})
+
 
 function MyApp({
   Component,
@@ -29,7 +34,7 @@ function MyApp({
 }) {
   return (
     <SessionProvider session={session}>
-      <main className={`${nunito.variable} ${inconsolata.variable}`}>
+      <main className={`${nunito.variable} ${raleway.variable}`}>
       <Component {...pageProps} />
       <Analytics />
       </main>

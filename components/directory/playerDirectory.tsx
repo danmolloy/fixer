@@ -2,7 +2,6 @@ import { instrumentArr } from "../fixing/fixing"
 import React, { useEffect, useState } from "react"
 import PlayerTile from "./playerTile"
 import IsLoadingTile from "./isLoadingTile"
-import ButtonPrimary from "../index/buttonPrimary"
 import ToggleSwitch from "../index/toggleSwitch"
 import { User } from "@prisma/client"
 import { useRouter } from 'next/router'
@@ -20,12 +19,11 @@ function shuffleArray(array) {
 export type PlayerDirectoryProps = {
   data: User[] | undefined
   setPageTitle: (arg: string) => void
-  preview?: boolean
 }
 
 export default function PlayerDirectory(props: PlayerDirectoryProps) {
   const router = useRouter()
-  const { data, setPageTitle, preview } = props;
+  const { data, setPageTitle } = props;
   const [selectedInstrument, setSelectedInstrument] = useState<string>("")
   const [sortedList, setSortedList] = useState<boolean>(false)
 
@@ -53,24 +51,9 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
   }, [selectedInstrument])
 
   return (
-    <div className="w-screen flex flex-col items-center" id="player-directory" data-testid="player-directory-div">
+    <div className="w-screen flex flex-col items-center py-8" id="player-directory" data-testid="player-directory">
       <div className="flex flex-col w-full items-center">
         <SelectMenu tickSelected={true} selectedVal={selectedInstrument} values={instrumentArr.map(i => ({val: i}))} handleSelect={val => {setSelectedInstrument(val); setPageTitle(val); setSortedList(false)}}  />
-         {/* <select 
-          value={selectedInstrument} 
-          onChange={e => {setSelectedInstrument(e.target.value); setPageTitle(e.target.value); setSortedList(false)}} 
-          className="border shadow-sm p-1 rounded w-1/2 sm:w-1/3">
-          <option value={""}>Select instrument</option>
-          {preview === true ?
-          <option value={"Viola"} >
-          Viola
-          </option>
-          : instrumentArr.map(i => (
-            <option value={i} key={i} data-testid={`${i}-option`}>
-              {i}
-            </option>
-          ))}
-        </select> */}
       {selectedInstrument !== "" && <ToggleSwitch label="Alphabetical" toggled={sortedList} setToggled={() => setSortedList(!sortedList)} />}
       </div>
         {selectedInstrument === ""
@@ -78,7 +61,7 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
             <h3 className="p-16 text-slate-700">Please select an instrument.</h3>
           </div>
         : data === undefined
-        ? <div className="flex flex-row flex-wrap justify-center">
+        ? <div data-testid="loading-tiles" className="flex flex-row flex-wrap justify-center">
             <IsLoadingTile />
             <IsLoadingTile />
             <IsLoadingTile />
@@ -95,12 +78,11 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
             ))
             : shuffleArray(data).filter(j => j.instrument === selectedInstrument).map(i => (
               <div key={i.id}>
-                <PlayerTile player={i} preview={preview} />
+                <PlayerTile player={i} />
               </div>
             ))}
             </div>}
-        </div>
-}
+        </div>}
       </div>
   )
 }

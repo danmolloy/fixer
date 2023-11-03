@@ -1,15 +1,26 @@
 import { useSession } from "next-auth/react";
 import CreateEventForm from "../../components/event/createEvent/createEventForm";
-import Layout from "../../components/layout/layout";
 import axios from "axios";
 import { Router, useRouter } from "next/router";
+import LayoutIndex from "../../components/layout";
+import LoadingLayout from "../../components/layout/loading";
+import ExternalLayout from "../../components/layout/external";
+import LandingPage from "../../components/externalSite/landingPage/landingPage";
 
 export default function Create() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
 
-  if (!session) {
-    return <p>Loading..</p>
+  if (status === "loading") {
+    return (
+      <LoadingLayout />
+    )
+  } else if (!session) {
+    return (
+      <ExternalLayout>
+        <LandingPage />
+      </ExternalLayout>
+    )
   }
   
   const handleSubmit = async(vals) => {
@@ -24,12 +35,12 @@ export default function Create() {
   }
 
   return (
-    <Layout pageTitle="Create Event">
+    <LayoutIndex pageTitle="Create Event">
       <CreateEventForm 
       handleSubmit={(vals) => handleSubmit(vals)}
       userId={session.user.id}
       userName={session.user.name}
         />
-    </Layout>
+    </LayoutIndex>
   )
 }

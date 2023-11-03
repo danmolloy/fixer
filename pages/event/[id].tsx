@@ -1,14 +1,15 @@
 import { useRouter } from "next/router";
 import Fixing from "../../components/fixing/fixing";
-import Layout from "../../components/layout/layout";
 import EventIndex from "../../components/event";
 import useSWR from "swr";
 import IsLoadingEventIndex from "../../components/event/isLoadingEventIndex";
 import { useEffect, useState } from "react";
 import IsLoadingInstrumentTile from "../../components/fixing/isLoadingTile";
-import Loading from "../../components/index/loading";
 import { useSession } from "next-auth/react";
 import LandingPage from "../../components/externalSite/landingPage/landingPage";
+import LayoutIndex from "../../components/layout";
+import LoadingLayout from "../../components/layout/loading";
+import ExternalLayout from "../../components/layout/external";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -29,20 +30,20 @@ export default function Event({props}) {
   }
 
   if (isLoading) {
-    return <Loading />
+    return <LoadingLayout />
   }
 
 
 
   if (!session) {
     return (
-      <Layout>
+      <ExternalLayout>
         <LandingPage />
-      </Layout>
+      </ExternalLayout>
     )}
 
   return (
-    <Layout pageTitle={data ? data.eventTitle : "Event"}>
+    <LayoutIndex pageTitle={data ? data.eventTitle : "Event"}>
       {isLoading 
       ? <>
           <IsLoadingEventIndex />
@@ -68,7 +69,7 @@ export default function Event({props}) {
       session={data.session} />
         : <p>Error</p>}
       {data && data.users && <Fixing lastUpdated={lastUpdated} isLoading={isLoading} users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
-   </Layout>
+   </LayoutIndex>
   )
 }
 {/* <EventIndex
