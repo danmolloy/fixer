@@ -79,7 +79,7 @@ if (status === "loading"|| isLoading) {
         {children}
       </div>
       </div>
-      <LandingFooter session={session ? true : false}/>
+      <LandingFooter />
     </div>
   )
 }
