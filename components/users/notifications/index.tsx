@@ -3,12 +3,12 @@ import NotificationTile, { PlayerCallWithEvent } from "./notificationTile";
 import LoadingNotificationsTile from "./LoadingNotificationsTile";
 import { PlayerCall } from "@prisma/client";
 
-export type NotificationsProps = {
+export type NotificationsIndexProps = {
   playerCalls: PlayerCallWithEvent[]
   mutate: () => void
 }
 
-export default function NotificationsIndex(props: NotificationsProps) {
+export default function NotificationsIndex(props: NotificationsIndexProps) {
   const { playerCalls, mutate } = props;
 
   const activeNotifications = playerCalls.sort((a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))).filter(i => i.accepted === null)
@@ -19,11 +19,14 @@ export default function NotificationsIndex(props: NotificationsProps) {
   }
   
   return (
-    <div>
+    <div data-testid="notifications-index">
+      <div data-testid="active-notifications">
+      <h1>Notifications</h1>
       {activeNotifications.map(i => (
           <NotificationTile key={i.id} notification={i} mutate={() => mutate()} />
       ))}
-      <div className="mt-12">
+      </div>
+      <div data-testid="past-notifications" className="mt-12">
         <h2 className="text-slate-500">Past Notifications</h2>
       {inactiveNotifications.map(i => (
           <NotificationTile key={i.id} notification={i} mutate={() => mutate()} />
