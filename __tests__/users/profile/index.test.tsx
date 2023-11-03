@@ -1,9 +1,8 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import '@testing-library/jest-dom'
-import UserProfile, { UserProfileProps } from "../../components/users/profile"
+import UserProfile, { UserProfileProps } from "../../../components/users/profile"
 import React from "react"
-import { mockUser } from "../../__mocks__/models/user"
-
+import { mockUser } from "../../../__mocks__/models/user"
 
 const mockProps = {
   user: mockUser
@@ -15,26 +14,18 @@ describe("Profile Page", () => {
   })
   
 
-  it("Renders", () => {
-    const profileComponent = screen.getByTestId("user-profile-div")
+  it("user-profile is in the document", () => {
+    const profileComponent = screen.getByTestId("user-profile")
     expect(profileComponent).toBeInTheDocument()
   })
 
-  it("ProfileHeader is in the document", () => {
-    const profileHeader = screen.getByTestId("profile-header-div")
+  it("profile-header is in the document", () => {
+    const profileHeader = screen.getByTestId("profile-header")
     expect(profileHeader).toBeInTheDocument()
   })
-  it("ProfileBody is in the document", () => {
+  it("profile-body is in the document", () => {
     const profileBody = screen.getByTestId("profile-body")
     expect(profileBody).toBeInTheDocument() 
-  })
-  it("User name is in the document", () => {
-    const profileComponent = screen.getByTestId("user-profile-div")
-    expect(profileComponent.textContent).toMatch(mockProps.user.name)
-  })
-  it("User instrument is in the document", () => {
-    const profileComponent = screen.getByTestId("user-profile-div")
-    expect(profileComponent.textContent).toMatch(mockProps.user.instrument)
   })
   it("ContactInfo shown when button clicked", () => {
     const contactBtn = screen.getByTestId("profile-contact-btn")

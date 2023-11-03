@@ -19,6 +19,6 @@ export default function LoadingNotificationsTile() {
         </div>
         </div>
         
-      </div>
+    </div>
   )
 }

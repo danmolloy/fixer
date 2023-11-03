@@ -3,7 +3,7 @@ import React from "react";
 export default function ProfileBody() {
   return (
     <div className="p-2 m-2" data-testid="profile-body">
-      <div className="py-1" data-testid="mutual-history-div">
+      <div className="py-1" data-testid="mutual-history">
           <h2 className="text-lg text-slate-500 py-1">Your Mutual History</h2>
           <ul>
             <li className="text-blue-500 hover:underline hover:cursor-pointer">
@@ -14,8 +14,9 @@ export default function ProfileBody() {
             </li>
           </ul>
         </div>
-        <div className="py-2">
-        <h2 className="text-lg text-slate-500 py-1">Professional Work</h2>
+        <div data-testid="profile-blurb" className="py-2">
+          <p>This user has not yet added information about themselves.</p>
+       {/*  <h2 className="text-lg text-slate-500 py-1">Professional Work</h2>
           <ul className="">
             <li>At vero eos et accusamus</li>
             <li>Iusto odio dignissimos ducimus qui </li>
@@ -52,7 +53,7 @@ export default function ProfileBody() {
               <h4>Brett Sturdy</h4>
               <p>e: brett@sturdy.com</p>
             </li>
-        </ul>
+        </ul> */}
         </div>
         
       </div>
