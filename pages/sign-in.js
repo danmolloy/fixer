@@ -1,9 +1,9 @@
-import Layout from "../components/layout/layout"
+import LayoutIndex from "../components/layout"
 
 export default function SignInPage() {
   return (
-    <Layout pageTitle="Sign in">
+    <LayoutIndex pageTitle="Sign in">
       
-    </Layout>    
+    </LayoutIndex>    
   )
 }
