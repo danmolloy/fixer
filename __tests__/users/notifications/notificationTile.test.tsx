@@ -31,10 +31,10 @@ describe("<NotificationTile />", () => {
     const notificationTile = screen.getByTestId("notification-tile")
     expect(notificationTile).toBeInTheDocument()
   })
-  it("playerCall createdAt is in the document in format h:mma ddd Do MMMM YYYY", () => {
+  it("playerCall createdAt is in the document in format h:mma ccc Do MMMM yyyy", () => {
     const createdAt = screen.getByTestId("notification-created-at")
     expect(createdAt).toBeInTheDocument()
-    expect(createdAt.textContent).toMatch(DateTime.fromJSDate(new Date(mockProps.notification.createdAt)).toFormat("h:mma ddd Do MMMM YYYY"))
+    expect(createdAt.textContent).toMatch(DateTime.fromJSDate(new Date(mockProps.notification.createdAt)).toFormat("h:mma ccc Do MMMM yyyy"))
   })
   it("fixer name is in the document", () => {
     const fixerName = screen.getByTestId("fixer-name")

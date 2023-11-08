@@ -19,7 +19,7 @@ describe("<CallList />", () => {
     expect(callList).toBeInTheDocument()
   })
   it("date-header with selected date is in the document", () => {
-    const formattedDate = mockProps.selectedDate.toFormat("DDD") // localized date with full month
+    const formattedDate = mockProps.selectedDate.toFormat("DD") // localized date with full month
     const dateHeader = screen.getByText(`Events on ${formattedDate}`)
     expect(dateHeader).toBeInTheDocument()
   })

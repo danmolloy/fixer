@@ -43,7 +43,7 @@ model User {
   name          String? // To be deprecated
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
+  image         String? @default("")
   instrument    String?
   firstName     String?
   lastName      String?

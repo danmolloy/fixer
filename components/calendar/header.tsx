@@ -17,7 +17,7 @@ export default function CalendarHeader(props: CalendarHeaderProps) {
         <p className="font-bold">
           { selectedView === "Year"
           ? selectedDate.toFormat("yyyy")
-          : selectedDate.toFormat("DDD")}
+          : selectedDate.toFormat("DD")}
         </p>
         {selectedView !== "Year" && <p className="text-gray-400">{selectedDate.toFormat("cccc")}</p>}
       </div>

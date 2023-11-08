@@ -42,7 +42,7 @@ export default function NotificationTile(props: NotificationTileProps) {
   return (
     <div data-testid="notification-tile" className="border rounded shadow m-1">
       <div className="p-4">
-      <p data-testid="notification-created-at" className="text-sm text-center text-zinc-400">{DateTime.fromJSDate(new Date(notification.createdAt)).toFormat("h:mma ddd Do MMMM YYYY")}</p>
+      <p data-testid="notification-created-at" className="text-sm text-center text-zinc-400">{DateTime.fromJSDate(new Date(notification.createdAt)).toFormat("h:mma ccc Do MMMM yyyy")}</p>
       <div>
         <p data-testid="fixer-name">
           {notification.eventInstrument.event.fixerName}
