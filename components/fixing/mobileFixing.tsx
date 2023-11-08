@@ -103,6 +103,7 @@ export default function MobileFixing(props: MobileFixingProps) {
     <div data-testid="mobile-fixing-div" className="sm:hidden  flex flex-col items-center w-full">
       <div className="flex flex-col w-full items-center">
         <SelectMenu 
+          id="event-instruments"
           tickSelected={false}
           values={instrumentSections.map(i => (
             {

@@ -38,8 +38,8 @@ describe("<AppendedMusician />", () => {
     expect(appendedMusician).toBeInTheDocument()
   })
   it("profile img is in the document", () => {
-    const profileImg = screen.getByTestId("profile-img")
-    expect(profileImg).toBeInTheDocument()
+    const image = screen.getByTestId("image")
+    expect(image).toBeInTheDocument()
 
   })
   it("user name is in the document", () => {

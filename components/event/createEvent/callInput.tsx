@@ -76,7 +76,7 @@ export default function CallInput(props: CallInputProps) {
         </div>
          {/*  <TextInput */}
           <ComboBox
-          setVenue={(venue) => setVenue(venue)}
+          setValue={(venue) => setVenue(venue)}
           options={venueOptions}
           propsValue={propsValueVenue}
           label="Venue"

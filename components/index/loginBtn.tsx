@@ -1,4 +1,3 @@
-import { Button } from "@mui/material"
 import { useSession, signIn, signOut } from "next-auth/react"
 import React from "react"
 
@@ -15,7 +14,7 @@ export default function LoginBtn() {
   return (
     <div className="flex flex-col" data-testid="login-btn">
       Not signed in <br />
-      <Button variant="outlined" onClick={() => signIn()}>Sign in</Button>
+      <button onClick={() => signIn()}>Sign in</button>
     </div>
   )
 }

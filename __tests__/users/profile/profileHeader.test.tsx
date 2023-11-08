@@ -19,8 +19,8 @@ describe("ProfileHeader component", () => {
     expect(profileHeader).toBeInTheDocument()
   })
   it("profile image is in the document", () => {
-    const profileImg = screen.getByTestId("profile-img")
-    expect(profileImg).toBeInTheDocument()
+    const image = screen.getByTestId("image")
+    expect(image).toBeInTheDocument()
   })
   it("user name is in the document", () => {
     const profileHeader = screen.getByTestId("profile-header")

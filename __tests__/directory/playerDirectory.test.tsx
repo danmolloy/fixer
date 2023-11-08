@@ -27,7 +27,7 @@ describe("<PlayerDirectory />", () => {
     expect(helpBlurb).toBeInTheDocument()
   })
   it("select menu is in the document", async () => {
-    const selectMenu = screen.getByTestId("select-menu")
+    const selectMenu = screen.getByTestId("directory-instrument-select-menu")
     expect(selectMenu).toBeInTheDocument()
   })
 
@@ -46,7 +46,7 @@ describe("<PlayerDirectory />", () => {
     render(<PlayerDirectory {...mockProps} />)
   })
   it("selected instrument name is in the document", () => {
-    const selectMenu = screen.getByTestId("select-menu")
+    const selectMenu = screen.getByTestId("directory-instrument-select-menu")
     expect(selectMenu.textContent).toMatch(mockUser.instrument)
   })
   it("corresponding musicians are found when instrument selected", async () => {

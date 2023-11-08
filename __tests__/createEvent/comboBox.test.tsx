@@ -11,7 +11,7 @@ const mockProps = {
   id: "qwertyId",
   label: "Venue Label",
   options: venueOptions,
-  setVenue: jest.fn()
+  setValue: jest.fn()
   
 }
 

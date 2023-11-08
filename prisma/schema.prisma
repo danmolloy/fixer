@@ -45,16 +45,30 @@ model User {
   emailVerified DateTime?
   image         String?
   instrument    String?
-  profileInfo   String?
   firstName     String?
   lastName      String?
   mobileNumber  String?
+  instrumentsList String[] 
+  profileText String?
+  blockedUsers BlockUser[] @relation("blockedUser")
+  blockedBy BlockUser[] @relation("blockedBy")
+  preferredMethod String?
+  fixingEnsembles String[]
   accounts      Account[]
   sessions      Session[]
   quickFixes    QuickFix[]
   events        Event[]
   playerCalls   PlayerCall[]
   calls         Call[]
+}
+
+model BlockUser {
+  blockedBy User @relation("blockedBy", fields: [blockedById], references: [id])
+  blockedById String
+  blockedUser User @relation("blockedUser", fields: [blockedUserId], references: [id])
+  blockedUserId String
+
+  @@id([blockedById, blockedUserId])
 }
 
 model VerificationToken {

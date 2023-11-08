@@ -19,8 +19,8 @@ describe("<MusicianTile />", () => {
     expect(musicianTile).toBeInTheDocument()
   })
   it("profile img is in the document", () => {
-    const profileImg = screen.getByTestId("profile-img")
-    expect(profileImg).toBeInTheDocument()
+    const userImg = screen.getByTestId("image")
+    expect(userImg).toBeInTheDocument()
 
   })
   it("user name is in the document", () => {

@@ -9,7 +9,7 @@ import Loading from "../index/loading";
 import LoadingHeader from "./loading/loadingHeader";
 import Banner from "./banner";
 import useSWR from "swr";
-import SettingsIndex from "../users/settings/settings";
+import SettingsIndex from "../users/settings";
 import { useRouter } from "next/router";
 
 

@@ -53,7 +53,7 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
   return (
     <div className="w-screen flex flex-col items-center py-8" id="player-directory" data-testid="player-directory">
       <div className="flex flex-col w-full items-center">
-        <SelectMenu tickSelected={true} selectedVal={selectedInstrument} values={instrumentArr.map(i => ({val: i}))} handleSelect={val => {setSelectedInstrument(val); setPageTitle(val); setSortedList(false)}}  />
+        <SelectMenu id="directory-instrument" tickSelected={true} selectedVal={selectedInstrument} values={instrumentArr.map(i => ({val: i}))} handleSelect={val => {setSelectedInstrument(val); setPageTitle(val); setSortedList(false)}}  />
       {selectedInstrument !== "" && <ToggleSwitch label="Alphabetical" toggled={sortedList} setToggled={() => setSortedList(!sortedList)} />}
       </div>
         {selectedInstrument === ""

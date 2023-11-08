@@ -10,13 +10,16 @@ export const mockUser: User = {
   id: mockUserId,
   name: faker.person.fullName(),
   email: faker.internet.email(),
-  profileInfo: faker.lorem.paragraph(),
   emailVerified: new Date(),
   image: faker.image.urlLoremFlickr(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
   instrument: "Viola",
   mobileNumber: faker.phone.number(),
+  fixingEnsembles: [faker.lorem.words(3)],
+  profileText: faker.lorem.paragraph(),
+  preferredMethod: "WhatsApp",
+  instrumentsList: ["Cello", "Viola"]
 }
 
 

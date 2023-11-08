@@ -12,10 +12,11 @@ export type SelectValListProps = {
   handleSelect: (val: string) => void
   showValList: boolean
   tickSelected: boolean
+  id: string
 }
 
 export default function SelectMenuList(props: SelectValListProps) {
-  const { setShowValList, selectedVal, values, handleSelect, showValList, tickSelected } = props;
+  const { id, setShowValList, selectedVal, values, handleSelect, showValList, tickSelected } = props;
   const ref = useRef(null)
 
   useEffect(() => {
@@ -25,9 +26,9 @@ export default function SelectMenuList(props: SelectValListProps) {
   }, [setShowValList])
   
   return (
-    <ul tabIndex={-1}  ref={ref} onBlur={() => setTimeout(() => setShowValList(false), 150)} className=" absolute bg-white w-60 mt-10 h-48 overflow-scroll shadow-sm border py-1 rounded">
+    <ul data-testid={`${id}-vals-list`} tabIndex={-1}  ref={ref} onBlur={() => setTimeout(() => setShowValList(false), 150)} className=" absolute bg-white w-60 mt-10 h-48 overflow-scroll shadow-sm border py-1 rounded">
         {values.map(i => (
-          <li className="w-full items-center justify-between flex flex-row text-start py-1 px-2  hover:bg-indigo-600 hover:text-white" data-testid={`${i}-option`} key={i.id ? i.id : i.val} onClick={() => {handleSelect(i.val); setShowValList(false)}}>
+          <li className="w-full items-center justify-between flex flex-row text-start py-1 px-2  hover:bg-indigo-600 hover:text-white" data-testid={`${i.val}-option`} key={i.id ? i.id : i.val} onClick={() => {handleSelect(i.val); setShowValList(false)}}>
             <p>{i.val}</p>
             {i.secondary 
             ? <p className="text-sm">{i.secondary}</p> 

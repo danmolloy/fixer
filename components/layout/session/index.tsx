@@ -5,7 +5,8 @@ import SessionFooter from "./footer";
 import useSWR from "swr";
 import LoadingLayout from "../loading";
 import ErrorLayout from "../error";
-import SettingsIndex from "../../users/settings/settings";
+import SettingsIndex from "../../users/settings";
+import BasicInfo from "../../users/settings/basicInfo";
 
 export type SessionLayoutProps = {
   children: ReactNode
@@ -20,7 +21,7 @@ export default function SessionLayout(props: SessionLayoutProps) {
   const { data, mutate, error, isLoading } = useSWR('/api/index/getUserData', fetcher)
 
 
-  const incompleteProfile = (data && data?.email === null || data?.instrument === null || data?.name === null || data?.mobileNumber === null)
+  const incompleteProfile = (data && data?.email === null || data?.instrumentList === null || data?.name === null || data?.mobileNumber === null)
 
   if (isLoading || !data) {
     return (
@@ -46,7 +47,7 @@ export default function SessionLayout(props: SessionLayoutProps) {
           && <SessionMenu setShowMenu={arg => setShowMenu(arg)} />}
         <div data-testid="session-children" className="layout-children w-screen  flex flex-col items-center bg-white pb-12 mt-16">
           {incompleteProfile 
-          ? <SettingsIndex missingInfo={true} mutateData={() => mutate()} />
+          ? <BasicInfo user={data}/>
           : children}
         </div>
         <SessionFooter />

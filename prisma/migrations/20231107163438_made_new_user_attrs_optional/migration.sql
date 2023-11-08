@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "profileImg" DROP NOT NULL,
+ALTER COLUMN "profileText" DROP NOT NULL,
+ALTER COLUMN "preferredMethod" DROP NOT NULL;

@@ -10,15 +10,17 @@ export interface ComboBoxProps extends TextInputProps {
     textPrimary: string 
     textSecondary?: string
   }[]
-  setVenue: (venue: string) => void
+  setValue: (value: string) => void
+  name: string
+  label: string
 }
 
 export default function ComboBox(props: ComboBoxProps) {
-  const { options, name, id, className, label, asHtml, type, min, max, optional, propsValue, setVenue } = props;
+  const { options, name, id, className, label, asHtml, type, min, max, optional, propsValue, setValue } = props;
   let regEx = new RegExp(propsValue, "gi");
 
   const handleSelect = (venue) => {
-    setVenue(venue)
+    setValue(venue)
 
   }
   
@@ -28,7 +30,7 @@ export default function ComboBox(props: ComboBoxProps) {
       {optional && <span className="text-slate-400 text-sm ml-2">Optional</span>}
       <Field
         as={asHtml}
-        id={name}
+        id={`${name}-field`}
         label={label ? label : name}
         data-testid={`${id}-input`}
         className={`border rounded px-1 my-1 shadow-sm h-8 ${className}`}

@@ -36,7 +36,8 @@ export const authOptions = ({
               event: true
             }
           },
-          playerCalls: true
+          playerCalls: true,
+          blockedUsers: true
         }
       })
       session.userData = sesssionUser

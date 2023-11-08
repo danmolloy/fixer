@@ -10,9 +10,7 @@ const mockProps: MobileFixingProps = {
   setSelectedInstrument: jest.fn(),
   eventCalls: mockEventInstrumentWithMAndM.musicians[0].calls,
   refreshProps: jest.fn(),
-  eventId: mockEventInstrumentWithMAndM.id,
   users: [mockUser],
-  isLoading: false
 }
 
 describe("MobileFixing component", () => {
@@ -24,7 +22,7 @@ describe("MobileFixing component", () => {
     expect(mobileFixingDiv).toBeInTheDocument()
   })
   it("Select menu is in the document", () => {
-    const selectMenu = screen.getByTestId("select-menu")
+    const selectMenu = screen.getByTestId("event-instruments-select-menu")
     expect(selectMenu).toBeInTheDocument()
   })
   //it("Corresponding instrument tile is in the document when selected from menu", () => {})
