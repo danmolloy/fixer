@@ -2,8 +2,8 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom"
 import CallTile from "../../components/event/callTile";
 import React from "react";
-import moment from "moment";
 import { mockCall } from "../../__mocks__/models/call";
+import { DateTime } from "luxon";
 
 /* const mockProps = {
   id: "mockId",
@@ -22,11 +22,11 @@ describe("CallTile component", () => {
   })
   it("startTime is in the document", () => {
     const callTile = screen.getByTestId("call-tile-div")
-    expect(callTile.textContent).toMatch(String(moment(new Date(mockCall.startTime)).format("HH:mm D MMMM YYYY")))
+    expect(callTile.textContent).toMatch(String(DateTime.fromJSDate(new Date(mockCall.startTime)).toFormat("HH:mm DD")))
   })
   it("endTime is in the document", () => {
     const callTile = screen.getByTestId("call-tile-div")
-    expect(callTile.textContent).toMatch(String(moment( new Date(mockCall.endTime)).format("HH:mm D MMMM YYYY")))
+    expect(callTile.textContent).toMatch(String(DateTime.fromJSDate( new Date(mockCall.endTime)).toFormat("HH:mm DD")))
   })
   it("venue is in the document", () => {
     const callTile = screen.getByTestId("call-tile-div")

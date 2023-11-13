@@ -2,8 +2,8 @@ import EventInfo, { EventInfoProps } from "../../components/event/eventInfo"
 import { act, fireEvent, render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react"
-import moment from "moment"
 import { mockEventWithCalls } from "../../__mocks__/models/event"
+import { DateTime } from "luxon"
 
 const mockProps: EventInfoProps = {
   event: mockEventWithCalls,
@@ -61,17 +61,17 @@ describe("EventInfo component", () => {
   it("All calls are in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
     for (let i = 0; i < mockProps.event.calls.length; i++) {
-      expect(eventInfoDiv.textContent).toMatch(String(moment(new Date(mockProps.event.calls[i].startTime)).format("HH:mm D MMMM YYYY")))
+      expect(eventInfoDiv.textContent).toMatch(DateTime.fromJSDate(new Date(mockProps.event.calls[i].startTime)).toFormat("HH:mm DD"))
       expect(eventInfoDiv.textContent).toMatch(mockProps.event.calls[i].venue)
     }
   })
 
   it("createdAt is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(String(moment(new Date(mockProps.event.createdAt)).format("HH:mm:ss D MMMM YYYY")))
+    expect(eventInfoDiv.textContent).toMatch(String(DateTime.fromJSDate(new Date(mockProps.event.createdAt)).toFormat("HH:mm DD")))
   })
   it("Last updated is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(String(moment(new Date(mockProps.event.updatedAt)).format("HH:mm:ss D MMMM YYYY")))
+    expect(eventInfoDiv.textContent).toMatch(String(DateTime.fromJSDate(new Date(mockProps.event.updatedAt)).toFormat("HH:mm DD")))
   })
 })

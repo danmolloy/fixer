@@ -5,7 +5,7 @@ import { mockUser } from "../../__mocks__/models/user"
 import { FixingProps } from "../../components/fixing/fixing"
 import { mockCall } from "../../__mocks__/models/call"
 import { mockEventInstrumentWithMAndM } from "../../__mocks__/models/eventInstrument"
-import moment from "moment"
+import { DateTime } from "luxon"
 
 const mockProps: FixingProps = {
   eventCalls: [mockCall],
@@ -45,7 +45,7 @@ describe("Fixing component", () => {
   })
   it("Date last updated is in the document", () => {
     const fixingDiv = screen.getByTestId("event-fixing")
-    expect(fixingDiv.textContent).toMatch(`Last updated ${moment(mockProps.lastUpdated).format("HH:mm:ss D MMMM YYYY")}`);
+    expect(fixingDiv.textContent).toMatch(`Last updated ${DateTime.fromJSDate(mockProps.lastUpdated).toFormat("HH:mm:ss DD")}`);
   })
   it("View List button is in the document", () => {
     const viewListBtn = screen.getByTestId("view-list-btn")

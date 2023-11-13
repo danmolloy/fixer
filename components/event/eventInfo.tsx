@@ -1,9 +1,9 @@
-import moment from "moment";
 import React from 'react'
 import CallTile from "./callTile";
 import InfoDiv from "./infoDiv";
 import { Call } from "@prisma/client";
 import { EventWithCalls } from "./calendarEventLink";
+import { DateTime } from "luxon";
 
 
 export type EventInfoProps = {
@@ -29,7 +29,7 @@ export default function EventInfo(props: EventInfoProps) {
       <div className="flex flex-col lg:flex-row p-4 w-full  lg:items-center lg:justify-evenly" data-testid="event-calls-list">
         <p data-testid="event-calls-count" className="text-slate-600 text-sm lg:w-1/2 ">{props.event.calls.length} Call(s):</p>
         <div className="flex flex-col lg:w-1/2 ">
-        {props.event.calls.sort((a, b) => Number(moment(new Date(a.startTime))) - Number(moment(new Date(b.startTime)))).map(i => (
+        {props.event.calls.sort((a, b) => Number(DateTime.fromJSDate(new Date(a.startTime))) - Number(DateTime.fromJSDate(new Date(b.startTime)))).map(i => (
         <div key={i.id} className="my-2">
           <CallTile {...i} />
         </div>
@@ -42,8 +42,8 @@ export default function EventInfo(props: EventInfoProps) {
       <InfoDiv className="bg-slate-50" id="event-fee" title="Fee" value={event.fee} />
       <InfoDiv className="" id="event-additional-info" title="Additional Info" value={event.additionalInfo} />
       <InfoDiv className="bg-slate-50" id="event-fixer-name" title="Fixer" value={event.fixerName} />
-      <InfoDiv className="text-slate-600 text-sm" id="created-datetime" title="Event created" value={String(moment(new Date(event.createdAt)).format("HH:mm:ss D MMMM YYYY"))} />
-      <InfoDiv className="text-slate-600 text-sm bg-slate-50" id="updated-datetime" title="Last updated" value={String(moment(new Date(event.updatedAt)).format("HH:mm:ss D MMMM YYYY"))} />
+      <InfoDiv className="text-slate-600 text-sm" id="created-datetime" title="Event created" value={String(DateTime.fromJSDate(new Date(event.createdAt)).toFormat("HH:mm DD"))} />
+      <InfoDiv className="text-slate-600 text-sm bg-slate-50" id="updated-datetime" title="Last updated" value={String(DateTime.fromJSDate(new Date(event.updatedAt)).toFormat("HH:mm DD"))} />
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import useSwr from 'swr'
 import React, { useState } from 'react'
 import MobileFixing from './mobileFixing'
-import moment from 'moment'
 import OrchestraList from './orchestraList'
 import { Call, Prisma, User } from '@prisma/client'
 import FixingInstrument from './instrument'
+import { DateTime } from 'luxon'
 
 export type EventInstrumentWithMusiciansWithMusician = Prisma.EventInstrumentGetPayload<{
   include: {
@@ -44,7 +44,7 @@ export default function Fixing(props: FixingProps) {
       <div className="flex flex-row items-center justify-between   px-8 py-4 mt-8">
         <div data-testid="fixing-header">
         <h1>Personnel</h1>
-        {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last updated {String(moment(lastUpdated).format("HH:mm:ss D MMMM YYYY"))}</p>}
+        {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last updated {String(DateTime.fromJSDate(lastUpdated).toFormat("HH:mm:ss DD"))}</p>}
         </div>
         <div>
           <button data-testid="view-list-btn" onClick={() => setViewList(!viewList)} className="border border-blue-300 text-blue-600 m-1 rounded p-1 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">View List</button>

@@ -1,5 +1,5 @@
 import { Call } from "@prisma/client"
-import moment from "moment"
+import { DateTime } from "luxon"
 import React from "react"
 import { HiLocationMarker } from "react-icons/hi"
 
@@ -8,8 +8,8 @@ export default function CallTile(props: Call) {
   const {id, startTime, endTime, venue} = props
   return (
     <div data-testid="call-tile-div" className="">
-      <p>{String(moment(new Date(startTime)).format("HH:mm D MMMM YYYY"))} <span className="text-sm">to</span></p>
-      <p>{String(moment(new Date(endTime)).format("HH:mm D MMMM YYYY"))}</p>
+      <p>{String(DateTime.fromJSDate(new Date(startTime)).toFormat("HH:mm DD"))} <span className="text-sm">to</span></p>
+      <p>{String(DateTime.fromJSDate(new Date(endTime)).toFormat("HH:mm DD"))}</p>
       <div className="text-slate-600 flex flex-row items-center">
         <HiLocationMarker />
         <p className="ml-2">{venue}</p>
