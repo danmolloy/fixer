@@ -42,7 +42,6 @@ export const authOptions = ({
       })
       session.userData = sessionUser
       session.user.id = user.id
-      session.user.instrument =  sessionUser.instrument
       session.user.instrumentList =  sessionUser.instrumentsList
 
       session.user.name = `${sessionUser.firstName} ${sessionUser.lastName}`
