@@ -6,12 +6,10 @@ export const createUser  = async() => {
   console.log("createUser called")
   return await prisma.user.create({
     data: {
-      name: faker.person.fullName(),
       email: faker.internet.email(),
       emailVerified: new Date(),
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
-      instrument: "Viola",
       mobileNumber: faker.phone.number(),
       fixingEnsembles: [faker.lorem.words(3)],
       profileText: faker.lorem.paragraph(),
