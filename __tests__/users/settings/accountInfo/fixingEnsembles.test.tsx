@@ -4,7 +4,7 @@ import FixingEnsembles, { FixingEnsembleProps } from "../../../../components/use
 import { Formik } from "formik"
 
 const mockProps: FixingEnsembleProps = {
-  ensemblesList: ["London Symphony Orchestra"]
+  fixingEnsemblesList: ["London Symphony Orchestra"]
 }
 
 describe("<FixingEnsembles />", () => {
@@ -32,8 +32,8 @@ describe("<FixingEnsembles />", () => {
   it("list of orchestras user fixes is in the document", () => {
     const currentEnsembles = screen.getByTestId("fixing-ensembles-list")
     expect(currentEnsembles).toBeInTheDocument()
-    for (let i = 0; i < mockProps.ensemblesList.length; i ++) {
-      expect(currentEnsembles.textContent).toMatch(mockProps.ensemblesList[i])
+    for (let i = 0; i < mockProps.fixingEnsemblesList.length; i ++) {
+      expect(currentEnsembles.textContent).toMatch(mockProps.fixingEnsemblesList[i])
     }
   })
   it("text input with label is in the document", () => {
@@ -51,7 +51,7 @@ describe("<FixingEnsembles />", () => {
 
 describe("<FixingEnsembles />", () => {
   const mockProps: FixingEnsembleProps = {
-    ensemblesList: ["London Symphony Orchestra"]
+    fixingEnsemblesList: ["London Symphony Orchestra"]
   }
   beforeEach(() => {
     render( 
@@ -62,7 +62,7 @@ describe("<FixingEnsembles />", () => {
     </Formik>)
   })
   it("if no ensembles listed, it states so", () => {
-    if (mockProps.ensemblesList.length === 0) {
+    if (mockProps.fixingEnsemblesList.length === 0) {
       const noEnsembles = screen.getByText("You have no ensembles currently listed.")
       expect(noEnsembles).toBeInTheDocument()
     }

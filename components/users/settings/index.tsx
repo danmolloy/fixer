@@ -77,7 +77,7 @@ export default function SettingsIndex(props: SettingsIndexProps) {
         <h1>Your Settings</h1>
         <PersonalInfo />
         <ProfileInfo />
-        <AccountInfo ensemblesList={props.values.fixingEnsembles} instrumentsList={props.values.instrumentsList} user={user}/>
+        <AccountInfo fixingEnsemblesList={props.values.fixingEnsembles} instrumentsList={props.values.instrumentsList} user={user}/>
 
         <button disabled={props.isSubmitting} type='submit' className='self-end bg-indigo-600 text-white disabled:bg-indigo-300 w-16 rounded py-1 hover:bg-indigo-500'>
           Submit

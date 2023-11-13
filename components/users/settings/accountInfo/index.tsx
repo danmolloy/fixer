@@ -11,14 +11,16 @@ export type UserWithBlockedPlayers = Prisma.UserGetPayload<{
 
 export type AccountInfoProps = {
   user: UserWithBlockedPlayers
+  instrumentsList: string[]
+  fixingEnsemblesList: string[]
 }
 
 export default function AccountInfo(props: AccountInfoProps) {
-  const { user } = props;
+  const { user, instrumentsList, fixingEnsemblesList } = props;
   return (
     <div data-testid="account-info" className=" w-[96vw]">
-      <InstrumentsList instrumentsList={user.instrumentsList} />
-      <FixingEnsembles ensemblesList={user.fixingEnsembles} />
+      <InstrumentsList instrumentsList={instrumentsList} />
+      <FixingEnsembles fixingEnsemblesList={fixingEnsemblesList} />
     </div>
   )
 }
