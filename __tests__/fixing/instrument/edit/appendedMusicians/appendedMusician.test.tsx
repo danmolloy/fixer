@@ -38,12 +38,12 @@ describe("<AppendedMusician />", () => {
     expect(appendedMusician).toBeInTheDocument()
   })
   it("profile img is in the document", () => {
-    const image = screen.getByTestId("image")
+    const image = screen.getByTestId("profile-img")
     expect(image).toBeInTheDocument()
 
   })
   it("user name is in the document", () => {
-    const userName = screen.getByText(mockProps.musician.user.name)
+    const userName = screen.getByText(`${mockProps.musician.user.firstName} ${mockProps.musician.user.lastName}`)
     expect(userName).toBeInTheDocument()
   })
   it("showMenu btn is in the document and calls showMenu() onClick", () => {

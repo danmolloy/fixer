@@ -29,6 +29,7 @@ global.fetch = jest.fn(() =>
 
 describe("Fixing component", () => {
   //it("View List button shows orchestra list on click", () => {})
+  //it("handles players who play multiple instruments, i.e. indicates if they are already booked", () => {})
 
   beforeEach(() => {
     render(<Fixing {...mockProps} />)
@@ -63,6 +64,27 @@ describe("Fixing component", () => {
     for (let i = 0; i < mockProps.instrumentSections.length; i++) {
       let instrumentTile = screen.getByTestId(`${mockProps.instrumentSections[i].instrumentName}-fixing`)
       expect(instrumentTile).toBeInTheDocument()
+    }
+  })
+  it("instrument tiles are passed the correct musicians for the corresponding directory", () => {
+    /* 
+    Perhaps I should just make an Instrument model?
+    */
+    for (let i = 0; i < mockProps.instrumentSections.length; i ++) {
+      const editBtn = screen.getByTestId(`${mockProps.instrumentSections[i].instrumentName}-edit-btn`)
+      
+      expect(editBtn).toBeInTheDocument()
+      act(() => {
+        fireEvent.click(editBtn)
+      })
+      const instrumentDir = screen.getByTestId(`${mockProps.instrumentSections[i].instrumentName}-directory-musicians`)
+      expect(instrumentDir).toBeInTheDocument()
+
+      for (let j = 0; j < mockProps.users.length; j++) {
+        if (mockProps.users[j].instrumentsList.includes(mockProps.instrumentSections[i].instrumentName)) {
+          expect(instrumentDir.textContent).toMatch(`${mockProps.users[j].firstName} ${mockProps.users[j].lastName}`)
+        }
+      }
     }
   })
 })

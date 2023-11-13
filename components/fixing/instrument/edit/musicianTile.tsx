@@ -15,10 +15,10 @@ export default function MusicianTile(props: MusicianTileProps) {
     <div className={`${disabled && "opacity-30"} flex flex-row border-b items-center justify-between w-full p-1`} data-testid="musician-tile">
       <div className="flex flex-row items-center">
         <div className="rounded-full overflow-hidden shadow m-2 w-12 h-12 flex items-center" data-testid={`profile-img`}>
-          <Image src={"http://placebeard.it/100/100"} width={48} height={48} alt={`${musician.name} profile image`} title={`${musician.name} profile image`} />
+          <Image src={"http://placebeard.it/100/100"} width={48} height={48} alt={`${musician.firstName} ${musician.lastName} profile image`} title={`${musician.firstName} ${musician.lastName} profile image`} />
         </div>
         <div className="flex flex-col">
-          <p>{musician.name}</p>
+          <p>{musician.firstName} {musician.lastName}</p>
           <Link className={`text-sm text-indigo-600 hover:underline`} href={`/user/${musician.id}`}>View Profile</Link>
 
         </div>

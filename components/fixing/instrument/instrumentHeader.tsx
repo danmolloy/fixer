@@ -19,7 +19,7 @@ export default function InstrumentHeader(props: InstrumentHeaderProps) {
     <div data-testid="instrument-header">
       <div className="flex flex-row justify-between">
         <h2>{eventInstrument.instrumentName}</h2>
-        <button className="bg-indigo-600 text-white rounded px-2  shadow hover:bg-indigo-500" data-testid="edit-btn" onClick={() => setShowEdit(!showEdit)}>
+        <button className="bg-indigo-600 text-white rounded px-2  shadow hover:bg-indigo-500" data-testid={`${eventInstrument.instrumentName}-edit-btn`} onClick={() => setShowEdit(!showEdit)}>
           Edit
         </button>
       </div>

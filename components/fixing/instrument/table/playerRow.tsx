@@ -20,11 +20,11 @@ export default function PlayerRow(props: PlayerRowProps) {
   return (
     <tr data-testid={`${playerCall.id}-row`} className={` border-b w-full`}>
       <td className={`${inactivePlayer && "opacity-20 "} flex flex-row items-center justify-start`}>
-      <div className="rounded-full overflow-hidden shadow m-2 w-12 h-12 flex items-center" data-testid={`${playerCall.musician.name}-img`}>
-        <Image src={"http://placebeard.it/100/100"} width={48} height={48} alt={`${playerCall.musician.name} profile image`} title={`${playerCall.musician.name} profile image`} />
+      <div className="rounded-full overflow-hidden shadow m-2 w-12 h-12 flex items-center" data-testid={`${playerCall.musician.firstName}-${playerCall.musician.lastName}-img`}>
+        <Image src={"http://placebeard.it/100/100"} width={48} height={48} alt={`${playerCall.musician.firstName} ${playerCall.musician.lastName} profile image`} title={`${playerCall.musician.firstName} ${playerCall.musician.lastName} profile image`} />
       </div>
       <p>
-        {playerCall.musician.name}
+        {`${playerCall.musician.firstName} ${playerCall.musician.lastName}`}
       </p>
       </td>
       {allEventCalls.map(i => (

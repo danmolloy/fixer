@@ -1,12 +1,15 @@
 import { act, fireEvent, render, screen } from "@testing-library/react"
 import '@testing-library/jest-dom'
-import PlayerTile from "../../components/directory/playerTile"
+import PlayerTile, { PlayerTileProps } from "../../components/directory/playerTile"
 import { mockUser } from "../../__mocks__/models/user"
 
+const mockProps: PlayerTileProps = {
+  player: mockUser
+}
 
 describe("PlayerTile component", () => {
   beforeEach(() => {
-    render(<PlayerTile player={mockUser}/>)
+    render(<PlayerTile {...mockProps} />)
   })
   it("player-tile is in the document", () => {
     const playerTile = screen.getByTestId("player-tile-div")
@@ -14,12 +17,14 @@ describe("PlayerTile component", () => {
   })
   it("player name is in the document", () => {
     const playerTile = screen.getByTestId("player-tile-div")
-    expect(playerTile.textContent).toMatch(mockUser.name)
+    expect(playerTile.textContent).toMatch(`${mockUser.firstName} ${mockUser.lastName}`)
   })
 
   it("player instrument is in the document", () => {
     const playerTile = screen.getByTestId("player-tile-div")
-    expect(playerTile.textContent).toMatch(mockUser.instrument)
+    for (let i = 0; i < mockProps.player.instrumentsList.length; i ++) {
+      expect(playerTile.textContent).toMatch(mockUser.instrumentsList[i])
+    }
   })
 
   it("player profile picture is in the document", () => {

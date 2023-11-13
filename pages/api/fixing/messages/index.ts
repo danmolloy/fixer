@@ -15,7 +15,7 @@ export type OfferMessageArg = Prisma.EventInstrumentGetPayload<{
 
 export const getOfferMsgBody = (instrument: OfferMessageArg, playerCallId: number): string => {
   const playerCall = instrument.musicians.find(i => i.id === playerCallId)
-  const body = `Hi ${playerCall.musician.name},
+  const body = `Hi ${playerCall.musician.firstName},
   ${instrument.event.fixerName} ${playerCall.bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"}
   ${`${process.env.URL}/event/${instrument.eventId}`}
   ${instrument.messageToAll !== "" ? `\n Dan says to all ${instrument.instrumentName} players for this gig: "${instrument.messageToAll}"` : ""}

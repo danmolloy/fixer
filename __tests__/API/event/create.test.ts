@@ -37,7 +37,7 @@ describe("eventObj function", () => {
       confirmedOrOnHold: mockEventWithCalls.confirmedOrOnHold,
       calls: mockEventWithCalls.calls,
       fixerId: mockUser.id,
-      fixerName: mockUser.name,
+      fixerName: `${mockUser.firstName} ${mockUser.lastName}`,
       dressCode: mockEventWithCalls.dressCode,
       fee: mockEventWithCalls.fee,
       additionalInfo: mockEventWithCalls.additionalInfo,

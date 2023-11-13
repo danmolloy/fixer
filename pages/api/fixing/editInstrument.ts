@@ -28,7 +28,7 @@ export const handleBooking = async (instrumentObj: InstrumentFormProps) => {
           }
         )
       } else {
-        console.log(`${instrumentObj.musicians[i].user.name} already on call list`)
+        console.log(`${instrumentObj.musicians[i].user.firstName} ${instrumentObj.musicians[i].user.lastName} already on call list`)
       }
     }
 }

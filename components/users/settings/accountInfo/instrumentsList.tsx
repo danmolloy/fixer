@@ -14,23 +14,23 @@ export default function InstrumentsList(props: InstrumentsListProps) {
   const [selectedInstrument, setSelectedInstrument] = useState(null)
 
   return (
-    <div data-testid="instruments-list">
-      <h2>Your instrument(s)</h2>
-      <p>Add your instrument(s) to be in the directory and bookable for gigs.</p>
-      <p>If you are a fixer/administrator only, just leave this blank.</p>
-      <div data-testid="user-instrument-list">
-        <p>Current instruments</p>
+    <div data-testid="instruments-list" className="p-1 my-4 flex flex-col items-center w-full">
+      <h2 className="font-medium">Your instrument(s)</h2>
+      <p className="font-sm">Add your instrument(s) to be in the directory and bookable for gigs.</p>
+      <p className="font-sm">If you are a fixer/administrator only, just leave this blank.</p>
+      <div data-testid="user-instrument-list" className="p-1 my-4 flex flex-col items-center w-full">
+        <p className="font-medium">Current instruments</p>
         <FieldArray 
           name="instrumentsList" 
           render={arrayHelpers => (
-            <div>
+            <div className=" flex flex-col w-full my-2">
       {instrumentsList.length > 0 
         ? instrumentsList.map((i, index) => (
-          <div key={i}>
-            <button data-testid={`${i.toLocaleLowerCase()}-remove-btn`} onClick={() => arrayHelpers.remove(index)}>
+          <div key={i} className="border bg-gray-100 rounded my-1 p-1 w-36 flex flex-row items-center justify-between">
+            <p>{i}</p>
+            <button className="text-sm text-center border m-1 rounded-full bg-gray-50 hover:text-red-500" data-testid={`${i.toLocaleLowerCase()}-remove-btn`} onClick={() => arrayHelpers.remove(index)}>
               <AiOutlineClose />
             </button>
-            <p>{i}</p>
           </div>
         ))
         : <p>You have no instruments currently listed.</p>}

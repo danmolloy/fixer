@@ -19,12 +19,12 @@ describe("<MusicianTile />", () => {
     expect(musicianTile).toBeInTheDocument()
   })
   it("profile img is in the document", () => {
-    const userImg = screen.getByTestId("image")
+    const userImg = screen.getByTestId("profile-img")
     expect(userImg).toBeInTheDocument()
 
   })
   it("user name is in the document", () => {
-    const userName = screen.getByText(mockProps.musician.name)
+    const userName = screen.getByText(`${mockProps.musician.firstName} ${mockProps.musician.lastName}`)
     expect(userName).toBeInTheDocument()
   })
   it("view profile btn is in the document", () => {

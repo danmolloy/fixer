@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import '@testing-library/jest-dom'
 import PlayerDirectory, { PlayerDirectoryProps } from "../../components/directory/playerDirectory"
 import { instrumentArr } from "../../components/fixing/fixing"
@@ -36,23 +36,24 @@ describe("<PlayerDirectory />", () => {
 })
 
 describe("<PlayerDirectory />", () => {
+  const mockUserInstrument = mockUser.instrumentsList[Math.floor(Math.random() * mockUser.instrumentsList.length)]
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({
       push: jest.fn(),
       query: {
-        instrument: mockUser.instrument
+        instrument: mockUserInstrument
       }
     })
     render(<PlayerDirectory {...mockProps} />)
   })
   it("selected instrument name is in the document", () => {
     const selectMenu = screen.getByTestId("directory-instrument-select-menu")
-    expect(selectMenu.textContent).toMatch(mockUser.instrument)
+    expect(selectMenu.textContent).toMatch(mockUserInstrument)
   })
   it("corresponding musicians are found when instrument selected", async () => {
     for (let i = 0; i < mockProps.data.length; i++) {
-      if (mockProps.data[i].instrument === mockUser.instrument) {
-        let playerName = screen.getByText(mockProps.data[i].name)
+      if (mockUser.instrumentsList.map(i => i.toLocaleLowerCase()).includes(instrumentArr[i].toLocaleLowerCase())) {
+        let playerName = screen.getByText(`${mockProps.data[i].firstName} ${mockProps.data[i].lastName} `)
         expect(playerName).toBeInTheDocument()
       }
     }
@@ -65,6 +66,8 @@ describe("<PlayerDirectory />", () => {
 })
 
 describe("<PlayerDirectory />", () => {
+  const mockUserInstrument = mockUser.instrumentsList[Math.floor(Math.random() * mockUser.instrumentsList.length)]
+
   const mockProps: PlayerDirectoryProps = {
     data: undefined,
     setPageTitle: jest.fn()
@@ -74,7 +77,7 @@ describe("<PlayerDirectory />", () => {
     (useRouter as jest.Mock).mockReturnValue({
       push: jest.fn(),
       query: {
-        instrument: mockUser.instrument
+        instrument: mockUserInstrument
       }
     })
     render(<PlayerDirectory {...mockProps} />)

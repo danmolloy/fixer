@@ -63,7 +63,7 @@ export default function Fixing(props: FixingProps) {
             <FixingInstrument
               key={i.id}
               playerCalls={i.musicians}
-              directoryMusicians={users.filter(j => j.instrument === i.instrumentName)}
+              directoryMusicians={users.filter(j => j.instrumentsList.map(i => i.toLocaleLowerCase()).includes(i.instrumentName.toLocaleLowerCase()))}
               eventCalls={eventCalls}
               eventInstrument={i}
               refreshProps={() => refreshProps()} />

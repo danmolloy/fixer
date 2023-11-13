@@ -58,6 +58,7 @@ export default function EditInstrument(props: EditInstrumentProps) {
                 eventMusicianIds={[
                   ...props.values.musicians.map(i => i.user.id), 
                   ...eventMusicianIds]} 
+                instrumentName={eventInstrument.instrumentName}
                 musicians={directoryMusicians} 
                 allEventCalls={allEventCalls}/>
              <EditOptions bookingOrAvailability={bookingOrAvailability} />

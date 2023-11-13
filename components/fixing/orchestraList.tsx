@@ -24,7 +24,7 @@ export default function OrchestraList(props: OrchestraListProps) {
           <ol>
           {i.musicians.filter(j => j.accepted === true).map(j => (
             <li key={j.id} className="mx-2 text-sm">
-              {j.musician.name}
+              {`${j.musician.firstName} ${j.musician.lastName}`}
             </li>
           ))}
       

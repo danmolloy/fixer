@@ -25,11 +25,11 @@ describe("<PlayerRow />", () => {
     expect(playerRow).toBeInTheDocument()
   })
   it("user image is in the document", () => {
-    const userImg = screen.getByTestId(`${mockProps.playerCall.musician.name}-img`)
+    const userImg = screen.getByTestId(`${mockProps.playerCall.musician.firstName}-${mockProps.playerCall.musician.lastName}-img`)
     expect(userImg).toBeInTheDocument()
   })
   it("user name is in the document", () => {
-    const userName = screen.getByText(mockProps.playerCall.musician.name)
+    const userName = screen.getByText(`${mockProps.playerCall.musician.firstName} ${mockProps.playerCall.musician.lastName}`)
     expect(userName).toBeInTheDocument()
   })
 

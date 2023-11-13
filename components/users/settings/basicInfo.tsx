@@ -63,7 +63,7 @@ export default function BasicInfo(props: BasicInfoProps) {
         })
       }} >
       {props => (
-        <form onSubmit={props.handleSubmit} data-testid="basic-info">
+        <form onSubmit={props.handleSubmit} data-testid="basic-info" >
           <h1>About You</h1>
           <p>We just need a bit of info from you.</p>
           <PersonalInfo />

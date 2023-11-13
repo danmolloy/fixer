@@ -27,12 +27,10 @@ export default function AppendedMusician(props: AppendedMusicianProps) {
       <td className="flex flex-col items-start">
         <div className="flex flex-row items-center justify-center">
           <div className="rounded-full overflow-hidden shadow m-2 w-12 h-12 flex items-center" data-testid={`profile-img`}>
-            <Image src={"http://placebeard.it/100/100"} width={48} height={48} alt={`${musician.user.name} profile image`} title={`${musician.user.name} profile image`} />
+            <Image src={"http://placebeard.it/100/100"} width={48} height={48} alt={`${musician.user.firstName} ${musician.user.lastName} profile image`} title={`${musician.user.firstName} ${musician.user.lastName} profile image`} />
           </div>
           <div>
-          <p>
-            {musician.user.name}
-          </p>
+          <p>{musician.user.firstName} {musician.user.lastName}</p>
             {addedMessage.length > 0 
             && <div className="flex flex-row items-center text-slate-400">
               <BsEnvelope />
@@ -58,7 +56,7 @@ export default function AppendedMusician(props: AppendedMusicianProps) {
           <BsThreeDotsVertical />
         </button>
         {showMenu 
-          && <AppendedMusicianMenu musicianName={musician.user.name} setMessage={(msg) => setMessage(msg)} setShowMenu={(arg) => setShowMenu(arg)} index={index} remove={() => remove()} userId={musician.user.id} />}
+          && <AppendedMusicianMenu musicianName={`${musician.user.firstName} ${musician.user.lastName}`} setMessage={(msg) => setMessage(msg)} setShowMenu={(arg) => setShowMenu(arg)} index={index} remove={() => remove()} userId={musician.user.id} />}
       </div>
       </td>
     </tr>

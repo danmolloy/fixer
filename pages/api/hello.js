@@ -3,6 +3,7 @@ import { faker } from "@faker-js/faker";
 import { instrumentArr } from "../../components/fixing/fixing";
 
 export const createUser  = async() => {
+  console.log("createUser called")
   return await prisma.user.create({
     data: {
       name: faker.person.fullName(),

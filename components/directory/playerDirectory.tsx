@@ -67,16 +67,16 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
             <IsLoadingTile />
           </div>
         : <div className="flex flex-row flex-wrap justify-center  w-screen">
-          {data.filter(i => i.instrument === selectedInstrument).length < 1
+          {data.filter(i => i.instrumentsList.map((i: String) => i.toLowerCase()).includes(selectedInstrument.toLocaleLowerCase())).length < 1
           ? <h3 className="p-16 text-slate-700">No musicians found.</h3>
           : <div className="flex flex-row flex-wrap justify-center  w-screen">
             {sortedList 
-            ? data.filter(j => j.instrument === selectedInstrument).sort((a, b) => a.name.localeCompare(b.name)).map(i => (
+            ? data.filter(j => j.instrumentsList.map((i: String) => i.toLowerCase()).includes(selectedInstrument.toLowerCase())).sort((a, b) => a.lastName.localeCompare(b.lastName)).map(i => (
               <div key={i.id}>
                 <PlayerTile player={i} />
               </div>
             ))
-            : shuffleArray(data).filter(j => j.instrument === selectedInstrument).map(i => (
+            : shuffleArray(data).filter(j => j.instrumentsList.map((i: String) => i.toLowerCase()).includes(selectedInstrument.toLowerCase())).map(i => (
               <div key={i.id}>
                 <PlayerTile player={i} />
               </div>

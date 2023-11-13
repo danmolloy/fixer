@@ -34,7 +34,7 @@ describe("<AppendedTable />", () => {
   })
   it("all appended musicians are in the document", () => {
     for (let i = 0; i < mockProps.musicians.length; i++) {
-      let appendedMusician = screen.getByText(mockProps.musicians[i].user.name)
+      let appendedMusician = screen.getByText(`${mockProps.musicians[i].user.firstName} ${mockProps.musicians[i].user.lastName}`)
       expect(appendedMusician).toBeInTheDocument()
     }
   })

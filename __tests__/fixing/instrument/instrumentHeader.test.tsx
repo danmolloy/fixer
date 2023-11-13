@@ -24,12 +24,12 @@ describe("<InstrumentHeader />", () => {
     expect(instrumentName).toBeInTheDocument()
   })
   it("edit btn is in the document", () => {
-    const editBtn = screen.getByTestId("edit-btn")
+    const editBtn = screen.getByTestId(`${mockProps.eventInstrument.instrumentName}-edit-btn`)
     expect(editBtn).toBeInTheDocument()
     expect(editBtn.textContent).toMatch(/^Edit$/)
   })
   it("edit btn calls showMenu on click", () => {
-    const editBtn = screen.getByTestId("edit-btn")
+    const editBtn = screen.getByTestId(`${mockProps.eventInstrument.instrumentName}-edit-btn`)
     act(() => {
       fireEvent.click(editBtn)
     })

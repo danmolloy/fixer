@@ -19,7 +19,7 @@ describe("replyToMessage()", () => {
 
 describe("getOfferMsgBody()", () => {
   it("returns expected string", () => {
-  expect(getOfferMsgBody(mockOfferMsgArg, mockOfferMsgArg.musicians[0].id)).toBe(`Hi ${mockOfferMsgArg.musicians[0].musician.name},
+  expect(getOfferMsgBody(mockOfferMsgArg, mockOfferMsgArg.musicians[0].id)).toBe(`Hi ${mockOfferMsgArg.musicians[0].musician.firstName},
   ${mockOfferMsgArg.event.fixerName} ${mockOfferMsgArg.musicians[0].bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"}
   ${`${process.env.URL}/event/${mockOfferMsgArg.eventId}`}
   ${mockOfferMsgArg.messageToAll !== "" ? `\n Dan says to all ${mockOfferMsgArg.instrumentName} players for this gig: "${mockOfferMsgArg.messageToAll}"` : ""}

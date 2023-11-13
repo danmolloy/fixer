@@ -14,7 +14,7 @@ export default function UserProfile(props: UserProfileProps) {
 
   return (
     <div data-testid="user-profile" className="flex flex-col w-full ">
-      <ProfileHeader userName={user.name} instrument={user.instrument} setShowContactInfo={() => setShowContactInfo(!showContactInfo)} />
+      <ProfileHeader user={user} setShowContactInfo={() => setShowContactInfo(!showContactInfo)} />
       {showContactInfo && <ContactInfo player={user} setShowContactInfo={() => setShowContactInfo(!showContactInfo)}/>}
       <ProfileBody />
     </div>

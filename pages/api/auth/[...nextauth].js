@@ -21,7 +21,7 @@ export const authOptions = ({
     async session({ session, user }) {
       // Send properties to the client, like an access_token from a provider.
     
-      const sesssionUser = await prisma.user.findUnique({
+      const sessionUser = await prisma.user.findUnique({
         where: {
           id: user.id
         },
@@ -40,9 +40,12 @@ export const authOptions = ({
           blockedUsers: true
         }
       })
-      session.userData = sesssionUser
+      session.userData = sessionUser
       session.user.id = user.id
-      session.user.instrument =  sesssionUser.instrument
+      session.user.instrument =  sessionUser.instrument
+      session.user.instrumentList =  sessionUser.instrumentsList
+
+      session.user.name = `${sessionUser.firstName} ${sessionUser.lastName}`
       
       console.log(`[...nextauth] called`)
 

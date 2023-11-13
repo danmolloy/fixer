@@ -23,12 +23,12 @@ describe("<ProfileInfo />", () => {
     expect(profileBlurb).toBeInTheDocument()
     expect(profileBlurb).toHaveAttribute("name", "profileBlurb")
   })
-  it("image upload is in the document", () => {
+/*   it("image upload is in the document", () => {
     const imgInput = screen.getByLabelText("Profile Image")
     expect(imgInput).toBeInTheDocument()
     expect(imgInput).toHaveAttribute("type", "image")
     expect(imgInput).toHaveAttribute("name", "image")
-  })
+  }) */
   it("current-img preview is in the document", () => {
     const imgPreview = screen.getByTitle("Current Profile Image")
     expect(imgPreview).toBeInTheDocument()

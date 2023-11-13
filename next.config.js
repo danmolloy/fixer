@@ -5,7 +5,8 @@ module.exports = {
 module.exports = {
   images: {
     domains: [
-      "placebeard.it"
+      "placebeard.it",
+      "loremflickr.com"
     ],
   },
 }

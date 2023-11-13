@@ -110,7 +110,6 @@ export default function MobileFixing(props: MobileFixingProps) {
               val: i.instrumentName, 
               id: i.id,
               secondary: `${i.numToBook > 0 ? `(${i.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length} of ${i.numToBook} booked)` : ""}`
-              
             }))} 
           selectedVal={selectedInstrument} 
           handleSelect={arg => setSelectedInstrument(arg)} />
@@ -120,11 +119,11 @@ export default function MobileFixing(props: MobileFixingProps) {
           ? <div className="h-80 w-screen mb-20 mt-2 text-center">
               <h3 className="p-16 text-slate-700">Please select an instrument.</h3>
             </div>
-          : instrumentSections.filter(i => i.instrumentName === selectedInstrument).map(i => (
+          : instrumentSections.filter(i => i.instrumentName.toLocaleLowerCase() === selectedInstrument.toLocaleLowerCase()).map(i => (
               <FixingInstrument
               key={i.id}
               playerCalls={i.musicians}
-              directoryMusicians={users.filter(j => j.instrument === i.instrumentName)}
+              directoryMusicians={users.filter(j => j.instrumentsList.map(i => i.toLocaleLowerCase()).includes(i.instrumentName.toLocaleLowerCase()))}
               eventCalls={eventCalls}
               eventInstrument={i}
               refreshProps={() => refreshProps()} />

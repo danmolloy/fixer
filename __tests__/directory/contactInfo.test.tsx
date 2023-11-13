@@ -28,14 +28,16 @@ describe("ContactInfo Component", () => {
   it("Email is in the document", () => {
     const emailInfo = screen.getByTestId("email-info");
     expect(emailInfo).toBeInTheDocument()
+    expect(emailInfo.textContent).toMatch(mockProps.player.email)
   })
   it("Phone number is in the document", () => {
     const phoneInfo = screen.getByTestId("phone-info")
     expect(phoneInfo).toBeInTheDocument()
+    expect(phoneInfo.textContent).toMatch(mockProps.player.mobileNumber)
   })
   it("Preferred contact method is in the document", () => {
     const preferredInfo = screen.getByTestId("preferred-info")
     expect(preferredInfo).toBeInTheDocument()
+    expect(preferredInfo.textContent).toMatch(mockProps.player.preferredMethod)
   })
-
 })

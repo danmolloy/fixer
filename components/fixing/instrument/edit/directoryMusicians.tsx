@@ -6,17 +6,18 @@ export type DirectoryMusiciansProps = {
   musicians: User[]
   allEventCalls: Call[]
   eventMusicianIds: string[]
+  instrumentName: String
 }
 
 
 export default function DirectoryMusicians(props: DirectoryMusiciansProps) {
-  const { musicians, allEventCalls, eventMusicianIds } = props
+  const { instrumentName, musicians, allEventCalls, eventMusicianIds } = props
 
   return (
-    <div data-testid="directory-musicians" className="m-2 mt-12">
+    <div data-testid={`${instrumentName}-directory-musicians`} className="m-2 mt-12">
       <div>
         <h3>
-          Select from Directory
+          Select from {instrumentName} Directory
         </h3>
       </div>
       <FieldArray name="musicians">

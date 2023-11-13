@@ -22,11 +22,13 @@ export default function PlayerTile(props: PlayerTileProps) {
       </div>
       <div className=' text-center my-4'>
         <h3 className="font-bold">
-          {player.name}
+          {`${player.firstName} ${player.lastName}`} 
         </h3>
-        <p className='text-slate-500'>{player.instrument}</p>
+        {player.instrumentsList.map(i => (
+          <p className='text-slate-500' key={i}>{i}</p>
+        ))}
         {showContactInfo 
-        && <div title={player.name} data-testid="contact-info" className="h-auto">
+        && <div title={`${player.firstName} ${player.lastName}`} data-testid="contact-info" className="h-auto">
           <p>e: violin@viola.com</p>
           <p>p: 07479 016 386</p>
           <p>WhatsApp preferred</p>

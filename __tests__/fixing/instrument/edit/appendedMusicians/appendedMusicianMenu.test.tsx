@@ -10,7 +10,7 @@ const mockProps: AppendedMusicianMenuProps = {
   userId: mockUserId,
   setShowMenu: jest.fn(),
   setMessage: jest.fn(),
-  musicianName: mockUser.name
+  musicianName: `${mockUser.firstName} ${mockUser.lastName}`
 }
 
 describe("<AppendedMusicianMenu />", () => {

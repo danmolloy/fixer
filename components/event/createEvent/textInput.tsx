@@ -17,15 +17,15 @@ export default function TextInput(props: TextInputProps) {
   const { name, id, className, label, asHtml, type, min, max, optional } = props;
 
   return (
-    <div className="flex flex-col py-4" data-testid={`${id}-div`}>
-      <label htmlFor={name} className="text-slate-700">{label}</label>
+    <div className="flex flex-col py-4 w-full" data-testid={`${id}-div`}>
+      <label htmlFor={name} className="font-medium">{label}</label>
       {optional && <span className="text-slate-400 text-sm ml-2">Optional</span>}
       <Field
         as={asHtml}
         id={name}
         label={label ? label : name}
         data-testid={`${id}-input`}
-        className={`border rounded px-1 my-1 shadow-sm h-8 ${className}`}
+        className={`border rounded px-1 my-1 shadow-sm h-8 max-w-[60vw] ${className}`}
         name={name}
         type={type ? type: "text"}
         min={min}

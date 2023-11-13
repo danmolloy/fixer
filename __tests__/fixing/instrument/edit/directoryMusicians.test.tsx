@@ -4,11 +4,13 @@ import DirectoryMusicians, { DirectoryMusiciansProps } from "../../../../compone
 import { mockUser } from "../../../../__mocks__/models/user"
 import { Formik } from "formik"
 import { mockCall } from "../../../../__mocks__/models/call"
+import { instrumentArr } from "../../../../components/fixing/fixing"
 
 const mockProps: DirectoryMusiciansProps = {
   musicians: [mockUser],
   eventMusicianIds: [mockUser.id],
-  allEventCalls: [mockCall]
+  allEventCalls: [mockCall],
+  instrumentName: instrumentArr[Math.floor(Math.random() * instrumentArr.length)]
 }
 
 describe("<DirectoryMusicians />", () => {
@@ -22,16 +24,16 @@ describe("<DirectoryMusicians />", () => {
     )
   })
   it("directory-musicians is in the document", () => {
-    const directory = screen.getByTestId("directory-musicians")
+    const directory = screen.getByTestId(`${mockProps.instrumentName}-directory-musicians`)
     expect(directory).toBeInTheDocument()
   })
   it("title is in the document", () => {
-    const title = screen.getByText("Select from Directory")
+    const title = screen.getByText(`Select from ${mockProps.instrumentName} Directory`)
     expect(title).toBeInTheDocument()
   })
-  it("all musicians are in the document", () => {
+  it("all expected musicians are in the document", () => {
     for (let i = 0; i < mockProps.musicians.length; i++) {
-      let musicianName = screen.getByText(mockProps.musicians[i].name)
+      let musicianName = screen.getByText(`${mockProps.musicians[i].firstName} ${mockProps.musicians[i].lastName}`)
       expect(musicianName).toBeInTheDocument()
     }
   })

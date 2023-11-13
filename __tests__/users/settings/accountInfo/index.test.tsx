@@ -8,7 +8,7 @@ const mockProps: AccountInfoProps = {
   user: {
     ...mockUser,
     blockedUsers: []
-  }
+  },
 }
 
 describe("<AccountInfo />", () => {

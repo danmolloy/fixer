@@ -6,7 +6,8 @@ import { instrumentArr } from "../../fixing/fixing";
 export default function PersonalInfo() {
 
   return (
-    <div data-testid="personal-info" className="sm:border sm:shadow-sm p-1 sm:p-2 mb-4 rounded flex flex-col items-center w-full md:w-3/4 ">
+    <div data-testid="personal-info" className="  p-1 my-4 flex flex-col items-center w-full ">
+      <h2>Personal Information</h2>
       <TextInput 
       name="firstName" 
       label="First Name"
@@ -25,13 +26,13 @@ export default function PersonalInfo() {
       name="mobileNumber" 
       label="Mobile Number"
       id="mobile-input"/>
-      <div data-testid="preferred-method">Preferred Contact Method</div>
-          <div role="group" aria-labelledby="preferred-method">
-            <label>
+          <div role="group" aria-labelledby="preferred-method" className="flex flex-col py-4 w-full">
+          <div data-testid="preferred-method" className="font-medium">Preferred Contact Method</div>
+            <label className="my-1">
               <Field type="radio" name="preferredMethod" value="textMessage" />
               Text Message
             </label>
-            <label>
+            <label className="my-1">
               <Field type="radio" name="preferredMethod" value="whatsApp" />
               WhatsApp
             </label>

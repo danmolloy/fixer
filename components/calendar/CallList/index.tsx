@@ -14,7 +14,7 @@ export default function CallList(props: CallListProps) {
 
   return (
     <div data-testid="call-list" className="m-2">
-      <h2>Events on {selectedDate.toFormat("DDD")}</h2>
+      <h2>Events on {selectedDate.toFormat("DD")}</h2>
       <div>
         {daysWork.length > 0 ?
           daysWork.map(i => (
