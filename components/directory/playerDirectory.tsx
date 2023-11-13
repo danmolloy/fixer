@@ -37,7 +37,6 @@ export default function PlayerDirectory(props: PlayerDirectoryProps) {
           capitalized = `${capitalized} ${splitWords[i].toUpperCase().slice(0, 1) + splitWords[i].slice(1)}`
         } else {
           capitalized = `${splitWords[i].toUpperCase().slice(0, 1) + splitWords[i].slice(1)}`
-
         }
       }
       setSelectedInstrument(capitalized)

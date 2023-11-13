@@ -21,7 +21,7 @@ export default function SessionLayout(props: SessionLayoutProps) {
   const { data, mutate, error, isLoading } = useSWR('/api/index/getUserData', fetcher)
 
 
-  const incompleteProfile = (data && data?.email === null || data?.instrumentList === null || data?.name === null || data?.mobileNumber === null)
+  const incompleteProfile = (data && data?.email === null || data?.instrumentList === null || data?.firstName === null || data?.lastName === null || data?.mobileNumber === null)
 
   if (isLoading || !data) {
     return (

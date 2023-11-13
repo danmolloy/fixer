@@ -23,7 +23,7 @@ export default function SelectMenuList(props: SelectValListProps) {
     if(showValList) {
       ref.current.focus()
     }
-  }, [setShowValList])
+  }, [])
   
   return (
     <ul data-testid={`${id}-vals-list`} tabIndex={-1}  ref={ref} onBlur={() => setTimeout(() => setShowValList(false), 150)} className=" absolute bg-white w-60 mt-10 h-48 overflow-scroll shadow-sm border py-1 rounded">
