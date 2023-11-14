@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom"
-import EnsembleRadioGroup, { EnsembleRadioProps } from "../../components/event/createEvent/ensembleRadioGroup"
+import EnsembleRadioGroup, { EnsembleRadioProps } from "../../../components/event/createUpdate/ensembleRadioGroup"
 import { render, screen } from "@testing-library/react"
 import { Formik } from "formik"
 
@@ -20,8 +20,10 @@ describe("EnsembleRadioGroup component", () => {
         )}
       </Formik>)
   })
-  it("Renders", () => {
+  it("ensemble-radio is in the document with name attr", () => {
     const ensembleRadio = screen.getByTestId("ensemble-radio")
     expect(ensembleRadio).toBeInTheDocument()
+    expect(ensembleRadio).toHaveAttribute("name", "")
   })
+  it("all ensembles are in the document with correct label and value", () => {})
 })

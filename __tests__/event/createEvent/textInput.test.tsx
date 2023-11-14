@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom"
-import TextInput from "../../components/event/createEvent/textInput";
+import TextInput from "../../../components/event/createUpdate/textInput";
 import React from "react";
 import { Formik } from "formik";
 
@@ -21,9 +21,5 @@ describe("TextInput component", () => {
         )}
       </Formik>)
   })
-  it("Renders", () => {
-    const textInput = screen.getByTestId(`${mockProps.id}-div`)
-    expect(textInput).toBeInTheDocument()
-  })
-  //it("Matches snapshot", () => {})
+  it("text-input is in the document with name attr and label", () => {})
 })

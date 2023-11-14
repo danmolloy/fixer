@@ -1,6 +1,6 @@
 import { Field, FieldArray } from "formik";
 import { AiOutlineClose } from "react-icons/ai";
-import TextInput from "../../../event/createEvent/textInput";
+import TextInput from "../../../event/createUpdate/textInput";
 import { useState } from "react";
 
 export type FixingEnsembleProps = {

@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import TextInput from "../../event/createEvent/textInput";
+import TextInput from "../../event/createUpdate/textInput";
 
 
 export default function ContactForm () {

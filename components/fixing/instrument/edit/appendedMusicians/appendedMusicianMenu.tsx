@@ -1,6 +1,6 @@
 import { Field } from "formik";
 import Link from "next/link";
-import TextInput from "../../../../event/createEvent/textInput";
+import TextInput from "../../../../event/createUpdate/textInput";
 import { useEffect, useRef, useState } from "react";
 
 export type AppendedMusicianMenuProps = {

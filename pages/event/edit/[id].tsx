@@ -2,7 +2,7 @@ import { Field, FieldArray, Formik } from 'formik'
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import CreateEventForm from '../../../components/event/createEvent/createEventForm';
+import CreateEventForm from '../../../components/event/createUpdate';
 import useSWR from "swr";
 import { Call, Event } from '@prisma/client';
 import { EventWithCalls } from '../../../components/event/eventDetail/menu/calendarEventLink'; 

@@ -8,7 +8,6 @@ import CallInput from './callInput';
 import ButtonPrimary from "../../index/buttonPrimary"
 import EnsembleRadioGroup from './ensembleRadioGroup';
 import ConfirmedOrOnHold from './confirmedOrOnHold';
-import AddAdmin from './addAdmin';
 import { Prisma } from '@prisma/client';
 
 export type EventWithCallsAndInstruments = Prisma.EventGetPayload<{
@@ -24,7 +23,6 @@ export type CreateEventFormProps = {
   initialValues?: EventWithCallsAndInstruments
   userId: string
   userName: string
-  expires?: string
 }
 
 export default function CreateEventForm(props: CreateEventFormProps) {

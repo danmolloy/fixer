@@ -21,7 +21,6 @@ export default function ComboBox(props: ComboBoxProps) {
 
   const handleSelect = (venue) => {
     setValue(venue)
-
   }
   
   return (

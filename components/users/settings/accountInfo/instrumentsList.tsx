@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ComboBox from "../../../event/createEvent/comboBox";
+import ComboBox from "../../../event/createUpdate/comboBox";
 import { instrumentArr } from "../../../fixing/fixing";
 import { AiOutlineClose } from "react-icons/ai";
 import SelectMenu from "../../../index/selectMenu";

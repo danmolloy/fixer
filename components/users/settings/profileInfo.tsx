@@ -1,5 +1,5 @@
 import { Field } from "formik";
-import TextInput from "../../event/createEvent/textInput";
+import TextInput from "../../event/createUpdate/textInput";
 import Image from "next/image";
 
 export default function ProfileInfo() {

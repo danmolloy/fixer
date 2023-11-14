@@ -1,10 +1,10 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom"
-import TextInput from "../../components/event/createEvent/textInput";
+import TextInput from "../../../components/event/createUpdate/textInput";
 import React from "react";
 import { Formik } from "formik";
-import ComboBox, { ComboBoxProps } from "../../components/event/createEvent/comboBox";
-import { venueOptions } from "../../components/event/createEvent/callInput";
+import ComboBox, { ComboBoxProps } from "../../../components/event/createUpdate/comboBox";
+import { venueOptions } from "../../../components/event/createUpdate/callInput";
 
 const mockProps = {
   name: "Venue Name",
@@ -26,11 +26,11 @@ describe("<ComboBox />", () => {
         )}
       </Formik>)
   })
-  it("Renders", () => {
+  it("combobox-id-div is in the document", () => {
     const comboBox = screen.getByTestId(`combobox-${mockProps.id}-div`)
     expect(comboBox).toBeInTheDocument()
   })
-  it("Options div is in the document with expected children", async () => {
+  it("options div is in the document with expected children", async () => {
     const optionsDiv = screen.getByTestId("combo-options-div")
     expect(optionsDiv).toBeInTheDocument()
     const textInput = screen.getByTestId(`${mockProps.id}-input`)
@@ -43,6 +43,9 @@ describe("<ComboBox />", () => {
     })
    expect(optionsDiv.innerHTML).toMatch(/Maida Vale/)
   })
-  it("Clicking on option completes text entry and sets value", () => {})
-
+  it("clicking on option completes text entry and sets value", () => {})
+  it("states if input is optional", () => {})
+  it("error msg renders if neccessary", () => {})
+  it("options render as expected", () => {})
+  it("input box has name attr with expected value", () => {})
 })
