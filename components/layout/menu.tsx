@@ -3,7 +3,6 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useEffect, useRef } from "react"
 import { AiOutlineClose } from "react-icons/ai"
-import FixerMenu from "../event/eventDetail/menu/fixerMenu"
 import { EventWithCalls } from "../event/eventDetail/menu/calendarEventLink" 
 
 
@@ -24,7 +23,7 @@ export type MenuProps = {
 }
 
 export default function Menu(props: MenuProps) {
-  const { setShowMenu, menuItems, signedIn, signInBtn, fixerMenu, eventId, data } = props;
+  const { setShowMenu, menuItems, signedIn, signInBtn } = props;
   const router = useRouter();
   const ref = useRef(null)
 
@@ -44,9 +43,7 @@ export default function Menu(props: MenuProps) {
             <AiOutlineClose />
           </button>
         </div>
-      {fixerMenu 
-      ? <FixerMenu data={data} eventId={eventId} />
-      : menuItems.map(i => (
+      {menuItems.map(i => (
         i.link 
         ? <Link key={i.id} href={`${i.link}`}>
           <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" data-testid={i.id}>
