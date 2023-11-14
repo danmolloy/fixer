@@ -3,8 +3,8 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useEffect, useRef } from "react"
 import { AiOutlineClose } from "react-icons/ai"
-import FixerMenu from "../event/fixerMenu"
-import { EventWithCalls } from "../event/calendarEventLink" 
+import FixerMenu from "../event/eventDetail/menu/fixerMenu"
+import { EventWithCalls } from "../event/eventDetail/menu/calendarEventLink" 
 
 
 export type MenuItems = {

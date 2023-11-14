@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import CreateEventForm from '../../../components/event/createEvent/createEventForm';
 import useSWR from "swr";
 import { Call, Event } from '@prisma/client';
-import { EventWithCalls } from '../../../components/event';
+import { EventWithCalls } from '../../../components/event/eventDetail';
 import LandingPage from '../../../components/externalSite/landingPage';
 import LayoutIndex from '../../../components/layout';
 import ExternalLayout from '../../../components/layout/external';

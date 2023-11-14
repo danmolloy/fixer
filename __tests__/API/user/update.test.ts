@@ -1,6 +1,6 @@
 import { mockUser, mockUserId } from "../../../__mocks__/models/user"
 import { prismaMock } from "../../../__mocks__/singleton"
-import { updateUser } from "../../../pages/api/user/edit"
+import { updateUser } from "../../../pages/api/user/update" 
 
 describe("updateUser()", () => {
   it("resolves to update user", async () => {

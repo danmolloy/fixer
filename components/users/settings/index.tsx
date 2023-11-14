@@ -52,7 +52,6 @@ export default function SettingsIndex(props: SettingsIndexProps) {
   })
 
   const handleSubmit = async (values: {data: UserSettingsValues, userId: string}) => {
-    console.log("Hello from handleSubmit")
     return await axios.post("/api/user/update", values).then(() => {
       setSubmitStatus("Successfully updated!")
     })

@@ -51,7 +51,7 @@ describe("<FixingEnsembles />", () => {
 
 describe("<FixingEnsembles />", () => {
   const mockProps: FixingEnsembleProps = {
-    fixingEnsemblesList: ["London Symphony Orchestra"]
+    fixingEnsemblesList: []
   }
   beforeEach(() => {
     render( 

@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { MdPhone } from 'react-icons/md'
 import ContactInfo from './contactInfo'
 import { User } from '@prisma/client'
-import InfoDiv from '../event/infoDiv'
+import InfoDiv from '../event/eventDetail/infoDiv'
 
 export type PlayerTileProps = {
   player: User

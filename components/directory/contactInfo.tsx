@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import InfoDiv from "../event/infoDiv";
+import InfoDiv from "../event/eventDetail/infoDiv";
 import MenuShell from "../index/menuShell";
 import { PlayerTileProps } from "./playerTile";
 

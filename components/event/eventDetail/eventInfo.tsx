@@ -1,30 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CallTile from "./callTile";
 import InfoDiv from "./infoDiv";
-import { Call } from "@prisma/client";
-import { EventWithCalls } from "./calendarEventLink";
+import { EventWithCalls } from "./menu/calendarEventLink";
 import { DateTime } from "luxon";
+import FixerMenu from './menu/fixerMenu';
+import PlayerMenu from './menu/playerMenu';
 
 
 export type EventInfoProps = {
   event: EventWithCalls
-  session: any
-  setShowOptions: () => void
-  showOptions: boolean
 }
 
 
 export default function EventInfo(props: EventInfoProps) {
-  const { setShowOptions, event, showOptions, session } = props
+  const { event } = props
+
   
   return (
-    <div data-testid="event-info-div" className={showOptions === true ? "blur w-full border shadow rounded-lg py-4":  "w-full border shadow rounded-lg py-4"}>
-      <div className="w-full flex flex-col">
-        <button data-testid="options-btn" className="self-end border p-1 mr-2 rounded-md shadow-sm border-amber-600 text-amber-600 bg-white hover:bg-amber-50" onClick={() => {setShowOptions()}}>Options</button>
-      </div>
-      <div className="">
-      <p className="flex flex-row items-center justify-center text-center p-3">This event is {event.confirmedOrOnHold.toLowerCase()}</p>
-      </div>
+    <div data-testid="event-info-div" className={/* showOptions === true ? "blur w-full border shadow rounded-lg py-4":   */"w-full border shadow rounded-lg py-4"}>
+      <InfoDiv className="bg-slate-50" id="event-status" title='Status' value={event.confirmedOrOnHold.toLocaleUpperCase()} />
       <InfoDiv className="bg-slate-50" id="ensemble-name" title="Ensemble" value={event.ensembleName}/>
       <div className="flex flex-col lg:flex-row p-4 w-full  lg:items-center lg:justify-evenly" data-testid="event-calls-list">
         <p data-testid="event-calls-count" className="text-slate-600 text-sm lg:w-1/2 ">{props.event.calls.length} Call(s):</p>

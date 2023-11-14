@@ -64,7 +64,7 @@ describe("", () => {
     })
     const basicInfo = screen.getByTestId("basic-info")
 
-    expect(mockPost).toBeCalledWith("/api/user/update", {data: {
+    expect(mockPost).toHaveBeenCalledWith("/api/user/update", {data: {
       firstName: mockProps.user.firstName,
       lastName: mockProps.user.lastName,
       instrumentsList: mockProps.user.instrumentsList,

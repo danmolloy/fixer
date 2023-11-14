@@ -9,6 +9,8 @@ const mockProps: AccountInfoProps = {
     ...mockUser,
     blockedUsers: []
   },
+  instrumentsList: ["Horn"], 
+  fixingEnsemblesList: ["BBC Concert Orchestra"]
 }
 
 describe("<AccountInfo />", () => {

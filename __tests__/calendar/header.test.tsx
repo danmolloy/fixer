@@ -63,7 +63,6 @@ describe("<CalendarHeader />", () => {
     const selectedDate = screen.getByTestId("selected-date")
     expect(selectedDate).toBeInTheDocument()
     expect(selectedDate.textContent).toMatch(formattedDate)
-    console.log(formattedDate)
   })})
   
 

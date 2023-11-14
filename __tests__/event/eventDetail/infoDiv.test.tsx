@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react"
-import InfoDiv, { InfoDivProps } from "../../components/event/infoDiv"
+import InfoDiv, { InfoDivProps } from "../../../components/event/eventDetail/infoDiv"
 
 const mockProps: InfoDivProps = {
   id: "skjlfdn20",

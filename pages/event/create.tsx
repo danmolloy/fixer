@@ -24,7 +24,6 @@ export default function Create() {
   }
   
   const handleSubmit = async(vals) => {
-    console.log("Hello from handleSubmit");
     return axios.post('/api/event/create', vals)
           .then(response => {
             router.push(`/event/${response.data.id}`)

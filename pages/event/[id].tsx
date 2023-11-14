@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 import Fixing from "../../components/fixing/fixing";
-import EventIndex from "../../components/event";
 import useSWR from "swr";
-import IsLoadingEventIndex from "../../components/event/isLoadingEventIndex";
+import IsLoadingEventIndex from "../../components/event/eventDetail/isLoadingEventIndex";
 import { useEffect, useState } from "react";
 import IsLoadingInstrumentTile from "../../components/fixing/isLoadingTile";
 import { useSession } from "next-auth/react";
@@ -10,6 +9,7 @@ import LandingPage from "../../components/externalSite/landingPage";
 import LayoutIndex from "../../components/layout";
 import LoadingLayout from "../../components/layout/loading";
 import ExternalLayout from "../../components/layout/external";
+import EventDetail from "../../components/event/eventDetail";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -50,7 +50,7 @@ export default function Event({props}) {
           <IsLoadingInstrumentTile />
         </>
       : data 
-      ? <EventIndex 
+      ? <EventDetail 
       event={{
         eventTitle: data.eventTitle,
     confirmedOrOnHold: data.confirmedOrOnHold,
