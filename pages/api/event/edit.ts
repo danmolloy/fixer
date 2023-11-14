@@ -1,6 +1,6 @@
 import { Call, Event } from "@prisma/client"
 import prisma from "../../../client"
-import { EventWithCalls } from "../../../components/event/eventDetail"
+import { EventWithCalls } from "../../../components/event/eventDetail/menu/calendarEventLink"
 import { twilioClient } from "../../../twilio"
 import { sendMessage } from "../fixing/messages"
 
