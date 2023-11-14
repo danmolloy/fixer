@@ -10,7 +10,10 @@ const mockProps: DetailHeaderProps = {
 
 describe("<DetailHeader />", () => {
   beforeEach(() => {
-    render(<DetailHeader {...mockProps} />)
+    render(
+      <table>
+        <DetailHeader {...mockProps} />
+      </table>)
   })
   it("detail-header is in the document", () => {
     const detailHeader = screen.getByTestId("detail-header")

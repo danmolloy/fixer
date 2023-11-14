@@ -14,7 +14,12 @@ const mockProps: InfoDivProps = {
 
 describe("EventOptions component", () => {
   beforeEach(() => {
-    render(<InfoDiv {...mockProps} />)
+    render(
+      <table>
+        <tbody>
+          <InfoDiv {...mockProps} />
+        </tbody>
+      </table>)
   })
   it("Renders", () => {
     const infoDiv = screen.getByTestId(mockProps.id)

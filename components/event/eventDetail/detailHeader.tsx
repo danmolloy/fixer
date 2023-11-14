@@ -9,11 +9,17 @@ export type DetailHeaderProps = {
 export default function DetailHeader(props: DetailHeaderProps) {
   const { showMenu, setShowMenu, eventTitle } = props
   return (
-    <div data-testid="detail-header">
-      <h1 >{eventTitle}</h1>
-      <button data-testid="options-btn" onClick={() => setShowMenu(!showMenu)}>
-        <SlOptions />
-      </button>
-    </div>
+    <thead data-testid="detail-header">
+      <tr>
+        <th>
+        <h1 >{eventTitle}</h1>
+        </th>
+        <th>
+        <button data-testid="options-btn" onClick={() => setShowMenu(!showMenu)}>
+          <SlOptions />
+        </button>
+        </th>
+      </tr>
+    </thead>
   )
 }

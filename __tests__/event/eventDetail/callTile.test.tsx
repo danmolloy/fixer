@@ -5,16 +5,14 @@ import React from "react";
 import { mockCall } from "../../../__mocks__/models/call";
 import { DateTime } from "luxon";
 
-/* const mockProps = {
-  id: "mockId",
-  startTime: "Tue, 21 Feb 2023 12:06:40 GMT",
-  endTime: "Tue, 21 Feb 2023 15:06:40 GMT",
-  venue: "mockVenue",
-} */
-
 describe("CallTile component", () => {
   beforeEach(() => {
-    render(<CallTile {...mockCall} />)
+    render(
+      <table>
+        <tbody>
+        <CallTile {...mockCall} />
+        </tbody>
+      </table>)
   })
   it("Renders", () => {
     const callTile = screen.getByTestId("call-tile-div")

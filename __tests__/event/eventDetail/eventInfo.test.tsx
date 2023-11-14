@@ -11,7 +11,10 @@ const mockProps: EventInfoProps = {
 
 describe("<EventInfo />", () => {
   beforeEach(() => {
-    render(<EventInfo {...mockProps} />)
+    render(
+      <table>
+        <EventInfo {...mockProps} />
+      </table>)
   })
   it("event-info-div is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
