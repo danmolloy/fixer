@@ -8,7 +8,11 @@ import { mockUserId } from "../../../__mocks__/models/user"
 
 const mockProps: EventDetailProps = {
   event: mockEventWithCalls,
-  session: {},
+  session: {
+    user: {
+      id: mockUserId
+    }
+  },
 }
 
 describe("<EventDetail />", () => {

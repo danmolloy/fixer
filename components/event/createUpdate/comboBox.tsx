@@ -3,8 +3,10 @@ import React from "react";
 import { TextInputProps } from "./textInput";
 
 
+
+
 export interface ComboBoxProps extends TextInputProps {
-  propsValue: string
+  propsValue: string // propsValue is the value of this field, you need this prop for the regex.
   options: { 
     id: string
     textPrimary: string 
@@ -13,6 +15,7 @@ export interface ComboBoxProps extends TextInputProps {
   setValue: (value: string) => void
   name: string
   label: string
+  optional: boolean
 }
 
 export default function ComboBox(props: ComboBoxProps) {
@@ -25,11 +28,11 @@ export default function ComboBox(props: ComboBoxProps) {
   
   return (
     <div className="flex flex-col py-4" data-testid={`combobox-${id}-div`}>
-      <label htmlFor={name} className="text-slate-700">{label}</label>
+      <label htmlFor={id} className="text-slate-700">{label}</label>
       {optional && <span className="text-slate-400 text-sm ml-2">Optional</span>}
       <Field
         as={asHtml}
-        id={`${name}-field`}
+        id={id}
         label={label ? label : name}
         data-testid={`${id}-input`}
         className={`border rounded px-1 my-1 shadow-sm h-8 ${className}`}

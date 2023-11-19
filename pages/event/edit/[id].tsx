@@ -70,6 +70,8 @@ export default function EditEvent(props) {
   return (
     <LayoutIndex>
       <CreateEventForm
+      fixingEnsembles={session.userData.fixingEnsembles}
+      createOrUpdate='Update'
        initialValues={data} 
        handleSubmit={(vals) => handleSubmit(vals)}
         userId={session.user.id}

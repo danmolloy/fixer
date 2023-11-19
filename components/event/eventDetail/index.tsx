@@ -26,7 +26,7 @@ export default function EventDetail(props: EventDetailProps) {
       }
       <table>
         <DetailHeader showMenu={showOptions} setShowMenu={(arg) => setShowOptions(arg)} eventTitle={event.eventTitle} />
-        <EventInfo event={event} />
+        <EventInfo userId={session.user.id} event={event} />
       </table>
   </div>
   )

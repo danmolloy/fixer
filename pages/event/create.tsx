@@ -34,10 +34,12 @@ export default function Create() {
   }
 
   return (
-    <LayoutIndex pageTitle="Create Event">
+    <LayoutIndex >
       <CreateEventForm 
+      createOrUpdate="Create"
       handleSubmit={(vals) => handleSubmit(vals)}
       userId={session.user.id}
+      fixingEnsembles={session.userData.fixingEnsembles}
       userName={session.user.name}
         />
     </LayoutIndex>

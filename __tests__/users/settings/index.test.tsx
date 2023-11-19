@@ -64,7 +64,7 @@ describe("<SettingsIndex />", () => {
     await act(async() => {
       await fireEvent.click(submitBtn)
     })
-    expect(mockPost).toBeCalledWith("/api/user/update", {data: mockData, userId: mockProps.user.id})
+    expect(mockPost).toHaveBeenCalledWith("/api/user/update", {data: mockData, userId: mockProps.user.id})
   })
 })
 
@@ -89,7 +89,7 @@ describe("<SettingsIndex />", () => {
     await act(async () => {
       await fireEvent.click(submitBtn)
     })
-    expect(mockPost).not.toBeCalled()
+    expect(mockPost).not.toHaveBeenCalled()
     const settingsIndex = screen.getByTestId("settings-index")
     expect(settingsIndex.textContent).toMatch("first name required")
     expect(settingsIndex.textContent).toMatch("last name required")

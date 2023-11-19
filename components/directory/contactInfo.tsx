@@ -1,6 +1,5 @@
 import { User } from "@prisma/client";
 import InfoDiv from "../event/eventDetail/infoDiv";
-import MenuShell from "../index/menuShell";
 import { PlayerTileProps } from "./playerTile";
 
 interface ContactInfoProps extends PlayerTileProps {
@@ -12,10 +11,19 @@ export default function ContactInfo(props: ContactInfoProps) {
   const { setShowContactInfo, player } = props;
   
   return (
-    <MenuShell title={`${player.firstName} ${player.lastName}`} setShowMenu={setShowContactInfo} testId="contact-info">
+    <div title={`${player.firstName} ${player.lastName}`}  data-testid="contact-info">
+      <div>
+        <p>{player.firstName} ${player.lastName}</p>
+        <button data-testid="close-btn" onClick={() => setShowContactInfo()}>Close</button>
+      </div>
+      <table>
+
+        <tbody>
       <InfoDiv id="email-info" className="" title={"email"} value={player.email} />
       <InfoDiv id="phone-info" className="" title={"phone"} value={player.mobileNumber} />
       <InfoDiv id="preferred-info" className="" title={"preferred method"} value={player.preferredMethod} />
-    </MenuShell>
+      </tbody>
+      </table>
+    </div>
   )
 }

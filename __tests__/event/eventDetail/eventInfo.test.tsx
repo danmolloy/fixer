@@ -4,9 +4,11 @@ import React from "react"
 import { mockEventWithCalls } from "../../../__mocks__/models/event"
 import { DateTime } from "luxon"
 import EventInfo, { EventInfoProps } from "../../../components/event/eventDetail/eventInfo"
+import { mockUserId } from "../../../__mocks__/models/user"
 
 const mockProps: EventInfoProps = {
   event: mockEventWithCalls,
+  userId: mockUserId
 }
 
 describe("<EventInfo />", () => {
@@ -48,13 +50,6 @@ describe("<EventInfo />", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
     expect(eventInfoDiv.textContent).toMatch(`Fixer${mockProps.event.fixerName}`)
   })
-  it("all calls are in the document", () => {
-    const eventInfoDiv = screen.getByTestId("event-info-div")
-    for (let i = 0; i < mockProps.event.calls.length; i++) {
-      expect(eventInfoDiv.textContent).toMatch(DateTime.fromJSDate(new Date(mockProps.event.calls[i].startTime)).toFormat("HH:mm DD"))
-      expect(eventInfoDiv.textContent).toMatch(mockProps.event.calls[i].venue)
-    }
-  })
 
   it("createdAt is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
@@ -64,5 +59,28 @@ describe("<EventInfo />", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
     expect(eventInfoDiv.textContent).toMatch(String(DateTime.fromJSDate(new Date(mockProps.event.updatedAt)).toFormat("HH:mm DD")))
   })
+})
+
+describe("<EventInfo />", () => {
+
+  beforeEach(() => {
+    const mockEvent = mockEventWithCalls
+    const mockProps: EventInfoProps = {
+      event: mockEvent,
+      userId: mockEvent.fixerId
+    }
+    render(
+      <table>
+        <EventInfo {...mockProps} />
+      </table>)
+  })
+  it("if user is fixer, all calls are in the document", () => {
+    const eventInfoDiv = screen.getByTestId("event-info-div")
+    for (let i = 0; i < mockProps.event.calls.length; i++) {
+      expect(eventInfoDiv.textContent).toMatch(DateTime.fromJSDate(new Date(mockProps.event.calls[i].startTime)).toFormat("HH:mm DD"))
+      expect(eventInfoDiv.textContent).toMatch(mockProps.event.calls[i].venue)
+    }
+  })
+  //it("if user is player, all calls which player was asked for are in the document", () => {})
 })
 

@@ -35,7 +35,7 @@ interface CallInputProps {
 export default function CallInput(props: CallInputProps) {
   const { index, remove, propsValueVenue, setVenue } = props
   return (
-    <div data-testid="call-input-div" className="flex flex-col">
+    <div data-testid={`call-${index}-input-div`} className="flex flex-col">
       <div className='flex flex-row items-center justify-between'>
         <p className="text-slate-700">{`Call ${index + 1}`}</p>
         {index !== 0 && 
@@ -76,6 +76,7 @@ export default function CallInput(props: CallInputProps) {
         </div>
          {/*  <TextInput */}
           <ComboBox
+          optional={false}
           setValue={(venue) => setVenue(venue)}
           options={venueOptions}
           propsValue={propsValueVenue}

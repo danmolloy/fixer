@@ -6,7 +6,7 @@ export interface TextInputProps {
   id: string
   className?: string
   label: string
-  asHtml?: string
+  asHtml?: "input"|"textarea"|"email"
   type?: string
   min?: string
   max?: string
@@ -18,11 +18,11 @@ export default function TextInput(props: TextInputProps) {
 
   return (
     <div className="flex flex-col py-4 w-full" data-testid={`${id}-div`}>
-      <label htmlFor={name} className="font-medium">{label}</label>
+      <label htmlFor={id} className="font-medium">{label}</label>
       {optional && <span className="text-slate-400 text-sm ml-2">Optional</span>}
       <Field
         as={asHtml}
-        id={name}
+        id={id}
         label={label ? label : name}
         data-testid={`${id}-input`}
         className={`border rounded px-1 my-1 shadow-sm h-8 max-w-[60vw] ${className}`}

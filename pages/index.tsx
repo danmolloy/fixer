@@ -1,10 +1,7 @@
 import { useSession } from "next-auth/react"
 import LandingPage from "../components/externalSite/landingPage";
-import UserInfoForm from "../components/index/userInfoForm";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Loading from "../components/index/loading";
-import Dashboard from "../components/index/dashboard";
 import useSWR from "swr";
 import CalendarIndex from "../components/calendar";
 import LayoutIndex from "../components/layout";
@@ -31,11 +28,3 @@ export default function Home() {
   
 }
 
-
-/* 
-return (
-    <Layout pageTitle="">
-      <CalendarIndex data={data}/>
-    </Layout>
-  )
-*/

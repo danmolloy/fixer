@@ -2,10 +2,10 @@ import { instrumentArr } from "../fixing/fixing"
 import React, { useEffect, useState } from "react"
 import PlayerTile from "./playerTile"
 import IsLoadingTile from "./isLoadingTile"
-import ToggleSwitch from "../index/toggleSwitch"
+import ToggleSwitch from "../layout/components/toggleSwitch"
 import { User } from "@prisma/client"
 import { useRouter } from 'next/router'
-import SelectMenu from "../index/selectMenu"
+import SelectMenu from "../layout/components/selectMenu/selectMenu"
 
 
 function shuffleArray(array) {

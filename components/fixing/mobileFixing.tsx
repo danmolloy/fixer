@@ -1,6 +1,6 @@
 import { Call, User } from "@prisma/client"
 import { useState } from "react"
-import SelectMenu from "../index/selectMenu"
+import SelectMenu from "../layout/components/selectMenu/selectMenu"
 import FixingInstrument from "./instrument"
 import { EventInstrumentWithMusiciansWithMusician } from "./fixing"
 

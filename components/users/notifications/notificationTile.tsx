@@ -1,4 +1,4 @@
-import ButtonPrimary from "../../index/buttonPrimary";
+import ButtonPrimary from "../../layout/components/buttonPrimary";
 import { TiTick, TiTimes } from "react-icons/ti";
 import axios from "axios";
 import { useState } from "react";

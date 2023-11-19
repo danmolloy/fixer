@@ -43,7 +43,7 @@ export const authOptions = ({
       session.userData = sessionUser
       session.user.id = user.id
       session.user.instrumentList =  sessionUser.instrumentsList
-
+      session.user.fixingEnsembles = sessionUser.fixingEnsembles
       session.user.name = `${sessionUser.firstName} ${sessionUser.lastName}`
       
       console.log(`[...nextauth] called`)

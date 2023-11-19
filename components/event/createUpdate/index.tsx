@@ -5,7 +5,7 @@ import TextInput from './textInput';
 import { useState } from 'react';
 import React from 'react';
 import CallInput from './callInput';
-import ButtonPrimary from "../../index/buttonPrimary"
+import ButtonPrimary from "../../layout/components/buttonPrimary"
 import EnsembleRadioGroup from './ensembleRadioGroup';
 import ConfirmedOrOnHold from './confirmedOrOnHold';
 import { Prisma } from '@prisma/client';
@@ -19,14 +19,16 @@ export type EventWithCallsAndInstruments = Prisma.EventGetPayload<{
 
 
 export type CreateEventFormProps = {
+  fixingEnsembles: string[]
   handleSubmit: (vals: any) => void
   initialValues?: EventWithCallsAndInstruments
   userId: string
   userName: string
+  createOrUpdate: "Create"|"Update"
 }
 
 export default function CreateEventForm(props: CreateEventFormProps) {
-  const { handleSubmit, initialValues, userId, userName } = props
+  const { createOrUpdate, fixingEnsembles, handleSubmit, initialValues, userId, userName } = props
   const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
 
   const EventSchema = Yup.object().shape({
@@ -40,11 +42,11 @@ export default function CreateEventForm(props: CreateEventFormProps) {
       then: (schema) => schema.required("Ensemble name required"),
     }),
     eventTitle: Yup.string().required('Event title required'),
-    concertProgram: Yup.string().required('Concert Program required'),
+    concertProgram: Yup.string().required('Concert program required'),
     calls: Yup.array().of(Yup.object({
       id: Yup.string(),
       startTime: Yup.string().required("Call start time required"),
-      endTime: Yup.string().required("Call end time equired"),
+      endTime: Yup.string().required("Call end time required"),
       venue: Yup.string().required("Venue required"),
       info: Yup.string(),
     })), 
@@ -98,22 +100,23 @@ export default function CreateEventForm(props: CreateEventFormProps) {
             <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 py-8' onSubmit={props.handleSubmit}>
               
               {/* <AddAdmin /> Let's keep it simple for now. */}
+              <div>
+                <h1>{createOrUpdate} Event</h1>
 
+              </div>
               
               <div className='flex flex-col sm:items-center w-full sm:flex-row '>
                 <EnsembleRadioGroup 
+                  fixingEnsembles={fixingEnsembles}
                   ensemble={props.values.ensemble}
-                  handleChange={props.handleChange}
-                  handleBlur={props.handleBlur}
-                  ensembleName={props.values.ensembleName} 
                   isSubmitting={props.isSubmitting} />
                   <ConfirmedOrOnHold setConfirmedOrOnHold={(e) => setConfirmedOrOnHold(e)} confirmedOrOnHold={confirmedOrOnHold} />
                 </div>
                 <TextInput 
                 asHtml='input' 
-                label="Concert Title" 
+                label="Event Title" 
                 name="eventTitle" 
-                id="concert-title" 
+                id="event-title" 
                 className=''/>
               <TextInput 
                 asHtml='textarea' 
@@ -168,7 +171,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 id="create-event-btn" 
                 type="submit" 
                 className='disabled:bg-blue-100 bg-blue-600 hover:bg-blue-500 text-white w-24 self-end' 
-                text="Create"/>
+                text="Submit"/>
                 <div className=' h-8'>
                 {Object.keys(props.errors).length > 0 
                 && props.submitCount > 0

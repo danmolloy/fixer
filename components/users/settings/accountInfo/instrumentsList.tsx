@@ -2,7 +2,7 @@ import { useState } from "react";
 import ComboBox from "../../../event/createUpdate/comboBox";
 import { instrumentArr } from "../../../fixing/fixing";
 import { AiOutlineClose } from "react-icons/ai";
-import SelectMenu from "../../../index/selectMenu";
+import SelectMenu from "../../../layout/components/selectMenu/selectMenu";
 import { FieldArray } from "formik";
 
 export type InstrumentsListProps = {
