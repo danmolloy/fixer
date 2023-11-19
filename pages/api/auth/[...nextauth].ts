@@ -47,7 +47,7 @@ export const authOptions = ({
       session.user.name = `${sessionUser.firstName} ${sessionUser.lastName}`
       
       console.log(`[...nextauth] called`)
-      console.log(session.userData)
+      console.log(session.userData.fixin)
 
       return session
     }
