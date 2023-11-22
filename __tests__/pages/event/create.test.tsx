@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
-import Create from "../../../../pages/event/create"
-import { mockUser, mockUserWithCallsAndEvents } from "../../../../__mocks__/models/user";
+import Create from "../../../pages/event/create"
+import { mockUser, mockUserWithCallsAndEvents } from "../../../__mocks__/models/user";
 import axios from "axios";
 
 jest.mock("axios")
@@ -39,6 +39,7 @@ describe("<Create />", () => {
     ) as jest.Mock;
     const mockUseSession = jest.fn(() => ({ data: mockSession, status: 'authenticated' }));
     require('next-auth/react').useSession = mockUseSession;
+
     waitFor(() => render(<Create />))
   })
 
@@ -53,7 +54,7 @@ describe("<Create />", () => {
   it("handleSubmit() posts to /api/event/create with expected arg", async () => {
 
     const mockPost = jest.spyOn(axios, 'post');
-    mockPost.mockResolvedValueOnce({ data: {} });
+    mockPost.mockResolvedValue({ data: {} });
     const eventTitle = "mockEventTitle"
     const concertProgram = "mockConcertProgram"
     const startTimeStr = "2023-11-14T12:34"
@@ -91,7 +92,7 @@ describe("<Create />", () => {
     const submitBtn = screen.getByText(/^Submit$/)
 
     await waitFor(() => fireEvent.click(submitBtn))
-    expect(axios.post).toHaveBeenCalledWith("/api/event/edit", {
+    expect(axios.post).toHaveBeenCalledWith("/api/event/create", {
       additionalInfo,
       eventTitle,
       concertProgram,

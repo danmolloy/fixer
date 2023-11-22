@@ -6,22 +6,13 @@ import LayoutIndex from "../../components/layout";
 import LoadingLayout from "../../components/layout/loading";
 import ExternalLayout from "../../components/layout/external";
 import LandingPage from "../../components/externalSite/landingPage";
+import SignIn from "../../components/layout/signIn";
 
 export default function Create() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  if (status === "loading") {
-    return (
-      <LoadingLayout />
-    )
-  } else if (!session) {
-    return (
-      <ExternalLayout>
-        <LandingPage />
-      </ExternalLayout>
-    )
-  }
+
   
   const handleSubmit = async(vals) => {
     return axios.post('/api/event/create', vals)
@@ -35,13 +26,16 @@ export default function Create() {
 
   return (
     <LayoutIndex >
-      <CreateEventForm 
-      createOrUpdate="Create"
-      handleSubmit={(vals) => handleSubmit(vals)}
-      userId={session.user.id}
-      fixingEnsembles={session.userData.fixingEnsembles}
-      userName={session.user.name}
-        />
+      {session 
+      ? <CreateEventForm 
+        createOrUpdate="Create"
+        handleSubmit={(vals) => handleSubmit(vals)}
+        userId={session.user.id}
+        fixingEnsembles={session.userData.fixingEnsembles}
+        userName={session.user.name}
+          />
+      : <SignIn />}
+      
     </LayoutIndex>
   )
 }

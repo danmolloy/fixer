@@ -9,12 +9,12 @@ import LandingPage from "../../components/externalSite/landingPage";
 import LayoutIndex from "../../components/layout";
 import LoadingLayout from "../../components/layout/loading";
 import ExternalLayout from "../../components/layout/external";
-import EventDetail from "../../components/event/eventDetail";
 import SignIn from "../../components/layout/signIn";
+import EventDetail from "../../components/event/eventDetail";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
-export default function Event({props}) {
+export default function Event() {
   const router = useRouter();
   const { id } = router.query;
   const { data, mutate, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
@@ -30,11 +30,6 @@ export default function Event({props}) {
     setLastUpdated(new Date());
   }
 
-  if (isLoading) {
-    return <LoadingLayout />
-  }
-
-
 
   if (!session) {
     return (
@@ -44,31 +39,18 @@ export default function Event({props}) {
     )}
 
   return (
-    <LayoutIndex pageTitle={data ? data.eventTitle : "Event"}>
+    <LayoutIndex >
       {isLoading 
       ? <>
           <IsLoadingEventIndex />
           <IsLoadingInstrumentTile />
         </>
-      : data 
+      : session 
       ? <EventDetail 
-      event={{
-        eventTitle: data.eventTitle,
-    confirmedOrOnHold: data.confirmedOrOnHold,
-    updatedAt: data.updatedAt,
-    createdAt: data.createdAt,
-    calls: data.calls,
-    additionalInfo: data.additionalInfo,
-    fee: data.fee,
-    dressCode: data.dressCode,
-    concertProgram: data.concertProgram,
-    ensembleName: data.ensembleName,
-    id: data.id,
-    fixerName: data.fixerName,
-    fixerId: data.fixerId,
-      }}
-      session={data.session} />
-        : <p>Error</p>}
+        event={data}
+        session={session} />  
+        :         <SignIn />
+      }
       {data && data.users && <Fixing lastUpdated={lastUpdated} isLoading={isLoading} users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
    </LayoutIndex>
   )

@@ -2,6 +2,8 @@ import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
 import { mockUser, mockUserWithCallsAndEvents } from "../../../__mocks__/models/user";
 import UserPage from "../../../pages/user/[id]";
+import ProfileHeader from "../../../components/users/profile/profileHeader";
+jest.mock("../../../components/users/profile/profileHeader") // Couldn't resolve a mockData issue so have mocked this.
 
 const mockSession = {
   user: mockUser,
@@ -14,21 +16,18 @@ const mockSession = {
 jest.mock('next-auth/react', () => ({
   useSession: jest.fn(),
 }));
-  
-global.fetch = jest.fn(() =>
+
+describe("<UserPage />", () => {
+  beforeEach(() => {
+    global.fetch = jest.fn(() =>
     Promise.resolve({
       json: () => Promise.resolve({
-          ...mockUserWithCallsAndEvents,
+          ...mockUser,
           playerCalls: []
         })
       })
     ) as jest.Mock;
-
-
-describe("<UserPage />", () => {
-  beforeEach(() => {
-
-    require("swr").useSWR = jest.fn(() => ({mockUser, playerCalls: []}))
+    
     const mockUseSession = jest.fn(() => ({ data: mockSession, status: 'authenticated' }));
     require('next-auth/react').useSession = mockUseSession;
 
@@ -46,7 +45,8 @@ describe("<UserPage />", () => {
 
 describe("<UserPage />", () => {
   beforeEach(() => {
-    require('next-auth/react').useSession = jest.fn(() => ({}));
+    const mockUseSession = jest.fn(() => ({}));
+    require('next-auth/react').useSession = mockUseSession;
     waitFor(() => render(<UserPage />))
   })
   it("if !session, <SignIn /> is in the document", () => {
