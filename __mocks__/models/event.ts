@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { Event } from "@prisma/client";
 import { randBool } from "./playerCall";
-import { EventWithCalls } from "../../components/event/eventDetail"; 
+import { EventWithCalls } from "../../components/event/eventDetail/menu/calendarEventLink";
 
 export const mockEvent: Event = {
   id: faker.number.int(),

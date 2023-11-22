@@ -61,7 +61,7 @@ export default function SessionHeader(props: SessionHeaderProps) {
   }, [scrollPosition]);
 
   return (
-    <div className={`${showMenu === true ? "blur" : ""} ${reducedHeader ? "h-12" : "h-16"} transition-all bg-white fixed top-0 w-screen shadow z-30 flex flex-row items-center justify-between`} data-testid="session-header">
+    <div className={` ${reducedHeader ? "h-12" : "h-16"} transition-all bg-white fixed top-0 w-screen shadow z-30 flex flex-row items-center justify-between`} data-testid="session-header">
       <Link data-testid="home-link" href="/" >
         <h2 className={`${reducedHeader ? "hidden" : "text-2xl"} p-2 mx-2 md:mx-10 font-nunito`}>
           Gig<span className="text-blue-600 font-semibold">Fix</span>

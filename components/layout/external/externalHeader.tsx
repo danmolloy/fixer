@@ -35,8 +35,8 @@ export default function ExternalHeader(props: ExternalHeaderProps) {
 
   return (
     <div data-testid="external-header" className={`${reducedHeader ? "h-12" : "h-16"} transition-all bg-white fixed top-0 w-screen shadow z-30 flex flex-row items-center justify-between`}>
-      <Link data-testid="home-link" href="/" >
-        <h2 className={`${reducedHeader ? "text-lg" : "text-2xl"} p-2 mx-2 md:mx-10`}>
+      <Link data-testid="gigfix-link" href="/" >
+        <h2 className={`${reducedHeader ? "hidden" : "text-2xl"} p-2 mx-2 md:mx-10`}>
           Gig<span className="text-blue-600 font-semibold">Fix</span>
         </h2>
       </Link>

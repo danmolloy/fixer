@@ -20,7 +20,7 @@ export default function CallList(props: CallListProps) {
           daysWork.map(i => (
             <CallTile key={i.id} eventCall={i} />
           ))
-          : <div className=" lg:w-[50vw]  p-2 flex flex-col m-2 rounded border-b  ">
+          : <div className=" lg:w-[50vw] h-24 p-2 flex flex-col m-2 rounded   ">
             <p>No events on this day.</p>
             </div>}
       </div>

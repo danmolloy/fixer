@@ -5,9 +5,7 @@ exports[`FixerFeatures component Matches snapshot 1`] = `
   class="border mx-2 my-8 rounded-lg py-4"
   data-testid="musician-features"
 >
-  <div
-    class="rounded-full w-12 h-12 absolute mt-12 ml-32 bg-blue-600"
-  />
+        
   <div
     class=" backdrop-blur-xl bg-white/60"
   >

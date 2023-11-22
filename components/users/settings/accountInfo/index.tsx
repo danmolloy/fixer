@@ -18,7 +18,7 @@ export type AccountInfoProps = {
 export default function AccountInfo(props: AccountInfoProps) {
   const { user, instrumentsList, fixingEnsemblesList } = props;
   return (
-    <div data-testid="account-info" className=" w-[96vw]">
+    <div data-testid="account-info" className="p-1 my-8 flex flex-col items-center w-full">
       <InstrumentsList instrumentsList={instrumentsList} />
       <FixingEnsembles fixingEnsemblesList={fixingEnsemblesList} />
     </div>

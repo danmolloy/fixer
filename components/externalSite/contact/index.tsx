@@ -3,7 +3,7 @@ import ContactInfo from "./contactInfo";
 
 export default function ContactIndex() {
   return (
-    <div className="border rounded shadow">
+    <div data-testid="contact-index" className="border rounded shadow">
       <ContactInfo />
       <ContactForm />
     </div>

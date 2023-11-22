@@ -19,16 +19,24 @@ export default function NotificationsIndex(props: NotificationsIndexProps) {
   }
   
   return (
-    <div data-testid="notifications-index">
+    <div data-testid="notifications-index" className="flex flex-col items-center mt-4">
       <div data-testid="active-notifications">
       <h1>Notifications</h1>
-      {activeNotifications.map(i => (
+      {activeNotifications.length === 0 
+      ? <div>
+          <p className="text-sm">No active notifications</p>
+        </div>
+      : activeNotifications.map(i => (
           <NotificationTile key={i.id} notification={i} mutate={() => mutate()} />
       ))}
       </div>
-      <div data-testid="past-notifications" className="mt-12">
+      <div data-testid="past-notifications" className="mt-12 flex flex-col items-center">
         <h2 className="text-slate-500">Past Notifications</h2>
-      {inactiveNotifications.map(i => (
+      {inactiveNotifications.length === 0 
+      ?  <div>
+          <p className="text-sm">No past notifications</p>
+        </div>
+      : inactiveNotifications.map(i => (
           <NotificationTile key={i.id} notification={i} mutate={() => mutate()} />
       ))}
       </div>

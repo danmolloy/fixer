@@ -15,8 +15,7 @@ describe("<ExternalHeader />", () => {
     render(<ExternalHeader {...mockProps} />)
   })
   it("branding/home link is in the document", () => {
-    const homeLink = screen.getByTestId("home-link")
-    expect(homeLink).toBeInTheDocument()
+    const homeLink = screen.getByTestId("gigfix-link")
     expect(homeLink).toHaveAttribute("href", "/")
     expect(homeLink.textContent).toMatch("GigFix")
   })

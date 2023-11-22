@@ -58,7 +58,7 @@ describe("Fixing component", () => {
     act(() => {
       fireEvent.click(refreshBtn)
     })
-    expect(mockProps.refreshProps).toBeCalled()
+    expect(mockProps.refreshProps).toHaveBeenCalled()
   })
   it("All instrument sections are in the document", () => {
     for (let i = 0; i < mockProps.instrumentSections.length; i++) {

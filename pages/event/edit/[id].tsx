@@ -10,6 +10,7 @@ import LandingPage from '../../../components/externalSite/landingPage';
 import LayoutIndex from '../../../components/layout';
 import ExternalLayout from '../../../components/layout/external';
 import LoadingLayout from '../../../components/layout/loading';
+import SignIn from '../../../components/layout/signIn';
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -26,9 +27,9 @@ export default function EditEvent(props) {
   
   if (!session) {
     return (
-      <ExternalLayout>
-        <LandingPage />
-      </ExternalLayout>
+      <LayoutIndex>
+        <SignIn />
+      </LayoutIndex>
     )
   }
 

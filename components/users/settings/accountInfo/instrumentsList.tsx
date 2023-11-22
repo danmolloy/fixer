@@ -26,7 +26,7 @@ export default function InstrumentsList(props: InstrumentsListProps) {
             <div className=" flex flex-col w-full my-2">
       {instrumentsList.length > 0 
         ? instrumentsList.map((i, index) => (
-          <div key={i} className="border bg-gray-100 rounded my-1 p-1 w-36 flex flex-row items-center justify-between">
+          <div key={i} className="border bg-gray-100 rounded my-1 p-1 w-2/3 sm:w-1/2 flex flex-row items-center justify-between">
             <p>{i}</p>
             <button className="text-sm text-center border m-1 rounded-full bg-gray-50 hover:text-red-500" data-testid={`${i.toLocaleLowerCase()}-remove-btn`} onClick={() => arrayHelpers.remove(index)}>
               <AiOutlineClose />

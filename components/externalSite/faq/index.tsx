@@ -4,7 +4,7 @@ import { faqData } from "./faqData";
 
 export default function FaqIndex() {
   return (
-    <div className="border rounded shadow px-4 py-8">
+    <div data-testid="faq-index" className="border rounded shadow px-4 py-8">
       <div>
         <h1 className="font-bold ">Frequently Asked Questions</h1>
         <p className="py-4">Can{"'"}t find the answer you{"'"}re looking for? <Link href="/contact" className="text-indigo-600 font-extrabold hover:underline">Contact us.</Link></p>

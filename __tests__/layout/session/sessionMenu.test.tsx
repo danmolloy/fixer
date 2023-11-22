@@ -28,7 +28,10 @@ describe("<SessionMenu />", () => {
       let menuItem = screen.getByTestId(menuItems[i].id)
       expect(menuItem.textContent).toMatch(menuItems[i].name)
       expect(menuItem).toHaveAttribute("href", menuItems[i].link)
+      let menuIcon = screen.getByTestId(`${menuItems[i].name}-icon`)
+      expect(menuIcon).toBeInTheDocument()
     }
   })
+  
   //it("sign out btn call signOut and redirects home", () => {})
 })

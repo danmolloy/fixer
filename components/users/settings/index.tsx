@@ -72,8 +72,8 @@ export default function SettingsIndex(props: SettingsIndexProps) {
 
    }} >
     {props => (
-      <form data-testid="settings-index" className='flex flex-col' onSubmit={props.handleSubmit}>
-        <h1>Your Settings</h1>
+      <form data-testid="settings-index" className='sm:border sm:shadow-sm p-1 sm:p-2 sm:my-8 my-4 rounded flex flex-col items-center w-full md:w-3/4 ' onSubmit={props.handleSubmit}>
+        <h1>Your Account</h1>
         <PersonalInfo />
         <ProfileInfo />
         <AccountInfo fixingEnsemblesList={props.values.fixingEnsembles} instrumentsList={props.values.instrumentsList} user={user}/>

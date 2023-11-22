@@ -28,7 +28,7 @@ export default function ComboBox(props: ComboBoxProps) {
   
   return (
     <div className="flex flex-col py-4" data-testid={`combobox-${id}-div`}>
-      <label htmlFor={id} className="text-slate-700">{label}</label>
+      <label htmlFor={id} className="font-medium">{label}</label>
       {optional && <span className="text-slate-400 text-sm ml-2">Optional</span>}
       <Field
         as={asHtml}

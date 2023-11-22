@@ -18,13 +18,13 @@ export default function EventDetail(props: EventDetailProps) {
 
   
   return (
-    <div data-testid="event-detail" className={"w-full border shadow rounded-lg py-4"}>
+    <div data-testid="event-detail" className={"w-full border shadow rounded-lg py-4 flex justify-center"}>
       {showOptions && 
         (session.user.id === event.fixerId 
-        ? <FixerMenu event={event} />
-        : <PlayerMenu event={event} />)
+        ? <FixerMenu setShowMenu={(arg) => setShowOptions(arg)} event={event} />
+        : <PlayerMenu setShowMenu={(arg) => setShowOptions(arg)} event={event} />)
       }
-      <table>
+      <table className="flex flex-col items-center w-[96vw] lg:w-1/2">
         <DetailHeader showMenu={showOptions} setShowMenu={(arg) => setShowOptions(arg)} eventTitle={event.eventTitle} />
         <EventInfo userId={session.user.id} event={event} />
       </table>

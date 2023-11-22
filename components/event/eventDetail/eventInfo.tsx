@@ -16,9 +16,14 @@ export default function EventInfo(props: EventInfoProps) {
 
   
   return (
-    <tbody data-testid="event-info-div" className={/* showOptions === true ? "blur w-full border shadow rounded-lg py-4":   */"w-full border shadow rounded-lg py-4"}>
-      <InfoDiv className="bg-slate-50" id="event-status" title='Status' value={event.confirmedOrOnHold.toLocaleUpperCase()} />
+    <tbody data-testid="event-info-div" className={" w-full  rounded-lg flex flex-col"}>
+      <InfoDiv className="" id="event-status" title='Status' value={event.confirmedOrOnHold.toLocaleUpperCase()} />
       <InfoDiv className="bg-slate-50" id="ensemble-name" title="Ensemble" value={event.ensembleName}/>
+      <tr className="flex flex-col  md:flex-row p-4 w-full lg:items-center lg:justify-evenly ">
+        <td className="text-slate-600 text-sm md:w-1/2">
+          {props.event.calls.length} Call(s)
+        </td>
+        <td className="md:w-1/2">
         {userId === event.fixerId 
         ? props.event.calls.sort((a, b) => Number(DateTime.fromJSDate(new Date(a.startTime))) - Number(DateTime.fromJSDate(new Date(b.startTime)))).map(i => (
           <CallTile {...i} key={i.id} />
@@ -26,6 +31,9 @@ export default function EventInfo(props: EventInfoProps) {
       : props.event.calls.sort((a, b) => Number(DateTime.fromJSDate(new Date(a.startTime))) - Number(DateTime.fromJSDate(new Date(b.startTime)))).map(i => (
         <CallTile {...i} key={i.id} />
     ))}
+        </td>
+      </tr>
+        
      <InfoDiv className="bg-slate-50" id="event-program" title="Program" value={event.concertProgram} />
       <InfoDiv className="" id="event-dress" title="Dress" value={event.dressCode} />
       <InfoDiv className="bg-slate-50" id="event-fee" title="Fee" value={event.fee} />

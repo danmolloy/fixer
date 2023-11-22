@@ -12,7 +12,7 @@ export default function EnsembleRadioGroup(props: EnsembleRadioProps) {
   const { fixingEnsembles, ensemble, isSubmitting } = props
   return (
     <div data-testid="ensemble-radio" className="flex flex-col py-3 sm:w-1/2 sm:self-start ">
-      <p id="ensemble" className="text-slate-700">Ensemble</p>
+      <p id="ensemble" className="font-medium">Ensemble</p>
       <div aria-labelledby="ensemble" role="group" className="flex flex-col py-1">
         {fixingEnsembles.map(i => (
           <label key={i} className="py-1">

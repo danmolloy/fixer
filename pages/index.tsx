@@ -1,30 +1,27 @@
-import { useSession } from "next-auth/react"
 import LandingPage from "../components/externalSite/landingPage";
-import axios from "axios";
-import { useRouter } from "next/router";
 import useSWR from "swr";
 import CalendarIndex from "../components/calendar";
 import LayoutIndex from "../components/layout";
+import { useSession } from "next-auth/react";
 import LoadingLayout from "../components/layout/loading";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 export default function Home() {
-  const router = useRouter()
   const { data, error, isLoading} = useSWR('/api/calendar/getCalendar', fetcher)
+  const { data: session, status } = useSession()
 
-  if (!data) {
-    return (
-      <LayoutIndex>
-        <LandingPage />
-      </LayoutIndex>
-    )}
+ if (session && isLoading) {
+    return <LoadingLayout />
+  }
 
-    return (
-      <LayoutIndex pageTitle="">
-        <CalendarIndex data={data}/>
-      </LayoutIndex>
-    )
+  return (
+    <LayoutIndex pageTitle="">
+      {(session && data) 
+      ? <CalendarIndex data={data}/>
+      :  <LandingPage />}
+    </LayoutIndex>
+  )
   
 }
 

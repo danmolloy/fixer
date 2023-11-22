@@ -32,8 +32,8 @@ export default function WeekDayPicker(props: WeekDayPickerProps) {
       {getWeekArr().map(i => (
         <button className=" px-2" onClick={() => setSelectedDate(i)} key={i.toFormat("dd LLL yyyy")} data-testid={`${i.day}-weekday-tile`}>
           <p className="text-gray-500">{i.toFormat("ccc")}</p>
-          <div className={`${selectedDate.hasSame(i, "day") ? "bg-black text-white" : "hover:bg-slate-100"} rounded-full p-1 justify-center flex flex-col items-center`}>
-            <p className={`${DateTime.now().hasSame(i, "day") && !selectedDate.hasSame(i, "day") && "text-indigo-600"} `}>{i.toFormat("dd")}</p>
+          <div className={`${selectedDate.hasSame(i, "day") ? "bg-black text-white" : "hover:bg-slate-100"} rounded-full w-8 h-8 p-1 justify-center flex flex-col items-center`}>
+            <p className={`${DateTime.now().hasSame(i, "day") && !selectedDate.hasSame(i, "day") && "text-indigo-600 font-semibold"} `}>{i.toFormat("dd")}</p>
             {dayEvents(i).map(i => (
                 <div key={i.id} className="absolute mt-10 text-indigo-600">
                   •

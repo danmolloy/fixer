@@ -3,14 +3,21 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { EventWithCalls } from "./calendarEventLink" 
 import CalendarEventLink from "./calendarEventLink"
+import { useEffect, useRef } from "react"
 
 export type FixerMenuProps = {
   event: EventWithCalls
+  setShowMenu: (arg: boolean) => void
 }
 
 export default function FixerMenu(props: FixerMenuProps) {
-  const { event } = props;
+  const { event, setShowMenu } = props;
   const router = useRouter()
+  const ref = useRef(null)
+
+  useEffect(() => {
+    ref.current.focus()
+  }, [])
 
   const messageAll = async () => {
     const fixerMessage = prompt(`What is your message to all booked musicians?`)
@@ -53,30 +60,30 @@ export default function FixerMenu(props: FixerMenuProps) {
   
 
   return (
-    <div className="" data-testid="fixer-menu">
-      <Link data-testid="edit-event-link" href={`/event/edit/${event.id}`}>
-        <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
+    <div ref={ref} onBlur={() => {setTimeout(() => setShowMenu(false), 150)}} tabIndex={-1}  className="border shadow absolute flex flex-col items-end bg-white mt-10 -mr-12" data-testid="fixer-menu">
+      <Link className="w-full" data-testid="edit-event-link" href={`/event/edit/${event.id}`}>
+        <div className="w-full hover:bg-slate-100 py-4 px-4 font-light" >
           Edit Event
         </div>
       </Link> 
       <button onClick={() => messageAll()} className="cursor-pointer w-full text-start" data-testid={"msg-all-btn"}>
-        <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
+        <div className="w-full hover:bg-slate-100 py-4 px-4 font-light" >
           Message All
         </div>
       </button>
       <button onClick={() => exportToCSV()} className="cursor-pointer w-full text-start" data-testid={"export-event-btn"}>
-        <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
+        <div className="w-full hover:bg-slate-100 py-4 px-4 font-light" >
           Export Event Details
         </div>
       </button>
       <button onClick={() => exportToCSV()} className="cursor-pointer w-full text-start" data-testid={"export-orchestra-btn"}>
-        <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
+        <div className="w-full hover:bg-slate-100 py-4 px-4 font-light" >
           Export Orchestra List
         </div>
       </button>
       <CalendarEventLink data={event}/>
       <button onClick={() => cancelEvent()} className="cursor-pointer w-full text-start" data-testid={"cancel-event-btn"}>
-        <div className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
+        <div className="w-full hover:bg-slate-100 py-4 px-4 font-light" >
           Cancel Event
         </div>
       </button>

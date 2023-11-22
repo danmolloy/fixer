@@ -83,6 +83,14 @@ describe("<CalendarHeader />", () => {
     expect(selectedDate).toBeInTheDocument()
     expect(selectedDate.textContent).toMatch(formattedDate)
   })
+  it("if selectedView === 'Year' setSelectedDate also calls setSelectedView(month)", () => {
+    const todayBtn = screen.getByTestId("today-btn")
+    act(() => {
+      fireEvent.click(todayBtn)
+    })
+    expect(mockProps.setSelectedDate).toHaveBeenCalled()
+    expect(mockProps.setSelectedView).toHaveBeenCalledWith("Month")
+  })
 })
   
   

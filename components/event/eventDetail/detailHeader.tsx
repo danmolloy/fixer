@@ -9,12 +9,12 @@ export type DetailHeaderProps = {
 export default function DetailHeader(props: DetailHeaderProps) {
   const { showMenu, setShowMenu, eventTitle } = props
   return (
-    <thead data-testid="detail-header">
-      <tr>
+    <thead data-testid="detail-header"  className='w-full'>
+      <tr className='w-full flex flex-row justify-center items-center'>
         <th>
-        <h1 >{eventTitle}</h1>
+        <h1 className='font-medium'>{eventTitle}</h1>
         </th>
-        <th>
+        <th className='w-12 '>
         <button data-testid="options-btn" onClick={() => setShowMenu(!showMenu)}>
           <SlOptions />
         </button>

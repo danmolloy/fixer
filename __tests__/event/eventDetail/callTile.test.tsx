@@ -7,12 +7,7 @@ import { DateTime } from "luxon";
 
 describe("CallTile component", () => {
   beforeEach(() => {
-    render(
-      <table>
-        <tbody>
-        <CallTile {...mockCall} />
-        </tbody>
-      </table>)
+    render(<CallTile {...mockCall} />)
   })
   it("Renders", () => {
     const callTile = screen.getByTestId("call-tile-div")

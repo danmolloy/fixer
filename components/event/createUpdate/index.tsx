@@ -57,7 +57,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
 
   
   return (
-    <div data-testid="create-event-form" className='sm:border sm:shadow-sm p-1 sm:p-2 mb-4 rounded flex flex-col items-center w-full md:w-3/4 '>
+    <div data-testid="create-event-form" className='sm:border sm:shadow-sm p-1 sm:p-2 sm:my-8 my-4 rounded flex flex-col items-center w-full md:w-3/4 '>
       <Formik 
         initialValues={{
           fixerName: userName,

@@ -28,6 +28,8 @@ describe("<ExternalMenu />", () => {
       let menulink = screen.getByTestId(externalMenuLinks[i].id)
       expect(menulink).toBeInTheDocument()
       expect(menulink.textContent).toMatch(externalMenuLinks[i].name)
+      const menuIcon = screen.getByTestId(`${externalMenuLinks[i].name}-icon`)
+      expect(menuIcon).toBeInTheDocument()
     }
   })
   it("sign-in btn is in the document", () => {

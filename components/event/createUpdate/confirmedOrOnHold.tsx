@@ -10,7 +10,7 @@ export default function ConfirmedOrOnHold(props: CoohProps) {
   const {  confirmedOrOnHold } = props
   return (
     <div data-testid="confirmed-or-on-hold-div" className="py-4 w-1/2 sm:self-start ">
-      <label htmlFor="confirmedOrOnHold" className="text-slate-700">Gig Status</label>
+      <label htmlFor="confirmedOrOnHold" className="font-medium">Gig Status</label>
 
       <div className="flex flex-col py-1" role="group" aria-label="confirmedOrOnHold" data-testid={`confirm-or-hold-toggle-group`}>
         <label className="py-1">

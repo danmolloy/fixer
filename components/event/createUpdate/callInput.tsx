@@ -37,7 +37,7 @@ export default function CallInput(props: CallInputProps) {
   return (
     <div data-testid={`call-${index}-input-div`} className="flex flex-col">
       <div className='flex flex-row items-center justify-between'>
-        <p className="text-slate-700">{`Call ${index + 1}`}</p>
+        <p className="font-medium">{`Call ${index + 1}`}</p>
         {index !== 0 && 
         <button data-testid={`calls-${index}-delete`} className='delete-btn text-xl p-1 m-1 rounded-full hover:bg-slate-100 text-slate-700' onClick={() => remove(index)}>
           <AiOutlineClose />
@@ -45,7 +45,7 @@ export default function CallInput(props: CallInputProps) {
       </div>
       <div className="flex flex-col sm:flex-row">
       <div className='flex flex-col py-4 w-1/2'>
-        <label className='text-slate-700' htmlFor={`calls.${index}.startTime`}>Start Time</label>
+        <label className="font-medium" htmlFor={`calls.${index}.startTime`}>Start Time</label>
       <Field
           label="Start Time"
           className="border rounded p-2 my-1 shadow-sm w-48"
@@ -59,7 +59,7 @@ export default function CallInput(props: CallInputProps) {
         </div>
         
         <div className='flex flex-col py-4 w-1/2'>
-        <label className='text-slate-700' htmlFor={`calls.${index}.endTime`}>End Time</label>
+        <label className="font-medium" htmlFor={`calls.${index}.endTime`}>End Time</label>
         
       <Field
           label="End Time"

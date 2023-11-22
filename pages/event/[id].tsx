@@ -10,6 +10,7 @@ import LayoutIndex from "../../components/layout";
 import LoadingLayout from "../../components/layout/loading";
 import ExternalLayout from "../../components/layout/external";
 import EventDetail from "../../components/event/eventDetail";
+import SignIn from "../../components/layout/signIn";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -37,9 +38,9 @@ export default function Event({props}) {
 
   if (!session) {
     return (
-      <ExternalLayout>
-        <LandingPage />
-      </ExternalLayout>
+      <LayoutIndex>
+        <SignIn />
+      </LayoutIndex>
     )}
 
   return (

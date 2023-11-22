@@ -8,7 +8,7 @@ import PricingIndex from "../pricing/pricingIndex";
 export default function AboutIndex() {
 
   return (
-    <div className="px-4 md:w-2/3">
+    <div data-testid="about-index" className="px-4 md:w-2/3">
       <FixerFeaturesLong />
       <PricingIndex />
     </div>

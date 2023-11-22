@@ -5,7 +5,6 @@ import SessionFooter from "./footer";
 import useSWR from "swr";
 import LoadingLayout from "../loading";
 import ErrorLayout from "../error";
-import SettingsIndex from "../../users/settings";
 import BasicInfo from "../../users/settings/basicInfo";
 
 export type SessionLayoutProps = {
@@ -37,7 +36,7 @@ export default function SessionLayout(props: SessionLayoutProps) {
 
   return (
     <div data-testid="session-layout" className="min-h-screen w-screen flex flex-col justify-between font-raleway">
-      <SessionHeader 
+     <SessionHeader 
         reducedHeader={reducedHeader} 
         setReducedHeader={arg => setReducedHeader(arg)} 
         notifications={data.playerCalls.filter(i => i.accepted === null).length > 0 ? true : false} 

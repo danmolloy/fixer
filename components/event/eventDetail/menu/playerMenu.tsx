@@ -1,13 +1,21 @@
+import { useEffect, useRef } from "react"
 import { EventWithCalls } from "./calendarEventLink" 
 
 export type PlayerMenuProps = {
   event: EventWithCalls
+  setShowMenu: (arg: boolean) => void
 }
 
 export default function PlayerMenu(props: PlayerMenuProps) {
-  const { event } = props
+  const { event, setShowMenu } = props
+  const ref = useRef(null)
+
+  useEffect(() => {
+    ref.current.focus()
+  }, [])
+  
   return (
-    <div data-testid="player-menu">
+    <div  ref={ref} onBlur={() => {setTimeout(() => setShowMenu(false), 150)}} tabIndex={-1} data-testid="player-menu">
       <button onClick={() => {}} className="cursor-pointer w-full text-start" data-testid={"request-parts-btn"}>
         <p className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
           Request Practice Parts

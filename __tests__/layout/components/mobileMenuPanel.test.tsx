@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react"
-import MobileMenuPanel from "../../components/layout/components/mobileMenuPanel"
+import MobileMenuPanel from "../../../components/layout/components/mobileMenuPanel"
 import "@testing-library/jest-dom"
 
 describe("Mobile Dashboard component", () => {
