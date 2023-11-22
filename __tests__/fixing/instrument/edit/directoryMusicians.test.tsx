@@ -38,3 +38,27 @@ describe("<DirectoryMusicians />", () => {
     }
   })
 })
+
+describe("<DirectoryMusicians />", () => {
+  beforeEach(() => {
+    const mockProps: DirectoryMusiciansProps = {
+      musicians: [],
+      eventMusicianIds: [mockUser.id],
+      allEventCalls: [mockCall],
+      instrumentName: instrumentArr[Math.floor(Math.random() * instrumentArr.length)]
+    }
+    render(
+      <Formik initialValues={{}} onSubmit={jest.fn()}>
+        {props => (
+          <DirectoryMusicians {...mockProps} />
+        )}
+      </Formik>
+    )
+  })
+  it("if no musicians, it states so", () => {
+    const helpfulMsg = screen.getByText(`No musicians found.`)
+    expect(helpfulMsg).toBeInTheDocument()
+  })
+
+})
+

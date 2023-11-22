@@ -23,6 +23,7 @@ export default function DirectoryMusicians(props: DirectoryMusiciansProps) {
       <FieldArray name="musicians">
         {({insert, remove, push}) => (
           <div className="border h-96 overflow-scroll m-2 ">
+            {musicians.length === 0 && <p>No musicians found.</p>}
             {musicians.filter(i => !eventMusicianIds.includes(i.id)).map(i => (
               <MusicianTile 
                 disabled={eventMusicianIds.includes(i.id)}

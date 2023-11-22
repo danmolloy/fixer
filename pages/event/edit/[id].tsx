@@ -11,13 +11,14 @@ import LayoutIndex from '../../../components/layout';
 import ExternalLayout from '../../../components/layout/external';
 import LoadingLayout from '../../../components/layout/loading';
 import SignIn from '../../../components/layout/signIn';
+import Index404 from '../../../components/layout/components/index404';
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 export default function EditEvent(props) {
   const router = useRouter()
   const { id } = router.query;
-  const { data, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
+  const { data, error, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
   const { data: session } = useSession()
   
 
@@ -66,6 +67,13 @@ export default function EditEvent(props) {
       .catch(function (error) {
         console.log(error);
       }); 
+  }
+
+  if (error || data === null) {
+    return (
+    <LayoutIndex>
+      <Index404 />
+    </LayoutIndex>)
   }
 
   return (

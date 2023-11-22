@@ -11,13 +11,14 @@ import LoadingLayout from "../../components/layout/loading";
 import ExternalLayout from "../../components/layout/external";
 import SignIn from "../../components/layout/signIn";
 import EventDetail from "../../components/event/eventDetail";
+import Index404 from "../../components/layout/components/index404";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 export default function Event() {
   const router = useRouter();
   const { id } = router.query;
-  const { data, mutate, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
+  const { data, error, mutate, isLoading } = useSWR(id ? `/api/event/${id}` : null, fetcher)
   const [lastUpdated, setLastUpdated] = useState<null|Date>(null)
   const { data: session, status } = useSession()
 
@@ -31,12 +32,14 @@ export default function Event() {
   }
 
 
-  if (!session) {
-    return (
+
+
+    if (error || data === null) {
+      return (
       <LayoutIndex>
-        <SignIn />
-      </LayoutIndex>
-    )}
+        <Index404 />
+      </LayoutIndex>)
+    }
 
   return (
     <LayoutIndex >
