@@ -1,7 +1,6 @@
 import { ErrorMessage, Field } from "formik";
 import React from "react"
 import TextInput from "../../event/createUpdate/textInput";
-import { instrumentArr } from "../../fixing/fixing";
 
 export default function PersonalInfo() {
 

@@ -1,4 +1,4 @@
-import { instrumentArr } from "../../../components/fixing/fixing"
+import { instrumentArr, sectionsArr } from "../../../components/fixing/fixing"
 import prisma from "../../../client"
 
 const formattedCalls = (calls, fixerId /* fixerEmail */) => {
@@ -12,9 +12,12 @@ const formattedCalls = (calls, fixerId /* fixerEmail */) => {
 }
 
 const formattedSections = () => {
-  return [...instrumentArr].map(i => ({
+  return [...sectionsArr].map(i => ({
     instrumentName: i
   }))
+  /* return [...instrumentArr].map(i => ({
+    instrumentName: i
+  })) */
 }
 
 const eventObj = (obj) => {

@@ -45,7 +45,7 @@ describe("Fixing component", () => {
   })
   it("Date last updated is in the document", () => {
     const fixingDiv = screen.getByTestId("event-fixing")
-    expect(fixingDiv.textContent).toMatch(`Last updated ${DateTime.fromJSDate(mockProps.lastUpdated).toFormat("HH:mm:ss DD")}`);
+    expect(fixingDiv.textContent).toMatch(`Last refreshed ${DateTime.fromJSDate(mockProps.lastUpdated).toFormat("HH:mm:ss DD")}`);
   })
   it("View List button is in the document", () => {
     const viewListBtn = screen.getByTestId("view-list-btn")
@@ -66,6 +66,7 @@ describe("Fixing component", () => {
       expect(instrumentTile).toBeInTheDocument()
     }
   })
+
   it("instrument tiles are passed the correct musicians for the corresponding directory", () => {
     /* 
     Perhaps I should just make an Instrument model?
@@ -87,4 +88,102 @@ describe("Fixing component", () => {
       }
     }
   })
+})
+
+describe("<Fixing />", () => {
+  const mockProps: FixingProps = {
+    eventCalls: [mockCall],
+    instrumentSections: [{
+      ...mockEventInstrumentWithMAndM, 
+      instrumentName: "Violin 1"
+    }],
+    eventId: mockCall.eventId,
+    refreshProps: jest.fn(),
+    users: [{...mockUser, instrumentsList: ["Violin"]}],
+    isLoading: false,
+    lastUpdated: new Date()
+  }
+  beforeEach(() => {
+    render(<Fixing {...mockProps} />)
+  })
+
+  it("1st violin directory has all violinists", () => {
+    const violin1Dir = screen.getByTestId("Violin 1-fixing")
+    expect(violin1Dir).toBeInTheDocument()
+    const editBtn = screen.getByTestId(`Violin 1-edit-btn`)
+      
+      expect(editBtn).toBeInTheDocument()
+      act(() => {
+        fireEvent.click(editBtn)
+      })
+      const instrumentDir = screen.getByTestId(`Violin 1-directory-musicians`)
+      expect(instrumentDir).toBeInTheDocument()
+      expect(instrumentDir.textContent).toMatch(`${mockProps.users[0].firstName} ${mockProps.users[0].lastName}`)
+  })
+  it("2nd violin directory has all violinists", () => {})
+})
+
+describe("<Fixing />", () => {
+  const mockProps: FixingProps = {
+    eventCalls: [mockCall],
+    instrumentSections: [{
+      ...mockEventInstrumentWithMAndM, 
+      instrumentName: "Violin 2"
+    }],
+    eventId: mockCall.eventId,
+    refreshProps: jest.fn(),
+    users: [{...mockUser, instrumentsList: ["Violin"]}],
+    isLoading: false,
+    lastUpdated: new Date()
+  }
+  beforeEach(() => {
+    render(<Fixing {...mockProps} />)
+  })
+
+  it("2nd violin directory has all violinists", () => {
+    const violin2Dir = screen.getByTestId("Violin 2-fixing")
+    expect(violin2Dir).toBeInTheDocument()
+    const editBtn = screen.getByTestId(`Violin 2-edit-btn`)
+      
+      expect(editBtn).toBeInTheDocument()
+      act(() => {
+        fireEvent.click(editBtn)
+      })
+      const instrumentDir = screen.getByTestId(`Violin 2-directory-musicians`)
+      expect(instrumentDir).toBeInTheDocument()
+      expect(instrumentDir.textContent).toMatch(`${mockProps.users[0].firstName} ${mockProps.users[0].lastName}`)
+  })
+})
+
+describe("Upcoming..", () => {
+  it("Naming an orchestra you fix for creates or updates an ensemble model in the DB", () => {})
+  it("ensembles have the following shape",() => {
+    /* model Ensemble {
+      name: string (unique)
+      id: string (unique id)
+      members: ensembleMember[]
+      admin: User[]
+      events: Event[]
+    } */
+
+    /* model ensembleMember {
+      positionNumber: 1|2|3|4|tutti|extra
+      positionTitle: string
+      section: string
+      doubles: boolean
+      ensemble: Ensemble[]
+      user: User[]
+      approved: true //admin need to approve this person!
+    } */
+  })
+  it("instrument tile for ensemble gig has list of permanent players which you can automatically book rather than offer", () => {})
+  it("send offers via email", () => {})
+  it("next to where it states last updated, gig instrumentation notation is stated", () => {})
+  it("One can view the orchestra list, which states the instrumentation (notation) and players", () => {})
+  it("Players state whether they are a member of an orchestra + their position", () => {})
+  
+  it("Event model also has array of past versions", () => {})
+  it("Other orchestra admin can request to alter event details", () => {})
+  it("Admin can see who made changes and the fixer approves all changes", () => {})
+  it("One can compare event info with previous versions", () => {})
 })

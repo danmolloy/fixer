@@ -2,7 +2,7 @@ import { mockCall } from "../../../__mocks__/models/call"
 import { mockEvent, mockEventWithCalls } from "../../../__mocks__/models/event"
 import { mockUser } from "../../../__mocks__/models/user"
 import { prismaMock } from "../../../__mocks__/singleton"
-import { instrumentArr } from "../../../components/fixing/fixing"
+import { instrumentArr, sectionsArr } from "../../../components/fixing/fixing"
 import { formattedCalls, formattedSections, eventObj, createEvent } from "../../../pages/api/event/create"
 
 describe("formattedCalls function", () => {
@@ -22,7 +22,7 @@ describe("formattedCalls function", () => {
 
 describe("formattedSections function", () => {
   it("returns expected value", () => {
-    expect(formattedSections()).toEqual([...instrumentArr].map(i => ({
+    expect(formattedSections()).toEqual([...sectionsArr].map(i => ({
       instrumentName: i
     })))
   })

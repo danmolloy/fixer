@@ -5,6 +5,7 @@ import OrchestraList from './orchestraList'
 import { Call, Prisma, User } from '@prisma/client'
 import FixingInstrument from './instrument'
 import { DateTime } from 'luxon'
+import InstrumentationNotation from './instrumentationNotation'
 
 export type EventInstrumentWithMusiciansWithMusician = Prisma.EventInstrumentGetPayload<{
   include: {
@@ -28,6 +29,7 @@ export type FixingProps = {
 }
 
 export const instrumentArr = ["Violin", "Viola", "Cello", "Double Bass", "Flute", "Oboe", "Clarinet", "Bassoon", "Horn", "Trumpet", "Trombone", "Tuba", "Harp", "Timpani", "Percussion"]
+export const sectionsArr = ["Flute", "Oboe", "Clarinet", "Bassoon", "Horn", "Trumpet", "Trombone", "Tuba", "Timpani", "Percussion", "Harp", "Violin 1", "Violin 2", "Viola", "Cello", "Double Bass"]
 
 
 export default function Fixing(props: FixingProps) {
@@ -44,7 +46,8 @@ export default function Fixing(props: FixingProps) {
       <div className="flex flex-row items-center justify-between   px-8 py-4 mt-8">
         <div data-testid="fixing-header">
         <h1>Personnel</h1>
-        {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last updated {String(DateTime.fromJSDate(lastUpdated).toFormat("HH:mm:ss DD"))}</p>}
+        <InstrumentationNotation />
+        {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last refreshed {String(DateTime.fromJSDate(lastUpdated).toFormat("HH:mm:ss DD"))}</p>}
         </div>
         <div>
           <button data-testid="view-list-btn" onClick={() => setViewList(!viewList)} className="border border-blue-300 text-blue-600 m-1 rounded p-1 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">View List</button>
@@ -63,7 +66,11 @@ export default function Fixing(props: FixingProps) {
             <FixingInstrument
               key={i.id}
               playerCalls={i.musicians}
-              directoryMusicians={users.filter(j => j.instrumentsList.map(i => i.toLocaleLowerCase()).includes(i.instrumentName.toLocaleLowerCase()))}
+              directoryMusicians={
+                i.instrumentName === "Violin 1" || i.instrumentName === "Violin 2" 
+                ? users.filter(j => j.instrumentsList.map(i => i.toLocaleLowerCase()).includes("violin"))
+                : users.filter(j => j.instrumentsList.map(i => i.toLocaleLowerCase()).includes(i.instrumentName.toLocaleLowerCase()))
+              }
               eventCalls={eventCalls}
               eventInstrument={i}
               refreshProps={() => refreshProps()} />
