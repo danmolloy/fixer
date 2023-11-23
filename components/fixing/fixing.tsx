@@ -50,12 +50,16 @@ export default function Fixing(props: FixingProps) {
         {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last refreshed {String(DateTime.fromJSDate(lastUpdated).toFormat("HH:mm:ss DD"))}</p>}
         </div>
         <div>
-          <button data-testid="view-list-btn" onClick={() => setViewList(!viewList)} className="border border-blue-300 text-blue-600 m-1 rounded p-1 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">View List</button>
+          <button data-testid="view-list-btn" onClick={() => setViewList(!viewList)} className="border border-blue-300 text-blue-600 m-1 rounded p-1 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">
+            {!viewList ? "View List" : "View Instruments"}
+            </button>
           <button data-testid="refresh-btn" onClick={() => refreshProps()} className="border border-yellow-500 text-yellow-600 m-1 rounded p-1 shadow hover:border-yellow-600 hover:bg-yellow-50 active:bg-yellow-300">Refresh</button>
         </div>
       </div>
-      {viewList && <OrchestraList setViewList={(arg) => setViewList(arg)} instrumentSections={instrumentSections}/>}
-      <MobileFixing 
+      {viewList 
+      ? <OrchestraList setViewList={(arg) => setViewList(arg)} instrumentSections={instrumentSections}/>
+      :<div>
+        <MobileFixing 
         {...props}
         
         setSelectedInstrument={(instrument) => setSelectedInstrument(instrument)} 
@@ -77,6 +81,7 @@ export default function Fixing(props: FixingProps) {
           
           )) }
       </div>
+      </div>}
     </div>
   )
 }

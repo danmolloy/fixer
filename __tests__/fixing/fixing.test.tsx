@@ -6,6 +6,11 @@ import { FixingProps } from "../../components/fixing/fixing"
 import { mockCall } from "../../__mocks__/models/call"
 import { mockEventInstrumentWithMAndM } from "../../__mocks__/models/eventInstrument"
 import { DateTime } from "luxon"
+import InstrumentationShorthand from "../../components/fixing/instrumentationShorthand"
+
+jest.mock("../../components/fixing/instrumentationShorthand", () => {
+  return () => <div data-testid="instrumentation-shorthand"></div>
+})
 
 const mockProps: FixingProps = {
   eventCalls: [mockCall],
@@ -27,7 +32,7 @@ global.fetch = jest.fn(() =>
   })
 ) as jest.Mock;
 
-describe("Fixing component", () => {
+describe("<Fixing />", () => {
   //it("View List button shows orchestra list on click", () => {})
   //it("handles players who play multiple instruments, i.e. indicates if they are already booked", () => {})
 
@@ -182,13 +187,15 @@ describe("Upcoming..", () => {
     } */
   })
   it("instrument tile for ensemble gig has list of permanent players which you can automatically book rather than offer", () => {})
-  it("send offers via email", () => {})
-  it("next to where it states last updated, gig instrumentation notation is stated", () => {})
-  it("One can view the orchestra list, which states the instrumentation (notation) and players", () => {})
+  it("instrumentTile has list of extras which you can select from, not just the directory", () => {})
+  it("the default is sending offers and updates via email", () => {})
+  it("as well as email, text messages sent if something makes references to a current event/event starting in less than 48 hrs", () => {})
+
   it("Players state whether they are a member of an orchestra + their position", () => {})
   
   it("Event model also has array of past versions", () => {})
+  it("One can compare event info with previous versions", () => {})
+
   it("Other orchestra admin can request to alter event details", () => {})
   it("Admin can see who made changes and the fixer approves all changes", () => {})
-  it("One can compare event info with previous versions", () => {})
 })

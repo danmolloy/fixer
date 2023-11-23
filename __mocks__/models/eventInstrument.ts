@@ -51,13 +51,15 @@ export const mockEventInstrumentWithMAndM: EventInstrumentWithMusiciansWithMusic
       id: fakeMusicianId,
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      profileInfo: faker.lorem.paragraph(),
       emailVerified: new Date(),
       image: faker.image.urlLoremFlickr(),
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
-      instrument: "Viola",
+      instrumentsList: ["Viola"],
       mobileNumber: faker.phone.number(),
+      profileText: faker.lorem.paragraph(), 
+      preferredMethod: "WhatsApp", 
+      fixingEnsembles: []
     },
     calls: [
       mockCall
@@ -122,16 +124,18 @@ export const mockOfferMsgArg: OfferMessageArg = {
   offerExpiry: null,
   status: "active",
   musician: {
-    id: faker.string.uuid(),
-  name: faker.person.fullName(),
-  email: faker.internet.email(),
-  profileInfo: faker.lorem.paragraph(),
-  emailVerified: new Date(),
-  image: faker.image.urlLoremFlickr(),
-  firstName: faker.person.firstName(),
-  lastName: faker.person.lastName(),
-  instrument: "Viola",
-  mobileNumber: faker.phone.number(),
+    id: fakeMusicianId,
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    emailVerified: new Date(),
+    image: faker.image.urlLoremFlickr(),
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    instrumentsList: ["Viola"],
+    mobileNumber: faker.phone.number(),
+    profileText: faker.lorem.paragraph(), 
+    preferredMethod: "WhatsApp", 
+    fixingEnsembles: []
   }
 }],
 event: {

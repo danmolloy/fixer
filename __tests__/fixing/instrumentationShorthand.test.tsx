@@ -6,7 +6,7 @@ import { mockEventInstrumentWithMAndM } from "../../__mocks__/models/eventInstru
 const mockProps: InstrumentationShorthandProps = {
   instrumentSections: [
     {...mockEventInstrumentWithMAndM, instrumentName: "Flute", numToBook: 1},
-    {...mockEventInstrumentWithMAndM, instrumentName: "Oboe", numToBook: 2},
+    {...mockEventInstrumentWithMAndM, instrumentName: "Oboe", numToBook: 0},
     {...mockEventInstrumentWithMAndM, instrumentName: "Clarinet", numToBook: 3},
     {...mockEventInstrumentWithMAndM, instrumentName: "Bassoon", numToBook: 4},
     {...mockEventInstrumentWithMAndM, instrumentName: "Horn", numToBook: 5},
@@ -28,15 +28,15 @@ describe("<InstrumentationShorthand />", () => {
   beforeEach(() => {
     render(<InstrumentationShorthand {...mockProps} />)
   })
-  it("instrumentation-shorthand is in the document", () => {
+  it("instrumentation-shorthand is in the document with expected text content", () => {
     const instrumentationShorthand = screen.getByTestId("instrumentation-shorthand")
     expect(instrumentationShorthand).toBeInTheDocument()
-    expect(instrumentationShorthand.textContent).toMatch("1.2.3.45.6.7.89T.10P.11H12.13.14.15.16")
+    expect(instrumentationShorthand.textContent).toMatch("1.0.3.4/5.6.7.8/9T.10P.11H/12.13.14.15.16")
   })
   it("wind-shorthand is in the document with expected value", () => {
     const windsShorthand = screen.getByTestId("winds-shorthand")
     expect(windsShorthand).toBeInTheDocument()
-    expect(windsShorthand.textContent).toMatch("1.2.3.4")
+    expect(windsShorthand.textContent).toMatch("1.0.3.4")
   })
   it("brass-shorthand is in the document with expected value", () => {
     const brassShorthand = screen.getByTestId("brass-shorthand")

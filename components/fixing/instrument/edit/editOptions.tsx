@@ -20,7 +20,7 @@ export default function EditOptions(props: EditOptionsProps) {
                 label={"Num to Book"} 
                 type={"number"}
                 asHtml={"input"}
-                min={"1"}
+                min={"0"}
                 max={"50"}
                 />
                 <div className="flex flex-col">
