@@ -57,7 +57,7 @@ export default function ExternalMenu(props: externalMenuProps) {
 
 
   return (
-    <div ref={ref} onBlur={() => setTimeout(() => setShowMenu(false), 150)} tabIndex={-1} data-testid="external-menu" className=" duration-500 ease-in bg-white w-1/2 z-20 mt-0 right-0 flex flex-col h-screen fixed  border shadow overflow-hidden p-1">
+    <div ref={ref} onBlur={() => setTimeout(() => setShowMenu(false), 150)} tabIndex={-1} data-testid="external-menu" className=" duration-500 ease-in bg-white w-2/3 z-20 mt-0 right-0 flex flex-col h-screen fixed  border shadow overflow-hidden p-1">
       <div className="w-full h-16 flex flex-col items-center">
           <button onClick={() => setShowMenu(false)} className="hover:bg-slate-100 self-end m-1 p-2 rounded-full" data-testid={"close-btn"}>
             <AiOutlineClose />
