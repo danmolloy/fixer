@@ -60,7 +60,7 @@ export default function FixerMenu(props: FixerMenuProps) {
   
 
   return (
-    <div ref={ref} onBlur={() => {setTimeout(() => setShowMenu(false), 150)}} tabIndex={-1}  className="border shadow absolute flex flex-col items-end bg-white mt-10 -mr-12" data-testid="fixer-menu">
+    <div ref={ref} onBlur={() => {setTimeout(() => setShowMenu(false), 150)}} tabIndex={-1}  className="border shadow absolute flex flex-col items-end bg-white mt-10 -mr-[60vw]" data-testid="fixer-menu">
       <Link className="w-full" data-testid="edit-event-link" href={`/event/edit/${event.id}`}>
         <div className="w-full hover:bg-slate-100 py-4 px-4 font-light" >
           Edit Event

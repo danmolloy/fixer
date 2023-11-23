@@ -67,6 +67,11 @@ describe("Fixing component", () => {
     }
   })
 
+  it("instrumentation-shorthand is in the document", () => {
+    const instrumentationNotation = screen.getByTestId("instrumentation-shorthand")
+    expect(instrumentationNotation).toBeInTheDocument()
+  })
+
   it("instrument tiles are passed the correct musicians for the corresponding directory", () => {
     /* 
     Perhaps I should just make an Instrument model?

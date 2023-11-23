@@ -5,7 +5,7 @@ import OrchestraList from './orchestraList'
 import { Call, Prisma, User } from '@prisma/client'
 import FixingInstrument from './instrument'
 import { DateTime } from 'luxon'
-import InstrumentationNotation from './instrumentationNotation'
+import InstrumentationShorthand from './instrumentationShorthand'
 
 export type EventInstrumentWithMusiciansWithMusician = Prisma.EventInstrumentGetPayload<{
   include: {
@@ -46,7 +46,7 @@ export default function Fixing(props: FixingProps) {
       <div className="flex flex-row items-center justify-between   px-8 py-4 mt-8">
         <div data-testid="fixing-header">
         <h1>Personnel</h1>
-        <InstrumentationNotation />
+        <InstrumentationShorthand instrumentSections={instrumentSections} />
         {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last refreshed {String(DateTime.fromJSDate(lastUpdated).toFormat("HH:mm:ss DD"))}</p>}
         </div>
         <div>
