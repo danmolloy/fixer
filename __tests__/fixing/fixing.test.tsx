@@ -186,8 +186,14 @@ describe("Upcoming..", () => {
       approved: true //admin need to approve this person!
     } */
   })
-  it("instrument tile for ensemble gig has list of permanent players which you can automatically book rather than offer", () => {})
-  it("instrumentTile has list of extras which you can select from, not just the directory", () => {})
+  it("there is an ensemble management page", () => {})
+  it("on ensemble management page, players/management can contact all members", () => {})
+  it("ensemble page: management can adjust orchestra list for default in instrumentTile", () => {})
+
+  it("Fixer can simply adjust order of players in instrumentTile", () => {})
+  it("instrument tile for ensemble gig has list of permanent players", () => {})
+  it("fixer can automatically book players for a gig on their behalf ie permanent players", () => {})
+  it("instrumentTile has list of extras which you can select", () => {})
   it("the default is sending offers and updates via email", () => {})
   it("as well as email, text messages sent if something makes references to a current event/event starting in less than 48 hrs", () => {})
 

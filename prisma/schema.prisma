@@ -59,6 +59,8 @@ model User {
   events        Event[]
   playerCalls   PlayerCall[]
   calls         Call[]
+  ensembles EnsembleMember[]
+  admins EnsembleAdmin[]
 }
 
 model BlockUser {
@@ -92,6 +94,8 @@ model Event {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   ensembleName       String
+  ensembleId         String?
+  ensemble           Ensemble? @relation(fields: [ensembleId], references: [id])
   eventTitle         String @default("")
   concertProgram     String
   confirmedOrOnHold  String @default("On Hold")
@@ -153,4 +157,35 @@ model PlayerCall {
   bookingOrAvailability String @default ("Booking")
   offerExpiry       Int?
   status            String @default("OK") // 
+}
+
+model Ensemble {
+  name String @unique
+  id String @id @default(cuid())
+  members EnsembleMember[]
+  admin EnsembleAdmin[]
+  events Event[]
+}
+
+model EnsembleAdmin {
+  id String @id @default(cuid())
+  ensembleId String
+  userId String 
+  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  positionTitle String
+  user User @relation(fields: [userId], references: [id])
+  approved Boolean @default(false)
+}
+
+model EnsembleMember {
+  id String @id @default(cuid())
+  ensembleId String
+  userId String 
+  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  positionNumber String
+  positionTitle String
+  section String
+  doubles Boolean
+  user User @relation(fields: [userId], references: [id])
+  approved Boolean @default(false)
 }

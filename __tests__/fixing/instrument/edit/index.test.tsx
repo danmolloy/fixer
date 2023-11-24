@@ -33,5 +33,7 @@ describe("<EditInstrument />", () => {
   //it("submit btn calls handleSubmit with expected args onClick", () => {})
   //it("players are disabled who are in eventMusicianIds", () => {})
   //it("players are disabled who are in appendedMusicians", () => {})
-  //it("appended-players is in the document", () => {})
+  //it("if there are appended musicians, appended-players is in the document", () => {})
+  //it("<EnsembleMembers /> is in the document", () => {})
+  //it("<ExtraPlayers /> is in the document", () => {})
 })
