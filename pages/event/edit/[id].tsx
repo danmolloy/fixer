@@ -38,6 +38,7 @@ export default function EditEvent(props) {
   const handleSubmit = async(vals: EventWithCalls) => {
 
     const eventObj: Event = {
+      ensembleId: "",
       id: vals.id,
       createdAt: data.createdAt,
       updatedAt: new Date(),
