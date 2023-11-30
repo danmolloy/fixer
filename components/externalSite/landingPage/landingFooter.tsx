@@ -1,6 +1,5 @@
 import React from "react"
 import { AiOutlineCopyrightCircle, AiOutlineFacebook, AiOutlineTwitter, AiOutlineInstagram } from "react-icons/ai"
-import { signOut } from "next-auth/react"
 import { landingMenuItems } from "."
 import Link from "next/link"
 

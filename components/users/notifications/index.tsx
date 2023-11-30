@@ -1,10 +1,10 @@
 import React from "react";
-import NotificationTile, { PlayerCallWithEvent } from "./notificationTile";
+import NotificationTile, { PlayerCallWithEventWithEnsemble } from "./notificationTile";
 import LoadingNotificationsTile from "./LoadingNotificationsTile";
 import { PlayerCall } from "@prisma/client";
 
 export type NotificationsIndexProps = {
-  playerCalls: PlayerCallWithEvent[]
+  playerCalls: PlayerCallWithEventWithEnsemble[]
   mutate: () => void
 }
 

@@ -4,10 +4,13 @@ import Hero from "./hero"
 import FixerFeatures from "./fixerFeatures"
 import MusicianFeatures from "./musicianFeatures"
 import LandingFooter from "./landingFooter"
-import Menu, { MenuItems } from "../../layout/menu"
 
 
-export const landingMenuItems: MenuItems = [
+export const landingMenuItems: {
+  name: string,
+  link: string,
+  id: string
+}[] = [
   {
     name: "About",
     link: "/about",
