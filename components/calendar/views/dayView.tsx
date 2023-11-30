@@ -1,12 +1,12 @@
 import { DateTime } from "luxon";
-import { CallWithEvent } from "../monthCalendar/calendarDay";
+import { CallWithEventWithEnsemble } from "../monthCalendar/calendarDay";
 import DatePicker from "../datepicker";
 import WeekDayPicker from "../weekDayPicker";
 import CallList from "../CallList/index";
 
 export type DayViewProps = {
   selectedDate: DateTime
-  eventCalls: CallWithEvent[]
+  eventCalls: CallWithEventWithEnsemble[]
   setSelectedDate: (arg: DateTime) => void
 }
 

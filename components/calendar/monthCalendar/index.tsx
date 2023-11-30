@@ -1,13 +1,13 @@
 import { DateTime } from "luxon";
 import CalendarRow from "./calendarRow";
 import CalendarHeader from "./calendarHeader";
-import { CallWithEvent } from "./calendarDay";
+import { CallWithEventWithEnsemble } from "./calendarDay";
 import DaysRow from "./daysRow";
 
 export type MonthCalendarProps = {
   selectedDate: DateTime
   setSelectedDate: (arg: DateTime) => void
-  eventCalls: CallWithEvent[]
+  eventCalls: CallWithEventWithEnsemble[]
 }
 
 export default function MonthCalendar(props: MonthCalendarProps) {

@@ -1,12 +1,12 @@
 import { DateTime } from "luxon";
-import { CallWithEvent } from "../monthCalendar/calendarDay";
+import { CallWithEventWithEnsemble } from "../monthCalendar/calendarDay";
 import CallList from "../CallList/index";
 import MonthCalendar from "../monthCalendar";
 import DatePicker from "../datepicker";
 
 export type MonthViewProps = {
   selectedDate: DateTime
-  eventCalls: CallWithEvent[]
+  eventCalls: CallWithEventWithEnsemble[]
   setSelectedDate: (arg: DateTime) => void
 }
 
