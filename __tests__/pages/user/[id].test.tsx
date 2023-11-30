@@ -9,7 +9,8 @@ const mockSession = {
   user: mockUser,
   userData: {
     mockUserWithCallsAndEvents,
-    playerCalls: []
+    playerCalls: [],
+    admins: []
   }
 }
 

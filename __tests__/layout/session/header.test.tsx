@@ -1,13 +1,16 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import SessionHeader, { SessionHeaderProps, menuItems } from "../../../components/layout/session/header"
+import { mockAdminWithEnsemble } from "../../../__mocks__/models/ensembleAdmin"
 
 const mockProps: SessionHeaderProps = {
   showMenu: false,
   setShowMenu: jest.fn(),
   setReducedHeader: jest.fn(),
   reducedHeader: false,
-  notifications: false
+  notifications: false,
+  ensembleAdminList: [mockAdminWithEnsemble]
+
 }
 
 describe("<SessionHeader />", () => {
@@ -34,6 +37,13 @@ describe("<SessionHeader />", () => {
     const menuIconBtn = screen.getByTestId("menu-icon-btn")
     expect(menuIconBtn).toBeInTheDocument()
   })
+  it("all ensemble links are in the document with expected href", () => {
+    for (let i = 0; i < mockProps.ensembleAdminList.length; i ++) {
+      let ensembleLink = screen.getByText(mockProps.ensembleAdminList[i].ensemble.name)
+      expect(ensembleLink).toBeInTheDocument()
+      expect(ensembleLink).toHaveAttribute("href", `/ensembles/${mockProps.ensembleAdminList[i].ensembleId}`)
+    }
+  })
 })
 
 describe("<SessionHeader />", () => {
@@ -42,7 +52,9 @@ describe("<SessionHeader />", () => {
     setShowMenu: jest.fn(),
     setReducedHeader: jest.fn(),
     reducedHeader: false,
-    notifications: true
+    notifications: true,
+    ensembleAdminList: [mockAdminWithEnsemble]
+
   }
   beforeEach(() => {
     render(<SessionHeader {...mockProps} />)

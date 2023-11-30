@@ -2,6 +2,7 @@ import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen } from "@testing-library/react"
 import SessionLayout, { SessionLayoutProps } from "../../../components/layout/session"
 import { mockUserWithCallsAndEvents } from "../../../__mocks__/models/user";
+import { mockAdminWithEnsemble } from "../../../__mocks__/models/ensembleAdmin";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -12,6 +13,7 @@ global.fetch = jest.fn(() =>
 ) as jest.Mock;
 
 const mockProps: SessionLayoutProps = {
+  ensembleAdminList: [mockAdminWithEnsemble],
   children: <div></div>
 }
 

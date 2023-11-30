@@ -14,7 +14,7 @@ export default function LayoutIndex(props: LayoutIndexProps) {
 
   if (session) {
     return (
-      <SessionLayout>
+      <SessionLayout ensembleAdminList={session.userData.admins}>
         {children}
       </SessionLayout>
     )

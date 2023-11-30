@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose, AiOutlineBell } from 'react-icons/ai'
 import React, { useEffect, useState } from 'react'
+import { AdminWithEnsemble } from '../../users/settings/accountInfo/ensembleAdmin'
 
 export type SessionHeaderProps = {
   showMenu: boolean
@@ -8,6 +9,7 @@ export type SessionHeaderProps = {
   notifications: boolean
   setReducedHeader: (arg: boolean) => void
   reducedHeader: boolean
+  ensembleAdminList: AdminWithEnsemble[]
 }
 
 export const menuItems: {
@@ -38,7 +40,7 @@ export const menuItems: {
 ]
 
 export default function SessionHeader(props: SessionHeaderProps) {
-  const { showMenu, setShowMenu, notifications, reducedHeader, setReducedHeader } = props
+  const { ensembleAdminList, showMenu, setShowMenu, notifications, reducedHeader, setReducedHeader } = props
   const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
@@ -68,6 +70,11 @@ export default function SessionHeader(props: SessionHeaderProps) {
         </h2>
       </Link>
       <div className='w-full justify-end hidden md:flex flex-row mr-2' data-testid="nav-bar">
+        {ensembleAdminList.map(i => (
+          <Link href={`/ensembles/${i.ensembleId}`} key={i.id} data-testid={i.ensembleId} className='hover:bg-slate-100 p-1 mx-4 rounded text-slate-600 text-sm flex flex-row items-center'>
+            {i.ensemble.name}
+        </Link>
+        ))}
         {menuItems.map(i => (
           <Link href={i.link} key={i.id} data-testid={i.id} className='hover:bg-slate-100 p-1 mx-4 rounded text-slate-600 text-sm flex flex-row items-center'>
             {notifications && i.name === "Notifications"

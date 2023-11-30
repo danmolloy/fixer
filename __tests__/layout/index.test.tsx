@@ -4,7 +4,8 @@ import LayoutIndex, { LayoutIndexProps } from "../../components/layout"
 
 const mockSession = {
   userData: {
-    playerCalls: []
+    playerCalls: [],
+    admins: []
   }
 }
 
@@ -15,7 +16,7 @@ jest.mock('next-auth/react', () => ({
 global.fetch = jest.fn(() =>
 Promise.resolve({
   json: () => Promise.resolve({
-      playerCalls: []
+      playerCalls: [],
     })
   })
 ) as jest.Mock;

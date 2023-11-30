@@ -8,6 +8,8 @@ import { FiUserPlus } from 'react-icons/fi'
 import { IoCreateOutline } from "react-icons/io5";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { IoMdExit } from "react-icons/io";
+import { AdminWithEnsemble } from "../../users/settings/accountInfo/ensembleAdmin";
+import { MdGroups } from "react-icons/md";
 
 
 
@@ -53,10 +55,11 @@ export const menuItems: {
 
 export type SessionMenuProps = {
   setShowMenu: (arg: boolean) => void
+  ensembleAdminList: AdminWithEnsemble[]
 }
 
 export default function SessionMenu(props: SessionMenuProps) {
-  const { setShowMenu} = props;
+  const { setShowMenu, ensembleAdminList } = props;
 
   const router = useRouter();
   const ref = useRef(null)
@@ -78,6 +81,18 @@ export default function SessionMenu(props: SessionMenuProps) {
             <AiOutlineClose />
           </button>
         </div>
+        {ensembleAdminList.length > 0 
+        && <div data-testid="ensembles-list">
+          <div className="w-full  px-2 py-1 items-center flex flex-row">
+            <MdGroups />
+            <p className=" p-4 text-black">Your Ensembles</p>
+          </div>
+        {ensembleAdminList.map(i => (
+          <Link className="w-full hover:bg-slate-100 hover:text-indigo-600 p-4 justify-center items-center flex flex-row"  key={i.id} href={`/ensembles/${i.ensembleId}`}>
+            {i.ensemble.name}
+          </Link>
+        ))}
+        </div>}
         {menuItems.map(i => (
           <Link data-testid={i.id} key={i.id} href={`${i.link}`}>
           <div className="w-full hover:bg-slate-100 hover:text-indigo-600 p-2 items-center flex flex-row" >
