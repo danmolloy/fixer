@@ -1,9 +1,6 @@
 import React from "react"
 import { signIn, signOut } from "next-auth/react"
-import Header, { menuItems } from "../../layout/header"
 import { AiOutlineMenu } from "react-icons/ai"
-import { landingMenu } from "./landingFooter"
-import { landingMenuItems } from "."
 import Link from "next/link"
 
 export const menu = ["Features", "Testimonials", "Pricing", "Contact"]
@@ -20,12 +17,6 @@ export default function LandingHeader(props: LandingHeaderProps) {
           <Link href="/" className={' p-2 text-2xl sm:mx-10  '}>
             Gig<span className="text-blue-600 font-semibold">Fix</span>
           </Link>
-          {/* <div className="hidden md:flex " >
-            {landingMenuItems.filter(i => i.name !== "Sign in").map(i => (
-            <Link href={i.link} key={i.id} className="hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
-              {i.name}
-            </Link>))}
-          </div> */}
           <div className="flex flex-row items-center sm:mx-4">
             <button onClick={() => signIn("github")} className="hidden md:flex  hover:bg-slate-100 text-slate-600 p-1 mx-4 rounded text-sm font-light">
                 Sign in
