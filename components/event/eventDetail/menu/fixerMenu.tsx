@@ -4,14 +4,16 @@ import { useRouter } from "next/router"
 import { EventWithCalls } from "./calendarEventLink" 
 import CalendarEventLink from "./calendarEventLink"
 import { useEffect, useRef } from "react"
+import { Ensemble } from "@prisma/client"
 
 export type FixerMenuProps = {
   event: EventWithCalls
   setShowMenu: (arg: boolean) => void
+  ensemble: Ensemble
 }
 
 export default function FixerMenu(props: FixerMenuProps) {
-  const { event, setShowMenu } = props;
+  const { event, setShowMenu, ensemble } = props;
   const router = useRouter()
   const ref = useRef(null)
 
@@ -81,7 +83,7 @@ export default function FixerMenu(props: FixerMenuProps) {
           Export Orchestra List
         </div>
       </button>
-      <CalendarEventLink data={event}/>
+      <CalendarEventLink ensemble={ensemble} data={event}/>
       <button onClick={() => cancelEvent()} className="cursor-pointer w-full text-start" data-testid={"cancel-event-btn"}>
         <div className="w-full hover:bg-slate-100 py-4 px-4 font-light" >
           Cancel Event

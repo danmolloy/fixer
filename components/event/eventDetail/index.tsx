@@ -28,7 +28,7 @@ export default function EventDetail(props: EventDetailProps) {
     <div data-testid="event-detail" className={"w-full border shadow rounded-lg py-4 flex justify-center"}>
       {showOptions && 
         (session.user.id === event.fixerId 
-        ? <FixerMenu setShowMenu={(arg) => setShowOptions(arg)} event={event} />
+        ? <FixerMenu ensemble={ensemble} setShowMenu={(arg) => setShowOptions(arg)} event={event} />
         : <PlayerMenu setShowMenu={(arg) => setShowOptions(arg)} event={event} />)
       }
       <table className="flex flex-col items-center w-[96vw] lg:w-1/2">

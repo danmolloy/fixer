@@ -1,4 +1,4 @@
-import { Call, Prisma } from "@prisma/client";
+import { Call, Ensemble, Prisma } from "@prisma/client";
 import { createEvents } from 'ics';
 
 export type EventWithCalls = Prisma.EventGetPayload<{
@@ -9,6 +9,7 @@ export type EventWithCalls = Prisma.EventGetPayload<{
 
 export type CalendarEventLinkProps = {
   data: EventWithCalls
+  ensemble: Ensemble
 }
 
 export const getDateArr = (date: Date) => {
@@ -20,23 +21,23 @@ export const getDateArr = (date: Date) => {
   return [year, month, day, hour, minute];
 }
 
-export const createICSEvent = (call: Call, data: EventWithCalls) => {
+export const createICSEvent = (call: Call, data: EventWithCalls, ensemble: Ensemble) => {
   const ical = {
     start: getDateArr(new Date(call.startTime)),
     end: getDateArr(new Date(call.endTime)),
     title: data.eventTitle,
-    description: `${data.ensembleName} (${data.confirmedOrOnHold})`,
+    description: `${ensemble.name} (${data.confirmedOrOnHold})`,
     location: call.venue,
     //organiser: {name: data.fixerName}
   }
   return ical
 }
 
-export const downloadICS = async(data: EventWithCalls) => {
+export const downloadICS = async(data: EventWithCalls, ensemble: Ensemble) => {
   let icalArr = [];
 
   for (let i = 0; i < data.calls.length; i++) {
-    icalArr.push(createICSEvent(data.calls[i], data));
+    icalArr.push(createICSEvent(data.calls[i], data, ensemble));
   }
 
   const filename = `Event-${data.id}.ics`
@@ -64,11 +65,11 @@ export const downloadICS = async(data: EventWithCalls) => {
 }
 
 export default function CalendarEventLink(props: CalendarEventLinkProps) {
-  const { data } = props;
+  const { data, ensemble } = props;
 
 
   return (
-   <button onClick={() => downloadICS(data)} className="cursor-pointer w-full text-start" data-testid={"calendar-link"}>
+   <button onClick={() => downloadICS(data, ensemble)} className="cursor-pointer w-full text-start" data-testid={"calendar-link"}>
     <p className="w-full hover:bg-slate-100 py-4 pl-4 font-light" >
       Export to Calendar
     </p>
