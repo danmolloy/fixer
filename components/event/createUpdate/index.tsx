@@ -11,10 +11,11 @@ import ConfirmedOrOnHold from './confirmedOrOnHold';
 import { Prisma } from '@prisma/client';
 import { AdminWithEnsemble } from '../../users/settings/accountInfo/ensembleAdmin';
 
-export type EventWithCallsAndInstruments = Prisma.EventGetPayload<{
+export type EventWithCallsAndInstrumentsAndEnsemble = Prisma.EventGetPayload<{
   include: {
     calls: true,
-    instrumentSections: true
+    instrumentSections: true,
+    ensemble: true
   }
 }>
 
@@ -23,7 +24,7 @@ export type CreateEventFormProps = {
   fixingEnsembles: string[]
   adminEnsembleList: AdminWithEnsemble[]
   handleSubmit: (vals: any) => void
-  initialValues?: EventWithCallsAndInstruments
+  initialValues?: EventWithCallsAndInstrumentsAndEnsemble
   userId: string
   userName: string
   createOrUpdate: "Create"|"Update"
@@ -69,7 +70,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           confirmedOrOnHold: initialValues ? initialValues.confirmedOrOnHold : "",
 /*           ensemble: initialValues ? "Other" : "",
           ensembleName: initialValues ? initialValues.ensembleName :"",  */
-          ensembleId: initialValues ? initialValues.ensembleName : adminEnsembleList.length === 1 ? adminEnsembleList[0].ensembleId : "",
+          ensembleId: initialValues ? initialValues.ensembleId : adminEnsembleList.length === 1 ? adminEnsembleList[0].ensembleId : "",
           eventTitle: initialValues ? initialValues.eventTitle :"", 
           concertProgram: initialValues ? initialValues.concertProgram : "",
           calls: initialValues

@@ -12,6 +12,7 @@ import ExternalLayout from '../../../components/layout/external';
 import LoadingLayout from '../../../components/layout/loading';
 import SignIn from '../../../components/layout/signIn';
 import Index404 from '../../../components/layout/components/index404';
+import { EventWithEnsemble } from '../../../components/event/eventDetail';
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
@@ -38,11 +39,10 @@ export default function EditEvent(props) {
   const handleSubmit = async(vals: EventWithCalls) => {
 
     const eventObj: Event = {
-      ensembleId: "",
       id: vals.id,
       createdAt: data.createdAt,
       updatedAt: new Date(),
-      ensembleName: vals.ensembleName,
+      ensembleId: vals.ensembleId,
       eventTitle: vals.eventTitle,
       concertProgram: vals.concertProgram,
       confirmedOrOnHold: vals.confirmedOrOnHold,
