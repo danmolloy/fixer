@@ -3,12 +3,14 @@ import { act, fireEvent, render, screen } from "@testing-library/react"
 import SettingsIndex, { SettingsIndexProps } from "../../../components/users/settings"
 import axios from "axios";
 import { mockUser } from "../../../__mocks__/models/user";
+import { mockAdminWithEnsemble } from "../../../__mocks__/models/ensembleAdmin";
 
 jest.mock("axios")
 const mockPost = jest.spyOn(axios, 'post');
 mockPost.mockResolvedValue({ data: {} });
 
 const mockProps: SettingsIndexProps = {
+  ensembleAdminList: [mockAdminWithEnsemble],
   user: {
     ...mockUser,
     blockedUsers: []
@@ -27,7 +29,7 @@ describe("<SettingsIndex />", () => {
     expect(settingsIndex).toBeInTheDocument()
   })
   it("header title is in the document", () => {
-    const settingsTitle = screen.getByText("Your Settings")
+    const settingsTitle = screen.getByText("Your Account")
     expect(settingsTitle).toBeInTheDocument()
   })
   it("personal-information is in the document", () => {
@@ -71,6 +73,8 @@ describe("<SettingsIndex />", () => {
 describe("<SettingsIndex />", () => {
   beforeEach(() => {
     const mockProps: SettingsIndexProps = {
+      ensembleAdminList: [mockAdminWithEnsemble],
+
       user: {
         ...mockUser,
         firstName: undefined,

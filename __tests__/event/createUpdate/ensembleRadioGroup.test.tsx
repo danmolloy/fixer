@@ -2,11 +2,12 @@ import "@testing-library/jest-dom"
 import EnsembleRadioGroup, { EnsembleRadioProps } from "../../../components/event/createUpdate/ensembleRadioGroup"
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Formik } from "formik"
+import { mockAdminWithEnsemble } from "../../../__mocks__/models/ensembleAdmin"
 
 const mockProps: EnsembleRadioProps = {
   isSubmitting: false,
-  ensemble: "TechDeck",
-  fixingEnsembles: ["BBC Concert", "London Symphony"]
+  fixingEnsembles: ["BBC Concert", "London Symphony"],
+  adminEnsembleList: [mockAdminWithEnsemble]
 }
 
 describe("<EnsembleRadioGroup />", () => {
@@ -24,33 +25,23 @@ describe("<EnsembleRadioGroup />", () => {
     expect(ensembleGroup).toHaveAttribute("role", "group")
   })
   it("all ensembles are in the document with correct label, type, name and value", () => {
-    for (let i = 0; i < mockProps.fixingEnsembles.length; i++) {
-      let ensembleInput = screen.getByLabelText(mockProps.fixingEnsembles[i])
+    for (let i = 0; i < mockProps.adminEnsembleList.length; i++) {
+      let ensembleInput = screen.getByLabelText(mockProps.adminEnsembleList[i].ensemble.name)
       expect(ensembleInput).toBeInTheDocument()
       expect(ensembleInput).toHaveAttribute("type", "radio")
-      expect(ensembleInput).toHaveAttribute("name", "ensemble")
-      expect(ensembleInput).toHaveAttribute("value", mockProps.fixingEnsembles[i])
+      expect(ensembleInput).toHaveAttribute("name", "ensembleId")
+      expect(ensembleInput).toHaveAttribute("value", mockProps.adminEnsembleList[i].ensembleId)
     }
   })
-  it("'other' radio option is in the document", () => {
-      let otherInput = screen.getByLabelText("Other")
-      expect(otherInput).toBeInTheDocument()
-      expect(otherInput).toHaveAttribute("type", "radio")
-      expect(otherInput).toHaveAttribute("name", "ensemble")
-      expect(otherInput).toHaveAttribute("value","Other")
-
-  })
-
-  it("if no fixingEnsembles added, there is a helpful message", () => {})
-  it("if no fixingEnsembles, it is just a text input", () => {})
 })
+
 
 describe("<EnsembleRadioGroup />", () => {
   beforeEach(() => {
     const mockProps: EnsembleRadioProps = {
       isSubmitting: false,
-      ensemble: "Other",
-      fixingEnsembles: ["BBC Concert", "London Symphony"]
+      fixingEnsembles: ["BBC Concert", "London Symphony"],
+      adminEnsembleList: []
     }
     render(
       <Formik initialValues={{}} onSubmit={() => {}}>
@@ -59,10 +50,15 @@ describe("<EnsembleRadioGroup />", () => {
         )}
       </Formik>)
   })
-  it("if other is selected, there is a corresponding text input which has expected ashtml, label, type and name", () => {
-    const otherTextInput = screen.getByLabelText("Ensemble Name")
-    expect(otherTextInput).toBeInTheDocument()
-    expect(otherTextInput).toHaveAttribute("type", "text")
-    expect(otherTextInput).toHaveAttribute("name", "ensembleName")
+  it("if no ensembles added, there is a helpful message and a link to create ensemble", () => {
+    const noEnsembles = screen.getByText("No ensembles listed.")
+    expect(noEnsembles).toBeInTheDocument()
+    const helpText = screen.getByTestId("help-text")
+    expect(helpText).toBeInTheDocument()
+    expect(helpText.textContent).toMatch("To make an event, you first need to create an ensemble.")
+    const ensembleLink = screen.getByTestId("create-ensemble-link")
+    expect(ensembleLink).toBeInTheDocument()
+    expect(ensembleLink.textContent).toMatch("create an ensemble")
+    expect(ensembleLink).toHaveAttribute("href", "/ensembles/edit")
   })
 })

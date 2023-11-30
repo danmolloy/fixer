@@ -3,22 +3,24 @@ import CallTile from "./callTile";
 import InfoDiv from "./infoDiv";
 import { EventWithCalls } from "./menu/calendarEventLink";
 import { DateTime } from "luxon";
+import { Ensemble } from '@prisma/client';
 
 
 export type EventInfoProps = {
   event: EventWithCalls
   userId: string
+  ensemble: Ensemble
 }
 
 
 export default function EventInfo(props: EventInfoProps) {
-  const { event, userId } = props
+  const { ensemble, event, userId } = props
 
   
   return (
     <tbody data-testid="event-info-div" className={" w-full  rounded-lg flex flex-col"}>
       <InfoDiv className="" id="event-status" title='Status' value={event.confirmedOrOnHold.toLocaleUpperCase()} />
-      <InfoDiv className="bg-slate-50" id="ensemble-name" title="Ensemble" value={event.ensembleName}/>
+      <InfoDiv className="bg-slate-50" id="ensemble-name" title="Ensemble" value={ensemble.name}/>
       <tr className="flex flex-col  md:flex-row p-4 w-full lg:items-center lg:justify-evenly ">
         <td className="text-slate-600 text-sm md:w-1/2">
           {props.event.calls.length} Call(s)

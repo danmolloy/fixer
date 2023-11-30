@@ -1,11 +1,11 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen } from "@testing-library/react"
 import CallTile, { CallTileProps } from "../../../components/calendar/CallList/callTile"
-import { mockCallWithEvent } from "../../../__mocks__/models/call"
+import { mockCallWithEventWithEnsemble } from "../../../__mocks__/models/call"
 import { DateTime } from "luxon"
 
 const mockProps: CallTileProps = {
-  eventCall: mockCallWithEvent
+  eventCall: mockCallWithEventWithEnsemble
 }
 
 describe("<EventCallTile />", () => {
@@ -17,7 +17,7 @@ describe("<EventCallTile />", () => {
     expect(callTile).toBeInTheDocument()
   })
   it("ensemble name is in the document", () => {
-    const ensembleName = screen.getByText(mockProps.eventCall.event.ensembleName)
+    const ensembleName = screen.getByText(mockProps.eventCall.event.ensemble.name)
     expect(ensembleName).toBeInTheDocument()
   })
   it("menu icon is in the document and renders menu on click", () => {

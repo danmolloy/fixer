@@ -3,7 +3,7 @@ import { render, screen, act, fireEvent } from "@testing-library/react"
 import NotificationTile, { NotificationTileProps } from "../../../components/users/notifications/notificationTile"
 import { mockPlayerCall } from "../../../__mocks__/models/playerCall"
 import { mockEventInstrument } from "../../../__mocks__/models/eventInstrument"
-import { mockEvent } from "../../../__mocks__/models/event"
+import { mockEvent, mockEventWithEnsemble } from "../../../__mocks__/models/event"
 import { DateTime } from "luxon"
 import axios from "axios";
 
@@ -18,7 +18,7 @@ const mockProps: NotificationTileProps = {
     accepted: null,
     eventInstrument: {
       ...mockEventInstrument,
-      event: mockEvent
+      event: mockEventWithEnsemble
     }
   }
 }
@@ -58,7 +58,7 @@ describe("<NotificationTile />", () => {
   it("ensemble name is in the document", () => {
     const ensembleName = screen.getByTestId("ensemble-name")
     expect(ensembleName).toBeInTheDocument()
-    expect(ensembleName.textContent).toMatch(mockProps.notification.eventInstrument.event.ensembleName)
+    expect(ensembleName.textContent).toMatch(mockProps.notification.eventInstrument.event.ensemble.name)
   })
   it("view event link is in the document", () => {
     const eventLink = screen.getByTestId("event-link")
@@ -100,7 +100,7 @@ describe("<NotificationTile />", () => {
         accepted: true,
         eventInstrument: {
           ...mockEventInstrument,
-          event: mockEvent
+          event: mockEventWithEnsemble
         }
       }
     }
@@ -122,7 +122,7 @@ describe("<NotificationTile />", () => {
         accepted: false,
         eventInstrument: {
           ...mockEventInstrument,
-          event: mockEvent
+          event: mockEventWithEnsemble
         }
       }
     }

@@ -1,14 +1,14 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen } from "@testing-library/react"
 import { DateTime } from "luxon"
-import { mockCall, mockCallWithEvent } from "../../../__mocks__/models/call"
+import { mockCall, mockCallWithEventWithEnsemble } from "../../../__mocks__/models/call"
 import CalendarDay, { CalendarDayProps } from "../../../components/calendar/monthCalendar/calendarDay"
 
 
 describe("<CalendarDay />", () => {
   const mockProps: CalendarDayProps = {
     calendarDayDate: DateTime.now(),
-    eventCalls: [mockCallWithEvent],
+    eventCalls: [mockCallWithEventWithEnsemble],
     selectedDate: DateTime.now(),
     setSelectedDate: jest.fn()
   }
@@ -41,7 +41,7 @@ describe("<CalendarDay />", () => {
     for (let i = 0; i < mockProps.eventCalls.length; i++) {
       let event = screen.getByTestId(`${mockProps.eventCalls[i].id}-preview`)
       expect(event).toBeInTheDocument()
-      expect(event.textContent).toMatch(mockProps.eventCalls[i].event.ensembleName)
+      expect(event.textContent).toMatch(mockProps.eventCalls[i].event.ensemble.name)
       let startTime = DateTime.fromJSDate(new Date(mockProps.eventCalls[i].startTime)).toFormat("ha") //hour in 12-hour time, no padding & meridiem
       expect(event.textContent).toMatch(String(startTime))
     }

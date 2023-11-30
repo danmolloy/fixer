@@ -2,12 +2,14 @@ import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
 import AccountPage from "../../pages/account"
 import { mockUser, mockUserWithCallsAndEvents } from "../../__mocks__/models/user";
+import { mockAdminWithEnsemble } from "../../__mocks__/models/ensembleAdmin";
 
 const mockSession = {
   user: mockUser,
   userData: {
     mockUserWithCallsAndEvents,
-    playerCalls: []
+    playerCalls: [],
+    admins: [mockAdminWithEnsemble]
   }
 }
 

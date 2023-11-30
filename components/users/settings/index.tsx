@@ -5,9 +5,11 @@ import PersonalInfo from './personalInfo';
 import AccountInfo, { UserWithBlockedPlayers } from './accountInfo';
 import ProfileInfo from './profileInfo';
 import { useState } from 'react';
+import { AdminWithEnsemble } from './accountInfo/ensembleAdmin';
 
 export type SettingsIndexProps = {
   user: UserWithBlockedPlayers
+  ensembleAdminList: AdminWithEnsemble[]
 }
 
 export type UserSettingsValues = {
@@ -24,7 +26,7 @@ export type UserSettingsValues = {
 
 
 export default function SettingsIndex(props: SettingsIndexProps) {
-  const { user } = props;
+  const { user, ensembleAdminList } = props;
   const [submitStatus, setSubmitStatus] = useState<string>("")
 
   const initialVals: UserSettingsValues = {
@@ -76,7 +78,7 @@ export default function SettingsIndex(props: SettingsIndexProps) {
         <h1>Your Account</h1>
         <PersonalInfo />
         <ProfileInfo />
-        <AccountInfo fixingEnsemblesList={props.values.fixingEnsembles} instrumentsList={props.values.instrumentsList} user={user}/>
+        <AccountInfo ensembleAdminList={ensembleAdminList} instrumentsList={props.values.instrumentsList} user={user}/>
 
         <button disabled={props.isSubmitting} type='submit' className='self-end bg-indigo-600 text-white disabled:bg-indigo-300 w-16 rounded py-1 hover:bg-indigo-500'>
           Submit

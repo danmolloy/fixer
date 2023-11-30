@@ -49,6 +49,7 @@ model User {
   mobileNumber  String?
   instrumentsList String[] 
   profileText String?
+  bulletinsAuthored     Bulletin[]
   blockedUsers BlockUser[] @relation("blockedUser")
   blockedBy BlockUser[] @relation("blockedBy")
   preferredMethod String?
@@ -60,6 +61,7 @@ model User {
   playerCalls   PlayerCall[]
   calls         Call[]
   ensembles EnsembleMember[]
+  extraWork EnsembleExtra[]
   admins EnsembleAdmin[]
 }
 
@@ -93,9 +95,8 @@ model Event {
   id                 Int      @id @default(autoincrement())
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-  ensembleName       String
-  ensembleId         String?
-  ensemble           Ensemble? @relation(fields: [ensembleId], references: [id])
+  ensembleId         String
+  ensemble           Ensemble @relation(fields: [ensembleId], references: [id])
   eventTitle         String @default("")
   concertProgram     String
   confirmedOrOnHold  String @default("On Hold")
@@ -162,7 +163,7 @@ model PlayerCall {
 model Ensemble {
   name String @unique
   id String @id @default(cuid())
-  members EnsembleMember[]
+  sections EnsembleSection[]
   admin EnsembleAdmin[]
   events Event[]
 }
@@ -174,18 +175,46 @@ model EnsembleAdmin {
   ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
   positionTitle String
   user User @relation(fields: [userId], references: [id])
-  approved Boolean @default(false)
+}
+
+model EnsembleSection {
+  id String @id @default(cuid())
+  name String
+  ensembleId String
+  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  members EnsembleMember[]
+  extras EnsembleExtra[]
+  bulletins Bulletin[]
 }
 
 model EnsembleMember {
   id String @id @default(cuid())
   ensembleId String
   userId String 
-  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
   positionNumber String
   positionTitle String
-  section String
-  doubles Boolean
+  sectionId String
+  section EnsembleSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id])
-  approved Boolean @default(false)
+}
+
+model EnsembleExtra {
+  id String @id @default(cuid())
+  ensembleId String
+  userId String 
+  positionNumber String
+  positionTitle String
+  sectionId String
+  section EnsembleSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Bulletin {
+  id String @id @default(cuid())
+  title String
+  body String
+  date DateTime @default(now())
+  sections EnsembleSection[]
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import { mockCallWithEvent } from "../../../__mocks__/models/call"
+import { mockCallWithEventWithEnsemble } from "../../../__mocks__/models/call"
 import { DateTime } from "luxon"
 import CalendarRow, { CalendarRowProps } from "../../../components/calendar/monthCalendar/calendarRow"
 
@@ -9,7 +9,7 @@ import CalendarRow, { CalendarRowProps } from "../../../components/calendar/mont
 describe("<CalendarRow />", () => {
   const mockProps: CalendarRowProps = {
     startOfWeekDate: DateTime.now().startOf("week"),
-    eventCalls: [mockCallWithEvent],
+    eventCalls: [mockCallWithEventWithEnsemble],
     selectedDate: DateTime.now(),
     setSelectedDate: jest.fn()
   }

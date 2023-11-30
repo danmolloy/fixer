@@ -80,6 +80,8 @@ export default function EditEvent(props) {
   return (
     <LayoutIndex>
       <CreateEventForm
+        adminEnsembleList={session.userData.admins}
+
       fixingEnsembles={session.userData.fixingEnsembles}
       createOrUpdate='Update'
        initialValues={data} 

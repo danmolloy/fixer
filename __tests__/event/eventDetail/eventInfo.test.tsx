@@ -5,10 +5,12 @@ import { mockEventWithCalls } from "../../../__mocks__/models/event"
 import { DateTime } from "luxon"
 import EventInfo, { EventInfoProps } from "../../../components/event/eventDetail/eventInfo"
 import { mockUserId } from "../../../__mocks__/models/user"
+import { mockEnsemble } from "../../../__mocks__/models/ensemble"
 
 const mockProps: EventInfoProps = {
   event: mockEventWithCalls,
-  userId: mockUserId
+  userId: mockUserId,
+  ensemble: mockEnsemble
 }
 
 describe("<EventInfo />", () => {
@@ -28,7 +30,7 @@ describe("<EventInfo />", () => {
   })
   it("ensemble name is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    expect(eventInfoDiv.textContent).toMatch(mockProps.event.ensembleName)
+    expect(eventInfoDiv.textContent).toMatch(mockProps.ensemble.name)
   })
   it("concert Program is in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
@@ -67,7 +69,8 @@ describe("<EventInfo />", () => {
     const mockEvent = mockEventWithCalls
     const mockProps: EventInfoProps = {
       event: mockEvent,
-      userId: mockEvent.fixerId
+      userId: mockEvent.fixerId,
+      ensemble: mockEnsemble
     }
     render(
       <table>

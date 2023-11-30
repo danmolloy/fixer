@@ -10,6 +10,7 @@ export const findEvent = async (uniqueId) => {
       id: uniqueId
     },
     include: {
+      ensemble: true,
       calls: true,
       instrumentSections: {
         include: {

@@ -1,7 +1,7 @@
 import { Call } from "@prisma/client";
 import { mockEventInstrument } from "./eventInstrument";
 import { faker } from "@faker-js/faker";
-import { CallWithEvent } from "../../components/calendar/monthCalendar/calendarDay";
+import { CallWithEventWithEnsemble } from "../../components/calendar/monthCalendar/calendarDay";
 import { mockEvent } from "./event";
 
 export const mockCall: Call = {
@@ -15,7 +15,13 @@ export const mockCall: Call = {
   fixerId: faker.string.uuid(),
 }
 
-export const mockCallWithEvent: CallWithEvent = {
+export const mockCallWithEventWithEnsemble: CallWithEventWithEnsemble = {
   ...mockCall,
-  event: mockEvent
+  event: {
+    ...mockEvent,
+    ensemble: {
+      name: faker.lorem.words(2),
+      id: faker.string.uuid()
+    }
+  },
 }

@@ -26,6 +26,12 @@ export const authOptions = ({
           id: user.id
         },
         include: {
+          ensembles: true,
+          admins: {
+            include: {
+              ensemble: true
+            }
+          },
           events: {
             include: {
               calls: true

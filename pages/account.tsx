@@ -22,7 +22,7 @@ export default function AccountPage() {
   return (
     <LayoutIndex pageTitle="Your Account">
       {session 
-      ? <SettingsIndex user={data} /> 
+      ? <SettingsIndex ensembleAdminList={session.userData.admins} user={data} /> 
       : <SignIn />}
     </LayoutIndex>
   )

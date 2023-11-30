@@ -11,9 +11,7 @@ export const mockEnsembleMember: EnsembleMember = {
   ensembleId: faker.string.uuid(),
   positionNumber: String(Math.ceil(Math.random() * 10)),
   positionTitle: faker.lorem.word(),
-  section: sectionsArr[Math.floor(Math.random() * sectionsArr.length)],
-  doubles: false,
-  approved: true,
+  sectionId: faker.string.uuid(),
 }
 
 export const mockEnsembleMemberWithUser: EnsembleMemberWithUser = {
@@ -21,9 +19,7 @@ export const mockEnsembleMemberWithUser: EnsembleMemberWithUser = {
   ensembleId: faker.string.uuid(),
   positionNumber: String(Math.ceil(Math.random() * 10)),
   positionTitle: faker.lorem.word(),
-  section: sectionsArr[Math.floor(Math.random() * sectionsArr.length)],
-  doubles: false,
-  approved: true,
+  sectionId: faker.string.uuid(),
   userId: mockUserId,
   user: {
     id: faker.string.uuid(),

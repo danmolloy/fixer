@@ -1,7 +1,8 @@
-import { Prisma } from "@prisma/client"
+import { Ensemble, Prisma } from "@prisma/client"
 import { Field } from "formik"
 import InstrumentsList from "./instrumentsList"
 import FixingEnsembles from "./fixingEnsembles"
+import EnsembleAdmin, { AdminWithEnsemble } from "./ensembleAdmin"
 
 export type UserWithBlockedPlayers = Prisma.UserGetPayload<{
   include: {
@@ -12,15 +13,15 @@ export type UserWithBlockedPlayers = Prisma.UserGetPayload<{
 export type AccountInfoProps = {
   user: UserWithBlockedPlayers
   instrumentsList: string[]
-  fixingEnsemblesList: string[]
+  ensembleAdminList: AdminWithEnsemble[]
 }
 
 export default function AccountInfo(props: AccountInfoProps) {
-  const { user, instrumentsList, fixingEnsemblesList } = props;
+  const { user, instrumentsList, ensembleAdminList } = props;
   return (
     <div data-testid="account-info" className="p-1 my-8 flex flex-col items-center w-full">
       <InstrumentsList instrumentsList={instrumentsList} />
-      <FixingEnsembles fixingEnsemblesList={fixingEnsemblesList} />
+      <EnsembleAdmin ensembleAdminList={ensembleAdminList} />
     </div>
   )
 }

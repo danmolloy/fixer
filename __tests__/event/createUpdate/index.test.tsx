@@ -4,6 +4,8 @@ import CreateEventForm, { CreateEventFormProps } from "../../../components/event
 import React from "react"; 
 import axios from "axios";
 import { mockMessage } from "../../../__mocks__/models/messages";
+import { mockAdminWithEnsemble } from "../../../__mocks__/models/ensembleAdmin";
+import { mockEnsemble } from "../../../__mocks__/models/ensemble";
 
 jest.mock("axios")
 const mockPost = jest.spyOn(axios, 'post');
@@ -11,6 +13,7 @@ mockPost.mockResolvedValue({ data: {} });
 
 const mockProps: CreateEventFormProps = {
   fixingEnsembles: ["BBCSO"],
+  adminEnsembleList: [mockAdminWithEnsemble],
   handleSubmit: jest.fn(),
   userId: "mockId",
   userName: "mockName",
@@ -96,7 +99,10 @@ describe("<CreateEvent />", () => {
 
 describe("<CreateEvent />", () => {
   beforeEach(() => {
-      render(<CreateEventForm {...mockProps} />)
+      render(<CreateEventForm {...{
+        ...mockProps, 
+        adminEnsembleList: [mockAdminWithEnsemble, {...mockAdminWithEnsemble, ensembleId: mockEnsemble.id, ensemble: {...mockEnsemble}}],
+      }} />)
   })
   it("if incomplete on create btn click, all expected error msgs show", async () => {
     const submitBtn = screen.getByText(/^Submit$/)
@@ -110,7 +116,7 @@ describe("<CreateEvent />", () => {
     const confirmStatusErr = screen.getByTestId("confirmedOrOnHold-error")
     expect(confirmStatusErr).toBeInTheDocument()
     expect(confirmStatusErr.textContent).toMatch("Event confirmation status required")
-    const ensembleErr= screen.getByTestId("ensemble-error");
+    const ensembleErr= screen.getByTestId("ensembleId-error");
     expect(ensembleErr.textContent).toMatch("Select ensemble")
     const eventTitleErr = screen.getByTestId("eventTitle-error")
     expect(eventTitleErr.textContent).toMatch("Event title required")
@@ -122,15 +128,12 @@ describe("<CreateEvent />", () => {
     expect(callZeroEndErr.textContent).toMatch("Call end time required")
     const callZeroVenueErr = screen.getByTestId("calls.0.venue-error")
     expect(callZeroVenueErr.textContent).toMatch("Venue required")
-    let otherEnsemble = screen.getByLabelText("Other")
-    await act(async () => {
-      await fireEvent.click(otherEnsemble)
-    })
+
     await act(async () => {
       fireEvent.click(submitBtn)
     })
-    const ensembleNameErr = screen.getByTestId("ensembleName-error")
-    expect(ensembleNameErr.textContent).toMatch("Ensemble name required")
+    const ensembleNameErr = screen.getByTestId("ensembleId-error")
+    expect(ensembleNameErr.textContent).toMatch("Select ensemble")
   })
 
 })
@@ -150,7 +153,7 @@ describe("<CreateEvent />", () => {
     const fee = "mockFee"
     const additionalInfo = "mockAddedInfo"
 
-    const ensemble = screen.getByLabelText(mockProps.fixingEnsembles[0])
+    const ensemble = screen.getByLabelText(mockProps.adminEnsembleList[0].ensemble.name)
     await act(async () => {
       await fireEvent.click(ensemble)
     })
@@ -207,7 +210,25 @@ describe("<CreateEvent />", () => {
     await act(async () => {
       await fireEvent.click(submitBtn)
     })
-    expect(mockProps.handleSubmit).toHaveBeenCalled()
+    expect(mockProps.handleSubmit).toHaveBeenCalledWith({
+      additionalInfo,
+      calls: [{
+        endTime: "2023-11-14T12:34",
+        startTime: "2023-11-14T12:34",
+        venue: "mockVenue",
+        info: "",
+        id: 0
+      }],
+      concertProgram,
+      fee,
+      dressCode,
+      eventTitle,
+      confirmedOrOnHold: "Confirmed",
+      fixerId: mockProps.userId,
+      id: "",
+      fixerName: mockProps.userName,
+      ensembleId: mockProps.adminEnsembleList[0].ensembleId
+    })
     const createEventForm = screen.getByTestId("create-event-form")
     expect(createEventForm.textContent).not.toMatch("Please revise your form. Errors are stated in red.")
 

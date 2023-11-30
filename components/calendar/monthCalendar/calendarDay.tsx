@@ -1,15 +1,19 @@
 import { Call, Prisma } from "@prisma/client";
 import { DateTime } from "luxon";
 
-export type CallWithEvent = Prisma.CallGetPayload<{
+export type CallWithEventWithEnsemble = Prisma.CallGetPayload<{
   include: {
-    event: true
+    event: {
+      include: {
+        ensemble: true
+      }
+    }
   }
 }>
 
 
 export type CalendarDayProps = {
-  eventCalls: CallWithEvent[]
+  eventCalls: CallWithEventWithEnsemble[]
   calendarDayDate: DateTime
   selectedDate: DateTime
   setSelectedDate: (arg: DateTime) => void
@@ -26,7 +30,7 @@ export default function CalendarDay(props: CalendarDayProps) {
         </h3>
         {eventCalls.map(i => (
           <p key={i.id} data-testid={`${i.id}-preview`} className="text-xs">
-            {i.event.ensembleName} {DateTime.fromJSDate(new Date(i.startTime)).toFormat("ha")}
+            {i.event.ensemble.name} {DateTime.fromJSDate(new Date(i.startTime)).toFormat("ha")}
           </p>
         ))}
       </button>

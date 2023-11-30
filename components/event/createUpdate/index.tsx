@@ -9,6 +9,7 @@ import ButtonPrimary from "../../layout/components/buttonPrimary"
 import EnsembleRadioGroup from './ensembleRadioGroup';
 import ConfirmedOrOnHold from './confirmedOrOnHold';
 import { Prisma } from '@prisma/client';
+import { AdminWithEnsemble } from '../../users/settings/accountInfo/ensembleAdmin';
 
 export type EventWithCallsAndInstruments = Prisma.EventGetPayload<{
   include: {
@@ -20,6 +21,7 @@ export type EventWithCallsAndInstruments = Prisma.EventGetPayload<{
 
 export type CreateEventFormProps = {
   fixingEnsembles: string[]
+  adminEnsembleList: AdminWithEnsemble[]
   handleSubmit: (vals: any) => void
   initialValues?: EventWithCallsAndInstruments
   userId: string
@@ -28,7 +30,7 @@ export type CreateEventFormProps = {
 }
 
 export default function CreateEventForm(props: CreateEventFormProps) {
-  const { createOrUpdate, fixingEnsembles, handleSubmit, initialValues, userId, userName } = props
+  const { createOrUpdate, adminEnsembleList, fixingEnsembles, handleSubmit, initialValues, userId, userName } = props
   const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
 
   const EventSchema = Yup.object().shape({
@@ -36,11 +38,12 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     fixerId: Yup.string().required("Fixer ID required"),
     id: Yup.string(),
     confirmedOrOnHold: Yup.string().required("Event confirmation status required"),
-    ensemble: Yup.string().required('Select ensemble'),
-    ensembleName: Yup.string().when("ensemble", {
+/*     ensemble: Yup.string().required('Select ensemble'),
+ */    ensembleId: Yup.string().required('Select ensemble'),
+/*     ensembleName: Yup.string().when("ensemble", {
       is: "Other",
       then: (schema) => schema.required("Ensemble name required"),
-    }),
+    }), */
     eventTitle: Yup.string().required('Event title required'),
     concertProgram: Yup.string().required('Concert program required'),
     calls: Yup.array().of(Yup.object({
@@ -64,8 +67,9 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           fixerId: userId,
           id: initialValues ? initialValues.id : "",
           confirmedOrOnHold: initialValues ? initialValues.confirmedOrOnHold : "",
-          ensemble: initialValues ? "Other" : "",
-          ensembleName: initialValues ? initialValues.ensembleName :"", 
+/*           ensemble: initialValues ? "Other" : "",
+          ensembleName: initialValues ? initialValues.ensembleName :"",  */
+          ensembleId: initialValues ? initialValues.ensembleName : adminEnsembleList.length === 1 ? adminEnsembleList[0].ensembleId : "",
           eventTitle: initialValues ? initialValues.eventTitle :"", 
           concertProgram: initialValues ? initialValues.concertProgram : "",
           calls: initialValues
@@ -88,9 +92,9 @@ export default function CreateEventForm(props: CreateEventFormProps) {
         }}
         validationSchema={EventSchema}
         onSubmit={(values, actions) => {
-          if (values.ensemble === "Other") {
+          /* if (values.ensemble === "Other") {
             values.ensemble = values.ensembleName
-          }
+          } */
           actions.setSubmitting(true);
           handleSubmit(values);
           //actions.setSubmitting(false);
@@ -107,8 +111,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               
               <div className='flex flex-col sm:items-center w-full sm:flex-row '>
                 <EnsembleRadioGroup 
+                  adminEnsembleList={adminEnsembleList}
                   fixingEnsembles={fixingEnsembles}
-                  ensemble={props.values.ensemble}
                   isSubmitting={props.isSubmitting} />
                   <ConfirmedOrOnHold setConfirmedOrOnHold={(e) => setConfirmedOrOnHold(e)} confirmedOrOnHold={confirmedOrOnHold} />
                 </div>

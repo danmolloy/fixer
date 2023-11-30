@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react"
 import AccountInfo, { AccountInfoProps } from "../../../../components/users/settings/accountInfo"
 import { mockUser } from "../../../../__mocks__/models/user"
 import { Formik } from "formik"
+import { mockAdminWithEnsemble } from "../../../../__mocks__/models/ensembleAdmin"
 
 const mockProps: AccountInfoProps = {
   user: {
@@ -10,7 +11,7 @@ const mockProps: AccountInfoProps = {
     blockedUsers: []
   },
   instrumentsList: ["Horn"], 
-  fixingEnsemblesList: ["BBC Concert Orchestra"]
+  ensembleAdminList: [mockAdminWithEnsemble]
 }
 
 describe("<AccountInfo />", () => {
@@ -31,9 +32,9 @@ describe("<AccountInfo />", () => {
     const instrumentsList = screen.getByTestId("instruments-list")
     expect(instrumentsList).toBeInTheDocument()
   })
-  it("fixing-ensembles input is in the document", () => {
-    const fixingEnsembles = screen.getByTestId("fixing-ensembles")
-    expect(fixingEnsembles).toBeInTheDocument()
+  it("ensemble-admin is in the document", () => {
+    const ensembleAdmin = screen.getByTestId("ensemble-admin")
+    expect(ensembleAdmin).toBeInTheDocument()
   })
   //it("passes currect values to children", () => {})
   //it("blocked players list and btn to render blockPlayers selection is in the document", () => {})

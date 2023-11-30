@@ -6,11 +6,15 @@ import DayView from "./views/dayView"
 import MonthView from "./views/monthView"
 import YearView from "./views/yearView"
 
-export type UserWithEventsAndCalls = Prisma.UserGetPayload<{
+export type UserWithEventsAndCallsWithEnsemble = Prisma.UserGetPayload<{
   include: {
     calls: {
       include: {
-        event: true
+        event: {
+          include: {
+            ensemble: true
+          }
+        }
       },
     },
     events: {
@@ -22,7 +26,7 @@ export type UserWithEventsAndCalls = Prisma.UserGetPayload<{
 }>
 
 export type CalendarIndexProps  = {
-  data: UserWithEventsAndCalls
+  data: UserWithEventsAndCallsWithEnsemble
 }
 
 export default function CalendarIndex(props: CalendarIndexProps) {

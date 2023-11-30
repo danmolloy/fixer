@@ -7,18 +7,22 @@ import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { DateTime } from "luxon";
 
-export type PlayerCallWithEvent = Prisma.PlayerCallGetPayload<{
+export type PlayerCallWithEventWithEnsemble = Prisma.PlayerCallGetPayload<{
   include: {
     eventInstrument: {
       include: {
-        event: true
+        event: {
+          include: {
+            ensemble: true
+          }
+        }
       }
     }
   }
 }>
 
 export type NotificationTileProps = {
-  notification: PlayerCallWithEvent,
+  notification: PlayerCallWithEventWithEnsemble,
   mutate: () => void
 }
 
@@ -55,7 +59,7 @@ export default function NotificationTile(props: NotificationTileProps) {
         {notification.eventInstrument.event.eventTitle} 
         </p>
         <p data-testid="ensemble-name">
-        with {notification.eventInstrument.event.ensembleName}
+        with {notification.eventInstrument.event.ensemble.name}
         </p>
         <div className="flex flex-row justify-evenly my-4">
           <Link data-testid="event-link" href={`/event/${notification.eventInstrument.eventId}`}>

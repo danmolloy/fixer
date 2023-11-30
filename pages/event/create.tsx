@@ -28,6 +28,7 @@ export default function Create() {
     <LayoutIndex >
       {session 
       ? <CreateEventForm 
+        adminEnsembleList={session.userData.admins}
         createOrUpdate="Create"
         handleSubmit={(vals) => handleSubmit(vals)}
         userId={session.user.id}

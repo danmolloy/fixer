@@ -5,6 +5,7 @@ import { DateTime } from "luxon"
 import { mockCall } from "../../../__mocks__/models/call"
 
 const mockProps: YearViewProps = {
+  setSelectedView: jest.fn(),
   selectedDate: DateTime.now(),
   setSelectedDate: jest.fn(),
   eventCalls: [mockCall]

@@ -1,13 +1,13 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import { DateTime } from "luxon"
-import { mockCall, mockCallWithEvent } from "../../../__mocks__/models/call"
+import { mockCall, mockCallWithEventWithEnsemble } from "../../../__mocks__/models/call"
 import MonthCalendar, { MonthCalendarProps } from "../../../components/calendar/monthCalendar"
 
 const mockProps: MonthCalendarProps = {
   selectedDate: DateTime.now(),
   setSelectedDate: jest.fn(),
-  eventCalls: [mockCallWithEvent]
+  eventCalls: [mockCallWithEventWithEnsemble]
 
 }
 

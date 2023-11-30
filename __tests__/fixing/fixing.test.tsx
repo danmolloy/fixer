@@ -166,26 +166,6 @@ describe("<Fixing />", () => {
 })
 
 describe("Upcoming..", () => {
-  it("Naming an orchestra you fix for creates or updates an ensemble model in the DB", () => {})
-  it("ensembles have the following shape",() => {
-    /* model Ensemble {
-      name: string (unique)
-      id: string (unique id)
-      members: ensembleMember[]
-      admin: User[]
-      events: Event[]
-    } */
-
-    /* model ensembleMember {
-      positionNumber: 1|2|3|4|tutti|extra
-      positionTitle: string
-      section: string
-      doubles: boolean
-      ensemble: Ensemble[]
-      user: User[]
-      approved: true //admin need to approve this person!
-    } */
-  })
   it("there is an ensemble management page", () => {})
   it("on ensemble management page, players/management can contact all members", () => {})
   it("ensemble page: management can adjust orchestra list for default in instrumentTile", () => {})
@@ -194,6 +174,7 @@ describe("Upcoming..", () => {
   it("instrument tile for ensemble gig has list of permanent players", () => {})
   it("fixer can automatically book players for a gig on their behalf ie permanent players", () => {})
   it("instrumentTile has list of extras which you can select", () => {})
+  
   it("the default is sending offers and updates via email", () => {})
   it("as well as email, text messages sent if something makes references to a current event/event starting in less than 48 hrs", () => {})
 

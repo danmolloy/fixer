@@ -1,6 +1,6 @@
 import { Prisma, User } from "@prisma/client";
 import {faker} from '@faker-js/faker'
-import { UserWithEventsAndCalls } from "../../components/calendar"; 
+import { UserWithEventsAndCallsWithEnsemble } from "../../components/calendar"; 
 
 export const mockUserId = faker.string.uuid()
 
@@ -21,7 +21,7 @@ export const mockUser: User = {
 
 
 
-export const mockUserWithCallsAndEvents: UserWithEventsAndCalls = {
+export const mockUserWithCallsAndEvents: UserWithEventsAndCallsWithEnsemble = {
   id: mockUserId,
   name: faker.person.fullName(),
   email: faker.internet.email(),
@@ -44,10 +44,10 @@ export const mockUserWithCallsAndEvents: UserWithEventsAndCalls = {
     eventId: faker.number.int(),
     fixerId: faker.string.uuid(),
     event: {
+      ensembleId: faker.string.uuid(),
       id: faker.number.int(),
   createdAt: new Date("2025-10-10T14:48:00"),
   updatedAt: new Date("2025-10-10T14:48:00"),
-  ensembleName: faker.lorem.words(),
   eventTitle: faker.lorem.words(),
   concertProgram: faker.lorem.words(),
   confirmedOrOnHold: Math.random() > .5 ? "confirmed" : "onHold",
@@ -55,14 +55,18 @@ export const mockUserWithCallsAndEvents: UserWithEventsAndCalls = {
   fee: faker.lorem.words(),
   additionalInfo: faker.lorem.words(),
   fixerId: faker.string.uuid(),
-  fixerName: faker.person.fullName()
+  fixerName: faker.person.fullName(),
+  ensemble: {
+    name: faker.lorem.words(2),
+    id: faker.string.uuid()
+  }
     }
   }],
   events: [{
+    ensembleId: faker.string.uuid(),
     id: faker.number.int(),
     createdAt: new Date("2025-10-10T14:48:00"),
     updatedAt: new Date("2025-10-10T14:48:00"),
-    ensembleName: faker.lorem.words(),
     eventTitle: faker.lorem.words(),
     concertProgram: faker.lorem.words(),
     confirmedOrOnHold: Math.random() > .5 ? "confirmed" : "onHold",

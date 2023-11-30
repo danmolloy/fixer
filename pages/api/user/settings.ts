@@ -9,7 +9,12 @@ const findUser = async (userId: string) => {
       id: userId
     },
     include: {
-      blockedUsers: true
+      blockedUsers: true,
+      admins: {
+        include: {
+          ensemble: true
+        }
+      }
     }
   })
 }

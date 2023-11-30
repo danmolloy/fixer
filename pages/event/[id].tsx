@@ -50,6 +50,7 @@ export default function Event() {
         </>
       : session 
       ? <EventDetail 
+        ensemble={data.ensemble}
         event={data}
         session={session} />  
         :         <SignIn />

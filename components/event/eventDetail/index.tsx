@@ -4,16 +4,23 @@ import FixerMenu from './menu/fixerMenu';
 import PlayerMenu from './menu/playerMenu';
 import EventInfo from "./eventInfo";
 import DetailHeader from "./detailHeader";
+import { Ensemble, Prisma } from "@prisma/client";
 
+export type EventWithEnsemble = Prisma.EventGetPayload<{
+  include: {
+    ensemble: true
+  }
+}>
 
 export type EventDetailProps = {
   event: EventWithCalls
   session: any
+  ensemble: Ensemble
 }
 
 
 export default function EventDetail(props: EventDetailProps) {
-  const { event, session } = props
+  const { ensemble, event, session } = props
   const [showOptions, setShowOptions] = useState<boolean>(false)
 
   
@@ -26,7 +33,7 @@ export default function EventDetail(props: EventDetailProps) {
       }
       <table className="flex flex-col items-center w-[96vw] lg:w-1/2">
         <DetailHeader showMenu={showOptions} setShowMenu={(arg) => setShowOptions(arg)} eventTitle={event.eventTitle} />
-        <EventInfo userId={session.user.id} event={event} />
+        <EventInfo ensemble={ensemble} userId={session.user.id} event={event} />
       </table>
   </div>
   )

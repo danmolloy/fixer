@@ -5,9 +5,11 @@ import React from "react"
 import { mockEventWithCalls } from "../../../__mocks__/models/event"
 import { DateTime } from "luxon"
 import { mockUserId } from "../../../__mocks__/models/user"
+import { mockEnsemble } from "../../../__mocks__/models/ensemble"
 
 const mockProps: EventDetailProps = {
   event: mockEventWithCalls,
+  ensemble: mockEnsemble,
   session: {
     user: {
       id: mockUserId
@@ -39,7 +41,8 @@ describe("<EventDetail />", () => {
 describe("<EventDetail />", () => {
   beforeEach(() => {
     const mockId = mockUserId
-    const mockProps: EventDetailProps = {
+    const mockProps: EventDetailProps = {  
+      ensemble: mockEnsemble,
       event: {...mockEventWithCalls, fixerId: mockId},
       session: {
         user: {
@@ -64,6 +67,7 @@ describe("<EventDetail />", () => {
   beforeEach(() => {
     const mockId = mockUserId
     const mockProps: EventDetailProps = {
+      ensemble: mockEnsemble,
       event: mockEventWithCalls,
       session: {
         user: {

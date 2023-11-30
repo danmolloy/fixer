@@ -2,14 +2,14 @@ import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import CallList, { CallListProps } from "../../../components/calendar/CallList"
 import { DateTime } from "luxon"
-import { mockCallWithEvent } from "../../../__mocks__/models/call"
+import { mockCallWithEventWithEnsemble } from "../../../__mocks__/models/call"
 
 
 
 describe("<CallList />", () => {
   const mockProps: CallListProps = {
     selectedDate: DateTime.now().plus({days: 1}),
-    eventCalls: [mockCallWithEvent]
+    eventCalls: [mockCallWithEventWithEnsemble]
   }
   beforeEach(() => {
     render(<CallList {...mockProps} />)
@@ -30,7 +30,7 @@ describe("<CallList />", () => {
 })
 
 describe("<CallList />", () => {
-  const mockEvent = mockCallWithEvent
+  const mockEvent = mockCallWithEventWithEnsemble
   const mockProps: CallListProps = {
     selectedDate: DateTime.fromJSDate(new Date(mockEvent.startTime)),
     eventCalls: [mockEvent]

@@ -22,7 +22,7 @@ const formattedSections = () => {
 
 const eventObj = (obj) => {
   return {
-    ensemble: obj.ensemble,
+    ensembleId: obj.ensembleId,
     eventTitle: obj.eventTitle,
     concertProgram: obj.concertProgram,
     confirmedOrOnHold: obj.confirmedOrOnHold,
@@ -41,7 +41,11 @@ const createEvent = async(eventObj) => {
   
   return await prisma.event.create({
     data: {
-      ensembleName: eventObj.ensemble,
+      ensemble: {
+        connect: {
+          id: eventObj.ensembleId,
+        }
+      },
       eventTitle: eventObj.eventTitle,
       concertProgram: eventObj.concertProgram,
       confirmedOrOnHold: eventObj.confirmedOrOnHold,
@@ -66,7 +70,7 @@ export default async function handle(req, res) {
     //fixer, 
     fixerId,
     fixerName,
-    ensemble,
+    ensembleId,
     eventTitle,
     concertProgram,
     confirmedOrOnHold,
@@ -77,7 +81,7 @@ export default async function handle(req, res) {
   } = req.body
 
   let createEventArg = eventObj({
-    ensemble,
+    ensembleId,
     eventTitle,
     concertProgram,
     confirmedOrOnHold,

@@ -31,7 +31,7 @@ describe("formattedSections function", () => {
 describe("eventObj function", () => {
   it("Returns expected value", () => {
     const eventObjArg = {
-      ensemble: mockEventWithCalls.ensembleName,
+      ensembleId: mockEventWithCalls.ensembleId,
       eventTitle: mockEventWithCalls.eventTitle,
       concertProgram: mockEventWithCalls.concertProgram,
       confirmedOrOnHold: mockEventWithCalls.confirmedOrOnHold,
@@ -45,7 +45,7 @@ describe("eventObj function", () => {
     }
     expect(eventObj(eventObjArg)).toEqual({
       eventTitle: eventObjArg.eventTitle,
-      ensemble: eventObjArg.ensemble,
+      ensembleId: eventObjArg.ensembleId,
       concertProgram: eventObjArg.concertProgram,
       confirmedOrOnHold: eventObjArg.confirmedOrOnHold,
       formattedCalls: formattedCalls(eventObjArg.calls, eventObjArg.fixerId),

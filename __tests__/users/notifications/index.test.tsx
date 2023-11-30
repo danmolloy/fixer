@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react"
 import NotificationsIndex, { NotificationsIndexProps } from "../../../components/users/notifications"
 import { mockPlayerCall } from "../../../__mocks__/models/playerCall"
 import { mockEventInstrument } from "../../../__mocks__/models/eventInstrument"
-import { mockEvent } from "../../../__mocks__/models/event"
+import { mockEvent, mockEventWithEnsemble } from "../../../__mocks__/models/event"
 
 describe("<NotificationsIndex />", () => {
   const mockProps: NotificationsIndexProps = {
@@ -13,7 +13,7 @@ describe("<NotificationsIndex />", () => {
       accepted: null,
       eventInstrument: {
         ...mockEventInstrument,
-        event: mockEvent
+        event: mockEventWithEnsemble
     }}]
   }
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe("<NotificationsIndex />", () => {
       accepted: false,
       eventInstrument: {
         ...mockEventInstrument,
-        event: mockEvent
+        event: mockEventWithEnsemble
     }}]
   }
   beforeEach(() => {

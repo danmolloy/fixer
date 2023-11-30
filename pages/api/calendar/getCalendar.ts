@@ -10,7 +10,11 @@ const getCalendar = async (userId: string) => {
     include: {
       calls: {
         include: {
-          event: true
+          event: {
+            include: {
+              ensemble: true
+            }
+          }
         }
       },
       events: {

@@ -1,9 +1,9 @@
 import { DateTime } from "luxon";
-import { CallWithEvent } from "../monthCalendar/calendarDay";
+import { CallWithEventWithEnsemble } from "../monthCalendar/calendarDay";
 import CallTile from "./callTile";
 
 export type CallListProps = {
-  eventCalls: CallWithEvent[]
+  eventCalls: CallWithEventWithEnsemble[]
   selectedDate: DateTime
 }
 
