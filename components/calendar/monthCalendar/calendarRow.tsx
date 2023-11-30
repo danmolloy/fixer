@@ -1,9 +1,9 @@
 import { Call } from "@prisma/client"
 import { DateTime } from "luxon"
-import DayBlock, { CallWithEvent } from "./calendarDay"
+import DayBlock, { CallWithEventWithEnsemble } from "./calendarDay"
 
 export type CalendarRowProps = {
-  eventCalls: CallWithEvent[]
+  eventCalls: CallWithEventWithEnsemble[]
   selectedDate: DateTime
   setSelectedDate: (arg: DateTime) => void
   startOfWeekDate: DateTime
