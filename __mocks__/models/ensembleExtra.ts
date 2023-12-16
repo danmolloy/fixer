@@ -1,17 +1,11 @@
-import { EnsembleMember, Prisma, User } from "@prisma/client";
+import { EnsembleExtra, Prisma, User } from "@prisma/client";
 import {faker} from '@faker-js/faker'
 import { sectionsArr } from "../../components/fixing/fixing";
-import { EnsembleMemberWithUser } from "../../components/fixing/instrument/ensembleMembers/memberTile";
+import { SectionExtraWithUser } from "../../components/ensemble/sections/sectionExtra";
 
 const mockUserId = faker.string.uuid()
 
-export const mockFormPlayer = {
-  id: faker.string.uuid(),
-  name: faker.person.fullName(),
-  positionTitle: faker.lorem.word()
-}
-
-export const mockEnsembleMember: EnsembleMember = {
+export const mockEnsembleExtra: EnsembleExtra = {
   id: faker.string.uuid(),
   userId: faker.string.uuid(),
   ensembleId: faker.string.uuid(),
@@ -20,7 +14,7 @@ export const mockEnsembleMember: EnsembleMember = {
   sectionId: faker.string.uuid(),
 }
 
-export const mockEnsembleMemberWithUser: EnsembleMemberWithUser = {
+export const mockEnsembleExtraWithUser: SectionExtraWithUser = {
   id: faker.string.uuid(),
   ensembleId: faker.string.uuid(),
   positionNumber: String(Math.ceil(Math.random() * 10)),

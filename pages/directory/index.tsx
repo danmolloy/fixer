@@ -1,9 +1,7 @@
 import PlayerDirectory from "../../components/directory/playerDirectory";
-import prisma from "../../client";
 import useSWR from "swr";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import LandingPage from "../../components/externalSite/landingPage";
 import LayoutIndex from "../../components/layout";
 import SignIn from "../../components/layout/signIn";
 

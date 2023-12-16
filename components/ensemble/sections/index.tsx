@@ -1,5 +1,7 @@
 import { Prisma } from "@prisma/client"
 import EnsembleSection from "./ensembleSection"
+import CreateSection from "./edit"
+import useSWR from "swr"
 
 export type SectionWithPlayersAndBulletins = Prisma.EnsembleSectionGetPayload<{
   include: {
@@ -17,17 +19,25 @@ export type SectionWithPlayersAndBulletins = Prisma.EnsembleSectionGetPayload<{
   }
 }>
 
+const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
+
 export type EnsembleSectionsProps = {
   sections: SectionWithPlayersAndBulletins[]
+  ensembleId: string
 }
 
 export default function EnsembleSections(props: EnsembleSectionsProps) {
-  const { sections } = props
+  const { sections, ensembleId } = props
+  const { data, error, /* isLoading */ } = useSWR('/api/user/findAll', fetcher)
+
+  
+
   return (
-    <div data-testid="ensemble-sections">
+    <div data-testid="ensemble-sections" className="flex flex-col items-center w-screen">
       {sections.map(i => (
         <EnsembleSection section={i} key={i.id} />
       ))}
+      {data && <CreateSection ensembleId={ensembleId} directory={data} />}
     </div>
   )
 }

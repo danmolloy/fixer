@@ -12,12 +12,13 @@ export type EnsembleIndexProps = {
 export default function EnsembleIndex(props: EnsembleIndexProps) {
   const { ensemble, sections } = props;
   return (
-    <div data-testid="ensemble-index">
-      <h1>{ensemble.name}</h1>
+    <div data-testid="ensemble-index" className="p-2">
+      <h1 className="m-4">{ensemble.name}</h1>
+
       <EnsembleBulletins />
       <EnsembleManagement />
       <EnsembleCalendar />
-      <EnsembleSections sections={sections}/>
+      <EnsembleSections ensembleId={ensemble.id} sections={sections}/>
     </div>
   )
 }

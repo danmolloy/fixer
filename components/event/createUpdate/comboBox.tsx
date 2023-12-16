@@ -12,18 +12,26 @@ export interface ComboBoxProps extends TextInputProps {
     textPrimary: string 
     textSecondary?: string
   }[]
-  setValue: (value: string) => void
-  name: string
+  setValue: (value: string|{
+    textPrimary: string
+    id: string
+  }) => void
+  name: string // formik field name
   label: string
   optional: boolean
+  includeId?: boolean
 }
 
 export default function ComboBox(props: ComboBoxProps) {
-  const { options, name, id, className, label, asHtml, type, min, max, optional, propsValue, setValue } = props;
+  const { includeId, options, name, id, className, label, asHtml, type, min, max, optional, propsValue, setValue } = props;
   let regEx = new RegExp(propsValue, "gi");
 
-  const handleSelect = (venue) => {
-    setValue(venue)
+  const handleSelect = (selectedVal: {textPrimary: string, id: string}) => {
+    if (includeId) {
+      setValue(selectedVal)
+    } else {
+      setValue(selectedVal.textPrimary)
+    }
   }
   
   return (
@@ -49,7 +57,7 @@ export default function ComboBox(props: ComboBoxProps) {
           &&
         <div data-testid="combo-options-div" className="mt-16 w-[88vw] md:w-[66vw] lg:w-[45vw] bg-white absolute p-1 border rounded shadow">
           {options.filter(i => i.textPrimary.match(regEx)).map(i => (
-            <button className=" w-full text-start p-1 hover:bg-indigo-600 hover:text-white" key={i.id} onClick={() => handleSelect(i.textPrimary)}>
+            <button className=" w-full text-start p-1 hover:bg-indigo-600 hover:text-white" key={i.id} onClick={() => handleSelect(i)}>
               {i.textPrimary}
             </button>
           ))}

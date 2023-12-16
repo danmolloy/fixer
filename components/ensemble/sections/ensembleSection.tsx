@@ -9,16 +9,16 @@ export type EnsembleSectionProps = {
 export default function EnsembleSection(props: EnsembleSectionProps) {
   const { section } = props
   return (
-    <div data-testid="ensemble-section">
+    <div data-testid="ensemble-section" className="border rounded p-2 w-full my-2">
       <h3>{section.name}</h3>
-      <div data-testid="section-members">
-        <p>Members</p>
+      <div data-testid="section-members" className=" rounded p-2 w-full my-2">
+        <p className="font-medium">Members</p>
         {section.members.map(i => (
           <SectionMember key={i.id} player={i} />
         ))}
       </div>
-      <div data-testid="section-extras">
-          <p>Extras</p>
+      <div data-testid="section-extras" className=" rounded p-2 w-full my-2">
+          <p className="font-medium">Extras</p>
           {section.extras.map(i => (
             <SectionExtra player={i} key={i.id} />
           ))}

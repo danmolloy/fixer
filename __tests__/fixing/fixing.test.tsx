@@ -166,9 +166,12 @@ describe("<Fixing />", () => {
 })
 
 describe("Upcoming..", () => {
-  it("there is an ensemble management page", () => {})
   it("on ensemble management page, players/management can contact all members", () => {})
   it("ensemble page: management can adjust orchestra list for default in instrumentTile", () => {})
+  it("update api/event/create to create sections that ensemble has", () => {})
+  it("update event/createUpdate to link ensembleAdmin rather than creating fixer/fixerId", () => {})
+  it("add members & extras to sections via ensemble page", () => {})
+  it("add section, members list and extra list to fixing instrument tiles", () => {})
 
   it("Fixer can simply adjust order of players in instrumentTile", () => {})
   it("instrument tile for ensemble gig has list of permanent players", () => {})

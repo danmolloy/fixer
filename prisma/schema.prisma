@@ -143,6 +143,20 @@ model EventInstrument {
   callOrder          String @default("Ordered")
 }
 
+
+//model EventSection {
+  //id                 Int      @id @default(autoincrement())
+  //createdAt          DateTime @default(now())
+  //updatedAt          DateTime @updatedAt
+  //event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  //eventId            Int 
+  //ensembleSectionId  String
+  //ensembleSection   EnsembleSection @relation(fields: [ensembleSectionId], references: [id], onDelete: Cascade)
+  //bookingStatus      String @default("active")
+  //musicians          PlayerCall[]
+  //numToBook          Int 
+//}
+
 model PlayerCall {
   id                 Int      @id @default(autoincrement())
   createdAt          DateTime @default(now())
@@ -151,7 +165,7 @@ model PlayerCall {
   musician           User     @relation(fields: [musicianId], references: [id])
   recieved           Boolean @default(false)
   accepted           Boolean? 
-  musicianId         String @default("clg6usgbg0000l80846i92lbb")
+  musicianId         String //@default("clg6usgbg0000l80846i92lbb")
   eventInstrumentId  Int
   playerMessage      String?
   calls             Call[]
