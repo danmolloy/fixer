@@ -8,7 +8,7 @@ const getUser = async (userId: string) => {
     include: {
       playerCalls: {
         include: {
-          eventInstrument: {
+          eventSection: {
             include: {
               event: true
             }
@@ -28,7 +28,7 @@ const emailGetUser = async (userEmail: string) => {
     include: {
       playerCalls: {
         include: {
-          eventInstrument: {
+          eventSection: {
             include: {
               event: true
             }

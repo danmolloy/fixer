@@ -9,7 +9,7 @@ import { DateTime } from "luxon";
 
 export type PlayerCallWithEventWithEnsemble = Prisma.PlayerCallGetPayload<{
   include: {
-    eventInstrument: {
+    eventSection: {
       include: {
         event: {
           include: {
@@ -49,20 +49,20 @@ export default function NotificationTile(props: NotificationTileProps) {
       <p data-testid="notification-created-at" className="text-sm text-center text-zinc-400">{DateTime.fromJSDate(new Date(notification.createdAt)).toFormat("h:mma ccc Do MMMM yyyy")}</p>
       <div>
         <p data-testid="fixer-name">
-          {notification.eventInstrument.event.fixerName}
+          {notification.eventSection.event.fixerName}
         </p>
         <p data-testid="offer-or-check">
           {notification.bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"}
         </p>
         </div>
         <p data-testid="event-title">
-        {notification.eventInstrument.event.eventTitle} 
+        {notification.eventSection.event.eventTitle} 
         </p>
         <p data-testid="ensemble-name">
-        with {notification.eventInstrument.event.ensemble.name}
+        with {notification.eventSection.event.ensemble.name}
         </p>
         <div className="flex flex-row justify-evenly my-4">
-          <Link data-testid="event-link" href={`/event/${notification.eventInstrument.eventId}`}>
+          <Link data-testid="event-link" href={`/event/${notification.eventSection.eventId}`}>
             <ButtonPrimary text="View Event" id="view-event-btn" className="border-indigo-600 text-indigo-600 hover:bg-indigo-50" />
           </Link>
 {/*         <ButtonPrimary text="Contact Fixer" id="contact-btn" className="border-yellow-500 text-yellow-500 hover:bg-yellow-50" />
@@ -81,11 +81,11 @@ export default function NotificationTile(props: NotificationTileProps) {
         </div>
         {notification.accepted === null 
         && <div className="flex flex-row justify-evenly ">
-          <button data-testid="decline-btn" disabled={updateStatus === 'updating' ? true: false} onClick={() => handleSubmit(false, notification.id, notification.eventInstrumentId)} className="disabled:text-zinc-400 border-r text-white bg-amber-600 rounded hover:bg-amber-500 h-12 w-1/2  flex flex-row justify-center items-center">
+          <button data-testid="decline-btn" disabled={updateStatus === 'updating' ? true: false} onClick={() => handleSubmit(false, notification.id, notification.eventSectionId)} className="disabled:text-zinc-400 border-r text-white bg-amber-600 rounded hover:bg-amber-500 h-12 w-1/2  flex flex-row justify-center items-center">
             <TiTimes />
             <p className="p-2">Decline</p>
             </button>
-          <button data-testid="accept-btn" disabled={updateStatus === 'updating' ? true: false} onClick={() => handleSubmit(true, notification.id, notification.eventInstrumentId)} className="disabled:text-zinc-400 bg-indigo-600 rounded text-white hover:bg-indigo-500 h-12 w-1/2 flex flex-row justify-center items-center">
+          <button data-testid="accept-btn" disabled={updateStatus === 'updating' ? true: false} onClick={() => handleSubmit(true, notification.id, notification.eventSectionId)} className="disabled:text-zinc-400 bg-indigo-600 rounded text-white hover:bg-indigo-500 h-12 w-1/2 flex flex-row justify-center items-center">
             <TiTick />
             <p className="p-2">Accept</p>
           </button>
