@@ -2,7 +2,7 @@ import MessagingResponse from "twilio/lib/twiml/MessagingResponse";
 import { twilioClient } from "../../../../twilio"
 import { Prisma } from "@prisma/client";
 
-export type OfferMessageArg = Prisma.EventInstrumentGetPayload<{
+export type OfferMessageArg = Prisma.EventSectionGetPayload<{
   include: {
     musicians: {
       include: {
@@ -18,13 +18,13 @@ export const getOfferMsgBody = (instrument: OfferMessageArg, playerCallId: numbe
   const body = `Hi ${playerCall.musician.firstName},
   ${instrument.event.fixerName} ${playerCall.bookingOrAvailability === "Booking" ? "offers:" : "checks availability for:"}
   ${`${process.env.URL}/event/${instrument.eventId}`}
-  ${instrument.messageToAll !== "" ? `\n Dan says to all ${instrument.instrumentName} players for this gig: "${instrument.messageToAll}"` : ""}
+  
   ${playerCall.playerMessage !== null ? `\n Dan says to you: "${playerCall.playerMessage}"`: ""}
   Reply YES ${playerCall.id} to accept or NO ${playerCall.id} to decline.
   For other options, contact ${instrument.event.fixerName} directly.`
   
   return body;
-
+  /* ${instrument.messageToAll !== "" ? `\n Dan says to all ${instrument.instrumentName} players for this gig: "${instrument.messageToAll}"` : ""} */
 }
 
 export const replyToMessage = async (msgBody: string, twiml: MessagingResponse) => {
