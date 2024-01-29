@@ -47,6 +47,7 @@ export default function MobileFixing(props: MobileFixingProps) {
           <div>
             {fixingSections.filter(i => i.ensembleSection.name.toLocaleLowerCase() === selectedInstrument.toLocaleLowerCase()).map(i => (
               <UpdateIndex
+                key={i.id}
                 eventSection={i}
                 ensembleSection={ensembleSections.find(j => j.id === i.ensembleSectionId)}
                 event={event}
