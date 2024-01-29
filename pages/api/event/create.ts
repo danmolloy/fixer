@@ -27,7 +27,7 @@ const eventObj = (obj) => {
     concertProgram: obj.concertProgram,
     confirmedOrOnHold: obj.confirmedOrOnHold,
     formattedCalls: formattedCalls(obj.calls, obj.fixerId/* obj.fixerEmail */),
-    formattedSections: formattedSections(),
+    //formattedSections: formattedSections(),
     dressCode: obj.dressCode,
     fee: obj.fee,
     additionalInfo: obj.additionalInfo,
@@ -58,9 +58,9 @@ const createEvent = async(eventObj) => {
       //fixer: { connect: { email: eventObj.fixerEmail } },
       fixer: { connect: { id: eventObj.fixerId } },
       fixerName: eventObj.fixerName,
-      instrumentSections: {
+      /* instrumentSections: {
         create: eventObj.formattedSections
-      }
+      } */
     },
   })
 }

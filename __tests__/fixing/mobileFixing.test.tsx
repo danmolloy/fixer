@@ -1,29 +1,34 @@
 import "@testing-library/jest-dom"
 import MobileFixing, { MobileFixingProps } from "../../components/fixing/mobileFixing"
-import { render, screen } from "@testing-library/react"
-import { mockEventInstrumentWithMAndM } from "../../__mocks__/models/eventInstrument"
-import { mockUser } from "../../__mocks__/models/user"
+import { act, fireEvent, render, screen } from "@testing-library/react"
+import { mockEventWithCalls } from "../../__mocks__/models/event"
+import { mockFixingSection, mockSectionWithMusicians } from "../../__mocks__/models/ensembleSection"
+import { mockEventSection } from "../../__mocks__/models/eventSection"
+
 
 const mockProps: MobileFixingProps = {
-  instrumentSections: [mockEventInstrumentWithMAndM],
-  selectedInstrument: "Viola",
+  fixingSections: [mockFixingSection],
+  ensembleSections: [mockSectionWithMusicians],
+  selectedInstrument: mockSectionWithMusicians.name,
   setSelectedInstrument: jest.fn(),
-  eventCalls: mockEventInstrumentWithMAndM.musicians[0].calls,
+  eventCalls: mockEventWithCalls.calls,
   refreshProps: jest.fn(),
-  users: [mockUser],
+  event: mockEventWithCalls,
 }
 
 describe("MobileFixing component", () => {
   beforeEach(() => {
     render(<MobileFixing {...mockProps} />)
   })
-  it("Renders", () => {
+  it("renders", () => {
     const mobileFixingDiv = screen.getByTestId("mobile-fixing-div")
     expect(mobileFixingDiv).toBeInTheDocument()
   })
-  it("Select menu is in the document", () => {
+  it("select menu is in the document", () => {
     const selectMenu = screen.getByTestId("event-instruments-select-menu")
     expect(selectMenu).toBeInTheDocument()
   })
-  //it("Corresponding instrument tile is in the document when selected from menu", () => {})
+  it("corresponding fixing instrument tile is in the document when selected from menu", () => {})
+  it("corresponding ensemble tile if selected instrument has not been fixed", () => {})
+  it("helpful message if no instrument selected", () => {})
 })

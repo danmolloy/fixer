@@ -6,8 +6,11 @@ describe("createSection()", () => {
   it("resolves to create section", () => {
     prismaMock.ensembleSection.create.mockResolvedValue(mockSection)
     expect(createSection({
-      ensembleId: mockSection.ensembleId, 
-      name: mockSection.name
+      name: mockSection.name,
+    ensembleId: mockSection.ensembleId,
+    instrument: mockSection.instrument,
+    extras: [],
+    members: [],
     })).resolves.toEqual(mockSection)
 
   })

@@ -1,7 +1,7 @@
 import { EnsembleMember, Prisma, User } from "@prisma/client";
 import {faker} from '@faker-js/faker'
 import { sectionsArr } from "../../components/fixing/fixing";
-import { EnsembleMemberWithUser } from "../../components/fixing/instrument/ensembleMembers/memberTile";
+import { EnsembleMemberWithUser } from "../../components/fixing/instrument/players/memberTile";
 
 const mockUserId = faker.string.uuid()
 

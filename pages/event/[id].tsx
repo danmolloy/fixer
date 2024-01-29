@@ -55,10 +55,17 @@ export default function Event() {
         session={session} />  
         :         <SignIn />
       }
-      {data && data.users && <Fixing lastUpdated={lastUpdated} isLoading={isLoading} users={data.users} eventCalls={data.calls} refreshProps={() => refreshData()} eventId={data.id} instrumentSections={data.instrumentSections} /> }
+      {data && data.users 
+      && <Fixing
+          event={{...data.event, calls: data.calls}}
+          ensembleSections={data.ensemble.sections}
+          fixingSections={data.sections}
+          lastUpdated={lastUpdated} 
+          isLoading={isLoading} 
+          eventCalls={data.calls} 
+          refreshProps={() => refreshData()} 
+          eventId={data.id} 
+          instrumentSections={data.sections} /> }
    </LayoutIndex>
   )
 }
-{/* <EventIndex
-        event={data}
-        session={data.session} />  */}

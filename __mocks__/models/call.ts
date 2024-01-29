@@ -1,5 +1,4 @@
 import { Call } from "@prisma/client";
-import { mockEventInstrument } from "./eventInstrument";
 import { faker } from "@faker-js/faker";
 import { CallWithEventWithEnsemble } from "../../components/calendar/monthCalendar/calendarDay";
 import { mockEvent } from "./event";

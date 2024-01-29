@@ -1,6 +1,5 @@
 import { removePlayerCall } from "../../../pages/api/fixing/removePlayer"
 import { prismaMock } from "../../../__mocks__/singleton";
-import { mockEventInstrument } from "../../../__mocks__/models/eventInstrument";
 import { mockPlayerCall } from "../../../__mocks__/models/playerCall";
 import { twilioClient } from "../../../twilio";
 import { handleFixing } from "../../../pages/api/fixing/bookingFunctions"; 

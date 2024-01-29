@@ -1,21 +1,9 @@
 import { PlayerCall, Prisma } from "@prisma/client";
-import { mockEventInstrument } from "./eventInstrument";
 import { faker } from "@faker-js/faker";
-import { mockUser, mockUserId } from "./user";
-import { PlayerCallsForTable } from "../../components/fixing/instrument/table";
-import { PlayerCallWithEventWithEnsemble } from "../../components/users/notifications/notificationTile";
+import { PlayerCallsForTable } from "../../components/fixing/instrument/update/table";
 
 export const randBool = () => Math.random() > .5 ? false : true
 
-export type PlayerCallWithInstrumentAndMs = Prisma.PlayerCallGetPayload<{
-  include: {
-    eventInstrument: {
-      include: {
-        musicians: true
-      }
-    }
-  }
-}>
 
 export const mockPlayerCall: PlayerCall = {
   id: faker.number.int(),
@@ -24,7 +12,8 @@ export const mockPlayerCall: PlayerCall = {
   recieved: Math.random() > .5 ? false : true,
   accepted: Math.random() > .3 ? true: Math.random() > .6 ? false : null,
   musicianId: /* mockUserId, */faker.string.uuid(),
-  eventInstrumentId: faker.number.int(),
+  indexNumber: Math.floor(Math.random() * 10),
+  eventSectionId: faker.number.int(),
   playerMessage: null,
   bookingOrAvailability: Math.random() > .5 ?  "Booking" : "Availability",
   offerExpiry: null,
@@ -34,46 +23,6 @@ export const mockPlayerCall: PlayerCall = {
 
 
 
-export const mockPlayerCallWithInstrumentAndMs: PlayerCallWithInstrumentAndMs = {
-  id: faker.number.int(),
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  recieved: Math.random() > .5 ? false : true,
-  accepted: Math.random() > .3 ? true: Math.random() > .6 ? false : null,
-  musicianId: /* mockUserId, */faker.string.uuid(),
-  eventInstrumentId: faker.number.int(),
-  playerMessage: null,
-  bookingOrAvailability: Math.random() > .5 ?  "Booking" : "Availability",
-  offerExpiry: null,
-  status: "active",
-  eventInstrument: {
-    id: faker.number.int(),
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  eventId: faker.number.int(),
-  instrumentName: faker.lorem.word(),
-  fixerNote: "",
-  messageToAll: "",
-  bookingStatus: Math.random() > .5 ? "Booking": "Availability",
-  numToBook: faker.number.int(12),
-  callOrder: "Ordered",
-  musicians: [
-    {
-      id: faker.number.int(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      recieved: Math.random() > .5 ? false : true,
-      accepted: Math.random() > .3 ? true: Math.random() > .6 ? false : null,
-      musicianId: /* mockUserId, */faker.string.uuid(),
-      eventInstrumentId: faker.number.int(),
-      playerMessage: null,
-      bookingOrAvailability: Math.random() > .5 ?  "Booking" : "Availability",
-      offerExpiry: null,
-      status: "active"
-    }
-  ]
-  }
-}
 
 export const mockPlayerCallForTable: PlayerCallsForTable = {
   id: faker.number.int(),
@@ -82,8 +31,8 @@ export const mockPlayerCallForTable: PlayerCallsForTable = {
   recieved: Math.random() > .5 ? false : true,
   accepted: Math.random() > .3 ? true: Math.random() > .6 ? false : null,
   musicianId: /* mockUserId, */faker.string.uuid(),
-  eventInstrumentId: faker.number.int(),
-  playerMessage: null,
+  indexNumber: Math.floor(Math.random() * 10),
+  eventSectionId: faker.number.int(),  playerMessage: null,
   bookingOrAvailability: Math.random() > .5 ?  "Booking" : "Availability",
   offerExpiry: null,
   status: "active",
@@ -111,46 +60,3 @@ export const mockPlayerCallForTable: PlayerCallsForTable = {
   }
 }
 
-export const mockPlayerCallWithEventWithEnsemble: PlayerCallWithEventWithEnsemble = {
-  id: faker.number.int(),
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  recieved: Math.random() > .5 ? false : true,
-  accepted: Math.random() > .3 ? true: Math.random() > .6 ? false : null,
-  musicianId: /* mockUserId, */faker.string.uuid(),
-  eventInstrumentId: faker.number.int(),
-  playerMessage: null,
-  bookingOrAvailability: Math.random() > .5 ?  "Booking" : "Availability",
-  offerExpiry: null,
-  status: "active",
-  eventInstrument: {
-    id: faker.number.int(),
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  eventId: faker.number.int(),
-  instrumentName: faker.lorem.word(),
-  fixerNote: "",
-  messageToAll: "",
-  bookingStatus: Math.random() > .5 ? "Booking": "Availability",
-  numToBook: faker.number.int(12),
-  callOrder: "Ordered",
-  event: {
-    id: faker.number.int(),
-  ensembleId: faker.string.uuid(),
-  createdAt: new Date("2025-10-10T14:48:00"),
-  updatedAt: new Date("2025-10-10T14:48:00"),
-  eventTitle: faker.lorem.words(),
-  concertProgram: faker.lorem.words(),
-  confirmedOrOnHold: Math.random() > .5 ? "confirmed" : "onHold",
-  dressCode: faker.lorem.words(),
-  fee: faker.lorem.words(),
-  additionalInfo: faker.lorem.words(),
-  fixerId: faker.string.uuid(),
-  fixerName: faker.person.fullName(),
-  ensemble: {
-    name: faker.lorem.words(3),
-    id: faker.string.uuid()
-  }
-  }
-  }
-}

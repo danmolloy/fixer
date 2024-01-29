@@ -59,7 +59,7 @@ describe("<MusicianTile />", () => {
     act(() => {
       fireEvent.click(addBtn)
     })
-    expect(mockProps.appendPlayer).not.toBeCalled()
+    expect(mockProps.appendPlayer).not.toHaveBeenCalled()
   })
 
 })

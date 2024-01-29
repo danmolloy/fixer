@@ -1,6 +1,6 @@
 import { User } from "@prisma/client"
 import { SectionExtraWithUser } from "../sectionExtra";
-import { EnsembleMemberWithUser } from "../../../fixing/instrument/ensembleMembers/memberTile";
+import { EnsembleMemberWithUser } from "../../../fixing/instrument/players/memberTile";
 import ComboBox from "../../../event/createUpdate/comboBox";
 import { FieldArray } from "formik";
 import EditExtras from "./extras";

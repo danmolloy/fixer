@@ -3,14 +3,14 @@ import { handleFixing } from './bookingFunctions'
 import { updatePlayerCall } from './bookingFunctions/prismaFunctions'
 
 
-const handleOffer = async (playerCallId: number) => {
+export const handleOffer = async (playerCallId: number) => {
   const updateData = {
     bookingOrAvailability: "Booking",
     recieved: false,
     accepted: null
   }
   const updatedCall = await updatePlayerCall(playerCallId, updateData)
-  await handleFixing(updatedCall.eventInstrumentId)
+  await handleFixing(updatedCall.eventSectionId)
   }
 
 

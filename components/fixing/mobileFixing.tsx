@@ -1,103 +1,27 @@
-import { Call, User } from "@prisma/client"
-import { useState } from "react"
+import { Call } from "@prisma/client"
 import SelectMenu from "../layout/components/selectMenu/selectMenu"
-import FixingInstrument from "./instrument"
-import { EventInstrumentWithMusiciansWithMusician } from "./fixing"
-
-
-const instrumentFamilyArr: {
-  id: number
-  name: string
-  family: string
-}[] = [
-  {
-    id: 0,
-    name: "Violin",
-    family: "Strings",
-  },
-  {
-    id: 1,
-    name: "Viola",
-    family: "Strings",
-  },
-  {
-    id: 2,
-    name: "Cello",
-    family: "Strings",
-  },{
-    id: 3,
-    name: "Double Bass",
-    family: "Strings",
-  },
-  {
-    id: 4,
-    name: "Flute",
-    family: "Woodwinds",
-  },
-  {
-    id: 5,
-    name: "Oboe",
-    family: "Woodwinds",
-  },{
-    id: 6,
-    name: "Clarinet",
-    family: "Woodwinds",
-  },
-  {
-    id: 7,
-    name: "Bassoon",
-    family: "Woodwinds",
-  },
-  {
-    id: 8,
-    name: "Horn",
-    family: "Brass",
-  },
-  {
-    id: 9,
-    name: "Trumpet",
-    family: "Brass",
-  },
-  {
-    id: 10,
-    name: "Trombone",
-    family: "Brass",
-  },
-  {
-    id: 11,
-    name: "Tuba",
-    family: "Brass",
-  },
-  {
-    id: 12,
-    name: "Harp",
-    family: "Strings",
-  },
-  {
-    id: 13,
-    name: "Timpani",
-    family: "Percussion",
-  },
-  {
-    id: 14,
-    name: "Percussion",
-    family: "Percussion",
-  },
-]
-
+import { EnsembleSectionWithMusicians, EventSectionWithMusiciansWithMusician, FixingSection } from "./fixing"
+import CreateInstrumentIndex from "./instrument/create"
+import { EventWithCalls } from "../event/eventDetail/menu/calendarEventLink"
+import UpdateIndex from "./instrument/update"
 
 
 export type MobileFixingProps = {
-  instrumentSections: EventInstrumentWithMusiciansWithMusician[]
+  fixingSections: FixingSection[]
+  ensembleSections: EnsembleSectionWithMusicians[]
   selectedInstrument: string
   setSelectedInstrument: (instrument: string) => void
   eventCalls: Call[]
   refreshProps: () => void
-  users: User[]
+  event: EventWithCalls
 }
 
 export default function MobileFixing(props: MobileFixingProps) {
-  const { instrumentSections, selectedInstrument, setSelectedInstrument, eventCalls, refreshProps, users } = props;
+  const { event, fixingSections, ensembleSections, selectedInstrument, setSelectedInstrument, eventCalls, refreshProps } = props;
+
+  const numBooked = (section: FixingSection): number => {
+    return section.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length
+  }
 
   return (
     <div data-testid="mobile-fixing-div" className="sm:hidden  flex flex-col items-center w-full">
@@ -105,11 +29,11 @@ export default function MobileFixing(props: MobileFixingProps) {
         <SelectMenu 
           id="event-instruments"
           tickSelected={false}
-          values={instrumentSections.map(i => (
+          values={ensembleSections.map(i => (
             {
-              val: i.instrumentName, 
+              val: i.name, 
               id: i.id,
-              secondary: `${i.numToBook > 0 ? `(${i.musicians.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length} of ${i.numToBook} booked)` : ""}`
+              secondary: `${fixingSections.filter(j => j.ensembleSectionId === i.id).length > 0 ? `(${numBooked(fixingSections.find(j => j.ensembleSectionId === i.id))} of ${fixingSections.find(j => j.ensembleSectionId === i.id).numToBook} booked)` : ""}`
             }))} 
           selectedVal={selectedInstrument} 
           handleSelect={arg => setSelectedInstrument(arg)} />
@@ -119,15 +43,26 @@ export default function MobileFixing(props: MobileFixingProps) {
           ? <div className="h-80 w-screen mb-20 mt-2 text-center">
               <h3 className="p-16 text-slate-700">Please select an instrument.</h3>
             </div>
-          : instrumentSections.filter(i => i.instrumentName.toLocaleLowerCase() === selectedInstrument.toLocaleLowerCase()).map(i => (
-              <FixingInstrument
-              key={i.id}
-              playerCalls={i.musicians}
-              directoryMusicians={users.filter(j => j.instrumentsList.map(i => i.toLocaleLowerCase()).includes(i.instrumentName.toLocaleLowerCase()))}
-              eventCalls={eventCalls}
-              eventInstrument={i}
-              refreshProps={() => refreshProps()} />
-          ))}
+          : 
+          <div>
+            {fixingSections.filter(i => i.ensembleSection.name.toLocaleLowerCase() === selectedInstrument.toLocaleLowerCase()).map(i => (
+              <UpdateIndex
+                eventSection={i}
+                ensembleSection={ensembleSections.find(j => j.id === i.ensembleSectionId)}
+                event={event}
+                playerCalls={i.musicians}
+                refreshProps={() => refreshProps()}
+               />
+            ))}
+            {fixingSections.filter(i => i.ensembleSection.name.toLocaleLowerCase() === selectedInstrument.toLocaleLowerCase()).length === 0 && ensembleSections.filter(i => i.name.toLocaleLowerCase() === selectedInstrument.toLocaleLowerCase()).map(i => (
+                <CreateInstrumentIndex
+                eventId={event.id}
+                key={i.id}
+                section={i}
+                eventCalls={eventCalls}
+                refreshProps={() => refreshProps()} />
+            ))}
+          </div>}
       </div>
     </div>
   )

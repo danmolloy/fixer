@@ -104,7 +104,8 @@ model Event {
   dressCode          String
   fee                String
   additionalInfo     String?
-  instrumentSections EventInstrument[]
+  //instrumentSections EventInstrument[]
+  sections           EventSection[]
   //fixerEmail         String
   fixerId            String
   fixer              User     @relation(fields: [fixerId], references: [id])
@@ -128,50 +129,55 @@ model Call {
   playerCalls        PlayerCall[]
 }
 
-model EventInstrument {
-  id                 Int      @id @default(autoincrement())
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId            Int 
-  instrumentName     String
-  fixerNote          String?
-  messageToAll       String?
-  bookingStatus      String @default("active")
-  musicians          PlayerCall[]
-  numToBook          Int @default(0)
-  callOrder          String @default("Ordered")
-}
-
-
-//model EventSection {
+//model EventInstrument {
   //id                 Int      @id @default(autoincrement())
   //createdAt          DateTime @default(now())
   //updatedAt          DateTime @updatedAt
   //event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
   //eventId            Int 
-  //ensembleSectionId  String
-  //ensembleSection   EnsembleSection @relation(fields: [ensembleSectionId], references: [id], onDelete: Cascade)
+  //instrumentName     String
+  //fixerNote          String?
+  //messageToAll       String?
   //bookingStatus      String @default("active")
   //musicians          PlayerCall[]
-  //numToBook          Int 
+  //numToBook          Int @default(0)
+  //callOrder          String @default("Ordered")
 //}
+
+
+model EventSection {
+  id                 Int      @id @default(autoincrement())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId            Int 
+  ensembleSectionId  String
+  ensembleSection    EnsembleSection @relation(fields: [ensembleSectionId], references: [id], onDelete: Cascade)
+  bookingStatus      String @default("active")
+  musicians          PlayerCall[]
+  numToBook          Int
+  //messageToAll     String
+}
 
 model PlayerCall {
   id                 Int      @id @default(autoincrement())
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-  eventInstrument    EventInstrument     @relation(fields: [eventInstrumentId], references: [id], onDelete: Cascade)
+  //eventInstrument    EventInstrument     @relation(fields: [eventInstrumentId], references: [id], onDelete: Cascade)
   musician           User     @relation(fields: [musicianId], references: [id])
   recieved           Boolean @default(false)
   accepted           Boolean? 
   musicianId         String //@default("clg6usgbg0000l80846i92lbb")
-  eventInstrumentId  Int
+  //eventInstrumentId  Int
   playerMessage      String?
   calls             Call[]
+  eventSectionId    Int
+  eventSection      EventSection @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
+  indexNumber       Int
   bookingOrAvailability String @default ("Booking")
   offerExpiry       Int?
-  status            String @default("OK") // 
+  status            String @default("OK")
+  //strictlyTied    Boolean
 }
 
 model Ensemble {
@@ -195,9 +201,11 @@ model EnsembleSection {
   id String @id @default(cuid())
   name String
   ensembleId String
+  instrument String
   ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
   members EnsembleMember[]
   extras EnsembleExtra[]
+  events  EventSection[]
   bulletins Bulletin[]
 }
 

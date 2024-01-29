@@ -1,4 +1,4 @@
-import { EnsembleMemberWithUser } from "../../fixing/instrument/ensembleMembers/memberTile";
+import { EnsembleMemberWithUser } from "../../fixing/instrument/players/memberTile";
 
 
 export type SectionMemberProps = {

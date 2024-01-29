@@ -10,8 +10,42 @@ export const findEvent = async (uniqueId) => {
       id: uniqueId
     },
     include: {
-      ensemble: true,
+      ensemble: {
+        include: {
+          sections: {
+            include: {
+              members: {
+                include: {
+                  user: true
+                }
+              },
+              extras: {
+                include: {
+                  user: true
+                }
+              }
+            }
+          }
+        }
+      },
       calls: true,
+      sections: {
+        include: {
+            ensembleSection: {
+              include: {
+                members: true,
+                extras: true
+              }
+            },
+          musicians: {
+            include: {
+              musician: true,
+              calls: true
+            }
+          }
+        }
+      },
+/* 
       instrumentSections: {
         include: {
           musicians: {
@@ -22,7 +56,7 @@ export const findEvent = async (uniqueId) => {
           },
         
         }
-      }
+      } */
     }
   }) 
 }

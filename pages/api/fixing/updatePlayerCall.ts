@@ -1,9 +1,10 @@
 import { handleFixing } from "./bookingFunctions"
 import { updatePlayerCall } from "./bookingFunctions/prismaFunctions"
 
-const handleUpdate = async (playerCallId: number, data: {}): Promise<any> => {
+export const handleUpdate = async (playerCallId: number, data: {}): Promise<any> => {
   const playerCall = await updatePlayerCall(playerCallId, data)
-  await handleFixing(playerCall.eventInstrumentId)
+  await handleFixing(playerCall.eventSectionId)
+  //return await updatePlayerCall(playerCallId, data)
 }
 
 export default async function handle(req, res) {

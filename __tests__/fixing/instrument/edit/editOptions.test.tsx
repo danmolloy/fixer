@@ -2,12 +2,12 @@ import { render, screen, act } from "@testing-library/react";
 import "@testing-library/jest-dom"
 import React from "react";
 import { Formik } from "formik";
-import EditOptions from "../../../../components/fixing/instrument/edit/editOptions";
+import EditOptions, { EditOptionsProps } from "../../../../components/fixing/instrument/edit/editOptions";
 
 
 
 describe("<EditOptions />", () => {
-  const mockProps = {
+  const mockProps: EditOptionsProps = {
     bookingOrAvailability: "Booking"
   }
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe("<EditOptions />", () => {
     </Formik>)
   })
   it("Renders", () => {
-    const options = screen.getByTestId("edit-calls-options")
+    const options = screen.getByTestId("edit-options")
     expect(options).toBeInTheDocument()
   })
   it("If booking, NumToBook number input is in the document with label", () => {
@@ -35,16 +35,7 @@ describe("<EditOptions />", () => {
     expect(messagePlayers).toHaveAttribute("type", "text")
     expect(messagePlayers).toHaveAttribute("label", `Message to all`)
   })
-  it("If booking, Call Order is in the document with label with expected options", () => {
-    mockProps.bookingOrAvailability = "Booking"
-    if (mockProps.bookingOrAvailability === "Booking") {
-      const callOrder = screen.getByTestId("call-order-drop-down")
-      expect(callOrder).toBeInTheDocument()
-      expect(callOrder.textContent).toMatch("Ordered")
-      expect(callOrder.textContent).toMatch("Random")
-      expect(callOrder.textContent).toMatch("Simultaneous")
-    }
-  })
+  
   it("If availability, there is a checkbox for 'strictly tied'", () => {
       if (mockProps.bookingOrAvailability === "Availability") {
       const strictlyTiedToggle = screen.getByTestId("strictly-tied-toggle")
@@ -54,8 +45,8 @@ describe("<EditOptions />", () => {
 })
 
 describe("<EditOptions />", () => {
-  const mockProps = {
-    bookingOrAvailability: "Avialability"
+  const mockProps: EditOptionsProps = {
+    bookingOrAvailability: "Availability"
   }
   beforeEach(() => {
     render(

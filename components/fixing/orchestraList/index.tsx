@@ -1,18 +1,18 @@
 import { AiOutlineClose } from "react-icons/ai";
-import { EventInstrumentWithMusiciansWithMusician } from "../fixing"; 
+import { EventSectionWithMusiciansWithMusician } from "../fixing"; 
 
 export type OrchestraListProps = {
   setViewList: (boolean) => void
-  instrumentSections: EventInstrumentWithMusiciansWithMusician[]
+  instrumentSections: EventSectionWithMusiciansWithMusician[]
 }
 
 export default function OrchestraList(props: OrchestraListProps) {
   const { instrumentSections } = props
   return (
-    <div className="w-[90vw] z-20 p-4 rounded  border border-zinc-300 self-center bg-white z-60 flex h-screen flex-col flex-wrap">
+    <div data-testid="orchestra-list-view" className="w-[90vw] z-20 p-4 rounded  border border-zinc-300 self-center bg-white z-60 flex h-screen flex-col flex-wrap">
       {instrumentSections.filter(i => i.numToBook > 0).map(i => (
-        <div data-testid={`${i.instrumentName}-section`} key={i.id} className={"py-2"}>
-          <p className="font-semibold">{i.instrumentName}</p>
+        <div data-testid={`${i.ensembleSection.name}-section`} key={i.id} className={"py-2"}>
+          <p className="font-semibold">{i.ensembleSection.name}</p>
           <ol>
           {i.musicians.filter(j => j.accepted === true).map(j => (
             <li key={j.id} className="">

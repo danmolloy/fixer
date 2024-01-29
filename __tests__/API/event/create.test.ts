@@ -49,7 +49,7 @@ describe("eventObj function", () => {
       concertProgram: eventObjArg.concertProgram,
       confirmedOrOnHold: eventObjArg.confirmedOrOnHold,
       formattedCalls: formattedCalls(eventObjArg.calls, eventObjArg.fixerId),
-      formattedSections: formattedSections(),
+      //formattedSections: formattedSections(),
       dressCode: eventObjArg.dressCode,
       fee: eventObjArg.fee,
       additionalInfo: eventObjArg.additionalInfo,

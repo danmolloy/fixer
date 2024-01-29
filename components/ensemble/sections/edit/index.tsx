@@ -7,6 +7,7 @@ import SelectMenu from "../../../layout/components/selectMenu/selectMenu"
 import { instrumentArr } from "../../../fixing/fixing"
 import EditPlayers from "./editPlayers"
 import { User } from "@prisma/client"
+import { CreateSectionArg } from "../../../../pages/api/section/create"
 
 export type CreateSectionProps = {
   ensembleId: string
@@ -34,8 +35,8 @@ export default function CreateSection(props: CreateSectionProps) {
   })
 
   const handleSubmit = async (values) => {
-   
-    return await axios.post("/api/section/create", {
+
+    const valuesObj: CreateSectionArg = {
       ensembleId: values.ensembleId,
       name: values.sectionName,
       members: values.members.map(i => ({
@@ -48,8 +49,11 @@ export default function CreateSection(props: CreateSectionProps) {
         positionTitle: i.positionTitle,
         positionNumber: i.positionNumber,
       })),
-      //instrument: values.instrument /* Alert!! Not a val in Prisma model interface */
-    }).then(() => router.push(`/ensembles/${ensembleId}`))
+      instrument: values.instrument
+    }
+   
+    return await axios.post("/api/section/create", valuesObj)
+      .then(() => router.push(`/ensembles/${ensembleId}`))
       .catch(function (error) {
         console.log(error);
       });

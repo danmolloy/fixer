@@ -2,13 +2,20 @@ import useSwr from 'swr'
 import React, { useState } from 'react'
 import MobileFixing from './mobileFixing'
 import OrchestraList from './orchestraList'
-import { Call, Prisma, User } from '@prisma/client'
-import FixingInstrument from './instrument'
+import { Call, EnsembleSection, Prisma, User } from '@prisma/client'
 import { DateTime } from 'luxon'
-import InstrumentationShorthand from './instrumentationShorthand'
+import CreateInstrumentIndex from './instrument/create'
+import UpdateIndex from './instrument/update'
+import { EventWithCalls } from '../event/eventDetail/menu/calendarEventLink'
 
-export type EventInstrumentWithMusiciansWithMusician = Prisma.EventInstrumentGetPayload<{
+export type EventSectionWithMusiciansWithMusician = Prisma.EventSectionGetPayload<{
   include: {
+    ensembleSection: {
+      include: {
+        members: true,
+        extras: true
+      }
+    }
     musicians: {
       include: {
         musician: true,
@@ -18,14 +25,49 @@ export type EventInstrumentWithMusiciansWithMusician = Prisma.EventInstrumentGet
   }
 }>
 
+export type FixingSection = Prisma.EventSectionGetPayload<{
+  include: {
+    musicians: {
+      include: {
+        musician: true,
+        calls: true
+      }
+    },
+    ensembleSection: {
+      include: {
+        members: true,
+        extras: true
+      }
+    }
+  }
+}>
+
+export type EnsembleSectionWithMusicians = Prisma.EnsembleSectionGetPayload<{
+  include: {
+    members: {
+      include: {
+        user: true
+      }
+    },
+    extras: {
+      include: {
+        user: true
+      }
+    }
+  }
+}>
+
+
 export type FixingProps = {
   eventCalls: Call[]
-  instrumentSections: EventInstrumentWithMusiciansWithMusician[]
+  instrumentSections: EventSectionWithMusiciansWithMusician[]
   eventId: number
   refreshProps: () => void
-  users: User[]
   isLoading: boolean
   lastUpdated: Date|null
+  fixingSections: FixingSection[]
+  ensembleSections: EnsembleSectionWithMusicians[]
+  event: EventWithCalls
 }
 
 export const instrumentArr = ["Violin", "Viola", "Cello", "Double Bass", "Flute", "Oboe", "Clarinet", "Bassoon", "Horn", "Trumpet", "Trombone", "Tuba", "Harp", "Timpani", "Percussion"]
@@ -33,7 +75,7 @@ export const sectionsArr = ["Flute", "Oboe", "Clarinet", "Bassoon", "Horn", "Tru
 
 
 export default function Fixing(props: FixingProps) {
-  const { lastUpdated, eventCalls, instrumentSections, eventId, refreshProps, users, isLoading } = props
+  const { event, fixingSections, ensembleSections, lastUpdated, eventCalls, instrumentSections, eventId, refreshProps, isLoading } = props
   const [selectedInstrument, setSelectedInstrument] = useState<string>("")
   const [viewList, setViewList] = useState<boolean>(false)
 
@@ -41,13 +83,14 @@ export default function Fixing(props: FixingProps) {
     return <p>Loading</p>
   }
 
+
   return (
     <div className="w-screen flex flex-col justify-center" data-testid="event-fixing">
       <div className="flex flex-row items-center justify-between   px-8 py-4 mt-8">
         <div data-testid="fixing-header">
         <h1>Personnel</h1>
-        <InstrumentationShorthand instrumentSections={instrumentSections} />
-        {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last refreshed {String(DateTime.fromJSDate(lastUpdated).toFormat("HH:mm:ss DD"))}</p>}
+{/*         <InstrumentationShorthand instrumentSections={instrumentSections} />
+ */}        {lastUpdated !== null && <p className='text-sm text-zinc-400'>Last refreshed {String(DateTime.fromJSDate(lastUpdated).toFormat("HH:mm:ss DD"))}</p>}
         </div>
         <div>
           <button data-testid="view-list-btn" onClick={() => setViewList(!viewList)} className="border border-blue-300 text-blue-600 m-1 rounded p-1 shadow hover:border-blue-600 hover:bg-blue-50 active:bg-blue-300">
@@ -58,29 +101,28 @@ export default function Fixing(props: FixingProps) {
       </div>
       {viewList 
       ? <OrchestraList setViewList={(arg) => setViewList(arg)} instrumentSections={instrumentSections}/>
-      :<div>
-        <MobileFixing 
-        {...props}
-        
+      :<div data-testid="instrument-tiles">
+        <MobileFixing
+
+        refreshProps={() => refreshProps()} 
+        eventCalls={event.calls}
+        ensembleSections={ensembleSections}
+        fixingSections={fixingSections}
+        event={event}
         setSelectedInstrument={(instrument) => setSelectedInstrument(instrument)} 
-        instrumentSections={instrumentSections} 
         selectedInstrument={selectedInstrument}/>
-      <div className="hidden w-screen sm:flex flex-row flex-wrap items-start justify-center ">
-        {instrumentSections.sort((a, b) => a.id - b.id).map(i => (
-            <FixingInstrument
-              key={i.id}
-              playerCalls={i.musicians}
-              directoryMusicians={
-                i.instrumentName === "Violin 1" || i.instrumentName === "Violin 2" 
-                ? users.filter(j => j.instrumentsList.map(i => i.toLocaleLowerCase()).includes("violin"))
-                : users.filter(j => j.instrumentsList.map(i => i.toLocaleLowerCase()).includes(i.instrumentName.toLocaleLowerCase()))
-              }
-              eventCalls={eventCalls}
-              eventInstrument={i}
-              refreshProps={() => refreshProps()} />
-          
-          )) }
-      </div>
+        <div data-testid="fixing-sections" className="hidden w-screen sm:flex flex-row flex-wrap items-start justify-center ">
+          {fixingSections.map(i => (
+            <UpdateIndex key={i.id} refreshProps={() => refreshProps()} event={event} playerCalls={i.musicians} ensembleSection={ensembleSections.find(j => j.id === i.ensembleSectionId)} eventSection={i}/>
+          ))}
+        </div>
+        <div data-testid="ensemble-sections" className='hidden w-screen sm:flex'>
+          {ensembleSections.filter(i => (
+            !fixingSections.map(j => j.ensembleSectionId).includes(i.id)
+            )).map(i => (
+              <CreateInstrumentIndex refreshProps={() => refreshProps()} eventId={eventId} key={i.id} eventCalls={eventCalls} section={i}/>
+          ))}
+        </div>
       </div>}
     </div>
   )

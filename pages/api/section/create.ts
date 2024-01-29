@@ -3,6 +3,7 @@ import prisma from "../../../client"
 export type CreateSectionArg = {
   name: string
   ensembleId: string
+  instrument: string
   extras: {
     userId: string
     positionTitle: string
@@ -18,13 +19,19 @@ export type CreateSectionArg = {
 export const createSection = async (obj: CreateSectionArg) => {
   return await prisma.ensembleSection.create({
     data: {
-      ...obj,
+      instrument: obj.instrument,
+      name: obj.name,
+      ensemble: {
+        connect: {
+          id: obj.ensembleId
+        }
+      },
       extras: {
         create: obj.extras.map(i => ({...i, ensembleId: obj.ensembleId}))
       },
       members: {
         create: obj.members.map(i => ({...i, ensembleId: obj.ensembleId}))
-      }
+      },
     }
   })
 }
