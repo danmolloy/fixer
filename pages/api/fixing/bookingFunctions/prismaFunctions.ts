@@ -197,3 +197,23 @@ export const updatePlayerCall = async (playerCallId: number, data: {}): Promise<
   })
   return updatedPlayerCall
 }
+
+export const getEventSectionandMusiciansFromCall = async(playerCallId: number) => {
+  const eventSection = await prisma.playerCall.findUnique({
+    where: {
+      id: playerCallId
+    },
+    include: {
+      eventSection: {
+        include: {
+          musicians: {
+            include: {
+              musician: true
+            }
+          }
+        }
+      }
+    }
+  })
+  return eventSection
+}

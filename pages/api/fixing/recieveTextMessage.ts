@@ -2,7 +2,7 @@ import prisma from '../../../client'
 import MessagingResponse from 'twilio/lib/twiml/MessagingResponse';
 import { replyToMessage } from './messages';
 import { getEventInstrumentStatus, handleFixing  } from './bookingFunctions';
-import { getEventInstrumentandMusiciansFromCall } from './bookingFunctions/prismaFunctions';
+import { getEventSectionandMusiciansFromCall } from './bookingFunctions/prismaFunctions';
 import { updatePlayerCall } from './bookingFunctions/prismaFunctions';
 /* Can I do twilioClient.twml.messagingResponse? */
 
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 export const handleRecievedMessage = async (msgBody: string, twiml: MessagingResponse) => {
   const playerRes = getYesOrNo(msgBody)
   const callId = getCallId(msgBody)
-  const eventInstrument = await getEventInstrumentandMusiciansFromCall(callId)
+  const eventInstrument = await getEventSectionandMusiciansFromCall(callId)
   const instrumentStatus = await getEventInstrumentStatus(eventInstrument.id)
   if (playerRes === undefined || callId === undefined) {
     const reply = "Please check your response and call ID and try again."
