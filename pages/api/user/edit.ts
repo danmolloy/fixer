@@ -16,7 +16,7 @@ const updateUser = async(userObj) => {
     data: {
       name: userObj.name,
       email: userObj.email,
-      instrument: userObj.instrument
+      instrumentsList: [userObj.instrument]
     },
   })
 }
