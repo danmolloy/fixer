@@ -68,7 +68,7 @@ export const makeOffers = async (instrumentId: number): Promise<any> => {
 
   for (let i = 0; i < numToBook; i++) {
     if (i >= numOnListYetToBook.length) {
-      return sendMessage(`You need to add more ${eventInstrument.instrumentName} to Event ${eventInstrument.event.eventTitle}.`, process.env.PHONE)
+      return sendMessage(`You need to add more ${eventInstrument.ensembleSection.name} to Event ${eventInstrument.event.eventTitle}.`, process.env.PHONE)
     } 
     let data = {
       recieved: true

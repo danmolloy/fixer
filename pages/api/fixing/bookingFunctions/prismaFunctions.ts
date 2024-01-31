@@ -138,7 +138,8 @@ export const getEventSectionAndMsAndMs = async (eventSectionId: number): Promise
           musician: true
         }
       },
-      event: true
+      event: true,
+      ensembleSection: true
     }
   })
   return eventInstrument

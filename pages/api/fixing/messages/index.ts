@@ -9,7 +9,8 @@ export type OfferMessageArg = Prisma.EventSectionGetPayload<{
         musician: true
       }
     },
-    event: true
+    event: true,
+    ensembleSection: true
   }
 }>
 

@@ -166,7 +166,9 @@ model PlayerCall {
   //eventInstrument    EventInstrument     @relation(fields: [eventInstrumentId], references: [id], onDelete: Cascade)
   musician           User     @relation(fields: [musicianId], references: [id])
   recieved           Boolean @default(false)
+  recievedDate       DateTime?
   accepted           Boolean? 
+  acceptedDate       DateTime?
   musicianId         String //@default("clg6usgbg0000l80846i92lbb")
   //eventInstrumentId  Int
   playerMessage      String?
