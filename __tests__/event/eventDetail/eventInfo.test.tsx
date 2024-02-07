@@ -9,6 +9,7 @@ import { mockEnsemble } from "../../../__mocks__/models/ensemble"
 
 const mockProps: EventInfoProps = {
   event: mockEventWithCalls,
+  calls: mockEventWithCalls.calls,
   userId: mockUserId,
   ensemble: mockEnsemble
 }
@@ -69,6 +70,7 @@ describe("<EventInfo />", () => {
     const mockEvent = mockEventWithCalls
     const mockProps: EventInfoProps = {
       event: mockEvent,
+      calls: mockEventWithCalls.calls,
       userId: mockEvent.fixerId,
       ensemble: mockEnsemble
     }
@@ -79,9 +81,9 @@ describe("<EventInfo />", () => {
   })
   it("if user is fixer, all calls are in the document", () => {
     const eventInfoDiv = screen.getByTestId("event-info-div")
-    for (let i = 0; i < mockProps.event.calls.length; i++) {
-      expect(eventInfoDiv.textContent).toMatch(DateTime.fromJSDate(new Date(mockProps.event.calls[i].startTime)).toFormat("HH:mm DD"))
-      expect(eventInfoDiv.textContent).toMatch(mockProps.event.calls[i].venue)
+    for (let i = 0; i < mockProps.calls.length; i++) {
+      expect(eventInfoDiv.textContent).toMatch(DateTime.fromJSDate(new Date(mockProps.calls[i].startTime)).toFormat("HH:mm DD"))
+      expect(eventInfoDiv.textContent).toMatch(mockProps.calls[i].venue)
     }
   })
   //it("if user is player, all calls which player was asked for are in the document", () => {})

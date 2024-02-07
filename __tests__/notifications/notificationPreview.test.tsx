@@ -31,8 +31,27 @@ describe("<NotificationPreview />", () => {
     const recievedDate = screen.getByText(DateTime.fromJSDate(mockProps.playerCall.recievedDate).toFormat("HH:mm DD"))
     expect(recievedDate).toBeInTheDocument()
   })
-  it('states event title', () => {})
-  it("states author of message", () => {})
-  it("indicates whether notification is unread or not", () => {})
-  it('states event dates', () => {})
+  it('states event title', () => {
+    const eventTitle = screen.getByText(mockProps.playerCall.eventSection.event.eventTitle)
+    expect(eventTitle).toBeInTheDocument()
+  })
+  it("states author of message", () => {
+    const fixerName = screen.getByText(`${mockProps.playerCall.eventSection.event.fixer.firstName} ${mockProps.playerCall.eventSection.event.fixer.lastName}`)
+    expect(fixerName).toBeInTheDocument()
+  })
+  it('states event dates', () => {
+      const sortedCalls = mockProps.playerCall.calls.sort((a, b) => Number(DateTime.fromJSDate(a.startTime)) - Number(DateTime.fromJSDate(b.startTime).toMillis))
+      const startDate = sortedCalls[0]
+      const endDate = sortedCalls[sortedCalls.length - 1]
+    if (DateTime.fromJSDate(startDate.startTime).hasSame(DateTime.fromJSDate(endDate.endTime), "day")) {
+      const dateString = DateTime.fromJSDate(startDate.startTime).toFormat("dd LLL yyyy")
+      const dateRange = screen.getByText(dateString)
+      expect(dateRange).toBeInTheDocument()
+    } else {
+      const dateString = `${DateTime.fromJSDate(startDate.startTime).toFormat("dd LLL yyyy")} - ${DateTime.fromJSDate(endDate.endTime).toFormat("dd LLL yyyy")}`
+      const dateRange = screen.getByText(dateString)
+      expect(dateRange).toBeInTheDocument()
+    }
+  })
+  //it("indicates whether notification is unread or not", () => {})
 })

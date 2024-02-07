@@ -27,6 +27,6 @@ describe("<SectionMember />", () => {
     const contactBtn = screen.getByTestId("contact-btn")
     expect(contactBtn).toBeInTheDocument()
   })
-  //it("contact player btn calls axios.post() with expected args", () => {})
+  //it("contact player btn calls () with expected args", () => {})
 })
 

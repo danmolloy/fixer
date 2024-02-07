@@ -8,6 +8,15 @@ const mockProps: NotificationsProps = {
   mutate: jest.fn()
 }
 
+/* 
+states if accepted/declined work or indicated availability or action required
+notifications sorted from most recent
+notification tile is a link to notification detail
+removed event title from notificaiton preview
+pass ensembleFilter to dashboard
+there is multiple of each ensemble in the dashboard. You can't make a set out of objects!
+*/
+
 describe("<NotificationsIndex />", () => {
   beforeEach(() => {
     render(<Notifications {...mockProps} />)
@@ -24,19 +33,10 @@ describe("<NotificationsIndex />", () => {
     const notificationsList = screen.getByTestId("notifications-list")
     expect(notificationsList).toBeInTheDocument()
   })
-  //it("expected playerCalls are passed to <NotificationsList />", () => {})
+  it("expected playerCalls are passed to <NotificationsList />", () => {
+    for (let i = 0; i < mockProps.playerCalls.length; i ++) {
+      const preview = screen.getByTestId(`${mockProps.playerCalls[i].id}-preview`)
+      expect(preview).toBeInTheDocument()
+    }
+  })
  })
-
- 
- /* 
- model Notification {
-  id
-  title
-  body
-  author
-  ensemble
-  to
-  date
-  action
- }
- */

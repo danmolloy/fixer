@@ -1,15 +1,14 @@
 import { useSession } from "next-auth/react";
-import LandingPage from "../components/externalSite/landingPage";
-import NotificationsIndex from "../components/users/notifications";
 import useSWR from "swr";
 import LayoutIndex from "../components/layout";
 import LoadingLayout from "../components/layout/loading";
 import SignIn from "../components/layout/signIn";
+import Notifications from "../components/notifications";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 export default function NotificationsPage() {
-  const { data, error, isLoading, mutate } = useSWR(`/api/user/getNotifications`, fetcher)
+  const { data, error, isLoading, mutate } = useSWR(`/api/playerCall/getAll`, fetcher)
   const { data: session, status } = useSession()
 
   if (isLoading) {
@@ -19,7 +18,7 @@ export default function NotificationsPage() {
   return (
     <LayoutIndex pageTitle="Notifications">
       {session 
-      ? <NotificationsIndex playerCalls={data.playerCalls} mutate={() => mutate()}/> 
+      ? <Notifications playerCalls={data ? data : []} mutate={() => mutate()}/> 
       : <SignIn />}
     </LayoutIndex>
   )

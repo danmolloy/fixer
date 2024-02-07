@@ -80,6 +80,16 @@ export const mockPlayerCallNotification: PlayerCallNotification = {
   bookingOrAvailability: Math.random() > .5 ?  "Booking" : "Availability",
   offerExpiry: null,
   status: "active",
+  calls: [{
+    id: faker.number.int(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  startTime: new Date(),
+  endTime: new Date(),
+  venue: faker.lorem.words(),
+  eventId: faker.number.int(),
+  fixerId: faker.string.uuid(),
+  }],
   eventSection: {
     id: Math.ceil(Math.random() * 20),
   createdAt: new Date(),
@@ -99,6 +109,20 @@ export const mockPlayerCallNotification: PlayerCallNotification = {
   dressCode: faker.lorem.words(),
   fee: faker.lorem.words(),
   additionalInfo: faker.lorem.words(),
+  fixer: {
+    id: faker.string.uuid(),
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    emailVerified: new Date(),
+    image: faker.image.urlLoremFlickr(),
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    mobileNumber: faker.phone.number(),
+    fixingEnsembles: [faker.lorem.words(3)],
+    profileText: faker.lorem.paragraph(),
+    preferredMethod: "WhatsApp",
+    instrumentsList: ["Cello", "Viola"]
+  },
   fixerId: faker.string.uuid(),
   fixerName: faker.person.fullName(),
   ensemble: {

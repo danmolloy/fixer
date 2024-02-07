@@ -3,18 +3,19 @@ import CallTile from "./callTile";
 import InfoDiv from "./infoDiv";
 import { EventWithCalls } from "./menu/calendarEventLink";
 import { DateTime } from "luxon";
-import { Ensemble } from '@prisma/client';
+import { Call, Ensemble, Event } from '@prisma/client';
 
 
 export type EventInfoProps = {
-  event: EventWithCalls
+  event: Event
+  calls: Call[]
   userId: string
   ensemble: Ensemble
 }
 
 
 export default function EventInfo(props: EventInfoProps) {
-  const { ensemble, event, userId } = props
+  const { ensemble, event, userId, calls } = props
 
   
   return (
@@ -23,14 +24,14 @@ export default function EventInfo(props: EventInfoProps) {
       <InfoDiv className="bg-slate-50" id="ensemble-name" title="Ensemble" value={ensemble.name}/>
       <tr className="flex flex-col  md:flex-row p-4 w-full lg:items-center lg:justify-evenly ">
         <td className="text-slate-600 text-sm md:w-1/2">
-          {props.event.calls.length} Call(s)
+          {calls.length} Call(s)
         </td>
         <td className="md:w-1/2">
         {userId === event.fixerId 
-        ? props.event.calls.sort((a, b) => Number(DateTime.fromJSDate(new Date(a.startTime))) - Number(DateTime.fromJSDate(new Date(b.startTime)))).map(i => (
+        ? calls.sort((a, b) => Number(DateTime.fromJSDate(new Date(a.startTime))) - Number(DateTime.fromJSDate(new Date(b.startTime)))).map(i => (
           <CallTile {...i} key={i.id} />
       )) 
-      : props.event.calls.sort((a, b) => Number(DateTime.fromJSDate(new Date(a.startTime))) - Number(DateTime.fromJSDate(new Date(b.startTime)))).map(i => (
+      : calls.sort((a, b) => Number(DateTime.fromJSDate(new Date(a.startTime))) - Number(DateTime.fromJSDate(new Date(b.startTime)))).map(i => (
         <CallTile {...i} key={i.id} />
     ))}
         </td>

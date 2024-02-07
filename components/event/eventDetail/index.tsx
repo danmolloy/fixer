@@ -33,7 +33,7 @@ export default function EventDetail(props: EventDetailProps) {
       }
       <table className="flex flex-col items-center w-[96vw] lg:w-1/2">
         <DetailHeader showMenu={showOptions} setShowMenu={(arg) => setShowOptions(arg)} eventTitle={event.eventTitle} />
-        <EventInfo ensemble={ensemble} userId={session.user.id} event={event} />
+        <EventInfo ensemble={ensemble} userId={session.user.id} event={event} calls={event.calls} />
       </table>
   </div>
   )
