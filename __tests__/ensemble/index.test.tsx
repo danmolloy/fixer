@@ -1,11 +1,11 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import EnsembleIndex, { EnsembleIndexProps } from "../../components/ensemble"
-import { mockSectionWithPlayersAndBulletins } from "../../__mocks__/models/ensembleSection"
+import { mockSectionWithPlayers } from "../../__mocks__/models/ensembleSection"
 import { mockEnsemble } from "../../__mocks__/models/ensemble"
 
 const mockProps: EnsembleIndexProps = {
-  sections: [mockSectionWithPlayersAndBulletins],
+  sections: [mockSectionWithPlayers],
   ensemble: mockEnsemble
 }
 
@@ -27,17 +27,11 @@ describe("<EnsembleIndex />", () => {
   })
     //it("all events listed and all indicate if user is involved", () => {})
 
-  it("ensemble-bulletins is in the document", () => {
-    const ensembleBulletins = screen.getByTestId("ensemble-bulletins")
-    expect(ensembleBulletins).toBeInTheDocument()
-  })
     //it("view your sent msgs and your inbox", () => {})
-    //it("create bulletin btn", () => {})
     //it("create page has title, body, urgency, text msg alert option and which players/sections/event members to send to", () => {})
     //it("preview has title, author & who it is addressed to", () => {})
     //it("preview indicates whether it has been read", () => {})
     //it("one can mark them as read/unread", () => {})
-    //it("bulletin detail has list of groups/people it is addressed to, body & who has seen it", () => {})
   
   it("ensemble-sections is in the document", () => {
     const ensembleSections = screen.getByTestId("ensemble-sections")

@@ -49,7 +49,6 @@ model User {
   mobileNumber  String?
   instrumentsList String[] 
   profileText String?
-  bulletinsAuthored     Bulletin[]
   blockedUsers BlockUser[] @relation("blockedUser")
   blockedBy BlockUser[] @relation("blockedBy")
   preferredMethod String?
@@ -208,7 +207,6 @@ model EnsembleSection {
   members EnsembleMember[]
   extras EnsembleExtra[]
   events  EventSection[]
-  bulletins Bulletin[]
 }
 
 model EnsembleMember {
@@ -233,12 +231,3 @@ model EnsembleExtra {
   user User @relation(fields: [userId], references: [id])
 }
 
-model Bulletin {
-  id String @id @default(cuid())
-  title String
-  body String
-  date DateTime @default(now())
-  sections EnsembleSection[]
-  authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-}

@@ -1,9 +1,9 @@
-import { SectionWithPlayersAndBulletins } from "."
+import { SectionWithPlayers } from "."
 import SectionExtra from "./sectionExtra"
 import SectionMember from "./sectionMember"
 
 export type EnsembleSectionProps = {
-  section: SectionWithPlayersAndBulletins
+  section: SectionWithPlayers
 }
 
 export default function EnsembleSection(props: EnsembleSectionProps) {

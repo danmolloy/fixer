@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import EnsembleSections, { EnsembleSectionsProps } from "../../../components/ensemble/sections"
-import { mockSectionWithPlayersAndBulletins } from "../../../__mocks__/models/ensembleSection"
+import { mockSection, mockSectionWithPlayers } from "../../../__mocks__/models/ensembleSection"
 
 /* 
 
@@ -13,7 +13,8 @@ This functionality isn't yet there, it's currently just organised lists.
 */
 
 const mockProps: EnsembleSectionsProps = {
-  sections: [mockSectionWithPlayersAndBulletins]
+  sections: [mockSectionWithPlayers],
+  ensembleId: mockSectionWithPlayers.ensembleId
 }
 
 describe("<EnsembleSections />", () => {

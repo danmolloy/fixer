@@ -1,10 +1,10 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import EnsembleSection, { EnsembleSectionProps } from "../../../components/ensemble/sections/ensembleSection"
-import { mockSectionWithPlayersAndBulletins } from "../../../__mocks__/models/ensembleSection"
+import { mockSectionWithPlayers } from "../../../__mocks__/models/ensembleSection"
 
 const mockProps: EnsembleSectionProps = {
-  section: mockSectionWithPlayersAndBulletins
+  section: mockSectionWithPlayers
 }
 
 describe("<EnsembleSection />", () => {

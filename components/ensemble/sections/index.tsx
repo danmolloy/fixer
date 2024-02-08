@@ -3,7 +3,7 @@ import EnsembleSection from "./ensembleSection"
 import CreateSection from "./edit"
 import useSWR from "swr"
 
-export type SectionWithPlayersAndBulletins = Prisma.EnsembleSectionGetPayload<{
+export type SectionWithPlayers = Prisma.EnsembleSectionGetPayload<{
   include: {
     members: {
       include: {
@@ -15,14 +15,13 @@ export type SectionWithPlayersAndBulletins = Prisma.EnsembleSectionGetPayload<{
         user: true
       }
     },
-    bulletins: true
   }
 }>
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 
 export type EnsembleSectionsProps = {
-  sections: SectionWithPlayersAndBulletins[]
+  sections: SectionWithPlayers[]
   ensembleId: string
 }
 

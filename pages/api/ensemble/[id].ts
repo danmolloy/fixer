@@ -17,9 +17,8 @@ export const findEnsemble = async (ensembleId: string) => {
             include: {
               user: true
             }
-          },
-          bulletins: true
-        }
+          }
+                }
       }
     }
   })

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import CreateInstrumentForm, { CreateInstrumentFormProps} from "../../../../components/fixing/instrument/create/createForm"
-import { mockSection, mockSectionWithMusicians, mockSectionWithPlayersAndBulletins } from "../../../../__mocks__/models/ensembleSection"
+import { mockSection, mockSectionWithMusicians, mockSectionWithPlayers } from "../../../../__mocks__/models/ensembleSection"
 import { mockCall } from "../../../../__mocks__/models/call"
 import axios from "axios"
 import { mockUserId } from "../../../../__mocks__/models/user"

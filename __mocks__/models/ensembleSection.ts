@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { EnsembleSection } from "@prisma/client";
-import { SectionWithPlayersAndBulletins } from "../../components/ensemble/sections";
+import { SectionWithPlayers } from "../../components/ensemble/sections";
 import { EnsembleSectionWithMusicians, FixingSection } from "../../components/fixing/fixing";
 import { mockCall } from "./call";
 import { randBool } from "./playerCall";
@@ -22,7 +22,8 @@ export const mockFixingSection: FixingSection = {
   eventId:  Math.ceil(Math.random() * 20),
   bookingStatus: "ok",
   musicians: [{
-
+    recievedDate: new Date(),
+    acceptedDate: new Date(),
     indexNumber: Math.floor(Math.random() * 10),
     id: faker.number.int(),
   createdAt: new Date(),
@@ -65,7 +66,7 @@ export const mockFixingSection: FixingSection = {
 
 const mockSectionId = faker.string.uuid()
 const mockEnsembleId = faker.string.uuid()
-export const mockSectionWithPlayersAndBulletins: SectionWithPlayersAndBulletins = {
+export const mockSectionWithPlayers: SectionWithPlayers = {
   name: faker.lorem.word(),
   id: mockSectionId,
   ensembleId: mockEnsembleId,
@@ -114,13 +115,7 @@ export const mockSectionWithPlayersAndBulletins: SectionWithPlayersAndBulletins 
       instrumentsList: ["Cello", "Viola"]
     }
   }],
-  bulletins: [{
-    id: faker.string.uuid(),
-    title: faker.lorem.words(3),
-    date: new Date(),
-    authorId: faker.string.uuid(),
-    body: faker.lorem.paragraph()
-  }]
+
 }
 
 export const mockSectionWithMusicians: EnsembleSectionWithMusicians = {
