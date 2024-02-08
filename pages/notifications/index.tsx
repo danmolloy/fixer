@@ -1,9 +1,9 @@
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
-import LayoutIndex from "../components/layout";
-import LoadingLayout from "../components/layout/loading";
-import SignIn from "../components/layout/signIn";
-import Notifications from "../components/notifications";
+import LayoutIndex from "../../components/layout";
+import LoadingLayout from "../../components/layout/loading";
+import SignIn from "../../components/layout/signIn";
+import Notifications from "../../components/notifications";
 
 const fetcher = (url: string):Promise<any> => fetch(url).then((res) => res.json())
 

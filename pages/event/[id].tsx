@@ -5,10 +5,7 @@ import IsLoadingEventIndex from "../../components/event/eventDetail/isLoadingEve
 import { useEffect, useState } from "react";
 import IsLoadingInstrumentTile from "../../components/fixing/isLoadingTile";
 import { useSession } from "next-auth/react";
-import LandingPage from "../../components/externalSite/landingPage";
 import LayoutIndex from "../../components/layout";
-import LoadingLayout from "../../components/layout/loading";
-import ExternalLayout from "../../components/layout/external";
 import SignIn from "../../components/layout/signIn";
 import EventDetail from "../../components/event/eventDetail";
 import Index404 from "../../components/layout/components/index404";

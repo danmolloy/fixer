@@ -27,7 +27,7 @@ export default function NotificationsList(props: NotificationsListProps) {
   }
 
   return (
-    <div data-testid="notifications-list" className=" p-4 flex flex-col items-center w-3/5">
+    <div data-testid="notifications-list" className=" p-4 flex flex-col items-center justify-center w-[95vw] md:w-3/5">
       {playerCalls.length === 0 
       ? <p>You have no notifications.</p>
       : ensembleFilter !== null 

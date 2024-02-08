@@ -4,6 +4,7 @@ import { TbAlertSquareRounded } from "react-icons/tb";
 import { RiCalendar2Line } from "react-icons/ri";
 import { TiThumbsDown } from "react-icons/ti";
 import { TiThumbsUp } from "react-icons/ti";
+import Link from "next/link";
 
 
 export type NotificationPreviewProps = {
@@ -20,7 +21,7 @@ export default function NotificationPreview(props: NotificationPreviewProps) {
   const endDate = DateTime.fromJSDate(new Date(sortedCalls[sortedCalls.length - 1].endTime))
 
   return (
-    <div data-testid={`${playerCall.id}-preview`} className={`${playerCall.accepted === false || endDate < DateTime.now().startOf("day") && "opacity-50"} border w-full p-2`}>
+    <Link href={`/notifications/${playerCall.id}`} data-testid={`${playerCall.id}-preview`} className={`${playerCall.accepted === false || endDate < DateTime.now().startOf("day") && "opacity-30"} shadow w-full p-2 my-1 rounded hover:bg-indigo-100`}>
       {playerCall.accepted === null 
       ? <div className="flex flex-row items-center text-red-500">
           <TbAlertSquareRounded/>
@@ -47,7 +48,6 @@ export default function NotificationPreview(props: NotificationPreviewProps) {
           : `${startDate.toFormat("dd LLL yyyy")} - ${endDate.toFormat("dd LLL yyyy")}`}</p>
         </div>
         </div>
-{/*           <p>{playerCall.eventSection.event.eventTitle}</p>
- */}      </div>
+      </Link>
   )
 }
