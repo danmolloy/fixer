@@ -70,14 +70,14 @@ export default function ExternalMenu(props: externalMenuProps) {
               </div>
               <p className="p-4  text-black">{i.name}</p>
             </Link>))}
-            <button data-testid="sign-in-btn" onClick={() => signIn("github")} className="w-full hover:bg-slate-100 hover:text-indigo-600 py-1 px-2 items-center flex flex-row">
+            <Link href="/login" data-testid="sign-in-btn" className="w-full hover:bg-slate-100 hover:text-indigo-600 py-1 px-2 items-center flex flex-row">
             <div>
             <IoEnterOutline />
             </div>
             <p className="p-4  text-black">
               Sign in
             </p>
-          </button>
+          </Link>
     </div>
   )
 }
