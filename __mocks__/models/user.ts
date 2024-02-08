@@ -6,7 +6,6 @@ export const mockUserId = faker.string.uuid()
 
 export const mockUser: User = {
   id: mockUserId,
-  name: faker.person.fullName(),
   email: faker.internet.email(),
   emailVerified: new Date(),
   image: faker.image.urlLoremFlickr(),
@@ -23,7 +22,6 @@ export const mockUser: User = {
 
 export const mockUserWithCallsAndEvents: UserWithEventsAndCallsWithEnsemble = {
   id: mockUserId,
-  name: faker.person.fullName(),
   email: faker.internet.email(),
   emailVerified: new Date(),
   image: faker.image.urlLoremFlickr(),

@@ -40,7 +40,6 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String? @default("")
@@ -127,22 +126,6 @@ model Call {
   fixer              User     @relation(fields: [fixerId], references: [id])
   playerCalls        PlayerCall[]
 }
-
-//model EventInstrument {
-  //id                 Int      @id @default(autoincrement())
-  //createdAt          DateTime @default(now())
-  //updatedAt          DateTime @updatedAt
-  //event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  //eventId            Int 
-  //instrumentName     String
-  //fixerNote          String?
-  //messageToAll       String?
-  //bookingStatus      String @default("active")
-  //musicians          PlayerCall[]
-  //numToBook          Int @default(0)
-  //callOrder          String @default("Ordered")
-//}
-
 
 model EventSection {
   id                 Int      @id @default(autoincrement())

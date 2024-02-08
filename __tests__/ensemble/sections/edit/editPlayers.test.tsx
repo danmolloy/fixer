@@ -7,12 +7,12 @@ import { Formik } from "formik"
 
 const mockProps: EditPlayersProps = {
   members: [{
-    name: mockEnsembleMemberWithUser.user.name,
+    name: `${mockEnsembleMemberWithUser.user.firstName} ${mockEnsembleMemberWithUser.user.lastName}`,
     id: mockEnsembleMemberWithUser.user.id,
     positionTitle: "LOL"
   }],
   extras: [{
-    name: mockEnsembleMemberWithUser.user.name,
+    name: `${mockEnsembleMemberWithUser.user.firstName} ${mockEnsembleMemberWithUser.user.lastName}`,
     id: mockUserId,
     positionTitle: "LOL"
   }],

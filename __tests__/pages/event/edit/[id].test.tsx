@@ -100,7 +100,7 @@ describe("<Create />", () => {
       ensemble: mockSession.userData.fixingEnsembles[0],
       ensembleName: "",
       fixerId: mockSession.user.id,
-      fixerName: mockSession.user.name,
+      fixerName: `${mockSession.user.firstName} ${mockSession.user.lastName}`,
       id: "",
       fee,
       calls: [{

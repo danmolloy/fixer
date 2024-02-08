@@ -23,7 +23,6 @@ export const mockEnsembleExtraWithUser: SectionExtraWithUser = {
   userId: mockUserId,
   user: {
     id: faker.string.uuid(),
-    name: faker.person.fullName(),
     email: faker.internet.email(),
     emailVerified: new Date(),
     image: faker.image.urlLoremFlickr(),
