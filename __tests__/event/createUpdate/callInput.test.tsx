@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render, screen, act, fireEvent } from "@testing-library/react";
 import { Formik } from "formik";
 import React from "react";
-import CallInput from "../../../components/event/createUpdate/callInput";
+import CallInput from "../../../app/event/create/callInput";
 
 const mockProps = {
   index: 1,

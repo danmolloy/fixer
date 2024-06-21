@@ -1,6 +1,6 @@
 import { prismaMock } from "../../../__mocks__/singleton"
 import { mockUser } from "../../../__mocks__/models/user"
-import { getUser, emailGetUser } from "../../../pages/api/user/getNotificationsFunctions"
+import { getUser, emailGetUser } from "../../../deprecatedPagesApi/api/user/getNotificationsFunctions"
 import { mockCall } from "../../../__mocks__/models/call"
 
 const mockUserDetails = {

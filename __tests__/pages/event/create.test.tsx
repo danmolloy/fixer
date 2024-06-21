@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
-import Create from "../../../pages/event/create"
+import Create from "../../../deprecatedPagesApi/event/create"
 import { mockUser, mockUserWithCallsAndEvents } from "../../../__mocks__/models/user";
 import axios from "axios";
 

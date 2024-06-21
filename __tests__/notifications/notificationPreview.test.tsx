@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import NotificationPreview, { NotificationPreviewProps } from "../../components/notifications/notificationPreview"
+import NotificationPreview, { NotificationPreviewProps } from "../../app/notifications/notificationPreview"
 import { mockPlayerCallNotification } from "../../__mocks__/models/playerCall"
 import { DateTime } from "luxon"
 

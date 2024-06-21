@@ -19,9 +19,9 @@ describe("<ProfileInfo />", () => {
     expect(profileInfo).toBeInTheDocument()
   })
   it("profile blurb input is in the document", () => {
-    const profileBlurb = screen.getByLabelText("Profile Blurb")
+    const profileBlurb = screen.getByLabelText("Profile Text")
     expect(profileBlurb).toBeInTheDocument()
-    expect(profileBlurb).toHaveAttribute("name", "profileBlurb")
+    expect(profileBlurb).toHaveAttribute("name", "profileText")
   })
 /*   it("image upload is in the document", () => {
     const imgInput = screen.getByLabelText("Profile Image")

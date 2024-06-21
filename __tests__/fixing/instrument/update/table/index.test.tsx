@@ -1,15 +1,15 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import FixingTable, { FixingTableProps } from "../../../../../components/fixing/instrument/update/table"
-import { mockPlayerCallForTable } from "../../../../../__mocks__/models/playerCall"
 import { mockCall } from "../../../../../__mocks__/models/call"
+import { mockContactMessageForTable } from "../../../../../__mocks__/models/contactMessage"
 
 
 
 describe("<FixingTable />", () => {
   const mockProps: FixingTableProps = {
-    playerCalls: [{
-      ...mockPlayerCallForTable,
+    contactMessages: [{
+      ...mockContactMessageForTable,
       bookingOrAvailability: "Booking",
     }],
     eventCalls: [mockCall],
@@ -27,8 +27,8 @@ describe("<FixingTable />", () => {
     expect(tableHead).toBeInTheDocument()
   })
   it("all playerCalls are in the document", () => {
-    for (let i = 0; i < mockProps.playerCalls.length; i++) {
-      let playerRow = screen.getByTestId(`${mockProps.playerCalls[i].id}-row`)
+    for (let i = 0; i < mockProps.contactMessages.length; i++) {
+      let playerRow = screen.getByTestId(`${mockProps.contactMessages[i].id}-row`)
       expect(playerRow).toBeInTheDocument()
     }
   })
@@ -36,8 +36,8 @@ describe("<FixingTable />", () => {
 
 describe("<FixingTable />", () => {
   const mockProps: FixingTableProps = {
-    playerCalls: [{
-      ...mockPlayerCallForTable,
+    contactMessages: [{
+      ...mockContactMessageForTable,
       bookingOrAvailability: "Booking",
     }],
     eventCalls: [mockCall],
@@ -54,8 +54,8 @@ describe("<FixingTable />", () => {
 
 describe("<FixingTable />", () => {
   const mockProps: FixingTableProps = {
-    playerCalls: [{
-      ...mockPlayerCallForTable,
+    contactMessages: [{
+      ...mockContactMessageForTable,
       bookingOrAvailability: "Availability",
     }],
     eventCalls: [mockCall],

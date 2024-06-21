@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { screen, render } from "@testing-library/react"
-import DayView, { DayViewProps } from "../../../components/calendar/views/dayView"
+import DayView, { DayViewProps } from "../../../app/calendar/views/dayView"
 import { DateTime } from "luxon"
 import { mockCallWithEventWithEnsemble } from "../../../__mocks__/models/call"
 

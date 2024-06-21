@@ -1,3 +1,4 @@
+import { Ensemble, EnsembleAdmin } from "@prisma/client"
 import NextAuth from "next-auth"
 
 export type UserWithEventsAndCallsAndECalls = Prisma.UserGetPayload<{
@@ -18,18 +19,19 @@ export type UserWithEventsAndCallsAndECalls = Prisma.UserGetPayload<{
 }>
 
 declare module "next-auth" {
-  /**
-   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-   */
+
   interface Session {
     user: {
+      admins: (EnsembleAdmin & { ensemble: Ensemble})[]
+      mobileNumber?: any
+      lastName?: string
+      firstName?: string
       name: string
-      email: string
-      image: string
+      email?: string
+      image?: string
       instrument?: string|null
       id: string
     }
     expires: string
-    userData?: UserWithEventsAndCallsAndECalls
   }
 }

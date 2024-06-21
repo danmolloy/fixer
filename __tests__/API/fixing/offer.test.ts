@@ -1,6 +1,6 @@
-import { handleFixing } from "../../../pages/api/fixing/bookingFunctions"
-import { updatePlayerCall } from "../../../pages/api/fixing/bookingFunctions/prismaFunctions"
-import { handleOffer } from "../../../pages/api/fixing/offer"
+import { handleFixing } from "../../../deprecatedPagesApi/api/fixing/bookingFunctions"
+import { updatePlayerCall } from "../../../deprecatedPagesApi/api/fixing/bookingFunctions/prismaFunctions"
+import { handleOffer } from "../../../deprecatedPagesApi/api/fixing/offer"
 
 const randInt = Math.ceil(Math.random() * 100)
 

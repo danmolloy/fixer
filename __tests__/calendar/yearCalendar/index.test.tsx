@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import YearCalendar, { YearCalendarProps } from "../../../components/calendar/yearCalendar"
+import YearCalendar, { YearCalendarProps } from "../../../app/calendar/yearCalendar"
 import { DateTime } from "luxon"
 import { mockCall } from "../../../__mocks__/models/call"
 

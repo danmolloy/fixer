@@ -41,36 +41,21 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   email         String?   @unique
-  emailVerified DateTime?
-  image         String? @default("")
+  emailVerified DateTime? 
   firstName     String?
   lastName      String?
   mobileNumber  String?
   instrumentsList String[] 
-  profileText String?
-  blockedUsers BlockUser[] @relation("blockedUser")
-  blockedBy BlockUser[] @relation("blockedBy")
-  preferredMethod String?
-  fixingEnsembles String[]
+  preferredMethod String? //
+  fixingEnsembles String[] //
   accounts      Account[]
   sessions      Session[]
-  quickFixes    QuickFix[]
   events        Event[]
-  playerCalls   PlayerCall[]
   calls         Call[]
-  ensembles EnsembleMember[]
-  extraWork EnsembleExtra[]
   admins EnsembleAdmin[]
 }
 
-model BlockUser {
-  blockedBy User @relation("blockedBy", fields: [blockedById], references: [id])
-  blockedById String
-  blockedUser User @relation("blockedUser", fields: [blockedUserId], references: [id])
-  blockedUserId String
 
-  @@id([blockedById, blockedUserId])
-}
 
 model VerificationToken {
   identifier String
@@ -80,22 +65,15 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model QuickFix {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  content      String
-  fixer        User    @relation(fields: [fixerEmail], references: [email])
-  fixerEmail   String
-}
 
 model Event {
   id                 Int      @id @default(autoincrement())
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   ensembleId         String
+  ensembleName       String 
   ensemble           Ensemble @relation(fields: [ensembleId], references: [id])
-  eventTitle         String @default("")
+  eventTitle         String 
   concertProgram     String
   confirmedOrOnHold  String @default("On Hold")
   calls              Call[]
@@ -105,9 +83,9 @@ model Event {
   //instrumentSections EventInstrument[]
   sections           EventSection[]
   //fixerEmail         String
-  fixerId            String
-  fixer              User     @relation(fields: [fixerId], references: [id])
-  fixerName          String?
+  fixerId            String//
+  fixer              User     @relation(fields: [fixerId], references: [id])//
+  fixerName          String?//
   //fixer              User     @relation(fields: [fixerEmail], references: [email])
 }
 
@@ -120,11 +98,9 @@ model Call {
   venue              String
   eventId            Int 
   event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  //fixerEmail         String
-  //fixer              User     @relation(fields: [fixerEmail], references: [email])
   fixerId           String
   fixer              User     @relation(fields: [fixerId], references: [id])
-  playerCalls        PlayerCall[]
+  contactMessages    ContactMessage[]
 }
 
 model EventSection {
@@ -136,22 +112,22 @@ model EventSection {
   ensembleSectionId  String
   ensembleSection    EnsembleSection @relation(fields: [ensembleSectionId], references: [id], onDelete: Cascade)
   bookingStatus      String @default("active")
-  musicians          PlayerCall[]
   numToBook          Int
+  contacts           ContactMessage[]
   //messageToAll     String
 }
 
-model PlayerCall {
+model ContactMessage {
   id                 Int      @id @default(autoincrement())
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   //eventInstrument    EventInstrument     @relation(fields: [eventInstrumentId], references: [id], onDelete: Cascade)
-  musician           User     @relation(fields: [musicianId], references: [id])
+  contact            EnsembleContact    @relation(fields: [contactId], references: [id])
   recieved           Boolean @default(false)
   recievedDate       DateTime?
   accepted           Boolean? 
   acceptedDate       DateTime?
-  musicianId         String //@default("clg6usgbg0000l80846i92lbb")
+  contactId          String //@default("clg6usgbg0000l80846i92lbb")
   //eventInstrumentId  Int
   playerMessage      String?
   calls             Call[]
@@ -161,20 +137,25 @@ model PlayerCall {
   bookingOrAvailability String @default ("Booking")
   offerExpiry       Int?
   status            String @default("OK")
+  position        String @default("Tutti")
   //strictlyTied    Boolean
 }
 
 model Ensemble {
   name String @unique
+  ensembleNames String[]
   id String @id @default(cuid())
   sections EnsembleSection[]
   admin EnsembleAdmin[]
+  adminInvites AdminInvite[]
   events Event[]
+  contacts EnsembleContact[]
 }
 
 model EnsembleAdmin {
   id String @id @default(cuid())
   ensembleId String
+  accessType String @default("full")
   userId String 
   ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
   positionTitle String
@@ -187,30 +168,35 @@ model EnsembleSection {
   ensembleId String
   instrument String
   ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
-  members EnsembleMember[]
-  extras EnsembleExtra[]
   events  EventSection[]
+  contacts EnsembleContact[]
 }
 
-model EnsembleMember {
+
+model EnsembleContact {
+  id String @id @default(cuid())
+  status String @default("OK")
+  ensembleId String
+  email String?
+  phoneNumber String?
+  firstName String
+  lastName String
+  role String
+  sectionId String
+  section EnsembleSection @relation(fields: [sectionId], references: [id])
+  category String? 
+  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  contactMessages ContactMessage[]
+}
+
+model AdminInvite {
   id String @id @default(cuid())
   ensembleId String
-  userId String 
-  positionNumber String
+  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  accepted Boolean?
+  firstName String
+  lastName String
+  email String
   positionTitle String
-  sectionId String
-  section EnsembleSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id])
+  accessType String @default("restricted")
 }
-
-model EnsembleExtra {
-  id String @id @default(cuid())
-  ensembleId String
-  userId String 
-  positionNumber String
-  positionTitle String
-  sectionId String
-  section EnsembleSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id])
-}
-

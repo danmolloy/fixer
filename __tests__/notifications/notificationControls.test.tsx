@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen } from "@testing-library/react"
-import NotificationControls, { NotificationControlsProps } from "../../components/notifications/notificationControls"
+import NotificationControls, { NotificationControlsProps } from "../../app/notifications/notificationControls"
 
 const mockProps: NotificationControlsProps = {
   handleResponse: jest.fn()

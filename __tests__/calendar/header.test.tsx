@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen } from "@testing-library/react"
 import { DateTime } from "luxon"
-import CalendarHeader, { CalendarHeaderProps } from "../../components/calendar/header"
+import CalendarHeader, { CalendarHeaderProps } from "../../app/calendar/header"
 
 
 

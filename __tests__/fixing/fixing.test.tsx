@@ -4,27 +4,32 @@ import Fixing from "../../components/fixing/fixing"
 import { FixingProps } from "../../components/fixing/fixing"
 import { mockCall } from "../../__mocks__/models/call"
 import { DateTime } from "luxon"
-import { mockFixingSection, mockSectionWithMusicians } from "../../__mocks__/models/ensembleSection"
 import { mockEventWithCalls } from "../../__mocks__/models/event"
-import { mockEventSectionWithMusicians } from "../../__mocks__/models/eventSection"
+import { mockEventSection } from "../../__mocks__/models/eventSection"
+import { mockEnsembleContact } from "../../__mocks__/models/ensembleContact"
+import { mockContactMessageForTable } from "../../__mocks__/models/contactMessage"
+import { mockSection } from "../../__mocks__/models/ensembleSection"
 
-const mockSection = mockSectionWithMusicians
 
 const mockProps: FixingProps = {
   eventCalls: [mockCall],
   instrumentSections: [{
-    ...mockEventSectionWithMusicians,
-    ensembleSectionId: mockSection.id
+    ...mockEventSection,
+    contacts: [mockContactMessageForTable],
+    ensembleSection: mockSection
   }],
   eventId: mockCall.eventId,
   refreshProps: jest.fn(),
   isLoading: false,
   lastUpdated: new Date(),
   fixingSections: [{
-    ...mockFixingSection, 
-    ensembleSectionId: mockSection.id
+    ...mockEventSection,
+    contacts: [mockContactMessageForTable],
   }],
-  ensembleSections: [mockSection],
+  ensembleSections: [{
+    ...mockSection, 
+    contacts: [mockEnsembleContact]
+  }],
   event: mockEventWithCalls,
 }
 

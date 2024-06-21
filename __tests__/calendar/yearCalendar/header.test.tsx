@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import YearCalendarHeader, { YearCalendarHeaderProps } from "../../../components/calendar/yearCalendar/header"
+import YearCalendarHeader, { YearCalendarHeaderProps } from "../../../app/calendar/yearCalendar/header"
 import { DateTime } from "luxon"
 
 const mockDate = DateTime.now()

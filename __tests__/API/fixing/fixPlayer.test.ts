@@ -1,4 +1,4 @@
-import { updatePlayerCall, sendMessage } from "../../../pages/api/fixing/fixPlayer";
+import { updatePlayerCall, sendMessage } from "../../../deprecatedPagesApi/api/fixing/fixPlayer";
 import { prismaMock } from "../../../__mocks__/singleton";
 import { twilioClient } from "../../../twilio";
 import { mockPlayerCall } from "../../../__mocks__/models/playerCall";

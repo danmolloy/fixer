@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
-import Contact from "../../pages/contact"
+import Contact from "../../deprecatedPagesApi/contact"
 import { mockUser, mockUserWithCallsAndEvents } from "../../__mocks__/models/user";
 
 const mockSession = {

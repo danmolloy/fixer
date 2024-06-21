@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import DayTile, { DayTileProps } from "../../../components/calendar/yearCalendar/dayTile"
+import DayTile, { DayTileProps } from "../../../app/calendar/yearCalendar/dayTile"
 import { DateTime } from "luxon"
 import { mockCall } from "../../../__mocks__/models/call"
 

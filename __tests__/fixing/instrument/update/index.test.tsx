@@ -2,21 +2,25 @@ import "@testing-library/jest-dom"
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react"
 import UpdateIndex, { UpdateIndexProps } from "../../../../components/fixing/instrument/update"
 import { mockEventSection } from "../../../../__mocks__/models/eventSection"
-import { mockSection, mockSectionWithMusicians } from "../../../../__mocks__/models/ensembleSection"
-import { mockPlayerCall, mockPlayerCallForTable } from "../../../../__mocks__/models/playerCall"
+import { mockSection } from "../../../../__mocks__/models/ensembleSection"
 import { mockEventWithCalls } from "../../../../__mocks__/models/event"
 import FixingTable from "../../../../components/fixing/instrument/update/table"
+import { mockContactMessage } from "../../../../__mocks__/models/contactMessage"
+import { mockEnsembleContact } from "../../../../__mocks__/models/ensembleContact"
+import { mockCall } from "../../../../__mocks__/models/call"
 
 jest.mock("../../../../components/fixing/instrument/update/table", () => {
   return jest.fn(() => null)
 })
 
-
 const mockProps: UpdateIndexProps = {
   event: mockEventWithCalls,
-  eventSection: mockEventSection,
-  ensembleSection: mockSectionWithMusicians,
-  playerCalls: [mockPlayerCallForTable],
+  eventSection: {
+    ensembleSection: mockSection,
+    ...mockEventSection, 
+    contacts: [{...mockContactMessage, contact: mockEnsembleContact, calls: [mockCall]}]
+  },
+  ensembleSection: {...mockSection, contacts: [mockEnsembleContact]},
   refreshProps: jest.fn()
 }
 
@@ -55,7 +59,11 @@ describe("<UpdateIndex />", () => {
   it("<FixingTable is in the document with expected props", () => {
     expect(FixingTable).toHaveBeenCalledWith({
       eventCalls: mockProps.event.calls,
-      playerCalls: mockProps.playerCalls,
+      contactMessages: [{
+        ...mockContactMessage,
+        calls: [mockCall],
+        contact: mockEnsembleContact
+      }],
       selectedTab: "Booking"
     }, {})
   })

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
-import Event from "../../../pages/event/[id]";
+import Event from "../../../deprecatedPagesApi/event/[id]";
 import { mockUser, mockUserWithCallsAndEvents } from "../../../__mocks__/models/user";
 import { mockEventWithCalls } from "../../../__mocks__/models/event";
 import EventDetail from "../../../components/event/eventDetail";

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import Notifications, { NotificationsProps } from "../../components/notifications"
+import Notifications, { NotificationsProps } from "../../app/notifications"
 import { mockPlayerCallNotification } from "../../__mocks__/models/playerCall"
 
 const mockProps: NotificationsProps = {

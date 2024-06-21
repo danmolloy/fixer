@@ -1,6 +1,6 @@
 import { twilioClient } from "../../../../twilio";
 import MessagingResponse from "twilio/lib/twiml/MessagingResponse";
-import { replyToMessage, getOfferMsgBody, sendMessage } from "../../../../pages/api/fixing/messages";
+import { replyToMessage, getOfferMsgBody, sendMessage } from "../../../../deprecatedPagesApi/api/fixing/messages";
 import { mockMessage } from "../../../../__mocks__/models/messages";
 import { mockOfferMsgArg } from "../../../../__mocks__/models/eventInstrument";
 

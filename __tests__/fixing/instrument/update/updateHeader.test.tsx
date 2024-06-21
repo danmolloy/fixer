@@ -4,11 +4,12 @@ import UpdateHeader, { UpdateHeaderProps } from "../../../../components/fixing/i
 import { mockEventSection } from "../../../../__mocks__/models/eventSection"
 import { mockSection } from "../../../../__mocks__/models/ensembleSection"
 import { mockPlayerCall } from "../../../../__mocks__/models/playerCall"
+import { mockContactMessage } from "../../../../__mocks__/models/contactMessage"
 
 const mockProps: UpdateHeaderProps = {
   eventSection: mockEventSection,
+  contactMessages: [mockContactMessage],
   sectionName: mockSection.name,
-  playerCalls: [mockPlayerCall],
   setShowEdit: jest.fn(),
   showEdit: false
 }
@@ -40,7 +41,7 @@ describe("<UpdateHeader />", () => {
   it("states booking progress, i.e. '0 of 1 booked'", () => {
     const bookingStatus = screen.getByTestId("booking-status")
     expect(bookingStatus).toBeInTheDocument()
-    const numBooked = mockProps.playerCalls.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length
+    const numBooked = mockProps.contactMessages.filter(i => i.accepted === true && i.bookingOrAvailability === "Booking").length
     expect(bookingStatus.textContent).toMatch(`${numBooked} of ${mockProps.eventSection.numToBook} booked`)
   })
 })
@@ -50,8 +51,8 @@ describe("<UpdateHeader />", () => {
     const mockProps: UpdateHeaderProps = {
       eventSection: mockEventSection,
       sectionName: mockSection.name,
-      playerCalls: [{
-        ...mockPlayerCall, 
+      contactMessages: [{
+        ...mockContactMessage, 
         status: "DEP OUT", 
         bookingOrAvailability: "Booking", 
         accepted: true
@@ -73,8 +74,8 @@ describe("<UpdateHeader />", () => {
     const mockProps: UpdateHeaderProps = {
       eventSection: mockEventSection,
       sectionName: mockSection.name,
-      playerCalls: [{
-        ...mockPlayerCall, 
+      contactMessages: [{
+        ...mockContactMessage, 
         status: "OK", 
         bookingOrAvailability: "Availability", 
         accepted: true

@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
-import SignInPage from "../../pages/login"
+//import SignInPage from "../../pages/login"
+import SignIn from "../../app/signin/page"
 import { useRouter } from 'next/router'
 
 jest.mock("next/router")
@@ -40,7 +41,7 @@ describe("<SignInPage />", () => {
     const mockUseSession = jest.fn(() => ({ data: mockSession, status: 'authenticated' }));
     require('next-auth/react').useSession = mockUseSession;
     
-    waitFor(() => render(<SignInPage />))
+    waitFor(() => render(<SignIn />))
   })
   it("if session, useRouter is called", () => {
     expect(useRouter).toHaveBeenCalled()
@@ -64,7 +65,7 @@ describe("<SignInPage />", () => {
     ) as jest.Mock;
     const mockUseSession = jest.fn(() => ({}));
     require('next-auth/react').useSession = mockUseSession;
-    waitFor(() => render(<SignInPage />))
+    waitFor(() => render(<SignIn />))
   })
   it("if !session, <SignInIndex /> is in the document", () => {
     const signInIndex = screen.getByTestId("sign-in-index")

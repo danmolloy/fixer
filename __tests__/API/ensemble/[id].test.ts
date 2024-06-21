@@ -1,7 +1,7 @@
 import { prismaMock } from "../../../__mocks__/singleton";
 import { mockUser } from "../../../__mocks__/models/user";
 import { mockEnsemble } from "../../../__mocks__/models/ensemble";
-import { findEnsemble } from "../../../pages/api/ensemble/[id]";
+import { findEnsemble } from "../../../deprecatedPagesApi/api/ensemble/[id]";
 
 
 describe("findEnsemble function", () => {

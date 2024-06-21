@@ -1,7 +1,7 @@
 import { twilioClient } from "../../../twilio";
 import MessagingResponse from "twilio/lib/twiml/MessagingResponse";
 import { prismaMock } from "../../../__mocks__/singleton";
-import * as recieveTextMessage from '../../../pages/api/fixing/recieveTextMessage'
+import * as recieveTextMessage from '../../../deprecatedPagesApi/api/fixing/recieveTextMessage'
 import { mockPlayerCall } from "../../../__mocks__/models/playerCall";
 import { mockMessage } from "../../../__mocks__/models/messages";
 

@@ -3,8 +3,8 @@ import "@testing-library/jest-dom"
 import TextInput from "../../../components/event/createUpdate/textInput";
 import React from "react";
 import { Formik } from "formik";
-import ComboBox, { ComboBoxProps } from "../../../components/event/createUpdate/comboBox";
-import { venueOptions } from "../../../components/event/createUpdate/callInput";
+import ComboBox, { ComboBoxProps } from "../../../app/forms/comboBox";
+import { venueOptions } from "../../../app/event/create/callInput";
 
 const mockProps = { // This obj isn't typed because I pass propsValue to the component directly.
   name: "venue",

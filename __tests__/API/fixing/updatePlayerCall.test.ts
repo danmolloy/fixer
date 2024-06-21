@@ -1,7 +1,7 @@
 import { prismaMock } from "../../../__mocks__/singleton"
-import { updatePlayerCall } from "../../../pages/api/fixing/bookingFunctions/prismaFunctions"
-import { handleUpdate } from "../../../pages/api/fixing/updatePlayerCall"
-import { handleFixing } from "../../../pages/api/fixing/bookingFunctions"
+import { updatePlayerCall } from "../../../deprecatedPagesApi/api/fixing/bookingFunctions/prismaFunctions"
+import { handleUpdate } from "../../../deprecatedPagesApi/api/fixing/updatePlayerCall"
+import { handleFixing } from "../../../deprecatedPagesApi/api/fixing/bookingFunctions"
 
 const randInt = Math.ceil(Math.random() * 100)
 

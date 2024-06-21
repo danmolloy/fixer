@@ -2,14 +2,23 @@ import "@testing-library/jest-dom"
 import MobileFixing, { MobileFixingProps } from "../../components/fixing/mobileFixing"
 import { act, fireEvent, render, screen } from "@testing-library/react"
 import { mockEventWithCalls } from "../../__mocks__/models/event"
-import { mockFixingSection, mockSectionWithMusicians } from "../../__mocks__/models/ensembleSection"
 import { mockEventSection } from "../../__mocks__/models/eventSection"
+import { mockSection } from "../../__mocks__/models/ensembleSection"
+import { mockContactMessageForTable } from "../../__mocks__/models/contactMessage"
+import { mockEnsembleContact } from "../../__mocks__/models/ensembleContact"
 
 
 const mockProps: MobileFixingProps = {
-  fixingSections: [mockFixingSection],
-  ensembleSections: [mockSectionWithMusicians],
-  selectedInstrument: mockSectionWithMusicians.name,
+  fixingSections: [{
+    ...mockEventSection,
+    contacts: [mockContactMessageForTable],
+    ensembleSection: mockSection
+  }],
+  ensembleSections: [{
+    ...mockSection, 
+    contacts: [mockEnsembleContact]
+  }],
+  selectedInstrument: mockSection.name,
   setSelectedInstrument: jest.fn(),
   eventCalls: mockEventWithCalls.calls,
   refreshProps: jest.fn(),

@@ -1,8 +1,8 @@
 import { mockPlayerCall } from '../../../../__mocks__/models/playerCall'
 import { prismaMock } from '../../../../__mocks__/singleton'
-import * as bookingFunctions from '../../../../pages/api/fixing/bookingFunctions'
-import * as messaging from "../../../../pages/api/fixing/messages/index"
-import * as prismaFunctions from '../../../../pages/api/fixing/bookingFunctions/prismaFunctions'
+import * as bookingFunctions from '../../../../deprecatedPagesApi/api/fixing/bookingFunctions'
+import * as messaging from "../../../../deprecatedPagesApi/api/fixing/messages/index"
+import * as prismaFunctions from '../../../../deprecatedPagesApi/api/fixing/bookingFunctions/prismaFunctions'
 import { mockEventSection, mockEventSectionAndMusicians, mockEventSectionWithMusicians } from '../../../../__mocks__/models/eventSection'
 
 const mockEvenInstrument = mockEventSectionAndMusicians

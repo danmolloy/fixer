@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
-import Directory from "../../../pages/directory"
+import Directory from "../../../deprecatedPagesApi/directory"
 import { mockUser, mockUserWithCallsAndEvents } from "../../../__mocks__/models/user";
 
 

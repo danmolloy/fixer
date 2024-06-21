@@ -1,11 +1,16 @@
 import "@testing-library/jest-dom"
-import { render, screen } from "@testing-library/react"
-import EnsembleIndex, { EnsembleIndexProps } from "../../components/ensemble"
-import { mockSectionWithPlayers } from "../../__mocks__/models/ensembleSection"
+import { act, fireEvent, render, screen } from "@testing-library/react"
+import EnsembleIndex, { EnsembleIndexProps } from "../../app/ensembles"
+import { mockSection } from "../../__mocks__/models/ensembleSection"
 import { mockEnsemble } from "../../__mocks__/models/ensemble"
+import { mockEnsembleContact } from "../../__mocks__/models/ensembleContact"
 
 const mockProps: EnsembleIndexProps = {
-  sections: [mockSectionWithPlayers],
+  contacts: [{
+    ...mockEnsembleContact, 
+    section: mockSection
+  }],
+  sections: [{...mockSection, contacts: [mockEnsembleContact]}],
   ensemble: mockEnsemble
 }
 
@@ -21,41 +26,33 @@ describe("<EnsembleIndex />", () => {
     const ensembleName = screen.getByText(mockProps.ensemble.name)
     expect(ensembleName).toBeInTheDocument()
   })
-  it("ensemble-calendar is in the document", () => {
-    const ensembleCalendar = screen.getByTestId("ensemble-calendar")
-    expect(ensembleCalendar).toBeInTheDocument()
+  it("create contact form renders on Add Contact btn click", () => {
+    const addContact = screen.getByText("Add Contact")
+    act(() => {
+      fireEvent.click(addContact)
+    })
+    const contactForm = screen.getByTestId("create-contact-form")
+    expect(contactForm).toBeInTheDocument()
   })
-    //it("all events listed and all indicate if user is involved", () => {})
-
-    //it("view your sent msgs and your inbox", () => {})
-    //it("create page has title, body, urgency, text msg alert option and which players/sections/event members to send to", () => {})
-    //it("preview has title, author & who it is addressed to", () => {})
-    //it("preview indicates whether it has been read", () => {})
-    //it("one can mark them as read/unread", () => {})
-  
-  it("ensemble-sections is in the document", () => {
-    const ensembleSections = screen.getByTestId("ensemble-sections")
-    expect(ensembleSections).toBeInTheDocument()
+  it("ensemble-dashboard is in the document", () => {
+    const ensembleDashboard = screen.getByTestId("ensemble-dashboard")
+    expect(ensembleDashboard).toBeInTheDocument()
   })
-    //it("title of section is in the document", () => {})
-    
-    //it("admin able to create sections", () => {})
-    //it("section create form includes section name & instrument", () => {})
-    //it("able to arrange order of sections on page (and event pages)", () => {})
-    //it("able to arrange section players order", () => {})
-    //it("add players by searching via name", () => {})
-    //it("add extras by searching via name or directory", () => {})
-    
   it("ensemble-management is in the document", () => {
     const ensembleManagement = screen.getByTestId("ensemble-management")
     expect(ensembleManagement).toBeInTheDocument()
   })
-  //it("link to create event via ensemble-management", () => {})
-
-  //it("menu link to your ensemble, drop list if multiple listed", () => {})
-  //it("create event form lists ensembles that user is admin of", () => {})
-  //it("create event form 'Other' ensemble is create ensemble form", () => {})
-
-
-  //it("only orchestra admin (who are paying members) can create an ensemble (i.e. take out radio btns for admin/muso and section select)", () => {})
+  it("<ContactsIndex /> is in the document", () => {
+    const contactsIndex = screen.getByTestId("contacts-index")
+    expect(contactsIndex).toBeInTheDocument()
+  })
+  it("add contact button which renders add contact form", () => {
+    const addContactBtn = screen.getByText("Add Contact")
+    expect(addContactBtn).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(addContactBtn)
+    })
+    const createContactForm = screen.getByTestId("create-contact-form")
+    expect(createContactForm).toBeInTheDocument()
+  })
 })

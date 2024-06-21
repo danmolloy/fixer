@@ -1,11 +1,12 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen } from "@testing-library/react"
 import CreateInstrumentIndex, { CreateInstrumentProps } from "../../../../components/fixing/instrument/create"
-import { mockSectionWithMusicians } from "../../../../__mocks__/models/ensembleSection"
+import { mockSection } from "../../../../__mocks__/models/ensembleSection"
 import { mockCall } from "../../../../__mocks__/models/call"
+import { mockEnsembleContact } from "../../../../__mocks__/models/ensembleContact"
 
 const mockProps: CreateInstrumentProps = {
-  section: mockSectionWithMusicians,
+  section: {...mockSection, contacts: [mockEnsembleContact]},
   eventCalls: [mockCall],
   eventId: Math.ceil(Math.random() * 20),
   refreshProps: jest.fn()

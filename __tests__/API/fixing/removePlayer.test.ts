@@ -1,8 +1,8 @@
-import { removePlayerCall } from "../../../pages/api/fixing/removePlayer"
+import { removePlayerCall } from "../../../deprecatedPagesApi/api/fixing/removePlayer"
 import { prismaMock } from "../../../__mocks__/singleton";
 import { mockPlayerCall } from "../../../__mocks__/models/playerCall";
 import { twilioClient } from "../../../twilio";
-import { handleFixing } from "../../../pages/api/fixing/bookingFunctions"; 
+import { handleFixing } from "../../../deprecatedPagesApi/api/fixing/bookingFunctions"; 
 
 jest.mock("../../../pages/api/fixing/bookingFunctions")
 jest.mock("../../../twilio", () => require("../../../__mocks__/twilio"))

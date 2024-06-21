@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
 import { mockPlayerCall } from '../../../../__mocks__/models/playerCall'
 import { prismaMock } from '../../../../__mocks__/singleton'
-import * as prismaFunctions from '../../../../pages/api/fixing/bookingFunctions/prismaFunctions'
+import * as prismaFunctions from '../../../../deprecatedPagesApi/api/fixing/bookingFunctions/prismaFunctions'
 import { mockUser } from '../../../../__mocks__/models/user'
 import { mockCall } from '../../../../__mocks__/models/call'
 import { mockEventSection, mockEventSectionWithMusicians } from '../../../../__mocks__/models/eventSection'

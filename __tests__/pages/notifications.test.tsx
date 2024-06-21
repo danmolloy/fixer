@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
-import NotificationsPage from "../../pages/notifications"
+import NotificationsPage from "../../deprecatedPagesApi/notifications"
 import { mockUser, mockUserWithCallsAndEvents } from "../../__mocks__/models/user";
 
 const mockSession = {

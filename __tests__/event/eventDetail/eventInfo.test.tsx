@@ -3,7 +3,7 @@ import "@testing-library/jest-dom"
 import React from "react"
 import { mockEventWithCalls } from "../../../__mocks__/models/event"
 import { DateTime } from "luxon"
-import EventInfo, { EventInfoProps } from "../../../components/event/eventDetail/eventInfo"
+import EventInfo, { EventInfoProps } from "../../../app/event/[id]/eventInfo"
 import { mockUserId } from "../../../__mocks__/models/user"
 import { mockEnsemble } from "../../../__mocks__/models/ensemble"
 

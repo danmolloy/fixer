@@ -3,7 +3,7 @@ import { mockEvent, mockEventWithCalls } from "../../../__mocks__/models/event"
 import { mockUser } from "../../../__mocks__/models/user"
 import { prismaMock } from "../../../__mocks__/singleton"
 import { instrumentArr, sectionsArr } from "../../../components/fixing/fixing"
-import { formattedCalls, formattedSections, eventObj, createEvent } from "../../../pages/api/event/create"
+import { formattedCalls, formattedSections, eventObj, createEvent } from "../../../deprecatedPagesApi/api/event/create"
 
 describe("formattedCalls function", () => {
   it("Returns expect value", () => {

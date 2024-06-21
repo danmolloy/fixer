@@ -1,6 +1,6 @@
 import { mockSection } from "../../../__mocks__/models/ensembleSection";
 import { prismaMock } from "../../../__mocks__/singleton";
-import { createSection } from "../../../pages/api/section/create";
+import { createSection } from "../../../deprecatedPagesApi/api/section/create";
 
 describe("createSection()", () => {
   it("resolves to create section", () => {

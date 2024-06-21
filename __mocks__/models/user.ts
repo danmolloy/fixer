@@ -1,6 +1,6 @@
 import { Prisma, User } from "@prisma/client";
 import {faker} from '@faker-js/faker'
-import { UserWithEventsAndCallsWithEnsemble } from "../../components/calendar"; 
+import { UserWithEventsAndCallsWithEnsemble } from "../../app/calendar"; 
 
 export const mockUserId = faker.string.uuid()
 

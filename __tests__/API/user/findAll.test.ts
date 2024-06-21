@@ -1,6 +1,6 @@
 import { prismaMock } from "../../../__mocks__/singleton";
 import { mockUser } from "../../../__mocks__/models/user";
-import { findUsers } from "../../../pages/api/user/findAll"; 
+import { findUsers } from "../../../deprecatedPagesApi/api/user/findAll"; 
 
 
 

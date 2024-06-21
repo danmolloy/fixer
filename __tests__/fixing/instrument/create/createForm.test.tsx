@@ -1,11 +1,12 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import CreateInstrumentForm, { CreateInstrumentFormProps} from "../../../../components/fixing/instrument/create/createForm"
-import { mockSection, mockSectionWithMusicians, mockSectionWithPlayers } from "../../../../__mocks__/models/ensembleSection"
+import { mockSection } from "../../../../__mocks__/models/ensembleSection"
 import { mockCall } from "../../../../__mocks__/models/call"
 import axios from "axios"
 import { mockUserId } from "../../../../__mocks__/models/user"
 import { mockEvent } from "../../../../__mocks__/models/event"
+import { mockEnsembleContact } from "../../../../__mocks__/models/ensembleContact"
 
 const mockPost = jest.spyOn(axios, 'post');
 mockPost.mockResolvedValue({ data: {} });
@@ -13,7 +14,7 @@ mockPost.mockResolvedValue({ data: {} });
 const mockProps: CreateInstrumentFormProps = {
   refreshProps: jest.fn(),
   eventId: mockEvent.id,
-  section: mockSectionWithMusicians,
+  section: {...mockSection, contacts: [mockEnsembleContact]},
   eventCalls: [mockCall]
 }
 
@@ -25,6 +26,13 @@ describe("<CreateInstrumentForm />", () => {
     const createForm = screen.getByTestId("create-form")
     expect(createForm).toBeInTheDocument()
   })
+  it("fixing-contacts is in the document and contains all relevant contacts", () => {
+    const fixingContacts = screen.getByTestId("fixing-contacts")
+    expect(fixingContacts).toBeInTheDocument()
+    for (let i = 0; i < mockProps.section.contacts.length; i++) {
+      expect(fixingContacts.textContent).toMatch(`${mockProps.section.contacts[i].firstName} ${mockProps.section.contacts[i].lastName}`)
+    }
+  })
   it("numToBook input is in the document with expected label, input type and name", () => {
     const numToBook = screen.getByLabelText("Num to Book")
     expect(numToBook).toBeInTheDocument()
@@ -34,33 +42,19 @@ describe("<CreateInstrumentForm />", () => {
     expect(numToBook).toHaveAttribute("max", "50")
 
   })
-  it("ensemble members list is in the document and contains all section members", () => {
-    const ensembleMembers = screen.getByTestId("ensemble-members")
-    expect(ensembleMembers).toBeInTheDocument()
-    for (let i = 0; i < mockProps.section.members.length; i++) {
-      expect(ensembleMembers.textContent).toMatch(`${mockProps.section.members[i].user.firstName} ${mockProps.section.members[i].user.lastName}`)
-    }
-  })
 
-  it("extra players is in the document and contains all extras", () => {
-    const ensembleExtras = screen.getByTestId("extra-players")
-    expect(ensembleExtras).toBeInTheDocument()
-    for (let i = 0; i < mockProps.section.extras.length; i++) {
-      expect(ensembleExtras.textContent).toMatch(`${mockProps.section.extras[i].user.firstName} ${mockProps.section.extras[i].user.lastName}`)
-    }
-  })
-  it("selecting a member appends them to appended players", async () => {
-    const randInd = Math.floor(Math.random() * mockProps.section.members.length)
-    const randMemberSelect = screen.getByTestId(`${mockProps.section.members[randInd].user.id}-select-btn`)
+  it("selecting a contact appends them to appended players", async () => {
+    const randInd = Math.floor(Math.random() * mockProps.section.contacts.length)
+    const randMemberSelect = screen.getByTestId(`${mockProps.section.contacts[randInd].id}-select-btn`)
     expect(randMemberSelect).toBeInTheDocument()
     await waitFor(() => fireEvent.click(randMemberSelect))
     const appendedTable = screen.getByTestId("appended-table")
     expect(appendedTable).toBeInTheDocument()
-    expect(appendedTable.textContent).toMatch(`${mockProps.section.members[randInd].user.firstName} ${mockProps.section.members[randInd].user.lastName}`)
+    expect(appendedTable.textContent).toMatch(`${mockProps.section.contacts[randInd].firstName} ${mockProps.section.contacts[randInd].lastName}`)
   })
   it("if musicians.length > 0, appended-musicians is in the document", async () => {
-    const randInd = Math.floor(Math.random() * mockProps.section.members.length)
-    const randMemberSelect = screen.getByTestId(`${mockProps.section.members[randInd].user.id}-select-btn`)
+    const randInd = Math.floor(Math.random() * mockProps.section.contacts.length)
+    const randMemberSelect = screen.getByTestId(`${mockProps.section.contacts[randInd].id}-select-btn`)
     expect(randMemberSelect).toBeInTheDocument()
     await waitFor(() => fireEvent.click(randMemberSelect))
     const appendedTable = screen.getByTestId("appended-table")
@@ -68,27 +62,19 @@ describe("<CreateInstrumentForm />", () => {
   })
 
   it("appended musicians are not able to be added to the list again", async () => {
-    const randInd = Math.floor(Math.random() * mockProps.section.members.length)
-    const randMemberSelect = screen.getByTestId(`${mockProps.section.members[randInd].user.id}-select-btn`)
+    const randInd = Math.floor(Math.random() * mockProps.section.contacts.length)
+    const randMemberSelect = screen.getByTestId(`${mockProps.section.contacts[randInd].id}-select-btn`)
     expect(randMemberSelect).toBeInTheDocument()
     await waitFor(() => fireEvent.click(randMemberSelect))
     const appendedTable = screen.getByTestId("appended-table")
     expect(appendedTable).toBeInTheDocument()
-    expect(appendedTable.textContent).toMatch(`${mockProps.section.members[randInd].user.firstName} ${mockProps.section.members[randInd].user.lastName}`)
+    expect(appendedTable.textContent).toMatch(`${mockProps.section.contacts[randInd].firstName} ${mockProps.section.contacts[randInd].lastName}`)
     expect(randMemberSelect).toHaveAttribute("disabled")
     await waitFor(() => fireEvent.click(randMemberSelect))
-    const appendedMusicians = screen.getAllByTestId("appended-musician")
+    const appendedMusicians = screen.getAllByTestId("appended-contact")
     expect(appendedMusicians.length).toBe(1)
   })
-  it("selecting an extra appends them to appended players", async () => {
-    const randInd = Math.floor(Math.random() * mockProps.section.extras.length)
-    const randExtraSelect = screen.getByTestId(`${mockProps.section.extras[randInd].user.id}-select-btn`)
-    expect(randExtraSelect).toBeInTheDocument()
-    await waitFor(() => fireEvent.click(randExtraSelect))
-    const appendedTable = screen.getByTestId("appended-table")
-    expect(appendedTable).toBeInTheDocument()
-    expect(appendedTable.textContent).toMatch(`${mockProps.section.extras[randInd].user.firstName} ${mockProps.section.extras[randInd].user.lastName}`)
-  })
+
   it("if Booking, numToBook input is in the document, with expected name and type", () => {
     const numToBook = screen.getByLabelText("Num to Book")
     expect(numToBook).toBeInTheDocument()
@@ -100,13 +86,9 @@ describe("<CreateInstrumentForm />", () => {
     expect(submitBtn).toBeInTheDocument()
   })
   it("submit btn calls axios.post() with expected args", async () => {
-    const randMemberInd = Math.floor(Math.random() * mockProps.section.members.length)
-    const randMemberSelect = screen.getByTestId(`${mockProps.section.members[randMemberInd].user.id}-select-btn`)
+    const randMemberInd = Math.floor(Math.random() * mockProps.section.contacts.length)
+    const randMemberSelect = screen.getByTestId(`${mockProps.section.contacts[randMemberInd].id}-select-btn`)
     await waitFor(() => fireEvent.click(randMemberSelect))
-
-    const randExtraInd = Math.floor(Math.random() * mockProps.section.extras.length)
-    const randExtraSelect = screen.getByTestId(`${mockProps.section.extras[randExtraInd].user.id}-select-btn`)
-    await waitFor(() => fireEvent.click(randExtraSelect))
 
     const numToBook = screen.getByLabelText("Num to Book")
     await waitFor(() => fireEvent.change(numToBook, {target: { value: 1 }}))
@@ -123,18 +105,11 @@ describe("<CreateInstrumentForm />", () => {
       musicians: [
         {
           addedMessage: "",
-          positionTitle: "tutti",
-          musicianId: mockProps.section.members[randMemberInd].user.id,
-          user: mockProps.section.members[randMemberInd].user,
+          contact: mockProps.section.contacts[randMemberInd],
+          contactId: mockProps.section.contacts[randMemberInd].id,
+          positionTitle: mockProps.section.contacts[randMemberInd].role,
           calls: mockProps.eventCalls.map(i => String(i.id)),
         },
-       {
-          addedMessage: "",
-          positionTitle: "tutti",
-          musicianId: mockProps.section.extras[randExtraInd].user.id,
-          user: mockProps.section.extras[randExtraInd].user,
-          calls: mockProps.eventCalls.map(i => String(i.id)),
-        }
       ]
     }
 

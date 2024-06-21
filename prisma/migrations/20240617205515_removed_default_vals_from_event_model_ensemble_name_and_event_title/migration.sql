@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Event" ALTER COLUMN "eventTitle" DROP DEFAULT,
+ALTER COLUMN "ensembleName" DROP DEFAULT;

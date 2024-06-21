@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen } from "@testing-library/react"
-import ViewSelect, { ViewSelectProps, viewOptions } from "../../components/calendar/viewSelect"
+import ViewSelect, { ViewSelectProps, viewOptions } from "../../app/calendar/viewSelect"
 
 const mockProps: ViewSelectProps = {
   selectedView: "Day",

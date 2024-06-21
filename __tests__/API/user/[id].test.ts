@@ -1,4 +1,4 @@
-import { findUser } from "../../../pages/api/user/[id]"; 
+import { findUser } from "../../../deprecatedPagesApi/api/user/[id]"; 
 import { prismaMock } from "../../../__mocks__/singleton";
 import { mockUser } from "../../../__mocks__/models/user";
 

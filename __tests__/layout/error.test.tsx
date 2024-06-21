@@ -14,8 +14,7 @@ describe("<ErrorLayout />", () => {
     const errorBody = screen.getByTestId("error-body")
     expect(errorBody).toBeInTheDocument()
     expect(errorBody.textContent).toMatch("Sorry, we've encountered an error.")
-    expect(errorBody.textContent).toMatch("We have been alerted of this and will fix it as soon as possible.")
-
+    expect(errorBody.textContent).toMatch("We have been alerted to this and will fix it as soon as possible.")
   })
   //it("footer is in the document", () => {})
 })

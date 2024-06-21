@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
 import { mockUser, mockUserWithCallsAndEvents } from "../../../__mocks__/models/user";
-import EnsemblePage from "../../../pages/ensembles/[id]";
+import EnsemblePage from "../../../deprecatedPagesApi/ensembles/[id]";
 import { mockEnsemble } from "../../../__mocks__/models/ensemble";
 
 const mockSession = {

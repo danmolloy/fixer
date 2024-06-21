@@ -1,12 +1,12 @@
 import { render, screen, act, fireEvent, waitFor } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import { mockPlayerCall, mockPlayerCallForTable } from "../../../../../__mocks__/models/playerCall"
 import { mockUser } from "../../../../../__mocks__/models/user"
 import PlayerRow, { PlayerRowProps } from "../../../../../components/fixing/instrument/update/table/playerRow"
 import { mockCall } from "../../../../../__mocks__/models/call"
+import { mockContactMessageForTable } from "../../../../../__mocks__/models/contactMessage"
 
 const mockProps: PlayerRowProps = {
-  playerCall: mockPlayerCallForTable,
+  contactMessage: mockContactMessageForTable,
   allEventCalls: [mockCall]
 }
 
@@ -21,15 +21,12 @@ describe("<PlayerRow />", () => {
   })
 
   it("player-row is in the document", () => {
-    const playerRow = screen.getByTestId(`${mockProps.playerCall.id}-row`)
+    const playerRow = screen.getByTestId(`${mockProps.contactMessage.id}-row`)
     expect(playerRow).toBeInTheDocument()
   })
-  it("user image is in the document", () => {
-    const userImg = screen.getByTestId(`${mockProps.playerCall.musician.firstName}-${mockProps.playerCall.musician.lastName}-img`)
-    expect(userImg).toBeInTheDocument()
-  })
+
   it("user name is in the document", () => {
-    const userName = screen.getByText(`${mockProps.playerCall.musician.firstName} ${mockProps.playerCall.musician.lastName}`)
+    const userName = screen.getByText(`${mockProps.contactMessage.contact.firstName} ${mockProps.contactMessage.contact.lastName}`)
     expect(userName).toBeInTheDocument()
   })
 
@@ -55,7 +52,7 @@ describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
 
   const mockProps: PlayerRowProps = {
-    playerCall: {...mockPlayerCallForTable, status: "DEP OUT", calls: mockCalls},
+    contactMessage: {...mockContactMessageForTable, status: "DEP OUT", calls: mockCalls},
     allEventCalls: mockCalls
   }
   beforeEach(() => {
@@ -77,7 +74,7 @@ describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
 
   const mockProps = {
-    playerCall: {...mockPlayerCallForTable, accepted: true, calls: mockCalls},
+    contactMessage: {...mockContactMessageForTable, accepted: true, calls: mockCalls},
     allEventCalls: mockCalls
   }
   beforeEach(() => {
@@ -98,7 +95,7 @@ describe("<PlayerRow />", () => {
 describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
   const mockProps = {
-    playerCall: {...mockPlayerCallForTable, accepted: false, calls: mockCalls},
+    contactMessage: {...mockContactMessageForTable, accepted: false, calls: mockCalls},
     allEventCalls: mockCalls
   }
   beforeEach(() => {
@@ -120,7 +117,8 @@ describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
 
   const mockProps = {
-    playerCall: {...mockPlayerCallForTable, accepted: null, recieved: true, calls: mockCalls},
+    contactMessage: {...mockContactMessageForTable, accepted: null, recieved: true, calls: mockCalls},
+
     allEventCalls: mockCalls
   }
   beforeEach(() => {
@@ -142,7 +140,7 @@ describe("<PlayerRow />", () => {
 describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
   const mockProps = {
-    playerCall: {...mockPlayerCallForTable, accepted: null, recieved: false, calls: mockCalls},
+    contactMessage: {...mockContactMessageForTable, accepted: null, recieved: false, calls: mockCalls},
     allEventCalls: mockCalls
   }
   beforeEach(() => {
@@ -163,7 +161,7 @@ describe("<PlayerRow />", () => {
 describe("<PlayerRow />", () => {
   const mockCalls = [mockCall]
   const mockProps = {
-    playerCall: {...mockPlayerCallForTable, accepted: null, recieved: false, calls: []},
+    contactMessage: {...mockContactMessageForTable, accepted: null, recieved: false, calls: []},
     allEventCalls: mockCalls
   }
   beforeEach(() => {

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
-import EditEnsembles from "../../../pages/ensembles/edit";
+import EditEnsembles from "../../../deprecatedPagesApi/ensembles/edit";
 import { mockUser, mockUserWithCallsAndEvents } from "../../../__mocks__/models/user";
 import axios from "axios";
 import { mockAdminWithEnsemble } from "../../../__mocks__/models/ensembleAdmin";

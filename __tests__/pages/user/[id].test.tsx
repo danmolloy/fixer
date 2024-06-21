@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
 import { mockUser, mockUserWithCallsAndEvents } from "../../../__mocks__/models/user";
-import UserPage from "../../../pages/user/[id]";
+import UserPage from "../../../deprecatedPagesApi/user/[id]";
 import ProfileHeader from "../../../components/users/profile/profileHeader";
 jest.mock("../../../components/users/profile/profileHeader") // Couldn't resolve a mockData issue so have mocked this.
 

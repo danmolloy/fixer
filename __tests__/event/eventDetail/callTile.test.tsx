@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom"
-import CallTile from "../../../components/event/eventDetail/callTile";
+import CallTile from "../../../app/event/[id]/callTile";
 import React from "react";
 import { mockCall } from "../../../__mocks__/models/call";
 import { DateTime } from "luxon";

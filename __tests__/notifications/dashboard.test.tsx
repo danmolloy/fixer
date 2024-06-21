@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import NotificationsDashboard, { NotificationsDashProps } from "../../components/notifications/dashboard"
+import NotificationsDashboard, { NotificationsDashProps } from "../../app/notifications/dashboard"
 import { act } from "react-dom/test-utils"
 
 const mockProps: NotificationsDashProps = {

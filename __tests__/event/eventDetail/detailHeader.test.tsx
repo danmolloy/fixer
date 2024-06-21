@@ -1,5 +1,5 @@
 import { act, fireEvent, render, screen } from "@testing-library/react"
-import DetailHeader, { DetailHeaderProps } from "../../../components/event/eventDetail/detailHeader"
+import DetailHeader, { DetailHeaderProps } from "../../../app/event/[id]/eventHeader"
 import "@testing-library/jest-dom"
 
 const mockProps: DetailHeaderProps = {

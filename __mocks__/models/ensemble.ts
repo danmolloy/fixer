@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { Ensemble } from "@prisma/client";
-import { EnsembleWithAdmin } from "../../pages/api/ensemble/create";
+import { EnsembleWithAdmin } from "../../deprecatedPagesApi/api/ensemble/create";
 
 
 export const mockEnsemble: Ensemble = {

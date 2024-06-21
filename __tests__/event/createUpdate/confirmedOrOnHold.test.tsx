@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import ConfirmedOrOnHold, { CoohProps } from "../../../components/event/createUpdate/confirmedOrOnHold"
+import ConfirmedOrOnHold, { CoohProps } from "../../../app/event/create/confirmedOrOnHold"
 import { Formik } from "formik"
 
 const mockProps: CoohProps = {

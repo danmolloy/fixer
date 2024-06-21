@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen, waitFor } from "@testing-library/react"
-import AccountPage from "../../pages/account"
+import AccountPage from "../../deprecatedPagesApi/account"
 import { mockUser, mockUserWithCallsAndEvents } from "../../__mocks__/models/user";
 import { mockAdminWithEnsemble } from "../../__mocks__/models/ensembleAdmin";
 

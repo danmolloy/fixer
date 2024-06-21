@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom"
-import EnsembleRadioGroup, { EnsembleRadioProps } from "../../../components/event/createUpdate/ensembleRadioGroup"
+import EnsembleRadioGroup, { EnsembleRadioProps } from "../../../app/event/create/ensembleRadioGroup"
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Formik } from "formik"
 import { mockAdminWithEnsemble } from "../../../__mocks__/models/ensembleAdmin"
