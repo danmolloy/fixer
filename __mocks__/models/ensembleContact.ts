@@ -2,6 +2,8 @@ import {faker} from '@faker-js/faker'
 import { EnsembleContact } from '@prisma/client'
 
 export const mockEnsembleContact: EnsembleContact = {
+  indexNumber: Math.floor(Math.random() * 10),
+  status: "OK",
   id: faker.string.uuid(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),

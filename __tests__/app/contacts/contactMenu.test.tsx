@@ -1,10 +1,8 @@
-import "@testing-library/jest-dom"
-import { act, fireEvent, render, screen } from "@testing-library/react"
-import ContactMenu, { ContactMenuProps } from "../../../app/contacts/contactMenu"
-import axios from "axios"
-import { useRouter } from 'next/router'
+import "@testing-library/jest-dom";
+import { render, screen, act, fireEvent } from "@testing-library/react";
+import ContactMenu, { ContactMenuProps } from "../../../app/contacts/contactMenu";
+import axios from "../../../__mocks__/axios";
 
-jest.mock("next/router")
 jest.mock("axios")
 const mockPost = jest.spyOn(axios, 'post');
 mockPost.mockResolvedValue({ data: {} });
@@ -17,10 +15,6 @@ const mockProps: ContactMenuProps = {
 
 describe("<ContactMenu />", () => {
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue({
-      reload: jest.fn(),
-      
-    })
     render(<ContactMenu {...mockProps} />)
   })
   it("<ContactMenu /> is in the document", () => {
@@ -41,6 +35,6 @@ describe("<ContactMenu />", () => {
     act(() => {
       fireEvent.click(deleteBtn)
     })
-    expect(mockPost).toHaveBeenCalledWith("/api/contact/delete", {"id": mockProps.contactId})
+    expect(mockPost).toHaveBeenCalledWith("/contact/api/archive", {"id": mockProps.contactId})
   })
 })

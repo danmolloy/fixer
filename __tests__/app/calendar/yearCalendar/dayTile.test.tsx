@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import DayTile, { DayTileProps } from "../../../app/calendar/yearCalendar/dayTile"
 import { DateTime } from "luxon"
-import { mockCall } from "../../../__mocks__/models/call"
+import { mockCall } from "../../../../__mocks__/models/call"
+import DayTile, { DayTileProps } from "../../../../app/calendar/yearCalendar/dayTile"
 
 const mockTileDate = DateTime.now()
 

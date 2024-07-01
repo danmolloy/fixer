@@ -1,23 +1,19 @@
 'use client'
-import { Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import TextInput from "../forms/textInput";
 
 export default function ContactForm () {
 
   const formSchema = Yup.object().shape({
-    firstName: Yup.string().required("First name required"),
-    lastName: Yup.string().required("Last name required"),
-    email: Yup.string().email().required("Email required"),
-    phone: Yup.number().required("Contact number required"),
-    message: Yup.string().required("Message required")
+    name: Yup.string().required("name required"),
+    email: Yup.string().email().required("email required"),
+    message: Yup.string().required("message required")
   })
 
   const initialValues = {
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    phone: "",
     message: ""
   }
 
@@ -26,7 +22,7 @@ export default function ContactForm () {
   }
 
   return (
-    <div className="p-4">
+    <div data-testid="contact-form" className="p-4">
     <Formik
     initialValues={initialValues}
     validationSchema={formSchema}
@@ -37,12 +33,29 @@ export default function ContactForm () {
   >
     {props => (
       <Form className="flex flex-col">
-        <TextInput name={"firstName"} id={"firstName-input"} label={"First Name"} max={"30"}/>
-        <TextInput name={"lastName"} id={"lasttName-input"} label={"Last Name"} max={"30"}/>
-        <TextInput name={"email"} id={"email-input"} label={"Email"} max={"45"}/>
-        <TextInput name={"phone"} id={"phone-input"} label={"Phone"} max={"15"}/>
-        <TextInput name={"message"} id={"message-input"} label={"Message"} asHtml="textarea" className="py-1 h-32" max={"300"}/>
-        <button type="submit" className="w-24 self-end bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white px-2 py-1 rounded shadow">
+        <h2>Contact us</h2>
+        <TextInput name={"name"} id={"name-input"} label={"Name"} max={"30"}/>
+        <TextInput name={"email"} id={"email-input"} type="email" label={"Email"} max={"45"}/>
+        <div>
+          <label htmlFor='msg-text' className="form-label ">Message {/* <span className='text-sm text-gray-400'>Optional</span> */}</label>
+          <Field 
+          multiline="6"
+          maxLength="500"
+          rows="4"
+          component="textarea"
+            id="msg-text" 
+            className=" text-black border border-zinc-400 rounded-md w-full p-1 "
+            type="textarea"
+            name="message"/>
+            <div className="h-6">
+            {props.values.message.length > 0 && <p className='self-center text-sm mx-2 opacity-40'>{`${props.values.message.length}/500`}</p>}
+
+          <ErrorMessage name="message">
+            { msg => <div className="text-sm text-red-500">{msg}</div> }
+          </ErrorMessage>
+          </div>
+          </div>        
+          <button type="submit" className="w-24 self-end bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white px-2 py-1 rounded shadow">
           Submit
         </button>
       </Form>

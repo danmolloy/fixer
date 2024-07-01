@@ -19,6 +19,7 @@ export const mockCallWithEventWithEnsemble: CallWithEventWithEnsemble = {
   event: {
     ...mockEvent,
     ensemble: {
+      ensembleNames: [faker.lorem.words(2), faker.lorem.words(2)],
       name: faker.lorem.words(2),
       id: faker.string.uuid()
     }

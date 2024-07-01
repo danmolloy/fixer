@@ -1,17 +1,36 @@
+import { EnsembleContact } from "@prisma/client"
 import prisma from "../../../../../client"
 
 export type UpdateSectionProps = {
   id: string 
   name: string
   instrument: string
+  contacts: EnsembleContact[]
+}
+
+const updateContacts = async (contact: EnsembleContact) => {
+  return await prisma.ensembleContact.update({
+    where: {
+      id: contact.id
+    },
+    data: {
+      indexNumber: contact.indexNumber
+    }
+  })
 }
 
 const updateSection = async (data: UpdateSectionProps) => {
+  for (let i = 0; i < data.contacts.length; i++) {
+    await updateContacts(data.contacts[i])
+  }
+
   return await prisma.ensembleSection.update({
     where: {
       id: data.id
     },
-    data: data
+    data: {
+      name: data.name,
+    }
   })
 }
 

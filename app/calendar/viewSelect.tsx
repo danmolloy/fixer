@@ -10,7 +10,7 @@ export default function ViewSelect(props: ViewSelectProps) {
 
 
   return (
-    <select value={selectedView} onChange={(e) => setSelectedView(e.target.value)} className="p-1 shadow-sm rounded">
+    <select data-testid="view-select" value={selectedView} onChange={(e) => setSelectedView(e.target.value)} className="p-1 shadow-sm rounded">
       {viewOptions.map((i: "Day"|"Month"|"Year") => (
           <option value={i} key={i} data-testid={`${i}-option`}>
               {i}

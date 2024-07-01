@@ -22,7 +22,7 @@ export default function ContactCard(props: ContactCardProps) {
       </div>
       <div>
         <p>{contact.firstName} {contact.lastName}</p>
-        <p>({contact.category})</p>
+        <p>({contact.category}) <span data-testid="index-num">{contact.indexNumber}</span></p>
       </div>
       </div>
       <div>

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import CalendarIndex, { CalendarIndexProps } from "../../app/calendar"
-import { mockUserWithCallsAndEvents } from "../../__mocks__/models/user"
+import { mockUserWithCallsAndEvents } from "../../../__mocks__/models/user" 
+import CalendarIndex, { CalendarIndexProps } from "../../../app/calendar"
 
 const mockProps: CalendarIndexProps = {
   data: mockUserWithCallsAndEvents

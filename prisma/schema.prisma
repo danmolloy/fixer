@@ -177,6 +177,7 @@ model EnsembleContact {
   id String @id @default(cuid())
   status String @default("OK")
   ensembleId String
+  indexNumber Int @default(0)
   email String?
   phoneNumber String?
   firstName String

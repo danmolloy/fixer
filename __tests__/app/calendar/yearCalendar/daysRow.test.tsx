@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import DaysRow, { daysArr } from "../../../app/calendar/yearCalendar/daysRow"
+import DaysRow, { daysArr } from "../../../../app/calendar/yearCalendar/daysRow"
 
 describe("<DaysRow />", () => {
   beforeEach(() => {

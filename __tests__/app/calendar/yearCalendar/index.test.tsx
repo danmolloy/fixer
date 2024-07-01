@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import YearCalendar, { YearCalendarProps } from "../../../app/calendar/yearCalendar"
+import YearCalendar, { YearCalendarProps } from "../../../../app/calendar/yearCalendar"
 import { DateTime } from "luxon"
-import { mockCall } from "../../../__mocks__/models/call"
+import { mockCall } from "../../../../__mocks__/models/call" 
 
 const mockDate =  DateTime.now()
 
@@ -21,7 +21,7 @@ describe("<YearCalendar />", () => {
     render(<YearCalendar {...mockProps} />)
   })
   it("year-calendar is in the documnet", () => {
-    const yearCalendar = screen.getByTestId("year-calendar")
+    const yearCalendar = screen.getByTestId(`${mockProps.month}-${mockProps.year}-calendar`)
     expect(yearCalendar).toBeInTheDocument()
   })
   it("year-header is in the document", () => {

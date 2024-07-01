@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
-import WeekRow, { WeekRowProps } from "../../../app/calendar/yearCalendar/weekRow"
 import { DateTime } from "luxon"
-import { mockCall } from "../../../__mocks__/models/call"
+import { mockCall } from "../../../../__mocks__/models/call"
+import WeekRow, { WeekRowProps } from "../../../../app/calendar/yearCalendar/weekRow"
 
 const mockDate = DateTime.now()
 

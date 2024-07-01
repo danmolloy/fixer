@@ -5,6 +5,7 @@ import AppendedContacts from "./appendedContacts";
 import * as Yup from 'yup';
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export type ContactMessageFormProps = {
   cancelForm: () => void
@@ -23,6 +24,7 @@ export type ContactMessageFormProps = {
 export default function ContactMessageForm(props: ContactMessageFormProps) {
   const { currentContacts, eventCalls, cancelForm, sectionContacts, eventContacts, eventSectionId, bookingOrAvailability } = props;
   const router = useRouter();
+  const [filterCategories, setFilterCategories] = useState<string[]>(Array.from(new Set(sectionContacts.map(i => i.category))).filter(i => i !== null))
 
   const initialVals = {
     contacts: eventContacts.map(i => ({
@@ -67,8 +69,26 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
           <AppendedContacts eventCalls={eventCalls} contacts={props.values.contacts}/>
           <div>
             <h3>Diary Contacts</h3>
+            <div>
+              <p>Filter by category: </p>
+              <div>
+                {Array.from(new Set(sectionContacts.map(i => i.category))).filter(i => i !== null).map(i => (
+                  <label key={i}>
+                    <input 
+          type="checkbox" 
+          onChange={() => {filterCategories.includes(i) 
+            ? setFilterCategories(filterCategories.filter(j => j !== i))
+            : setFilterCategories([...filterCategories, i])
+          }}
+          checked={filterCategories.includes(i)} />
+        {i}
+                  </label>
+                ))}
+              </div>
+            </div>
+            
             <FieldArray name="contacts">
-            {({push}) => (sectionContacts.map(i => (
+            {({push}) => (sectionContacts.filter(i => i.category === null || filterCategories.includes(i.category)).map(i => (
               <DiaryContact
                 setSelectContact={() => push({
                 contactId: i.id,

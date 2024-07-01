@@ -1,10 +1,8 @@
 import { faker } from "@faker-js/faker";
-import { Event } from "@prisma/client";
+import { Call, Ensemble, Event } from "@prisma/client";
 import { randBool } from "./playerCall";
-import { EventWithCalls } from "../../components/event/eventDetail/menu/calendarEventLink";
-import { EventWithEnsemble } from "../../components/event/eventDetail";
 
-export const mockEventWithEnsemble: EventWithEnsemble = {
+export const mockEventWithEnsemble: (Event & {ensemble: Ensemble}) = {
   id: faker.number.int(),
   ensembleId: faker.string.uuid(),
   createdAt: new Date("2025-10-10T14:48:00"),
@@ -17,7 +15,9 @@ export const mockEventWithEnsemble: EventWithEnsemble = {
   additionalInfo: faker.lorem.words(),
   fixerId: faker.string.uuid(),
   fixerName: faker.person.fullName(),
+  ensembleName: faker.lorem.words(3),
   ensemble: {
+    ensembleNames: [faker.lorem.words(3), faker.lorem.words(3),],
     name: faker.lorem.words(3),
     id: faker.string.uuid()
   }
@@ -26,6 +26,7 @@ export const mockEventWithEnsemble: EventWithEnsemble = {
 export const mockEvent: Event = {
   id: faker.number.int(),
   ensembleId: faker.string.uuid(),
+  ensembleName: faker.lorem.words(3),
   createdAt: new Date("2025-10-10T14:48:00"),
   updatedAt: new Date("2025-10-10T14:48:00"),
   eventTitle: faker.lorem.words(),
@@ -38,9 +39,10 @@ export const mockEvent: Event = {
   fixerName: faker.person.fullName()
 }
 
-export const mockEventWithCalls: EventWithCalls = {
+export const mockEventWithCalls: (Event & {calls: Call[]}) = {
   id: faker.number.int(),
   ensembleId: faker.string.uuid(),
+  ensembleName: faker.lorem.words(3),
   createdAt: new Date("2025-10-10T14:48:00"),
   updatedAt: new Date("2025-10-10T14:48:00"),
   eventTitle: faker.lorem.words(),

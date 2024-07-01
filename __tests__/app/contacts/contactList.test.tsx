@@ -1,10 +1,9 @@
-import "@testing-library/jest-dom"
-import { act, fireEvent, render, screen } from "@testing-library/react"
-import ContactsIndex, { ContactsIndexProps } from "../../../app/contacts/contactsList"
-import { mockEnsembleContact } from "../../../__mocks__/models/ensembleContact"
-import { mockEnsemble } from "../../../__mocks__/models/ensemble"
-import { mockSection } from "../../../__mocks__/models/ensembleSection"
-
+import "@testing-library/jest-dom";
+import { render, screen, act, fireEvent } from "@testing-library/react";
+import ContactsIndex, { ContactsIndexProps } from "../../../app/contacts/contactsList";
+import { mockEnsembleContact } from "../../../__mocks__/models/ensembleContact";
+import { mockSection } from "../../../__mocks__/models/ensembleSection";
+import { mockEnsemble } from "../../../__mocks__/models/ensemble";
 
 describe("<ContactsIndex />", () => {
   const mockProps: ContactsIndexProps = {
@@ -32,6 +31,33 @@ describe("<ContactsIndex />", () => {
   })
 
 })
+
+describe("<ContactsIndex />", () => {
+  const mockProps: ContactsIndexProps = {
+    contacts: [{...mockEnsembleContact, category: "Extra", section: mockSection}],
+    sections: [{...mockSection, contacts: [{...mockEnsembleContact, category: "Extra"}]}],
+    ensembleId: mockEnsemble.id,
+    editContact: jest.fn(),
+    sortContacts: "Sections",
+    filterContacts: ["Extra", "Member"]
+  }
+  beforeEach(() => {
+    render(<ContactsIndex {...mockProps} />)
+  })
+
+  it("all sections are in the document with relevant contacts", () => {
+
+    for (let i = 0; i < mockProps.sections.length; i ++) {
+      const section = screen.getByTestId(`${mockProps.sections[i].id}-section`)
+      expect(section).toBeInTheDocument()
+      for (let j = 0; j < mockProps.sections[i].contacts.length; j ++) {
+        expect(section.textContent).toMatch(`${mockProps.sections[i].contacts[j].firstName} ${mockProps.sections[i].contacts[j].lastName}`)
+      }
+    }
+  })
+
+})
+
 
 describe("<ContactsIndex />", () => {
   const mockProps: ContactsIndexProps = {

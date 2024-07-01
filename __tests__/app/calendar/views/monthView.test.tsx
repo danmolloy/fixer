@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom"
 import { screen, render } from "@testing-library/react"
-import MonthView, { MonthViewProps } from "../../../app/calendar/views/monthView"
+import MonthView, { MonthViewProps } from "../../../../app/calendar/views/monthView"
 import { DateTime } from "luxon"
-import { mockCallWithEventWithEnsemble } from "../../../__mocks__/models/call"
+import { mockCallWithEventWithEnsemble } from "../../../../__mocks__/models/call"
 
 const mockProps: MonthViewProps = {
   selectedDate: DateTime.now(),

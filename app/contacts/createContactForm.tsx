@@ -3,12 +3,9 @@ import { IoIosClose } from "react-icons/io";
 import TextInput from "../forms/textInput";
 import * as Yup from "yup"
 import axios from "axios";
-import { CreatEnsembleContact } from "../../deprecatedPagesApi/api/contact/create";
 import { EnsembleContact, EnsembleSection } from "@prisma/client";
-
-export const rolesArr: {val: string, id: number}[] = [{val: "Principal", id: 1}, {val: "Tutti", id: 2}]
-export const categoryArr: {val: string, id: number}[] = [{val: "Member", id: 1}, {val: "Extra", id: 2}]
-
+import { categories, instrumentSections, rolesArr } from "./lib";
+import { CreateEnsembleContact } from "./api/create/route";
 
 export type CreateContactFormProps = {
   ensembleId: string
@@ -20,27 +17,28 @@ export type CreateContactFormProps = {
 export default function CreateContactForm(props: CreateContactFormProps) {
   const { ensembleId, sections, closeForm, contact } = props;
 
-  const initialValues: CreatEnsembleContact = {
+  const initialValues: CreateEnsembleContact = {
     firstName: contact ? contact.firstName : "",
     lastName: contact ? contact.lastName : "",
-    section: {
+    section: contact ? contact.section.name : "",/* {
       name: "",
       instrument: "",
       id: contact ? contact.sectionId : undefined,
       option: "select"
-    },
-    role: contact ? contact.role :"Principal",
+    }, */
+    role: contact ? contact.role :"",
     ensembleId: ensembleId,
     email: contact && (contact.email !== null) ? contact.email : "",
     phone: contact && (contact.phoneNumber !== null) ? contact.phoneNumber : "",
-    category: (contact && contact.category !== null) ? contact.category : "Member"
+    category: (contact && contact.category !== null) ? contact.category : ""
   }
 
   const CreateContactSchema = Yup.object().shape({
     firstName: Yup.string().required("first name required"),
     lastName: Yup.string().required("last name required"),
     email: Yup.string().email().required("email required"),
-    section: Yup.object().shape({
+    section: Yup.string().required("section required"),
+    /* section: Yup.object().shape({
       option: Yup.string().required(),
       id: Yup.string().when("option", {
         is: "select",
@@ -54,20 +52,20 @@ export default function CreateContactForm(props: CreateContactFormProps) {
         is: "create",
         then: (schema) => schema.required("instrument required")
       }),
-    }),
+    }), */
     phone: Yup.string().required("phone number required"),
     role: Yup.string().required("role required"),
     category: Yup.string().required("category required"),
   })
 
-  const handleSubmit = async (values: CreatEnsembleContact) => {
+  const handleSubmit = async (values: CreateEnsembleContact) => {
     return contact !== undefined
-    ? await axios.post("/contact/api/edit", {...values, id: contact.id})
-    : await axios.post("/contact/api/create", values)
+    ? await axios.post("/contacts/api/update", {...values, id: contact.id})
+    : await axios.post("/contacts/api/create", values)
   }
 
   return (
-    <div className=" w-full backdrop-blur absolute items-center ">
+    <div data-testid="create-contact-form" className=" w-full backdrop-blur absolute items-center ">
     <div className="flex flex-col bg-white m-4 border p-4 rounded">
       <div className="flex flex-row w-full justify-between">
       <h2>Create Contact</h2>
@@ -86,28 +84,45 @@ export default function CreateContactForm(props: CreateContactFormProps) {
             })
           }}>
             {props => (
-              <form data-testid="create-contact-form" className="flex flex-col" onSubmit={props.handleSubmit}>
+              <form className="flex flex-col" onSubmit={props.handleSubmit}>
                 <TextInput label="First Name" id="first-name" name="firstName" />
                 <TextInput label="Last Name" id="last-name" name="lastName" />
                 <TextInput label="Email" id="email" name="email" type="email" />
                 <TextInput label="Phone" id="phone" name="phone" type="phone" />
                 <label htmlFor="role-select">Role</label>
-                <Field as="select" name="role" className="border p-1 m-1 rounded w-48">
+                <Field id="role-select" as="select" name="role" className="border p-1 m-1 rounded w-48">
+                <option value={""}>select</option>
+
                 {rolesArr.map(i => (
-                  <option key={i.val} value={i.val}>{i.val}</option>))}
+                  <option data-testid={`role-option-${i.id}`} key={i.id} value={i.name}>{i.name}</option>))}
            </Field>
                   <ErrorMessage name="role">
                     {msg => <div className="p-1 text-red-600 text-sm" data-testid={`role-error`}>{msg}</div> }
                   </ErrorMessage>    
                     <label htmlFor="category-select">Category</label>
-                  <Field as="select" name="category" className="border p-1 m-1 rounded w-48">
-                {categoryArr.map(i => (
-                  <option key={i.val} value={i.val}>{i.val}</option>))}
+                  <Field id="category-select" as="select" name="category" className="border p-1 m-1 rounded w-48">
+                    <option value={""}>select</option>
+                {categories.map(i => (
+                  <option data-testid={`category-option-${i.id}`} key={i.id} value={i.name}>{i.name}</option>))}
            </Field>            
                   <ErrorMessage name="category">
                     {msg => <div className="p-1 text-red-600 text-sm" data-testid={`category-error`}>{msg}</div> }
                   </ErrorMessage>
+                  
+                  <div>
+                    <label htmlFor="section-select">Section Select</label>
+                    <Field id="section-select" as="select" name="section" className="border p-1 m-1 rounded w-48">
+                      <option data-testid="section-blank" value={""}>select</option>
+                      {instrumentSections.map(i => (
+                        <option data-testid={`section-option-${i.id}`} key={i.id} value={i.name}>{i.name}</option>
+                      ))}
+                    </Field>
+                    <ErrorMessage name="section">
+                    {msg => <div className="p-1 text-red-600 text-sm" data-testid={`section-error`}>{msg}</div> }
+                  </ErrorMessage>
+                  </div>
 
+{/* 
                   <div className="mt-4">
                     <p id="section-radio">Section</p>
           <div role="group" aria-labelledby="section-radio" className="flex  flex-col">
@@ -119,7 +134,6 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                 <>
                 <label htmlFor="section-select" className="text-sm">Choose section</label>
                 <Field as="select" name="section.id" className="border p-1 m-1 rounded w-48">
-                
                   <option value={undefined}>select</option>
                 {sections.map(i => (
                   <option key={i.id} value={i.id}>{i.name}</option>))}
@@ -138,10 +152,9 @@ export default function CreateContactForm(props: CreateContactFormProps) {
             <label htmlFor="instrument-select" className=" text-sm">Section Instrument</label>
             <Field as="select" name="section.instrument" className="border p-1 m-1 rounded w-48">
               <option value={""}>select</option>
-                  <option value={"Violia"}>Viola</option>
-                  <option value={"Cello"}>Cello</option>
-
-                  <option value={"Double Bass"}>Double Bass</option>
+              {instrumentSections.map(i => (
+                <option key={i.id} value={i.name}>{i.name}</option>
+              ))}
 
                 </Field>
             <ErrorMessage name="section.instrument">
@@ -150,7 +163,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
             </div>
             }
           </div>
-</div>      
+</div>       */}
                 <button  
                   className="bg-indigo-600 m-4 self-center px-2 py-1 text-white rounded shadow hover:bg-indigo-500"
                   disabled={props.isSubmitting} 

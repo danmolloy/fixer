@@ -12,15 +12,15 @@ export type YearViewProps = {
 
 export default function YearView(props: YearViewProps) {
   const { setSelectedView, selectedDate, setSelectedDate, eventCalls } = props;
-
+  
   const getMonthsArr = (): DateTime[] => {
     let janDateTime = selectedDate.set({month: 1, year: selectedDate.year}).startOf("month")
     let monthsArr: DateTime[] = []
-
+  
     for (let i = 0; i < 12; i++) {
       monthsArr = [...monthsArr, janDateTime.plus({months: i})]
     }
-
+  
     return monthsArr
   }
 
@@ -31,10 +31,10 @@ export default function YearView(props: YearViewProps) {
       <button data-testid="back-toggle" onClick={() => setSelectedDate(selectedDate.minus({years: 1}).startOf("month"))}>
         <BsChevronLeft />
       </button>
-      <h2 className="px-2">
+      <h2 data-testid={`${selectedDate.year}-title`} className="px-2">
         {selectedDate.year}
       </h2>
-      <button data-testid="back-toggle" onClick={() => setSelectedDate(selectedDate.plus({years: 1}).startOf("month"))}>
+      <button data-testid="forward-toggle" onClick={() => setSelectedDate(selectedDate.plus({years: 1}).startOf("month"))}>
         <BsChevronRight />
       </button>
       </div>

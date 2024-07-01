@@ -18,7 +18,7 @@ describe("<CallTile />", () => {
     expect(callTile).toBeInTheDocument()
   })
   it("ensemble name is in the document", () => {
-    const ensembleName = screen.getByText(mockProps.eventCall.event.ensemble.name)
+    const ensembleName = screen.getByText(mockProps.eventCall.event.ensembleName)
     expect(ensembleName).toBeInTheDocument()
   })
   it("call start time is in the document", () => {

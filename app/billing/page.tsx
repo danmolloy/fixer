@@ -1,22 +1,19 @@
+import { paymentOptions } from "./paymentOptions";
+import PricingModel from "./pricingModel";
+
 export default function BillingIndex() {
   return (
-    <div>
+    <div data-testid="billing-index">
       <div>
-        <p>Subscription Plan</p>
+        <h1>Choose Plan</h1>
       </div>
-      <form data-testid="subscribe-btn" action="/billing/api/subscribe/" method="POST">
-      <input
-          type="hidden"
-          id="session-id"
-          name="session_id"
-          value={"sessionId"}
-        />
-      <button type="submit" role="link">
-        Checkout
-      </button>
-    </form>
-    <form data-testid="subscribe-btn" action="/billing/api/manage/" method="POST">
-      <button type="submit" role="link">
+      <div>
+        {paymentOptions.map(i => (
+          <PricingModel priceModel={i} key={i.id} />
+        ))}
+      </div>
+    <form data-testid="manage-acc-form" action="/billing/api/manage/" method="POST">
+      <button data-testid="manage-btn" type="submit" role="link">
         Manage Account
       </button>
     </form>

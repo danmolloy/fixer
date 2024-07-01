@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom"
 import { screen, render, act, fireEvent } from "@testing-library/react"
-import WeekDayPicker, { WeekDayPickerProps } from "../../app/calendar/weekDayPicker"
 import { DateTime } from "luxon"
-import { mockCall } from "../../__mocks__/models/call"
+import WeekDayPicker, { WeekDayPickerProps } from "../../../app/calendar/weekDayPicker"
+import { mockCall } from "../../../__mocks__/models/call"
 
 const mockProps: WeekDayPickerProps = {
   selectedDate: DateTime.now(),
