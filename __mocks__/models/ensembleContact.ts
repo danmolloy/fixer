@@ -7,7 +7,7 @@ export const mockEnsembleContact: EnsembleContact = {
   id: faker.string.uuid(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  category: faker.lorem.word(),
+  category: "Extra",
   email: faker.internet.email(),
   phoneNumber: faker.phone.number(),
   ensembleId: faker.string.uuid(),

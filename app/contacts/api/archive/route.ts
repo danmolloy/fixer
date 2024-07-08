@@ -1,6 +1,6 @@
 import prisma from "../../../../client"
 
-const archiveContact = async (archiveArg: {id: string}) => {
+export const archiveContact = async (archiveArg: {id: string}) => {
   return await prisma.ensembleContact.update({
     where: {
       id: archiveArg.id

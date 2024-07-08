@@ -166,7 +166,6 @@ model EnsembleSection {
   id String @id @default(cuid())
   name String
   ensembleId String
-  instrument String
   ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
   events  EventSection[]
   contacts EnsembleContact[]

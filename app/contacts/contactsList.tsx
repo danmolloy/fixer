@@ -22,9 +22,10 @@ export default function ContactsIndex(props: ContactsIndexProps) {
       {contacts.filter(i => i.category === null || filterContacts.includes(i.category)).length === 0 
       ? <p>No contacts</p>
       : sortContacts === "Alphabetical"
-      ? contacts.filter(i => i.category === null || filterContacts.includes(i.category)).sort((a, b) => a.lastName.localeCompare(b.lastName)).map(i => (
+      ? <div data-testid="alphabetical-list">
+        {contacts.filter(i => i.category === null || filterContacts.includes(i.category)).sort((a, b) => a.lastName.localeCompare(b.lastName)).map(i => (
         <ContactCard editContact={(arg) => editContact(arg)} contact={i} key={i.id} />
-      )) 
+      ))} </div>
       : sections.sort((a, b) => a.name.localeCompare(b.name)).map(i => (
         <div data-testid={`${i.id}-section`} key={i.id} className="py-2">
           <div className="flex flex-col lg:flex-row justify-between">
@@ -40,7 +41,8 @@ export default function ContactsIndex(props: ContactsIndexProps) {
                 a.category!.localeCompare(b.category!)
               )).map(contact => (
             <ContactCard editContact={(arg) => editContact(arg)} contact={{...contact, section: i}} key={contact.id} />
-          )) }
+          )) 
+          }
         </div>
       )) }
     </div>

@@ -22,12 +22,12 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
       <fieldset>
 
   <div>
-    <input type="radio" id="alphabetical" name="sort-contacts" value="Alphabetical" onChange={() => setSortContacts("Alphabetical")} checked={sortContacts === "Alphabetical"}/>
+    <input data-testid="alphabetical-sort" type="radio" id="alphabetical" name="sort-contacts" value="Alphabetical" onChange={() => setSortContacts("Alphabetical")} checked={sortContacts === "Alphabetical"}/>
     <label htmlFor="alphabetical">Alphabetical</label>
   </div>
 
   <div>
-    <input type="radio" id="sections" name="sort-contacts" value="Sections" onChange={() => setSortContacts("Sections")} checked={sortContacts === "Sections"}/>
+    <input data-testid="sections-sort" type="radio" id="sections" name="sort-contacts" value="Sections" onChange={() => setSortContacts("Sections")} checked={sortContacts === "Sections"}/>
     <label htmlFor="sections">Sections</label>
   </div>
 
@@ -41,12 +41,14 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
       <label>
         <input 
           type="checkbox" 
+          data-testid="member-filter"
           onChange={() => setFilterContacts("Member")}
           checked={filterContacts.includes("Member")} />
         Members
       </label>
-      <label>
+      <label >
         <input 
+          data-testid="extra-filter"
           onChange={() => setFilterContacts("Extra")}
           checked={filterContacts.includes("Extra")}
           type="checkbox" />

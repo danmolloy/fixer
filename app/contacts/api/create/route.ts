@@ -6,9 +6,7 @@ export type CreateEnsembleContact = {
   lastName: string;
   section: {
     name: string
-    instrument: string
     id: undefined|string
-    option: "create"|"select"
   };
   role: string;
   ensembleId: string;
@@ -17,13 +15,12 @@ export type CreateEnsembleContact = {
   category: string;
 }
 
-const createContact = async(args: CreateEnsembleContact) => {
+export const createContact = async(args: CreateEnsembleContact) => {
   const sectionData = args.section.id
   ? { connect: { id: args.section.id } }
   : {
       create: {
         name: args.section.name,
-        instrument: args.section.instrument,
         ensemble: {
           connect: {
             id: args.ensembleId

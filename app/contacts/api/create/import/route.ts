@@ -14,7 +14,7 @@ export type CreateContactsProps = {
   ensembleId: string
 }
 
-const createContacts = async(data: CreateContactsProps) => {
+export const createContacts = async(data: CreateContactsProps) => {
   
   for (let i = 0; i < data.contacts.length; i ++) {
     await prisma.ensembleContact.create({

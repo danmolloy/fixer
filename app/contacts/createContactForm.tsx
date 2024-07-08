@@ -14,18 +14,24 @@ export type CreateContactFormProps = {
   contact?: EnsembleContact & {section: EnsembleSection}
 }
 
+export type CreateEnsembleContactForm = {
+  firstName: string;
+  lastName: string;
+  section: string
+  role: string;
+  ensembleId: string;
+  email: string;
+  phone: string;
+  category: string;
+}
+
 export default function CreateContactForm(props: CreateContactFormProps) {
   const { ensembleId, sections, closeForm, contact } = props;
 
-  const initialValues: CreateEnsembleContact = {
+  const initialValues: CreateEnsembleContactForm = {
     firstName: contact ? contact.firstName : "",
     lastName: contact ? contact.lastName : "",
-    section: contact ? contact.section.name : "",/* {
-      name: "",
-      instrument: "",
-      id: contact ? contact.sectionId : undefined,
-      option: "select"
-    }, */
+    section: contact ? contact.section.name : "",
     role: contact ? contact.role :"",
     ensembleId: ensembleId,
     email: contact && (contact.email !== null) ? contact.email : "",
@@ -38,27 +44,13 @@ export default function CreateContactForm(props: CreateContactFormProps) {
     lastName: Yup.string().required("last name required"),
     email: Yup.string().email().required("email required"),
     section: Yup.string().required("section required"),
-    /* section: Yup.object().shape({
-      option: Yup.string().required(),
-      id: Yup.string().when("option", {
-        is: "select",
-        then: (schema) => schema.required("section selection required")
-      }),
-      name: Yup.string().when("option", {
-        is: "create",
-        then: (schema) => schema.required("section name required")
-      }),
-      instrument: Yup.string().when("option", {
-        is: "create",
-        then: (schema) => schema.required("instrument required")
-      }),
-    }), */
     phone: Yup.string().required("phone number required"),
     role: Yup.string().required("role required"),
     category: Yup.string().required("category required"),
   })
 
   const handleSubmit = async (values: CreateEnsembleContact) => {
+    
     return contact !== undefined
     ? await axios.post("/contacts/api/update", {...values, id: contact.id})
     : await axios.post("/contacts/api/create", values)
@@ -69,8 +61,9 @@ export default function CreateContactForm(props: CreateContactFormProps) {
     <div className="flex flex-col bg-white m-4 border p-4 rounded">
       <div className="flex flex-row w-full justify-between">
       <h2>Create Contact</h2>
-      <button onClick={() => closeForm()} className="text-2xl p-1  rounded-full hover:bg-slate-100">
+      <button data-testid="close-btn" onClick={() => closeForm()} className="text-2xl p-1  rounded-full hover:bg-slate-100">
         <IoIosClose />
+        <p className="hidden">Close</p>
       </button>
       </div>
       <Formik 
@@ -78,7 +71,11 @@ export default function CreateContactForm(props: CreateContactFormProps) {
           validationSchema={CreateContactSchema}
           onSubmit={(values, actions) => {
             actions.setSubmitting(true);
-              handleSubmit(values).then(() => {
+            const section = {
+              name: values.section,
+              id: sections.find(i => i.name === values.section)?.id || undefined
+            }
+              handleSubmit({...values, section: section}).then(() => {
               actions.setSubmitting(false);
               closeForm();
             })
@@ -114,7 +111,8 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                     <Field id="section-select" as="select" name="section" className="border p-1 m-1 rounded w-48">
                       <option data-testid="section-blank" value={""}>select</option>
                       {instrumentSections.map(i => (
-                        <option data-testid={`section-option-${i.id}`} key={i.id} value={i.name}>{i.name}</option>
+                        <option data-testid={`section-option-${i.id}`} key={i.id} 
+                          value={i.name}>{i.name}</option>
                       ))}
                     </Field>
                     <ErrorMessage name="section">

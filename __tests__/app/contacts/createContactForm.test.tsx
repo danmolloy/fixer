@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, act, fireEvent, waitFor } from "@testing-library/react";
-import CreateContactForm, { CreateContactFormProps} from "../../../app/contacts/createContactForm";
+import CreateContactForm, { CreateContactFormProps, CreateEnsembleContactForm} from "../../../app/contacts/createContactForm";
 import { mockEnsemble } from "../../../__mocks__/models/ensemble";
 import { mockSection } from "../../../__mocks__/models/ensembleSection";
 import { categories, instrumentSections, rolesArr } from "../../../app/contacts/lib";
@@ -16,8 +16,9 @@ mockPost.mockResolvedValue({ data: {} });
 
 
 describe("<CreateContactForm />", () => {
-  const mockContact: CreateEnsembleContact = {
+  const mockContact: CreateEnsembleContactForm = {
     firstName: "Roy",
+    ensembleId: "",
     lastName: "Dereks",
     section: "Double Bass",
     role: "Principal",
@@ -184,6 +185,10 @@ describe("<CreateContactForm />", () => {
     })
     expect(axios.post).toHaveBeenCalledWith("/contacts/api/create", {
       ...mockContact, 
+      section: {
+        id: undefined,
+        name: mockContact.section
+      },
       ensembleId: mockProps.ensembleId
     })
   })
@@ -203,14 +208,23 @@ describe("<CreateContactForm />", () => {
   beforeEach(() => {
     render(<CreateContactForm {...mockProps} />)
   })
-  it("closeForm() is called on close btn click", () => {})
+  it("closeForm() is called on close btn click", () => {
+    const closeBtn = screen.getByTestId("close-btn")
+    expect(closeBtn.textContent).toMatch("Close")
+
+    act(() => {
+      fireEvent.click(closeBtn)
+    })
+
+    expect(mockProps.closeForm).toHaveBeenCalled()
+  })
   it("axios.post() is called with expected args when form passed contact props to update", async () => {
     const submitBtn = screen.getByText("Submit")
     await act(async() => {
       fireEvent.click(submitBtn)
     })
     const createContactForm = screen.getByTestId("create-contact-form")
-    console.log(createContactForm.textContent)
+
     expect(axios.post).toHaveBeenCalledWith("/contacts/api/update", {
       category: mockContact.category,
       email: mockContact.email,
@@ -219,7 +233,10 @@ describe("<CreateContactForm />", () => {
       id: mockContact.id,
       lastName: mockContact.lastName,
       role: mockContact.role,
-      section: mockContact.section.name,
+      section: {
+        name: mockContact.section.name,
+        id: mockContact.section.id
+      },
       ensembleId: mockProps.ensembleId
     })
   })
