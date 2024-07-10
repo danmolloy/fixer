@@ -20,6 +20,12 @@ const customJestConfig = {
   preset: 'ts-jest',
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ['<rootDir>/__mocks__/singleton.ts'],
+  moduleNameMapper: {
+    '@/auth': '<rootDir>/__tests__/mocks/auth.ts',
+    'next-auth/providers/credentials':
+     '<rootDir>/__tests__/mocks/next-auth-providers-credentials.ts',
+    'next-auth': '<rootDir>/__tests__/mocks/next-auth.ts',
+   },
 }
 
 

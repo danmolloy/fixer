@@ -36,7 +36,12 @@ export default function CalendarIndex(props: CalendarIndexProps) {
   const [selectedView, setSelectedView] = useState<string>("Day")
 
   if (!data) {
-    return <p>Loading..</p>
+    return (
+      <div data-testid="calendar-loading">
+        <h1>Calendar</h1>
+        <p>Loading..</p>
+      </div>
+    )
   }
 
   return (

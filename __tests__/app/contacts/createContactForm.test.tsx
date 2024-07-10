@@ -131,8 +131,8 @@ describe("<CreateContactForm />", () => {
     const lastNameErr = screen.getByTestId("lastName-error")
     expect(lastNameErr.textContent).toMatch("last name required")
 
-    const eamil = screen.getByTestId("email-error")
-    expect(eamil.textContent).toMatch("email required")
+    const email = screen.getByTestId("email-error")
+    expect(email.textContent).toMatch("email required")
 
 
     const phoneErr = screen.getByTestId("phone-error")

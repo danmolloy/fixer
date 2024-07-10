@@ -35,6 +35,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
     ensembleId: string
     firstName: string
     lastName: string
+    email: string
     positionTitle: string
     accessType: string
   }) => {
@@ -44,33 +45,35 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
   }
 
   return (
-    <Formik 
-      initialValues={initialVals} 
-      validationSchema={formSchema} 
-      onSubmit={(values, actions) => {
-        handleSubmit(values)
-        actions.setSubmitting(false);
-      }}>
-      {props => (
-        <Form>
-          <TextInput label="First Name" id="first-name-input" name="firstName"  />
-          <TextInput label="Last Name" id="last-name-input" name="lastName"  />
-          <TextInput label="Email" id="email-input" name="email"  />
-          <TextInput label="Position Title" id="position-title-input" name="positionTitle"  />
-          <div id="access-radio-group">Access Type</div>
-          <div role="group" aria-labelledby="access-radio-group">
-            <label>
-              <Field type="radio" name="accessType" value="restricted" />
-              Restricted
-            </label>
-            <label>
-              <Field type="radio" name="accessType" value="full" />
-              Full
-            </label>
-          </div>
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
+    <div data-testid="invite-admin-form">
+      <Formik 
+        initialValues={initialVals} 
+        validationSchema={formSchema} 
+        onSubmit={(values, actions) => {
+          handleSubmit(values)
+          actions.setSubmitting(false);
+        }}>
+        {props => (
+          <Form>
+            <TextInput label="First Name" id="first-name-input" name="firstName"  />
+            <TextInput label="Last Name" id="last-name-input" name="lastName"  />
+            <TextInput label="Email" id="email-input" name="email" type="email"  />
+            <TextInput label="Position Title" id="position-title-input" name="positionTitle"  />
+            <div id="access-radio-group">Access Type</div>
+            <div role="group" aria-labelledby="access-radio-group">
+              <label>
+                <Field type="radio" name="accessType" value="restricted" />
+                Restricted
+              </label>
+              <label>
+                <Field type="radio" name="accessType" value="full" />
+                Full
+              </label>
+            </div>
+            <button type="submit">Submit</button>
+          </Form>
+        )}
+      </Formik>
+    </div>
   )
 }

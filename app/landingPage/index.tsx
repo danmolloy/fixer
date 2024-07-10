@@ -3,7 +3,7 @@ import Hero from "./hero";
 
 export default function LandingPage() {
   return (
-    <div>
+    <div data-testid="landing-page">
       <Hero />
       <LandingFeatures />
     </div>

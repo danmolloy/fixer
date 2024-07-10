@@ -1,12 +1,12 @@
-import { signIn } from "next-auth/react"
 import Link from "next/link"
 import React from "react"
+import StartBtn from "./startBtn"
 
 export default function Hero() {
   return (
     <div className=" h-[60vh] flex flex-col items-center text-center bg-gradient-to-b from-white via-blue-500 to-white  " data-testid="hero-div">
       <div className="backdrop-blur-xl bg-white/80 h-full ">
-      <h1 className="text-4xl md:text-6xl py-4 px-12">Communication{" "}
+      <h1  className="text-4xl md:text-6xl py-4 px-12">Communication{" "}
         <span className="text-blue-600">
           made simple
         </span>{" "}
@@ -16,16 +16,9 @@ export default function Hero() {
         Seamless communication and effortless fixing for orchestras and musicians. 
       </p>
       <div className="flex flex-row flex-wrap w-full justify-center">
-      <form
-            action={async () => {
-              "use server"
-              await signIn("github", { redirectTo: "/" })
-            }}
-          >
-            <button data-testid="start-btn" className="m-2 bg-black hover:bg-slate-700 text-white rounded-full py-2 px-4 text-sm ">Start now</button>
-          </form>
+     <StartBtn />
 
-        <Link href="/" className="m-2 border hover:border-slate-300 text-black rounded-full py-2 px-4 text-sm ">
+        <Link href="/about" className="m-2 border hover:border-slate-300 text-black rounded-full py-2 px-4 text-sm ">
           Learn more
         </Link>
       </div>

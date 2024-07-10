@@ -35,3 +35,7 @@ cypress.env
 
 # vercel
 .vercel
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

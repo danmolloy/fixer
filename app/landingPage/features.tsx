@@ -50,8 +50,8 @@ export default function LandingFeatures() {
           </div>
           <div className="flex flex-col px-4">
             <h3 className="text-lg py-2">{i.title}</h3>
-{/*             <p className="text-slate-600 md:w-2/3">{i.blurb}</p>
- */}          </div>
+             <p className="text-slate-600 md:w-2/3">{i.blurb}</p>
+          </div>
         </div>
       ))}
       </div>

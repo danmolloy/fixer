@@ -2,9 +2,8 @@ import { auth } from "../auth"
 import SignIn from "../signin/page"
 import prisma from "../../client"
 import Link from "next/link"
-import { BsThreeDotsVertical } from "react-icons/bs"
 
-const getEnsembles = async (userId: string) => {
+export const getEnsembles = async (userId: string) => {
   return await prisma.user.findUnique({
     where: {
       id: userId
@@ -28,7 +27,7 @@ export default async function EnsemblesPage() {
 
   return (
     session 
-    ? <div className="p-2">
+    ? <div data-testid='ensembles-page' className="p-2">
       <h1>Your Ensembles</h1>
       <Link href="ensembles/create/" className="bg-indigo-600 text-white px-2 py-1 rounded m-1 hover:bg-indigo-500">
         Create Ensemble
