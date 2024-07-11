@@ -33,19 +33,21 @@ export default function JoinEnsembleForm(props: JoinEnsembleFormProps) {
   }
 
   return (
-    <Formik 
-      initialValues={initialVals} 
-      validationSchema={formSchema}
-      onSubmit={(values, actions) => {
-        handleSubmit(values)
-        actions.setSubmitting(false);
-      }}>
-      {props => (
-        <Form>
-          <TextInput name="accessCode" id="access-code-input" label="Access Code" />
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
+    <div data-testid="join-form">
+      <Formik 
+        initialValues={initialVals} 
+        validationSchema={formSchema}
+        onSubmit={(values, actions) => {
+          handleSubmit(values)
+          actions.setSubmitting(false);
+        }}>
+        {props => (
+          <Form>
+            <TextInput name="accessCode" id="access-code-input" label="Access Code" />
+            <button type="submit">Submit</button>
+          </Form>
+        )}
+      </Formik>
+    </div>
   )
 }

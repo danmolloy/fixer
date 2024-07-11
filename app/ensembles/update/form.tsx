@@ -39,7 +39,7 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
   }
 
   return (
-    <div className="p-4">
+    <div data-testid="update-ensemble-form" className="p-4">
      <Formik 
         initialValues={initialVals} 
         validationSchema={formSchema}

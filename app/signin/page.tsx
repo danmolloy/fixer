@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { auth, signIn } from "../auth"; 
-import { IoLogoGithub } from "react-icons/io";
 
 export default async function SignIn() {
   const session = await auth()
@@ -13,8 +12,7 @@ export default async function SignIn() {
     <div data-testid="sign-in-index">
       <h1 className="text-xl">Sign in to your account</h1>
       <form
-            action={async () => {
-              "use server"
+            onSubmit={async () => {
               await signIn("github")
             }}
           >
