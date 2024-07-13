@@ -38,31 +38,33 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
   }
 
   return (
-    <Formik 
-      initialValues={initialVals} 
-      validationSchema={formSchema} 
-      onSubmit={(values, actions) => {
-        handleSubmit(values)
-        actions.setSubmitting(false);
-      }}>
-      {props => (
-        <Form>
-          <TextInput label="Position Title" id="position-title-input" name="positionTitle"  />
-          <div id="access-radio-group">Access Type</div>
-          <div role="group" aria-labelledby="access-radio-group">
-            <label>
-              <Field type="radio" name="accessType" value="restricted" />
-              Restricted
-            </label>
-            <label>
-              <Field type="radio" name="accessType" value="full" />
-              Full
-            </label>
-          </div>
-          <button type="submit">Submit</button>
-          {JSON.stringify(props.errors)}
-        </Form>
-      )}
-    </Formik>
+    <div data-testid="update-admin-form">
+      <Formik 
+        initialValues={initialVals} 
+        validationSchema={formSchema} 
+        onSubmit={(values, actions) => {
+          handleSubmit(values)
+          actions.setSubmitting(false);
+        }}>
+        {props => (
+          <Form>
+            <TextInput label="Position Title" id="position-title-input" name="positionTitle"  />
+            <div id="access-radio-group">Access Type</div>
+            <div role="group" aria-labelledby="access-radio-group">
+              <label>
+                <Field type="radio" name="accessType" value="restricted" />
+                Restricted
+              </label>
+              <label>
+                <Field type="radio" name="accessType" value="full" />
+                Full
+              </label>
+            </div>
+            <button type="submit">Submit</button>
+            {JSON.stringify(props.errors)}
+          </Form>
+        )}
+      </Formik>
+    </div>
   )
 }

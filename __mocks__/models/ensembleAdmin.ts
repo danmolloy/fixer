@@ -1,14 +1,11 @@
-import { EnsembleAdmin, EnsembleMember, Prisma, User } from "@prisma/client";
+import { Ensemble, EnsembleAdmin, Prisma, User } from "@prisma/client";
 import {faker} from '@faker-js/faker'
-import { sectionsArr } from "../../components/fixing/fixing";
-import { EnsembleMemberWithUser } from "../../components/fixing/instrument/players/memberTile";
-import { AdminWithEnsemble } from "../../components/users/settings/accountInfo/ensembleAdmin";
-import { AdminWithUser } from "../../app/ensembles/admin/adminTile";
 
 const mockUserId = faker.string.uuid()
 
-export const mockAdminWithUser: AdminWithUser = {
+export const mockAdminWithUser: EnsembleAdmin & {user: User} = {
   id: faker.string.uuid(),
+  accessType: Math.random() > .5 ? "full" : "restricted",
   ensembleId: faker.string.uuid(),
   positionTitle: faker.lorem.word(),
   userId: mockUserId,
@@ -16,18 +13,17 @@ export const mockAdminWithUser: AdminWithUser = {
     id: mockUserId,
     email: faker.internet.email(),
     emailVerified: new Date(),
-    image: faker.image.urlLoremFlickr(),
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     mobileNumber: faker.phone.number(),
     fixingEnsembles: [faker.lorem.words(3)],
-    profileText: faker.lorem.paragraph(),
     preferredMethod: "WhatsApp",
     instrumentsList: ["Cello", "Viola"]
   }
 }
 
 export const mockEnsembleAdmin: EnsembleAdmin = {
+  accessType: Math.random() > .5 ? "full" : "restricted",
   id: faker.string.uuid(),
   ensembleId: faker.string.uuid(),
   positionTitle: faker.lorem.word(),
@@ -35,12 +31,14 @@ export const mockEnsembleAdmin: EnsembleAdmin = {
   
 }
 
-export const mockAdminWithEnsemble: AdminWithEnsemble = {
+export const mockAdminWithEnsemble: EnsembleAdmin & { ensemble: Ensemble } = {
   id: faker.string.uuid(),
+  accessType: Math.random() > .5 ? "full" : "restricted",
   ensembleId: faker.string.uuid(),
   positionTitle: faker.lorem.word(),
   userId: mockUserId,
   ensemble: {
+    ensembleNames: [faker.lorem.words(3),],
     name: faker.lorem.words(3),
     id: faker.string.uuid()
   }
