@@ -3,7 +3,6 @@ import { EnsembleContact, EnsembleSection } from "@prisma/client"
 import { Field, FieldArray, Formik } from "formik";
 import axios from "axios";
 import ButtonPrimary from "../../forms/buttonPrimary";
-import TextInput from "../../forms/textInput";
 import { useRouter } from "next/navigation";
 import { UpdateSectionProps } from "./api/edit/route";
 import { instrumentSections } from "../../contacts/lib";
@@ -20,7 +19,6 @@ export default function UpdateSectionForm(props: UpdateSectionFormProps) {
   const initialVals: UpdateSectionProps = {
     id: section.id,
     name: section.name,
-    instrument: section.instrument,
     contacts: section.contacts
   }
 
@@ -34,6 +32,7 @@ export default function UpdateSectionForm(props: UpdateSectionFormProps) {
   
 
   return (
+    <div data-testid="update-section-form">
       <Formik 
         initialValues={initialVals} 
         onSubmit={(values, actions) => {
@@ -44,28 +43,29 @@ export default function UpdateSectionForm(props: UpdateSectionFormProps) {
           {props => (
             <form id="fixing-form" className='flex flex-col w-full lg:w-2/3 py-8' onSubmit={props.handleSubmit}>
               <h1>Edit Section</h1>
-              <label>Section Name</label>
-              <Field as="select" name="name">
+              <label htmlFor="section-name">Section Name</label>
+              <Field id="section-name" as="select" name="name">
                 <option value={""}>Select section name</option>
                 {instrumentSections.map(i => (
                   <option key={i.id} value={i.name}>{i.name}</option>
                 ))}
               </Field>
+
               <FieldArray name="contacts" render={arrayHelpers => (
-                <div>
+                <div data-testid="contacts-array">
                   {props.values.contacts.sort((a, b) => (
       a.lastName.localeCompare(b.lastName)
     )).sort((a,b) => a.indexNumber - b.indexNumber).sort((a, b) => (
         a.role.localeCompare(b.role))).sort((a, b) => (
           a.category!.localeCompare(b.category!)
         )).map((i, index) => (
-                    <div key={i.id} className="flex flex-row">
-                      <p>{i.indexNumber}</p>
+                    <div data-testid={`${i.id}-contact`} key={i.id} className="flex flex-row">
+                      <p data-testid={`${i.id}-indexNum`}>{i.indexNumber}</p>
                       <p>{i.role}</p>
                       <p>{i.category}</p>
-                      <p>{i.firstName} {i.lastName}</p>
-                      <button onClick={(e) => {e.preventDefault(); props.setFieldValue(`contacts.${index}.indexNumber`, i.indexNumber - 1)}}>Up</button>
-                      <button onClick={(e) => {e.preventDefault(); props.setFieldValue(`contacts.${index}.indexNumber`, i.indexNumber + 1)}}>Down</button>
+                      <p data-testid="contact-name">{i.firstName} {i.lastName}</p>
+                      <button data-testid={`${i.id}-up`} onClick={(e) => {e.preventDefault(); props.setFieldValue(`contacts.${index}.indexNumber`, i.indexNumber - 1)}}>Up</button>
+                      <button data-testid={`${i.id}-down`} onClick={(e) => {e.preventDefault(); props.setFieldValue(`contacts.${index}.indexNumber`, i.indexNumber + 1)}}>Down</button>
                     </div>
                   ))}
                 </div>
@@ -80,5 +80,6 @@ export default function UpdateSectionForm(props: UpdateSectionFormProps) {
             </form>
           )}
       </Formik>
+      </div>
   )
 }

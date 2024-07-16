@@ -7,19 +7,19 @@ import { useRouter } from "next/navigation";
 
 
 
-export default async function CreateEnsembleForm(props: {userId: string}) {
+export default function CreateEnsembleForm(props: {userId: string}) {
   const router = useRouter()
   const { userId } = props;
 
   const formSchema = Yup.object().shape({
-    name: Yup.string().required("Ensemble name required"),
-    ensembleNames: Yup.array().of(Yup.string()).required("Ensemble name(s) required").min(1, "You must provide at least one ensemble name."),
+    name: Yup.string().required("Organisation name required"),
+    ensembleNames: Yup.array().of(Yup.string().required("Field cannot be left blank")).required("Ensemble name(s) required").min(1, "You must provide at least one ensemble name."),
     userId: Yup.string().required("User ID required"),
   })
 
   const initialVals = {
     name: "",
-    ensembleNames: [""],
+    ensembleNames: [''],
     userId: userId
   }
 
@@ -30,7 +30,7 @@ export default async function CreateEnsembleForm(props: {userId: string}) {
   }
 
   return (
-   <div className="p-4">
+   <div data-testid="create-ensemble-form" className="p-4">
       <Formik 
         initialValues={initialVals} 
         validationSchema={formSchema}

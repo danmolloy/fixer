@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import TextInput from "../../forms/textInput";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import ButtonPrimary from "../../forms/buttonPrimary";
 
 export type CreateEventSectionProps = {
   eventId: number

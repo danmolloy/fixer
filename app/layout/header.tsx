@@ -12,34 +12,15 @@ export type HeaderProps = {
   reducedHeader: boolean
 }
 
-export default async function Header(props: {session: Session|null}/* props: HeaderProps */) {
-  //const { reducedHeader, setReducedHeader, setShowMenu, showMenu } = props;
-  //const [scrollPosition, setScrollPosition] = useState(0);
-  const { session} = props;
-  /* useEffect(() => {
-    function handleScroll() {
-      const currentPosition = window.scrollY;
-      if (currentPosition > scrollPosition + 50) {
-        setScrollPosition(currentPosition);
-        setReducedHeader(true)
-      } else if (currentPosition < scrollPosition - 5) {
-        setScrollPosition(currentPosition);
-        setReducedHeader(false)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [scrollPosition]); */
+export default async function Header(props: {session: Session|null}) {
+    const { session} = props;
+  
   let menuLinks = session ? sessionMenuLinks : externalMenuLinks
 
   return (
-    <div data-testid="external-header" className={`${/* reducedHeader ? "h-12" :  */"h-16"} transition-all bg-white fixed top-0 w-screen shadow z-30 flex flex-row items-center justify-between`}>
+    <div data-testid="external-header" className={`${"h-16"} transition-all bg-white fixed top-0 w-screen shadow z-30 flex flex-row items-center justify-between`}>
       <Link data-testid="gigfix-link" href="/" >
-        <h2 className={`${/* reducedHeader ? "hidden" :  */"text-2xl"} p-2 mx-2 md:mx-10`}>
+        <h2 className={`${"text-2xl"} p-2 mx-2 md:mx-10`}>
           Gig<span className="text-blue-600 font-semibold">Fix</span>
         </h2>
       </Link>

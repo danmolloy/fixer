@@ -3,5 +3,6 @@ useRouter.mockImplementation(() => ({
   route: '/',
   query: {},
   push: jest.fn() ,
-  refresh: jest.fn()
+  refresh: jest.fn(),
+  replace: jest.fn()
 }));

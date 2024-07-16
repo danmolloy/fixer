@@ -65,7 +65,6 @@ export default async function EventDetail({ params }: { params: { id: string } }
       <EventInfo 
       event={data}
       calls={data.calls}
-      userId={session? session.user.id :null}
       ensemble={data.ensemble}
       />
       </table>

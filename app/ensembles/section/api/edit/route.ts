@@ -4,7 +4,6 @@ import prisma from "../../../../../client"
 export type UpdateSectionProps = {
   id: string 
   name: string
-  instrument: string
   contacts: EnsembleContact[]
 }
 
