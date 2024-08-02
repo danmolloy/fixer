@@ -2,7 +2,7 @@ import prisma from "../../../../client"
 
 export const sectionsArr = ["Flute", "Oboe", "Clarinet", "Bassoon", "Horn", "Trumpet", "Trombone", "Tuba", "Timpani", "Percussion", "Harp", "Violin 1", "Violin 2", "Viola", "Cello", "Double Bass"]
 
-const formattedCalls = (calls, fixerId) => {
+export const formattedCalls = (calls, fixerId) => {
   return [...calls].map(i => ({
     startTime: new Date(i.startTime),
     endTime: new Date(i.endTime),
@@ -12,7 +12,7 @@ const formattedCalls = (calls, fixerId) => {
 }
 
 
-const eventObj = (obj) => {
+export const eventObj = (obj) => {
   return {
     ensembleId: obj.ensembleId,
     ensembleName: obj.ensembleName,
@@ -28,7 +28,7 @@ const eventObj = (obj) => {
   }
 }
 
-const createEvent = async(eventObj) => {
+export const createEvent = async(eventObj) => {
   
   return await prisma.event.create({
     data: {

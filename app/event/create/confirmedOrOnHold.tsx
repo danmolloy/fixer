@@ -1,15 +1,10 @@
 import { ErrorMessage, Field } from "formik"
 import React from "react"
 
-export type CoohProps = {
-  setConfirmedOrOnHold: (arg: string) => void
-  confirmedOrOnHold: string
-} 
+export default function ConfirmedOrOnHold() {
 
-export default function ConfirmedOrOnHold(props: CoohProps) {
-  const {  confirmedOrOnHold } = props
   return (
-    <div data-testid="confirmed-or-on-hold-div" className="py-4 w-1/2 sm:self-start ">
+    <div data-testid="status-div" className="py-4 w-1/2 sm:self-start ">
       <label htmlFor="confirmedOrOnHold" className="font-medium">Gig Status</label>
 
       <div className="flex flex-col py-1" role="group" aria-label="confirmedOrOnHold" data-testid={`confirm-or-hold-toggle-group`}>

@@ -24,6 +24,7 @@ export default function CurrentContactMessages(props: CurrentContactMessagesProp
   return (
     <table>
       <thead>
+        <tr>
         <th>
           Call Number
         </th>
@@ -45,6 +46,7 @@ export default function CurrentContactMessages(props: CurrentContactMessagesProp
         <th>
           Options
         </th>
+        </tr>
       </thead>
       <tbody>
         {contacts.filter(i => i.bookingOrAvailability === bookingOrAvailability).map((i, index) => (

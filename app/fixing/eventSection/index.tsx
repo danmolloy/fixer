@@ -11,7 +11,8 @@ export type EventSectionProps = {
   eventSections: (EventSection & {ensembleSection: EnsembleSection})[]
   sectionContacts: EnsembleContact[]
   eventCalls: Call[]
-  currentContacts: (ContactMessage /* & {contact: EnsembleContact} */)[]
+  currentContacts: (ContactMessage & {contact: EnsembleContact, calls: Call[]
+  })[]
 
 }
 
@@ -27,7 +28,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
   }
 
   return (
-    <div data-testid="event-section">
+    <div data-testid={`${section.id}-event-section`}>
       <button onClick={() => setUpdateSection(true)}>
         Update
       </button>
@@ -45,7 +46,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
       <div>
         <h2>{section.ensembleSection.name}</h2>
         <p>Booking {section.numToBook} player(s)</p>
-        <button onClick={() => handleDelete()}>
+        <button data-testid="delete-section" onClick={() => handleDelete()}>
           Delete
         </button>
       </div>}

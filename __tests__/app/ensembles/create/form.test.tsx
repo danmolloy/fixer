@@ -95,7 +95,6 @@ describe("<CreateEnsembleForm />", () => {
     await act(async () => {
       fireEvent.click(submitBtn)
     })
-    console.log(createForm.textContent)
     expect(axios.post).toHaveBeenCalledWith(
       "create/api",
       {

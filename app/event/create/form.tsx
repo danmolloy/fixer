@@ -7,12 +7,10 @@ import { useState } from 'react';
 import React from 'react';
 import CallInput from './callInput';
 import ButtonPrimary from '../../forms/buttonPrimary';
-import EnsembleRadioGroup from './ensembleRadioGroup';
 import ConfirmedOrOnHold from './confirmedOrOnHold';
 import { EnsembleAdmin, Prisma, Ensemble } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { DateTime } from 'luxon';
 
 export type EventWithCallsAndEnsemble = Prisma.EventGetPayload<{
   include: {
@@ -30,9 +28,15 @@ export type CreateEventFormProps = {
   createOrUpdate: "Create"|"Update"
 }
 
+export const formatDate = (dateStr) => {
+  //const date = new Date(new Date(dateStr).toLocaleString());
+  const date = new Date(dateStr);
+  return date.toISOString().slice(0, 10) + "T" + date.toUTCString().slice(17,22);
+};
+
+
 export default function CreateEventForm(props: CreateEventFormProps) {
   const { createOrUpdate, adminEnsembleList, initialValues, userId, userName } = props
-  const [confirmedOrOnHold, setConfirmedOrOnHold] = useState('')
   const router = useRouter()
 
 
@@ -57,11 +61,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     additionalInfo: Yup.string(),
   })
 
-  const formatDate = (dateStr) => {
-    //const date = new Date(new Date(dateStr).toLocaleString());
-    const date = new Date(dateStr);
-    return date.toISOString().slice(0, 10) + "T" + date.toUTCString().slice(17,22);
-  };
 
   
   return (
@@ -72,7 +71,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           fixerId: userId,
           id: initialValues ? initialValues.id : "",
           confirmedOrOnHold: initialValues ? initialValues.confirmedOrOnHold : "",
-/*           ensemble: initialValues ? "Other" : "", */
           ensembleName: initialValues ? initialValues.ensembleName : (adminEnsembleList.length === 1 && adminEnsembleList[0].ensemble.ensembleNames.length === 1) ? adminEnsembleList[0].ensemble.ensembleNames[0] : "",
           ensembleId: initialValues ? initialValues.ensembleId : adminEnsembleList.length === 1 ? adminEnsembleList[0].ensembleId : "",
           eventTitle: initialValues ? initialValues.eventTitle :"", 
@@ -101,7 +99,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           actions.setSubmitting(true);
           if ( createOrUpdate === "Update") {
             axios.post("/event/update/api", values).then((res) => {
-              console.log(JSON.stringify(res))
               router.push(`/event/${res.data.event.id}`)
               
             }).catch(e => {
@@ -109,7 +106,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
             })
           } else {
             axios.post("create/api", values).then((res) => {
-              console.log(JSON.stringify(res))
               router.push(`/event/${res.data.id}`)
               
             }).catch(e => {
@@ -128,9 +124,10 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               </div>
               <div className='flex flex-col sm:items-center w-full sm:flex-row '>
                 <div>
-              <p id="ensembleName" className="font-medium">Organisation</p>
-
-              <Field as="select" name="ensembleId" 
+              <label htmlFor='ensembleId' id="ensembleName" className="font-medium">Organisation
+            
+              <Field
+              data-testid="org-select" as="select" name="ensembleId" 
                 onChange={(e) => {
                   props.setFieldValue("ensembleName", ""); 
                   props.setFieldValue("ensembleId", e.target.value)}}>
@@ -142,6 +139,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 <ErrorMessage name={`ensembleId`}>
           { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`ensembleId-error`}>{msg}</div> }
         </ErrorMessage>
+        </label>
                 </div>
                 <div aria-labelledby="ensembleName" role="group" className="flex flex-col py-1" >
 
@@ -161,10 +159,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`ensembleId-error`}>{msg}</div> }
         </ErrorMessage>
                 </div>
-                {/* <EnsembleRadioGroup
-                  adminEnsembleList={adminEnsembleList}
-                  isSubmitting={props.isSubmitting} /> */}
-                  <ConfirmedOrOnHold setConfirmedOrOnHold={(e) => setConfirmedOrOnHold(e)} confirmedOrOnHold={confirmedOrOnHold} />
+                  <ConfirmedOrOnHold />
                 </div>
                 <TextInput 
                 asHtml='input' 

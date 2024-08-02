@@ -57,6 +57,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
   }
 
   return  (
+    <div data-testid="contact-message-form">
     <Formik
       initialValues={initialVals}
       validationSchema={validationSchema}
@@ -113,5 +114,6 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
         </Form>
       )}
     </Formik>
+    </div>
   )
 }

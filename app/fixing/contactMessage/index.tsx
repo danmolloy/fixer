@@ -19,7 +19,7 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
   const [bookingOrAvailability, setBookingOrAvailability] = useState<string>("Booking")
 
   return (
-    <div>
+    <div data-testid="event-section-contacts">
       <label>
       <input
       disabled={editContacts}

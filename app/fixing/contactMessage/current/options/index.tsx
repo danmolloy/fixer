@@ -59,7 +59,7 @@ export default function CurrentContactsOptions(props: CurrentContactsOptionsProp
   }
 
   return (
-    <div className="">
+    <div data-testid="contact-options" className="">
       {contact.bookingOrAvailability === "Availability" 
       && <button onClick={() => handleUpdate({bookingOrAvailability: "Booking"}, "Are you sure you want to reoffer as a booking?")}>
         Offer to book
@@ -95,7 +95,7 @@ export default function CurrentContactsOptions(props: CurrentContactsOptionsProp
         Delete
       </button>
       <div>
-        <select onChange={(e) => setPosition(e.target.value)} value={position}>
+        <select data-testid="position-select" onChange={(e) => setPosition(e.target.value)} value={position}>
           <option value={"Principal"}>Principal</option>
           <option value={"Tutti"}>Tutti</option>
         </select>

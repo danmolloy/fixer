@@ -1,6 +1,6 @@
 import { Call, ContactMessage, EnsembleContact } from "@prisma/client";
 import axios from "axios";
-import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { DateTime } from "luxon";
 import { useRouter } from "next/navigation";
 import * as Yup from 'yup';
@@ -39,6 +39,12 @@ export default function UpdateContactEventCalls(props: UpdateContactEventCallsPr
       initialValues={initialVals} 
       validationSchema={validationSchema}
       onSubmit={(values, actions) => {
+       if (values.calls.length < 1 && contact.calls.map(i => String(i.id)).filter(i => values.calls.includes(i)).length < 1) {
+        console.log(`values: ${JSON.stringify(values.calls)}`)
+        console.log(`contact: ${JSON.stringify(contact.calls.map(i => String(i.id)))}`)
+
+          return alert("This player will no longer have any calls offered, which is not a valid action. If you wish to remove them from the event, delete them from the list.")
+        }
         handleSubmit({
           contactMessageId: values.contactMessageId,
           calls: {
@@ -51,12 +57,11 @@ export default function UpdateContactEventCalls(props: UpdateContactEventCallsPr
         actions.setSubmitting(false);
       }}>
       {props => (
-        <Form>
+        <Form data-testid="update-event-calls">
       {eventCalls.map(i => (
         <label key={i.id}>
           <p>{DateTime.fromJSDate(new Date(i.startTime)).toFormat("HH:mm")}</p>
               <p>{DateTime.fromJSDate(new Date(i.startTime)).toFormat("DD")}</p>
-              {JSON.stringify(props.values.calls)}
           <Field
             checked={props.values.calls.map(j => String(j)).includes(String(i.id)) ? true : false}
             type="checkbox" 
@@ -69,6 +74,7 @@ export default function UpdateContactEventCalls(props: UpdateContactEventCallsPr
           <p>{err}</p>
         )}
       </ErrorMessage>
+      {props.values.calls.length < 1 && <p>At least one call must be offered.</p>}
       <button 
         disabled={JSON.stringify(initialVals.calls.map(i => String(i))) === JSON.stringify(props.values.calls.map(i => String(i)))} 
         className=" disabled:opacity-40" type="submit">

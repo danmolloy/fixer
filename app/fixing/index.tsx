@@ -23,7 +23,7 @@ export default function FixingIndex(props: FixingIndexProps) {
   const [createSection, setCreateSection] = useState<boolean>(false)
 
   return (
-    <div>
+    <div data-testid="fixing-index">
       <button onClick={() => setCreateSection(true)}>
         Create
       </button>

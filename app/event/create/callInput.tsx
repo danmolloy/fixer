@@ -24,17 +24,17 @@ export const venueOptions = [
 ]
 
 export type CallInputProps = {
-  index: any
-  id: any
-  remove: (arg: any) => void
+  index: number
+  id: number
+  remove: (arg: number) => void
   propsValueVenue: string
   setVenue: (venue: string) => void
   call: {
-    id:string
-      startTime: Date,
-      endTime: Date,
-      venue: string,
-      info?: string,
+    id: number
+    startTime: string,
+    endTime: string,
+    venue: string,
+    info?: string,
   }
 }
 
@@ -45,23 +45,21 @@ export default function CallInput(props: CallInputProps) {
     <div data-testid={`call-${index}-input-div`} className="flex flex-col">
       <div className='flex flex-row items-center justify-between'>
         <p className="font-medium">{`Call ${index + 1}`}</p>
-        {index !== 0 && 
-        <button data-testid={`calls-${index}-delete`} className='delete-btn text-xl p-1 m-1 rounded-full hover:bg-slate-100 text-slate-700' onClick={() => remove(index)}>
+        <button disabled={index === 0} data-testid={`calls-${index}-delete`} className='delete-btn text-xl p-1 m-1 rounded-full hover:bg-slate-100 text-slate-700' onClick={() => remove(index)}>
           <AiOutlineClose />
-        </button>}
+        </button>
       </div>
       <div className="flex flex-col sm:flex-row">
       <div className='flex flex-col py-4 w-1/2'>
-      {/* JSON.stringify(call.startTime) */}
         <label className="font-medium" htmlFor={`calls.${index}.startTime`}>Start Time</label>
       <Field
-          label="Start Time"
-          className="border rounded p-2 my-1 shadow-sm w-48"
-          name={`calls.${index}.startTime`}
-          id={`calls.${index}.startTime`}
-          type="datetime-local"
-          value={call.startTime}
-          
+        data-testid={`calls.${index}.startTime`}
+        label="Start Time"
+        className="border rounded p-2 my-1 shadow-sm w-48"
+        name={`calls.${index}.startTime`}
+        id={`calls.${index}.startTime`}
+        type="datetime-local"
+        value={call.startTime}
         />
         <ErrorMessage name={`calls.${index}.startTime`}>
           { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`calls-${index}-startTime-error`}>{msg}</div> }
@@ -74,6 +72,7 @@ export default function CallInput(props: CallInputProps) {
           label="End Time"
           className="border rounded p-2 my-1 shadow-sm w-48"
           id={`calls.${index}.endTime`}
+          data-testid={`calls.${index}.endTime`}
           name={`calls.${index}.endTime`}
           htmlFor={`calls.${index}.endTime`}
           type="datetime-local"
@@ -86,6 +85,7 @@ export default function CallInput(props: CallInputProps) {
         </div>
          {/*  <TextInput */}
           <ComboBox
+          
           optional={false}
           setValue={(venue: string) => setVenue(venue)}
           includeId={false}

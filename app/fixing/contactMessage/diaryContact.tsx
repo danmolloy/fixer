@@ -1,4 +1,4 @@
-import { EnsembleContact, Prisma } from "@prisma/client"
+import { EnsembleContact } from "@prisma/client"
 
 export type DiaryContactProps = {
   contact: EnsembleContact
