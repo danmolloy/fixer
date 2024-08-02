@@ -1,6 +1,5 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom"
-import TextInput from "../../../components/event/createUpdate/textInput";
 import React from "react";
 import { Formik } from "formik";
 import ComboBox, { ComboBoxProps } from "../../../app/forms/comboBox";

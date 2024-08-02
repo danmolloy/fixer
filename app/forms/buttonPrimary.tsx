@@ -3,7 +3,7 @@ import React from "react"
 import { AiOutlineLoading } from 'react-icons/ai';
 
 
-interface ButtonPrimaryProps {
+export type ButtonPrimaryProps = {
   isSubmitting?: boolean
   handleClick: (e?: Event) => void
   id: string

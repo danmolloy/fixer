@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom"
-import TextInput, { TextInputProps } from "../../../components/event/createUpdate/textInput";
+import TextInput, { TextInputProps } from "../../../app/forms/textInput";
 import React from "react";
 import { Formik } from "formik";
 
