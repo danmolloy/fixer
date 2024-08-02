@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth, signIn } from "../auth"; 
+import SignInBtn from "../layout/signInBtn";
 
 export default async function SignIn() {
   const session = await auth()
@@ -11,13 +12,7 @@ export default async function SignIn() {
   return (
     <div data-testid="sign-in-index">
       <h1 className="text-xl">Sign in to your account</h1>
-      <form
-            onSubmit={async () => {
-              await signIn("github")
-            }}
-          >
-            <button data-testid="sign-in-btn" className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light" type="submit">Sign in</button>
-          </form>
+      <SignInBtn />
     </div>
   )
 }
