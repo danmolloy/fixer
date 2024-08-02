@@ -1,0 +1,3 @@
+/* 
+Header component is currently an asynchronous server component.
+*/

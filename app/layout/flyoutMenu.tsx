@@ -7,11 +7,11 @@ import { signOut } from "../auth";
 import { externalMenuLinks, sessionMenuLinks } from './menuLinks'
 
 
-export type externalMenuProps = {
+export type ExternalMenuProps = {
   session: Session|null
 }
 
-export default function FlyOutMenu(props: externalMenuProps) {
+export default function FlyOutMenu(props: ExternalMenuProps) {
   const { session } = props;
 
   let menuLinks = session ? sessionMenuLinks : externalMenuLinks
@@ -29,7 +29,7 @@ export default function FlyOutMenu(props: externalMenuProps) {
             </Link>))}
             
             {session 
-            ? <button onClick={() => signOut()} className="w-full hover:bg-slate-100 hover:text-indigo-600 py-1 px-2 items-center flex flex-row">
+            ? <button data-testid="sign-out-btn" onClick={() => signOut()} className="w-full hover:bg-slate-100 hover:text-indigo-600 py-1 px-2 items-center flex flex-row">
             <div>
             <IoExitOutline />
             </div>
@@ -37,7 +37,7 @@ export default function FlyOutMenu(props: externalMenuProps) {
               Sign out
             </p>
           </button>
-            : <button onClick={() => signIn("github")} className="w-full hover:bg-slate-100 hover:text-indigo-600 py-1 px-2 items-center flex flex-row">
+            : <button data-testid="sign-in-btn" onClick={() => signIn("github")} className="w-full hover:bg-slate-100 hover:text-indigo-600 py-1 px-2 items-center flex flex-row">
               <div>
               <IoEnterOutline />
               </div>

@@ -3,22 +3,21 @@ import { signIn, signOut } from "../auth";
 import { Session } from "next-auth";
 import MenuButton from "./menuButton";
 import { externalMenuLinks, sessionMenuLinks } from "./menuLinks";
+import SignOutBtn from "./signOutBtn";
+import SignInBtn from "./signInBtn";
 
 
 export type HeaderProps = {
-  showMenu: boolean
-  setShowMenu: (bool: boolean) => void
-  setReducedHeader: (arg: boolean) => void
-  reducedHeader: boolean
+  session: Session|null
 }
 
-export default async function Header(props: {session: Session|null}) {
+export default function Header(props: HeaderProps) {
     const { session} = props;
   
   let menuLinks = session ? sessionMenuLinks : externalMenuLinks
 
   return (
-    <div data-testid="external-header" className={`${"h-16"} transition-all bg-white fixed top-0 w-screen shadow z-30 flex flex-row items-center justify-between`}>
+    <div data-testid="header" className={`${"h-16"} transition-all bg-white fixed top-0 w-screen shadow z-30 flex flex-row items-center justify-between`}>
       <Link data-testid="gigfix-link" href="/" >
         <h2 className={`${"text-2xl"} p-2 mx-2 md:mx-10`}>
           Gig<span className="text-blue-600 font-semibold">Fix</span>
@@ -30,22 +29,8 @@ export default async function Header(props: {session: Session|null}) {
             {i.name}
           </Link>))}
           {session 
-          ? <form
-          action={async () => {
-            "use server"
-            await signOut({redirectTo: "/"})
-          }}
-        >
-          <button data-testid="sign-in-btn" className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light" type="submit">Sign out</button>
-        </form>
-          : <form
-            action={async () => {
-              "use server"
-              await signIn("github")
-            }}
-          >
-            <button data-testid="sign-in-btn" className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light" type="submit">Sign in</button>
-          </form>}
+          ? <SignOutBtn />
+          : <SignInBtn />}
         </div>          
         
           <MenuButton session={session}/>

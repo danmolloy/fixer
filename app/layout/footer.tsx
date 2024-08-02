@@ -1,10 +1,11 @@
 import { AiOutlineCopyrightCircle, AiOutlineFacebook, AiOutlineInstagram, AiOutlineMail, AiOutlineTwitter } from "react-icons/ai";
 import Link from "next/link";
-import { signIn, signOut } from "../auth"
 import { BiDetail } from "react-icons/bi";
 import { FaQuestion } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { Session } from "next-auth";
+import SignInBtn from "./signInBtn";
+import SignOutBtn from "./signOutBtn";
 
 
 export const socialMedia: {
@@ -66,29 +67,15 @@ export const footerMenuLinks: {
 export default function Footer(props: {session: Session|null}) {
   const {session} = props;
   return (
-    <div data-testid="external-footer" className="flex flex-col items-center justify-center border-t flex-wrap ">
+    <div data-testid="footer" className="flex flex-col items-center justify-center border-t flex-wrap ">
       <div className="py-2 flex-wrap w-screen flex flex-row items-center justify-center">
         {footerMenuLinks.map((i) => (
           <Link data-testid={i.id} href={i.link} key={i.id} className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light">
             {i.name}
           </Link>))}
           {session 
-          ? <form
-          action={async () => {
-            "use server"
-            await signOut({redirectTo: "/"})
-          }}
-        >
-          <button data-testid="sign-in-btn" className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light" type="submit">Sign out</button>
-        </form>
-          : <form
-            action={async () => {
-              "use server"
-              await signIn("github", { redirectTo: "/" })
-            }}
-          >
-            <button data-testid="sign-in-btn" className="hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light" type="submit">Sign in</button>
-          </form>}
+          ? <SignOutBtn />
+          : <SignInBtn />}
           
       </div>
       <div className="flex flex-row text-xl">
