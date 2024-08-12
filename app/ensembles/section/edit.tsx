@@ -4,7 +4,7 @@ import { Field, FieldArray, Formik } from "formik";
 import axios from "axios";
 import ButtonPrimary from "../../forms/buttonPrimary";
 import { useRouter } from "next/navigation";
-import { UpdateSectionProps } from "./api/edit/route";
+import { UpdateSectionProps } from "./api/edit/functions";
 import { instrumentSections } from "../../contacts/lib";
 
 export type UpdateSectionFormProps = {
