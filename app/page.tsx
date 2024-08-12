@@ -3,7 +3,7 @@ import { auth } from "./auth"
 import CalendarIndex, { UserWithEventsAndCallsWithEnsemble } from "./calendar"
 import LandingPage from "./landingPage"
 
-export const getCalendar = async (userId: string): Promise<UserWithEventsAndCallsWithEnsemble|null> => {
+const getCalendar = async (userId: string): Promise<UserWithEventsAndCallsWithEnsemble|null> => {
   return await prisma.user.findUnique({
     where: {
       id: userId

@@ -3,7 +3,7 @@ import SignIn from "../signin/page"
 import prisma from "../../client"
 import Link from "next/link"
 
-export const getEnsembles = async (userId: string) => {
+const getEnsembles = async (userId: string) => {
   return await prisma.user.findUnique({
     where: {
       id: userId
