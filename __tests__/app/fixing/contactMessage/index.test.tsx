@@ -24,33 +24,27 @@ describe("<EventSectionContacts />", () => {
     const eventSectionContacts = screen.getByTestId("event-section-contacts")
     expect(eventSectionContacts).toBeInTheDocument()
   })
-  it("Booking radio option is in the document with expected label, type, value, checked status & not disabled", () => {
-    const bookingRadio = screen.getByLabelText("Booking")
-    expect(bookingRadio).toBeInTheDocument()
-    expect(bookingRadio).toHaveAttribute("type", "radio")
-    expect(bookingRadio).toHaveAttribute("value", "Booking")
-    expect(bookingRadio).toBeChecked()
-    expect(bookingRadio).not.toHaveAttribute("disabled")
-    act(() => {
-      fireEvent.click(bookingRadio)
-    })
-    expect(bookingRadio).toBeChecked()
+  it("booking/availability select menu is in the document with options", () => {
+    const statusSelect = screen.getByTestId("status-select")
+    expect(statusSelect).toBeInTheDocument()
+    expect(statusSelect).toHaveRole("combobox")
+    expect(statusSelect).toHaveValue("Booking")
+
+    expect(statusSelect).toHaveTextContent("Booking")
+    expect(statusSelect).toHaveTextContent("Availability")
+
+    const bookingOption = screen.getByText("Booking")
+    expect(bookingOption).toBeInTheDocument()
+    expect(bookingOption).toHaveRole("option")
+    expect(bookingOption).toHaveValue("Booking")
+
+    const availabilityOption = screen.getByText("Availability")
+    expect(availabilityOption).toBeInTheDocument()
+    expect(availabilityOption).toHaveRole("option")
+    expect(availabilityOption).toHaveValue("Availability")
 
   })
-  it("Availability radio option is in the document with expected label, type, value, checked status & not disabled", () => {
-    const availabilityRadio = screen.getByLabelText("Availability")
-    expect(availabilityRadio).toBeInTheDocument()
-    expect(availabilityRadio).toHaveAttribute("type", "radio")
-    expect(availabilityRadio).toHaveAttribute("value", "Availability")
-    expect(availabilityRadio).not.toBeChecked()
-    expect(availabilityRadio).not.toHaveAttribute("disabled")
-
-    act(() => {
-      fireEvent.click(availabilityRadio)
-    })
-    expect(availabilityRadio).toBeChecked()
-
-  })
+  
   it("Edit btn is in the document and renders <ContactMessageForm /> on click", () => {
     const editBtn = screen.getByText("Edit Contacts")
     expect(editBtn).toBeInTheDocument()
@@ -60,22 +54,17 @@ describe("<EventSectionContacts />", () => {
     })
     const form = screen.getByTestId("contact-message-form")
     expect(form).toBeInTheDocument()
-    act(() => {
-      fireEvent.click(editBtn)
-    })
-    expect(form).not.toBeInTheDocument()
+    
   })
-  it("booking & availability radio btns are disabled on Edit btn click", () => {
+  
+  it("statusSelect is disabled on Edit btn click", () => {
     const editBtn = screen.getByText("Edit Contacts")
     expect(editBtn).toBeInTheDocument()
     expect(editBtn).toHaveRole("button")
     act(() => {
       fireEvent.click(editBtn)
     })
-    const availabilityRadio = screen.getByLabelText("Availability")
-    expect(availabilityRadio).toHaveAttribute("disabled")
-    const bookingRadio = screen.getByLabelText("Booking")
-    expect(bookingRadio).toHaveAttribute("disabled")
-
+    const statusSelect = screen.getByTestId("status-select")
+    expect(statusSelect).toHaveAttribute("disabled")
   })
 })

@@ -3,8 +3,7 @@ import { render, screen, act, fireEvent } from "@testing-library/react";
 import { socialMedia } from "../../../app/layout/footer";
 import Footer, { footerMenuLinks } from "../../../app/layout/footer";
 import { mockSession } from "../../../__mocks__/session";
-import { signIn, signOut } from "../../../app/auth";
-
+import { signIn, signOut } from "next-auth/react";
 jest.mock('@auth/prisma-adapter')
 jest.mock("next-auth/react")
 
@@ -37,7 +36,7 @@ describe("<Footer />", () => {
     expect(companyName).toBeInTheDocument()
   })
   it("if !session, signIn btn is in the document and calls signIn on click", async () => {
-    const signInBtn = screen.getByText("Sign in")
+    const signInBtn = screen.getByText("Sign In")
     expect(signInBtn).toBeInTheDocument()
     await act(async () => {
       fireEvent.click(signInBtn)
@@ -66,12 +65,12 @@ describe("<Footer />", () => {
     expect(companyName).toBeInTheDocument()
 
   })
-  it("if session, signOu btn is in the document and calls signOut on click", async () => {
+  it("if session, signOut btn is in the document and calls signOut on click", async () => {
     const signOutBtn = screen.getByText("Sign out")
     expect(signOutBtn).toBeInTheDocument()
     await act(async () => {
       fireEvent.click(signOutBtn)
     })
-    expect(signOut).toHaveBeenCalledWith({redirectTo: "/"}) 
+    expect(signOut).toHaveBeenCalled() 
   })
 })

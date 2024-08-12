@@ -1,6 +1,6 @@
 import prisma from "../../../../../client"
 
-const createAdminInvite = async (data: {
+export const createAdminInvite = async (data: {
   firstName: string, 
   lastName: string, 
   email: string, 
@@ -8,20 +8,27 @@ const createAdminInvite = async (data: {
   positionTitle: string,
   accessType: string
 }) => {
-  return await prisma.adminInvite.create({
-    data: {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      positionTitle: data.positionTitle,
-      accessType: data.accessType,
-      ensemble: {
-        connect: {
-          id: data.ensembleId
+  if (!data || data === undefined) {
+    throw new Error("Failed to create invite: invite data is undefined.");
+  }
+  try {
+    return await prisma.adminInvite.create({
+      data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        positionTitle: data.positionTitle,
+        accessType: data.accessType,
+        ensemble: {
+          connect: {
+            id: data.ensembleId
+          }
         }
       }
-    }
-  })
+    })
+  } catch (error) {
+    throw new Error(`Failed to create invite: ${error.message}`)
+  }
 }
 
 export async function POST(request: Request) {

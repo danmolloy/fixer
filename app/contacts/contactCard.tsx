@@ -14,7 +14,7 @@ export default function ContactCard(props: ContactCardProps) {
   const [showMenu, setShowMenu] = useState(false)
 
   return (
-    <div data-testid="contact-card" className="border m-1 rounded p-1 w-full flex flex-row justify-between ">
+    <div data-testid="contact-card" className="border-b m-1 rounded p-1 w-full flex flex-row justify-between text-sm ">
       <div className="flex flex-row">
       <div 
         className={`w-8 h-8 rounded-full m-2 text-white bg-indigo-500 flex items-center justify-center ${contact.category!.toLowerCase() === "member" && "bg-orange-500"} `}>
@@ -36,7 +36,7 @@ export default function ContactCard(props: ContactCardProps) {
         <p>{contact.phoneNumber}</p>
       </div>
       <div>
-      <button onClick={() => setShowMenu(!showMenu)}>
+      <button onClick={() => {focus(); setShowMenu(!showMenu)}} onBlur={() => setTimeout(() => setShowMenu(false), 250)}>
         <BsThreeDotsVertical />
         <p className="hidden">Contact Options</p>
       </button>

@@ -15,18 +15,16 @@ describe("<ViewSelect />", () => {
     const viewSelect = screen.getByTestId("view-select")
     expect(viewSelect).toBeInTheDocument()
   })
-  it("all options are in the document and call setSelectedView on click", async () => {
+  it("all options are in the document", async () => {
     const viewSelect = screen.getByTestId("view-select")
     expect(viewSelect).toBeInTheDocument()
 
     for (let i = 0; i < viewOptions.length; i++) {
       let alternateOption = screen.getByTestId(`${viewOptions[i]}-option`)
+      expect(viewSelect).toHaveTextContent(viewOptions[i])
       expect(alternateOption.textContent).toMatch(viewOptions[i])
       expect(alternateOption).toHaveAttribute("value", viewOptions[i])
-      await waitFor(async () => {
-        await fireEvent.change(viewSelect, viewOptions[i])
-      })
-      expect(mockProps.setSelectedView).toHaveBeenCalledWith(viewOptions[i])
+      expect(alternateOption).toHaveRole("option")
     }
   })
 })

@@ -9,7 +9,7 @@ export type ContactsIndexProps = {
   ensembleId: string
   sections: (EnsembleSection & {contacts: EnsembleContact[]})[] 
   editContact: (arg: string) => void
-  sortContacts: "Alphabetical"|"Sections"
+  sortContacts: string
   filterContacts: string[]
 }
 
@@ -18,7 +18,8 @@ export default function ContactsIndex(props: ContactsIndexProps) {
 
 
   return (
-    <div data-testid="contacts-index" className=" w-full">
+    <div data-testid="contacts-index" className=" w-full m-1">
+      <h2>Musicians</h2>
       {contacts.filter(i => i.category === null || filterContacts.includes(i.category)).length === 0 
       ? <p>No contacts</p>
       : sortContacts === "Alphabetical"

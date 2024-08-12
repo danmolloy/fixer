@@ -28,10 +28,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
   }
 
   return (
-    <div data-testid={`${section.id}-event-section`}>
-      <button onClick={() => setUpdateSection(true)}>
-        Update
-      </button>
+    <div data-testid={`${section.id}-event-section`} className="border rounded p-2 m-2">
       {updateSection 
       ? <CreateEventSection
         eventSections={eventSections}
@@ -44,11 +41,21 @@ export default function EventSectionIndex(props: EventSectionProps) {
         ensembleSectionId={section.ensembleSection.id}/>
       : 
       <div>
-        <h2>{section.ensembleSection.name}</h2>
-        <p>Booking {section.numToBook} player(s)</p>
-        <button data-testid="delete-section" onClick={() => handleDelete()}>
+        <div className="flex flex-row justify-between">
+          <h2>{section.ensembleSection.name}</h2>
+          <div>
+          
+          <button className="mx-1  rounded py-1 px-2 text-sm text-red-500 hover:bg-red-50 border border-red-500" data-testid="delete-section" onClick={() => handleDelete()}>
           Delete
         </button>
+        </div>
+        </div>
+        <div className="flex flex-row items-center">
+        <p className="text-sm">Booking {section.numToBook} player(s)</p>
+        <button className="mx-1 border text-xs p-1 rounded  hover:bg-gray-50" onClick={() => setUpdateSection(true)}>
+          Change
+        </button>
+        </div>
       </div>}
       <EventSectionContacts
         currentContacts={currentContacts} 

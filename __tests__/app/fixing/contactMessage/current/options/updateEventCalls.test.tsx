@@ -114,7 +114,6 @@ describe("<UpdateContactEventCalls", () => {
     await act(async() => {
       fireEvent.click(updateBtn)
     })
-    console.log(updateEventCalls.textContent)
     expect(global.alert).not.toHaveBeenCalled()
     expect(axios.post).toHaveBeenCalledWith("/fixing/contactMessage/api/update/eventCalls", {
       calls: {

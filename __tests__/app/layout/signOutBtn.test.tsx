@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import SignOutBtn from "../../../app/layout/signOutBtn";
-import { signOut } from "../../../app/auth"; 
+import { signOut } from "next-auth/react";  
 
 jest.mock("next-auth/react")
 

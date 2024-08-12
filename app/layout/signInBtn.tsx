@@ -1,10 +1,12 @@
 'use client'
-import { signIn } from "../auth"
 
-export default function SignInBtn() {
+import { signIn } from "next-auth/react";
+
+export default function SignInBtn(props: { classNames?: string}) {
+  const { classNames } = props;
   return (
-    <button data-testid="sign-in-btn" onClick={() => signIn("github", { redirectTo: "/" })}>
-      Sign in
+    <button className={classNames} data-testid="sign-in-btn" onClick={async () => await signIn("github", { redirectTo: "/" })}>
+      Sign In
     </button>
   )
 }

@@ -4,6 +4,8 @@ import { render, screen, act, fireEvent } from "@testing-library/react";
 import { mockEnsembleContact } from "../../../__mocks__/models/ensembleContact";
 import { mockSection } from "../../../__mocks__/models/ensembleSection";
 
+global.focus = jest.fn();
+
 const mockProps: ContactCardProps = {
   contact: {
     ...mockEnsembleContact,

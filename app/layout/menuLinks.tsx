@@ -53,12 +53,6 @@ export const sessionMenuLinks: {
     icon: <RiCalendar2Line />
   },
   {
-    name: "Ensembles",
-    link: "/ensembles",
-    id: "ensembles-link",
-    icon: <FiUserPlus />
-  },
-  {
     name: "Create Event",
     link: "/event/create",
     id: "create-event-link",

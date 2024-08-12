@@ -40,9 +40,6 @@ export default function UpdateContactEventCalls(props: UpdateContactEventCallsPr
       validationSchema={validationSchema}
       onSubmit={(values, actions) => {
        if (values.calls.length < 1 && contact.calls.map(i => String(i.id)).filter(i => values.calls.includes(i)).length < 1) {
-        console.log(`values: ${JSON.stringify(values.calls)}`)
-        console.log(`contact: ${JSON.stringify(contact.calls.map(i => String(i.id)))}`)
-
           return alert("This player will no longer have any calls offered, which is not a valid action. If you wish to remove them from the event, delete them from the list.")
         }
         handleSubmit({

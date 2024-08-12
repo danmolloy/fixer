@@ -16,11 +16,11 @@ export type EnsembleIndexProps = {
 export default function EnsembleIndex(props: EnsembleIndexProps) {
   const { ensemble, contacts, sections, admins } = props;
   const [addContact, setAddContact] = useState<boolean|string>(false)
-  const [sortContacts, setSortContacts] = useState<"Alphabetical"|"Sections">("Alphabetical")
+  const [sortContacts, setSortContacts] = useState<string>("Alphabetical")
   const [filterContacts, setFilterContacts] = useState<string[]>(["Member", "Extra"])
 
   return (
-    <div data-testid="ensemble-index" className="p-2 w-full lg:w-4/5">
+    <div data-testid="ensemble-index" className="p-2 sm:px-4 w-full lg:px-24">
       <div className="flex flex-col lg:flex-row justify-between">
       <h1 className="m-4 font-semibold">{ensemble.name}</h1>
         <EnsembleDashboard
@@ -32,7 +32,7 @@ export default function EnsembleIndex(props: EnsembleIndexProps) {
           addContact={() => setAddContact(!addContact)}/>
           </div>
           {addContact && <CreateContactForm contact={addContact !== true ? contacts.find(i => i.id === addContact): undefined} closeForm={() => setAddContact(false)} sections={sections} ensembleId={ensemble.id} />}
-        <EnsembleManagement admins={admins}/> 
+        <EnsembleManagement ensembleId={ensemble.id} admins={admins}/> 
         <ContactsIndex filterContacts={filterContacts} sortContacts={sortContacts} editContact={(arg) => setAddContact(arg)} sections={sections} contacts={contacts} ensembleId={ensemble.id} />
     </div>
   )

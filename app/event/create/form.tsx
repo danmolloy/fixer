@@ -64,7 +64,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
 
   
   return (
-    <div data-testid="create-event-form" className='sm:border sm:shadow-sm p-1 sm:p-2 sm:my-8 my-4 rounded flex flex-col items-center w-full md:w-3/4 '>
+    <div data-testid="create-event-form" className=' p-1 sm:p-2 sm:my-8 my-4 rounded flex flex-col items-center w-full md:w-3/4 '>
       <Formik 
         initialValues={{
           fixerName: userName,
@@ -122,11 +122,12 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               <div>
                 <h1>{createOrUpdate} Event</h1>
               </div>
-              <div className='flex flex-col sm:items-center w-full sm:flex-row '>
-                <div>
-              <label htmlFor='ensembleId' id="ensembleName" className="font-medium">Organisation
+              <div className='flex flex-col  w-full  '>
+                <div className='flex flex-col'>
+              <label htmlFor='ensembleId' id="ensembleName" className="font-medium my-1 flex flex-col">Organisation
             
               <Field
+              className="border rounded p-1"
               data-testid="org-select" as="select" name="ensembleId" 
                 onChange={(e) => {
                   props.setFieldValue("ensembleName", ""); 
@@ -137,7 +138,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                  ))}
                 </Field>
                 <ErrorMessage name={`ensembleId`}>
-          { msg => <div className="text-red-600 text-xs ml-4 -mt-1" data-testid={`ensembleId-error`}>{msg}</div> }
+          { msg => <div className="text-red-600 text-xs ml-4 mt-1" data-testid={`ensembleId-error`}>{msg}</div> }
         </ErrorMessage>
         </label>
                 </div>

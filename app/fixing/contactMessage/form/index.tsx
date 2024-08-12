@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import HelpMessage from "../../../layout/helpMessage";
+import { buttonPrimary } from "../../../ensembles/dashboard";
 
 export type ContactMessageFormProps = {
   cancelForm: () => void
@@ -25,6 +27,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
   const { currentContacts, eventCalls, cancelForm, sectionContacts, eventContacts, eventSectionId, bookingOrAvailability } = props;
   const router = useRouter();
   const [filterCategories, setFilterCategories] = useState<string[]>(Array.from(new Set(sectionContacts.map(i => i.category))).filter(i => i !== null))
+  const [showFilters, setShowFilters] = useState(false);
 
   const initialVals = {
     contacts: eventContacts.map(i => ({
@@ -68,28 +71,46 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       {props => (
         <Form>
           <AppendedContacts eventCalls={eventCalls} contacts={props.values.contacts}/>
-          <div>
+          <div className="">
+            <div className="w-full flex flex-row justify-between mt-6 mb-4">
             <h3>Diary Contacts</h3>
             <div>
-              <p>Filter by category: </p>
-              <div>
-                {Array.from(new Set(sectionContacts.map(i => i.category))).filter(i => i !== null).map(i => (
+            <button 
+          className={buttonPrimary}
+          onBlur={() => setTimeout(() => setShowFilters(false), 250)}
+          onClick={(e) => {
+            e.preventDefault();
+            focus(); 
+            setShowFilters(!showFilters)}}>
+          Filters
+        </button>
+      {showFilters 
+      && <div data-testid="filters-menu" className="flex flex-col border absolute p-1 rounded bg-white text-sm">
+      {Array.from(new Set(sectionContacts.map(i => i.category))).filter(i => i !== null).map(i => (
                   <label key={i}>
                     <input 
-          type="checkbox" 
-          onChange={() => {filterCategories.includes(i) 
-            ? setFilterCategories(filterCategories.filter(j => j !== i))
-            : setFilterCategories([...filterCategories, i])
-          }}
-          checked={filterCategories.includes(i)} />
-        {i}
+                    className="m-1"
+                  type="checkbox" 
+                  onChange={() => {filterCategories.includes(i) 
+                    ? setFilterCategories(filterCategories.filter(j => j !== i))
+                    : setFilterCategories([...filterCategories, i])
+                  }}
+                  checked={filterCategories.includes(i)} />
+                {i}
                   </label>
                 ))}
-              </div>
-            </div>
+      </div>}
+      </div>
+      </div>
             
             <FieldArray name="contacts">
-            {({push}) => (sectionContacts.filter(i => i.category === null || filterCategories.includes(i.category)).map(i => (
+            {({push}) => (sectionContacts.filter(i => i.category === null || filterCategories.includes(i.category)).length === 0 
+            ? <div className="w-full my-4 flex justify-center ">
+                <HelpMessage 
+                head="No diary contacts."
+                additional="Remove your filters, or add new contacts to you Address Book."/>
+              </div>
+            : sectionContacts.filter(i => i.category === null || filterCategories.includes(i.category)).map(i => (
               <DiaryContact
                 setSelectContact={() => push({
                 contactId: i.id,
@@ -108,9 +129,12 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
             </FieldArray>
 
           </div>
-          <button onClick={(e) => {e.preventDefault(); cancelForm()}}>Cancel</button>
-          <button type="submit">Submit</button>
-          {props.errors && <p>{JSON.stringify(props.errors)}</p>}
+          <div className="w-full flex flex-row justify-between mt-6 mb-2">
+            <button className="border m-1 px-2 py-1 text-sm rounded hover:bg-gray-50" onClick={(e) => {e.preventDefault(); cancelForm()}}>Cancel</button>
+            <button 
+              
+              className=" m-1 px-2 py-1 text-sm rounded text-white bg-indigo-500 hover:bg-indigo-600" type="submit">Submit</button>
+          </div>
         </Form>
       )}
     </Formik>

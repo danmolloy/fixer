@@ -19,31 +19,16 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
   const [bookingOrAvailability, setBookingOrAvailability] = useState<string>("Booking")
 
   return (
-    <div data-testid="event-section-contacts">
-      <label>
-      <input
-      disabled={editContacts}
-      type="radio"
-      value={"Booking"} 
-      onChange={() => setBookingOrAvailability("Booking")}
-      checked={bookingOrAvailability === "Booking"} 
-    />
-  Booking
-      </label>
-      <label>
-      <input
-      disabled={editContacts}
-      type="radio"
-      value={"Availability"} 
-      checked={bookingOrAvailability === "Availability"}
-      onChange={() => setBookingOrAvailability("Availability")} 
-    />
-  Availability
-      </label>
+    <div data-testid="event-section-contacts" className=" my-2 flex flex-col">
+      <select className="border rounded p-1 w-48 self-center" data-testid="status-select" disabled={editContacts} onChange={(e) => setBookingOrAvailability(e.target.value)}>
+        <option value="Booking">Booking</option>
+        <option value="Availability">Availability</option>
+      </select>
       <CurrentContactMessages bookingOrAvailability={bookingOrAvailability} eventCalls={eventCalls} contacts={currentContacts} />
-      <button onClick={() => setEditContacts(!editContacts)}>
+      {!editContacts 
+      && <button className="text-sm border rounded px-2 py-1 my-2 self-end" onClick={() => setEditContacts(!editContacts)}>
         Edit Contacts
-      </button>
+      </button>}
       {editContacts 
       && <ContactMessageForm
         currentContacts={currentContacts}

@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import axios from "../../../../__mocks__/axios";
 
 global.confirm = jest.fn(() => true)
+global.focus = jest.fn();
+
 let confirm = global.confirm;
 
 
@@ -27,12 +29,29 @@ describe("<AdminTile />", () => {
     const adminTile = screen.getByTestId(`${mockProps.admin.id}-admin-tile`)
     expect(adminTile).toBeInTheDocument()
   })
-  it("edit link is in the document with expected href", () => {
+  it("Options menu btn is in the document and renders menu on click", () => {
+    const menuBtn = screen.getByText("Options")
+    expect(menuBtn).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(menuBtn)
+    })
+    const menu = screen.getByTestId("options-menu")
+    expect(menu).toBeInTheDocument()
+  })
+  it("edit link is in the menu with expected href", () => {
+    const menuBtn = screen.getByText("Options")
+    act(() => {
+      fireEvent.click(menuBtn)
+    })
     const editLink = screen.getByText("Edit")
     expect(editLink).toBeInTheDocument()
     expect(editLink).toHaveAttribute("href", `/ensembles/admin/update/${mockProps.admin.id}`)
   })
   it("delete btn calls global.confirm, axios.post() and useRouter", () => {
+    const menuBtn = screen.getByText("Options")
+    act(() => {
+      fireEvent.click(menuBtn)
+    })
     const deleteBtn = screen.getByText("Delete")
     expect(deleteBtn).toBeInTheDocument()
     act(() => {

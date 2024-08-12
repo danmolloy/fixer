@@ -4,7 +4,8 @@ import EnsembleManagement, { EnsembleManagementProps } from "../../../../app/ens
 import { mockAdminWithUser } from "../../../../__mocks__/models/ensembleAdmin";
 
 const mockProps: EnsembleManagementProps = {
-  admins: [mockAdminWithUser]
+  admins: [mockAdminWithUser],
+  ensembleId: mockAdminWithUser.ensembleId
 }
 
 describe("<EnsembleManagement />", () => {
@@ -20,5 +21,10 @@ describe("<EnsembleManagement />", () => {
       const adminTile = screen.getByTestId(`${mockProps.admins[i].id}-admin-tile`)
       expect(adminTile).toBeInTheDocument()
     }
+  })
+  it("'Invite Admin' link is in the document with expect href", () => {
+    const invite = screen.getByText("Invite Admin")
+    expect(invite).toBeInTheDocument()
+    expect(invite).toHaveAttribute("href", `/ensembles/${mockProps.ensembleId}/admin/invite`)
   })
 })

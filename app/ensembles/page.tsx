@@ -21,7 +21,6 @@ export const getEnsembles = async (userId: string) => {
 
 
 export default async function EnsemblesPage() {
-
   const session = await auth()
   const data = session && await getEnsembles(session.user.id)
 

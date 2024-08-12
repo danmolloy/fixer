@@ -2,6 +2,7 @@ import EnsembleDashboard, { EnsembleDashboardProps } from "../../../app/ensemble
 import "@testing-library/jest-dom";
 import { fireEvent, act, screen, render } from "@testing-library/react";
 
+global.focus = jest.fn();
 
 describe("<EnsembleDashboard />", () => {
   const mockProps: EnsembleDashboardProps = {
@@ -20,120 +21,91 @@ describe("<EnsembleDashboard />", () => {
     const ensembleDash = screen.getByTestId("ensemble-dashboard")
     expect(ensembleDash).toBeInTheDocument()
   })
-  it("'Sort Contacts' label is in the document", () => {
-    const sortContacts = screen.getByText("Sort Contacts")
-    expect(sortContacts).toBeInTheDocument()
-  })
-  it("'Alphabetical' sort input is in the document with expected type, value, label and checked status", () => {
-    const alphabeticalCheckbox = screen.getByLabelText("Alphabetical")
-    expect(alphabeticalCheckbox).toBeInTheDocument()
-    expect(alphabeticalCheckbox).toHaveAttribute("type", "radio")
-    expect(alphabeticalCheckbox).toHaveAttribute("checked")
-  })
-  it("'Alphabetical sort checkbox calls sortContacts('Alphabetical') on click'", () => {
-    const alphabeticalCheckbox = screen.getByLabelText("Alphabetical")
+  it("options btn is in the document and renders menu on click", () => {
+    const optionsBtn = screen.getByText("Options")
+    expect(optionsBtn).toBeInTheDocument()
     act(() => {
-      fireEvent.click(alphabeticalCheckbox)
+      fireEvent.click(optionsBtn)
     })
-    expect(mockProps.setSortContacts).not.toHaveBeenCalledWith("Alphabetical")
+    const optionsMenu = screen.getByTestId("options-menu")
+    expect(optionsMenu).toBeInTheDocument()
   })
-  it("'Sections' sort is in the document with expected type, value, label and checked status", () => {
-    const sectionsCheckbox = screen.getByLabelText("Sections")
-    expect(sectionsCheckbox).toBeInTheDocument()
-    expect(sectionsCheckbox).toHaveAttribute("type", "radio")
-    expect(sectionsCheckbox).not.toHaveAttribute("checked")
-  })
-  it("'Sections sort checkbox calls sortContacts('Sections') on click'", () => {
-    const sectionsCheckbox = screen.getByLabelText("Sections")
+  it("option menu contains 'Create Contact', 'Import Contacts' & 'Edit Ensemble'", () => {
+    const optionsBtn = screen.getByText("Options")
+    expect(optionsBtn).toBeInTheDocument()
     act(() => {
-      fireEvent.click(sectionsCheckbox)
+      fireEvent.click(optionsBtn)
     })
-    expect(mockProps.setSortContacts).toHaveBeenCalledWith("Sections")
-  })
-  it("'Filter Contacts' label is in the document", () => {
-    const filterContacts = screen.getByText("Filter:")
-    expect(filterContacts).toBeInTheDocument()
-  })
-  it("'Members' filter is in the document with label, type and correct checked status", () => {
-    const memberFilter = screen.getByLabelText("Members")
-    expect(memberFilter).toBeInTheDocument()
-    expect(memberFilter).toHaveAttribute("type", "checkbox")
-  })
-  it("'Members' radiobox calls setFilterContacts('Member') on click", () => {
-    const memberFilter = screen.getByLabelText("Members")
-    act(() => {
-      fireEvent.click(memberFilter)
-    })
-    expect(mockProps.setFilterContacts).toHaveBeenCalledWith("Member")
-  })
-  it("'Extras' filter is in the document with label, type and correct checked status", () => {
-    const extraFilter = screen.getByLabelText("Extras")
-    expect(extraFilter).toBeInTheDocument()
-    expect(extraFilter).toHaveAttribute("type", "checkbox")
-  })
-  it("'Extras' radiobox calls setFilterContacts('Extra') on click", () => {
-    const extraFilter = screen.getByLabelText("Extras")
-    act(() => {
-      fireEvent.click(extraFilter)
-    })
-    expect(mockProps.setFilterContacts).toHaveBeenCalledWith("Extra")
-  })
-  it("'Import from CSV' link is in the document with expected href", () => {
-    const importContacts = screen.getByText("Import from CSV")
+    const editLink = screen.getByText("Edit Ensemble")
+    expect(editLink).toBeInTheDocument()
+    expect(editLink).toHaveAttribute("href", `ensembles/update/${mockProps.ensembleId}`)
+
+    const importContacts = screen.getByText("Import Contacts")
     expect(importContacts).toBeInTheDocument()
     expect(importContacts).toHaveAttribute("href", `/ensembles/${mockProps.ensembleId}/contacts/import`)
-  })
-  it("'Add Contact' btn is in the document and calls addContact() on click", () => {
-    const addContact = screen.getByText("Add Contact")
+
+    const addContact = screen.getByText("Create Contact")
     expect(addContact).toBeInTheDocument()
     act(() => {
       fireEvent.click(addContact)
     })
     expect(mockProps.addContact).toHaveBeenCalled()
+
   })
-  it("'Invite Admin' link is in the document with expect href", () => {
-    const invite = screen.getByText("Invite Admin")
-    expect(invite).toBeInTheDocument()
-    expect(invite).toHaveAttribute("href", `/ensembles/${mockProps.ensembleId}/admin/invite`)
+  
+  it("contact sorting select menu is in the document with options Alphabetical and Sections", () => {
+     const contactSort = screen.getByTestId("contact-sort-select")
+     expect(contactSort).toBeInTheDocument()
+     expect(contactSort).toHaveValue("Alphabetical")
+     expect(contactSort.textContent).toMatch("Alphabetical")
+     expect(contactSort.textContent).toMatch("Sections")
+    const alphabeticalOption = screen.getByTestId("alphabetical-option")
+    expect(alphabeticalOption).toBeInTheDocument()
+    expect(alphabeticalOption).toHaveTextContent("Alphabetical")
+    expect(alphabeticalOption).toHaveValue("Alphabetical")
+    const sectionsOption = screen.getByTestId("sections-option")
+    expect(sectionsOption).toBeInTheDocument()
+    expect(sectionsOption).toHaveTextContent("Sections")
+    expect(sectionsOption).toHaveValue("Sections")
+
+  })
+  it("filters btn is in the document and renders filters menu on click", () => {
+    const filtersBtn = screen.getByText("Filters")
+    expect(filtersBtn).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(filtersBtn)
+    })
+    const filtersMenu = screen.getByTestId("filters-menu")
+    expect(filtersMenu).toBeInTheDocument()
+  })
+  it("filters menu contains members filters", () => {
+    const filtersBtn = screen.getByText("Filters")
+      expect(filtersBtn).toBeInTheDocument()
+      act(() => {
+        fireEvent.click(filtersBtn)
+      })
+      const memberFilter = screen.getByLabelText("Members")
+      expect(memberFilter).toBeInTheDocument()
+      expect(memberFilter).toHaveAttribute("type", "checkbox")
+      act(() => {
+        fireEvent.click(memberFilter)
+      })
+      expect(mockProps.setFilterContacts).toHaveBeenCalledWith("Member")
+  
+  })
+  it("filters menu contains extras filter", () => {
+    const filtersBtn = screen.getByText("Filters")
+      expect(filtersBtn).toBeInTheDocument()
+      act(() => {
+        fireEvent.click(filtersBtn)
+      })
+      const memberFilter = screen.getByLabelText("Extras")
+      expect(memberFilter).toBeInTheDocument()
+      expect(memberFilter).toHaveAttribute("type", "checkbox")
+      act(() => {
+        fireEvent.click(memberFilter)
+      })
+      expect(mockProps.setFilterContacts).toHaveBeenCalledWith("Extra")
+  
   })
 })
-
-describe("<EnsembleDashboard />", () => {
-  const mockProps: EnsembleDashboardProps = {
-    addContact: jest.fn(),
-    sortContacts: "Sections",
-    setSortContacts: jest.fn(),
-    filterContacts: ["Member"],
-    setFilterContacts: jest.fn(),
-    ensembleId: 'mockId'
-  }
-  beforeEach(() => {
-    render(<EnsembleDashboard {...mockProps} />)
-  })
-  it("'Alphabetical' sort input is in the document with expected type, value, label and checked status", () => {
-    const alphabeticalCheckbox = screen.getByLabelText("Alphabetical")
-    expect(alphabeticalCheckbox).toBeInTheDocument()
-    expect(alphabeticalCheckbox).toHaveAttribute("type", "radio")
-    expect(alphabeticalCheckbox).not.toHaveAttribute("checked")
-  })
-  it("'Alphabetical sort checkbox calls sortContacts('Alphabetical') on click'", () => {
-    const alphabeticalCheckbox = screen.getByLabelText("Alphabetical")
-    act(() => {
-      fireEvent.click(alphabeticalCheckbox)
-    })
-    expect(mockProps.setSortContacts).toHaveBeenCalledWith("Alphabetical")
-  })
-  it("'Sections' sort is in the document with expected type, value, label and checked status", () => {
-    const sectionsCheckbox = screen.getByLabelText("Sections")
-    expect(sectionsCheckbox).toBeInTheDocument()
-    expect(sectionsCheckbox).toHaveAttribute("type", "radio")
-    expect(sectionsCheckbox).toHaveAttribute("checked")
-  })
-  it("'Sections sort checkbox calls sortContacts('Sections') on click'", () => {
-    const sectionsCheckbox = screen.getByLabelText("Sections")
-    act(() => {
-      fireEvent.click(sectionsCheckbox)
-    })
-    expect(mockProps.setSortContacts).not.toHaveBeenCalledWith("Sections")
-  })
-}) 

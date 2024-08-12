@@ -5,6 +5,7 @@ import TextInput from '../../forms/textInput';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import * as Yup from "yup";
+import { buttonPrimary } from '../../ensembles/dashboard';
 
 export type UpdateUserFormProps = {
   session: Session
@@ -31,7 +32,7 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
   })
 
   return (
-    <div data-testid="user-form">
+    <div data-testid="user-form" className='flex flex-col  p-4'>
       <h1>Update User</h1>
       <Formik 
         validationSchema={formSchema}
@@ -51,7 +52,7 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
           <TextInput name="lastName" id="lastName" label="Last Name" />
           <TextInput name="mobileNumber" id="mobileNumber" label="Mobile Number" type="tel" />
           <TextInput name="email" id="email" label="Email" type='email' />
-          <button type="submit">Submit</button>
+          <button className={"py-1 px-2 mx-4 rounded text-sm flex flex-row items-center hover:bg-gray-50 text-black border self-end"} type="submit">Submit</button>
         </Form>
       </Formik>
     </div>

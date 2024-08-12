@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import TextInput from "../../forms/textInput";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { buttonPrimary } from "../../ensembles/dashboard";
 
 export type CreateEventSectionProps = {
   eventId: number
@@ -60,12 +61,12 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
         }} 
         validationSchema={formSchema}>
         {props => (
-          <Form>
-            <h2>{ensembleSections.find(i => i.id === ensembleSectionId)?.name}</h2>
+          <Form className="border rounded p-2 m-2 flex flex-col">
+            <h3 className="my-2">{ensembleSections.find(i => i.id === ensembleSectionId)?.name || "Create new section"}</h3>
             {ensembleSectionId === undefined &&
-            <div>
+            <div className="flex flex-col">
               <label htmlFor="ensembleSectionId">Section</label>
-            <Field as="select" name="ensembleSectionId" data-testid="section-select">
+            <Field className="border rounded w-60 p-1 shadow-sm my-1" as="select" name="ensembleSectionId" data-testid="section-select">
               <option value={""}>select section</option>
               {ensembleSections.filter(i => !eventSections.map(j => j.ensembleSectionId).includes(i.id)).map(i => (
                 <option key={i.id} value={i.id}>{i.name}</option>
@@ -75,13 +76,15 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
             { msg => <div className="p-1 text-red-600 text-sm" data-testid={`$ensembleSectionId-error`}>{msg}</div> }
           </ErrorMessage>
           </div>}
-            <TextInput type="number" name="numToBook" id="numtobook-input" label="Num to Book" />
-            <button onClick={(e) => {e.preventDefault(); setCreateSection(false)}}>
-              Cancel
-            </button>
-            <button type="submit">
-              Submit
-            </button>
+            <TextInput className="w-60" type="number" name="numToBook" id="numtobook-input" label="Num to Book" />
+            <div className="flex flex-row my-4">
+              <button className={buttonPrimary} onClick={(e) => {e.preventDefault(); setCreateSection(false)}}>
+                Cancel
+              </button>
+              <button className="text-sm  rounded py-1 px-2 text-white bg-indigo-500 hover:bg-indigo-600" type="submit">
+                Submit
+              </button>
+            </div>
           </Form>
         )}
       </Formik>

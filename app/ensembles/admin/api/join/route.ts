@@ -1,16 +1,26 @@
 import prisma from "../../../../../client"
 
-const joinEnsemble = async(data: {accessCode: string, userId: string}) => {
+export const joinEnsemble = async(data: {accessCode: string, userId: string}) => {
+  if (!data) {
+    throw new Error("Failed to join ensemble: data is undefined.")
+  }
+
+  try {
+
+
   const adminInvite = await prisma.adminInvite.findUnique({
     where: {
       id: data.accessCode
     }
   })
-  if (adminInvite) {
+  if (adminInvite === null) {
+    throw new Error("Invalid access code.")
+  }
+
     await prisma.ensembleAdmin.create({
       data: {
-        positionTitle: adminInvite.positionTitle,
-        accessType: adminInvite.accessType,
+        positionTitle: adminInvite!.positionTitle,
+        accessType: adminInvite!.accessType,
         user: {
           connect: {
             id: data.userId
@@ -18,7 +28,7 @@ const joinEnsemble = async(data: {accessCode: string, userId: string}) => {
         },
         ensemble: {
           connect: {
-            id: adminInvite.ensembleId
+            id: adminInvite!.ensembleId
           }
         }
       }
@@ -28,9 +38,11 @@ const joinEnsemble = async(data: {accessCode: string, userId: string}) => {
         id: data.accessCode
       }
     })
-  } else {
-    return {}
-  }
+  
+} catch(error) {
+  throw new Error(`Failed to join ensemble: ${error.message}`)
+}
+  
 }
 
 export async function POST(request: Request) {

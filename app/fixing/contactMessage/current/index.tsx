@@ -17,7 +17,10 @@ export default function CurrentContactMessages(props: CurrentContactMessagesProp
 
   if (contacts.filter(i => i.bookingOrAvailability === bookingOrAvailability).length === 0) {
     return (
-      <p>No {bookingOrAvailability.toLowerCase()} calls made. </p>
+      <div className="my-4 flex flex-col w-full items-center">
+        <p className="font-medium">No {bookingOrAvailability.toLowerCase() === 'availability' ? "availability checks": "booking calls"} made.</p>
+        <p className="text-sm">Click 'Edit Contacts' to get started.</p>
+      </div>
     )
     
   }

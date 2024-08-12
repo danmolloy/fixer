@@ -1,24 +1,30 @@
-import { redirect } from "next/navigation"
 import prisma from "../../../../client"
 
 export const createEnsemble = async(ensembleObj: {name: string, userId: string, ensembleNames: string[]}) => {
-  
-  return await prisma.ensemble.create({
-    data: {
-      name: ensembleObj.name,
-      ensembleNames: ensembleObj.ensembleNames,
-      admin: {
-        create: {
-          positionTitle: "Manager",
-          user: {
-            connect: {
-              id: ensembleObj.userId
+  if (!ensembleObj) {
+    throw new Error("Failed to create ensemble: data not defined.")
+  }
+  try {
+    return await prisma.ensemble.create({
+      data: {
+        name: ensembleObj.name,
+        ensembleNames: ensembleObj.ensembleNames,
+        admin: {
+          create: {
+            positionTitle: "Manager",
+            user: {
+              connect: {
+                id: ensembleObj.userId
+              }
             }
           }
         }
-      }
-    },
-  })
+      },
+    })
+  } catch(error) {
+    throw new Error(`Failed to create ensemble: ${error.message}`)
+  }
+
 }
 
 

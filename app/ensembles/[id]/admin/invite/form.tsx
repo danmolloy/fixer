@@ -4,6 +4,7 @@ import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import TextInput from "../../../../forms/textInput";
+import { buttonPrimary } from "../../../dashboard";
 
 export type InviteAdminFormProps = {
   ensembleId: string
@@ -54,23 +55,24 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
           actions.setSubmitting(false);
         }}>
         {props => (
-          <Form>
+          <Form className="flex flex-col p-4">
+            <h1>Invite Admin</h1>
             <TextInput label="First Name" id="first-name-input" name="firstName"  />
             <TextInput label="Last Name" id="last-name-input" name="lastName"  />
             <TextInput label="Email" id="email-input" name="email" type="email"  />
             <TextInput label="Position Title" id="position-title-input" name="positionTitle"  />
             <div id="access-radio-group">Access Type</div>
             <div role="group" aria-labelledby="access-radio-group">
-              <label>
-                <Field type="radio" name="accessType" value="restricted" />
+              <label className="m-1">
+                <Field className="m-1" type="radio" name="accessType" value="restricted" />
                 Restricted
               </label>
-              <label>
-                <Field type="radio" name="accessType" value="full" />
+              <label className="m-1">
+                <Field className="m-1" type="radio" name="accessType" value="full" />
                 Full
               </label>
             </div>
-            <button type="submit">Submit</button>
+            <button className={"py-1 px-2 mx-4 my-4 rounded text-sm flex flex-row items-center hover:bg-gray-50 text-black border self-end"} type="submit">Submit</button>
           </Form>
         )}
       </Formik>

@@ -39,6 +39,10 @@ describe("<FlyOutMenu />", () => {
     })
     expect(signIn).toHaveBeenCalledWith("github") 
   })
+  it("if !session, ensembles is not in the document", () => {
+    const flyout = screen.getByTestId("external-menu")
+    expect(flyout.textContent).not.toMatch("Ensembles")
+  })
 })
 
 describe("<FlyOutMenu />", () => {
@@ -53,6 +57,23 @@ describe("<FlyOutMenu />", () => {
   it("<FlyOutMenu /> renders", () => {
     const flyout = screen.getByTestId("external-menu")
     expect(flyout).toBeInTheDocument()
+  })
+  it("if session, join ensemble link is in the document with expected href", () => {
+    const joinLink = screen.getByText("Join Ensemble")
+    expect(joinLink).toBeInTheDocument()
+    expect(joinLink).toHaveAttribute("href", "ensembles/join/")
+  })
+  it("if session, create ensemble link is in the document with expected href", () => {
+    const createLink = screen.getByText("Create Ensemble")
+    expect(createLink).toBeInTheDocument()
+    expect(createLink).toHaveAttribute("href", "ensembles/create/")
+  })
+  it("if session, all ensembles are in the document with href", () => {
+    for (let i = 0; i < mockProps.session!.user.admins.length; i++) {
+      const ensemble = screen.getByText(mockProps.session!.user.admins[i].ensemble.name)
+      expect(ensemble).toBeInTheDocument()
+      expect(ensemble).toHaveAttribute("href", `ensembles/${mockProps.session!.user.admins[i].ensemble.id}/`)
+    }
   })
   it("if session, all session menu links are in the document with expected href & text", () => {
     for (let i = 0; i < sessionMenuLinks.length; i ++) {

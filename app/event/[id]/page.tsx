@@ -59,7 +59,7 @@ export default async function EventDetail({ params }: { params: { id: string } }
   const session = await auth()
 
   return (
-    <div className="">
+    <div className="flex flex-col w-full lg:px-24 p-2 sm:p-4">
       <table>
       <EventHeader eventId={id} eventTitle={data.eventTitle}/>
       <EventInfo 

@@ -17,11 +17,11 @@ export default function ContactMenu(props: ContactMenuProps) {
   }
 
   return (
-    <div  data-testid="contact-options" className=" bg-white absolute z-10  flex flex-col border">
-      <button onClick={() => {editContact(contactId); setShowOptions(false)}} className="w-14 h-8 hover:bg-gray-200 px-1">
+    <div  data-testid="contact-options" className=" bg-white absolute z-10  flex flex-col border -ml-12 rounded">
+      <button onClick={() => {editContact(contactId); setShowOptions(false)}} className="w-14 h-8 hover:bg-gray-50  px-1">
         Edit
       </button>
-      <button onClick={() => {deleteContact(contactId); setShowOptions(false)}} className="w-14 h-8 hover:bg-gray-200 px-1">
+      <button onClick={() => {deleteContact(contactId); setShowOptions(false)}} className="w-14 h-8 hover:bg-gray-50  px-1">
         Delete
       </button> 
     </div>

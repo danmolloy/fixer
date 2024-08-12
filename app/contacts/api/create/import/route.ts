@@ -1,3 +1,4 @@
+import { EnsembleContact } from "@prisma/client"
 import prisma from "../../../../../client"
 
 export type CreateContactsProps = {
@@ -15,9 +16,9 @@ export type CreateContactsProps = {
 }
 
 export const createContacts = async(data: CreateContactsProps) => {
-  
+  let arr: EnsembleContact[] = []
   for (let i = 0; i < data.contacts.length; i ++) {
-    await prisma.ensembleContact.create({
+    const newContact = await prisma.ensembleContact.create({
       data: {
         firstName: data.contacts[i]["First Name"],
         lastName: data.contacts[i]["Last Name"],
@@ -37,7 +38,6 @@ export const createContacts = async(data: CreateContactsProps) => {
         } : {
           create: {
             name: data.contacts[i].Section,
-            instrument: data.contacts[i].Section,
             ensemble: {
               connect: {
                 id: data.ensembleId
@@ -47,8 +47,9 @@ export const createContacts = async(data: CreateContactsProps) => {
         }
       }
     })
+    arr = [...arr, newContact]
   }
-  return;
+  return arr;
 }
 
 export async function POST(request: Request) {

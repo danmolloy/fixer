@@ -24,17 +24,17 @@ export default function EventMenu(props: EventMenuProps) {
 
   return (
     <div data-testid="event-menu">
-      <button className="rounded-full  hover:bg-slate-200 p-1 text-center" data-testid="options-btn"  onClick={() => setShowMenu(!showMenu)}>
+      <button className="rounded-full  hover:bg-slate-50 p-1 text-center" data-testid="options-btn"  onClick={() => setShowMenu(!showMenu)}>
         <SlOptions />
       </button>
       {showMenu 
-      && <div data-testid="menu-options" className="absolute bg-white z-10 right-0 border mr-2 mt-3 w-1/2 shadow flex flex-col">
-      <Link href={`update/${eventId}`} className="hover:bg-slate-100 hover:text-indigo-500 w-full">Update Event</Link> 
-      <button>Message All</button>
-      <button>Export Event Details</button>
-      <button>Export Orchestra List</button>
-      <button data-testid="cancel-btn" className="hover:bg-slate-100 hover:text-red-500 w-full" onClick={() => {handleDelete(); setShowMenu(false)}}>Cancel Event</button>   
-</div>}
+      && <div data-testid="menu-options" className="absolute bg-white border shadow flex flex-col text-sm font-medium w-48 -ml-36 rounded">
+        <Link href={`update/${eventId}`} className="hover:bg-gray-50 px-2 py-1 w-full">Update Event</Link> 
+        <button className="hover:bg-gray-50 px-2 py-1 w-full">Message All</button>
+        <button className="hover:bg-gray-50 px-2 py-1 w-full">Export Event Details</button>
+        <button className="hover:bg-gray-50 px-2 py-1 w-full">Export Orchestra List</button>
+        <button data-testid="cancel-btn" className="hover:bg-gray-50 px-2 py-1 hover:text-red-600 w-full" onClick={() => {handleDelete(); setShowMenu(false)}}>Cancel Event</button>   
+      </div>}
     </div>
   )
 }

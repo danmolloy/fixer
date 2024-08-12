@@ -43,7 +43,7 @@ describe("<EventSectionIndex />", () => {
     expect(eventSection).toBeInTheDocument()
   })
   it("Update btn is in the document and renders <CreateEventSection /> on click", () => {
-    const updateBtn = screen.getByText("Update")
+    const updateBtn = screen.getByText("Change")
     expect(updateBtn).toHaveRole("button")
     act(() => {
       fireEvent.click(updateBtn)

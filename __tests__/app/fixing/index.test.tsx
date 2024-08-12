@@ -7,25 +7,25 @@ import { mockEventSection } from "../../../__mocks__/models/eventSection";
 import { mockContactMessage } from "../../../__mocks__/models/contactMessage";
 import { mockEnsembleContact } from "../../../__mocks__/models/ensembleContact";
 
-const mockProps: FixingIndexProps = {
-  eventId: 1,
-  ensembleSections: [mockSection],
-  eventSections: [{
-    ...mockEventSection,
-    contacts: [{
-      ...mockContactMessage,
-      contact: mockEnsembleContact,
-      calls: [mockCall]
-    }],
-    ensembleSection: {
-      ...mockSection,
-      contacts: [mockEnsembleContact]
-    }
-  }],
-  eventCalls: [mockCall]
-}
 
 describe("<FixingIndex />", () => {
+  const mockProps: FixingIndexProps = {
+    eventId: 1,
+    ensembleSections: [mockSection],
+    eventSections: [{
+      ...mockEventSection,
+      contacts: [{
+        ...mockContactMessage,
+        contact: mockEnsembleContact,
+        calls: [mockCall]
+      }],
+      ensembleSection: {
+        ...mockSection,
+        contacts: [mockEnsembleContact]
+      }
+    }],
+    eventCalls: [mockCall]
+  }
   beforeEach(() => {
     render(<FixingIndex {...mockProps} />);
   })
@@ -34,7 +34,7 @@ describe("<FixingIndex />", () => {
     expect(fixingIndex).toBeInTheDocument();
   })
   it("create btn is in the document and renders <CreateEventSection /> on click", async () => {
-    const createBtn = screen.getByText("Create");
+    const createBtn = screen.getByText("Create section");
     expect(createBtn).toBeInTheDocument();
     expect(createBtn).toHaveRole("button");
     act(() => {
@@ -48,5 +48,29 @@ describe("<FixingIndex />", () => {
       const eventSection = screen.getByTestId(`${mockProps.eventSections[i].id}-event-section`)
       expect(eventSection).toBeInTheDocument()
     }
+  })
+})
+
+describe("<FixingIndex />", () => {
+  const mockProps: FixingIndexProps = {
+    eventId: 1,
+    ensembleSections: [mockSection],
+    eventSections: [],
+    eventCalls: [mockCall]
+  }
+  beforeEach(() => {
+    render(<FixingIndex {...mockProps} />);
+  })
+  it("helpful text if !eventSections & createBtn hasn't been clicked", () => {
+    const fixingIndex = screen.getByTestId("fixing-index");
+    expect(fixingIndex).toHaveTextContent("No event sections.")
+    expect(fixingIndex).toHaveTextContent("Click 'Create section' to get started.")
+    const createBtn = screen.getByText("Create section");
+    act(() => {
+      fireEvent.click(createBtn);
+    })
+    expect(fixingIndex).not.toHaveTextContent("No event sections.")
+    expect(fixingIndex).not.toHaveTextContent("Click 'Create section' to get started.")
+
   })
 })
