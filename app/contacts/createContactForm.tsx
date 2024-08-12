@@ -5,7 +5,7 @@ import * as Yup from "yup"
 import axios from "axios";
 import { EnsembleContact, EnsembleSection } from "@prisma/client";
 import { categories, instrumentSections, rolesArr } from "./lib";
-import { CreateEnsembleContact } from "./api/create/route";
+import { CreateEnsembleContact } from "./api/create/functions"; 
 
 export type CreateContactFormProps = {
   ensembleId: string
