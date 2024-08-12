@@ -1,6 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<any> {
   console.log("Welcome to WebHook API!")
   let event: any = request.body;
   // Replace this endpoint secret with your endpoint's unique secret
