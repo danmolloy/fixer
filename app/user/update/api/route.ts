@@ -1,16 +1,5 @@
 import { redirect } from "next/navigation"
-import prisma from "../../../../client"
-
-export const updateUser = async(userObj: {[x: string]: string}) => {
-  
-  return await prisma.user.update({
-    where: {
-      id: userObj.id
-    },
-    data: userObj,
-  })
-}
-
+import { updateUser } from "./functions"
 
 export async function POST(request: Request) {
   const req = await request.json()

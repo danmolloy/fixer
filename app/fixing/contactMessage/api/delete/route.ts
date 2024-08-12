@@ -1,13 +1,4 @@
-import prisma from "../../../../../client"
-
-const deleteContactMessage = async (contactMessageId: number) => {
-  const data = await prisma.contactMessage.delete({
-    where: {
-      id: contactMessageId
-    },
-  })
-  return data
-}
+import { deleteContactMessage } from "./functions"
 
 export async function POST(request: Request) {
   const req = await request.json()
