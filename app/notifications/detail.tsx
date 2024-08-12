@@ -44,7 +44,6 @@ export default function NotificationDetail(props: NotificationDetailProps) {
       <table className="border w-[95vw]">
         <EventInfo 
           ensemble={playerCall.eventSection.event.ensemble} 
-          userId={playerCall.contactId} 
           event={playerCall.eventSection.event} 
           calls={playerCall.calls} />
       </table>
