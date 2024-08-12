@@ -19,7 +19,7 @@ export default function CurrentContactMessages(props: CurrentContactMessagesProp
     return (
       <div className="my-4 flex flex-col w-full items-center">
         <p className="font-medium">No {bookingOrAvailability.toLowerCase() === 'availability' ? "availability checks": "booking calls"} made.</p>
-        <p className="text-sm">Click 'Edit Contacts' to get started.</p>
+        <p className="text-sm">Click Edit Contacts to get started.</p>
       </div>
     )
     
