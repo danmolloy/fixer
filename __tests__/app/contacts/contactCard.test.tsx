@@ -17,8 +17,13 @@ const mockProps: ContactCardProps = {
 describe("<ContactCard />", () => {
   beforeEach(() => {
     
-    render(<ContactCard {...mockProps} />)
-  })
+    render(
+      <table>
+        <tbody>
+          <ContactCard {...mockProps} />
+        </tbody>
+      </table>)
+    })
   it("contact-card is in the document", () => {
     const contactCard = screen.getByTestId("contact-card")
     expect(contactCard).toBeInTheDocument()

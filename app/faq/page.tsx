@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const faqData: {
+export const faqData: {
   id: number
   question: string
   answer: string

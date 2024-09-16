@@ -1,6 +1,6 @@
 import {faker} from '@faker-js/faker'
 import { EnsembleContact } from '@prisma/client'
-import { CreateEnsembleContact } from '../../app/contacts/api/create/route'
+import { CreateEnsembleContact } from '../../app/contacts/api/create/functions'
 
 export const mockEnsembleContact: EnsembleContact = {
   indexNumber: Math.floor(Math.random() * 10),

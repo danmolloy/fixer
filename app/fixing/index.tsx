@@ -35,7 +35,7 @@ export default function FixingIndex(props: FixingIndexProps) {
       {eventSections.length === 0 && !createSection
       ? <div className="flex flex-col items-center justify-center mx-2 my-8">
           <h3 className="font-semibold text-lg">No event sections.</h3>
-          <p className="text-sm">Click Create section to get started.</p>
+          <p className="text-sm">Click 'Create section' to get started.</p>
         </div>
       : createSection 
       ? <CreateEventSection 

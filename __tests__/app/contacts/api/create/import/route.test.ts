@@ -1,4 +1,3 @@
-import { createContacts } from "../../../../../../app/contacts/api/create/import/route";
 
 describe("createContacts()", () => {
   it("successfully creates all contacts", () => {})
