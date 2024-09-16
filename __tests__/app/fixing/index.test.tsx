@@ -64,13 +64,13 @@ describe("<FixingIndex />", () => {
   it("helpful text if !eventSections & createBtn hasn't been clicked", () => {
     const fixingIndex = screen.getByTestId("fixing-index");
     expect(fixingIndex).toHaveTextContent("No event sections.")
-    expect(fixingIndex).toHaveTextContent("Click 'Create section' to get started.")
+    expect(fixingIndex).toHaveTextContent("Click Create section to get started.")
     const createBtn = screen.getByText("Create section");
     act(() => {
       fireEvent.click(createBtn);
     })
     expect(fixingIndex).not.toHaveTextContent("No event sections.")
-    expect(fixingIndex).not.toHaveTextContent("Click 'Create section' to get started.")
+    expect(fixingIndex).not.toHaveTextContent("Click Create section to get started.")
 
   })
 })
