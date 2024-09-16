@@ -24,7 +24,7 @@ export default function Header(props: HeaderProps) {
     >
       <Link data-testid='gigfix-link' href='/'>
         <h2 className={`${'text-2xl'} mx-2 p-2 font-light md:mx-10`}>
-          Gig<span className='font-semibold'>Fix</span>
+          Gig<span className='font-semibold text-blue-600'>Fix</span>
         </h2>
       </Link>
       <div

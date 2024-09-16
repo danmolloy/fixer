@@ -41,18 +41,18 @@ export default function CreateEnsembleForm(props: { userId: string }) {
         }}
       >
         {(props) => (
-          <Form>
+          <Form className='flex flex-col'>
             <TextInput
               name={'name'}
               id='name-input'
               label='Organisation Name'
             />
-            <div>
+            <div className='my-4'>
               <label htmlFor='ensembleNames'>Ensemble Names</label>
               <FieldArray
                 name='ensembleNames'
                 render={(arrayHelpers) => (
-                  <div className=''>
+                  <div className='flex flex-col'>
                     {props.values.ensembleNames.map((j, index) => (
                       <div key={index}>
                         <TextInput
@@ -61,6 +61,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                           label=''
                         />
                         <button
+                          className='rounded border p-1 text-sm'
                           onClick={(e) => {
                             e.preventDefault();
                             props.values.ensembleNames.length > 1 &&
@@ -72,12 +73,13 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                       </div>
                     ))}
                     <button
+                      className='mt-4 w-24 rounded border p-1 text-sm'
                       onClick={(e) => {
                         e.preventDefault();
                         arrayHelpers.push('');
                       }}
                     >
-                      Add
+                      Add Name
                     </button>
                   </div>
                 )}
