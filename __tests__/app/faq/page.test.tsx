@@ -1,4 +1,5 @@
-import FaqIndex, { faqData } from "../../../app/faq/page";
+import FaqIndex from "../../../app/faq/page";
+import { faqData } from "../../../app/faq/faqData";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 
