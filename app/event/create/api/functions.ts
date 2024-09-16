@@ -1,16 +1,32 @@
-import prisma from "../../../../client"
+import prisma from '../../../../client';
 
-export const sectionsArr = ["Flute", "Oboe", "Clarinet", "Bassoon", "Horn", "Trumpet", "Trombone", "Tuba", "Timpani", "Percussion", "Harp", "Violin 1", "Violin 2", "Viola", "Cello", "Double Bass"]
+export const sectionsArr = [
+  'Flute',
+  'Oboe',
+  'Clarinet',
+  'Bassoon',
+  'Horn',
+  'Trumpet',
+  'Trombone',
+  'Tuba',
+  'Timpani',
+  'Percussion',
+  'Harp',
+  'Violin 1',
+  'Violin 2',
+  'Viola',
+  'Cello',
+  'Double Bass',
+];
 
 export const formattedCalls = (calls, fixerId) => {
-  return [...calls].map(i => ({
+  return [...calls].map((i) => ({
     startTime: new Date(i.startTime),
     endTime: new Date(i.endTime),
     venue: i.venue,
-    fixer: { connect: { id: fixerId } }
-  }))
-}
-
+    fixer: { connect: { id: fixerId } },
+  }));
+};
 
 export const eventObj = (obj) => {
   return {
@@ -24,18 +40,17 @@ export const eventObj = (obj) => {
     fee: obj.fee,
     additionalInfo: obj.additionalInfo,
     fixerName: obj.fixerName,
-    fixerId: obj.fixerId
-  }
-}
+    fixerId: obj.fixerId,
+  };
+};
 
-export const createEvent = async(eventObj) => {
-  
+export const createEvent = async (eventObj) => {
   return await prisma.event.create({
     data: {
       ensemble: {
         connect: {
           id: eventObj.ensembleId,
-        }
+        },
       },
       eventTitle: eventObj.eventTitle,
       ensembleName: eventObj.ensembleName,
@@ -45,10 +60,10 @@ export const createEvent = async(eventObj) => {
         create: eventObj.formattedCalls,
       },
       dressCode: eventObj.dressCode,
-      fee: eventObj.fee,         
+      fee: eventObj.fee,
       additionalInfo: eventObj.additionalInfo,
       fixer: { connect: { id: eventObj.fixerId } },
       fixerName: eventObj.fixerName,
     },
-  })
-}
+  });
+};

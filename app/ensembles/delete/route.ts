@@ -1,9 +1,7 @@
-import { deleteEnsemble } from "./functions"
-
+import { deleteEnsemble } from './functions';
 
 export async function POST(request: Request) {
-  const req = await request.json()
-  await deleteEnsemble(req.ensembleId)
-  return new Response()
-
+  const req = await request.json();
+  await deleteEnsemble(req.ensembleId);
+  return new Response();
 }

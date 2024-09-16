@@ -40,16 +40,15 @@
 
 .layout-children {
   min-height: calc(100vh - 11rem);
-  
 }
 
 .loading-bar {
   animation: tube 1s linear infinite;
-
 }
 
 @keyframes tube {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(150%);
   }
   50% {

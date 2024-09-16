@@ -1,33 +1,32 @@
-import prisma from "../../../../client";
-
+import prisma from '../../../../client';
 
 export type CreateEnsembleContact = {
   firstName: string;
   lastName: string;
   section: {
-    name: string
-    id: undefined|string
+    name: string;
+    id: undefined | string;
   };
   role: string;
   ensembleId: string;
   email: string;
   phone: string;
   category: string;
-}
+};
 
-export const createContact = async(args: CreateEnsembleContact) => {
+export const createContact = async (args: CreateEnsembleContact) => {
   const sectionData = args.section.id
-  ? { connect: { id: args.section.id } }
-  : {
-      create: {
-        name: args.section.name,
-        ensemble: {
-          connect: {
-            id: args.ensembleId
-          }
+    ? { connect: { id: args.section.id } }
+    : {
+        create: {
+          name: args.section.name,
+          ensemble: {
+            connect: {
+              id: args.ensembleId,
+            },
+          },
         },
-      },
-    };
+      };
   return await prisma.ensembleContact.create({
     data: {
       firstName: args.firstName,
@@ -38,10 +37,10 @@ export const createContact = async(args: CreateEnsembleContact) => {
       category: args.category,
       ensemble: {
         connect: {
-          id: args.ensembleId
-        }
+          id: args.ensembleId,
+        },
       },
-      section: sectionData
-    }
-  })
-}
+      section: sectionData,
+    },
+  });
+};

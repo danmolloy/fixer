@@ -1,6 +1,5 @@
-import "@testing-library/jest-dom"
-import {POST} from '../../../../../app/billing/api/manage/route';
-import { Request } from 'node-fetch';
+import '@testing-library/jest-dom';
+import { POST } from '../../../../../app/billing/api/manage/route';
 let stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 jest.mock('stripe', () => {
@@ -18,11 +17,9 @@ jest.mock('stripe', () => {
   }));
 });
 
-
-describe("POST()", () => {
+describe('POST()', () => {
   beforeEach(() => {});
 
-  it("handles successfull post request", async () => {})
-  it('should handle errors from Stripe API', async () => {})
-  
-})
+  it('handles successfull post request', async () => {});
+  it('should handle errors from Stripe API', async () => {});
+});

@@ -1,9 +1,9 @@
-import { createContacts } from "./functions"
+import { createContacts } from './functions';
 
 export async function POST(request: Request) {
-  const req = await request.json()
+  const req = await request.json();
   //console.log(req)
   //return Response.json({hello: "world"})
-  const data = await createContacts(req)
-  return Response.json({hello: "world"})
+  const data = await createContacts(req);
+  return Response.json({ hello: 'world' });
 }

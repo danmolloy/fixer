@@ -1,3 +1,3 @@
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 
-export const mockMessage = faker.lorem.sentence()
+export const mockMessage = faker.lorem.sentence();

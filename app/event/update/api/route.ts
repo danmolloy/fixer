@@ -1,10 +1,9 @@
-import { Call } from "@prisma/client"
-import { eventObj, updateEventandCalls } from "./functions"
-
+import { Call } from '@prisma/client';
+import { eventObj, updateEventandCalls } from './functions';
 
 export async function POST(request: Request) {
-  const req = await request.json()
-  const { 
+  const req = await request.json();
+  const {
     id,
     ensembleId,
     ensembleName,
@@ -16,7 +15,7 @@ export async function POST(request: Request) {
     dressCode,
     fee,
     additionalInfo,
-  } = req
+  } = req;
 
   let updateEventArg = eventObj({
     id: req.id,
@@ -33,9 +32,11 @@ export async function POST(request: Request) {
     additionalInfo,
     fixerName: null,
     //createdAt: new Date()
-  })
-  const callsArr: Call[] = calls
-  const data = await updateEventandCalls({eventObj: updateEventArg, callsArr})
-  return Response.json(data)
-
+  });
+  const callsArr: Call[] = calls;
+  const data = await updateEventandCalls({
+    eventObj: updateEventArg,
+    callsArr,
+  });
+  return Response.json(data);
 }

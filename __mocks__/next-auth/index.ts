@@ -1,24 +1,24 @@
-import { mockSession } from "../session";
+import { mockSession } from '../session';
 
 export class AuthError extends Error {
   type: string;
   constructor(type: string) {
-   super(type);
-   this.type = type;
+    super(type);
+    this.type = type;
   }
- }
- 
- const NextAuth = () => ({
+}
+
+const NextAuth = () => ({
   auth: jest.fn(() => {
-    return mockSession
-  }),  
+    return mockSession;
+  }),
   signIn: jest.fn(),
   signOut: jest.fn(),
   handlers: {
-   GET: jest.fn(),
-   POST: jest.fn(),
+    GET: jest.fn(),
+    POST: jest.fn(),
   },
   AuthError: AuthError,
- });
- 
- export default NextAuth;
+});
+
+export default NextAuth;

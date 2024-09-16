@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 declare global {
   namespace NodeJS {
@@ -10,8 +10,8 @@ declare global {
 
 let prisma: PrismaClient | undefined;
 
-if (typeof window === "undefined") {
-  if (process.env.NODE_ENV === "production") {
+if (typeof window === 'undefined') {
+  if (process.env.NODE_ENV === 'production') {
     prisma = new PrismaClient();
   } else {
     if (!global.prisma) {

@@ -1,13 +1,14 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request: Request): Promise<any> {
-  console.log("Welcome to WebHook API!")
+  console.log('Welcome to WebHook API!');
   let event: any = request.body;
   // Replace this endpoint secret with your endpoint's unique secret
   // If you are testing with the CLI, find the secret by running 'stripe listen'
   // If you are using an endpoint defined with the API or dashboard, look in your webhook settings
   // at https://dashboard.stripe.com/webhooks
-  const endpointSecret = "whsec_8d46dcb6a5a477c5c90e52edef0abdf1df75fdd95371aabd7b060e2510ef86a0";
+  const endpointSecret =
+    'whsec_8d46dcb6a5a477c5c90e52edef0abdf1df75fdd95371aabd7b060e2510ef86a0';
   // Only verify the event if you have an endpoint secret defined.
   // Otherwise use the basic event deserialized with JSON.parse
   if (endpointSecret) {
@@ -21,7 +22,7 @@ export async function POST(request: Request): Promise<any> {
       );
     } catch (err) {
       console.log(`⚠️  Webhook signature verification failed.`, err.message);
-      return Response
+      return Response;
     }
   }
   let subscription;
@@ -67,6 +68,5 @@ export async function POST(request: Request): Promise<any> {
       console.log(`Unhandled event type ${event.type}.`);
   }
   // Return a 200 response to acknowledge receipt of the event
-  return Response
-
+  return Response;
 }

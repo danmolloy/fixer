@@ -1,4 +1,4 @@
-import { mockUser } from "../models/user";
+import { mockUser } from '../models/user';
 
 const mockAdapter = () => ({
   getUser: jest.fn().mockResolvedValue(mockUser),

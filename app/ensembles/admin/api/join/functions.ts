@@ -1,21 +1,22 @@
-import prisma from "../../../../../client"
+import prisma from '../../../../../client';
 
-export const joinEnsemble = async(data: {accessCode: string, userId: string}) => {
+export const joinEnsemble = async (data: {
+  accessCode: string;
+  userId: string;
+}) => {
   if (!data) {
-    throw new Error("Failed to join ensemble: data is undefined.")
+    throw new Error('Failed to join ensemble: data is undefined.');
   }
 
   try {
-
-
-  const adminInvite = await prisma.adminInvite.findUnique({
-    where: {
-      id: data.accessCode
+    const adminInvite = await prisma.adminInvite.findUnique({
+      where: {
+        id: data.accessCode,
+      },
+    });
+    if (adminInvite === null) {
+      throw new Error('Invalid access code.');
     }
-  })
-  if (adminInvite === null) {
-    throw new Error("Invalid access code.")
-  }
 
     await prisma.ensembleAdmin.create({
       data: {
@@ -23,24 +24,22 @@ export const joinEnsemble = async(data: {accessCode: string, userId: string}) =>
         accessType: adminInvite!.accessType,
         user: {
           connect: {
-            id: data.userId
-          }
+            id: data.userId,
+          },
         },
         ensemble: {
           connect: {
-            id: adminInvite!.ensembleId
-          }
-        }
-      }
-    })
+            id: adminInvite!.ensembleId,
+          },
+        },
+      },
+    });
     return await prisma.adminInvite.delete({
       where: {
-        id: data.accessCode
-      }
-    })
-  
-} catch(error) {
-  throw new Error(`Failed to join ensemble: ${error.message}`)
-}
-  
-}
+        id: data.accessCode,
+      },
+    });
+  } catch (error) {
+    throw new Error(`Failed to join ensemble: ${error.message}`);
+  }
+};

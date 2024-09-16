@@ -1,41 +1,37 @@
-import prisma from "../client"
-import { auth } from "./auth"
-import CalendarIndex, { UserWithEventsAndCallsWithEnsemble } from "./calendar"
-import LandingPage from "./landingPage"
+import prisma from '../client';
+import { auth } from './auth';
+import CalendarIndex, { UserWithEventsAndCallsWithEnsemble } from './calendar';
+import LandingPage from './landingPage';
 
-const getCalendar = async (userId: string): Promise<UserWithEventsAndCallsWithEnsemble|null> => {
+const getCalendar = async (
+  userId: string
+): Promise<UserWithEventsAndCallsWithEnsemble | null> => {
   return await prisma.user.findUnique({
     where: {
-      id: userId
+      id: userId,
     },
     include: {
       calls: {
         include: {
           event: {
             include: {
-              ensemble: true
-            }
-          }
+              ensemble: true,
+            },
+          },
         },
       },
       events: {
         include: {
-          calls: true
-        }
-      }
-    }
-  })
-}
+          calls: true,
+        },
+      },
+    },
+  });
+};
 
 export default async function Page() {
-  const session = await auth()
-  const data = session && await getCalendar(session.user.id)
+  const session = await auth();
+  const data = session && (await getCalendar(session.user.id));
 
-  return (
-    session 
-      ? <CalendarIndex data={data} />
-      : <LandingPage />
-  )
+  return session ? <CalendarIndex data={data} /> : <LandingPage />;
 }
-
- 

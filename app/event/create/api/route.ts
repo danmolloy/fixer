@@ -1,8 +1,8 @@
-import { createEvent, eventObj } from "./functions"
+import { createEvent, eventObj } from './functions';
 
 export async function POST(request: Request) {
-  const req = await request.json()
-  const { 
+  const req = await request.json();
+  const {
     fixerId,
     fixerName,
     ensembleName,
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     dressCode,
     fee,
     additionalInfo,
-  } = req
+  } = req;
 
   let createEventArg = eventObj({
     ensembleId,
@@ -27,10 +27,9 @@ export async function POST(request: Request) {
     fixerName: fixerName,
     dressCode,
     fee,
-    additionalInfo
-  })
+    additionalInfo,
+  });
 
-  const data = await createEvent(createEventArg)
-  return Response.json(data)
-
+  const data = await createEvent(createEventArg);
+  return Response.json(data);
 }

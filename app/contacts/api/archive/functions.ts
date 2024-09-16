@@ -1,17 +1,17 @@
-import prisma from "../../../../client"
+import prisma from '../../../../client';
 
-export const archiveContact = async (archiveArg: {id: string}) => {
-  if (archiveArg.id === "") {
-    return undefined
+export const archiveContact = async (archiveArg: { id: string }) => {
+  if (archiveArg.id === '') {
+    return undefined;
   }
   return await prisma.ensembleContact.update({
     where: {
-      id: archiveArg.id
+      id: archiveArg.id,
     },
     data: {
-      status: "ARCHIVED",
+      status: 'ARCHIVED',
       phoneNumber: null,
-      email: null
-    }
-  })
-}
+      email: null,
+    },
+  });
+};

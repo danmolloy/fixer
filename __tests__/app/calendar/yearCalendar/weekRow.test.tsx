@@ -1,10 +1,12 @@
-import "@testing-library/jest-dom"
-import { render, screen } from "@testing-library/react"
-import { DateTime } from "luxon"
-import { mockCall } from "../../../../__mocks__/models/call"
-import WeekRow, { WeekRowProps } from "../../../../app/calendar/yearCalendar/weekRow"
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import { DateTime } from 'luxon';
+import { mockCall } from '../../../../__mocks__/models/call';
+import WeekRow, {
+  WeekRowProps,
+} from '../../../../app/calendar/yearCalendar/weekRow';
 
-const mockDate = DateTime.now()
+const mockDate = DateTime.now();
 
 const mockProps: WeekRowProps = {
   startOfWeekDate: mockDate,
@@ -14,25 +16,28 @@ const mockProps: WeekRowProps = {
   selectedDate: mockDate,
   setSelectedDate: jest.fn(),
   setSelectedView: jest.fn(),
-}
+};
 
-describe("<WeekRow />", () => {
+describe('<WeekRow />', () => {
   beforeEach(() => {
     render(
       <table>
         <tbody>
           <WeekRow {...mockProps} />
         </tbody>
-      </table>)
-  })
-  it("[weekNumber]-row is in the document", () => {
-    const weekRow = screen.getByTestId(`${mockProps.weekNumber}-row`)
-    expect(weekRow).toBeInTheDocument()
-  })
-  it("All expected day tiles are in the document", () => {
+      </table>
+    );
+  });
+  it('[weekNumber]-row is in the document', () => {
+    const weekRow = screen.getByTestId(`${mockProps.weekNumber}-row`);
+    expect(weekRow).toBeInTheDocument();
+  });
+  it('All expected day tiles are in the document', () => {
     for (let i = 0; i < 7; i++) {
-      let dayTile = screen.getByText(mockProps.startOfWeekDate.plus({days: i}).day)
-      expect(dayTile).toBeInTheDocument()
+      let dayTile = screen.getByText(
+        mockProps.startOfWeekDate.plus({ days: i }).day
+      );
+      expect(dayTile).toBeInTheDocument();
     }
-  })
-})
+  });
+});

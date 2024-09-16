@@ -1,39 +1,51 @@
-import { ErrorMessage, Field } from "formik";
-import React from "react";
+import { ErrorMessage, Field } from 'formik';
+import React from 'react';
 
 export interface TextInputProps {
-  name: string
-  id: string
-  className?: string
-  label: string
-  asHtml?: "input"|"textarea"|"email"
-  type?: string
-  min?: string
-  max?: string
-  optional?: boolean
+  name: string;
+  id: string;
+  className?: string;
+  label: string;
+  asHtml?: 'input' | 'textarea' | 'email';
+  type?: string;
+  min?: string;
+  max?: string;
+  optional?: boolean;
 }
 
 export default function TextInput(props: TextInputProps) {
-  const { name, id, className, label, asHtml, type, min, max, optional } = props;
+  const { name, id, className, label, asHtml, type, min, max, optional } =
+    props;
 
   return (
-    <div className="flex flex-col py-4 w-full" data-testid={`${id}-div`}>
-      <label htmlFor={id} className="">{label}</label>
-      {optional && <span className="text-slate-500 text-sm ml-2">Optional</span>}
+    <div className='flex w-full flex-col py-4' data-testid={`${id}-div`}>
+      <label htmlFor={id} className=''>
+        {label}
+      </label>
+      {optional && (
+        <span className='ml-2 text-sm text-slate-500'>Optional</span>
+      )}
       <Field
         as={asHtml}
         id={id}
         label={label ? label : name}
         data-testid={`${id}-input`}
-        className={`border rounded px-1 my-1 shadow-sm h-8 max-w-[60vw] ${className}`}
+        className={`my-1 h-8 max-w-[60vw] rounded border px-1 shadow-sm ${className}`}
         name={name}
-        type={type ? type: "text"}
+        type={type ? type : 'text'}
         min={min}
         max={max}
       />
-        <ErrorMessage name={name}>
-          { msg => <div className="p-1 text-red-600 text-sm" data-testid={`${name}-error`}>{msg}</div> }
-        </ErrorMessage>
+      <ErrorMessage name={name}>
+        {(msg) => (
+          <div
+            className='p-1 text-sm text-red-600'
+            data-testid={`${name}-error`}
+          >
+            {msg}
+          </div>
+        )}
+      </ErrorMessage>
     </div>
-  )
+  );
 }

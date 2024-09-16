@@ -1,12 +1,12 @@
 const twilioClientMock = {
   twilioClient: {
     messages: {
-      create: jest.fn()
+      create: jest.fn(),
     },
   },
   twiml: () => ({
-    MessagingResponse: jest.fn()
-  })
+    MessagingResponse: jest.fn(),
+  }),
 };
 
 module.exports = twilioClientMock;

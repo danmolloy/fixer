@@ -1,15 +1,15 @@
-import { faker } from "@faker-js/faker";
-import { Call, Ensemble, Event } from "@prisma/client";
-import { randBool } from "./playerCall";
+import { faker } from '@faker-js/faker';
+import { Call, Ensemble, Event } from '@prisma/client';
+import { randBool } from './playerCall';
 
-export const mockEventWithEnsemble: (Event & {ensemble: Ensemble}) = {
+export const mockEventWithEnsemble: Event & { ensemble: Ensemble } = {
   id: faker.number.int(),
   ensembleId: faker.string.uuid(),
-  createdAt: new Date("2025-10-10T14:48:00"),
-  updatedAt: new Date("2025-10-10T14:48:00"),
+  createdAt: new Date('2025-10-10T14:48:00'),
+  updatedAt: new Date('2025-10-10T14:48:00'),
   eventTitle: faker.lorem.words(),
   concertProgram: faker.lorem.words(),
-  confirmedOrOnHold: Math.random() > .5 ? "confirmed" : "onHold",
+  confirmedOrOnHold: Math.random() > 0.5 ? 'confirmed' : 'onHold',
   dressCode: faker.lorem.words(),
   fee: faker.lorem.words(),
   additionalInfo: faker.lorem.words(),
@@ -17,37 +17,37 @@ export const mockEventWithEnsemble: (Event & {ensemble: Ensemble}) = {
   fixerName: faker.person.fullName(),
   ensembleName: faker.lorem.words(3),
   ensemble: {
-    ensembleNames: [faker.lorem.words(3), faker.lorem.words(3),],
+    ensembleNames: [faker.lorem.words(3), faker.lorem.words(3)],
     name: faker.lorem.words(3),
-    id: faker.string.uuid()
-  }
-}
+    id: faker.string.uuid(),
+  },
+};
 
 export const mockEvent: Event = {
   id: faker.number.int(),
   ensembleId: faker.string.uuid(),
   ensembleName: faker.lorem.words(3),
-  createdAt: new Date("2025-10-10T14:48:00"),
-  updatedAt: new Date("2025-10-10T14:48:00"),
+  createdAt: new Date('2025-10-10T14:48:00'),
+  updatedAt: new Date('2025-10-10T14:48:00'),
   eventTitle: faker.lorem.words(),
   concertProgram: faker.lorem.words(),
-  confirmedOrOnHold: Math.random() > .5 ? "confirmed" : "onHold",
+  confirmedOrOnHold: Math.random() > 0.5 ? 'confirmed' : 'onHold',
   dressCode: faker.lorem.words(),
   fee: faker.lorem.words(),
   additionalInfo: faker.lorem.words(),
   fixerId: faker.string.uuid(),
-  fixerName: faker.person.fullName()
-}
+  fixerName: faker.person.fullName(),
+};
 
-export const mockEventWithCalls: (Event & {calls: Call[]}) = {
+export const mockEventWithCalls: Event & { calls: Call[] } = {
   id: faker.number.int(),
   ensembleId: faker.string.uuid(),
   ensembleName: faker.lorem.words(3),
-  createdAt: new Date("2025-10-10T14:48:00"),
-  updatedAt: new Date("2025-10-10T14:48:00"),
+  createdAt: new Date('2025-10-10T14:48:00'),
+  updatedAt: new Date('2025-10-10T14:48:00'),
   eventTitle: faker.lorem.words(),
   concertProgram: faker.lorem.words(),
-  confirmedOrOnHold: Math.random() > .5 ? "confirmed" : "onHold",
+  confirmedOrOnHold: Math.random() > 0.5 ? 'confirmed' : 'onHold',
   dressCode: faker.lorem.words(),
   fee: faker.lorem.words(),
   additionalInfo: faker.lorem.words(),
@@ -62,8 +62,7 @@ export const mockEventWithCalls: (Event & {calls: Call[]}) = {
       endTime: new Date(),
       venue: faker.lorem.words(),
       eventId: faker.number.int(),
-      fixerId: faker.string.uuid()
-    }
-  ]
-}
-
+      fixerId: faker.string.uuid(),
+    },
+  ],
+};

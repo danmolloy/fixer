@@ -1,8 +1,12 @@
-import prisma from "../../../../client"
+import prisma from '../../../../client';
 
-export const createEnsemble = async(ensembleObj: {name: string, userId: string, ensembleNames: string[]}) => {
+export const createEnsemble = async (ensembleObj: {
+  name: string;
+  userId: string;
+  ensembleNames: string[];
+}) => {
   if (!ensembleObj) {
-    throw new Error("Failed to create ensemble: data not defined.")
+    throw new Error('Failed to create ensemble: data not defined.');
   }
   try {
     return await prisma.ensemble.create({
@@ -11,19 +15,17 @@ export const createEnsemble = async(ensembleObj: {name: string, userId: string, 
         ensembleNames: ensembleObj.ensembleNames,
         admin: {
           create: {
-            positionTitle: "Manager",
+            positionTitle: 'Manager',
             user: {
               connect: {
-                id: ensembleObj.userId
-              }
-            }
-          }
-        }
+                id: ensembleObj.userId,
+              },
+            },
+          },
+        },
       },
-    })
-  } catch(error) {
-    throw new Error(`Failed to create ensemble: ${error.message}`)
+    });
+  } catch (error) {
+    throw new Error(`Failed to create ensemble: ${error.message}`);
   }
-
-}
-
+};

@@ -1,10 +1,9 @@
-import prisma from "../../../../../client"
+import prisma from '../../../../../client';
 
-export const deleteEventSection = async(eventSectionId: number) => {
-  
+export const deleteEventSection = async (eventSectionId: number) => {
   return await prisma.eventSection.delete({
     where: {
-      id: eventSectionId
-    }
-  })
-}
+      id: eventSectionId,
+    },
+  });
+};

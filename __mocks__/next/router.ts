@@ -1,7 +1,6 @@
-
 export const useRouter = jest.fn();
-useRouter.mockImplementation(() => ({ 
+useRouter.mockImplementation(() => ({
   route: '/',
   query: {},
-  push: jest.fn() 
+  push: jest.fn(),
 }));
