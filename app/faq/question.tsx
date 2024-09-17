@@ -17,7 +17,7 @@ export default function FAQuestion(props: FAQuestionProps) {
     <div className='border-t p-4'>
       <button
         onClick={() => setShowAnswer(!showAnswer)}
-        className='flex w-full flex-row items-center justify-between py-2'
+        className='flex w-full flex-row items-center  text-start justify-between py-2'
       >
         <p className='font-semibold'>{question}</p>
         {showAnswer ? <FaMinus /> : <FaPlus />}

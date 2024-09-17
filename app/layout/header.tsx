@@ -45,7 +45,7 @@ export default function Header(props: HeaderProps) {
         {session ? (
           <SignOutBtn classNames='py-1 px-2 mx-4 rounded text-sm flex flex-row items-center hover:bg-gray-50 text-black border ' />
         ) : (
-          <SignInBtn classNames='py-1 px-2 mx-4 rounded text-sm flex flex-row items-center hover:bg-gray-800 text-white bg-black ' />
+          <Link className='py-1 px-2 mx-4 rounded text-sm flex flex-row items-center hover:bg-blue-700 text-white bg-blue-600 ' href="/signin">Sign In</Link>
         )}
       </div>
 
