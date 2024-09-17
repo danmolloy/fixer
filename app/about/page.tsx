@@ -3,7 +3,10 @@ import PricingIndex from './pricing';
 
 export default function AboutIndex() {
   return (
-    <div data-testid='about-index' className='px-4 md:w-2/3'>
+    <div
+      data-testid='about-index'
+      className='flex flex-col self-center p-4 md:mx-32 lg:mx-48'
+    >
       <AboutFeatures />
       <PricingIndex />
     </div>

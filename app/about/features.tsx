@@ -46,10 +46,11 @@ export default function AboutFeatures() {
         <h2 className='py-2 text-3xl'>
           Everything you need to book an orchestra
         </h2>
-        {/* <p className="text-slate-600 font-thin md:w-2/3">
-        Quis tellus eget adipiscing convallis sit sit eget aliquet quis. 
-        Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.
-      </p> */}
+        <p className='font-thin text-slate-600 md:w-2/3'>
+          Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
+          Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
+          In mi viverra elit nunc.
+        </p>
       </div>
 
       <p className='py-8'>
@@ -81,7 +82,7 @@ export default function AboutFeatures() {
       </p>
       <div className='flex flex-col flex-wrap px-6 md:flex-row'>
         {fixerFeatureList.map((i) => (
-          <div key={i.key} className='my-2 flex flex-row sm:my-4 md:w-1/2'>
+          <div key={i.key} className='my-1 flex flex-row sm:my-2 md:w-1/2'>
             <div className='py-2 text-2xl text-blue-600 md:px-2'>{i.icon}</div>
             <div className='flex flex-col px-4'>
               <h3 className='py-2 text-lg'>{i.title}</h3>

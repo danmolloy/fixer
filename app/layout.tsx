@@ -3,12 +3,20 @@ import '../styles/globals.css';
 import Footer from './layout/footer';
 import { auth } from './auth';
 import type { Metadata } from 'next';
-import { Raleway } from 'next/font/google';
+import { Inria_Sans, Poppins } from 'next/font/google';
 
-const raleway = Raleway({
+const inriaSans = Inria_Sans({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-raleway',
+  variable: '--font-inria-sans',
+  weight: '400',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-poppins',
+  weight: '400',
 });
 
 export const metadata: Metadata = {
@@ -25,7 +33,7 @@ export default async function RootLayout({
 }) {
   const session = await auth();
   return (
-    <html lang='en'>
+    <html lang='en' className={`${poppins.variable} ${inriaSans.variable}`}>
       <body className={`min-h-screen`}>
         <Header session={session} />
         <main className='layout-children mt-14 h-auto w-screen pb-16'>

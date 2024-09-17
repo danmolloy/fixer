@@ -19,7 +19,8 @@ module.exports = {
       },
       fontFamily: {
         nunito: ['var(--font-nunito)', ...fontFamily.sans],
-        raleway: ['var(--font-raleway)', ...fontFamily.sans],
+        sans: ['var(--font-poppins)', ...fontFamily.sans],
+        display: ['var(--font-inria-sans)', ...fontFamily.sans],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

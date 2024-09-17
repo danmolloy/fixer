@@ -20,7 +20,7 @@ export default function Header(props: HeaderProps) {
   return (
     <div
       data-testid='header'
-      className={`${'h-14'} fixed top-0 z-30 flex w-screen flex-row items-center justify-between bg-white shadow transition-all`}
+      className={`${'h-14'} fixed top-0 z-30 flex w-screen flex-row items-center justify-between shadow backdrop-blur transition-all`}
     >
       <Link data-testid='gigfix-link' href='/'>
         <h2 className={`${'text-2xl'} mx-2 p-2 font-light md:mx-10`}>

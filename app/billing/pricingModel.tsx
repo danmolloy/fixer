@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { TiTick } from 'react-icons/ti';
 
 export type PriceModel = {
+  tagline: string;
   title: string;
   blurb: string;
   apiLink: string;
@@ -47,11 +48,13 @@ export default function PricingModel(props: PricingModelProps) {
   return (
     <div
       data-testid={`${priceModel.id}-option`}
-      className='my-4 flex flex-col rounded border p-4 sm:w-[60vw] md:w-[40vw]'
+      className='my-4 flex w-full flex-col rounded border p-4 sm:w-[80vw] md:w-[60vw]'
     >
-      <h2 className='font-semibold'>{priceModel.title}</h2>
+      <p className='text-blue-600'>{priceModel.tagline}</p>
+      <h2 className='font-semibold'>{priceModel.title} Plan</h2>
       <p className='my-2 text-gray-600'>{priceModel.blurb}</p>
-      <div>
+      <hr />
+      <div className='py-4'>
         <p data-testid='option-price' className='text-3xl font-semibold'>
           {priceModel.price}{' '}
           <span className='text-base font-normal'>

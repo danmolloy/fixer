@@ -4,6 +4,7 @@ import { BiSpreadsheet } from 'react-icons/bi';
 export const paymentOptions: PriceModel[] = [
   {
     title: 'Freelance',
+    tagline: 'All access',
     blurb: 'Suitable for irregular schedules',
     price: '£150',
     paymentFrequency: 'event',
@@ -26,7 +27,9 @@ export const paymentOptions: PriceModel[] = [
   },
   {
     title: 'Chamber',
-    blurb: 'For smaller ensembles with a regular schedule',
+    tagline: 'Great value',
+
+    blurb: 'For medium sized ensembles with a regular schedule',
     price: '£500',
     paymentFrequency: 'month',
     id: 'payg-1',
@@ -48,7 +51,9 @@ export const paymentOptions: PriceModel[] = [
   },
   {
     title: 'Piccolo',
-    blurb: 'For large ensembles with a regular schedule',
+    tagline: 'Great value',
+
+    blurb: 'For small ensembles with a regular schedule',
     price: '£200',
     paymentFrequency: 'month',
     id: 'payg-1',

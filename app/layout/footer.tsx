@@ -54,7 +54,7 @@ export const footerMenuLinks: {
   },
   {
     name: 'Contact',
-    link: '/contact',
+    link: '/contact-us',
     id: 'contact-link',
     icon: <AiOutlineMail />,
   },

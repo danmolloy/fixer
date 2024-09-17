@@ -1,3 +1,4 @@
+import CTASection from './ctaSection';
 import LandingFeatures from './features';
 import Hero from './hero';
 
@@ -6,6 +7,7 @@ export default function LandingPage() {
     <div data-testid='landing-page'>
       <Hero />
       <LandingFeatures />
+      <CTASection />
     </div>
   );
 }

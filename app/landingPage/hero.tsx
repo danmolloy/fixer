@@ -5,11 +5,11 @@ import StartBtn from './startBtn';
 export default function Hero() {
   return (
     <div
-      className={`flex h-[90vh] flex-col items-center text-center ${'' /* bg-gradient-to-b from-white via-blue-500 to-white */} `}
+      className={`/* flex h-[90vh] flex-col items-center bg-gradient-to-b from-white via-blue-300 to-white text-center`}
       data-testid='hero-div'
     >
       <div className='flex h-full flex-col items-center justify-center bg-white/80 backdrop-blur-xl'>
-        <h1 className='-mt-12 px-12 pb-4 font-raleway text-4xl md:text-6xl'>
+        <h1 className='-mt-12 px-12 pb-4 text-4xl md:text-6xl'>
           Communication made <span className='text-blue-600'>simple</span> for
           fixers and musicians.
         </h1>

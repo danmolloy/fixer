@@ -1,8 +1,6 @@
-export const faqData: {
-  id: number;
-  question: string;
-  answer: string;
-}[] = [
+import { FAQuestionProps } from './question';
+
+export const faqData: FAQuestionProps[] = [
   {
     id: 0,
     question: 'How do you make holy water?',

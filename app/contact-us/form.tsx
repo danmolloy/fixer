@@ -32,7 +32,6 @@ export default function ContactForm() {
       >
         {(props) => (
           <Form className='flex flex-col'>
-            <h2>Contact us</h2>
             <TextInput
               name={'name'}
               id={'name-input'}
@@ -57,7 +56,7 @@ export default function ContactForm() {
                 rows='4'
                 component='textarea'
                 id='msg-text'
-                className='w-full rounded-md border border-zinc-400 p-1 text-black'
+                className='w-full rounded-md border p-1 text-black shadow-sm'
                 type='textarea'
                 name='message'
               />
