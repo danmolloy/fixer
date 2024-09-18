@@ -25,15 +25,15 @@ export default function ContactsIndex(props: ContactsIndexProps) {
       ).length === 0 ? (
         <p>No contacts</p>
       ) : sortContacts === 'Alphabetical' ? (
-        <table data-testid='alphabetical-list' className='overflow-scroll'>
+        <table data-testid='alphabetical-list' className='overflow-scroll border w-full'>
           <thead>
             <tr className='text-sm'>
-              <th>Name</th>
-              <th>Section</th>
-              <th>Position</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Options</th>
+              <th className='text-start'>Name</th>
+              <th className='text-start'>Section</th>
+              <th className='text-start'>Position</th>
+              <th className='text-start'>Email</th>
+              <th className='text-start'>Phone</th>
+              <th className='text-start'>Options</th>
             </tr>
           </thead>
           <tbody>
@@ -57,7 +57,7 @@ export default function ContactsIndex(props: ContactsIndexProps) {
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((i) => (
             <div data-testid={`${i.id}-section`} key={i.id} className='py-2'>
-              <div className='flex flex-col justify-between lg:flex-row'>
+              <div className='flex flex-col justify-between lg:flex-row '>
                 <h2 className='font-medium'>{i.name}</h2>
                 <Link href={`/ensembles/section/${i.id}/edit`} className=''>
                   Edit

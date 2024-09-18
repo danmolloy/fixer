@@ -1,10 +1,10 @@
 'use client';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { IoEnterOutline, IoExitOutline } from 'react-icons/io5';
 import { Session } from 'next-auth';
-import { signOut } from '../auth';
 import { externalMenuLinks, sessionMenuLinks } from './menuLinks';
+import { MdGroups } from "react-icons/md";
 
 export type ExternalMenuProps = {
   session: Session | null;
@@ -18,29 +18,24 @@ export default function FlyOutMenu(props: ExternalMenuProps) {
   return (
     <div
       data-testid='external-menu'
-      className='absolute right-0 z-10 mr-2 mt-3 w-1/2 border bg-white shadow md:hidden'
+      className='absolute z-10 right-0 top-0 mt-14 w-1/2 border bg-white shadow md:hidden'
     >
       {session && (
         <div className='flex flex-col'>
-          <p className='' data-testid='ensembles-btn'>
+          <div className='flex w-full flex-row items-center p-2  '>
+            <MdGroups />
+          <p className='px-2 py-1 text-black' data-testid='ensembles-btn'>
             Ensembles
           </p>
+          </div>
           <div className='mx-2 flex flex-col' data-testid='ensembles-menu'>
-            <Link href='ensembles/join/' className='px-2 py-1 hover:bg-gray-50'>
-              Join Ensemble
-            </Link>
-            <Link
-              href='ensembles/create/'
-              className='px-2 py-1 hover:bg-gray-50'
-            >
-              Create Ensemble
-            </Link>
+            
             {session.user.admins.length > 0 ? (
               session.user.admins.map((i) => (
                 <Link
                   key={i.id}
                   href={`ensembles/${i.ensemble.id}/`}
-                  className='px-2 py-1 hover:bg-gray-50'
+                  className='px-6 py-1 text-start hover:bg-gray-50'
                 >
                   {i.ensemble.name}
                 </Link>
@@ -48,6 +43,15 @@ export default function FlyOutMenu(props: ExternalMenuProps) {
             ) : (
               <p>No Ensembles</p>
             )}
+            <Link href='ensembles/join/' className='text-start px-6 py-1 hover:bg-gray-50'>
+              Join Ensemble
+            </Link>
+            <Link
+              href='ensembles/create/'
+              className='px-6 py-1 hover:bg-gray-50 text-start'
+            >
+              Create Ensemble
+            </Link>
           </div>
         </div>
       )}

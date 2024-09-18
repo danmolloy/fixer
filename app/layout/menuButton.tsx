@@ -16,7 +16,11 @@ export default function MenuButton(props: MenuButtonProps) {
     <div data-testid='menu-button'>
       <button
         className='flex flex-row items-center md:hidden'
-        onClick={() => setShowMenu(!showMenu)}
+        onBlur={() => setTimeout(() => setShowMenu(false), 250)}
+        onClick={(e) => {
+          e.preventDefault();
+          focus();
+          setShowMenu(!showMenu)}}
         data-testid='menu-icon-btn'
       >
         {showMenu ? (
@@ -30,8 +34,8 @@ export default function MenuButton(props: MenuButtonProps) {
             data-testid='menu-icon'
           />
         )}
-      </button>
       {showMenu && <FlyOutMenu session={session} />}
+      </button>
     </div>
   );
 }

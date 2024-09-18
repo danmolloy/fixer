@@ -2,6 +2,7 @@ import { auth } from '../auth';
 import SignIn from '../signin/page';
 import prisma from '../../client';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 const getEnsembles = async (userId: string) => {
   return await prisma.user.findUnique({
@@ -21,6 +22,10 @@ const getEnsembles = async (userId: string) => {
 export default async function EnsemblesPage() {
   const session = await auth();
   const data = session && (await getEnsembles(session.user.id));
+
+  if (session && !data?.firstName || !data?.lastName || !data?.mobileNumber || !data.email) {
+    redirect("/user/update")
+  }
 
   return session ? (
     <div data-testid='ensembles-page' className='p-2'>

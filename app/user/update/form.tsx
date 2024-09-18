@@ -43,10 +43,10 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
               router.push('/');
               //setSubmitStatus("Successfully updated!")
             })
-            .catch(function (error) {
+            /* .catch(function (error) {
               router.refresh();
               console.log(error);
-            });
+            }); */
         }}
       >
         <Form>
