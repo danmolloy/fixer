@@ -14,8 +14,6 @@ GigFix is a specialized communications tool designed to streamline the process o
 - **Responsive Calendar**: View events in a visually appealing calendar with day, week, month, and year views, optimized for all screen sizes.
 
 ### Under Development
-
-- **Stripe Subscription**
 - **Twilio Emailing**
 
 ## Technologies Used
@@ -38,6 +36,7 @@ GigFix is a specialized communications tool designed to streamline the process o
 - **Responsive Design** built with a mobile-first philosophy. The website has a number if features unique to mobile view.
 - **Relational Database**: Efficient management of CRUD operations with Prisma ORM and PostgreSQL, supporting one-to-many and many-to-many relationships..
 - **User Authorization/Authentication**: leveraging Auth.js hooks to ensure secure access.
+- **Stripe Subscription Payments** integrated into User accounts to simplify payments.
 
 ## Testing
 
@@ -46,7 +45,7 @@ As this is an ongoing project, tests continue to be written and erased. End-to-e
 
 ## Accessibility
 
-The site is yet to be tested for accessibility, however it is being created with the aim of an inclusive experience for all users. The intention is to adhere to Web Content Accessibility Guidelines (WCAG) 2.0 conformance standards, levering tools such as Google Lighthouse, ESLint (including `eslint-plugin-jsx-a11y` extension) and Chrome DevTools.
+The site is continuously tested for accessibility with the aim of an inclusive experience for all users. It has been built adhere to Web Content Accessibility Guidelines (WCAG) 2.0 conformance standards, levering tools such as WebAIM WCAG checklist, Google Lighthouse, ESLint (including `eslint-plugin-jsx-a11y` extension) and Chrome DevTools.
 
 ## Credits
 
