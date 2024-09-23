@@ -9,7 +9,7 @@ export default function TutorialIndex() {
   const [indexNum, setIndexNum] = useState<number>(0);
 
   return (
-    <div className="w-full h-[80vh] flex flex-col p-4 transition-all">
+    <div className="w-full min-h-[90vh] flex flex-col p-4 transition-all">
       <p className=" text-blue-600 text-lg">How it works</p>
           <h2 className=" font-medium text-3xl">{tutorialData[indexNum].header}</h2>
           <div className="flex flex-col w-full md:flex-row my-8 transition-all">
