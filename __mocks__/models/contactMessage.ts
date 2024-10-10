@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
-import { ContactMessage } from '@prisma/client';
-import { ContactMessageForTable } from '../../components/fixing/instrument/update/table/playerRow';
+import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
+import { generateToken } from '../../app/fixing/contactMessage/api/create/functions';
 
 export const mockContactMessage: ContactMessage = {
   contactId: faker.string.uuid(),
+  token: generateToken(),
+  position: "Tutti",
   playerMessage: faker.lorem.words(8),
   id: faker.number.int(),
   createdAt: new Date(),
@@ -19,9 +21,11 @@ export const mockContactMessage: ContactMessage = {
   status: 'active',
 };
 
-export const mockContactMessageForTable: ContactMessageForTable = {
+export const mockContactMessageForTable: ContactMessage & {calls: Call[], contact: EnsembleContact} = {
   contactId: faker.string.uuid(),
   playerMessage: faker.lorem.words(8),
+  position: "Tutti",
+  token: generateToken(),
   id: faker.number.int(),
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -56,5 +60,7 @@ export const mockContactMessageForTable: ContactMessageForTable = {
     ensembleId: faker.string.uuid(),
     role: faker.lorem.word(),
     sectionId: faker.string.uuid(),
+    status: "OK",
+    indexNumber: Math.ceil(Math.random() * 10),
   },
 };

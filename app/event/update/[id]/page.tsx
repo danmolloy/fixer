@@ -17,7 +17,16 @@ async function getData(id: string) {
     },
     include: {
       calls: true,
-      ensemble: true,
+      ensemble: {
+        include: {
+          admin: {
+            include: {
+              user: true
+            }
+          }
+        }
+      },
+      
     },
   });
 
@@ -40,7 +49,7 @@ export default async function UpdateEvent({
 
   return session ? (
     <CreateEventForm
-      adminEnsembleList={session.user.admins}
+      ensembleList={[data.ensemble]}
       userId={session.user.id}
       userName={session.user.name}
       initialValues={data}

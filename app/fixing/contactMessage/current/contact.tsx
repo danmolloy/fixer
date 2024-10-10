@@ -1,5 +1,6 @@
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 import CurrentContactsOptions from './options';
+import { useState } from 'react';
 
 export type CurrentContactRowProps = {
   eventCalls: Call[];
@@ -13,6 +14,7 @@ export type CurrentContactRowProps = {
 
 export default function CurrentContactRow(props: CurrentContactRowProps) {
   const { eventCalls, contact, index, numContacts } = props;
+  const [showOptions, setShowOptions] = useState<boolean>(false);
   return (
     <tr>
       <td>{contact.indexNumber}</td>
@@ -38,12 +40,17 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       </td>
       <td>{contact.playerMessage ? contact.playerMessage : 'No message'}</td>
       <td>
-        <CurrentContactsOptions
+        <button 
+          
+          onClick={(e) => {
+            e.preventDefault();
+            setShowOptions(!showOptions)}}>Options</button>
+        {showOptions && <CurrentContactsOptions
           eventCalls={eventCalls}
           index={index}
           numContacts={numContacts}
           contact={contact}
-        />
+        />}
       </td>
     </tr>
   );

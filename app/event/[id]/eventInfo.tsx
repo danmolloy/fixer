@@ -2,10 +2,10 @@ import React from 'react';
 import CallTile from './callTile';
 import InfoDiv from './infoDiv';
 import { DateTime } from 'luxon';
-import { Call, Ensemble, Event } from '@prisma/client';
+import { Call, Ensemble, Event, User } from '@prisma/client';
 
 export type EventInfoProps = {
-  event: Event;
+  event: Event & {fixer: User};
   calls: Call[];
   ensemble: Ensemble;
 };
@@ -77,7 +77,7 @@ export default function EventInfo(props: EventInfoProps) {
         className='bg-slate-50'
         id='event-fixer-name'
         title='Fixer'
-        value={event.fixerName}
+        value={`${event.fixer.firstName} ${event.fixer.lastName}`}
       />
       <InfoDiv
         className='text-sm text-slate-600'

@@ -80,7 +80,7 @@ export default function CurrentContactsOptions(
   };
 
   return (
-    <div data-testid='contact-options' className=''>
+    <div data-testid='contact-options' className='border absolute -ml-36 bg-white w-48 flex flex-col'>
       {contact.bookingOrAvailability === 'Availability' && (
         <button
           onClick={() =>

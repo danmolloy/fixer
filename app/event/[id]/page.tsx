@@ -17,6 +17,7 @@ async function getData(id: string) {
       id: Number(id),
     },
     include: {
+      fixer: true,
       calls: true,
       sections: {
         include: {
@@ -64,7 +65,7 @@ export default async function EventDetail({
   return (
     <div className='flex w-full flex-col p-2 sm:p-4 lg:px-24'>
       <table>
-        <EventHeader eventId={id} eventTitle={data.eventTitle} />
+        <EventHeader event={data} contacts={data.sections.map(i => i.contacts).flat(1)} />
         <EventInfo event={data} calls={data.calls} ensemble={data.ensemble} />
       </table>
       {session?.user.id === data.fixerId && (

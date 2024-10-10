@@ -8,16 +8,18 @@ import { buttonPrimary } from '../../../dashboard';
 
 export type InviteAdminFormProps = {
   ensembleId: string;
+  userName: string
 };
 
 export default function InviteAdminForm(props: InviteAdminFormProps) {
-  const { ensembleId } = props;
+  const { ensembleId, userName } = props;
   const router = useRouter();
 
   const formSchema = Yup.object().shape({
     ensembleId: Yup.string().required('Access code required'),
     firstName: Yup.string().required('First name required'),
     lastName: Yup.string().required('Last name required'),
+    senderName: Yup.string().required(),
     email: Yup.string().email().required('email required'),
     positionTitle: Yup.string().required('position title required'),
     accessType: Yup.string().required('choose access type'),
@@ -25,6 +27,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
 
   const initialVals = {
     ensembleId: ensembleId,
+    senderName: userName,
     firstName: '',
     lastName: '',
     email: '',
@@ -34,6 +37,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
 
   const handleSubmit = async (data: {
     ensembleId: string;
+    senderName: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -58,6 +62,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
         {(props) => (
           <Form className='flex flex-col p-4'>
             <h1>Invite Admin</h1>
+            <p>Sender: {userName}</p>
             <TextInput
               label='First Name'
               id='first-name-input'

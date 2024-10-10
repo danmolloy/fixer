@@ -39,7 +39,6 @@ export const eventObj = (obj) => {
     dressCode: obj.dressCode,
     fee: obj.fee,
     additionalInfo: obj.additionalInfo,
-    fixerName: obj.fixerName,
     fixerId: obj.fixerId,
   };
 };
@@ -63,7 +62,9 @@ export const createEvent = async (eventObj) => {
       fee: eventObj.fee,
       additionalInfo: eventObj.additionalInfo,
       fixer: { connect: { id: eventObj.fixerId } },
-      fixerName: eventObj.fixerName,
     },
+    include: {
+      fixer: true
+    }
   });
 };

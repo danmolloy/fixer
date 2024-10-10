@@ -4,7 +4,6 @@ export async function POST(request: Request) {
   const req = await request.json();
   const {
     fixerId,
-    fixerName,
     ensembleName,
     ensembleId,
     eventTitle,
@@ -24,7 +23,6 @@ export async function POST(request: Request) {
     confirmedOrOnHold,
     calls,
     fixerId: fixerId,
-    fixerName: fixerName,
     dressCode,
     fee,
     additionalInfo,

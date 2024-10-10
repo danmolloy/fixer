@@ -1,16 +1,25 @@
 import prisma from '../../../../../client';
+import { emailBookingMusicians } from '../create/functions';
 
 export const updateContactMessage = async (contactMessageObj: {
   id: number;
   data: {};
 }) => {
-  return prisma.contactMessage.update({
-    where: {
-      id: contactMessageObj.id,
-    },
-    data: contactMessageObj.data,
-  });
+  try {
+    const updatedData = await prisma.contactMessage.update({
+      where: {
+        id: contactMessageObj.id,
+      },
+      data: contactMessageObj.data,
+    });
+    await emailBookingMusicians(updatedData.eventSectionId)
+    return updatedData
+  } catch (e) {
+    throw new Error(e);
+  }
 };
+
+
 
 export const updateContactIndex = async (data: {
   eventSectionId: number;

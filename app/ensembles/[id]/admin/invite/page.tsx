@@ -10,5 +10,5 @@ export default async function InviteAdmin({
   const { id } = params;
   const session = await auth();
 
-  return !session ? <SignIn /> : <InviteAdminForm ensembleId={id} />;
+  return !session ? <SignIn /> : <InviteAdminForm userName={`${session.user.firstName} ${session.user.lastName}`} ensembleId={id} />;
 }

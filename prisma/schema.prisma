@@ -140,6 +140,7 @@ model ContactMessage {
   offerExpiry       Int?
   status            String @default("OK")
   position        String @default("Tutti")
+  token           String @unique @default(cuid())
   //strictlyTied    Boolean
 }
 
@@ -196,6 +197,7 @@ model EnsembleContact {
 
 model AdminInvite {
   id String @id @default(cuid())
+  senderName String
   ensembleId String
   ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
   accepted Boolean?

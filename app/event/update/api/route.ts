@@ -1,10 +1,11 @@
 import { Call } from '@prisma/client';
-import { eventObj, updateEventandCalls } from './functions';
+import { eventObj, updateEventandCalls, updateEmailPlayers } from './functions';
 
 export async function POST(request: Request) {
   const req = await request.json();
   const {
     id,
+    updateMessage,
     ensembleId,
     ensembleName,
     eventTitle,
@@ -30,7 +31,6 @@ export async function POST(request: Request) {
     dressCode,
     fee,
     additionalInfo,
-    fixerName: null,
     //createdAt: new Date()
   });
   const callsArr: Call[] = calls;
@@ -38,5 +38,6 @@ export async function POST(request: Request) {
     eventObj: updateEventArg,
     callsArr,
   });
+  await updateEmailPlayers(data, updateMessage)
   return Response.json(data);
 }
