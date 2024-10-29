@@ -35,19 +35,12 @@ export default function EventSectionIndex(props: EventSectionProps) {
   const router = useRouter();
   const [updateSection, setUpdateSection] = useState<boolean>(false);
 
-  const handleDelete = async () => {
-    return (
-      confirm(`Are you sure you want to delete this section?`) &&
-      (await axios.post('/fixing/eventSection/api/delete', {
-        sectionId: section.id,
-      }))
-    );
-  };
+  
 
   return (
     <div
       data-testid={`${section.id}-event-section`}
-      className='m-2 rounded border p-2'
+      className='m-1 rounded border p-2'
     >
       {updateSection ? (
         <CreateEventSection
@@ -62,17 +55,10 @@ export default function EventSectionIndex(props: EventSectionProps) {
         />
       ) : (
         <div>
-          <div className='flex flex-row justify-between'>
-            <h2>{section.ensembleSection.name}</h2>
-            <div>
-              <button
-                className='mx-1 rounded border border-red-500 px-2 py-1 text-sm text-red-500 hover:bg-red-50'
-                data-testid='delete-section'
-                onClick={() => handleDelete()}
-              >
-                Delete
-              </button>
-            </div>
+          <div >
+            <h2>{section.ensembleSection.name}
+            <span className={` ${section.bookingStatus.toLocaleLowerCase() !== "active" &&  "text-amber-500"} text-sm`}> (booking {section.bookingStatus})</span>
+            </h2>
           </div>
           <div className='flex flex-row items-center'>
             <p className='text-sm'>Booking {section.numToBook} player(s)</p>

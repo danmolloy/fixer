@@ -1,8 +1,7 @@
 import prisma from '../../../client';
 import { auth } from '../../auth';
-import FixingIndex from '../../fixing';
-import EventHeader from './eventHeader';
-import EventInfo from './eventInfo';
+import EventInfoTable from './eventInfoTable';
+
 
 export async function generateStaticParams() {
   const events = await prisma.event.findMany();
@@ -40,6 +39,11 @@ async function getData(id: string) {
       ensemble: {
         include: {
           sections: true,
+          admin: {
+            include: {
+              user: true
+            }
+          },
         },
       },
     },
@@ -62,20 +66,20 @@ export default async function EventDetail({
   const data = await getData(id);
   const session = await auth();
 
+  
+
+
+  if (session && session.user.admins.filter(i => i.ensembleId === data.ensembleId).length < 1) {
+    <div>Access Denied</div>
+  }
+
+
   return (
     <div className='flex w-full flex-col p-2 sm:p-4 lg:px-24'>
-      <table>
-        <EventHeader event={data} contacts={data.sections.map(i => i.contacts).flat(1)} />
-        <EventInfo event={data} calls={data.calls} ensemble={data.ensemble} />
-      </table>
-      {session?.user.id === data.fixerId && (
-        <FixingIndex
-          ensembleSections={data.ensemble.sections}
-          eventCalls={data.calls}
-          eventSections={data.sections}
-          eventId={data.id}
-        />
-      )}
+      
+      <EventInfoTable sections={data.sections} event={data} calls={data.calls} ensemble={data.ensemble} contacts={data.sections.map(i => i.contacts).flat(1)}  />
+
+      
     </div>
   );
 }

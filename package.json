@@ -20,6 +20,7 @@
     "@vercel/analytics": "^1.0.2",
     "axios": "^0.27.2",
     "formik": "^2.4.6",
+    "html2pdf.js": "^0.10.2",
     "ics": "^3.5.0",
     "luxon": "^3.4.3",
     "next": "^14.2.3",

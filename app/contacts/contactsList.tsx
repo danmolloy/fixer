@@ -1,6 +1,7 @@
 import { EnsembleContact, EnsembleSection } from '@prisma/client';
 import ContactCard from './contactCard';
 import Link from 'next/link';
+import { FaCaretDown } from "react-icons/fa";
 
 export type ContactsIndexProps = {
   contacts: (EnsembleContact & {
@@ -10,11 +11,12 @@ export type ContactsIndexProps = {
   sections: (EnsembleSection & { contacts: EnsembleContact[] })[];
   editContact: (arg: string) => void;
   sortContacts: string;
+  setSortedContacts: (arg:string) => void;
   filterContacts: string[];
 };
 
 export default function ContactsIndex(props: ContactsIndexProps) {
-  const { sections, contacts, editContact, sortContacts, filterContacts } =
+  const { setSortedContacts, sections, contacts, editContact, sortContacts, filterContacts } =
     props;
 
   return (
@@ -24,16 +26,43 @@ export default function ContactsIndex(props: ContactsIndexProps) {
         (i) => i.category === null || filterContacts.includes(i.category)
       ).length === 0 ? (
         <p>No contacts</p>
-      ) : sortContacts === 'Alphabetical' ? (
+      ) : /* sortContacts === 'Alphabetical' ? */ (
         <table data-testid='alphabetical-list' className='overflow-scroll border w-full'>
-          <thead>
-            <tr className='text-sm'>
-              <th className='text-start'>Name</th>
-              <th className='text-start'>Section</th>
-              <th className='text-start'>Position</th>
-              <th className='text-start'>Email</th>
-              <th className='text-start'>Phone</th>
-              <th className='text-start'>Options</th>
+          <thead className='bg-slate-100'>
+            <tr className='text-sm '>
+              <th className='text-start p-1 py-2'>
+                <button onClick={() => setSortedContacts("Alphabetical")} className='flex flex-row items-center hover:text-gray-700'>Name
+                  {sortContacts.toLocaleLowerCase() === "alphabetical"
+                && <FaCaretDown />}
+                </button>
+                </th>
+              <th className='text-start py-2'>
+                <button onClick={() => setSortedContacts("Section")} className='flex flex-row items-center hover:text-gray-700'>
+                  Section
+                  {sortContacts.toLocaleLowerCase() === "section"
+                && <FaCaretDown />}
+                </button>
+                </th>
+              <th className='text-start py-2'>
+                <button onClick={() => setSortedContacts("Position")} className='flex flex-row items-center hover:text-gray-700'>
+                  Position
+                {sortContacts.toLocaleLowerCase() === "position"
+                && <FaCaretDown />}
+                  </button>
+                </th>
+              <th className='text-start py-2'>
+                <button onClick={() => setSortedContacts("Category")} className='flex flex-row items-center hover:text-gray-700'>Category
+                {sortContacts.toLocaleLowerCase() === "category"
+                && <FaCaretDown />}
+                </button>
+                </th>
+              <th className='text-start py-2'>
+                <p>Email</p></th>
+              <th className='text-start py-2'>
+                <p>Phone</p></th>
+              <th className='text-start py-2'>
+
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -42,7 +71,15 @@ export default function ContactsIndex(props: ContactsIndexProps) {
                 (i) =>
                   i.category === null || filterContacts.includes(i.category)
               )
-              .sort((a, b) => a.lastName.localeCompare(b.lastName))
+              .sort((a, b) => (
+                sortContacts.toLocaleLowerCase() === "section" 
+                ? a.section.name.localeCompare(b.section.name) 
+                : sortContacts.toLocaleLowerCase() === "position"
+                ? a.role.localeCompare(b.role) 
+                : sortContacts.toLocaleLowerCase() === "category"
+                ? a.category!.localeCompare(b.category!) 
+                : a.lastName.localeCompare(b.lastName) 
+              ))
               .map((i) => (
                 <ContactCard
                   editContact={(arg) => editContact(arg)}
@@ -52,7 +89,7 @@ export default function ContactsIndex(props: ContactsIndexProps) {
               ))}{' '}
           </tbody>
         </table>
-      ) : (
+      ) /* : (
         sections
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((i) => (
@@ -107,7 +144,7 @@ export default function ContactsIndex(props: ContactsIndexProps) {
               )}
             </div>
           ))
-      )}
+      ) */}
     </div>
   );
 }

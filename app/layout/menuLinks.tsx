@@ -18,12 +18,12 @@ export const externalMenuLinks: {
     id: 'about-link',
     icon: <BiDetail />,
   },
-  {
+ /*  {
     name: 'FAQ',
     link: '/faq',
     id: 'faq-link',
     icon: <FaQuestion />,
-  },
+  }, */
   {
     name: 'Contact',
     link: '/contact-us',

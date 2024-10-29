@@ -20,15 +20,15 @@ export default function Header(props: HeaderProps) {
   return (
     <div
       data-testid='header'
-      className={`${'h-14'} fixed top-0 z-30 flex w-screen flex-row items-center justify-between shadow backdrop-blur transition-all`}
+      className={`${'h-14'} text-gray-800 fixed top-0 z-30 flex w-screen flex-row items-center justify-between shadow backdrop-blur-sm transition-all`}
     >
-      <Link data-testid='gigfix-link' href='/'>
-        <h2 className={`${'text-2xl'} mx-2 p-2 font-light md:mx-10`}>
-          Gig<span className='font-semibold text-blue-600'>Fix</span>
+      <Link data-testid='gigfix-link' className='' href='/'>
+        <h2 className={`${'text-2xl'} mx-2 p-2 font-light md:mx-10 font-display `}>
+          Gig<span className='font-semibold '>Fix</span>
         </h2>
       </Link>
       <div
-        className='mr-2 hidden w-full flex-row justify-end md:flex'
+        className='mr-2 hidden w-full flex-row justify-end md:flex '
         data-testid='nav-bar'
       >
         {session && <EnsemblesMenu ensemblesAdmins={session.user.admins} />}
@@ -37,7 +37,7 @@ export default function Header(props: HeaderProps) {
             href={i.link}
             key={i.id}
             data-testid={i.id}
-            className='mx-4 flex flex-row items-center rounded p-1 text-sm hover:bg-slate-100'
+            className='mx-4 flex flex-row items-center rounded p-1 text-sm hover:text-gray-600'
           >
             {i.name}
           </Link>

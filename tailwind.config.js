@@ -18,7 +18,6 @@ module.exports = {
         main: '80%',
       },
       fontFamily: {
-        nunito: ['var(--font-nunito)', ...fontFamily.sans],
         sans: ['var(--font-poppins)', ...fontFamily.sans],
         display: ['var(--font-inria-sans)', ...fontFamily.sans],
       },

@@ -8,13 +8,11 @@ GigFix is a specialized communications tool designed to streamline the process o
 
 - **Team Accounts**: Create and manage a management team with varying levels of access.
 - **Musician Database**: Import and maintain a comprehensive address book of musicians.
+- **Twilio SendGrid**: Integrated emailing automates booking of players and alerting relevant parties to event updates.
 - **Event Creation**: Generate detailed gig pages that display all relevant information for involved parties.
   **Automated Communications**: Send automated email/SMS offers, check availability, and book an entire orchestra of a bespoke size.
 - **Update Alerts**: Automatically notify all musicians via email/SMS when gig information changes.
 - **Responsive Calendar**: View events in a visually appealing calendar with day, week, month, and year views, optimized for all screen sizes.
-
-### Under Development
-- **Twilio Emailing**
 
 ## Technologies Used
 
@@ -26,7 +24,7 @@ GigFix is a specialized communications tool designed to streamline the process o
 - Prisma & PostgresQL
 - Jest, React Testing Library & Playwright
 - Stripe
-- Twilio
+- Twilio SMS & SendGrid
 
 ## User Experience
 

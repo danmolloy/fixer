@@ -15,28 +15,35 @@ export const featureList: {
     key: 0,
     title: 'Automated fixing',
     blurb:
-      'Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.',
+      'We send the gig info to the players and let you know what they decide. Whether it’s a gig offer, availability check or just one rehearsal, we’ll handle it.',
     icon: <FaRobot />,
   },
   {
     key: 1,
-    title: 'Gig interface',
+    title: 'Real-Time Updates',
     blurb:
-      'Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.',
+      'Keep track of the fixing with our gig interface. See exactly who has confirmed, declined, or still needs to respond - right when it happens.',
     icon: <BiSpreadsheet />,
   },
   {
     key: 2,
-    title: "Update the orchestra's diary in seconds",
+    title: 'Centralised Gig Info',
     blurb:
-      'Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.',
-    icon: <SiGooglemessages />,
+      'When you create an event, the details are the same details read by the admin team and the whole orchestra. No more communication errors.',
+    icon: <BiSpreadsheet />,
   },
   {
     key: 3,
+    title: "Update the orchestra's diary in seconds",
+    blurb:
+      'Whether your changing rehearsal schedule or confirming the gig, we alert all the players immediately.',
+    icon: <SiGooglemessages />,
+  },
+  {
+    key: 4,
     title: 'Share information with the team',
     blurb:
-      'Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.',
+      'The orchestra diary can be shared with the entire admin team, and selected freelance fixers can have access to certain events.',
     icon: <SiFastapi />,
   },
 ];
@@ -51,13 +58,9 @@ export default function LandingFeatures() {
         <div className='px-4 sm:px-6 sm:py-8'>
           <p className='text-xl text-blue-600'>Work faster</p>
           <h2 className='py-2 text-3xl'>
-            Everything you need to manage an orchestra
+            Streamline your orchestra management
           </h2>
-          <p className='font-thin text-slate-600 md:w-2/3'>
-            Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
-            Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
-            In mi viverra elit nunc.
-          </p>
+          
         </div>
         <div className='flex flex-col flex-wrap px-6 md:flex-row'>
           {featureList.map((i) => (

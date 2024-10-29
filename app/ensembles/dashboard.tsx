@@ -30,7 +30,7 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
       data-testid='ensemble-dashboard'
       className='m-1 flex flex-row items-center justify-between'
     >
-      <select
+      {/* <select
         data-testid='contact-sort-select'
         className='rounded border p-1 text-sm'
         onChange={(e) => setSortContacts(e.target.value)}
@@ -42,11 +42,11 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
         <option value={'Sections'} data-testid='sections-option'>
           Sections
         </option>
-      </select>
+      </select> */}
       <div className=''>
         <button
           className={buttonPrimary}
-          onBlur={() => setTimeout(() => setShowFilters(false), 250)}
+          /* onBlur={() => setTimeout(() => setShowFilters(false), 250)} */
           onClick={() => {
             focus();
             setShowFilters(!showFilters);

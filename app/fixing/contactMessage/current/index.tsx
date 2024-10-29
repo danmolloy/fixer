@@ -34,10 +34,10 @@ export default function CurrentContactMessages(
     );
   }
   return (
-    <table>
-      <thead>
+    <table className='table-auto border rounded my-4'>
+      <thead className='border bg-slate-50 text-sm'>
         <tr>
-          <th>Call Number</th>
+          <th>Queue Number</th>
           <th>Name</th>
           {eventCalls.map((i) => (
             <th key={i.id} className='flex flex-col text-xs'>

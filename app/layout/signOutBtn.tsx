@@ -1,5 +1,5 @@
 'use client';
-import { signOut } from 'next-auth/react';
+import { signOut } from "../auth"; 
 
 export default function SignOutBtn(props: { classNames?: string }) {
   const { classNames } = props;

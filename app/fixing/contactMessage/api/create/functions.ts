@@ -177,6 +177,10 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     }]
   });
 
+  if (contactMessages[0].eventSection.bookingStatus !== "booking") {
+    return;
+  }
+
   const eventID = contactMessages[0].eventSection.eventId
   if (await GigIsFixed(eventID)) {
     try {

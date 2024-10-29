@@ -13,12 +13,12 @@ export default function EnsembleManagement(props: EnsembleManagementProps) {
   return (
     <div
       data-testid='ensemble-management '
-      className='flex flex-col items-start rounded p-1 py-4'
+      className='flex flex-col items-start rounded my-4 px-4 py-4 bg-slate-100'
     >
       <div className='flex w-full justify-between'>
         <h2>Management</h2>
         <Link
-          className={buttonPrimary}
+          className={`${buttonPrimary} bg-white`}
           href={`/ensembles/${ensembleId}/admin/invite`}
         >
           Invite Admin

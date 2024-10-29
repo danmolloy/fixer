@@ -15,3 +15,15 @@ export const updateEventSection = async (sectionObj: {
     },
   });
 };
+
+export const updateAllEventSections = async (
+  eventId: number,
+  data: any
+) => {
+  return await prisma.eventSection.updateMany({
+    where: {
+      eventId: eventId
+    },
+    data: data,
+  });
+};

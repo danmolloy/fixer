@@ -15,40 +15,34 @@ export type TutorialStep = {
 export const tutorialData: TutorialStep[] = [
   {
     step: 1,
-    header: "Create an Account",
-    body: `Sign up for GigFix using GitHub (it's free).`,
+    header: "Sign Up & Create an Organisation",
+    body: `Use your GitHub account to sign up quickly. Add your organisation’s details in seconds.`,
     svg: SignUp
   },
   {
     step: 2,
-    header: "Set Up Your Organization",
-    body: `Enter the name of your organization and any orchestras it operates under. Once done, choose the payment plan that suits you.`,
+    header: "Import Address Book & Invite Admin Team",
+    body: `Easily import your musician address book with our spreadsheet template. Email invitations to your admin team for collaborative access.`,
     svg: Team
   },
   {
     step: 3,
-    header: "Invite Team Members & Populate the Address Book",
-    body: `Invite your admin team to join the organization's account and import a spreadsheet of your musicians.`,
-    svg: Contacts
+    header: "Create an Event and Book Players",
+    body: `Create an event in seconds, then define how many musicians you need. GigFix will contact and book them on your behalf.`,
+    svg: Calendar
 
   },
   {
     step: 4,
-    header: "Add Events to the Calendar",
-    body: "Create events in the system to serve as the single source of truth for both musicians and management.",
-    svg: Calendar
+    header: "Update the Gig",
+    body: "If details change, simply update the gig in our system. GigFix will automatically notify the musicians immediately.",
+    svg: Inbox
   
   },
   {
-    step: 5,
-    header: "Book Musicians",
-    body: "Select musicians from your address book to offer gigs to. We'll handle the details and notify you of their responses.",
+    step: 7,
+    header: "Let us handle the work",
+    body: "Make the most of the time we save you to stay on top of other tasks.",
     svg: Coffee
-  },
-  {
-    step: 6,
-    header: "Manage Your Schedule",
-    body: "Stay organized with the calendar interface. Update the gig details and we'll instantly alert everyone of any changes.",
-    svg: Inbox
   },
 ]
