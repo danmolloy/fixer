@@ -11,31 +11,38 @@ export type EventSectionContactsProps = {
     contact: EnsembleContact;
     calls: Call[];
   })[];
+  bookingOrAvailability: string;
+  editContacts: boolean;
+  setEditContacts: (arg:boolean) => void;
 };
 
 export default function EventSectionContacts(props: EventSectionContactsProps) {
-  const { currentContacts, eventSectionId, sectionContacts, eventCalls } =
+  const { editContacts, setEditContacts, bookingOrAvailability, currentContacts, eventSectionId, sectionContacts, eventCalls } =
     props;
-  const [editContacts, setEditContacts] = useState<boolean>(false);
-  const [bookingOrAvailability, setBookingOrAvailability] =
-    useState<string>('Booking');
+  
 
   return (
     <div data-testid='event-section-contacts' className='my-2 flex flex-col'>
-      <select
-        className='w-48 self-center rounded border p-1'
-        data-testid='status-select'
-        disabled={editContacts}
-        onChange={(e) => setBookingOrAvailability(e.target.value)}
-      >
-        <option value='Booking'>Booking</option>
-        <option value='Availability'>Availability</option>
-      </select>
-      <CurrentContactMessages
+      
+      
+    {(currentContacts.filter((i) => i.bookingOrAvailability === bookingOrAvailability)
+      .length === 0 && editContacts === false) ?
+      <div className='my-4 flex w-full flex-col items-center'>
+        <p className='font-medium'>
+          No{' '}
+          {bookingOrAvailability.toLowerCase() === 'availability'
+            ? 'availability checks'
+            : 'booking calls'}{' '}
+          made.
+        </p>
+        <p className='text-sm'>Click Edit Contacts to get started.</p>
+      </div>
+      : currentContacts.filter((i) => i.bookingOrAvailability === bookingOrAvailability)
+      .length > 0 ? <CurrentContactMessages
         bookingOrAvailability={bookingOrAvailability}
         eventCalls={eventCalls}
         contacts={currentContacts}
-      />
+      />: null}
       {!editContacts && (
         <button
           className='my-2 self-end rounded border px-2 py-1 text-sm'

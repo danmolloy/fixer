@@ -34,13 +34,14 @@ export default function EventSectionIndex(props: EventSectionProps) {
   } = props;
   const router = useRouter();
   const [updateSection, setUpdateSection] = useState<boolean>(false);
+  const [bookingOrAvailability, setBookingOrAvailability] = useState<string>('Booking');
+  const [editContacts, setEditContacts] = useState<boolean>(false);
 
-  
 
   return (
     <div
       data-testid={`${section.id}-event-section`}
-      className='m-1 rounded border p-2'
+      className='mx-1 my-4 rounded border p-2'
     >
       {updateSection ? (
         <CreateEventSection
@@ -60,6 +61,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
             <span className={` ${section.bookingStatus.toLocaleLowerCase() !== "active" &&  "text-amber-500"} text-sm`}> (booking {section.bookingStatus})</span>
             </h2>
           </div>
+          <div className='flex flex-row justify-between'>
           <div className='flex flex-row items-center'>
             <p className='text-sm'>Booking {section.numToBook} player(s)</p>
             <button
@@ -69,9 +71,21 @@ export default function EventSectionIndex(props: EventSectionProps) {
               Change
             </button>
           </div>
+          <select
+        className='w-48 self-center rounded border p-1  disabled:border-0'
+        data-testid='status-select'
+        disabled={editContacts}
+        onChange={(e) => setBookingOrAvailability(e.target.value)}
+      >
+        <option value='Booking'>Booking</option>
+        <option value='Availability'>Availability</option>
+      </select>
+        </div>
         </div>
       )}
       <EventSectionContacts
+        editContacts={editContacts} setEditContacts={arg => setEditContacts(arg)}
+        bookingOrAvailability={bookingOrAvailability} 
         currentContacts={currentContacts}
         eventCalls={eventCalls}
         eventSectionId={section.id}

@@ -13,14 +13,21 @@ export type AppendedContactsProps = {
     calls: number[];
   }[];
   eventCalls: Call[];
+  bookingOrAvailability: string;
+  addPlayerMessage: (index: number, message: string) => void;
 };
 
 export default function AppendedContacts(props: AppendedContactsProps) {
-  const { contacts, eventCalls } = props;
+  const { addPlayerMessage, contacts, eventCalls, bookingOrAvailability } = props;
+
+
   return (
-    <table className='my-4 w-full border'>
-      <thead className='border-b text-sm font-medium'>
+    <div>
+      {/* <h3>Contacts to Call</h3> */}
+    <table className='my-4 w-full border '>
+      <thead className='border-b text-sm  bg-slate-50'>
         <tr>
+          <th></th>
           <th>Name</th>
           <th className=''>Position</th>
           {eventCalls.map((i) => (
@@ -39,8 +46,8 @@ export default function AppendedContacts(props: AppendedContactsProps) {
           <tbody className=''>
             {contacts.length === 0 ? (
               <tr>
-                <td colSpan={3 + eventCalls.length} className='h-2'>
-                  <div className='my-4 flex items-center justify-center'>
+                <td colSpan={4 + eventCalls.length} className='h-2'>
+                  <div className=' flex items-center justify-center text-center'>
                     <HelpMessage
                       head='No appended contacts.'
                       additional='Select from your diary contacts below.'
@@ -51,6 +58,8 @@ export default function AppendedContacts(props: AppendedContactsProps) {
             ) : (
               contacts.map((i, index) => (
                 <AppendedContactRow
+                  addPlayerMessage={(index, message) => addPlayerMessage(index, message)}
+                  bookingOrAvailability={bookingOrAvailability}
                   key={i.contactId}
                   numContacts={contacts.length}
                   swap={(a, b) => swap(a, b)}
@@ -65,5 +74,6 @@ export default function AppendedContacts(props: AppendedContactsProps) {
         )}
       </FieldArray>
     </table>
+    </div>
   );
 }

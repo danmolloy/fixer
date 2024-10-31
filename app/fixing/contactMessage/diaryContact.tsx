@@ -9,20 +9,36 @@ export type DiaryContactProps = {
 export default function DiaryContact(props: DiaryContactProps) {
   const { disabled, contact, setSelectContact } = props;
   return (
-    <div
+    <tr
       data-testid={`${contact.id}-contact-tile`}
-      className={`${disabled && 'opacity-30'} flex w-full flex-row items-center justify-between border-y p-1 text-sm`}
+      className={`hover:cursor-pointer ${disabled && 'opacity-30 cursor-pointer'} text-sm hover:bg-slate-50  h-8`}
+      onClick={(e) => {
+        e.preventDefault();
+        !disabled
+        && setSelectContact();
+      }}
+      
     >
-      <div className='flex flex-col'>
+      <td className=''>
+      <div
+          className={`m-2 hidden h-8 w-8 items-center justify-center rounded-full bg-indigo-500 text-white sm:flex ${contact.category!.toLowerCase() === 'member' && 'bg-orange-500'} `}
+        >
+          {contact.firstName[0]}
+          {contact.lastName[0]}
+        </div>
+      </td>
+      <td className='text-start'>
         <p>
           {contact.firstName} {contact.lastName}
         </p>
-      </div>
-      <div className='flex flex-col'>
+      </td>
+      <td className='text-start'>
         <p>{contact.category}</p>
+      </td>
+      <td className='text-start'>
         <p className=''>{contact.role}</p>
-      </div>
-      <div>
+      </td>
+      {/* <td>
         <button
           data-testid={`${contact.id}-select-btn`}
           disabled={disabled}
@@ -34,7 +50,7 @@ export default function DiaryContact(props: DiaryContactProps) {
         >
           Select
         </button>
-      </div>
-    </div>
+      </td> */}
+    </tr>
   );
 }

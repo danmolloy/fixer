@@ -15,7 +15,7 @@ export default function ContactCard(props: ContactCardProps) {
   return (
     <tr
       data-testid='contact-card'
-      className='m-1 w-full rounded border-b  text-sm'
+      className='m-1 w-full rounded border-b  sm:text-sm text-xs'
     >
       <td className='flex flex-row py-2 px-1'>
         {/* <div

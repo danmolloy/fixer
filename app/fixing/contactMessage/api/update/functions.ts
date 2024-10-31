@@ -1,9 +1,9 @@
 import prisma from '../../../../../client';
-import { emailBookingMusicians } from '../create/functions';
+import { emailBookingMusicians, emailDeppingMusician } from '../create/functions';
 
 export const updateContactMessage = async (contactMessageObj: {
   id: number;
-  data: {};
+  data: any;
 }) => {
   try {
     const updatedData = await prisma.contactMessage.update({
@@ -12,13 +12,54 @@ export const updateContactMessage = async (contactMessageObj: {
       },
       data: contactMessageObj.data,
     });
-    await emailBookingMusicians(updatedData.eventSectionId)
+    console.log(`contactMessageObj.data.accepted: ${contactMessageObj.data.accepted}`)
+
+    if (contactMessageObj.data.accepted === true ) {
+      
+      await releaseDeppers(updatedData.eventSectionId);
+    }
+    await emailBookingMusicians(updatedData.eventSectionId);
     return updatedData
   } catch (e) {
     throw new Error(e);
   }
 };
 
+export const releaseDeppers = async (eventSectionId: number) => {
+  console.log("Releasing Deppers!")
+  const deppingContacts = await prisma.contactMessage.findMany({
+    where: {
+      eventSectionId: eventSectionId,
+      status: "DEP OUT"
+    },
+    orderBy: [
+      {
+        indexNumber: "asc",
+      }
+    ]
+  });
+  if (deppingContacts.length > 0) {
+    try {
+      const releaseMusician =  await prisma.contactMessage.update({
+        where: {
+          id: deppingContacts[0].id
+        },
+        data: {
+          status: "RELEASED",
+          accepted: false
+        },
+        include: {
+          contact: true
+        }
+      })
+      return await emailDeppingMusician(releaseMusician);
+
+    } catch(e) {
+      throw new Error(e);
+    }
+  }
+
+}
 
 
 export const updateContactIndex = async (data: {

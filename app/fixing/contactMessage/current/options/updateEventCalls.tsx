@@ -38,6 +38,7 @@ export default function UpdateContactEventCalls(
   };
 
   return (
+    
     <Formik
       initialValues={initialVals}
       validationSchema={validationSchema}
@@ -68,13 +69,11 @@ export default function UpdateContactEventCalls(
       }}
     >
       {(props) => (
-        <Form data-testid='update-event-calls'>
+        <Form data-testid='update-event-calls' className='flex flex-col mx-1 my-2  p-1'>
+                <p className='font-semibold'>Calls:</p>
+
           {eventCalls.map((i) => (
-            <label key={i.id}>
-              <p>
-                {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
-              </p>
-              <p>{DateTime.fromJSDate(new Date(i.startTime)).toFormat('DD')}</p>
+            <label key={i.id} className='text-xs  flex flex-row m-1 '>
               <Field
                 checked={
                   props.values.calls
@@ -83,22 +82,29 @@ export default function UpdateContactEventCalls(
                     ? true
                     : false
                 }
+                className="m-1"
                 type='checkbox'
                 value={String(i.id)}
                 name={`calls`}
               />
+              <div className='flex flex-col'>
+              <p>
+                {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
+              </p>
+              <p>{DateTime.fromJSDate(new Date(i.startTime)).toFormat('DD')}</p>
+              </div>
             </label>
           ))}
           <ErrorMessage name='calls'>{(err) => <p>{err}</p>}</ErrorMessage>
           {props.values.calls.length < 1 && (
-            <p>At least one call must be offered.</p>
+            <p className='text-xs text-red-600'>At least one call must be offered.</p>
           )}
           <button
             disabled={
               JSON.stringify(initialVals.calls.map((i) => String(i))) ===
               JSON.stringify(props.values.calls.map((i) => String(i)))
             }
-            className='disabled:opacity-40'
+            className='disabled:opacity-40 border border-blue-600 text-blue-600 hover:bg-blue-50 w-36 rounded m-1'
             type='submit'
           >
             Update Calls

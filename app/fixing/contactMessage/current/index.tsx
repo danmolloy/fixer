@@ -16,29 +16,14 @@ export default function CurrentContactMessages(
 ) {
   const { contacts, eventCalls, bookingOrAvailability } = props;
 
-  if (
-    contacts.filter((i) => i.bookingOrAvailability === bookingOrAvailability)
-      .length === 0
-  ) {
-    return (
-      <div className='my-4 flex w-full flex-col items-center'>
-        <p className='font-medium'>
-          No{' '}
-          {bookingOrAvailability.toLowerCase() === 'availability'
-            ? 'availability checks'
-            : 'booking calls'}{' '}
-          made.
-        </p>
-        <p className='text-sm'>Click Edit Contacts to get started.</p>
-      </div>
-    );
-  }
+
   return (
     <table className='table-auto border rounded my-4'>
       <thead className='border bg-slate-50 text-sm'>
         <tr>
           <th>Queue Number</th>
           <th>Name</th>
+          <th>Position</th>
           {eventCalls.map((i) => (
             <th key={i.id} className='flex flex-col text-xs'>
               <p>
@@ -48,7 +33,6 @@ export default function CurrentContactMessages(
             </th>
           ))}
           <th>Status</th>
-          <th>Message</th>
           <th>Options</th>
         </tr>
       </thead>

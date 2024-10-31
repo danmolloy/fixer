@@ -55,8 +55,14 @@ export const createContactMessages = async (data: createContactMessage) => {
     });
     currentHighest += 1;
   }
-  await emailBookingMusicians(Number(data.eventSectionId));
-  await emailAvailabilityChecks(Number(data.eventSectionId));
+  if (data.bookingOrAvailability.toLocaleLowerCase() === "booking")
+  {
+    await emailBookingMusicians(Number(data.eventSectionId));
+
+  } else {
+    await emailAvailabilityChecks(Number(data.eventSectionId));
+
+  }
   return;
 };
 
@@ -79,7 +85,7 @@ export const getDateRange = (calls: Call[]) => {
   }
 }
 
-export const GigIsFixed = async (eventID: number) => {
+export const gigIsFixed = async (eventID: number) => {
   const event = await prisma.event.findUnique({
     where: {
       id: eventID
@@ -101,11 +107,12 @@ export const GigIsFixed = async (eventID: number) => {
   for (let i = 0; i < event?.sections.length; i ++) {
     const numToBook = event.sections[i].numToBook;
     const numBooked = event.sections[i].contacts.filter(i => (
-      i.accepted === true)).length;
+      i.accepted === true && i.status.toLocaleLowerCase() !== "dep out")).length;
     if (numToBook - numBooked !== 0) {
       return false;
     }
   }
+  console.log("Gig is fixed")
   return true;
 
 }
@@ -177,12 +184,13 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     }]
   });
 
-  if (contactMessages[0].eventSection.bookingStatus !== "booking") {
+  if (contactMessages.length === 0) {
+
     return;
   }
 
   const eventID = contactMessages[0].eventSection.eventId
-  if (await GigIsFixed(eventID)) {
+  if (await gigIsFixed(eventID)) {
     try {
       return await axios.post(`${url}/sendGrid`, {
         body: {
@@ -205,8 +213,10 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
   const numToBook = contactMessages[0].eventSection.numToBook;
   const numBooked = contactMessages.filter(i => i.accepted === true).length;
   const numYetToRespond = contactMessages.filter(i => i.accepted === null && i.recieved === true).length;
-  
-  const numToContact = numToBook - numBooked - numYetToRespond;
+  const toDepCount = contactMessages.filter(i => i.status.toLocaleLowerCase() === "dep out").length;
+  console.log(`${toDepCount} player(s) looking for a dep`);
+  const numToContact = numToBook - numBooked - numYetToRespond + toDepCount;
+  console.log(`${numToContact} player(s) to contact.`);
 
   const notContacted = contactMessages.filter(i => i.recieved === false && i.accepted === null);
 
@@ -298,7 +308,8 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
     }]
   });
 
-  
+  console.log(JSON.stringify(availabilityChecks));
+
 
 
   if (availabilityChecks.length === 0) {
@@ -337,4 +348,18 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
   }
 
   return;
+}
+
+export const emailDeppingMusician = async(contactMessage: ContactMessage & {contact: EnsembleContact}) => {
+  console.log("emailDeppingMusician")
+  try {
+    await axios.post(`${url}/sendGrid`, {body: {
+      emailData: contactMessage,
+      templateID: "",
+      emailAddress: contactMessage.contact.email
+    }})
+    
+  } catch (e) {
+    throw Error;
+  }
 }

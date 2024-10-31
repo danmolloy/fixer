@@ -106,7 +106,7 @@ export default function EventMenu(props: EventMenuProps) {
       <button
         onFocus={() => setShowMenu(true)}
         onBlur={() => setTimeout(() => setShowMenu(false), 100)}
-        className='rounded  p-1 text-center hover:bg-gray-700 text-white bg-black border '
+        className='rounded  p-1 text-center hover:bg-gray-50 text-black  border '
         data-testid='options-btn'      >
        Options
       </button>
@@ -116,30 +116,30 @@ export default function EventMenu(props: EventMenuProps) {
           tabIndex={-1}
           onBlur={() => setTimeout(() => setShowMenu(false), 100)}
           data-testid='menu-options'
-          className='absolute -ml-32 flex w-48 flex-col rounded border bg-white text-sm font-medium shadow'
+          className='absolute -ml-32 flex w-48 flex-col items-center justify-center rounded border bg-white text-sm font-medium shadow'
         >
           <Link
             href={`update/${event.id}`}
-            className='w-full px-2 py-1 hover:bg-gray-50'
+            className='w-full px-2 py-2 m-1 text-center hover:bg-gray-50'
           >
             Update Event
           </Link>
-          <button onClick={() => handleMessage()} className='w-full px-2 py-1 hover:bg-gray-50'>
+          <button onClick={() => handleMessage()} className='w-full px-2 py-2 m-1 hover:bg-gray-50'>
             Message All
           </button>
-          <button onClick={() => getRunningSheet()} className='w-full px-2 py-1 hover:bg-gray-50'>
+          <button onClick={() => getRunningSheet()} className='w-full px-2 py-2 m-1 hover:bg-gray-50'>
             Print Running Sheet
           </button>
-          <button onClick={() => exportGig()} className='w-full px-2 py-1 hover:bg-gray-50'>
+          <button onClick={() => exportGig()} className='w-full px-2 py-2 m-1 hover:bg-gray-50'>
             Export Event Details
           </button>
-          <button onClick={() => exportCalls()} className='w-full px-2 py-1 hover:bg-gray-50'>
+          <button onClick={() => exportCalls()} className='w-full px-2 py-2 m-1 hover:bg-gray-50'>
             Export Calls List
           </button>
 
           <button
             data-testid='cancel-btn'
-            className='w-full px-2 py-1 hover:bg-gray-50 hover:text-red-600'
+            className='w-full px-2 py-2 m-1 hover:bg-gray-50 hover:text-red-600'
             onClick={() => {
               handleDelete();
               setShowMenu(false);

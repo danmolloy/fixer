@@ -8,7 +8,7 @@ export async function POST(request: Request & {body: EmailData}) {
   const req = await request.json();
   
   if (process.env.TWILIO_ACTIVE === "false") {
-    console.log(`Recieved at the API: ${JSON.stringify(req.body)}`);
+    console.log(`Email would have sent successfully: ${JSON.stringify(req.body)}`);
     return new Response(JSON.stringify({ status: 'Email would have sent successfully!' }), { status: 202 }); 
   }
   const emailData = {

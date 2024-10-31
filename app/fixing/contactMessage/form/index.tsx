@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import HelpMessage from '../../../layout/helpMessage';
 import { buttonPrimary } from '../../../ensembles/dashboard';
+import DiaryContacts from './diaryContacts';
 
 export type ContactMessageFormProps = {
   cancelForm: () => void;
@@ -39,7 +40,6 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       (i) => i !== null
     )
   );
-  const [showFilters, setShowFilters] = useState(false);
 
   const initialVals = {
     contacts: eventContacts.map((i) => ({
@@ -89,105 +89,27 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       >
         {(props) => (
           <Form>
-            <AppendedContacts
+            {props.values.contacts.length > 0 
+            && <AppendedContacts
+            addPlayerMessage={(index, message) => props.setFieldValue(
+              `contacts.${index}.playerMessage`,
+              message
+            )}
+            bookingOrAvailability={props.values.bookingOrAvailability}
               eventCalls={eventCalls}
               contacts={props.values.contacts}
-            />
+            />}
             <div className=''>
-              <div className='mb-4 mt-6 flex w-full flex-row justify-between'>
-                <h3>Diary Contacts</h3>
-                <div>
-                  <button
-                    className={buttonPrimary}
-                    onBlur={() => setTimeout(() => setShowFilters(false), 250)}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      focus();
-                      setShowFilters(!showFilters);
-                    }}
-                  >
-                    Filters
-                  </button>
-                  {showFilters && (
-                    <div
-                      data-testid='filters-menu'
-                      className='absolute flex flex-col rounded border bg-white p-1 text-sm'
-                    >
-                      {Array.from(
-                        new Set(sectionContacts.map((i) => i.category))
-                      )
-                        .filter((i) => i !== null)
-                        .map((i) => (
-                          <label key={i}>
-                            <input
-                              className='m-1'
-                              type='checkbox'
-                              onChange={() => {
-                                filterCategories.includes(i)
-                                  ? setFilterCategories(
-                                      filterCategories.filter((j) => j !== i)
-                                    )
-                                  : setFilterCategories([
-                                      ...filterCategories,
-                                      i,
-                                    ]);
-                              }}
-                              checked={filterCategories.includes(i)}
-                            />
-                            {i}
-                          </label>
-                        ))}
-                    </div>
-                  )}
-                </div>
+              <div className='mb-2 mt-12 flex w-full flex-col '>
+                <h3 className="text-base">Your List</h3>
+                <p className='text-sm text-gray-500'>{`Select musicians to ${bookingOrAvailability.toLocaleLowerCase() === "booking" ? "book" : "check availability"}.`}</p>
               </div>
-
-              <FieldArray name='contacts'>
-                {({ push }) =>
-                  sectionContacts.filter(
-                    (i) =>
-                      i.category === null ||
-                      filterCategories.includes(i.category)
-                  ).length === 0 ? (
-                    <div className='my-4 flex w-full justify-center'>
-                      <HelpMessage
-                        head='No diary contacts.'
-                        additional='Remove your filters, or add new contacts to you Address Book.'
-                      />
-                    </div>
-                  ) : (
-                    sectionContacts
-                      .filter(
-                        (i) =>
-                          i.category === null ||
-                          filterCategories.includes(i.category)
-                      )
-                      .map((i) => (
-                        <DiaryContact
-                          setSelectContact={() =>
-                            push({
-                              contactId: i.id,
-                              position: i.role,
-                              name: `${i.firstName} ${i.lastName}`,
-                              playerMessage: undefined,
-                              calls: eventCalls.map((j) => String(j.id)),
-                            })
-                          }
-                          disabled={
-                            props.values.contacts
-                              .map((j) => j.contactId)
-                              .includes(i.id) ||
-                            currentContacts
-                              .map((j) => j.contactId)
-                              .includes(i.id)
-                          }
-                          key={i.id}
-                          contact={i}
-                        />
-                      ))
-                  )
-                }
-              </FieldArray>
+              <DiaryContacts 
+              eventCalls={eventCalls}
+              currentContacts={currentContacts}
+              appendedContacts={props.values.contacts}
+              sectionContacts={sectionContacts}
+              />
             </div>
             <div className='mb-2 mt-6 flex w-full flex-row justify-between'>
               <button

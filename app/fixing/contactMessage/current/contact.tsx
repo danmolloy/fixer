@@ -1,7 +1,7 @@
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 import CurrentContactsOptions from './options';
 import { useState } from 'react';
-import { TiTick, TiTimes } from "react-icons/ti";
+import { TiMail, TiTick, TiTimes } from "react-icons/ti";
 import { SlOptions } from "react-icons/sl";
 
 
@@ -18,11 +18,19 @@ export type CurrentContactRowProps = {
 export default function CurrentContactRow(props: CurrentContactRowProps) {
   const { eventCalls, contact, index, numContacts } = props;
   const [showOptions, setShowOptions] = useState<boolean>(false);
+
+  const showMessage = () => {
+    return alert(`Your message to ${contact.contact.firstName}: \n\n${contact.playerMessage}`);
+  }
+
   return (
     <tr className={`text-sm ${contact.accepted === false && "text-gray-300"}`}>
       <td className="text-center">{contact.indexNumber}</td>
       <td className="text-center">
         <p>{`${contact.contact.firstName} ${contact.contact.lastName}`}</p>
+        
+      </td>
+      <td className='text-center'>
         <p>{contact.position}</p>
       </td>
       {eventCalls.map((i) => (
@@ -33,7 +41,14 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           </div>
         </td>
       ))}
-      {contact.accepted === true
+      {(contact.accepted === true
+      && contact.status.toLocaleLowerCase() === "dep out")
+            ? <td className="text-center text-white bg-amber-500">
+            <p className=''>
+              Finding Dep
+            </p>
+          </td>
+          : contact.accepted === true
             ? <td className="text-center text-white bg-green-500">
             <p className=''>
               Accepted
@@ -57,21 +72,26 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
                 </p>
               </td>}
       
-      <td className='text-center'>{contact.playerMessage 
-      ? <p>{contact.playerMessage}</p> 
-      : <p className='text-gray-300'>N/A</p>}</td>
       <td className='text-black  flex items-center justify-center'>
         <button 
           className='hover:bg-gray-100 p-2 rounded'
+          //onBlur={() => setTimeout(() => setShowOptions(false), 250)}
+          
           onClick={(e) => {
             e.preventDefault();
             setShowOptions(!showOptions)}}><SlOptions size={16} /></button>
         {showOptions && <CurrentContactsOptions
+        setCloseMenu={() => setShowOptions(false)}
           eventCalls={eventCalls}
           index={index}
           numContacts={numContacts}
           contact={contact}
         />}
+        {contact.playerMessage 
+            && 
+          <button className='m-1 p-1 hover:bg-gray-50 ' onClick={(e) => {e.preventDefault(); showMessage();}}>
+          <TiMail size={24} />
+        </button>}
       </td>
     </tr>
   );

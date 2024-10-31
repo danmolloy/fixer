@@ -10,6 +10,7 @@ import CreateEventSection from './eventSection/form';
 import { useState } from 'react';
 import EventSectionIndex from './eventSection';
 import axios from 'axios';
+import { TiPlus } from "react-icons/ti";
 
 export type FixingIndexProps = {
   eventId: number;
@@ -51,24 +52,16 @@ export default function FixingIndex(props: FixingIndexProps) {
       <div className='flex w-full flex-row justify-between'>
         <h2>Musicians</h2>
         <button
-          className='rounded border p-1 text-sm hover:bg-gray-50'
+          className='border-blue-600 text-blue-600 rounded border p-1 text-sm hover:bg-blue-50 flex flex-row items-center'
           onClick={() => setCreateSection(true)}
         >
-          Create section
+          <TiPlus />
+          <p className='ml-1'>
+            Create section
+          </p>
         </button>
       </div>
-      {eventSections.filter(i => (
-            i.bookingStatus === "active"
-          )).length > 0 
-          ? <button 
-            onClick={() => handlePauseClick()} 
-            className='p-1 m-2 text-white bg-red-500 hover:bg-red-400 sm:w-1/2 rounded w-60 self-center'>
-            Pause All Fixing
-          </button> 
-          : <div className='flex flex-col text-center my-4'>
-              {eventSections.length > 0 
-              && <p className='text-lg font-semibold'>No fixing currently active.</p>}
-            </div>}
+      
       {eventSections.length === 0 && !createSection ? (
         <div className='mx-2 my-8 flex flex-col items-center justify-center'>
           <h3 className='text-lg font-semibold'>No event sections.</h3>
@@ -98,7 +91,18 @@ export default function FixingIndex(props: FixingIndexProps) {
           />
         ))
       )}
-
+{eventSections.filter(i => (
+            i.bookingStatus === "active"
+          )).length > 0 
+          ? <button 
+            onClick={() => handlePauseClick()} 
+            className='p-1 m-2 text-white bg-red-500 hover:bg-red-400 sm:w-1/2 rounded w-60 self-center'>
+            Pause All Fixing
+          </button> 
+          : <div className='flex flex-col text-center my-4'>
+              {eventSections.length > 0 
+              && <p className='text-lg font-semibold'>No fixing currently active.</p>}
+            </div>}
     </div>
   );
 }

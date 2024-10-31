@@ -28,7 +28,7 @@ export default function AdminTile(props: AdminTileProps) {
   return (
     <div
       data-testid={`${admin.id}-admin-tile`}
-      className='shadow p-2 rounded w-full sm:w-1/3 lg:w-1/4 flex-row justify-evenly text-sm bg-white'
+      className='overflow-scroll shadow p-2 rounded w-full sm:w-1/3 lg:w-1/4 flex-row justify-evenly text-sm bg-white'
     >
       
       <div className='flex flex-col '>
@@ -85,7 +85,7 @@ export default function AdminTile(props: AdminTileProps) {
      
       <div className='flex flex-col my-2'>
         <p>M: {admin.user.mobileNumber}</p>
-        <p>E: {admin.user.email}</p>
+        <p className=''>E: {admin.user.email}</p>
       </div>
       
     </div>

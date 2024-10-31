@@ -73,7 +73,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
     return (
       confirm(`Are you sure you want to delete this section?`) &&
       (await axios.post('/fixing/eventSection/api/delete', {
-        sectionId: ensembleSectionId,
+        sectionId: Number(eventSectionId),
       }))
     );
   };
@@ -136,13 +136,14 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               id='numtobook-input'
               label='Num to Book'
             />
-             <div role="group" aria-labelledby="my-radio-group">
+             <div role="group" aria-labelledby="my-radio-group" className='flex flex-col'>
+              <label>Fixing Status</label>
             <label>
-              <Field type="radio" name="bookingStatus" value="active" />
+              <Field className="m-1" type="radio" name="bookingStatus" value="active" />
               Active
             </label>
             <label>
-              <Field type="radio" name="bookingStatus" value="inactive" />
+              <Field className="m-1" type="radio" name="bookingStatus" value="inactive" />
               Inactive
             </label>
           </div>
