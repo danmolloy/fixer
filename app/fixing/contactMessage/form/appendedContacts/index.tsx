@@ -15,10 +15,11 @@ export type AppendedContactsProps = {
   eventCalls: Call[];
   bookingOrAvailability: string;
   addPlayerMessage: (index: number, message: string) => void;
+  currentCallCount: number
 };
 
 export default function AppendedContacts(props: AppendedContactsProps) {
-  const { addPlayerMessage, contacts, eventCalls, bookingOrAvailability } = props;
+  const { currentCallCount, addPlayerMessage, contacts, eventCalls, bookingOrAvailability } = props;
 
 
   return (
@@ -27,7 +28,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
     <table className='my-4 w-full border '>
       <thead className='border-b text-sm  bg-slate-50'>
         <tr>
-          <th></th>
+          <th>Queue Number</th>
           <th>Name</th>
           <th className=''>Position</th>
           {eventCalls.map((i) => (
@@ -58,6 +59,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
             ) : (
               contacts.map((i, index) => (
                 <AppendedContactRow
+                  currentCallCount={currentCallCount}
                   addPlayerMessage={(index, message) => addPlayerMessage(index, message)}
                   bookingOrAvailability={bookingOrAvailability}
                   key={i.contactId}

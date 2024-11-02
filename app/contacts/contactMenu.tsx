@@ -13,7 +13,7 @@ export default function ContactMenu(props: ContactMenuProps) {
 
   const deleteContact = async (contactId: string) => {
     return await axios
-      .post('/contact/api/archive', { id: contactId })
+      .post('/contacts/api/archive', { id: contactId })
       .then(() => router.refresh());
   };
 

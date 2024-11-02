@@ -20,11 +20,11 @@ export type AppendedContactRowProps = {
   numContacts: number;
   bookingOrAvailability: string;
   addPlayerMessage: (index: number, message: string) => void;
-
+  currentCallCount: number;
 };
 
 export default function AppendedContactRow(props: AppendedContactRowProps) {
-  const { addPlayerMessage, bookingOrAvailability, contact, eventCalls, remove, swap, numContacts, index } = props;
+  const { addPlayerMessage, bookingOrAvailability, contact, eventCalls, remove, swap, numContacts, index, currentCallCount } = props;
   const [showMenu, setShowMenu] = useState(false);
 
   const handleAddMessage = () => {
@@ -42,7 +42,7 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
 
   return (
     <tr className='text-center text-sm  h-10'>
-      <td className='px-1'>{bookingOrAvailability.toLocaleLowerCase() === "booking" && numContacts + index}</td>
+      <td className='px-1'>{bookingOrAvailability.toLocaleLowerCase() === "booking" && currentCallCount + index + 1}</td>
       <td className=''>{contact.name}</td>
       <td className=''>
         <Field as='select' name={`contacts[${index}]position`}>

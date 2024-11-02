@@ -91,6 +91,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
           <Form>
             {props.values.contacts.length > 0 
             && <AppendedContacts
+            currentCallCount={currentContacts.filter(i => i.bookingOrAvailability.toLocaleLowerCase() == "booking").length}
             addPlayerMessage={(index, message) => props.setFieldValue(
               `contacts.${index}.playerMessage`,
               message
@@ -99,18 +100,6 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
               eventCalls={eventCalls}
               contacts={props.values.contacts}
             />}
-            <div className=''>
-              <div className='mb-2 mt-12 flex w-full flex-col '>
-                <h3 className="text-base">Your List</h3>
-                <p className='text-sm text-gray-500'>{`Select musicians to ${bookingOrAvailability.toLocaleLowerCase() === "booking" ? "book" : "check availability"}.`}</p>
-              </div>
-              <DiaryContacts 
-              eventCalls={eventCalls}
-              currentContacts={currentContacts}
-              appendedContacts={props.values.contacts}
-              sectionContacts={sectionContacts}
-              />
-            </div>
             <div className='mb-2 mt-6 flex w-full flex-row justify-between'>
               <button
                 className='m-1 rounded border px-2 py-1 text-sm hover:bg-gray-50'
@@ -122,12 +111,27 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
                 Cancel
               </button>
               <button
-                className='m-1 rounded bg-indigo-500 px-2 py-1 text-sm text-white hover:bg-indigo-600'
+                disabled={props.values.contacts.length == 0}
+                className='m-1 rounded disabled:opacity-40 bg-indigo-500 px-2 py-1 text-sm text-white hover:bg-indigo-600'
                 type='submit'
               >
                 Submit
               </button>
             </div>
+            <div className=''>
+              <div className='mb-2 mt-12 flex w-full flex-col '>
+                <h3 className="text-base">Your List</h3>
+                <p className='text-sm text-gray-500'>{`Select musicians to ${bookingOrAvailability.toLocaleLowerCase() === "booking" ? "book" : "check availability"}.`}</p>
+              </div>
+              
+              <DiaryContacts 
+              eventCalls={eventCalls}
+              currentContacts={currentContacts}
+              appendedContacts={props.values.contacts}
+              sectionContacts={sectionContacts}
+              />
+            </div>
+            
           </Form>
         )}
       </Formik>

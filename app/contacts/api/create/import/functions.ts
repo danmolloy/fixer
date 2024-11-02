@@ -3,43 +3,51 @@ import prisma from '../../../../../client';
 
 export type CreateContactsProps = {
   contacts: {
-    'First Name': string;
-    'Last Name': string;
-    Email: string;
-    'Phone Number': string;
-    Role: string;
-    Section: string;
-    Category: string;
-    sectionId: string | undefined;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    role: string;
+    sectionName: string;
+    category: string;
+    //sectionId: string | undefined;
   }[];
   ensembleId: string;
 };
 
 export const createContacts = async (data: CreateContactsProps) => {
   let arr: EnsembleContact[] = [];
+
+  let ensembleSections = await prisma.ensembleSection.findMany({
+    where: {
+      ensembleId: data.ensembleId
+    }
+  })
+
   for (let i = 0; i < data.contacts.length; i++) {
+    const section = ensembleSections.find(j => j.name == data.contacts[i].sectionName);
     const newContact = await prisma.ensembleContact.create({
       data: {
-        firstName: data.contacts[i]['First Name'],
-        lastName: data.contacts[i]['Last Name'],
-        email: data.contacts[i]['Email'],
-        phoneNumber: data.contacts[i]['Phone Number'],
-        role: data.contacts[i].Role,
-        category: data.contacts[i].Category,
+        firstName: data.contacts[i].firstName,
+        lastName: data.contacts[i].lastName,
+        email: data.contacts[i].email,
+        phoneNumber: data.contacts[i].phoneNumber,
+        role: data.contacts[i].role,
+        category: data.contacts[i].category,
         ensemble: {
           connect: {
             id: data.ensembleId,
           },
         },
-        section: data.contacts[i].sectionId
+        section: section
           ? {
               connect: {
-                id: data.contacts[i].sectionId,
+                id: section.id,
               },
             }
           : {
               create: {
-                name: data.contacts[i].Section,
+                name: data.contacts[i].sectionName,
                 ensemble: {
                   connect: {
                     id: data.ensembleId,
@@ -48,7 +56,15 @@ export const createContacts = async (data: CreateContactsProps) => {
               },
             },
       },
+      include: {
+        ensemble: {
+          include: {
+            sections: true
+          }
+        }
+      }
     });
+    ensembleSections = newContact.ensemble.sections;
     arr = [...arr, newContact];
   }
   return arr;
