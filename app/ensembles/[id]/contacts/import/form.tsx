@@ -63,7 +63,7 @@ export default function ImportForm(props: ImportFormProps) {
   
 
   return (
-    <div className=' flex flex-col items-center justify-center w-screen overflow-scroll'>
+    <div className=' flex flex-col items-center justify-center w-screen '>
       <h2 className='m-4  text-2xl'>Add Contacts</h2>
       {data === null 
       && <div className='flex flex-col items-center justify-center'>
@@ -85,6 +85,7 @@ export default function ImportForm(props: ImportFormProps) {
       <button className='border border-blue-600 text-blue-600 hover:bg-blue-50 rounded p-1 m-1' onClick={handleDownload}>Download Spreadsheet Template</button>
       </div>
       }
+    <div className=' w-screen p-4'>
      {data && <ContactInput 
      ensembleId={ensemble.id}
       contacts={data.map((i, index) => ({
@@ -96,6 +97,7 @@ export default function ImportForm(props: ImportFormProps) {
         role: i["Role"],
         category: i["Category"],
       }))} />}
+      </div>
     </div>
   );
 }

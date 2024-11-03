@@ -17,12 +17,7 @@ export default function EnsembleManagement(props: EnsembleManagementProps) {
     >
       <div className='flex w-full justify-between'>
         <h2>Management</h2>
-        <Link
-          className={`${buttonPrimary} bg-white`}
-          href={`/ensembles/${ensembleId}/admin/invite`}
-        >
-          Invite Admin
-        </Link>
+        
       </div>
       <div className='my-2 flex w-full flex-col'>
         {admins.map((i) => (

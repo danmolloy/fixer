@@ -69,6 +69,8 @@ export default function ContactInput(props: ContactInputProps) {
                     name='contacts'
                     render={({push, remove}) => (
                       <div>
+                              <div className="flex flex-col items-center rounded overflow-x-scroll">
+
           <table className="text-sm table-auto m-4 ">
         <thead>
           <tr>
@@ -147,6 +149,8 @@ export default function ContactInput(props: ContactInputProps) {
 
         
       </table>
+      </div>
+        {props.errors.contacts && <p className="text-center text-xs">Missing fields are stated in red in the table.</p>}
       <div className="flex flex-row justify-between items-center">
                 <button 
                   className="border border-black m-1 text-sm p-1 rounded hover:bg-slate-50"
@@ -163,9 +167,8 @@ export default function ContactInput(props: ContactInputProps) {
                           className="border border-blue-600 text-blue-600 m-1 text-sm p-1 rounded hover:bg-blue-50"
 
        type="submit">Submit</button></div>
-      </div>
+                </div>
                 )} />
-                {JSON.stringify(props.errors)}
         </Form>
       )}
     </Formik>

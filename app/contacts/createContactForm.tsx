@@ -6,6 +6,7 @@ import axios from 'axios';
 import { EnsembleContact, EnsembleSection } from '@prisma/client';
 import { categories, instrumentSections, rolesArr } from './lib';
 import { CreateEnsembleContact } from './api/create/functions';
+import { useRouter } from 'next/navigation';
 
 export type CreateContactFormProps = {
   ensembleId: string;
@@ -27,6 +28,7 @@ export type CreateEnsembleContactForm = {
 
 export default function CreateContactForm(props: CreateContactFormProps) {
   const { ensembleId, sections, closeForm, contact } = props;
+  const router = useRouter();
 
   const initialValues: CreateEnsembleContactForm = {
     firstName: contact ? contact.firstName : '',
@@ -50,19 +52,35 @@ export default function CreateContactForm(props: CreateContactFormProps) {
   });
 
   const handleSubmit = async (values: CreateEnsembleContact) => {
-    return contact !== undefined
-      ? await axios.post('/contacts/api/update', { ...values, id: contact.id })
-      : await axios.post('/contacts/api/create', values);
+    try {
+      return contact !== undefined
+      ? await axios
+      .post('/contacts/api/update', { 
+        updatedData: {...values}, 
+        contactId: contact.id,
+      })
+      .then(() => {
+        router.refresh();
+      })
+      : await axios
+      .post('/contacts/api/create', values)
+      .then(() => {
+        router.refresh();
+      })
+    } catch(e) {
+      throw new Error(e);
+    }
+    
   };
 
   return (
     <div
       data-testid='create-contact-form'
-      className='absolute w-full items-center backdrop-blur'
+      className='absolute left-0 w-full items-center backdrop-blur'
     >
       <div className='m-4 flex flex-col rounded border bg-white p-4'>
         <div className='flex w-full flex-row justify-between'>
-          <h2>Create Contact</h2>
+          <h2>{contact ? `Edit Contact` : `Create Contact`}</h2>
           <button
             data-testid='close-btn'
             onClick={() => closeForm()}
@@ -95,65 +113,10 @@ export default function CreateContactForm(props: CreateContactFormProps) {
               <TextInput label='Last Name' id='last-name' name='lastName' />
               <TextInput label='Email' id='email' name='email' type='email' />
               <TextInput label='Phone' id='phone' name='phone' type='phone' />
-              <label htmlFor='role-select'>Role</label>
-              <Field
-                id='role-select'
-                as='select'
-                name='role'
-                className='m-1 w-48 rounded border p-1'
-              >
-                <option value={''}>select</option>
+              <TextInput label='Role' id='role' name='role'  />
+              <TextInput label='Category' id='category' name='category'  />
 
-                {rolesArr.map((i) => (
-                  <option
-                    data-testid={`role-option-${i.id}`}
-                    key={i.id}
-                    value={i.name}
-                  >
-                    {i.name}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name='role'>
-                {(msg) => (
-                  <div
-                    className='p-1 text-sm text-red-600'
-                    data-testid={`role-error`}
-                  >
-                    {msg}
-                  </div>
-                )}
-              </ErrorMessage>
-              <label htmlFor='category-select'>Category</label>
-              <Field
-                id='category-select'
-                as='select'
-                name='category'
-                className='m-1 w-48 rounded border p-1'
-              >
-                <option value={''}>select</option>
-                {categories.map((i) => (
-                  <option
-                    data-testid={`category-option-${i.id}`}
-                    key={i.id}
-                    value={i.name}
-                  >
-                    {i.name}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name='category'>
-                {(msg) => (
-                  <div
-                    className='p-1 text-sm text-red-600'
-                    data-testid={`category-error`}
-                  >
-                    {msg}
-                  </div>
-                )}
-              </ErrorMessage>
-
-              <div>
+              <div className='flex flex-col'>
                 <label htmlFor='section-select'>Section Select</label>
                 <Field
                   id='section-select'

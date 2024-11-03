@@ -1,6 +1,7 @@
 import { Field } from 'formik';
 import Link from 'next/link';
 import { useState } from 'react';
+import { IoCaretDown } from "react-icons/io5";
 
 export type EnsembleDashboardProps = {
   addContact: () => void;
@@ -30,58 +31,7 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
       data-testid='ensemble-dashboard'
       className='m-1 flex flex-row items-center justify-between'
     >
-      {/* <select
-        data-testid='contact-sort-select'
-        className='rounded border p-1 text-sm'
-        onChange={(e) => setSortContacts(e.target.value)}
-        value={sortContacts}
-      >
-        <option value={'Alphabetical'} data-testid='alphabetical-option'>
-          Alphabetical
-        </option>
-        <option value={'Sections'} data-testid='sections-option'>
-          Sections
-        </option>
-      </select> */}
-      <div className=''>
-        <button
-          className={buttonPrimary}
-          /* onBlur={() => setTimeout(() => setShowFilters(false), 250)} */
-          onClick={() => {
-            focus();
-            setShowFilters(!showFilters);
-          }}
-        >
-          Filters
-        </button>
-        {showFilters && (
-          <div
-            data-testid='filters-menu'
-            className='absolute flex flex-col rounded border bg-white p-1 text-sm'
-          >
-            <label>
-              <input
-                className='m-1'
-                type='checkbox'
-                data-testid='member-filter'
-                onChange={() => setFilterContacts('Member')}
-                checked={filterContacts.includes('Member')}
-              />
-              Members
-            </label>
-            <label>
-              <input
-                className='m-1'
-                data-testid='extra-filter'
-                onChange={() => setFilterContacts('Extra')}
-                checked={filterContacts.includes('Extra')}
-                type='checkbox'
-              />
-              Extras
-            </label>
-          </div>
-        )}
-      </div>
+      
       <div className='w-32'>
         <button
           className={buttonPrimary}
@@ -91,28 +41,30 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
             setShowOptions(!showOptions);
           }}
         >
-          Options
+          <p>Options</p>
+          <IoCaretDown />
+          
         </button>
         {showOptions && (
           <div
             data-testid='options-menu'
-            className='absolute mr-2 flex flex-col rounded border bg-white text-sm'
+            className='absolute mr-2 flex flex-col rounded border bg-white text-sm mt-1'
           >
-            <button
-              className='px-2 py-1 text-start hover:bg-gray-50'
-              onClick={() => addContact()}
-              data-testid='add-contact-btn'
-            >
-              Create Contact
-            </button>
+            
             <Link
-              className='px-2 py-1 text-start hover:bg-gray-50'
+              className='p-2 m-1 text-start hover:bg-gray-50'
               href={`/ensembles/${ensembleId}/contacts/import`}
             >
-              Import Contacts
+              Create Contacts
             </Link>
             <Link
-              className='px-2 py-1 text-start hover:bg-gray-50'
+              className='p-2 m-1 text-start hover:bg-gray-50'
+              href={`/ensembles/${ensembleId}/admin/invite`}
+            >
+              Invite Admin
+            </Link>
+            <Link
+              className='p-2 m-1 text-start hover:bg-gray-50'
               href={`ensembles/update/${ensembleId}`}
             >
               Edit Ensemble
