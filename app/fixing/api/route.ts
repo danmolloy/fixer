@@ -8,7 +8,7 @@ export async function POST(request: Request & {body: EmailData}) {
   const req = await request.json();
   
   if (process.env.TWILIO_ACTIVE === "false") {
-    console.log(`Email would have sent successfully: ${JSON.stringify(req.body)}`);
+    console.log(`Email would have sent successfully`);
     return new Response(JSON.stringify({ status: 'Email would have sent successfully!' }), { status: 202 }); 
   }
   const emailData = {
@@ -25,10 +25,8 @@ export async function POST(request: Request & {body: EmailData}) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   try {
-    const response = await sgMail.send(emailData);
+    await sgMail.send(emailData);
 
-    console.log(response[0].statusCode);
-    console.log(response[0].headers);
 
     return new Response(JSON.stringify({ status: 'Email sent successfully!' }), { status: 202 });
   } catch (error) {

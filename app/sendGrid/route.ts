@@ -9,10 +9,9 @@ export async function POST(request: Request & {body: {
   }
 }) {
   const req = await request.json();
-  console.log(`sendGrid: ${JSON.stringify(req)}`)
   
   if (process.env.TWILIO_ACTIVE === "false") {
-    console.log(`Recieved at the API: ${JSON.stringify(req.body)}`);
+    console.log("Recieved at SendGrid.");
     return new Response(JSON.stringify({ status: 'Email would have sent successfully!' }), { status: 202 }); 
   }
   const emailData = {

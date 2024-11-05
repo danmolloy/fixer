@@ -53,6 +53,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     eventSectionId: eventSectionId,
     bookingOrAvailability: bookingOrAvailability,
     strictlyTied: "true",
+    urgent: false
   };
 
   const validationSchema = Yup.object().shape({
@@ -69,6 +70,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       'Availability check/offer to book not clarified'
     ),
     strictlyTied: Yup.boolean().required(),
+    urgent: Yup.boolean().required(),
   });
 
   const handleSubmit = async (data) => {
@@ -116,6 +118,12 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
               {e => <p className='text-xs text-red-500'>{e}</p>}
             </ErrorMessage>
           </div>}
+          <div>
+            <label>
+              <Field checked={props.values.urgent} className="m-1" type="checkbox" name="urgent" />
+              Mark as urgent
+            </label>
+          </div>
             <div className='mb-2 mt-6 flex w-full flex-row justify-between'>
               <button
                 className='m-1 rounded border px-2 py-1 text-sm hover:bg-gray-50'

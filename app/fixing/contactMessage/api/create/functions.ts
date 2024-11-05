@@ -18,11 +18,11 @@ export type createContactMessage = {
   eventSectionId: string;
   bookingOrAvailability: string;
   strictlyTied: string;
+  urgent: boolean;
 };
 
 export const generateToken = () => {
   const token = crypto.randomBytes(32).toString('hex'); 
-  console.log(token);
 
   return token;
 };
@@ -56,6 +56,7 @@ export const createContactMessages = async (data: createContactMessage) => {
         indexNumber: currentHighest,
         bookingOrAvailability: data.bookingOrAvailability,
         strictlyTied: data.strictlyTied === "true",
+        urgent: data.urgent
       },
     });
     currentHighest += 1;
@@ -121,6 +122,8 @@ export const gigIsFixed = async (eventID: number) => {
   return true;
 
 }
+
+
 
 export const createEmailData = (contact: 
   ContactMessage & 
@@ -220,9 +223,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
   const numBooked = contactMessages.filter(i => i.accepted === true).length;
   const numYetToRespond = contactMessages.filter(i => i.accepted === null && i.recieved === true).length;
   const toDepCount = contactMessages.filter(i => i.status.toLocaleLowerCase() === "dep out").length;
-  console.log(`${toDepCount} player(s) looking for a dep`);
   const numToContact = numToBook - numBooked - numYetToRespond + toDepCount;
-  console.log(`${numToContact} player(s) to contact.`);
 
   const notContacted = contactMessages.filter(i => i.recieved === false && i.accepted === null);
 
@@ -241,7 +242,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
           templateID: "d-1604c09cec2e461c9b519c6de4b34e08",
           emailAddress: contactMessages[0].eventSection.event.fixer.email
         }
-      });
+      })
 
     } catch(e) {
       throw new Error(e)
@@ -264,7 +265,6 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
       break;
     }
     const emailData = createEmailData(contact)
-    console.log("About to post")
     try {
       await axios.post(`${url}/sendGrid`, {body: {
         emailData: emailData,
@@ -279,6 +279,12 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
           recieved: true
         }
       })
+      if (contact.urgent === true) {
+        await axios.post(`/twilio`, {
+          phoneNumber: contact.contact.phoneNumber,
+          message: `Hi ${contact.contact.firstName}, we have just sent you an urgent email on behalf of ${contact.eventSection.event.fixer.firstName} ${contact.eventSection.event.fixer.lastName} (${contact.eventSection.event.ensembleName}). GigFix`
+        })
+      }
     } catch (e) {
       throw Error;
     }
@@ -314,7 +320,6 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
     }]
   });
 
-  console.log(JSON.stringify(availabilityChecks));
 
 
 
@@ -339,7 +344,17 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
         emailData: emailData,
         templateID: "d-f23e2cc89b50474b95ed0839995510c1",
         emailAddress: contact.contact.email
-      }})
+      }}).then(async () => {
+        if (contact.urgent === true) {
+          console.log("if urgent")
+          await axios.post(`${url}/twilio`, {
+            body:{
+            phoneNumber: contact.contact.phoneNumber,
+            message: `Hi ${contact.contact.firstName}, we have just sent you an urgent email on behalf of ${contact.eventSection.event.fixer.firstName} ${contact.eventSection.event.fixer.lastName} (${contact.eventSection.event.ensembleName}). GigFix`
+            }
+          })
+        }
+      })
       await prisma.contactMessage.update({
         where: {
           id: contact.id
@@ -348,6 +363,7 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
           recieved: true
         }
       })
+      
     } catch (e) {
       throw Error;
     }

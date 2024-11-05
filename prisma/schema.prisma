@@ -142,7 +142,7 @@ model ContactMessage {
   position        String @default("Tutti")
   token           String @unique @default(cuid())
   strictlyTied    Boolean @default(true)
-  mixedAvailability Boolean @default(false)
+  urgent Boolean @default(false)
   availableFor    Int[]
 }
 
