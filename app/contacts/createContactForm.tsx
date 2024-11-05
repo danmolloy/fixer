@@ -7,6 +7,7 @@ import { EnsembleContact, EnsembleSection } from '@prisma/client';
 import { categories, instrumentSections, rolesArr } from './lib';
 import { CreateEnsembleContact } from './api/create/functions';
 import { useRouter } from 'next/navigation';
+import { phoneRegex } from '../ensembles/[id]/contacts/import/contactInput';
 
 export type CreateContactFormProps = {
   ensembleId: string;
@@ -46,7 +47,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
     lastName: Yup.string().required('last name required'),
     email: Yup.string().email().required('email required'),
     section: Yup.string().required('section required'),
-    phone: Yup.string().required('phone number required'),
+    phone: Yup.string().matches(phoneRegex, "number must be international format, i.e. +445504281329").required("required"),
     role: Yup.string().required('role required'),
     category: Yup.string().required('category required'),
   });

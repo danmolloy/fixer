@@ -19,6 +19,8 @@ export type ContactInputProps = {
   ensembleId: string;
 }
 
+export const phoneRegex = /^\+[1-9]\d{1,14}$/;
+
 export default function ContactInput(props: ContactInputProps) {
   const { contacts, ensembleId } = props;
   const router = useRouter();
@@ -29,7 +31,7 @@ export default function ContactInput(props: ContactInputProps) {
         firstName: Yup.string().required("required"),
         lastName: Yup.string().required("required"),
         email: Yup.string().required("required"),
-        phoneNumber: Yup.string().required("required"),
+        phoneNumber: Yup.string().matches(phoneRegex, "number must be international format, i.e. +445504281329").required("required"),
         sectionName: Yup.string().required("required"),
         role: Yup.string().required("required"),
         category: Yup.string().required("required")

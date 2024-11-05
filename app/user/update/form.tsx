@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import { buttonPrimary } from '../../ensembles/dashboard';
+import { phoneRegex } from '../../ensembles/[id]/contacts/import/contactInput';
 
 export type UpdateUserFormProps = {
   session: Session;
@@ -26,7 +27,7 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
   const formSchema = Yup.object().shape({
     firstName: Yup.string().required('first name required'),
     lastName: Yup.string().required('last name required'),
-    mobileNumber: Yup.string().required('mobile number required'),
+    mobileNumber: Yup.string().matches(phoneRegex, "number must be international format, i.e. +445504281329").required("required"),
     email: Yup.string().required('email address required'),
   });
 
