@@ -2,7 +2,7 @@
 import { Call, ContactMessage, EnsembleContact, EnsembleSection, Event, EventSection, User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { createEmailData } from "../../../contactMessage/api/create/functions";
+import { createEmailData } from "../../contactMessage/api/create/functions";
 const url = `${process.env.URL}`
 
 
@@ -47,7 +47,7 @@ export default function ResponsePanel(props: ResponsePanelProps) {
             acceptedDate: new Date()
           }
         }).then(async () => {
-          await axios.post(`${url}/sendGrid`, {body: {
+          await axios.post(`/sendGrid`, {body: {
             emailData: createEmailData(contactMessage),
             templateID: "d-49ff83e234f54edead44ec38921181c0",
             emailAddress: contactMessage.contact.email
@@ -82,8 +82,9 @@ export default function ResponsePanel(props: ResponsePanelProps) {
               <p>You can revise your response below.</p>
             </div>
             }
-            <button>Yes, I am available</button>
-            <button>No, I am not available</button>
+            <p className="text-center m-1 text-sm font-semibold">This work is {contactMessage.strictlyTied ? "strictly tied" : "not strictly tied"}.</p>
+            <button className="p-2 m-1 hover:bg-amber-50 rounded border border-amber-600 text-amber-600 text-sm">No, I am not available</button>
+            <button className="p-2 m-1 hover:bg-blue-50 rounded border border-blue-600 text-blue-600 text-sm">Yes, I am available</button>
           </div> }
           </div>
   )

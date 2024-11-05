@@ -30,7 +30,6 @@ export type CallInputProps = {
   propsValueVenue: string;
   setVenue: (venue: string) => void;
   call: {
-    id: number;
     startTime: string;
     endTime: string;
     venue: string;

@@ -14,7 +14,8 @@ export const updateContactMessage = async (contactMessageObj: {
     });
     console.log(`contactMessageObj.data.accepted: ${contactMessageObj.data.accepted}`)
 
-    if (contactMessageObj.data.accepted === true ) {
+    if (updatedData.bookingOrAvailability.toLocaleLowerCase() === "booking" 
+    && contactMessageObj.data.accepted === true ) {
       
       await releaseDeppers(updatedData.eventSectionId);
     }

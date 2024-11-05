@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { TiTimes } from "react-icons/ti";
 import { instrumentSections } from "../../../../contacts/lib";
 import axios from "axios";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 
 
 export type ContactInputProps = {
@@ -21,6 +21,7 @@ export type ContactInputProps = {
 
 export default function ContactInput(props: ContactInputProps) {
   const { contacts, ensembleId } = props;
+  const router = useRouter();
 
   const contactInputSchema = Yup.object().shape({
     contacts: Yup.array().of(
@@ -44,7 +45,7 @@ export default function ContactInput(props: ContactInputProps) {
         values
       })
       .then(() => {
-        Router.push(`/ensembles/${values.ensembleId}`);
+        router.push(`/ensembles/${values.ensembleId}`);
       });
     } catch(e) {
       throw new Error(e);

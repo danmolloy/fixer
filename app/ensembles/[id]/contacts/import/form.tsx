@@ -2,7 +2,6 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Papa from 'papaparse';
-import axios from 'axios';
 import { Ensemble, EnsembleSection } from '@prisma/client';
 import ContactInput from './contactInput';
 
@@ -88,7 +87,7 @@ export default function ImportForm(props: ImportFormProps) {
     <div className=' w-screen p-4'>
      {data && <ContactInput 
      ensembleId={ensemble.id}
-      contacts={data.map((i, index) => ({
+           contacts={data.map((i, index) => ({
         firstName: i["First Name"],
         lastName: i["Last Name"],
         email: i["Email"],

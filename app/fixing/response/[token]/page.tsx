@@ -1,11 +1,12 @@
 import { DateTime } from "luxon";
-import prisma from "../../../../../client";
-import InfoDiv from "../../../../event/[id]/infoDiv";
-import CallTile from "../../../../event/[id]/callTile";
+import prisma from "../../../../client";
+import InfoDiv from "../../../event/[id]/infoDiv";
+import CallTile from "../../../event/[id]/callTile";
 import ResponsePanel from "./responsePanel";
+import ResponseForm from "./form";
 
-const getContactMessage = async (contactId: string, token: string) => {
-  return await prisma.contactMessage.findUnique({
+const getContactMessage = async (token: string) => {
+  const contactMessage =  await prisma.contactMessage.findUnique({
     where: {
       token: token,
     },
@@ -24,11 +25,13 @@ const getContactMessage = async (contactId: string, token: string) => {
       contact: true
     }
   })
+  console.log(contactMessage);
+  return contactMessage;
 }
 
-export default async function GigResponse({ params }: { params: { contactId: string, token: string } }) {
-  const { contactId, token } = params;
-  const data = await getContactMessage(contactId, token);
+export default async function GigResponse({ params }: { params: { token: string } }) {
+  const { token } = params;
+  const data = await getContactMessage( token);
 
   if (!data) {
     return (
@@ -38,9 +41,9 @@ export default async function GigResponse({ params }: { params: { contactId: str
 
   return (
     <div className="w-full flex flex-col items-center justify-center py-12">
-      <div className="text-center">
-        <h1>{data.bookingOrAvailability.toLocaleLowerCase() === "booking" ? "Gig Offer" : "Availability Check"}</h1>
-       {data.accepted === null && <p>Please indicate your decision below.</p>}
+      <div className="p-2 text-center">
+        <h1 className="font-semibold text-3xl">{data.bookingOrAvailability.toLocaleLowerCase() === "booking" ? "Gig Offer" : "Availability Check"}</h1>
+       {data.accepted === null && <p className="text-sm my-2">Hi {data.contact.firstName}, please indicate your decision below.</p>}
       </div>
       <table className="w-[95vw] md:w-2/3 ">
         <tbody className={''}>
@@ -85,60 +88,60 @@ export default async function GigResponse({ params }: { params: { contactId: str
         value={data.eventSection.event.concertProgram}
       />
       <InfoDiv
-        className='bg-slate-50'
+        className=''
         id='position'
         title='Position'
         value={data.position}
       />
       <InfoDiv
-        className=''
+        className='bg-slate-50'
         id='event-dress'
         title='Dress'
         value={data.eventSection.event.dressCode}
       />
       <InfoDiv
-        className='bg-slate-50'
+        className=''
         id='event-fee'
         title='Fee'
         value={data.eventSection.event.fee}
       />
       <InfoDiv
-        className=''
+        className='bg-slate-50'
         id='event-additional-info'
         title='Additional Info'
         value={data.eventSection.event.additionalInfo}
       />
       <InfoDiv
-        className='bg-slate-50'
+        className=''
         id='event-fixer-name'
         title='Fixer'
-        value={data.eventSection.event.fixerName}
+        value={`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`}
+      />
+      <InfoDiv
+        className='bg-slate-50'
+        id='event-fixer-number'
+        title='Fixer Number'
+        value={data.eventSection.event.fixer.mobileNumber}
       />
       <InfoDiv
         className=''
-        id='event-fixer-name'
-        title='Fixer Number'
-        value={"0414 281 850"}
-      />
-      <InfoDiv
-        className='bg-slate-50'
-        id='event-fixer-name'
+        id='event-fixer-email'
         title='Fixer email'
-        value={"greg@ievers.com.au"}
+        value={data.eventSection.event.fixer.email}
       />
       
       <InfoDiv
-        className=''
+        className='bg-slate-50'
         id='personal-message'
         title='Personal Message'
         value={data.playerMessage}
       />
-      <InfoDiv
-        className=''
+      {/* <InfoDiv
+        className='bg-slate-50'
         id='section-message'
         title='Section Message'
-        value={"Not specified"}
-      />
+        value={data.eventSection.}
+      /> */}
       <InfoDiv
         className='text-sm text-slate-600'
         id='created-datetime'
@@ -157,12 +160,41 @@ export default async function GigResponse({ params }: { params: { contactId: str
       />
         </tbody>
       </table>
-      <ResponsePanel 
+      <div className="my-4">
+      {data.accepted !== null && data.bookingOrAvailability.toLocaleLowerCase() === "booking"
+      ? <div>
+          <h2 className="text-sm">You have {data.accepted === true ? "accepted" : "declined"} this offer.</h2>
+          <p className="text-sm">If this was an error, contact {`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`} directly.</p>
+        </div> 
+       :
+       <div>
+        {data.accepted !== null && data.bookingOrAvailability.toLocaleLowerCase() !== "booking" &&
+        <div className="text-sm">
+          { data.accepted === false 
+          ? <h2 className="text-sm">You have indicated that you are not available for this work.</h2>
+          : data.strictlyTied  
+          ? <h2 className="text-sm">You have indicated that you are available for this work.</h2>
+          :<div>
+            <h2 className="text-sm">You have indicated that you are available for the following:</h2>
+          <div className="my-2">
+            {data.calls.filter(i => data.availableFor.includes(Number(i.id))).map(i => (
+              <p key={i.id}>{DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD')}</p>
+            ))}
+          </div></div>}
+          <p>You can revise your response below.</p>        
+        </div> }
+        <ResponseForm
+          contactMessage={data}
+          fixerName={data.eventSection.event.fixerName!}
+          bookingOrAvailability={data.bookingOrAvailability} 
+          accepted={data.accepted} />
+       </div>}
+      {/* <ResponsePanel 
         contactMessage={data}
         fixerName={data.eventSection.event.fixerName!}
         bookingOrAvailability={data.bookingOrAvailability} 
         accepted={data.accepted} 
-         />
-    </div>
+         /> */}
+    </div></div>
   )
 }

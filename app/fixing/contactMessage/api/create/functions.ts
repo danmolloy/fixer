@@ -17,10 +17,14 @@ export type createContactMessage = {
   }[];
   eventSectionId: string;
   bookingOrAvailability: string;
+  strictlyTied: string;
 };
 
 export const generateToken = () => {
-  return crypto.randomBytes(32).toString('hex'); 
+  const token = crypto.randomBytes(32).toString('hex'); 
+  console.log(token);
+
+  return token;
 };
 
 export const createContactMessages = async (data: createContactMessage) => {
@@ -51,6 +55,7 @@ export const createContactMessages = async (data: createContactMessage) => {
         playerMessage: data.contacts[i].playerMessage,
         indexNumber: currentHighest,
         bookingOrAvailability: data.bookingOrAvailability,
+        strictlyTied: data.strictlyTied === "true",
       },
     });
     currentHighest += 1;
@@ -125,6 +130,7 @@ export const createEmailData = (contact:
     {event: Event & {fixer: User}} & {ensembleSection: EnsembleSection}} ): EmailData => {
   
       const emailData = {
+        strictlyTied: contact.strictlyTied,
       accepted: contact.accepted,
       firstName: contact.contact.firstName,
       lastName: contact.contact.lastName,
@@ -140,7 +146,7 @@ export const createEmailData = (contact:
       fixerName: `${contact.eventSection.event.fixer.firstName} ${contact.eventSection.event.fixer.lastName}`,
       fixerEmail: contact.eventSection.event.fixer.email!,
       fixerMobile: contact.eventSection.event.fixer.mobileNumber!,
-      responseURL: `https://gigfix.co.uk/fixing/response/${contact.id}/${contact.token}/`,
+      responseURL: `https://gigfix.co.uk/fixing/response/${contact.token}/`,
       concertProgram: contact.eventSection.event.concertProgram,
       confirmed: contact.eventSection.event.confirmedOrOnHold.toLocaleLowerCase() === "confirmed",
       dressCode: contact.eventSection.event.dressCode,

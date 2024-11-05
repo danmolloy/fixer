@@ -141,7 +141,9 @@ model ContactMessage {
   status            String @default("OK")
   position        String @default("Tutti")
   token           String @unique @default(cuid())
-  //strictlyTied    Boolean
+  strictlyTied    Boolean @default(true)
+  mixedAvailability Boolean @default(false)
+  availableFor    Int[]
 }
 
 model Ensemble {

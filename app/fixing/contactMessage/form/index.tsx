@@ -1,5 +1,5 @@
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
-import { FieldArray, Form, Formik } from 'formik';
+import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
 import DiaryContact from '../diaryContact';
 import AppendedContacts from './appendedContacts';
 import * as Yup from 'yup';
@@ -52,6 +52,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     })),
     eventSectionId: eventSectionId,
     bookingOrAvailability: bookingOrAvailability,
+    strictlyTied: "true",
   };
 
   const validationSchema = Yup.object().shape({
@@ -67,6 +68,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     bookingOrAvailability: Yup.string().required(
       'Availability check/offer to book not clarified'
     ),
+    strictlyTied: Yup.boolean().required(),
   });
 
   const handleSubmit = async (data) => {
@@ -100,6 +102,20 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
               eventCalls={eventCalls}
               contacts={props.values.contacts}
             />}
+            {bookingOrAvailability.toLocaleLowerCase() !== "booking" 
+            && <div role="group" aria-labelledby="my-radio-group" className='flex flex-col'>
+            <label>
+              <Field className="m-1" type="radio" name="strictlyTied" value={"true"} />
+              Strictly Tied
+            </label>
+            <label>
+              <Field className="m-1" type="radio" name="strictlyTied" value={"false"} />
+              Not Tied
+            </label>
+            <ErrorMessage name="strictlyTied">
+              {e => <p className='text-xs text-red-500'>{e}</p>}
+            </ErrorMessage>
+          </div>}
             <div className='mb-2 mt-6 flex w-full flex-row justify-between'>
               <button
                 className='m-1 rounded border px-2 py-1 text-sm hover:bg-gray-50'

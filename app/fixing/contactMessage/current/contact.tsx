@@ -34,14 +34,37 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
         <p>{contact.position}</p>
       </td>
       {eventCalls.map((i) => (
-        <td  className='flex flex-col h-full  items-center justify-center' key={i.id}>
-          <div className=' self-center m-2'>
-          {contact.calls.map((j) => j.id).includes(i.id) 
-          ? <TiTick /> : <TiTimes />}
+        <td  className='' key={i.id}>
+          {contact.bookingOrAvailability.toLocaleLowerCase() === "availability"
+          ?<div className=' flex items-center justify-center m-2'>
+          {contact.availableFor.includes(i.id) 
+          ? <TiTick /> 
+          : <TiTimes />}
           </div>
+          : <div className=' flex items-center justify-center m-2'>
+          {contact.calls.map((j) => j.id).includes(i.id) 
+          ? <TiTick /> 
+          : <TiTimes />}
+          </div>}
         </td>
       ))}
-      {(contact.accepted === true
+      {contact.bookingOrAvailability.toLocaleLowerCase() === "availability" 
+      && contact.accepted === true
+      && contact.availableFor.length === contact.calls.length
+      ? <td className="text-center text-white bg-green-500">
+      <p className=''>
+        Available
+      </p>
+    </td>
+    : contact.bookingOrAvailability.toLocaleLowerCase() === "availability" 
+    && contact.accepted === true
+    && contact.availableFor.length !== contact.calls.length 
+    ?<td className="text-center text-white bg-amber-500">
+    <p className=''>
+      Mixed
+    </p>
+  </td>
+      :(contact.accepted === true
       && contact.status.toLocaleLowerCase() === "dep out")
             ? <td className="text-center text-white bg-amber-500">
             <p className=''>
@@ -80,7 +103,8 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           onClick={(e) => {
             e.preventDefault();
             setShowOptions(!showOptions)}}><SlOptions size={16} /></button>
-        {showOptions && <CurrentContactsOptions
+        {showOptions 
+        && <CurrentContactsOptions
         setCloseMenu={() => setShowOptions(false)}
           eventCalls={eventCalls}
           index={index}

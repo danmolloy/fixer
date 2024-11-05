@@ -39,25 +39,27 @@ export default function OrchestraList(props: OrchestraListProps) {
 
   return (
     <div className="flex flex-col">
-      <button className="bg-black text-white rounded px-1 m-1 hover:bg-gray-700 self-end" onClick={() => getOrchList()}>Print List</button>
-    <div ref={playersRef} className="flex flex-col ">
-    <h2>Orchestra List</h2>
+      <button className="border rounded p-1 px-2 shadow-sm m-1 hover:bg-slate-50 self-end" onClick={() => getOrchList()}>Print List</button>
+    <div ref={playersRef} className="flex flex-col -mt-8">
+    <h2 className="font-semibold my-4">Orchestra List</h2>
       {sections.filter(i => i.contacts.length > 0).length < 1 
       && <div className="flex flex-col self-center text-center">
           <h3 className="text-xl font-semibold">No calls made.</h3>
           <p>To get started, fix sections in the Fixing tab.</p>
         </div>}
-            {sortedSections.map(i => (
-              <div key={i.id}>
-                <h3>{i.ensembleSection.name}</h3>
+            {sortedSections.filter(i => i.contacts.length > 0).map(i => (
+              <div key={i.id} className="my-2">
+                <h3 className="font-semibold">{i.ensembleSection.name}</h3>
                 <ol>
                   {i.contacts.filter(j => j.accepted === true).sort((a, b) => a.indexNumber - b.indexNumber).map(j => (
-                    <li>
+                    <li className="text-sm">
                       {`${j.contact.firstName} ${j.contact.lastName} (${j.position})`}
                     </li>
                   ))}
                   {new Array(i.numToBook - i.contacts.filter(j => j.accepted === true).length).fill(
-                    <li>TBC</li>
+                    <li className="text-sm">
+                      TBC
+                    </li>
                   )}
                 </ol>
               </div>

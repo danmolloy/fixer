@@ -8,11 +8,11 @@ export const mockEnsembleContact: EnsembleContact = {
   id: faker.string.uuid(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  category: 'Extra',
+  category: Math.random() > .5? 'Extra' : "Member",
   email: faker.internet.email(),
   phoneNumber: faker.phone.number(),
   ensembleId: faker.string.uuid(),
-  role: faker.lorem.word(),
+  role: Math.random() > .5? 'Tutti' : "Principal",
   sectionId: faker.string.uuid(),
 };
 

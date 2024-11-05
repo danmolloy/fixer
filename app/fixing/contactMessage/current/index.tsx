@@ -25,7 +25,7 @@ export default function CurrentContactMessages(
           <th>Name</th>
           <th>Position</th>
           {eventCalls.map((i) => (
-            <th key={i.id} className='flex flex-col text-xs'>
+            <th key={i.id} className=' text-xs'>
               <p>
                 {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
               </p>
