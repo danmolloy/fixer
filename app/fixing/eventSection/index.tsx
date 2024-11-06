@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import CreateEventSection from './form';
 import EventSectionContacts from '../contactMessage';
+import Link from 'next/link';
 
 export type EventSectionProps = {
   section: EventSection & { ensembleSection: EnsembleSection };
@@ -43,6 +44,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
       data-testid={`${section.id}-event-section`}
       className='mx-1 my-4 rounded border p-2'
     >
+      <Link href={`/fixing/eventSection/update/${section.id}`}>Update</Link>
       {updateSection ? (
         <CreateEventSection
           eventSections={eventSections}

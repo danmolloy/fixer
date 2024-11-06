@@ -58,12 +58,19 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
     </td>
     : contact.bookingOrAvailability.toLocaleLowerCase() === "availability" 
     && contact.accepted === true
-    && contact.availableFor.length !== contact.calls.length 
-    ?<td className="text-center text-white bg-amber-500">
+    && contact.availableFor.length > 0
+    ? <td className="text-center text-white bg-amber-500">
     <p className=''>
       Mixed
     </p>
   </td>
+  : contact.bookingOrAvailability.toLocaleLowerCase() === "availability" 
+  && contact.availableFor.length === 0
+  ? <td className="text-center text-white bg-red-500">
+  <p className=''>
+    Declined
+  </p>
+</td>
       :(contact.accepted === true
       && contact.status.toLocaleLowerCase() === "dep out")
             ? <td className="text-center text-white bg-amber-500">
