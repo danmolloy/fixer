@@ -3,7 +3,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShortEmailData } from '../../sendGrid/lib';
+import { messageToAllEmail, ShortEmailData } from '../../sendGrid/lib';
 import { getDateRange } from '../../fixing/contactMessage/api/create/functions';
 import { Call, ContactMessage, EnsembleContact, Event, User } from '@prisma/client';
 import { unparse } from 'papaparse';
@@ -30,23 +30,25 @@ export default function EventMenu(props: EventMenuProps) {
   const handleMessage = async () => {
     const message = prompt("Message to all players:");
 
-    if (message === null) {
+    const mailList = contacts.filter(i => i.accepted !== false && i.recieved == true).map(i => i.contact.email);
+    if (message === null || mailList.length === 0) {
       return;
     }
 
-    const messageData: ShortEmailData = {
+    const messageData = messageToAllEmail({
       message: message,
-      ensembleName: event.ensembleName,
-      fixerName: `${event.fixer.firstName} ${event.fixer.lastName}`,
-      dateRange: getDateRange(event.calls)
-    }
+      ensemble: event.ensembleName,
+      fixerFullName: `${event.fixer.firstName} ${event.fixer.lastName}`,
+      dateRange: getDateRange(event.calls),
+      email: contacts.filter(i => i.accepted !== false && i.recieved == true).map(i => i.contact.email!)
+    });
     try {
-      //alert(JSON.stringify(contacts.map(i => i.contact.email)))
+      
       return await axios.post(`${url}/sendGrid`, {
         body: {
           emailData: messageData,
-          templateID: "d-3b6cd12dd6b14c10aff143d80776a429",
-          emailAddress: contacts.filter(i => i.accepted !== false && i.recieved == true).map(i => i.contact.email)
+          templateID: messageData.templateID,
+          emailAddress: messageData.email
         }
       });
     } catch (e) {
@@ -56,14 +58,15 @@ export default function EventMenu(props: EventMenuProps) {
   }
 
   const handleDelete = async () => {
-    const msg = prompt("Please give a message to the booked players. (required)")
+    const confDelete = confirm("Please confirm you would like to delete this event.")
 
-    return (
-      msg !== null &&
-      (await axios.post('/event/delete', { eventId: event.id, message: msg }).then(() => {
+    if (confDelete) {
+      await handleMessage();
+      return await axios.post('/event/delete', { eventId: event.id }).then(() => {
         router.push('/');
-      }))
-    );
+      })
+    }
+
   };
 
 

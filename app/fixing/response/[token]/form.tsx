@@ -4,8 +4,9 @@ import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
-import { createEmailData } from "../../contactMessage/api/create/functions";
+import { createEmailData, getDateRange } from "../../contactMessage/api/create/functions";
 import { DateTime } from "luxon";
+import { responseConfEmail } from "../../../sendGrid/lib";
 const url = `${process.env.URL}`
 
 export type ResponseFormProps = {
@@ -75,10 +76,18 @@ export default function ResponseForm(props: ResponseFormProps) {
             availableFor: values.accepted === "true" ? values.availableFor!.map(i => Number(i)) : []
           }
         }).then(async () => {
+          const emailData = responseConfEmail({
+            dateRange: getDateRange(contactMessage.calls),
+            firstName: contactMessage.contact.firstName,
+            email: contactMessage.contact.email!,
+            ensemble: contactMessage.eventSection.event.ensembleName,
+            accepted: contactMessage.accepted ? true : false,
+            bookingOrAvailability: contactMessage.bookingOrAvailability
+          })
           await axios.post(`/sendGrid`, {body: {
-            emailData: createEmailData(contactMessage),
-            templateID: "d-49ff83e234f54edead44ec38921181c0",
-            emailAddress: contactMessage.contact.email
+            emailData: emailData,
+            templateID: emailData.templateID,
+            emailAddress: emailData.email
           }})
         }).then(() => {
           router.refresh();

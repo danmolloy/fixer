@@ -89,6 +89,7 @@ model Event {
   fixer              User     @relation(fields: [fixerId], references: [id])//
   fixerName          String?//
   //fixer              User     @relation(fields: [fixerEmail], references: [email])
+  sentEmails      SentEmail[]
 }
 
 model Call {
@@ -208,4 +209,26 @@ model AdminInvite {
   email String
   positionTitle String
   accessType String @default("restricted")
+}
+
+model SentEmail {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email String
+  subject String
+  bodyText String
+  status EmailStatus @default(PROCESSED)
+  eventId Int
+  timestamp DateTime
+  event Event @relation(fields: [eventId], references: [id])
+}
+
+enum EmailStatus {
+  PROCESSED
+  DELIVERED
+  OPENED
+  CLICKED
+  FAILED
+  BOUNCED
 }

@@ -11,6 +11,7 @@ export const updateContactMessage = async (contactMessageObj: {
         id: contactMessageObj.id,
       },
       data: contactMessageObj.data,
+     
     });
     console.log(`contactMessageObj.data.accepted: ${contactMessageObj.data.accepted}`)
 
@@ -50,10 +51,19 @@ export const releaseDeppers = async (eventSectionId: number) => {
           accepted: false
         },
         include: {
-          contact: true
+          contact: true,
+          calls: true,
+          eventSection: {
+            include: {
+              event: true
+            }
+          }
         }
       })
-      return await emailDeppingMusician(releaseMusician);
+      return await emailDeppingMusician({
+        ...releaseMusician, 
+        ensembleName: releaseMusician.eventSection.event.ensembleName
+      });
 
     } catch(e) {
       throw new Error(e);

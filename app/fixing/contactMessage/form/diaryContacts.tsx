@@ -67,7 +67,7 @@ export default function DiaryContacts(props: DiaryContactsProps) {
                     </thead>
                     <tbody>
                   {(
-                    sectionContacts
+                    sectionContacts.filter(j => j.status !== "ARCHIVED")
                     .sort((a,b) => (
                       sortContacts.toLocaleLowerCase() === "role"
                   ? a.role.localeCompare(b.role) 

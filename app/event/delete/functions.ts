@@ -71,7 +71,7 @@ export const getUpdateEmailData = (event: (Event & {fixer: User}),
 
     return emailData;
 }
-
+/* 
 export const deleteEmailPlayers = async (event: 
    Event & {
     calls: Call[]
@@ -103,3 +103,4 @@ export const deleteEmailPlayers = async (event:
   }
 
 }
+ */

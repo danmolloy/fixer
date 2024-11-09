@@ -52,7 +52,7 @@ export default function OrchestraList(props: OrchestraListProps) {
                 <h3 className="font-semibold">{i.ensembleSection.name}</h3>
                 <ol>
                   {i.contacts.filter(j => j.accepted === true).sort((a, b) => a.indexNumber - b.indexNumber).map(j => (
-                    <li className="text-sm">
+                    <li className="text-sm" key={j.id}>
                       {`${j.contact.firstName} ${j.contact.lastName} (${j.position})`}
                     </li>
                   ))}

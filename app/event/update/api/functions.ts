@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import prisma from '../../../../client';
 import { Call, ContactMessage, EnsembleContact, Event, EventSection, User } from '@prisma/client';
-import { EmailData } from '../../../sendGrid/lib';
+import { EmailData, messageToAllEmail } from '../../../sendGrid/lib';
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import { getDateRange } from '../../../fixing/contactMessage/api/create/functions';
@@ -174,7 +174,23 @@ export const updateEmailPlayers = async (data: {
         i.accepted !== false && i.recieved === true)];
   }
 
-  for (let i = 0; i < contacts.length; i++) {
+  const emailData = messageToAllEmail({
+    dateRange: getDateRange(data.calls),
+    fixerFullName: `${data.event.fixer.firstName} ${data.event.fixer.lastName}`,
+    email: contacts.map(i => i.contact.email!),
+    message: updateMessage,
+    ensemble: data.event.ensembleName
+  })
+  try {
+    await axios.post(`${url}/sendGrid`, {body: {
+      emailData: emailData,
+      templateID: emailData.templateID,
+      emailAddress: emailData.email
+    }})
+  } catch(e) {
+    throw Error(e)
+  }
+  /* for (let i = 0; i < contacts.length; i++) {
     const emailData = getUpdateEmailData(data.event, data.calls, contacts[i])
     try {
       await axios.post(`${url}/sendGrid`, {body: {
@@ -185,7 +201,7 @@ export const updateEmailPlayers = async (data: {
     } catch(e) {
       throw Error(e)
     }
-  }
+  } */
 
 }
 

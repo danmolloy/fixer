@@ -44,7 +44,6 @@ export default function EventSectionIndex(props: EventSectionProps) {
       data-testid={`${section.id}-event-section`}
       className='mx-1 my-4 rounded border p-2'
     >
-      <Link href={`/fixing/eventSection/update/${section.id}`}>Update</Link>
       {updateSection ? (
         <CreateEventSection
           eventSections={eventSections}

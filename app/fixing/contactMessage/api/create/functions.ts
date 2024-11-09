@@ -1,6 +1,6 @@
 import axios from 'axios';
 import prisma from '../../../../../client';
-import { EmailData } from '../../../../sendGrid/lib'; 
+import { bookingCompleteEmail, createOfferEmail, EmailData, listExhaustedEmail, releaseDepperEmail } from '../../../../sendGrid/lib'; 
 import { DateTime } from 'luxon';
 import { Call, ContactMessage, EnsembleContact, EnsembleSection, Event, EventSection, User } from '@prisma/client';
 import crypto from 'crypto';
@@ -118,7 +118,7 @@ export const gigIsFixed = async (eventID: number) => {
       return false;
     }
   }
-  console.log("Gig is fixed")
+  //console.log("Gig is fixed")
   return true;
 
 }
@@ -199,17 +199,20 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
   }
 
   const eventID = contactMessages[0].eventSection.eventId
+  //console.log(`eventID: ${eventID}`)
   if (await gigIsFixed(eventID)) {
     try {
+      const bookingComplete = bookingCompleteEmail({
+        dateRange: getDateRange(contactMessages[0].eventSection.event.calls),
+        fixerFirstName: contactMessages[0].eventSection.event.fixer.firstName!,
+        email: contactMessages[0].eventSection.event.fixer.email!,
+        ensemble: contactMessages[0].eventSection.event.ensembleName,
+      })
       return await axios.post(`${url}/sendGrid`, {
         body: {
-          emailData: {
-            firstName: contactMessages[0].eventSection.event.fixer.firstName,
-            dateRange: getDateRange(contactMessages[0].eventSection.event.calls),
-            ensembleName: contactMessages[0].eventSection.event.ensembleName
-          },
-          templateID: "d-1604c09cec2e461c9b519c6de4b34e08",
-          emailAddress: contactMessages[0].eventSection.event.fixer.email
+          emailData: bookingComplete,
+          templateID: bookingComplete.templateID,
+          emailAddress: bookingComplete.email
         }
       });
 
@@ -224,52 +227,51 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
   const numYetToRespond = contactMessages.filter(i => i.accepted === null && i.recieved === true).length;
   const toDepCount = contactMessages.filter(i => i.status.toLocaleLowerCase() === "dep out").length;
   const numToContact = numToBook - numBooked - numYetToRespond + toDepCount;
-
   const notContacted = contactMessages.filter(i => i.recieved === false && i.accepted === null);
 
-  if (numToBook > numBooked && numYetToRespond === 0) {
-    try {
-      return await axios.post(`${url}/sendGrid`, {
-        body: {
-          emailData: {
-            instrumentName: contactMessages[0].eventSection.ensembleSection.name,
-            firstName: contactMessages[0].eventSection.event.fixer.firstName,
-            dateRange: getDateRange(contactMessages[0].eventSection.event.calls),
-            ensembleName: contactMessages[0].eventSection.event.ensembleName,
-            numToBook: numToBook,
-            numBooked: numBooked
-          },
-          templateID: "d-1604c09cec2e461c9b519c6de4b34e08",
-          emailAddress: contactMessages[0].eventSection.event.fixer.email
-        }
-      })
-
-    } catch(e) {
-      throw new Error(e)
-    }
-
-  }
   if (numToContact === 0) {
     return [];
   }
 
-  for (let i = 0; i < numToContact; i++) {   
-    
-    const contact = notContacted[i];
-    if (contact.contact.email === null) {
-      console.log(`No email for contactID: ${contact.contact.id}`)
-      break;
-    }
-    if (contact.contact.phoneNumber === null) {
-      console.log(`No phone number for contactID: ${contact.contact.id}`)
-      break;
-    }
-    const emailData = createEmailData(contact)
+  if (numToContact > notContacted.length) {
+    const emailAlert = listExhaustedEmail({
+      dateRange: getDateRange(contactMessages[0].eventSection.event.calls),
+      fixerFirstName: contactMessages[0].eventSection.event.fixer.firstName!,
+      email: contactMessages[0].eventSection.event.fixer.email!,
+      ensemble: contactMessages[0].eventSection.event.ensembleName,
+      instrument: contactMessages[0].eventSection.ensembleSection.name
+    })
     try {
       await axios.post(`${url}/sendGrid`, {body: {
-        emailData: emailData,
-        templateID: "d-f23e2cc89b50474b95ed0839995510c1",
-        emailAddress: contact.contact.email
+        emailData: emailAlert,
+        templateID: emailAlert.templateID,
+        emailAddress: emailAlert.email
+      }})
+    } catch(e) {
+      throw new Error(e);
+    }
+  }
+
+
+  for (let i = 0; i < numToContact; i++) {   
+    //console.log(`createOfferEmail: ${JSON.stringify(createOfferEmail(notContacted[0]))}`)
+    const contact = notContacted[i];
+    const sentEmailData = createOfferEmail(contact)
+    //console.log(`sentEmailData: ${JSON.stringify(sentEmailData)}`)
+    if (contact.contact.email === null && process.env.TWILIO_ACTIVE === "true") {
+      //console.log(`No email for contactID: ${contact.contact.id}`)
+      break;
+    }
+    if (contact.contact.phoneNumber === null && process.env.TWILIO_ACTIVE === "true") {
+      //console.log(`No phone number for contactID: ${contact.contact.id}`)
+      break;
+    }
+    //const emailData = createEmailData(contact)
+    try {
+      await axios.post(`${url}/sendGrid`, {body: {
+        emailData: sentEmailData,
+        templateID: sentEmailData.templateID,
+        emailAddress: sentEmailData.email
       }})
       await prisma.contactMessage.update({
         where: {
@@ -286,7 +288,8 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
         })
       }
     } catch (e) {
-      throw Error;
+      //console.log(`Is this the error? ${e}`)
+      throw new Error(e);
     }
     
   }
@@ -330,23 +333,25 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
   for (let i = 0; i < availabilityChecks.length; i++) {   
     
     const contact = availabilityChecks[i];
-    if (contact.contact.email === null) {
-      console.log(`No email for contactID: ${contact.contact.id}`)
+    const sentEmailData = createOfferEmail(contact)
+
+    if (contact.contact.email === null && process.env.TWILIO_ACTIVE === "true") {
+      //console.log(`No email for contactID: ${contact.contact.id}`)
       break;
     }
-    if (contact.contact.phoneNumber === null) {
-      console.log(`No phone number for contactID: ${contact.contact.id}`)
+    if (contact.contact.phoneNumber === null && process.env.TWILIO_ACTIVE === "true") {
+      //console.log(`No phone number for contactID: ${contact.contact.id}`)
       break;
     }
-    const emailData = createEmailData(contact)
+    //const emailData = createEmailData(contact)
     try {
       await axios.post(`${url}/sendGrid`, {body: {
-        emailData: emailData,
-        templateID: "d-f23e2cc89b50474b95ed0839995510c1",
-        emailAddress: contact.contact.email
+        emailData: sentEmailData,// emailData,
+        templateID: sentEmailData.templateID,//"d-f23e2cc89b50474b95ed0839995510c1",
+        emailAddress: sentEmailData.email//contact.contact.email
       }}).then(async () => {
         if (contact.urgent === true) {
-          console.log("if urgent")
+          //console.log("if urgent")
           await axios.post(`${url}/twilio`, {
             body:{
             phoneNumber: contact.contact.phoneNumber,
@@ -372,13 +377,23 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
   return;
 }
 
-export const emailDeppingMusician = async(contactMessage: ContactMessage & {contact: EnsembleContact}) => {
-  console.log("emailDeppingMusician")
+export const emailDeppingMusician = async(contactMessage: ContactMessage & {
+  contact: EnsembleContact
+  calls: Call[]
+  ensembleName: string;
+}) => {
+  //console.log("emailDeppingMusician")
+  const emailData = releaseDepperEmail({
+    firstName: contactMessage.contact.firstName,
+    email: contactMessage.contact.email!,
+    dateRange: getDateRange(contactMessage.calls),
+    ensemble: contactMessage.ensembleName
+  })
   try {
     await axios.post(`${url}/sendGrid`, {body: {
-      emailData: contactMessage,
-      templateID: "",
-      emailAddress: contactMessage.contact.email
+      emailData: emailData,
+      templateID: emailData.templateID,
+      emailAddress: emailData.email
     }})
     
   } catch (e) {
