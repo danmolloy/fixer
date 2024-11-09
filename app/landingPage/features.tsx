@@ -60,7 +60,6 @@ export default function LandingFeatures() {
           <h2 className='py-2 text-3xl'>
             Streamline your orchestra management
           </h2>
-          
         </div>
         <div className='flex flex-col flex-wrap px-6 md:flex-row'>
           {featureList.map((i) => (

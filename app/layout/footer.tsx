@@ -87,8 +87,12 @@ export default function Footer(props: { session: Session | null }) {
         {session ? (
           <SignOutBtn classNames='hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light' />
         ) : (
-          
-          <Link href="/signin" className='hover:bg-slate-100 text-slate-800 p-1 mx-1 sm:mx-4 rounded text-sm font-light'>Sign in</Link>
+          <Link
+            href='/signin'
+            className='mx-1 rounded p-1 text-sm font-light text-slate-800 hover:bg-slate-100 sm:mx-4'
+          >
+            Sign in
+          </Link>
         )}
       </div>
       <div className='flex flex-row text-xl'>

@@ -6,31 +6,29 @@ import CreateEventForm from './form';
 const getEnsembles = async (userId: string) => {
   const ensembles = await prisma.ensembleAdmin.findMany({
     where: {
-      userId: userId
+      userId: userId,
     },
     include: {
       ensemble: {
         include: {
           admin: {
             include: {
-              user: true
-            }
-          }
-        }
-      }
-    }
-  })
-  return ensembles.map(i => i.ensemble)
-}
+              user: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return ensembles.map((i) => i.ensemble);
+};
 
 export default async function CreateEventPage() {
   const session = await auth();
-  const UserEnsembleList = session && await getEnsembles(session.user.id);
+  const UserEnsembleList = session && (await getEnsembles(session.user.id));
 
   if (!UserEnsembleList) {
-    return (
-      <div>Error</div>
-    )
+    return <div>Error</div>;
   }
 
   return session ? (

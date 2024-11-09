@@ -64,7 +64,7 @@ export const createEvent = async (eventObj) => {
       fixer: { connect: { id: eventObj.fixerId } },
     },
     include: {
-      fixer: true
-    }
+      fixer: true,
+    },
   });
 };

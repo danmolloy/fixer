@@ -31,7 +31,7 @@ export default function EnsembleIndex(props: EnsembleIndexProps) {
   return (
     <div data-testid='ensemble-index' className='w-full p-2 sm:px-4 lg:px-24'>
       <div className='flex flex-col justify-between lg:flex-row'>
-        <h1 className='m-4 font-semibold text-3xl'>{ensemble.name}</h1>
+        <h1 className='m-4 text-3xl font-semibold'>{ensemble.name}</h1>
         <EnsembleDashboard
           ensembleId={ensemble.id}
           filterContacts={filterContacts}

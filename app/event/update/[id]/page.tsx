@@ -21,12 +21,11 @@ async function getData(id: string) {
         include: {
           admin: {
             include: {
-              user: true
-            }
-          }
-        }
+              user: true,
+            },
+          },
+        },
       },
-      
     },
   });
 

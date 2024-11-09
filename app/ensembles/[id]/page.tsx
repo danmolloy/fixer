@@ -54,7 +54,7 @@ export default async function EnsembleDetail({
   ) : (
     <EnsembleIndex
       admins={data.admin}
-      contacts={data.contacts.filter(i => i.status !== "ARCHIVED")}
+      contacts={data.contacts.filter((i) => i.status !== 'ARCHIVED')}
       sections={data.sections}
       ensemble={data}
     />

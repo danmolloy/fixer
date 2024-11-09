@@ -52,8 +52,8 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     })),
     eventSectionId: eventSectionId,
     bookingOrAvailability: bookingOrAvailability,
-    strictlyTied: "true",
-    urgent: false
+    strictlyTied: 'true',
+    urgent: false,
   };
 
   const validationSchema = Yup.object().shape({
@@ -93,37 +93,65 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       >
         {(props) => (
           <Form>
-            {props.values.contacts.length > 0 
-            && <AppendedContacts
-            currentCallCount={currentContacts.filter(i => i.bookingOrAvailability.toLocaleLowerCase() == "booking").length}
-            addPlayerMessage={(index, message) => props.setFieldValue(
-              `contacts.${index}.playerMessage`,
-              message
+            {props.values.contacts.length > 0 && (
+              <AppendedContacts
+                currentCallCount={
+                  currentContacts.filter(
+                    (i) =>
+                      i.bookingOrAvailability.toLocaleLowerCase() == 'booking'
+                  ).length
+                }
+                addPlayerMessage={(index, message) =>
+                  props.setFieldValue(
+                    `contacts.${index}.playerMessage`,
+                    message
+                  )
+                }
+                bookingOrAvailability={props.values.bookingOrAvailability}
+                eventCalls={eventCalls}
+                contacts={props.values.contacts}
+              />
             )}
-            bookingOrAvailability={props.values.bookingOrAvailability}
-              eventCalls={eventCalls}
-              contacts={props.values.contacts}
-            />}
-            {bookingOrAvailability.toLocaleLowerCase() !== "booking" 
-            && <div role="group" aria-labelledby="my-radio-group" className='flex flex-col'>
-            <label>
-              <Field className="m-1" type="radio" name="strictlyTied" value={"true"} />
-              Strictly Tied
-            </label>
-            <label>
-              <Field className="m-1" type="radio" name="strictlyTied" value={"false"} />
-              Not Tied
-            </label>
-            <ErrorMessage name="strictlyTied">
-              {e => <p className='text-xs text-red-500'>{e}</p>}
-            </ErrorMessage>
-          </div>}
-          <div>
-            <label>
-              <Field checked={props.values.urgent} className="m-1" type="checkbox" name="urgent" />
-              Mark as urgent
-            </label>
-          </div>
+            {bookingOrAvailability.toLocaleLowerCase() !== 'booking' && (
+              <div
+                role='group'
+                aria-labelledby='my-radio-group'
+                className='flex flex-col'
+              >
+                <label>
+                  <Field
+                    className='m-1'
+                    type='radio'
+                    name='strictlyTied'
+                    value={'true'}
+                  />
+                  Strictly Tied
+                </label>
+                <label>
+                  <Field
+                    className='m-1'
+                    type='radio'
+                    name='strictlyTied'
+                    value={'false'}
+                  />
+                  Not Tied
+                </label>
+                <ErrorMessage name='strictlyTied'>
+                  {(e) => <p className='text-xs text-red-500'>{e}</p>}
+                </ErrorMessage>
+              </div>
+            )}
+            <div>
+              <label>
+                <Field
+                  checked={props.values.urgent}
+                  className='m-1'
+                  type='checkbox'
+                  name='urgent'
+                />
+                Mark as urgent
+              </label>
+            </div>
             <div className='mb-2 mt-6 flex w-full flex-row justify-between'>
               <button
                 className='m-1 rounded border px-2 py-1 text-sm hover:bg-gray-50'
@@ -136,26 +164,25 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
               </button>
               <button
                 disabled={props.values.contacts.length == 0}
-                className='m-1 rounded disabled:opacity-40 bg-indigo-500 px-2 py-1 text-sm text-white hover:bg-indigo-600'
+                className='m-1 rounded bg-indigo-500 px-2 py-1 text-sm text-white hover:bg-indigo-600 disabled:opacity-40'
                 type='submit'
               >
                 Submit
               </button>
             </div>
             <div className=''>
-              <div className='mb-2 mt-12 flex w-full flex-col '>
-                <h3 className="text-base">Your List</h3>
-                <p className='text-sm text-gray-500'>{`Select musicians to ${bookingOrAvailability.toLocaleLowerCase() === "booking" ? "book" : "check availability"}.`}</p>
+              <div className='mb-2 mt-12 flex w-full flex-col'>
+                <h3 className='text-base'>Your List</h3>
+                <p className='text-sm text-gray-500'>{`Select musicians to ${bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'book' : 'check availability'}.`}</p>
               </div>
-              
-              <DiaryContacts 
-              eventCalls={eventCalls}
-              currentContacts={currentContacts}
-              appendedContacts={props.values.contacts}
-              sectionContacts={sectionContacts}
+
+              <DiaryContacts
+                eventCalls={eventCalls}
+                currentContacts={currentContacts}
+                appendedContacts={props.values.contacts}
+                sectionContacts={sectionContacts}
               />
             </div>
-            
           </Form>
         )}
       </Formik>

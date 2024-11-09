@@ -43,5 +43,5 @@ export const paymentOptions: PriceModel[] = [
       },
     ],
     apiLink: 'contact',
-  }
+  },
 ];

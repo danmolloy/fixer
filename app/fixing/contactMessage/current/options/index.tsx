@@ -4,9 +4,8 @@ import { DateTime } from 'luxon';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import UpdateContactEventCalls from './updateEventCalls';
-import { TiTimes } from "react-icons/ti";
+import { TiTimes } from 'react-icons/ti';
 import Link from 'next/link';
-
 
 export type CurrentContactsOptionsProps = {
   contact: ContactMessage & {
@@ -53,8 +52,6 @@ export default function CurrentContactsOptions(
     }
   };
 
-
-
   const handleShift = async (movingUp: boolean) => {
     const confText = `Are you sure you want to move this player ${movingUp ? 'up' : 'down'} one list position?`;
     if (confirm(confText)) {
@@ -71,52 +68,63 @@ export default function CurrentContactsOptions(
   };
 
   return (
-    <div data-testid='contact-options' className='border absolute bg-white p-2 flex flex-col -ml-12 mt-12'>
-      <div className='flex flex-row items-center justify-between m-1'>
+    <div
+      data-testid='contact-options'
+      className='absolute -ml-12 mt-12 flex flex-col border bg-white p-2'
+    >
+      <div className='m-1 flex flex-row items-center justify-between'>
         <h3>{`${contact.contact.firstName} ${contact.contact.lastName}`}</h3>
-        <button onClick={() => setCloseMenu()} className='p-1 m-1 hover:bg-slate-100'>
-          <TiTimes size={16}/>
-
+        <button
+          onClick={() => setCloseMenu()}
+          className='m-1 p-1 hover:bg-slate-100'
+        >
+          <TiTimes size={16} />
         </button>
       </div>
       <div className='flex flex-col'>
-        <Link className=" text-start p-1 hover:bg-slate-100" href={`/fixing/contactMessage/update/${contact.id}`}>Edit</Link>
-      
-      <button
-        className='disabled:opacity-40 text-start p-1 hover:bg-slate-100'
-        disabled={contact.accepted !== true || contact.bookingOrAvailability.toLocaleLowerCase() !== "booking"}
-        onClick={() =>
-          handleUpdate(
-            { status: "DEP OUT" },
-            'Are you sure you want to find a dep for this player?'
-          )
-        }
-      >
-        Find Dep
-      </button>
-      
-      
-      
-      <button
-        className='disabled:opacity-40 text-start p-1 hover:bg-slate-100'
-        disabled={index === 1}
-        onClick={() => handleShift(true)}
-      >
-        Move Up
-      </button>
-      <button
-      
-        className='disabled:opacity-40 text-start p-1 hover:bg-slate-100'
-        disabled={index === numContacts}
-        onClick={() => handleShift(false)}
-      >
-        Move Down
-      </button>
-      <button 
-      className='disabled:opacity-40 text-start p-1 hover:bg-slate-100'
-      onClick={() => handleDelete()}>Delete</button>
-        
-          
+        <Link
+          className='p-1 text-start hover:bg-slate-100'
+          href={`/fixing/contactMessage/update/${contact.id}`}
+        >
+          Edit
+        </Link>
+
+        <button
+          className='p-1 text-start hover:bg-slate-100 disabled:opacity-40'
+          disabled={
+            contact.accepted !== true ||
+            contact.bookingOrAvailability.toLocaleLowerCase() !== 'booking'
+          }
+          onClick={() =>
+            handleUpdate(
+              { status: 'DEP OUT' },
+              'Are you sure you want to find a dep for this player?'
+            )
+          }
+        >
+          Find Dep
+        </button>
+
+        <button
+          className='p-1 text-start hover:bg-slate-100 disabled:opacity-40'
+          disabled={index === 1}
+          onClick={() => handleShift(true)}
+        >
+          Move Up
+        </button>
+        <button
+          className='p-1 text-start hover:bg-slate-100 disabled:opacity-40'
+          disabled={index === numContacts}
+          onClick={() => handleShift(false)}
+        >
+          Move Down
+        </button>
+        <button
+          className='p-1 text-start hover:bg-slate-100 disabled:opacity-40'
+          onClick={() => handleDelete()}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );

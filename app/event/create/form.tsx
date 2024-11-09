@@ -22,8 +22,8 @@ export type EventWithCallsAndEnsemble = Prisma.EventGetPayload<{
 export type CreateEventFormProps = {
   ensembleList: (Ensemble & {
     admin: (EnsembleAdmin & {
-      user: User
-    })[]
+      user: User;
+    })[];
   })[];
   initialValues?: EventWithCallsAndEnsemble;
   userId: string;
@@ -47,7 +47,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
   const EventSchema = Yup.object().shape({
     createOrUpdate: Yup.string().required(),
     updateMessage: Yup.string().when('createOrUpdate', {
-      is: "Update",
+      is: 'Update',
       then: (schema) => schema.required(),
     }),
     fixerId: Yup.string().required('Fixer selection required'),
@@ -81,7 +81,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
       <Formik
         initialValues={{
           createOrUpdate: createOrUpdate,
-          updateMessage: "",
+          updateMessage: '',
           fixerId: userId,
           id: initialValues ? initialValues.id : '',
           confirmedOrOnHold: initialValues
@@ -90,7 +90,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           ensembleName: initialValues
             ? initialValues.ensembleName
             : ensembleList.length === 1 &&
-              ensembleList[0].ensembleNames.length === 1
+                ensembleList[0].ensembleNames.length === 1
               ? ensembleList[0].ensembleNames[0]
               : '',
           ensembleId: initialValues
@@ -223,7 +223,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                   )}
                 </ErrorMessage>
               </div>
-              
+
               <div className='flex flex-col'>
                 <label
                   htmlFor='fixerSelect'
@@ -242,12 +242,12 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                   >
                     <option value={''}>Select Fixer</option>
                     {ensembleList
-                  .find((i) => i.id === props.values.ensembleId)
-                  ?.admin.map((i) => (
-                      <option key={i.id} value={i.userId}>
-                        {`${i.user.firstName} ${i.user.lastName}`}
-                      </option>
-                    ))}
+                      .find((i) => i.id === props.values.ensembleId)
+                      ?.admin.map((i) => (
+                        <option key={i.id} value={i.userId}>
+                          {`${i.user.firstName} ${i.user.lastName}`}
+                        </option>
+                      ))}
                   </Field>
                   <ErrorMessage name={`fixerId`}>
                     {(msg) => (
@@ -339,15 +339,16 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               id='additional-info'
               className=''
             />
-            {props.values.createOrUpdate === "Update" 
-            && <TextInput
-              optional={false}
-              asHtml='textarea'
-              label='Update Message to Players'
-              name='updateMessage'
-              id='update-message'
-              className=''
-            />}
+            {props.values.createOrUpdate === 'Update' && (
+              <TextInput
+                optional={false}
+                asHtml='textarea'
+                label='Update Message to Players'
+                name='updateMessage'
+                id='update-message'
+                className=''
+              />
+            )}
             <ButtonPrimary
               handleClick={() => {}}
               isSubmitting={

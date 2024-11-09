@@ -16,16 +16,15 @@ export default function CurrentContactMessages(
 ) {
   const { contacts, eventCalls, bookingOrAvailability } = props;
 
-
   return (
-    <table className='table-auto border rounded my-4'>
+    <table className='my-4 table-auto rounded border'>
       <thead className='border bg-slate-50 text-sm'>
         <tr>
           <th>Queue Number</th>
           <th>Name</th>
           <th>Position</th>
           {eventCalls.map((i) => (
-            <th key={i.id} className=' text-xs'>
+            <th key={i.id} className='text-xs'>
               <p>
                 {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
               </p>

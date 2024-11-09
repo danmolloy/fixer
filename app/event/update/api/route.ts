@@ -38,6 +38,6 @@ export async function POST(request: Request) {
     eventObj: updateEventArg,
     callsArr,
   });
-  await updateEmailPlayers(data, updateMessage)
+  await updateEmailPlayers(data, updateMessage);
   return Response.json(data);
 }

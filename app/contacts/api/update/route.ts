@@ -1,4 +1,4 @@
-import { updateContact } from "./functions"; 
+import { updateContact } from './functions';
 
 export async function POST(request: Request) {
   const req = await request.json();

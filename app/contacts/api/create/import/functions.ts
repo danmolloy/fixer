@@ -20,12 +20,14 @@ export const createContacts = async (data: CreateContactsProps) => {
 
   let ensembleSections = await prisma.ensembleSection.findMany({
     where: {
-      ensembleId: data.ensembleId
-    }
-  })
+      ensembleId: data.ensembleId,
+    },
+  });
 
   for (let i = 0; i < data.contacts.length; i++) {
-    const section = ensembleSections.find(j => j.name == data.contacts[i].sectionName);
+    const section = ensembleSections.find(
+      (j) => j.name == data.contacts[i].sectionName
+    );
     const newContact = await prisma.ensembleContact.create({
       data: {
         firstName: data.contacts[i].firstName,
@@ -59,10 +61,10 @@ export const createContacts = async (data: CreateContactsProps) => {
       include: {
         ensemble: {
           include: {
-            sections: true
-          }
-        }
-      }
+            sections: true,
+          },
+        },
+      },
     });
     ensembleSections = newContact.ensemble.sections;
     arr = [...arr, newContact];

@@ -8,7 +8,8 @@ export default function PricingIndex() {
       <div className='py-6'>
         <h2 className='py-2 text-3xl'>Pricing</h2>
         <p className='font-thin text-slate-600 md:w-2/3'>
-          We offer two different payment plans to cater for a variety of ensembles. For more information, please contact us.
+          We offer two different payment plans to cater for a variety of
+          ensembles. For more information, please contact us.
         </p>
       </div>
 

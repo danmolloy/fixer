@@ -47,7 +47,12 @@ export default function CreateContactForm(props: CreateContactFormProps) {
     lastName: Yup.string().required('last name required'),
     email: Yup.string().email().required('email required'),
     section: Yup.string().required('section required'),
-    phone: Yup.string().matches(phoneRegex, "number must be international format, i.e. +445504281329").required("required"),
+    phone: Yup.string()
+      .matches(
+        phoneRegex,
+        'number must be international format, i.e. +445504281329'
+      )
+      .required('required'),
     role: Yup.string().required('role required'),
     category: Yup.string().required('category required'),
   });
@@ -55,23 +60,20 @@ export default function CreateContactForm(props: CreateContactFormProps) {
   const handleSubmit = async (values: CreateEnsembleContact) => {
     try {
       return contact !== undefined
-      ? await axios
-      .post('/contacts/api/update', { 
-        updatedData: {...values}, 
-        contactId: contact.id,
-      })
-      .then(() => {
-        router.refresh();
-      })
-      : await axios
-      .post('/contacts/api/create', values)
-      .then(() => {
-        router.refresh();
-      })
-    } catch(e) {
+        ? await axios
+            .post('/contacts/api/update', {
+              updatedData: { ...values },
+              contactId: contact.id,
+            })
+            .then(() => {
+              router.refresh();
+            })
+        : await axios.post('/contacts/api/create', values).then(() => {
+            router.refresh();
+          });
+    } catch (e) {
       throw new Error(e);
     }
-    
   };
 
   return (
@@ -114,8 +116,8 @@ export default function CreateContactForm(props: CreateContactFormProps) {
               <TextInput label='Last Name' id='last-name' name='lastName' />
               <TextInput label='Email' id='email' name='email' type='email' />
               <TextInput label='Phone' id='phone' name='phone' type='phone' />
-              <TextInput label='Role' id='role' name='role'  />
-              <TextInput label='Category' id='category' name='category'  />
+              <TextInput label='Role' id='role' name='role' />
+              <TextInput label='Category' id='category' name='category' />
 
               <div className='flex flex-col'>
                 <label htmlFor='section-select'>Section Select</label>

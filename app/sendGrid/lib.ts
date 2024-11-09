@@ -1,84 +1,121 @@
-import { Call, ContactMessage, EnsembleContact, Event, EventSection, User } from "@prisma/client"
-import { DateTime } from "luxon"
+import {
+  Call,
+  ContactMessage,
+  EnsembleContact,
+  Event,
+  EventSection,
+  User,
+} from '@prisma/client';
+import { DateTime } from 'luxon';
+import prisma from '../../client';
 
-export type ShortEmailData = { 
-  message: string 
-  ensembleName: string
-  fixerName: string
-  dateRange: string
-}
+export type ShortEmailData = {
+  message: string;
+  ensembleName: string;
+  fixerName: string;
+  dateRange: string;
+};
 
 export type EmailData = {
-  updateMessage?: string
-  accepted: boolean|null
-  dateRange: string
-  firstName: string
-  lastName: string
-  email: string
-  phoneNumber: string
-  booking: boolean
-  ensembleName: string
-  personalMessage?: string
-  sectionMessage?: string
-  position: string
-  sectionName: string
-  fixerName: string
-  fixerEmail: string
-  fixerMobile: string
-  responseURL: string
-  concertProgram: string
-  confirmed: boolean
-  dressCode: string
-  fee: string
-  additionalInfo?: string
+  updateMessage?: string;
+  accepted: boolean | null;
+  dateRange: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  booking: boolean;
+  ensembleName: string;
+  personalMessage?: string;
+  sectionMessage?: string;
+  position: string;
+  sectionName: string;
+  fixerName: string;
+  fixerEmail: string;
+  fixerMobile: string;
+  responseURL: string;
+  concertProgram: string;
+  confirmed: boolean;
+  dressCode: string;
+  fee: string;
+  additionalInfo?: string;
   calls: {
-    date: string
-    startTime: string
-    endTime: string
-    venue: string
-  }[]
-}
+    date: string;
+    startTime: string;
+    endTime: string;
+    venue: string;
+  }[];
+};
 
 const url = process.env.URL;
-const responseTemplate = "d-f23e2cc89b50474b95ed0839995510c1";
-const readOnlyTemplate = "d-2b2e84b23956415ba770e7c36264bef9";
+const responseTemplate = 'd-f23e2cc89b50474b95ed0839995510c1';
+const readOnlyTemplate = 'd-2b2e84b23956415ba770e7c36264bef9';
 
 export type SentEmailData = {
-  subject: string
-  bodyText: string
-  responseLink?: string
-  email: string|string[]
-  templateID: string
-}
+  subject: string;
+  bodyText: string;
+  responseLink?: string;
+  email: string | string[];
+  templateID: string;
+};
 
-export const createOfferEmail = (data: ContactMessage & {
-  contact: EnsembleContact
-  calls: Call[]
-  eventSection: EventSection & {
-    event: Event & {
-      fixer: User
-    }
+export const createSentEmail = async (
+  data: SentEmailData & { eventId: number }
+) => {
+  console.log(`createSentEmail called`);
+  return await prisma.sentEmail.create({
+    data: {
+      subject: data.subject,
+      bodyText: data.bodyText,
+      email: data.email.toString(),
+      timestamp: new Date(Date.now()),
+      event: {
+        connect: {
+          id: Number(data.eventId),
+        },
+      },
+    },
+  });
+};
+
+export const createOfferEmail = async (
+  data: ContactMessage & {
+    contact: EnsembleContact;
+    calls: Call[];
+    eventSection: EventSection & {
+      event: Event & {
+        fixer: User;
+      };
+    };
   }
-}): SentEmailData => {
+): Promise<SentEmailData> => {
+  console.log(`createOfferEmail called`);
+
   const subject = `${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
   const templateID = responseTemplate;
   const responseLink = `${url}/fixing/response${data.token}/`;
   const email = data.contact.email!;
   const bodyText = `Dear ${data.contact.firstName}, <br />
-  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.bookingOrAvailability.toLocaleLowerCase() === "booking" ? "offers" : "checks your availability for"} the following: <br />
+  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
   <br />
-  ${data.calls.map(i => (
-    DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') + " to<br />" +
-    DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') + "<br />" +
-    i.venue + "<br /><br />"
-  ))}
+  ${data.calls
+    .map(
+      (i) =>
+        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
+        ' to<br />' +
+        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
+        '<br />' +
+        i.venue +
+        '<br /><br />'
+    )
+    .join(',')}
   <br />
   Gig Status: ${data.eventSection.event.confirmedOrOnHold}<br />
   Position: ${data.position}<br />
-  Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee  : "Not specified"}<br />
-  Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : "Not specified"}<br />
-  Additional Information: ${data.eventSection.event.additionalInfo ? data.eventSection.event.additionalInfo :  "Not specified"}<br />
-  ${data.playerMessage !== null && (data.eventSection.event.fixer.firstName + " sends the following message to you: <br />" + data.playerMessage)}
+  Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee : 'Not specified'}<br />
+  Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : 'Not specified'}<br />
+  Additional Information: ${data.eventSection.event.additionalInfo ? data.eventSection.event.additionalInfo : 'Not specified'}<br />
+  ${data.playerMessage !== null ? data.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + data.playerMessage : ''}
 <br />
 <br />
   Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond. <br /> <br />
@@ -88,25 +125,31 @@ export const createOfferEmail = (data: ContactMessage & {
 Best wishes,<br />
 GigFix
   `;
-  
-  return {
+
+  const emailData = {
     subject,
     responseLink,
     email,
     bodyText,
-    templateID
-  }
-}
+    templateID,
+  };
 
+  await createSentEmail({
+    ...emailData,
+    eventId: data.eventSection.eventId,
+  });
 
+  return emailData;
+};
 
-export const messageToAllEmail = (data: {
+export const messageToAllEmail = async (data: {
   dateRange: string;
   fixerFullName: string;
   email: string[];
   message: string;
   ensemble: string;
-}): SentEmailData => {
+  eventId: number;
+}): Promise<SentEmailData> => {
   const subject = `Message from ${data.fixerFullName} ${data.ensemble}`;
   const email = data.email;
   const templateID = readOnlyTemplate;
@@ -123,15 +166,19 @@ export const messageToAllEmail = (data: {
   <br />
   GigFix`;
 
-  return {
+  const emailData = {
     subject,
     bodyText,
     email,
-    templateID
-  }
-}
+    templateID,
+  };
 
-
+  await createSentEmail({
+    ...emailData,
+    eventId: data.eventId,
+  });
+  return emailData;
+};
 
 export const bookingCompleteEmail = (data: {
   dateRange: string;
@@ -156,9 +203,9 @@ export const bookingCompleteEmail = (data: {
     subject,
     bodyText,
     email,
-    templateID
-  }
-}
+    templateID,
+  };
+};
 
 export const listExhaustedEmail = (data: {
   dateRange: string;
@@ -187,16 +234,16 @@ export const listExhaustedEmail = (data: {
     subject,
     bodyText,
     email,
-    templateID
-  }
-}
+    templateID,
+  };
+};
 
 export const adminInviteEmail = (data: {
-  firstName: string
-  ensembleName: string
-  senderName: string
-  inviteID: string
-  email: string
+  firstName: string;
+  ensembleName: string;
+  senderName: string;
+  inviteID: string;
+  email: string;
 }): SentEmailData => {
   const subject = `Invitation from ${data.senderName} (${data.ensembleName})`;
   const email = data.email;
@@ -224,16 +271,17 @@ GigFix`;
     subject,
     bodyText,
     email,
-    templateID
-  }
-}
+    templateID,
+  };
+};
 
-export const releaseDepperEmail = (data: {
+export const releaseDepperEmail = async (data: {
   dateRange: string;
   firstName: string;
   email: string;
   ensemble: string;
-}): SentEmailData => {
+  eventId: number;
+}): Promise<SentEmailData> => {
   const subject = `Update: ${data.dateRange} ${data.ensemble}`;
   const email = data.email;
   const templateID = readOnlyTemplate;
@@ -247,13 +295,18 @@ export const releaseDepperEmail = (data: {
   <br />
   GigFix`;
 
-  return {
+  const emailData = {
     subject,
     bodyText,
     email,
-    templateID
-  }
-}
+    templateID,
+  };
+  await createSentEmail({
+    ...emailData,
+    eventId: data.eventId,
+  });
+  return emailData;
+};
 
 export const responseConfEmail = (data: {
   dateRange: string;
@@ -269,9 +322,11 @@ export const responseConfEmail = (data: {
   const bodyText = `Dear ${data.firstName},
   <br />
   <br/>
-  ${data.bookingOrAvailability.toLocaleLowerCase() === "booking" 
-  ? `This email confirms you ${data.accepted ? "accepted" : "declined"} ${data.dateRange} (${data.ensemble}).`
-  : `This email confirms you indicated your availability for ${data.dateRange} (${data.ensemble}).`}
+  ${
+    data.bookingOrAvailability.toLocaleLowerCase() === 'booking'
+      ? `This email confirms you ${data.accepted ? 'accepted' : 'declined'} ${data.dateRange} (${data.ensemble}).`
+      : `This email confirms you indicated your availability for ${data.dateRange} (${data.ensemble}).`
+  }
   <br />
   <br />
   Kind regards,
@@ -282,6 +337,6 @@ export const responseConfEmail = (data: {
     subject,
     bodyText,
     email,
-    templateID
-  }
-}
+    templateID,
+  };
+};

@@ -2,8 +2,7 @@ import { Call } from '@prisma/client';
 import { Field } from 'formik';
 import { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { TiMail } from "react-icons/ti";
-
+import { TiMail } from 'react-icons/ti';
 
 export type AppendedContactRowProps = {
   contact: {
@@ -24,25 +23,40 @@ export type AppendedContactRowProps = {
 };
 
 export default function AppendedContactRow(props: AppendedContactRowProps) {
-  const { addPlayerMessage, bookingOrAvailability, contact, eventCalls, remove, swap, numContacts, index, currentCallCount } = props;
+  const {
+    addPlayerMessage,
+    bookingOrAvailability,
+    contact,
+    eventCalls,
+    remove,
+    swap,
+    numContacts,
+    index,
+    currentCallCount,
+  } = props;
   const [showMenu, setShowMenu] = useState(false);
 
   const handleAddMessage = () => {
-    const msg = prompt("What message would you like to add to this player?");
+    const msg = prompt('What message would you like to add to this player?');
     if (msg) {
       addPlayerMessage(index, msg);
     } else {
       return;
     }
-  }
+  };
 
   const showMessage = () => {
-    return alert(`Your message to ${contact.name}: \n\n${contact.playerMessage}`);
-  }
+    return alert(
+      `Your message to ${contact.name}: \n\n${contact.playerMessage}`
+    );
+  };
 
   return (
-    <tr className='text-center text-sm  h-10'>
-      <td className='px-1'>{bookingOrAvailability.toLocaleLowerCase() === "booking" && currentCallCount + index + 1}</td>
+    <tr className='h-10 text-center text-sm'>
+      <td className='px-1'>
+        {bookingOrAvailability.toLocaleLowerCase() === 'booking' &&
+          currentCallCount + index + 1}
+      </td>
       <td className=''>{contact.name}</td>
       <td className=''>
         <Field as='select' name={`contacts[${index}]position`}>
@@ -66,8 +80,8 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
       ))}
       <td className='flex flex-row items-center justify-center'>
         <button
-          className='rounded-full self-center p-1 m-1 hover:bg-gray-100'
-         onBlur={() => setTimeout(() => setShowMenu(false), 250)}
+          className='m-1 self-center rounded-full p-1 hover:bg-gray-100'
+          onBlur={() => setTimeout(() => setShowMenu(false), 250)}
           onClick={(e) => {
             e.preventDefault();
             focus();
@@ -75,7 +89,6 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
           }}
         >
           <BsThreeDotsVertical />
-          
         </button>
         {showMenu && (
           <div className='absolute -mb-36 -ml-40 flex flex-col border bg-white'>
@@ -97,7 +110,8 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
               className='p-2 text-start text-sm hover:bg-slate-100 disabled:opacity-40'
               onClick={(e) => {
                 e.preventDefault();
-                handleAddMessage()}}
+                handleAddMessage();
+              }}
             >
               Add Message
             </button>
@@ -109,9 +123,14 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
             </button>
           </div>
         )}
-        <button className='m-1 p-1 hover:bg-gray-50 ' onClick={(e) => {e.preventDefault(); showMessage();}}>
-          {contact.playerMessage 
-            && <TiMail size={24} />}
+        <button
+          className='m-1 p-1 hover:bg-gray-50'
+          onClick={(e) => {
+            e.preventDefault();
+            showMessage();
+          }}
+        >
+          {contact.playerMessage && <TiMail size={24} />}
         </button>
       </td>
     </tr>

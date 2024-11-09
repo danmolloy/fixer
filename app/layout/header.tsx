@@ -20,20 +20,22 @@ export default function Header(props: HeaderProps) {
   return (
     <div
       data-testid='header'
-      className={`${'h-14'} text-gray-600 fixed top-0 z-30 flex w-screen flex-row items-center justify-between shadow backdrop-blur transition-all`}
+      className={`${'h-14'} fixed top-0 z-30 flex w-screen flex-row items-center justify-between text-gray-600 shadow backdrop-blur transition-all`}
     >
       <Link data-testid='gigfix-link' className='' href='/'>
-        <h2 className={`${'text-2xl'} mx-2 p-2 font-light md:mx-10 font-display `}>
+        <h2
+          className={`${'text-2xl'} mx-2 p-2 font-display font-light md:mx-10`}
+        >
           Gig<span className='font-semibold text-blue-500'>Fix</span>
         </h2>
       </Link>
       <div
-        className='mr-2 hidden w-full flex-row justify-end md:flex '
+        className='mr-2 hidden w-full flex-row justify-end md:flex'
         data-testid='nav-bar'
       >
         {session && <EnsemblesMenu ensemblesAdmins={session.user.admins} />}
         {menuLinks.map((i) => (
-          <Link 
+          <Link
             href={i.link}
             key={i.id}
             data-testid={i.id}
@@ -45,7 +47,12 @@ export default function Header(props: HeaderProps) {
         {session ? (
           <SignOutBtn classNames='py-1 px-2 mx-4 rounded text-sm flex flex-row items-center hover:bg-gray-50 text-black border ' />
         ) : (
-          <Link className='py-1 px-2 mx-4 rounded text-sm flex flex-row items-center hover:bg-blue-700 text-white bg-blue-600 ' href="/signin">Sign In</Link>
+          <Link
+            className='mx-4 flex flex-row items-center rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-700'
+            href='/signin'
+          >
+            Sign In
+          </Link>
         )}
       </div>
 

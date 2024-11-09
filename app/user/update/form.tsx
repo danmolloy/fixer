@@ -27,7 +27,12 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
   const formSchema = Yup.object().shape({
     firstName: Yup.string().required('first name required'),
     lastName: Yup.string().required('last name required'),
-    mobileNumber: Yup.string().matches(phoneRegex, "number must be international format, i.e. +445504281329").required("required"),
+    mobileNumber: Yup.string()
+      .matches(
+        phoneRegex,
+        'number must be international format, i.e. +445504281329'
+      )
+      .required('required'),
     email: Yup.string().required('email address required'),
   });
 
@@ -38,13 +43,11 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
         validationSchema={formSchema}
         initialValues={initialVals}
         onSubmit={async (vals) => {
-          return await axios
-            .post('update/api', vals)
-            .then(() => {
-              router.push('/');
-              //setSubmitStatus("Successfully updated!")
-            })
-            /* .catch(function (error) {
+          return await axios.post('update/api', vals).then(() => {
+            router.push('/');
+            //setSubmitStatus("Successfully updated!")
+          });
+          /* .catch(function (error) {
               router.refresh();
               console.log(error);
             }); */

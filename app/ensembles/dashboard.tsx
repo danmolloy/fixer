@@ -1,7 +1,7 @@
 import { Field } from 'formik';
 import Link from 'next/link';
 import { useState } from 'react';
-import { IoCaretDown } from "react-icons/io5";
+import { IoCaretDown } from 'react-icons/io5';
 
 export type EnsembleDashboardProps = {
   addContact: () => void;
@@ -31,7 +31,6 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
       data-testid='ensemble-dashboard'
       className='m-1 flex flex-row items-center justify-between'
     >
-      
       <div className='w-32'>
         <button
           className={buttonPrimary}
@@ -43,28 +42,26 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
         >
           <p>Options</p>
           <IoCaretDown />
-          
         </button>
         {showOptions && (
           <div
             data-testid='options-menu'
-            className='absolute mr-2 flex flex-col rounded border bg-white text-sm mt-1'
+            className='absolute mr-2 mt-1 flex flex-col rounded border bg-white text-sm'
           >
-            
             <Link
-              className='p-2 m-1 text-start hover:bg-gray-50'
+              className='m-1 p-2 text-start hover:bg-gray-50'
               href={`/ensembles/${ensembleId}/contacts/import`}
             >
               Create Contacts
             </Link>
             <Link
-              className='p-2 m-1 text-start hover:bg-gray-50'
+              className='m-1 p-2 text-start hover:bg-gray-50'
               href={`/ensembles/${ensembleId}/admin/invite`}
             >
               Invite Admin
             </Link>
             <Link
-              className='p-2 m-1 text-start hover:bg-gray-50'
+              className='m-1 p-2 text-start hover:bg-gray-50'
               href={`ensembles/update/${ensembleId}`}
             >
               Edit Ensemble

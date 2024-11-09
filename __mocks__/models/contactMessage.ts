@@ -5,7 +5,7 @@ import { generateToken } from '../../app/fixing/contactMessage/api/create/functi
 export const mockContactMessage: ContactMessage = {
   contactId: faker.string.uuid(),
   token: generateToken(),
-  position: "Tutti",
+  position: 'Tutti',
   playerMessage: faker.lorem.words(8),
   id: faker.number.int(),
   createdAt: new Date(),
@@ -21,10 +21,13 @@ export const mockContactMessage: ContactMessage = {
   status: 'active',
 };
 
-export const mockContactMessageForTable: ContactMessage & {calls: Call[], contact: EnsembleContact} = {
+export const mockContactMessageForTable: ContactMessage & {
+  calls: Call[];
+  contact: EnsembleContact;
+} = {
   contactId: faker.string.uuid(),
   playerMessage: faker.lorem.words(8),
-  position: "Tutti",
+  position: 'Tutti',
   token: generateToken(),
   id: faker.number.int(),
   createdAt: new Date(),
@@ -60,7 +63,7 @@ export const mockContactMessageForTable: ContactMessage & {calls: Call[], contac
     ensembleId: faker.string.uuid(),
     role: faker.lorem.word(),
     sectionId: faker.string.uuid(),
-    status: "OK",
+    status: 'OK',
     indexNumber: Math.ceil(Math.random() * 10),
   },
 };

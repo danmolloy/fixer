@@ -1,28 +1,38 @@
-'use client'
+'use client';
 
-import { Call, ContactMessage, Ensemble, EnsembleContact, EnsembleSection, Event, EventSection, User } from "@prisma/client"
-import EventHeader from "./eventHeader"
-import EventInfo from "./eventInfo"
-import { useRef, useState } from "react"
+import {
+  Call,
+  ContactMessage,
+  Ensemble,
+  EnsembleContact,
+  EnsembleSection,
+  Event,
+  EventSection,
+  User,
+} from '@prisma/client';
+import EventHeader from './eventHeader';
+import EventInfo from './eventInfo';
+import { useRef, useState } from 'react';
 import html2pdf from 'html2pdf.js';
-import EventMenu from "./menu"
-import { instrumentSections } from "../../contacts/lib"
-import OrchestraList from "./orchestraList"
-import FixingIndex from "../../fixing"
-
+import EventMenu from './menu';
+import { instrumentSections } from '../../contacts/lib';
+import OrchestraList from './orchestraList';
+import FixingIndex from '../../fixing';
+import Link from 'next/link';
+import { TbSend } from 'react-icons/tb';
 
 export type EventInfoTableProps = {
   event: Event & {
-    calls: Call[],
-    fixer: User,
+    calls: Call[];
+    fixer: User;
   };
   calls: Call[];
-  ensemble: (Ensemble & {
+  ensemble: Ensemble & {
     sections: EnsembleSection[];
-  });
+  };
   contacts: (ContactMessage & {
-    contact: EnsembleContact
-  })[]
+    contact: EnsembleContact;
+  })[];
   sections: (EventSection & {
     contacts: (ContactMessage & {
       contact: EnsembleContact;
@@ -31,14 +41,15 @@ export type EventInfoTableProps = {
     ensembleSection: EnsembleSection & {
       contacts: EnsembleContact[];
     };
-  })[]
-}
+  })[];
+};
 
 export default function EventInfoTable(props: EventInfoTableProps) {
-  const {event, contacts, ensemble, sections } = props;
-  const [selectedView, setSelectedView] = useState<"fixing"|"playerList">("fixing");
+  const { event, contacts, ensemble, sections } = props;
+  const [selectedView, setSelectedView] = useState<'fixing' | 'playerList'>(
+    'fixing'
+  );
   const eventRef = useRef(null);
-
 
   const getRunningSheet = () => {
     const eventTable = eventRef.current;
@@ -52,32 +63,48 @@ export default function EventInfoTable(props: EventInfoTableProps) {
     };
 
     html2pdf().from(eventTable).set(options).save();
-
-  }
-
- 
+  };
 
   return (
-    <div className="w-full flex flex-col">
-      <EventMenu  getRunningSheet={() => getRunningSheet()} event={event} contacts={contacts} />
-      <table ref={eventRef} className="border w-full ">
-        <EventHeader eventTitle={event.eventTitle}  />
+    <div className='flex w-full flex-col'>
+      <EventMenu
+        getRunningSheet={() => getRunningSheet()}
+        event={event}
+        contacts={contacts}
+      />
+      <table ref={eventRef} className='w-full border'>
+        <EventHeader eventTitle={event.eventTitle} />
         <EventInfo event={event} calls={event.calls} ensemble={ensemble} />
       </table>
-      <select className="m-2 self-center border" value={selectedView} onChange={(e: any) => setSelectedView(e.target.value)}>
-        <option value="playerList">Orchestra List</option>
-        <option value="fixing">Fixing</option>
-      </select>
-      {selectedView === "playerList" 
-      ? <div className="" >
-        <OrchestraList sections={sections}/>
-      </div> 
-      : <FixingIndex
-      ensembleSections={ensemble.sections}
-      eventCalls={event.calls}
-      eventSections={sections}
-      eventId={event.id}
-    />}
+      <div className='flex flex-row justify-between'>
+        <select
+          className='m-2 self-center border'
+          value={selectedView}
+          onChange={(e: any) => setSelectedView(e.target.value)}
+        >
+          <option value='playerList'>Orchestra List</option>
+          <option value='fixing'>Fixing</option>
+        </select>
+        <Link
+          className='m-2 flex flex-row items-center justify-center rounded border p-1 text-sm shadow-sm hover:bg-slate-50'
+          href={`/event/${event.id}/messages`}
+        >
+          <TbSend />
+          <p className='ml-1'>Sent Messages</p>
+        </Link>
+      </div>
+      {selectedView === 'playerList' ? (
+        <div className=''>
+          <OrchestraList sections={sections} />
+        </div>
+      ) : (
+        <FixingIndex
+          ensembleSections={ensemble.sections}
+          eventCalls={event.calls}
+          eventSections={sections}
+          eventId={event.id}
+        />
+      )}
     </div>
-  )
+  );
 }

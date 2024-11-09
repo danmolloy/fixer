@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import { Call, Ensemble, Event, User } from '@prisma/client';
 
 export type EventInfoProps = {
-  event: Event & {fixer: User};
+  event: Event & { fixer: User };
   calls: Call[];
   ensemble: Ensemble;
 };

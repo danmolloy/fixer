@@ -3,7 +3,6 @@ import { auth } from '../auth';
 import GithubSignIn from './githubSignIn';
 import SignUpBtn from './signUpBtn';
 
-
 export default async function SignIn() {
   const session = await auth();
 
@@ -12,17 +11,17 @@ export default async function SignIn() {
   }
 
   return (
-    <div data-testid='sign-in-index' className='flex flex-col w-full '>
-      <div className='flex flex-col items-center self-center m-4 mt-24 p-3 border-2 rounded shadow-sm w-[90vw] sm:w-2/3 md:w-1/2'>
-      <h1 className='text-2xl font-semibold'>Sign in to your account</h1>
-      <div className='py-8'>
-        <GithubSignIn />
-    </div>
-    <div className='flex flex-row my-4'>
-      <p>Need an account?</p> 
-      <SignUpBtn />
-    </div>
-    </div>
+    <div data-testid='sign-in-index' className='flex w-full flex-col'>
+      <div className='m-4 mt-24 flex w-[90vw] flex-col items-center self-center rounded border-2 p-3 shadow-sm sm:w-2/3 md:w-1/2'>
+        <h1 className='text-2xl font-semibold'>Sign in to your account</h1>
+        <div className='py-8'>
+          <GithubSignIn />
+        </div>
+        <div className='my-4 flex flex-row'>
+          <p>Need an account?</p>
+          <SignUpBtn />
+        </div>
+      </div>
     </div>
   );
 }

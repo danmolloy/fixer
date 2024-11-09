@@ -2,8 +2,8 @@
 import { Ensemble, EnsembleAdmin } from '@prisma/client';
 import Link from 'next/link';
 import { useState } from 'react';
-import { IoCaretDown } from "react-icons/io5";
-import { BsBuildingAdd, BsPencilSquare } from "react-icons/bs";
+import { IoCaretDown } from 'react-icons/io5';
+import { BsBuildingAdd, BsPencilSquare } from 'react-icons/bs';
 
 export type EnsemblesMenuProps = {
   ensemblesAdmins: (EnsembleAdmin & { ensemble: Ensemble })[];
@@ -16,7 +16,7 @@ export default function EnsemblesMenu(props: EnsemblesMenuProps) {
   return (
     <div className='hidden md:flex'>
       <button
-        className='mx-4 rounded p-1 text-sm hover:text-black flex flex-row items-center justify-center'
+        className='mx-4 flex flex-row items-center justify-center rounded p-1 text-sm hover:text-black'
         onClick={() => {
           focus();
           setShowMenu(!showMenu);
@@ -30,14 +30,14 @@ export default function EnsemblesMenu(props: EnsemblesMenuProps) {
       {showMenu && (
         <div
           data-testid='ensembles-menu'
-          className='absolute rounded mt-11 flex flex-col border bg-white text-sm font-medium'
+          className='absolute mt-11 flex flex-col rounded border bg-white text-sm font-medium'
         >
           {ensemblesAdmins && ensemblesAdmins.length > 0 ? (
             ensemblesAdmins.map((i) => (
               <Link
                 key={i.id}
                 href={`/ensembles/${i.ensemble.id}`}
-                className='p-2 m-1 hover:bg-slate-50 hover:text-blue-600'
+                className='m-1 p-2 hover:bg-slate-50 hover:text-blue-600'
               >
                 {i.ensemble.name}
               </Link>
@@ -45,12 +45,17 @@ export default function EnsemblesMenu(props: EnsemblesMenuProps) {
           ) : (
             <p>No Ensembles</p>
           )}
-          <Link href='/ensembles/join/' className='flex flex-row items-center justify-start p-2 m-1 hover:bg-slate-50 hover:text-blue-600'>
+          <Link
+            href='/ensembles/join/'
+            className='m-1 flex flex-row items-center justify-start p-2 hover:bg-slate-50 hover:text-blue-600'
+          >
             <BsBuildingAdd />
             <p className='ml-1'>Join Ensemble</p>
-          
           </Link>
-          <Link href='/ensembles/create/' className='flex flex-row items-center justify-start p-2 m-1 hover:bg-slate-50 hover:text-blue-600'>
+          <Link
+            href='/ensembles/create/'
+            className='m-1 flex flex-row items-center justify-start p-2 hover:bg-slate-50 hover:text-blue-600'
+          >
             <BsPencilSquare />
             <p className='ml-1'>Create Ensemble</p>
           </Link>

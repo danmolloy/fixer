@@ -55,13 +55,14 @@ export default function PricingModel(props: PricingModelProps) {
       <p className='my-2 text-gray-600'>{priceModel.blurb}</p>
       <hr />
       <div className='py-4'>
-        {priceModel.price !== undefined 
-        && <p data-testid='option-price' className='text-3xl font-semibold'>
-          {priceModel.price}{' '}
-          <span className='text-base font-normal'>
-            /{priceModel.paymentFrequency}
-          </span>
-        </p>}
+        {priceModel.price !== undefined && (
+          <p data-testid='option-price' className='text-3xl font-semibold'>
+            {priceModel.price}{' '}
+            <span className='text-base font-normal'>
+              /{priceModel.paymentFrequency}
+            </span>
+          </p>
+        )}
       </div>
       <div>
         {priceModel.features.map((i) => (
@@ -77,16 +78,21 @@ export default function PricingModel(props: PricingModelProps) {
           </div>
         ))}
       </div>
-      {priceModel.apiLink === "contact" 
-      ? <Link 
-      className='my-4 w-24 self-center rounded bg-blue-500 p-2 text-white hover:bg-blue-600 text-center'
-        href={"/contact"}>Contact us</Link>
-      : <button
-        onClick={() => handleClick()}
-        className='my-4 w-24 self-center rounded bg-blue-500 p-2 text-white hover:bg-blue-600'
-      >
-        Get Plan
-      </button>}
+      {priceModel.apiLink === 'contact' ? (
+        <Link
+          className='my-4 w-24 self-center rounded bg-blue-500 p-2 text-center text-white hover:bg-blue-600'
+          href={'/contact'}
+        >
+          Contact us
+        </Link>
+      ) : (
+        <button
+          onClick={() => handleClick()}
+          className='my-4 w-24 self-center rounded bg-blue-500 p-2 text-white hover:bg-blue-600'
+        >
+          Get Plan
+        </button>
+      )}
     </div>
   );
 }

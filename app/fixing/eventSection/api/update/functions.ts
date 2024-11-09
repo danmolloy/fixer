@@ -6,8 +6,7 @@ export const updateEventSection = async (sectionObj: {
   bookingStatus: string;
   numToBook: number;
 }) => {
-
-  const updatedSection =  await prisma.eventSection.update({
+  const updatedSection = await prisma.eventSection.update({
     where: {
       id: sectionObj.eventSectionId,
     },
@@ -16,19 +15,16 @@ export const updateEventSection = async (sectionObj: {
       numToBook: sectionObj.numToBook,
     },
   });
-  if (sectionObj.bookingStatus.toLocaleLowerCase() === "active") {
-      await emailBookingMusicians(updatedSection.id);
-    }
+  if (sectionObj.bookingStatus.toLocaleLowerCase() === 'active') {
+    await emailBookingMusicians(updatedSection.id);
+  }
   return updatedSection;
 };
 
-export const updateAllEventSections = async (
-  eventId: number,
-  data: any
-) => {
+export const updateAllEventSections = async (eventId: number, data: any) => {
   return await prisma.eventSection.updateMany({
     where: {
-      eventId: eventId
+      eventId: eventId,
     },
     data: data,
   });

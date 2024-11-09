@@ -34,8 +34,11 @@ export default async function Page() {
   const session = await auth();
   const data = session && (await getCalendar(session.user.id));
 
-  if (session && ( !data?.firstName || !data?.lastName || !data?.mobileNumber || !data.email)) {
-    redirect("/user/update")
+  if (
+    session &&
+    (!data?.firstName || !data?.lastName || !data?.mobileNumber || !data.email)
+  ) {
+    redirect('/user/update');
   }
 
   return session ? <CalendarIndex data={data} /> : <LandingPage />;

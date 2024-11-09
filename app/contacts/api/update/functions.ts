@@ -1,24 +1,21 @@
-import prisma from "../../../../client";
+import prisma from '../../../../client';
 
 export const updateContact = async (data: {
-  contactId: string,
+  contactId: string;
   updatedData: {
     firstName: string;
-    lastName:string;
+    lastName: string;
     section: {
       name: string;
-      id: string|undefined;
+      id: string | undefined;
     };
-    role:string;
+    role: string;
     ensembleId: string;
     email: string;
     phone: string;
     category: string;
-  }
+  };
 }) => {
-
-
-
   const sectionData = data.updatedData.section.id
     ? { connect: { id: data.updatedData.section.id } }
     : {
@@ -33,9 +30,8 @@ export const updateContact = async (data: {
       };
 
   return await prisma.ensembleContact.update({
-
     where: {
-      id: data.contactId
+      id: data.contactId,
     },
     data: {
       firstName: data.updatedData.firstName,
@@ -44,7 +40,7 @@ export const updateContact = async (data: {
       role: data.updatedData.role,
       email: data.updatedData.email,
       phoneNumber: data.updatedData.phone,
-      section: sectionData
-    }
-  })
-} 
+      section: sectionData,
+    },
+  });
+};

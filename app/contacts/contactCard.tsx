@@ -15,9 +15,9 @@ export default function ContactCard(props: ContactCardProps) {
   return (
     <tr
       data-testid='contact-card'
-      className='m-1 w-full rounded border-b  sm:text-sm text-xs'
+      className='m-1 w-full rounded border-b text-xs sm:text-sm'
     >
-      <td className='flex flex-row py-2 px-1'>
+      <td className='flex flex-row px-1 py-2'>
         {/* <div
           className={`m-2 hidden h-8 w-8 items-center justify-center rounded-full bg-indigo-500 text-white sm:flex ${contact.category!.toLowerCase() === 'member' && 'bg-orange-500'} `}
         >
@@ -40,9 +40,7 @@ export default function ContactCard(props: ContactCardProps) {
       <td>
         <p>{contact.role} </p>
       </td>
-      <td>
-      {contact.category}
-      </td>
+      <td>{contact.category}</td>
       <td>
         <p className='flex flex-col text-start'>{contact.email}</p>
       </td>

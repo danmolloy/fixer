@@ -2,8 +2,7 @@ import axios from 'axios';
 import prisma from '../../../../../client';
 import { adminInviteEmail } from '../../../../sendGrid/lib';
 
-const url = `${process.env.URL}`
-
+const url = `${process.env.URL}`;
 
 export const createAdminInvite = async (data: {
   firstName: string;
@@ -33,8 +32,8 @@ export const createAdminInvite = async (data: {
         },
       },
       include: {
-        ensemble: true
-      }
+        ensemble: true,
+      },
     });
 
     const emailData = adminInviteEmail({
@@ -42,16 +41,16 @@ export const createAdminInvite = async (data: {
       senderName: data.senderName,
       email: data.email,
       inviteID: adminInvite.id,
-      ensembleName: adminInvite.ensemble.name
+      ensembleName: adminInvite.ensemble.name,
     });
 
-    return await axios.post(`${url}/sendGrid`, {body: {
-      emailData: emailData,
-      templateID: emailData.templateID,
-      emailAddress: emailData.email
-    }});
-
-
+    return await axios.post(`${url}/sendGrid`, {
+      body: {
+        emailData: emailData,
+        templateID: emailData.templateID,
+        emailAddress: emailData.email,
+      },
+    });
   } catch (error) {
     console.error('Error creating admin invite:', error);
     throw new Error(`Failed to create invite: ${error.message}`);

@@ -6,7 +6,7 @@ export default function CTASection() {
   return (
     <div
       data-testid='cta-section'
-      className='flex flex-col items-center justify-center bg-blue-600 min-h-[80vh] px-8 py-32 text-white'
+      className='flex min-h-[80vh] flex-col items-center justify-center bg-blue-600 px-8 py-32 text-white'
     >
       <p className='text-4xl font-semibold'>Ready to tune?</p>
       <p className='text-4xl font-semibold'>Start your free trial today.</p>

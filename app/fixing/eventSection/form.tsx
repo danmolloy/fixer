@@ -79,7 +79,10 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
   };
 
   return (
-    <div data-testid='create-event-section' className='m-2 flex flex-col rounded border p-2'>
+    <div
+      data-testid='create-event-section'
+      className='m-2 flex flex-col rounded border p-2'
+    >
       <Formik
         initialValues={initialVals}
         onSubmit={(values, actions) => {
@@ -136,17 +139,31 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               id='numtobook-input'
               label='Num to Book'
             />
-             <div role="group" aria-labelledby="my-radio-group" className='flex flex-col'>
+            <div
+              role='group'
+              aria-labelledby='my-radio-group'
+              className='flex flex-col'
+            >
               <label>Fixing Status</label>
-            <label>
-              <Field className="m-1" type="radio" name="bookingStatus" value="active" />
-              Active
-            </label>
-            <label>
-              <Field className="m-1" type="radio" name="bookingStatus" value="inactive" />
-              Inactive
-            </label>
-          </div>
+              <label>
+                <Field
+                  className='m-1'
+                  type='radio'
+                  name='bookingStatus'
+                  value='active'
+                />
+                Active
+              </label>
+              <label>
+                <Field
+                  className='m-1'
+                  type='radio'
+                  name='bookingStatus'
+                  value='inactive'
+                />
+                Inactive
+              </label>
+            </div>
             <div className='my-4 flex flex-row'>
               <button
                 className={buttonPrimary}
@@ -167,13 +184,15 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
           </Form>
         )}
       </Formik>
-      {ensembleSections.find((i) => i.id === ensembleSectionId)?.name && <button
-                className='mx-1 rounded border border-red-500 w-32 py-1 text-sm text-red-500 hover:bg-red-50'
-                data-testid='delete-section'
-                onClick={() => handleDelete()}
-              >
-                Delete Section
-              </button>}
+      {ensembleSections.find((i) => i.id === ensembleSectionId)?.name && (
+        <button
+          className='mx-1 w-32 rounded border border-red-500 py-1 text-sm text-red-500 hover:bg-red-50'
+          data-testid='delete-section'
+          onClick={() => handleDelete()}
+        >
+          Delete Section
+        </button>
+      )}
     </div>
   );
 }

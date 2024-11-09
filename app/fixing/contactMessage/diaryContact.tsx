@@ -11,16 +11,14 @@ export default function DiaryContact(props: DiaryContactProps) {
   return (
     <tr
       data-testid={`${contact.id}-contact-tile`}
-      className={`hover:cursor-pointer ${disabled && 'opacity-30 cursor-pointer'} text-sm hover:bg-slate-50  h-8`}
+      className={`hover:cursor-pointer ${disabled && 'cursor-pointer opacity-30'} h-8 text-sm hover:bg-slate-50`}
       onClick={(e) => {
         e.preventDefault();
-        !disabled
-        && setSelectContact();
+        !disabled && setSelectContact();
       }}
-      
     >
       <td className=''>
-      <div
+        <div
           className={`m-2 hidden h-8 w-8 items-center justify-center rounded-full bg-indigo-500 text-white sm:flex ${contact.category!.toLowerCase() === 'member' && 'bg-orange-500'} `}
         >
           {contact.firstName[0]}

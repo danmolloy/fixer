@@ -20,7 +20,8 @@ export default function MenuButton(props: MenuButtonProps) {
         onClick={(e) => {
           e.preventDefault();
           focus();
-          setShowMenu(!showMenu)}}
+          setShowMenu(!showMenu);
+        }}
         data-testid='menu-icon-btn'
       >
         {showMenu ? (
@@ -34,7 +35,7 @@ export default function MenuButton(props: MenuButtonProps) {
             data-testid='menu-icon'
           />
         )}
-      {showMenu && <FlyOutMenu session={session} />}
+        {showMenu && <FlyOutMenu session={session} />}
       </button>
     </div>
   );

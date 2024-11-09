@@ -35,9 +35,9 @@ export default function EventSectionIndex(props: EventSectionProps) {
   } = props;
   const router = useRouter();
   const [updateSection, setUpdateSection] = useState<boolean>(false);
-  const [bookingOrAvailability, setBookingOrAvailability] = useState<string>('Booking');
+  const [bookingOrAvailability, setBookingOrAvailability] =
+    useState<string>('Booking');
   const [editContacts, setEditContacts] = useState<boolean>(false);
-
 
   return (
     <div
@@ -57,36 +57,43 @@ export default function EventSectionIndex(props: EventSectionProps) {
         />
       ) : (
         <div>
-          <div >
-            <h2>{section.ensembleSection.name}
-            <span className={` ${section.bookingStatus.toLocaleLowerCase() !== "active" &&  "text-amber-500"} text-sm`}> (booking {section.bookingStatus})</span>
+          <div>
+            <h2>
+              {section.ensembleSection.name}
+              <span
+                className={` ${section.bookingStatus.toLocaleLowerCase() !== 'active' && 'text-amber-500'} text-sm`}
+              >
+                {' '}
+                (booking {section.bookingStatus})
+              </span>
             </h2>
           </div>
           <div className='flex flex-row justify-between'>
-          <div className='flex flex-row items-center'>
-            <p className='text-sm'>Booking {section.numToBook} player(s)</p>
-            <button
-              className='mx-1 rounded border p-1 text-xs hover:bg-gray-50'
-              onClick={() => setUpdateSection(true)}
+            <div className='flex flex-row items-center'>
+              <p className='text-sm'>Booking {section.numToBook} player(s)</p>
+              <button
+                className='mx-1 rounded border p-1 text-xs hover:bg-gray-50'
+                onClick={() => setUpdateSection(true)}
+              >
+                Change
+              </button>
+            </div>
+            <select
+              className='w-48 self-center rounded border p-1 disabled:border-0'
+              data-testid='status-select'
+              disabled={editContacts}
+              onChange={(e) => setBookingOrAvailability(e.target.value)}
             >
-              Change
-            </button>
+              <option value='Booking'>Booking</option>
+              <option value='Availability'>Availability</option>
+            </select>
           </div>
-          <select
-        className='w-48 self-center rounded border p-1  disabled:border-0'
-        data-testid='status-select'
-        disabled={editContacts}
-        onChange={(e) => setBookingOrAvailability(e.target.value)}
-      >
-        <option value='Booking'>Booking</option>
-        <option value='Availability'>Availability</option>
-      </select>
-        </div>
         </div>
       )}
       <EventSectionContacts
-        editContacts={editContacts} setEditContacts={arg => setEditContacts(arg)}
-        bookingOrAvailability={bookingOrAvailability} 
+        editContacts={editContacts}
+        setEditContacts={(arg) => setEditContacts(arg)}
+        bookingOrAvailability={bookingOrAvailability}
         currentContacts={currentContacts}
         eventCalls={eventCalls}
         eventSectionId={section.id}

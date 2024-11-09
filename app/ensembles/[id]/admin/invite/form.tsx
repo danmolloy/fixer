@@ -8,7 +8,7 @@ import { buttonPrimary } from '../../../dashboard';
 
 export type InviteAdminFormProps = {
   ensembleId: string;
-  userName: string
+  userName: string;
 };
 
 export default function InviteAdminForm(props: InviteAdminFormProps) {
