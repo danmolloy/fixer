@@ -3,7 +3,6 @@
 import { signIn } from 'next-auth/react';
 import { FaGithub } from 'react-icons/fa6';
 
-
 export default function GithubSignIn() {
   return (
     <button

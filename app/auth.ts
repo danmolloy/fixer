@@ -1,11 +1,16 @@
 import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
-import Sendgrid from "next-auth/providers/sendgrid";
+import Sendgrid from 'next-auth/providers/sendgrid';
 import prisma from '../client';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  providers: [GitHub, Sendgrid],
+  providers: [
+    GitHub,
+    Sendgrid({
+      from: process.env.FROM_EMAIL,
+    }),
+  ],
   adapter: PrismaAdapter(prisma),
   callbacks: {
     async session({ session, user }) {

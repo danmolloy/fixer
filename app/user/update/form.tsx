@@ -17,15 +17,15 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
   const router = useRouter();
 
   const initialVals = {
-    firstName: session.user.firstName,
-    lastName: session.user.lastName,
-    mobileNumber: session.user.mobileNumber,
-    email: session.user.email,
+    firstName: session.user.firstName ? session.user.firstName : '',
+    lastName: session.user.lastName ? session.user.lastName : '',
+    mobileNumber: session.user.mobileNumber ? session.user.mobileNumber : '',
+    email: session.user.email ? session.user.email : '',
     id: session.user.id,
     //ensembles: session.user.admins,
   };
   const formSchema = Yup.object().shape({
-    firstName: Yup.string().required('first name required'),
+    firstName: Yup.string().required('first name required').min(1),
     lastName: Yup.string().required('last name required'),
     mobileNumber: Yup.string()
       .matches(
@@ -38,7 +38,15 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
 
   return (
     <div data-testid='user-form' className='flex flex-col p-4'>
+      <div>
       <h1>Update User</h1>
+              {(!session.user.firstName
+              || !session.user.lastName
+              || !session.user.mobileNumber
+              || !session.user.email)
+              &&<p className='my1-1'>We just need a few more details from you.</p> }
+            </div>
+      
       <Formik
         validationSchema={formSchema}
         initialValues={initialVals}
@@ -53,25 +61,28 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
             }); */
         }}
       >
-        <Form>
-          <TextInput name='firstName' id='firstName' label='First Name' />
-          <TextInput name='lastName' id='lastName' label='Last Name' />
-          <TextInput
-            name='mobileNumber'
-            id='mobileNumber'
-            label='Mobile Number'
-            type='tel'
-          />
-          <TextInput name='email' id='email' label='Email' type='email' />
-          <button
-            className={
-              'mx-4 flex flex-row items-center self-end rounded border px-2 py-1 text-sm text-black hover:bg-gray-50'
-            }
-            type='submit'
-          >
-            Submit
-          </button>
-        </Form>
+        {(props) => (
+          <Form>
+            
+            <TextInput name='firstName' id='firstName' label='First Name' />
+            <TextInput name='lastName' id='lastName' label='Last Name' />
+            <TextInput
+              name='mobileNumber'
+              id='mobileNumber'
+              label='Mobile Number'
+              type='tel'
+            />
+            <TextInput name='email' id='email' label='Email' type='email' />
+            <button
+              className={
+                'mx-4 flex flex-row items-center self-end rounded border px-2 py-1 text-sm text-black hover:bg-gray-50'
+              }
+              type='submit'
+            >
+              Submit
+            </button>
+          </Form>
+        )}
       </Formik>
     </div>
   );

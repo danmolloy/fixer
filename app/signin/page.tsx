@@ -21,7 +21,6 @@ export default async function SignIn() {
         <div className='py-8'>
           <GithubSignIn />
         </div>
-        
       </div>
     </div>
   );
