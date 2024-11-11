@@ -25,8 +25,7 @@ export async function POST(request: Request): Promise<any> {
   
   // Only verify the event if you have an endpoint secret defined.
   // Otherwise use the basic event deserialized with JSON.parse */
-  const endpointSecret =
-    'whsec_8d46dcb6a5a477c5c90e52edef0abdf1df75fdd95371aabd7b060e2510ef86a0';
+  const endpointSecret = process.env.ENDPOINT_SECRET;
   const body = await request.text()
   const signature = headers().get("Stripe-Signature") as string
 
