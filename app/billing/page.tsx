@@ -15,9 +15,9 @@ export default function BillingIndex() {
         </p>
         <Link
           href='/'
-          className='flex flex-row items-center self-end rounded bg-black p-1 text-sm text-white hover:bg-gray-600'
+          className='flex flex-row items-center self-end rounded p-1 text-sm  hover:bg-slate-50'
         >
-          <p className='mr-1'>Buy Later</p>
+          <p className='mr-1'>Subscribe Later</p>
           <FaArrowRight />
         </Link>
       </div>
@@ -26,15 +26,7 @@ export default function BillingIndex() {
           <PricingModel priceModel={i} key={i.id} />
         ))}
       </div>
-      <form
-        data-testid='manage-acc-form'
-        action='/billing/api/manage/'
-        method='POST'
-      >
-        {/* <button data-testid='manage-btn' type='submit' role='link'>
-          Manage Account
-        </button> */}
-      </form>
+      
     </div>
   );
 }

@@ -23,27 +23,12 @@ export type PricingModelProps = {
 };
 
 export default function PricingModel(props: PricingModelProps) {
+  
   const { priceModel } = props;
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
-    setLoading(true);
-    try {
-      // Make a POST request to the API to create a checkout session
-      const response = await axios.post(priceModel.apiLink);
-
-      // Redirect to the Stripe checkout page if the URL is returned
-      if (response.data?.url) {
-        window.location.href = response.data.url;
-      } else {
-        throw new Error('Checkout URL not returned');
-      }
-    } catch (error) {
-      console.error('Error during checkout:', error);
-      alert('An error occurred while processing your request.');
-    } finally {
-      setLoading(false);
-    }
+    alert("Not implemented")
   };
   return (
     <div

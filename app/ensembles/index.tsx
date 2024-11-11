@@ -11,6 +11,8 @@ import EnsembleDashboard from './dashboard';
 import ContactsIndex from '../contacts/contactsList';
 import { useState } from 'react';
 import CreateContactForm from '../contacts/createContactForm';
+import Link from 'next/link';
+import axios, { AxiosResponse } from 'axios';
 
 export type EnsembleIndexProps = {
   sections: (EnsembleSection & { contacts: EnsembleContact[] })[];
@@ -28,12 +30,36 @@ export default function EnsembleIndex(props: EnsembleIndexProps) {
     'Extra',
   ]);
 
+  const handleSubscribe = async () => {
+    let response: AxiosResponse;
+    ensemble.stripeSubscriptionId === null 
+    ? response = await axios.post('/billing/api/manage', {subscriptionID: ensemble.stripeSubscriptionId})
+    : response = await axios.post('/billing/api/manage', {subscriptionID: ensemble.stripeSubscriptionId});
+    try {
+      if (response.data?.url) {
+        window.location.href = response.data.url;
+      } else {
+        throw new Error('Checkout URL not returned');
+      }
+    } catch (error) {
+      console.error('Error during checkout:', error);
+      alert('An error occurred while processing your request.');
+    } /* finally {
+      setLoading(false);
+    } */
+  };
+
+  
+
   return (
     <div data-testid='ensemble-index' className='w-full p-2 sm:px-4 lg:px-24'>
       <div className='flex flex-col justify-between lg:flex-row'>
+        <div className='flex flex-col items-start'>
         <h1 className='m-4 text-3xl font-semibold'>{ensemble.name}</h1>
+        {!ensemble.stripeSubscriptionId && <button className='border rounded py-1 px-2 text-sm' onClick={() => handleSubscribe()}>Subscribe</button>}
+</div>
         <EnsembleDashboard
-          ensembleId={ensemble.id}
+          ensemble={ensemble}
           filterContacts={filterContacts}
           setFilterContacts={(arg) => {
             filterContacts.includes(arg)

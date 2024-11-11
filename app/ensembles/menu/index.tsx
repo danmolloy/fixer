@@ -43,7 +43,7 @@ export default function EnsemblesMenu(props: EnsemblesMenuProps) {
               </Link>
             ))
           ) : (
-            <p>No Ensembles</p>
+            <p className='m-1 p-2 flex flex-row items-center justify-start'>No Ensembles</p>
           )}
           <Link
             href='/ensembles/join/'

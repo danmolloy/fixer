@@ -156,9 +156,9 @@ model Ensemble {
   adminInvites AdminInvite[]
   events Event[]
   contacts EnsembleContact[]
-  stripeCustomerId   String? 
-  stripeSubscriptionId String?
-  subscriptionStatus String?  
+  stripeCustomerId        String? 
+  stripeSubscriptionId   String?  @unique
+  subscriptionStatus      String?  
 }
 
 model EnsembleAdmin {
