@@ -13,6 +13,7 @@ import { useState } from 'react';
 import CreateContactForm from '../contacts/createContactForm';
 import Link from 'next/link';
 import axios, { AxiosResponse } from 'axios';
+import { getBillingRoute } from '../billing/api/manage/lib';
 
 export type EnsembleIndexProps = {
   sections: (EnsembleSection & { contacts: EnsembleContact[] })[];
@@ -32,9 +33,7 @@ export default function EnsembleIndex(props: EnsembleIndexProps) {
 
   const handleSubscribe = async () => {
     let response: AxiosResponse;
-    ensemble.stripeSubscriptionId === null 
-    ? response = await axios.post('/billing/api/manage', {subscriptionID: ensemble.stripeSubscriptionId})
-    : response = await axios.post('/billing/api/manage', {subscriptionID: ensemble.stripeSubscriptionId});
+    response = await getBillingRoute(ensemble);
     try {
       if (response.data?.url) {
         window.location.href = response.data.url;

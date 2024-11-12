@@ -2,6 +2,7 @@
 import {
   Call,
   ContactMessage,
+  Ensemble,
   EnsembleContact,
   EnsembleSection,
   EventSection,
@@ -9,12 +10,14 @@ import {
 import CreateEventSection from './eventSection/form';
 import { useState } from 'react';
 import EventSectionIndex from './eventSection';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { TiPlus } from 'react-icons/ti';
 import { GrHalt } from 'react-icons/gr';
+import { getBillingRoute } from '../billing/api/manage/lib';
 
 export type FixingIndexProps = {
   eventId: number;
+  ensemble: Ensemble;
   ensembleSections: EnsembleSection[];
   eventSections: (EventSection & {
     contacts: (ContactMessage & {
@@ -29,7 +32,7 @@ export type FixingIndexProps = {
 };
 
 export default function FixingIndex(props: FixingIndexProps) {
-  const { eventCalls, eventId, ensembleSections, eventSections } = props;
+  const { eventCalls, eventId, ensembleSections, eventSections, ensemble } = props;
   const [createSection, setCreateSection] = useState<boolean>(false);
 
   const handlePauseClick = async () => {
@@ -48,6 +51,30 @@ export default function FixingIndex(props: FixingIndexProps) {
       }
     }
   };
+
+  const handleSubscribe = async () => {
+    let response: AxiosResponse;
+    response = await getBillingRoute(ensemble);
+    try {
+      if (response.data?.url) {
+        window.location.href = response.data.url;
+      } else {
+        throw new Error('Checkout URL not returned');
+      }
+    } catch (error) {
+      console.error('Error during checkout:', error);
+      alert('An error occurred while processing your request.');
+    } /* finally {
+      setLoading(false);
+    } */
+  }; 
+
+  if (!ensemble.stripeSubscriptionId) {
+    <div>
+      <p>You must subscribe to book players.</p>
+      <button onClick={() => handleSubscribe()}>Subscribe</button>
+    </div>
+  }
 
   return (
     <div data-testid='fixing-index' className='flex flex-col p-4'>

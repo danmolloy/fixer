@@ -15,8 +15,8 @@ export async function POST(req: NextRequest) {
           price: process.env.FIXING_BILL_PRICE_ID as string,
         },
       ],
-      cancel_url: `${process.env.ORIGIN_URL}/billing/?canceled=true`,
-      success_url: `${process.env.ORIGIN_URL}/?success=true`,
+      cancel_url: `${process.env.ORIGIN_URL}/ensembles/${ensembleID}/?canceled=true`,
+      success_url: `${process.env.ORIGIN_URL}/ensembles/${ensembleID}/?success=true`,
       subscription_data: {
         metadata: {
           ensembleID: ensembleID

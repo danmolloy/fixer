@@ -4,6 +4,7 @@ import { Field } from 'formik';
 import Link from 'next/link';
 import { useState } from 'react';
 import { IoCaretDown } from 'react-icons/io5';
+import { getBillingRoute } from '../billing/api/manage/lib';
 
 export type EnsembleDashboardProps = {
   addContact: () => void;
@@ -25,10 +26,7 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
 
   const handleManageSub = async() => {
     let response: AxiosResponse;
-    ensemble.stripeSubscriptionId === null 
-    ? response = await axios.post('/billing/api/manage', {subscriptionID: ensemble.stripeSubscriptionId})
-    : response = await axios.post('/billing/api/manage', {subscriptionID: ensemble.stripeSubscriptionId});
-    
+    response = await getBillingRoute(ensemble);
     try {
       if (response.data?.url) {
         window.location.href = response.data.url;

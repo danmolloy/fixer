@@ -1,4 +1,5 @@
 import prisma from '../../../../../client';
+import { addMeterEvent } from '../../../../billing/api/meterEvent/lib';
 import {
   emailBookingMusicians,
   emailDeppingMusician,
@@ -14,6 +15,17 @@ export const updateContactMessage = async (contactMessageObj: {
         id: contactMessageObj.id,
       },
       data: contactMessageObj.data,
+      include: {
+        eventSection: {
+          include: {
+            event: {
+              include: {
+                ensemble: true
+              }
+            }
+          }
+        }
+      }
     });
     console.log(
       `contactMessageObj.data.accepted: ${contactMessageObj.data.accepted}`
@@ -23,6 +35,8 @@ export const updateContactMessage = async (contactMessageObj: {
       updatedData.bookingOrAvailability.toLocaleLowerCase() === 'booking' &&
       contactMessageObj.data.accepted === true
     ) {
+      const subscriptionID = updatedData.eventSection.event.ensemble.stripeSubscriptionId;
+      await addMeterEvent(subscriptionID!)
       await releaseDeppers(updatedData.eventSectionId);
     }
     await emailBookingMusicians(updatedData.eventSectionId);

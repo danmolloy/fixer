@@ -103,6 +103,7 @@ export default function EventInfoTable(props: EventInfoTableProps) {
           eventCalls={event.calls}
           eventSections={sections}
           eventId={event.id}
+          ensemble={ensemble}
         />
       )}
     </div>

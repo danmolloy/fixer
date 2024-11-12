@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 import TextInput from '../../forms/textInput';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { Ensemble } from '@prisma/client';
+import { getBillingRoute } from '../../billing/api/manage/lib';
 
 export default function CreateEnsembleForm(props: { userId: string }) {
   const router = useRouter();
@@ -25,9 +27,15 @@ export default function CreateEnsembleForm(props: { userId: string }) {
   };
 
   const handleSubmit = async (data: { name: string }) => {
-    return await axios.post('create/api', data).then(() => {
-      router.push('/billing');
-    });
+    try {
+      const newEnsemble = await axios.post('create/api', data);
+      getBillingRoute(await newEnsemble.data.id);
+      const response = await getBillingRoute(await newEnsemble.data.id);
+      window.location.href = response.data.url;
+    
+    } catch(e) {
+      throw new Error(e);
+    }
   };
 
   return (
