@@ -5,10 +5,10 @@ export default function AboutIndex() {
   return (
     <div
       data-testid='about-index'
-      className='flex flex-col self-center p-4 md:mx-32 lg:mx-48'
+      className='flex flex-col self-center mx-8 md:mx-32 lg:mx-48'
     >
       <div className='my-8'>
-        <h1 className='text-4xl text-blue-600'>About GigFix</h1>
+        <h1 className='text-4xl '>About GigFix</h1>
       </div>
       <AboutFeatures />
       <PricingIndex />

@@ -1,12 +1,13 @@
-import { PriceModel } from './pricingModel';
+import { PriceModel } from './pricing';
 import { BiSpreadsheet } from 'react-icons/bi';
 
 export const paymentOptions: PriceModel[] = [
   {
     title: 'Standard',
     tagline: 'Suitable for most ensembles',
-    blurb: '',
+    blurb: 'An affordable plan suitable for most ensembles which includes an array of free features.',
     price: '£2',
+    billingType: "Usage-based billing",
     paymentFrequency: 'booked musician',
     id: 'sub-1',
     features: [
@@ -29,19 +30,5 @@ export const paymentOptions: PriceModel[] = [
     ],
     apiLink: '/billing/api/subscribe/',
   },
-  {
-    title: 'Enterprise',
-    tagline: 'Tailored for orchestras with extensive needs',
-    blurb: 'Contact us for a quote',
-    price: undefined,
-    paymentFrequency: '',
-    id: 'payg-1',
-    features: [
-      {
-        text: 'Custom solutions, dedicated support',
-        id: '0',
-      },
-    ],
-    apiLink: 'contact',
-  },
+  
 ];

@@ -3,7 +3,7 @@ import { screen, render, fireEvent, act } from '@testing-library/react';
 import { paymentOptions } from '../../../app/billing/paymentOptions';
 import PricingModel, {
   PricingModelProps,
-} from '../../../app/billing/pricingModel';
+} from '../../../app/billing/pricing';
 import axios from 'axios';
 
 jest.mock('axios');

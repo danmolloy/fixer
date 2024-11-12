@@ -1,14 +1,14 @@
 import { AiOutlineTeam } from 'react-icons/ai';
 import { paymentOptions } from '../billing/paymentOptions';
-import PricingModel from '../billing/pricingModel';
+import PricingModel from '../billing/pricing';
 
 export default function PricingIndex() {
   return (
     <div data-testid='pricing-index'>
       <div className='py-6'>
         <h2 className='py-2 text-3xl'>Pricing</h2>
-        <p className='font-thin text-slate-600 md:w-2/3'>
-          We offer two different payment plans to cater for a variety of
+        <p className='font-thin text-slate-600 '>
+          We offer an attractive payment plan to cater for a variety of
           ensembles. For more information, please contact us.
         </p>
       </div>
