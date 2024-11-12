@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/sendGrid/reminder",
+      "schedule": "0 9 * * *"
+    }
+  ]
+}

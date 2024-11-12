@@ -8,6 +8,7 @@ import {
 } from '@prisma/client';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
+import { getDateRange } from '../fixing/contactMessage/api/create/functions';
 
 export type ShortEmailData = {
   message: string;
@@ -340,3 +341,96 @@ export const responseConfEmail = (data: {
     templateID,
   };
 };
+
+export const eventReminderMusician = (data: ContactMessage & {
+  contact: EnsembleContact;
+  calls: Call[];
+  eventSection: EventSection & {
+    event: Event & {
+      fixer: User;
+    };
+  };
+}): SentEmailData => {
+  const subject = `Starting tomorrow: ${data.eventSection.event.ensembleName} ${getDateRange(data.calls)}`;
+  const email = data.contact.email!;
+  const templateID = readOnlyTemplate;
+  const bodyText = `Dear ${data.contact.firstName},
+  <br /><br />
+  This is a reminder that ${data.eventSection.event.ensembleName} ${getDateRange(data.calls)} starts tomorrow. Below are the details.
+  <br /><br />
+  ${data.calls
+    .map(
+      (i) =>
+        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
+        ' to<br />' +
+        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
+        '<br />' +
+        i.venue +
+        '<br /><br />'
+    )
+    .join(',')}
+  <br />
+  Gig Status: ${data.eventSection.event.confirmedOrOnHold}<br />
+  Position: ${data.position}<br />
+  Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee : 'Not specified'}<br />
+  Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : 'Not specified'}<br />
+  Additional Information: ${data.eventSection.event.additionalInfo ? data.eventSection.event.additionalInfo : 'Not specified'}<br />
+  ${data.playerMessage !== null ? data.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + data.playerMessage : ''}
+<br />
+<br />
+
+If there are any issues, contact ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} at ${data.eventSection.event.fixer.email} or ${data.eventSection.event.fixer.mobileNumber}. <br /> <br />
+
+Best wishes,<br />
+GigFix
+  `
+  return {
+    subject,
+    bodyText,
+    email,
+    templateID,
+  };
+}
+
+export const eventReminderFixer = (event: Event & {
+      calls: Call[];
+      fixer: User;
+    }): SentEmailData => {
+  const subject = `Starting tomorrow: ${event.ensembleName} ${getDateRange(event.calls)}`;
+  const email = event.fixer.email!;
+  const templateID = readOnlyTemplate;
+  const bodyText = `Dear ${event.fixer.firstName},
+  <br /><br />
+  This is a reminder that ${event.ensembleName} ${getDateRange(event.calls)} starts tomorrow, of which you are the fixer. Below are the details.
+  <br /><br />
+  ${event.calls
+    .map(
+      (i) =>
+        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
+        ' to<br />' +
+        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
+        '<br />' +
+        i.venue +
+        '<br /><br />'
+    )
+    .join(',')}
+  <br />
+  Gig Status: ${event.confirmedOrOnHold}<br />
+  Fee: ${event.fee ? event.fee : 'Not specified'}<br />
+  Dress: ${event.dressCode ? event.dressCode : 'Not specified'}<br />
+  Additional Information: ${event.additionalInfo ? event.additionalInfo : 'Not specified'}<br />
+<br />
+<br />
+You can update any of the gig details via the event page. Your booked musicians have also recieved a reminder.
+<br />
+<br />
+Best wishes,<br />
+GigFix
+  `
+  return {
+    subject,
+    bodyText,
+    email,
+    templateID,
+  };
+}

@@ -33,8 +33,7 @@ export async function POST(
   try {
     //const response = await sgMail.send(emailData);
     await sgMail.send(emailData);
-    //console.log(response[0].statusCode);
-    //console.log(response[0].headers);
+    
 
     return new Response(
       JSON.stringify({ status: 'Email sent successfully!' }),
