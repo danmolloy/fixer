@@ -434,3 +434,103 @@ GigFix
     templateID,
   };
 }
+
+
+export const reportUnresponsiveMusicianEmail = (
+  data: ContactMessage & {
+    contact: EnsembleContact
+    eventSection: EventSection & {
+      event: Event & {
+        calls: Call[]
+        fixer: User 
+      }
+    } 
+  
+}): SentEmailData => {
+  const subject = `Unresponsive Musician Alert`;
+  const email = data.eventSection.event.fixer.email!;
+  const templateID = readOnlyTemplate;
+  const bodyText = `Dear ${data.eventSection.event.fixer},
+  <br />
+  <br />
+  We are yet to recieve a response from ${data.contact.firstName} ${data.contact.lastName} regarding ${data.eventSection.event.ensembleName} ${getDateRange(data.eventSection.event.calls)}.
+  <br /><br />
+  We made initial contact with them on ${DateTime.fromJSDate(new Date(data.recievedDate!)).toFormat("dd LLL")} via email, with further contact made with text message.
+  <br /><br />
+  You can send an additional prompt to them via the event page or retract the offer. 
+  <br /><br />
+  Alternatively, you can disregard this message.
+    <br /><br />
+  Best wishes,<br />
+  GigFix
+  `;
+
+
+  return {
+    subject,
+    bodyText,
+    email,
+    templateID,
+  };
+}
+
+
+export const remindUnresponsiveMusicianEmail = (
+  data: ContactMessage & {
+    calls: Call[]
+    contact: EnsembleContact
+    eventSection: EventSection & {
+      event: Event & {
+        calls: Call[]
+        fixer: User 
+      }
+    } 
+  
+}): SentEmailData => {
+  const subject = `Action Required: ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
+  const templateID = responseTemplate;
+  const responseLink = `${url}/fixing/response${data.token}/`;
+  const email = data.contact.email!;
+  const bodyText = `Dear ${data.contact.firstName}, <br />
+  <br />
+  We are yet to recieve a response from you regarding the gig below. If we have not recieved a response with 48 hours, we will alert the fixer.
+  <br/><br />
+  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
+  <br />
+  ${data.calls
+    .map(
+      (i) =>
+        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
+        ' to<br />' +
+        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
+        '<br />' +
+        i.venue +
+        '<br /><br />'
+    )
+    .join(',')}
+  <br />
+  Gig Status: ${data.eventSection.event.confirmedOrOnHold}<br />
+  Position: ${data.position}<br />
+  Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee : 'Not specified'}<br />
+  Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : 'Not specified'}<br />
+  Additional Information: ${data.eventSection.event.additionalInfo ? data.eventSection.event.additionalInfo : 'Not specified'}<br />
+  ${data.playerMessage !== null ? data.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + data.playerMessage : ''}
+<br />
+<br />
+  Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond. <br /> <br />
+
+  If you need further information, contact ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} at ${data.eventSection.event.fixer.email} or ${data.eventSection.event.fixer.mobileNumber}. <br /> <br />
+
+Best wishes,<br />
+GigFix
+  `;
+
+  return {
+    subject,
+    responseLink,
+    email,
+    bodyText,
+    templateID,
+  };
+
+}

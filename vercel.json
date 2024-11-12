@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/sendGrid/reminder",
+      "path": "/sendGrid/cron",
       "schedule": "0 9 * * *"
     }
   ]
