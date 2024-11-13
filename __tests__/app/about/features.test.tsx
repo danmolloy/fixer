@@ -1,5 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
-import AboutFeatures, { fixerFeatureList } from '../../../app/about/features';
+import AboutFeatures from '../../../app/about/features';
+import { featureList } from '../../../app/landingPage/features';
 import '@testing-library/jest-dom';
 
 describe('<AboutFeatures />', () => {
@@ -10,12 +11,12 @@ describe('<AboutFeatures />', () => {
     const aboutFeatures = screen.getByTestId('about-features');
     expect(aboutFeatures).toBeInTheDocument();
   });
-  it('fixerFeatures list is in the document', () => {
+  it('features list is in the document', () => {
     const aboutFeatures = screen.getByTestId('about-features');
 
-    for (let i = 0; i < fixerFeatureList.length; i++) {
-      expect(aboutFeatures.textContent).toMatch(fixerFeatureList[i].title);
-      expect(aboutFeatures.textContent).toMatch(fixerFeatureList[i].blurb);
+    for (let i = 0; i < featureList.length; i++) {
+      expect(aboutFeatures.textContent).toMatch(featureList[i].title);
+      expect(aboutFeatures.textContent).toMatch(featureList[i].blurb);
     }
   });
   it('matches snapshot', () => {

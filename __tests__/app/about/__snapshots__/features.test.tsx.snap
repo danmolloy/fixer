@@ -8,62 +8,35 @@ exports[`<AboutFeatures /> matches snapshot 1`] = `
   <div
     class="pb-6"
   >
-    <p
-      class="text-indigo-600 text-xl"
-    >
-      Fix faster
-    </p>
     <h2
-      class="text-3xl  py-2"
+      class="py-2 text-xl"
     >
-      Everything you need to book an orchestra
+      Streamline your orchestra management
     </h2>
-  </div>
-  <p
-    class="py-8"
-  >
-    Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh dui, diam eget aliquam. Quisque id at vitae feugiat egestas ac. Diam nulla orci at in viverra scelerisque eget. Eleifend egestas fringilla sapien.
-  </p>
-  <div
-    class="border-l border-l-indigo-600 px-8"
-  >
     <p
-      class="font-bold pb-4"
+      class="font-thin text-slate-500 md:w-2/3"
     >
-      “Vel ultricies morbi odio facilisi ultrices accumsan donec lacus purus. Lectus nibh ullamcorper ac dictum justo in euismod. Risus aenean ut elit massa. In amet aliquet eget cras. Sem volutpat enim tristique.”
+      GigFix is a communications solution designed specifically for orchestra management. We strive to streamline communication between orchestras and their musicians, making event organisation seamless and stress-free.
     </p>
-    <div
-      class="flex flex-row items-center"
-    >
-      <div
-        class="ml-4"
-      >
-        <p
-          class="font-bold"
-        >
-          Roy Dereks
-        </p>
-        <p
-          class="text-gray-400"
-        >
-          Fixer
-        </p>
-      </div>
-    </div>
   </div>
   <p
-    class="py-8"
+    class="py-4"
   >
-    Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet vitae sed turpis id. Id dolor praesent donec est. Odio penatibus risus viverra tellus varius sit neque erat velit. Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet vitae sed turpis id.
+    We understand the complexities of managing an orchestra, from fixing players to managing changing schedules. Founded by freelance musicians, GigFix aims to tackle the unique communication challenges of orchestras. Our goal is to simplify and optimise orchestra management.
+  </p>
+  <p
+    class="py-4"
+  >
+    Whether you're managing a small ensemble or a full-time symphony orchestra, our intuitive platform gives you full control over bookings, updates and any other communications. From booking musicians and handling availability checks to notifying players of last minute changes, GigFix ensures everyone is in the loop.
   </p>
   <div
-    class="flex flex-col px-6 md:flex-row flex-wrap"
+    class="flex flex-col flex-wrap px-6 py-4 md:flex-row"
   >
     <div
-      class="flex flex-row  my-2 sm:my-4  md:w-1/2"
+      class="my-1 flex flex-row sm:my-2 md:w-1/2"
     >
       <div
-        class="text-blue-600 text-2xl py-2 md:px-2"
+        class="py-2 text-2xl text-blue-600 md:px-2"
       >
         <svg
           fill="currentColor"
@@ -83,22 +56,22 @@ exports[`<AboutFeatures /> matches snapshot 1`] = `
         class="flex flex-col px-4"
       >
         <h3
-          class="text-lg py-2"
+          class="py-2 text-lg"
         >
           Automated fixing
         </h3>
         <p
           class="text-slate-600 md:w-2/3"
         >
-          Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.
+          We send the gig info to the players and let you know what they decide. Whether it’s a gig offer, availability check or just one rehearsal, we’ll handle it.
         </p>
       </div>
     </div>
     <div
-      class="flex flex-row  my-2 sm:my-4  md:w-1/2"
+      class="my-1 flex flex-row sm:my-2 md:w-1/2"
     >
       <div
-        class="text-blue-600 text-2xl py-2 md:px-2"
+        class="py-2 text-2xl text-blue-600 md:px-2"
       >
         <svg
           fill="currentColor"
@@ -121,22 +94,60 @@ exports[`<AboutFeatures /> matches snapshot 1`] = `
         class="flex flex-col px-4"
       >
         <h3
-          class="text-lg py-2"
+          class="py-2 text-lg"
         >
-          Gig interface
+          Real-Time Updates
         </h3>
         <p
           class="text-slate-600 md:w-2/3"
         >
-          Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.
+          Keep track of the fixing with our gig interface. See exactly who has confirmed, declined, or still needs to respond - right when it happens.
         </p>
       </div>
     </div>
     <div
-      class="flex flex-row  my-2 sm:my-4  md:w-1/2"
+      class="my-1 flex flex-row sm:my-2 md:w-1/2"
     >
       <div
-        class="text-blue-600 text-2xl py-2 md:px-2"
+        class="py-2 text-2xl text-blue-600 md:px-2"
+      >
+        <svg
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21 5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5zM5 19V5h14l.002 14H5z"
+          />
+          <path
+            d="M7 7h1.998v2H7zm4 0h6v2h-6zm-4 4h1.998v2H7zm4 0h6v2h-6zm-4 4h1.998v2H7zm4 0h6v2h-6z"
+          />
+        </svg>
+      </div>
+      <div
+        class="flex flex-col px-4"
+      >
+        <h3
+          class="py-2 text-lg"
+        >
+          Centralised Gig Info
+        </h3>
+        <p
+          class="text-slate-600 md:w-2/3"
+        >
+          When you create an event, the details are the same details read by the admin team and the whole orchestra. No more communication errors.
+        </p>
+      </div>
+    </div>
+    <div
+      class="my-1 flex flex-row sm:my-2 md:w-1/2"
+    >
+      <div
+        class="py-2 text-2xl text-blue-600 md:px-2"
       >
         <svg
           fill="currentColor"
@@ -158,22 +169,22 @@ exports[`<AboutFeatures /> matches snapshot 1`] = `
         class="flex flex-col px-4"
       >
         <h3
-          class="text-lg py-2"
+          class="py-2 text-lg"
         >
           Update the orchestra's diary in seconds
         </h3>
         <p
           class="text-slate-600 md:w-2/3"
         >
-          Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.
+          Whether your changing rehearsal schedule or confirming the gig, we alert all the players immediately.
         </p>
       </div>
     </div>
     <div
-      class="flex flex-row  my-2 sm:my-4  md:w-1/2"
+      class="my-1 flex flex-row sm:my-2 md:w-1/2"
     >
       <div
-        class="text-blue-600 text-2xl py-2 md:px-2"
+        class="py-2 text-2xl text-blue-600 md:px-2"
       >
         <svg
           fill="currentColor"
@@ -195,22 +206,17 @@ exports[`<AboutFeatures /> matches snapshot 1`] = `
         class="flex flex-col px-4"
       >
         <h3
-          class="text-lg py-2"
+          class="py-2 text-lg"
         >
-          Find new players in the directory
+          Share information with the team
         </h3>
         <p
           class="text-slate-600 md:w-2/3"
         >
-          Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.
+          The orchestra diary can be shared with the entire admin team, and selected freelance fixers can have access to certain events.
         </p>
       </div>
     </div>
   </div>
-  <p
-    class="py-8"
-  >
-    Et vitae blandit facilisi magna lacus commodo. Vitae sapien duis odio id et. Id blandit molestie auctor fermentum dignissim. Lacus diam tincidunt ac cursus in vel. Mauris varius vulputate et ultrices hac adipiscing egestas. Iaculis convallis ac tempor et ut. Ac lorem vel integer orci.
-  </p>
 </div>
 `;

@@ -7,7 +7,7 @@ export default function PricingIndex() {
     <div data-testid='pricing-index' className='mt-12'>
       <div className='py-6'>
         <h2 className='py-2 text-3xl'>Pricing</h2>
-        <p className='font-thin text-slate-600 '>
+        <p data-testid="pricing-blurb" className='font-thin text-slate-600 '>
           We offer an attractive payment plan to cater for a variety of
           ensembles. For more information, please contact us.
         </p>

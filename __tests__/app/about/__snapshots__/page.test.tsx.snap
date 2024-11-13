@@ -1,0 +1,430 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AboutIndex /> matches snapshot 1`] = `
+<div
+  class="flex flex-col self-center mx-8 md:mx-32 lg:mx-48"
+  data-testid="about-index"
+>
+  <div
+    class="my-8"
+  >
+    <h1
+      class="text-4xl "
+    >
+      About GigFix
+    </h1>
+  </div>
+  <div
+    class=""
+    data-testid="about-features"
+  >
+    <div
+      class="pb-6"
+    >
+      <h2
+        class="py-2 text-xl"
+      >
+        Streamline your orchestra management
+      </h2>
+      <p
+        class="font-thin text-slate-500 md:w-2/3"
+      >
+        GigFix is a communications solution designed specifically for orchestra management. We strive to streamline communication between orchestras and their musicians, making event organisation seamless and stress-free.
+      </p>
+    </div>
+    <p
+      class="py-4"
+    >
+      We understand the complexities of managing an orchestra, from fixing players to managing changing schedules. Founded by freelance musicians, GigFix aims to tackle the unique communication challenges of orchestras. Our goal is to simplify and optimise orchestra management.
+    </p>
+    <p
+      class="py-4"
+    >
+      Whether you're managing a small ensemble or a full-time symphony orchestra, our intuitive platform gives you full control over bookings, updates and any other communications. From booking musicians and handling availability checks to notifying players of last minute changes, GigFix ensures everyone is in the loop.
+    </p>
+    <div
+      class="flex flex-col flex-wrap px-6 py-4 md:flex-row"
+    >
+      <div
+        class="my-1 flex flex-row sm:my-2 md:w-1/2"
+      >
+        <div
+          class="py-2 text-2xl text-blue-600 md:px-2"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 640 512"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M32,224H64V416H32A31.96166,31.96166,0,0,1,0,384V256A31.96166,31.96166,0,0,1,32,224Zm512-48V448a64.06328,64.06328,0,0,1-64,64H160a64.06328,64.06328,0,0,1-64-64V176a79.974,79.974,0,0,1,80-80H288V32a32,32,0,0,1,64,0V96H464A79.974,79.974,0,0,1,544,176ZM264,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,264,256Zm-8,128H192v32h64Zm96,0H288v32h64ZM456,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,456,256Zm-8,128H384v32h64ZM640,256V384a31.96166,31.96166,0,0,1-32,32H576V224h32A31.96166,31.96166,0,0,1,640,256Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex flex-col px-4"
+        >
+          <h3
+            class="py-2 text-lg"
+          >
+            Automated fixing
+          </h3>
+          <p
+            class="text-slate-600 md:w-2/3"
+          >
+            We send the gig info to the players and let you know what they decide. Whether it’s a gig offer, availability check or just one rehearsal, we’ll handle it.
+          </p>
+        </div>
+      </div>
+      <div
+        class="my-1 flex flex-row sm:my-2 md:w-1/2"
+      >
+        <div
+          class="py-2 text-2xl text-blue-600 md:px-2"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21 5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5zM5 19V5h14l.002 14H5z"
+            />
+            <path
+              d="M7 7h1.998v2H7zm4 0h6v2h-6zm-4 4h1.998v2H7zm4 0h6v2h-6zm-4 4h1.998v2H7zm4 0h6v2h-6z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex flex-col px-4"
+        >
+          <h3
+            class="py-2 text-lg"
+          >
+            Real-Time Updates
+          </h3>
+          <p
+            class="text-slate-600 md:w-2/3"
+          >
+            Keep track of the fixing with our gig interface. See exactly who has confirmed, declined, or still needs to respond - right when it happens.
+          </p>
+        </div>
+      </div>
+      <div
+        class="my-1 flex flex-row sm:my-2 md:w-1/2"
+      >
+        <div
+          class="py-2 text-2xl text-blue-600 md:px-2"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21 5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5zM5 19V5h14l.002 14H5z"
+            />
+            <path
+              d="M7 7h1.998v2H7zm4 0h6v2h-6zm-4 4h1.998v2H7zm4 0h6v2h-6zm-4 4h1.998v2H7zm4 0h6v2h-6z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex flex-col px-4"
+        >
+          <h3
+            class="py-2 text-lg"
+          >
+            Centralised Gig Info
+          </h3>
+          <p
+            class="text-slate-600 md:w-2/3"
+          >
+            When you create an event, the details are the same details read by the admin team and the whole orchestra. No more communication errors.
+          </p>
+        </div>
+      </div>
+      <div
+        class="my-1 flex flex-row sm:my-2 md:w-1/2"
+      >
+        <div
+          class="py-2 text-2xl text-blue-600 md:px-2"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            role="img"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title />
+            <path
+              d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zM4.911 7.089h11.456a2.197 2.197 0 0 1 2.165 2.19v5.863a2.213 2.213 0 0 1-2.177 2.178H8.04c-1.174 0-2.04-.99-2.04-2.178v-4.639L4.503 7.905c-.31-.42-.05-.816.408-.816zm3.415 2.19c-.347 0-.68.21-.68.544 0 .334.333.544.68.544h7.905c.346 0 .68-.21.68-.544 0-.334-.334-.545-.68-.545zm0 2.177c-.347 0-.68.21-.68.544 0 .334.333.544.68.544h7.905c.346 0 .68-.21.68-.544 0-.334-.334-.544-.68-.544zm-.013 2.19c-.346 0-.68.21-.68.544 0 .334.334.544.68.544h5.728c.347 0 .68-.21.68-.544 0-.334-.333-.545-.68-.545z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex flex-col px-4"
+        >
+          <h3
+            class="py-2 text-lg"
+          >
+            Update the orchestra's diary in seconds
+          </h3>
+          <p
+            class="text-slate-600 md:w-2/3"
+          >
+            Whether your changing rehearsal schedule or confirming the gig, we alert all the players immediately.
+          </p>
+        </div>
+      </div>
+      <div
+        class="my-1 flex flex-row sm:my-2 md:w-1/2"
+      >
+        <div
+          class="py-2 text-2xl text-blue-600 md:px-2"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            role="img"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title />
+            <path
+              d="M12 0C5.375 0 0 5.375 0 12c0 6.627 5.375 12 12 12 6.626 0 12-5.373 12-12 0-6.625-5.373-12-12-12zm-.624 21.62v-7.528H7.19L13.203 2.38v7.528h4.029L11.376 21.62z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex flex-col px-4"
+        >
+          <h3
+            class="py-2 text-lg"
+          >
+            Share information with the team
+          </h3>
+          <p
+            class="text-slate-600 md:w-2/3"
+          >
+            The orchestra diary can be shared with the entire admin team, and selected freelance fixers can have access to certain events.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="mt-12"
+    data-testid="pricing-index"
+  >
+    <div
+      class="py-6"
+    >
+      <h2
+        class="py-2 text-3xl"
+      >
+        Pricing
+      </h2>
+      <p
+        class="font-thin text-slate-600 "
+        data-testid="pricing-blurb"
+      >
+        We offer an attractive payment plan to cater for a variety of ensembles. For more information, please contact us.
+      </p>
+    </div>
+    <div
+      class="flex w-full flex-col items-center"
+    >
+      <div
+        class=" my-4 flex w-full flex-col rounded border p-2 sm:w-[80vw] md:flex-row md:justify-between"
+        data-testid="sub-1-option"
+      >
+        <div
+          class="p-4"
+        >
+          <h2
+            class="font-semibold "
+          >
+            Standard
+             Plan
+          </h2>
+          <p
+            class="my-4 text-sm text-slate-500"
+          >
+            An affordable plan suitable for most ensembles which includes an array of free features.
+          </p>
+          <hr />
+          <div
+            class="py-2"
+          >
+            <p
+              class="text-blue-600 text-sm py-4"
+            >
+              What's included
+            </p>
+            <div
+              class="my-2 text-sm flex flex-row items-center"
+              data-testid="feature-0"
+            >
+              <div
+                class="text-2xl text-blue-600"
+              >
+                <svg
+                  baseProfile="tiny"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  version="1.2"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.972 6.251c-.967-.538-2.185-.188-2.72.777l-3.713 6.682-2.125-2.125c-.781-.781-2.047-.781-2.828 0-.781.781-.781 2.047 0 2.828l4 4c.378.379.888.587 1.414.587l.277-.02c.621-.087 1.166-.46 1.471-1.009l5-9c.537-.966.189-2.183-.776-2.72z"
+                  />
+                </svg>
+              </div>
+              <p>
+                Unlimited events
+              </p>
+            </div>
+            <div
+              class="my-2 text-sm flex flex-row items-center"
+              data-testid="feature-1"
+            >
+              <div
+                class="text-2xl text-blue-600"
+              >
+                <svg
+                  baseProfile="tiny"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  version="1.2"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.972 6.251c-.967-.538-2.185-.188-2.72.777l-3.713 6.682-2.125-2.125c-.781-.781-2.047-.781-2.828 0-.781.781-.781 2.047 0 2.828l4 4c.378.379.888.587 1.414.587l.277-.02c.621-.087 1.166-.46 1.471-1.009l5-9c.537-.966.189-2.183-.776-2.72z"
+                  />
+                </svg>
+              </div>
+              <p>
+                Up to 500 address book contacts
+              </p>
+            </div>
+            <div
+              class="my-2 text-sm flex flex-row items-center"
+              data-testid="feature-2"
+            >
+              <div
+                class="text-2xl text-blue-600"
+              >
+                <svg
+                  baseProfile="tiny"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  version="1.2"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.972 6.251c-.967-.538-2.185-.188-2.72.777l-3.713 6.682-2.125-2.125c-.781-.781-2.047-.781-2.828 0-.781.781-.781 2.047 0 2.828l4 4c.378.379.888.587 1.414.587l.277-.02c.621-.087 1.166-.46 1.471-1.009l5-9c.537-.966.189-2.183-.776-2.72z"
+                  />
+                </svg>
+              </div>
+              <p>
+                Up to 12 ensemble administrators
+              </p>
+            </div>
+            <div
+              class="my-2 text-sm flex flex-row items-center"
+              data-testid="feature-3"
+            >
+              <div
+                class="text-2xl text-blue-600"
+              >
+                <svg
+                  baseProfile="tiny"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  version="1.2"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.972 6.251c-.967-.538-2.185-.188-2.72.777l-3.713 6.682-2.125-2.125c-.781-.781-2.047-.781-2.828 0-.781.781-.781 2.047 0 2.828l4 4c.378.379.888.587 1.414.587l.277-.02c.621-.087 1.166-.46 1.471-1.009l5-9c.537-.966.189-2.183-.776-2.72z"
+                  />
+                </svg>
+              </div>
+              <p>
+                Billed monthly
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex flex-col items-center justify-center md:w-1/2 p-4 rounded bg-slate-50"
+        >
+          <div
+            class="text-center"
+          >
+            <p
+              class="text-sm font-semibold"
+            >
+              Usage-based billing
+            </p>
+            <p
+              class="text-3xl font-semibold"
+              data-testid="option-price"
+            >
+              £2
+               
+              <span
+                class="text-sm text-slate-600 font-normal"
+              >
+                /
+                booked musician
+              </span>
+            </p>
+          </div>
+          <a
+            class="border rounded py-1 px-2 mt-4 bg-blue-600 text-white hover:bg-blue-500"
+            href="/signin"
+          >
+            Get Started
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
