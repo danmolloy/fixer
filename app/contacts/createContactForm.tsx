@@ -52,7 +52,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
         phoneRegex,
         'number must be international format, i.e. +445504281329'
       )
-      .required('required'),
+      .required('phone number required'),
     role: Yup.string().required('role required'),
     category: Yup.string().required('category required'),
   });
@@ -152,48 +152,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                 </ErrorMessage>
               </div>
 
-              {/* 
-                  <div className="mt-4">
-                    <p id="section-radio">Section</p>
-          <div role="group" aria-labelledby="section-radio" className="flex  flex-col">
-            <label className="m-2">
-              <Field type="radio" name="section.option" value="select" />
-              Select section
-            </label>
-            {props.values.section.option === "select" && 
-                <>
-                <label htmlFor="section-select" className="text-sm">Choose section</label>
-                <Field as="select" name="section.id" className="border p-1 m-1 rounded w-48">
-                  <option value={undefined}>select</option>
-                {sections.map(i => (
-                  <option key={i.id} value={i.id}>{i.name}</option>))}
-                </Field>
-                  <ErrorMessage name="section.id">
-                    {msg => <div className="p-1 text-red-600 text-sm" data-testid={`instrument-error`}>{msg}</div> }
-                  </ErrorMessage>
-                  </>}
-            <label className="m-2">
-              <Field type="radio" onClick={() => props.setFieldValue("section.id", undefined)} name="section.option" value="create" />
-              Create section
-            </label>
-            {props.values.section.option === "create" &&
-            <div className="flex flex-col">
-            <TextInput label="Section Name" id="section-name" name="section.name" />
-            <label htmlFor="instrument-select" className=" text-sm">Section Instrument</label>
-            <Field as="select" name="section.instrument" className="border p-1 m-1 rounded w-48">
-              <option value={""}>select</option>
-              {instrumentSections.map(i => (
-                <option key={i.id} value={i.name}>{i.name}</option>
-              ))}
-
-                </Field>
-            <ErrorMessage name="section.instrument">
-              {msg => <div className="p-1 text-red-600 text-sm" data-testid={`instrument-error`}>{msg}</div> }
-            </ErrorMessage>
-            </div>
-            }
-          </div>
-</div>       */}
+             
               <button
                 className='m-4 self-center rounded bg-indigo-600 px-2 py-1 text-white shadow hover:bg-indigo-500'
                 disabled={props.isSubmitting}

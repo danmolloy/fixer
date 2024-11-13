@@ -5,6 +5,10 @@ import ContactMenu, {
 } from '../../../app/contacts/contactMenu';
 import axios from '../../../__mocks__/axios';
 
+global.confirm = jest.fn(() => true);
+
+let confirm = global.confirm;
+
 jest.mock('axios');
 const mockPost = jest.spyOn(axios, 'post');
 mockPost.mockResolvedValue({ data: {} });
@@ -31,13 +35,14 @@ describe('<ContactMenu />', () => {
     });
     expect(mockProps.editContact).toHaveBeenCalledWith(mockProps.contactId);
   });
-  it("'Delete' button calls deleteContact(contactId) on click", async () => {
+  it("'Delete' button calls deleteContact(contactId) on click with global.confirm", async () => {
     const deleteBtn = screen.getByText('Delete');
     expect(deleteBtn).toBeInTheDocument();
     act(() => {
       fireEvent.click(deleteBtn);
     });
-    expect(mockPost).toHaveBeenCalledWith('/contact/api/archive', {
+    expect(confirm).toHaveBeenCalled();
+    expect(mockPost).toHaveBeenCalledWith('/contacts/api/archive', {
       id: mockProps.contactId,
     });
   });

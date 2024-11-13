@@ -18,20 +18,12 @@ export default function ContactCard(props: ContactCardProps) {
       className='m-1 w-full rounded border-b text-xs sm:text-sm'
     >
       <td className='flex flex-row px-1 py-2'>
-        {/* <div
-          className={`m-2 hidden h-8 w-8 items-center justify-center rounded-full bg-indigo-500 text-white sm:flex ${contact.category!.toLowerCase() === 'member' && 'bg-orange-500'} `}
-        >
-          {contact.firstName[0]}
-          {contact.lastName[0]}
-        </div> */}
+        
         <div>
           <p>
             {contact.firstName} {contact.lastName}
           </p>
-          {/* <p>
-            ({contact.category}){' '}
-            <span data-testid='index-num'>{contact.indexNumber}</span>
-          </p> */}
+          
         </div>
       </td>
       <td>

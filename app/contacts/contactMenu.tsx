@@ -12,9 +12,12 @@ export default function ContactMenu(props: ContactMenuProps) {
   const router = useRouter();
 
   const deleteContact = async (contactId: string) => {
-    return await axios
-      .post('/contacts/api/archive', { id: contactId })
-      .then(() => router.refresh());
+    const conf = confirm("Are you sure you want to delete this musician?");
+    if (conf) {
+      return await axios
+        .post('/contacts/api/archive', { id: contactId })
+        .then(() => router.refresh());
+    }
   };
 
   return (

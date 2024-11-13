@@ -30,19 +30,26 @@ describe('<ContactCard />', () => {
     const contactCard = screen.getByTestId('contact-card');
     expect(contactCard).toBeInTheDocument();
   });
-  it('indexNumber is in the document', () => {
-    const indexNum = screen.getByTestId('index-num');
-    expect(indexNum.textContent).toMatch(String(mockProps.contact.indexNumber));
-  });
+
   it('full name is in the document', () => {
     const fullName = screen.getByText(
       `${mockProps.contact.firstName} ${mockProps.contact.lastName}`
     );
     expect(fullName).toBeInTheDocument();
   });
+  it("section name is in the document", () => {
+    const sectionName = screen.getByText(
+      `${mockProps.contact.section.name}`
+    );
+    expect(sectionName).toBeInTheDocument();
+  })
+  it("role is in the document", () => {
+    const role = screen.getByText(mockProps.contact.role);
+    expect(role).toBeInTheDocument();
+  })
   it('category is in the document', () => {
     if (mockProps.contact.category) {
-      const category = screen.getByText(`(${mockProps.contact.category})`);
+      const category = screen.getByText(mockProps.contact.category);
       expect(category).toBeInTheDocument();
     }
   });

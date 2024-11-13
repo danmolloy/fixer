@@ -19,7 +19,6 @@ import {
 } from '../../../app/contacts/lib';
 import axios from '../../../__mocks__/axios';
 import { EnsembleContact, EnsembleSection } from '@prisma/client';
-import { CreateEnsembleContact } from '../../../app/contacts/api/create/route';
 import { mockEnsembleContact } from '../../../__mocks__/models/ensembleContact';
 
 jest.mock('axios');
@@ -34,7 +33,7 @@ describe('<CreateContactForm />', () => {
     section: 'Double Bass',
     role: 'Principal',
     email: 'roy@dereks.com',
-    phone: '12345689',
+    phone: '+12345689',
     category: 'Member',
   };
   const mockProps: CreateContactFormProps = {
@@ -85,28 +84,15 @@ describe('<CreateContactForm />', () => {
     const roleInput = screen.getByLabelText('Role');
     expect(roleInput).toBeInTheDocument();
     expect(roleInput).toHaveAttribute('name', 'role');
-
-    for (let i = 0; i < rolesArr.length; i++) {
-      expect(roleInput.textContent).toMatch(rolesArr[i].name);
-      const role = screen.getByTestId(`role-option-${rolesArr[i].id}`);
-      expect(role).toBeInTheDocument();
-      expect(role.textContent).toMatch(rolesArr[i].name);
-      expect(role).toHaveAttribute('value', rolesArr[i].name);
-    }
+    expect(roleInput).toHaveAttribute('type', 'text');
+    expect(roleInput).toHaveAttribute('value', '');
   });
   it('category input is in the document with expected, label, name and type attrs & options', () => {
     const categoryInput = screen.getByLabelText('Category');
     expect(categoryInput).toBeInTheDocument();
     expect(categoryInput).toHaveAttribute('name', 'category');
-    for (let i = 0; i < categories.length; i++) {
-      expect(categoryInput.textContent).toMatch(categories[i].name);
-      const category = screen.getByTestId(
-        `category-option-${categories[i].id}`
-      );
-      expect(category).toBeInTheDocument();
-      expect(category.textContent).toMatch(categories[i].name);
-      expect(category).toHaveAttribute('value', categories[i].name);
-    }
+    expect(categoryInput).toHaveAttribute('type', 'text');
+    expect(categoryInput).toHaveAttribute('value', '');
   });
   it('section select is in the document with expected, label, name and type attrs & options', () => {
     const sectionSelect = screen.getByLabelText('Section Select');
@@ -219,13 +205,17 @@ describe('<CreateContactForm />', () => {
 describe('<CreateContactForm />', () => {
   const mockContact: EnsembleContact & { section: EnsembleSection } = {
     ...mockEnsembleContact,
+    phoneNumber: "+447479011111",
     section: mockSection,
   };
   const mockProps: CreateContactFormProps = {
     ensembleId: mockEnsemble.id,
     sections: [mockSection],
     closeForm: jest.fn(),
-    contact: mockContact,
+    contact: {
+      ...mockContact,
+      phoneNumber: "+447479011111"
+    },
   };
   beforeEach(() => {
     render(<CreateContactForm {...mockProps} />);
@@ -245,21 +235,22 @@ describe('<CreateContactForm />', () => {
     await act(async () => {
       fireEvent.click(submitBtn);
     });
-    const createContactForm = screen.getByTestId('create-contact-form');
 
     expect(axios.post).toHaveBeenCalledWith('/contacts/api/update', {
-      category: mockContact.category,
-      email: mockContact.email,
-      phone: mockContact.phoneNumber,
-      firstName: mockContact.firstName,
-      id: mockContact.id,
-      lastName: mockContact.lastName,
-      role: mockContact.role,
-      section: {
-        name: mockContact.section.name,
-        id: mockContact.section.id,
-      },
-      ensembleId: mockProps.ensembleId,
+      contactId: mockContact.id,
+      updatedData: {
+        category: mockContact.category,
+        email: mockContact.email,
+        phone: mockContact.phoneNumber,
+        firstName: mockContact.firstName,
+        lastName: mockContact.lastName,
+        role: mockContact.role,
+        section: {
+          name: mockContact.section.name,
+          id: mockContact.section.id,
+        },
+        ensembleId: mockProps.ensembleId,
+      }
     });
   });
 });
