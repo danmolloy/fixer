@@ -25,18 +25,15 @@ export default function ContactForm() {
           bodyText: `Dear GigFix Admin,
           <br /><br />
           You have recieved the following contact form message from ${data.name}:
-                    <br /><br />
-${data.message}
-                    <br /><br />
-                    End of Message
-                                                            <br /><br />
-
-                    Reply email: ${data.email}
-                                        <br /><br />
-
-Kind regards,
-GigFix
-          `,
+          <br /><br />
+          ${data.message}
+          <br /><br />
+          End of Message
+          <br /><br />
+          Reply email: ${data.email}
+          <br /><br />
+          Kind regards,
+          GigFix`,
         },
         templateID: 'd-2b2e84b23956415ba770e7c36264bef9',
         emailAddress: process.env.FROM_EMAIL,

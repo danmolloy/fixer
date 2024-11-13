@@ -25,7 +25,7 @@ describe('<PricingModel />', () => {
     expect(pricingModel).toBeInTheDocument();
   });
   it('option title is in the document', () => {
-    const title = screen.getByText(mockProps.priceModel.title);
+    const title = screen.getByText(`${mockProps.priceModel.title} Plan`);
     expect(title).toBeInTheDocument();
   });
   it('option blurb is in the document', () => {
@@ -34,32 +34,27 @@ describe('<PricingModel />', () => {
     );
     expect(pricingModel.textContent).toMatch(mockProps.priceModel.blurb);
   });
-  it('option price and payment frequency are in the document', () => {
-    const price = screen.getByTestId('option-price');
-    expect(price.textContent).toMatch(
-      `${mockProps.priceModel.price} ${mockProps.priceModel.paymentFrequency}`
-    );
-    expect(price).toBeInTheDocument();
-  });
   it('all option features are in the document with blurb and title', () => {
     for (let i = 0; i < mockProps.priceModel.features.length; i++) {
       const feature = screen.getByTestId(
         `feature-${mockProps.priceModel.features[i].id}`
       );
       expect(feature.textContent).toMatch(
-        mockProps.priceModel.features[i].title
-      );
-      expect(feature.textContent).toMatch(
-        mockProps.priceModel.features[i].blurb
+        mockProps.priceModel.features[i].text
       );
     }
   });
-  it('select button is in the document, and calls axios.post(option-apiLink) on click', () => {
-    const selectBtn = screen.getByText('Select');
-    expect(selectBtn).toBeInTheDocument();
-    act(() => {
-      fireEvent.click(selectBtn);
-    });
-    expect(axios.post).toHaveBeenCalledWith(mockProps.priceModel.apiLink);
+  it("billing type is in the document", () => {
+    const billingType = screen.getByText(mockProps.priceModel.billingType);
+    expect(billingType).toBeInTheDocument();
+  });
+  it("price and payment frequency are clearly stated", () => {
+    const optionPrice = screen.getByTestId('option-price');
+    expect(optionPrice).toHaveTextContent(`${mockProps.priceModel.price} /${mockProps.priceModel.paymentFrequency}`)
+  });
+  it("'get started' link is in the document with href='/signup' attr", () => {
+    const getStartedLink = screen.getByText("Get Started");
+    expect(getStartedLink).toBeInTheDocument();
+    expect(getStartedLink).toHaveAttribute("href", "/signup");
   });
 });

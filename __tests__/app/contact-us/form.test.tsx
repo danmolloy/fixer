@@ -9,10 +9,6 @@ describe('<ContactForm />', () => {
   beforeEach(() => {
     render(<ContactForm />);
   });
-  it("'Contact' title is in the document", () => {
-    const contactTitle = screen.getByText('Contact us');
-    expect(contactTitle).toBeInTheDocument();
-  });
 
   it('name input is in the document with label, type and name attrs', () => {
     const nameInput = screen.getByLabelText('Name');
@@ -47,4 +43,42 @@ describe('<ContactForm />', () => {
 
     expect(mockPost).not.toHaveBeenCalled();
   });
+  it("calls sengrid with expected args on submit", async () => {
+    const nameInput = screen.getByLabelText('Name');
+    const emailInput = screen.getByLabelText('Email');
+    const messageInput = screen.getByLabelText('Message');
+
+    await act(async () => {
+      fireEvent.change(nameInput, { target: { value: 'Greg Ievers' } });
+    });
+    await act(async () => {
+      fireEvent.change(emailInput, { target: { value: 'greg@ievers.com' } });
+    });
+    await act(async () => {
+      fireEvent.change(messageInput, { target: { value: 'Hi mate!' } });
+    });
+    const submitBtn = screen.getByText('Submit');
+    await act(async () => fireEvent.click(submitBtn));
+
+    expect(mockPost).toHaveBeenCalledWith("/sendGrid", {"body": {
+      emailAddress: "danielmolloy_6@icloud.com",
+      emailData: {
+        bodyText: `Dear GigFix Admin,
+          <br /><br />
+          You have recieved the following contact form message from Greg Ievers:
+          <br /><br />
+          Hi mate!
+          <br /><br />
+          End of Message
+          <br /><br />
+          Reply email: greg@ievers.com
+          <br /><br />
+          Kind regards,
+          GigFix`,
+          subject: "New Message from GigFix"},
+        templateID: "d-2b2e84b23956415ba770e7c36264bef9",
+      
+    }});
+
+  })
 });
