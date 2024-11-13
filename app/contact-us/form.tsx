@@ -2,6 +2,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../forms/textInput';
+import axios from 'axios';
 
 export default function ContactForm() {
   const formSchema = Yup.object().shape({
@@ -16,8 +17,30 @@ export default function ContactForm() {
     message: '',
   };
 
-  const handleSubmit = (data) => {
-    alert(data);
+  const handleSubmit = async (data) => {
+    await axios.post("/sendGrid", {
+      body: {
+        emailData: {
+          subject: "New Message from GigFix",
+          bodyText: `Dear GigFix Admin,
+          <br /><br />
+          You have recieved the following contact form message from ${data.name}:
+                    <br /><br />
+${data.message}
+                    <br /><br />
+                    End of Message
+                                                            <br /><br />
+
+                    Reply email: ${data.email}
+                                        <br /><br />
+
+Kind regards,
+GigFix
+          `,
+        },
+        templateID: 'd-2b2e84b23956415ba770e7c36264bef9',
+        emailAddress: process.env.FROM_EMAIL,
+      }})
   };
 
   return (
@@ -45,8 +68,8 @@ export default function ContactForm() {
               label={'Email'}
               max={'45'}
             />
-            <div>
-              <label htmlFor='msg-text' className='form-label'>
+            <div className='flex flex-col'>
+              <label htmlFor='msg-text' className='form-label '>
                 Message{' '}
                 {/* <span className='text-sm text-gray-400'>Optional</span> */}
               </label>
@@ -56,7 +79,7 @@ export default function ContactForm() {
                 rows='4'
                 component='textarea'
                 id='msg-text'
-                className='w-full rounded-md border p-1 text-black shadow-sm'
+                className='w-full rounded-md border p-1 lg:w-[60vw] text-black shadow-sm'
                 type='textarea'
                 name='message'
               />
@@ -72,7 +95,7 @@ export default function ContactForm() {
             </div>
             <button
               type='submit'
-              className='w-24 self-end rounded bg-indigo-600 px-2 py-1 text-white shadow hover:bg-indigo-700 active:bg-indigo-800'
+              className='w-24 self-end rounded bg-blue-600 px-2 py-1 text-white shadow hover:bg-blue-500 '
             >
               Submit
             </button>

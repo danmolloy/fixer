@@ -46,12 +46,12 @@ export const footerMenuLinks: {
     id: 'about-link',
     icon: <BiDetail />,
   },
-  {
+  /* {
     name: 'FAQ',
     link: '/faq',
     id: 'faq-link',
     icon: <FaQuestion />,
-  },
+  }, */
   {
     name: 'Contact',
     link: '/contact-us',
@@ -106,7 +106,7 @@ export default function Footer(props: { session: Session | null }) {
           </div>
         ))}
       </div>
-      <div className='flex flex-row items-center p-2 text-sm text-slate-500'>
+      <div className='flex flex-row items-center p-2 text-sm text-slate-500 '>
         <AiOutlineCopyrightCircle />
         <p className='ml-1'>2024 Gig Fix Limited</p>
       </div>

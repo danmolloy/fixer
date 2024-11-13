@@ -8,7 +8,7 @@ export default function TutorialIndex() {
   const [indexNum, setIndexNum] = useState<number>(0);
 
   return (
-    <div className='flex min-h-[120vh] w-full flex-col justify-center bg-black p-4 py-36 text-white transition-all'>
+    <div className='flex min-h-[120vh] w-full flex-col justify-center bg-slate-200 p-4 py-36 text-black transition-all'>
       <div className='text-center'>
         <p className='text-lg text-blue-600'>How it works</p>
         <h2 className='text-3xl font-medium'>
@@ -27,14 +27,14 @@ export default function TutorialIndex() {
       </div>
       <div className='flex flex-row items-center justify-center'>
         <button
-          className='m-2 rounded p-2 text-lg hover:bg-gray-800 disabled:opacity-30'
+          className='m-2 rounded p-2 text-lg hover:bg-slate-300 disabled:opacity-30'
           disabled={indexNum === 0}
           onClick={() => setIndexNum(indexNum - 1)}
         >
           <FaAngleLeft />
         </button>
         <button
-          className='m-2 rounded p-2 text-lg hover:bg-gray-800 disabled:opacity-30'
+          className='m-2 rounded p-2 text-lg hover:bg-slate-300 disabled:opacity-30'
           disabled={indexNum === tutorialData.length - 1}
           onClick={() => setIndexNum(indexNum + 1)}
         >

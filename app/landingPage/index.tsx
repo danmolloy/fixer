@@ -1,4 +1,4 @@
-import TutorialIndex from '../tutorial';
+import TutorialIndex from './tutorial';
 import CTASection from './ctaSection';
 import LandingFeatures from './features';
 import Hero from './hero';

@@ -4,7 +4,7 @@ import PricingModel from '../billing/pricing';
 
 export default function PricingIndex() {
   return (
-    <div data-testid='pricing-index'>
+    <div data-testid='pricing-index' className='mt-12'>
       <div className='py-6'>
         <h2 className='py-2 text-3xl'>Pricing</h2>
         <p className='font-thin text-slate-600 '>

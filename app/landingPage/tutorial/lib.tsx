@@ -1,9 +1,9 @@
-import SignUp from '../../public/images/sign_up.svg';
-import Team from '../../public/images/team.svg';
-import Contacts from '../../public/images/people_search.svg';
-import Calendar from '../../public/images/calendar.svg';
-import Coffee from '../../public/images/coffee_friends.svg';
-import Inbox from '../../public/images/inbox.svg';
+import SignUp from '../../../public/images/sign_up.svg';
+import Team from '../../../public/images/team.svg';
+import Contacts from '../../../public/images/people_search.svg';
+import Calendar from '../../../public/images/calendar.svg';
+import Coffee from '../../../public/images/coffee_friends.svg';
+import Inbox from '../../../public/images/inbox.svg';
 
 export type TutorialStep = {
   step: number;

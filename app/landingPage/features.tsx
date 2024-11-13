@@ -51,7 +51,7 @@ export const featureList: {
 export default function LandingFeatures() {
   return (
     <div
-      className='m-4 flex flex-col rounded-lg border py-4'
+      className='m-4 flex flex-col rounded-lg border py-4 mb-8'
       data-testid='fixer-features'
     >
       <div className='bg-white/80 backdrop-blur'>
