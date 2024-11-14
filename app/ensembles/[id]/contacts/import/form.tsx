@@ -62,7 +62,7 @@ export default function ImportForm(props: ImportFormProps) {
   };
 
   return (
-    <div className='flex w-screen flex-col items-center justify-center'>
+    <div data-testid="import-form" className='flex w-screen flex-col items-center justify-center'>
       <h2 className='m-4 text-2xl'>Add Contacts</h2>
       {data === null && (
         <div className='flex flex-col items-center justify-center'>
@@ -88,6 +88,7 @@ export default function ImportForm(props: ImportFormProps) {
           <div>
             <h3>Import Spreadsheet</h3>
             <input
+              data-testid="spreadsheet-input"
               className='text-sm'
               type='file'
               onChange={handleFileUpload}

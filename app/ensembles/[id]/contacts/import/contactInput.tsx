@@ -40,7 +40,7 @@ export default function ContactInput(props: ContactInputProps) {
         role: Yup.string().required('required'),
         category: Yup.string().required('required'),
       })
-    ),
+    ).min(1),
     ensembleId: Yup.string().required(),
   });
 
@@ -71,7 +71,7 @@ export default function ContactInput(props: ContactInputProps) {
       }}
     >
       {(props) => (
-        <Form>
+        <Form data-testid="contact-input-form">
           <FieldArray
             name='contacts'
             render={({ push, remove }) => (
@@ -79,27 +79,27 @@ export default function ContactInput(props: ContactInputProps) {
                 <div className='flex flex-col items-center overflow-x-scroll rounded'>
                   <table className='m-4 table-auto text-sm'>
                     <thead>
-                      <tr>
+                      <tr data-testid="table-head-row">
                         <th className='border'>First Name</th>
                         <th className='border'>Last Name</th>
                         <th className='border'>Email</th>
                         <th className='border'>Phone Number</th>
                         <th className='border'>Role</th>
                         <th className='border'>Section</th>
-                        {/*             <th>Section Id</th>
-                         */}{' '}
                         <th className='border'>Category</th>
                         <th className='border'></th>
                       </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody data-testid="table-body">
                       {props.values.contacts.map((i, index) => (
                         <tr className='border' key={index}>
                           <td className='border'>
                             <Field
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.firstName`}
+                              data-testid={`contacts.${index}.firstName`}
+
                             />
                             <ErrorMessage
                               className='mx-0 rounded border border-black'
@@ -112,6 +112,7 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <Field
+                              data-testid={`contacts.${index}.lastName`}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.lastName`}
                             />
@@ -125,6 +126,7 @@ export default function ContactInput(props: ContactInputProps) {
                             <Field
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.email`}
+                              data-testid={`contacts.${index}.email`}
                             />
                             <ErrorMessage name={`contacts.${index}.email`}>
                               {(e) => (
@@ -136,6 +138,7 @@ export default function ContactInput(props: ContactInputProps) {
                             <Field
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.phoneNumber`}
+                              data-testid={`contacts.${index}.phoneNumber`}
                             />
                             <ErrorMessage
                               name={`contacts.${index}.phoneNumber`}
@@ -149,6 +152,7 @@ export default function ContactInput(props: ContactInputProps) {
                             <Field
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.role`}
+                              data-testid={`contacts.${index}.role`}
                             />
                             <ErrorMessage name={`contacts.${index}.role`}>
                               {(e) => (
@@ -160,6 +164,7 @@ export default function ContactInput(props: ContactInputProps) {
                             <Field
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.sectionName`}
+                              data-testid={`contacts.${index}.sectionName`}
                               as='select'
                             >
                               <option value={''}>select</option>
@@ -183,6 +188,7 @@ export default function ContactInput(props: ContactInputProps) {
                             <Field
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.category`}
+                              data-testid={`contacts.${index}.category`}
                             />
                             <ErrorMessage name={`contacts.${index}.category`}>
                               {(e) => (
@@ -192,6 +198,7 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <button
+                              data-testid={`contacts.${index}.remove`}
                               className='disabled:opacity-40'
                               disabled={props.values.contacts.length < 2}
                               onClick={() => remove(index)}

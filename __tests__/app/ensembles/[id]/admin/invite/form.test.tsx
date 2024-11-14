@@ -10,6 +10,7 @@ const mockPost = jest.spyOn(axios, 'post');
 mockPost.mockResolvedValue({ data: {} });
 const mockProps: InviteAdminFormProps = {
   ensembleId: 'mockId',
+  userName: "Roy Dereks"
 };
 
 describe('<InviteAdminForm />', () => {
@@ -20,6 +21,10 @@ describe('<InviteAdminForm />', () => {
     const form = screen.getByTestId('invite-admin-form');
     expect(form).toBeInTheDocument();
   });
+  it('Sender name is in the document', () => {
+    const senderName = screen.getByText(`Sender: ${mockProps.userName}`);
+    expect(senderName).toBeInTheDocument()
+  })
   it('first name input is in the document with expected label, name, value and type attrs', () => {
     const firstNameInput = screen.getByLabelText('First Name');
     expect(firstNameInput).toBeInTheDocument();
@@ -83,6 +88,7 @@ describe('<InviteAdminForm />', () => {
       email: 'oscar@tss.com.au',
       positionTitle: 'student',
       accessType: 'full',
+      senderName: mockProps.userName
     };
     const firstNameInput = screen.getByLabelText('First Name');
     await act(async () => {

@@ -3,6 +3,13 @@ import SignIn from '../../signin/page';
 import prisma from '../../../client';
 import EnsembleIndex from '..';
 
+export async function generateStaticParams() {
+  const ensembles = await prisma.ensemble.findMany();
+  return ensembles.map((i) => ({
+    id: String(i.id),
+  }));
+}
+
 const getEnsemble = async (ensembleId: string) => {
   return await prisma.ensemble.findUnique({
     where: {
