@@ -28,9 +28,9 @@ async function getContactMessage(contactMsgID: string) {
 export default async function UpdateContactMessagePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const contactMsgID = params.id;
+  const contactMsgID = (await params).id;
 
   const session = await auth();
   const data = contactMsgID && (await getContactMessage(contactMsgID));

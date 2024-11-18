@@ -17,9 +17,9 @@ const getEnsemble = async (ensembleId: string) => {
 export default async function ImportContacts({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const ensembleId = params.id;
+  const ensembleId = (await params).id;
 
   const session = await auth();
   const data = ensembleId && (await getEnsemble(ensembleId));
