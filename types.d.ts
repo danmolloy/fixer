@@ -15,7 +15,7 @@ interface Musician {
   id: number;
   createdAt: string;
   updatedAt: string;
-  recieved: boolean;
+  received: boolean;
   accepted: boolean | null;
   musicianEmail: string;
   eventInstrumentId: number;

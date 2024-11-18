@@ -7,9 +7,13 @@ import { mockEvent } from '../../../../__mocks__/models/event';
 import { mockCall } from '../../../../__mocks__/models/call';
 import { mockEnsemble } from '../../../../__mocks__/models/ensemble';
 import { DateTime } from 'luxon';
+import { mockUser } from '../../../../__mocks__/models/user';
 
 const mockProps: EventInfoProps = {
-  event: mockEvent,
+  event: {
+    ...mockEvent,
+    fixer: mockUser
+  },
   calls: [mockCall],
   ensemble: mockEnsemble,
 };
@@ -89,7 +93,7 @@ describe('<EventInfo />', () => {
     const fixerName = screen.getByTestId('event-fixer-name');
     expect(fixerName).toBeInTheDocument();
     expect(fixerName.textContent).toMatch(/^Fixer/);
-    expect(fixerName.textContent).toMatch(mockProps.event.fixerName!);
+    expect(fixerName.textContent).toMatch(`${mockProps.event.fixer.firstName} ${mockProps.event.fixer.lastName}`);
   });
   it('created datetime is in the document with label', () => {
     const fixerName = screen.getByTestId('event-fixer-name');

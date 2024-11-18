@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 import { Call, Ensemble, Event } from '@prisma/client';
-import { randBool } from './playerCall';
 
 export const mockEventWithEnsemble: Event & { ensemble: Ensemble } = {
   id: faker.number.int(),
@@ -17,6 +16,9 @@ export const mockEventWithEnsemble: Event & { ensemble: Ensemble } = {
   fixerName: faker.person.fullName(),
   ensembleName: faker.lorem.words(3),
   ensemble: {
+    stripeSubscriptionId: faker.string.uuid(),
+    stripeCustomerId: faker.string.uuid(),
+    subscriptionStatus: "ACTIVE",
     ensembleNames: [faker.lorem.words(3), faker.lorem.words(3)],
     name: faker.lorem.words(3),
     id: faker.string.uuid(),

@@ -33,12 +33,6 @@ export default function AdminTile(props: AdminTileProps) {
       <div className='flex flex-col'>
         <div className='flex flex-row items-center justify-between'>
           <div className='flex flex-row items-center'>
-            {/* <div
-        className={`m-2 flex h-8 w-8 items-center justify-center self-center rounded-full bg-indigo-500 text-white`}
-      >
-        {admin.user.firstName![0]}
-        {admin.user.lastName![0]}
-      </div> */}
             <p className='text-base'>{`${admin.user.firstName} ${admin.user.lastName}`}</p>
           </div>
 

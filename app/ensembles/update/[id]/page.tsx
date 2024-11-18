@@ -16,7 +16,7 @@ export default async function UpdateEnsemble({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
   const session = await auth();
   const ensembleId = session?.user.admins.find(
     (i) => i.ensembleId === id

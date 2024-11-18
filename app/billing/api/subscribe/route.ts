@@ -19,15 +19,15 @@ export async function POST(req: NextRequest) {
       success_url: `${process.env.ORIGIN_URL}/ensembles/${ensembleID}/?success=true`,
       subscription_data: {
         metadata: {
-          ensembleID: ensembleID
-        }
-      }
+          ensembleID: ensembleID,
+        },
+      },
     };
 
     // Create a checkout session
     const session = await stripe.checkout.sessions.create(params);
 
-   return NextResponse.json({ url: session.url }); 
+    return NextResponse.json({ url: session.url });
   } catch (err) {
     console.error('Error creating checkout session:', err);
 

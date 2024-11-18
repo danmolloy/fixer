@@ -78,17 +78,19 @@ describe('<AdminTile />', () => {
     expect(positionTitle).toBeInTheDocument();
   });
   it('access type is in the document', () => {
-    const accessType = screen.getByText(`${mockProps.admin.accessType} access`);
+    const accessType = screen.getByText(
+      `${mockProps.admin.accessType.slice(0, 1).toLocaleUpperCase()}${mockProps.admin.accessType.slice(1).toLocaleLowerCase()} access`
+    );
     expect(accessType).toBeInTheDocument();
   });
   it('mobile number is in the document', () => {
     const mobileNum = screen.getByText(
-      String(mockProps.admin.user.mobileNumber)
+      `M: ${String(mockProps.admin.user.mobileNumber)}`
     );
     expect(mobileNum).toBeInTheDocument();
   });
   it('user email is in the document', () => {
-    const email = screen.getByText(mockProps.admin.user.email!);
+    const email = screen.getByText(`E: ${mockProps.admin.user.email!}`);
     expect(email).toBeInTheDocument();
   });
 });

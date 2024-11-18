@@ -37,16 +37,14 @@ describe('<ContactCard />', () => {
     );
     expect(fullName).toBeInTheDocument();
   });
-  it("section name is in the document", () => {
-    const sectionName = screen.getByText(
-      `${mockProps.contact.section.name}`
-    );
+  it('section name is in the document', () => {
+    const sectionName = screen.getByText(`${mockProps.contact.section.name}`);
     expect(sectionName).toBeInTheDocument();
-  })
-  it("role is in the document", () => {
+  });
+  it('role is in the document', () => {
     const role = screen.getByText(mockProps.contact.role);
     expect(role).toBeInTheDocument();
-  })
+  });
   it('category is in the document', () => {
     if (mockProps.contact.category) {
       const category = screen.getByText(mockProps.contact.category);

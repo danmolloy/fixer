@@ -94,7 +94,7 @@ export const createOfferEmail = async (
 
   const subject = `${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
   const templateID = responseTemplate;
-  const responseLink = `${url}/fixing/response${data.token}/`;
+  const responseLink = `${url}/fixing/response/${data.token}/`;
   const email = data.contact.email!;
   const bodyText = `Dear ${data.contact.firstName}, <br />
   ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
@@ -334,6 +334,7 @@ export const responseConfEmail = (data: {
   <br />
   GigFix`;
 
+  console.log(`subject: ${subject}`);
   return {
     subject,
     bodyText,
@@ -342,15 +343,17 @@ export const responseConfEmail = (data: {
   };
 };
 
-export const eventReminderMusician = (data: ContactMessage & {
-  contact: EnsembleContact;
-  calls: Call[];
-  eventSection: EventSection & {
-    event: Event & {
-      fixer: User;
+export const eventReminderMusician = (
+  data: ContactMessage & {
+    contact: EnsembleContact;
+    calls: Call[];
+    eventSection: EventSection & {
+      event: Event & {
+        fixer: User;
+      };
     };
-  };
-}): SentEmailData => {
+  }
+): SentEmailData => {
   const subject = `Starting tomorrow: ${data.eventSection.event.ensembleName} ${getDateRange(data.calls)}`;
   const email = data.contact.email!;
   const templateID = readOnlyTemplate;
@@ -383,19 +386,21 @@ If there are any issues, contact ${data.eventSection.event.fixer.firstName} ${da
 
 Best wishes,<br />
 GigFix
-  `
+  `;
   return {
     subject,
     bodyText,
     email,
     templateID,
   };
-}
+};
 
-export const eventReminderFixer = (event: Event & {
-      calls: Call[];
-      fixer: User;
-    }): SentEmailData => {
+export const eventReminderFixer = (
+  event: Event & {
+    calls: Call[];
+    fixer: User;
+  }
+): SentEmailData => {
   const subject = `Starting tomorrow: ${event.ensembleName} ${getDateRange(event.calls)}`;
   const email = event.fixer.email!;
   const templateID = readOnlyTemplate;
@@ -421,41 +426,40 @@ export const eventReminderFixer = (event: Event & {
   Additional Information: ${event.additionalInfo ? event.additionalInfo : 'Not specified'}<br />
 <br />
 <br />
-You can update any of the gig details via the event page. Your booked musicians have also recieved a reminder.
+You can update any of the gig details via the event page. Your booked musicians have also received a reminder.
 <br />
 <br />
 Best wishes,<br />
 GigFix
-  `
+  `;
   return {
     subject,
     bodyText,
     email,
     templateID,
   };
-}
-
+};
 
 export const reportUnresponsiveMusicianEmail = (
   data: ContactMessage & {
-    contact: EnsembleContact
+    contact: EnsembleContact;
     eventSection: EventSection & {
       event: Event & {
-        calls: Call[]
-        fixer: User 
-      }
-    } 
-  
-}): SentEmailData => {
+        calls: Call[];
+        fixer: User;
+      };
+    };
+  }
+): SentEmailData => {
   const subject = `Unresponsive Musician Alert`;
   const email = data.eventSection.event.fixer.email!;
   const templateID = readOnlyTemplate;
   const bodyText = `Dear ${data.eventSection.event.fixer},
   <br />
   <br />
-  We are yet to recieve a response from ${data.contact.firstName} ${data.contact.lastName} regarding ${data.eventSection.event.ensembleName} ${getDateRange(data.eventSection.event.calls)}.
+  We are yet to receive a response from ${data.contact.firstName} ${data.contact.lastName} regarding ${data.eventSection.event.ensembleName} ${getDateRange(data.eventSection.event.calls)}.
   <br /><br />
-  We made initial contact with them on ${DateTime.fromJSDate(new Date(data.recievedDate!)).toFormat("dd LLL")} via email, with further contact made with text message.
+  We made initial contact with them on ${DateTime.fromJSDate(new Date(data.receivedDate!)).toFormat('dd LLL')} via email, with further contact made with text message.
   <br /><br />
   You can send an additional prompt to them via the event page or retract the offer. 
   <br /><br />
@@ -465,35 +469,33 @@ export const reportUnresponsiveMusicianEmail = (
   GigFix
   `;
 
-
   return {
     subject,
     bodyText,
     email,
     templateID,
   };
-}
-
+};
 
 export const remindUnresponsiveMusicianEmail = (
   data: ContactMessage & {
-    calls: Call[]
-    contact: EnsembleContact
+    calls: Call[];
+    contact: EnsembleContact;
     eventSection: EventSection & {
       event: Event & {
-        calls: Call[]
-        fixer: User 
-      }
-    } 
-  
-}): SentEmailData => {
+        calls: Call[];
+        fixer: User;
+      };
+    };
+  }
+): SentEmailData => {
   const subject = `Action Required: ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
   const templateID = responseTemplate;
   const responseLink = `${url}/fixing/response${data.token}/`;
   const email = data.contact.email!;
   const bodyText = `Dear ${data.contact.firstName}, <br />
   <br />
-  We are yet to recieve a response from you regarding the gig below. If we have not recieved a response with 48 hours, we will alert the fixer.
+  We are yet to receive a response from you regarding the gig below. If we have not received a response with 48 hours, we will alert the fixer.
   <br/><br />
   ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
   <br />
@@ -532,5 +534,4 @@ GigFix
     bodyText,
     templateID,
   };
-
-}
+};

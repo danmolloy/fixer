@@ -205,7 +205,7 @@ describe('<CreateContactForm />', () => {
 describe('<CreateContactForm />', () => {
   const mockContact: EnsembleContact & { section: EnsembleSection } = {
     ...mockEnsembleContact,
-    phoneNumber: "+447479011111",
+    phoneNumber: '+447479011111',
     section: mockSection,
   };
   const mockProps: CreateContactFormProps = {
@@ -214,7 +214,7 @@ describe('<CreateContactForm />', () => {
     closeForm: jest.fn(),
     contact: {
       ...mockContact,
-      phoneNumber: "+447479011111"
+      phoneNumber: '+447479011111',
     },
   };
   beforeEach(() => {
@@ -250,7 +250,7 @@ describe('<CreateContactForm />', () => {
           id: mockContact.section.id,
         },
         ensembleId: mockProps.ensembleId,
-      }
+      },
     });
   });
 });

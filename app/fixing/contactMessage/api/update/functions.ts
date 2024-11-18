@@ -2,8 +2,8 @@ import prisma from '../../../../../client';
 import { addMeterEvent } from '../../../../billing/api/meterEvent/lib';
 import {
   emailBookingMusicians,
-  emailDeppingMusician,
-} from '../create/functions';
+} from '../create/emailFunctions';
+import { releaseDeppers } from './depFunctions';
 
 export const updateContactMessage = async (contactMessageObj: {
   id: number;
@@ -20,75 +20,32 @@ export const updateContactMessage = async (contactMessageObj: {
           include: {
             event: {
               include: {
-                ensemble: true
-              }
-            }
-          }
-        }
-      }
+                ensemble: true,
+              },
+            },
+          },
+        },
+      },
     });
-    console.log(
-      `contactMessageObj.data.accepted: ${contactMessageObj.data.accepted}`
-    );
+    
 
     if (
       updatedData.bookingOrAvailability.toLocaleLowerCase() === 'booking' &&
       contactMessageObj.data.accepted === true
     ) {
-      const subscriptionID = updatedData.eventSection.event.ensemble.stripeSubscriptionId;
-      await addMeterEvent(subscriptionID!)
+      const subscriptionID =
+        updatedData.eventSection.event.ensemble.stripeSubscriptionId;
+      await addMeterEvent(subscriptionID!);
       await releaseDeppers(updatedData.eventSectionId);
     }
     await emailBookingMusicians(updatedData.eventSectionId);
     return updatedData;
   } catch (e) {
+    console.log(e);
     throw new Error(e);
   }
 };
 
-export const releaseDeppers = async (eventSectionId: number) => {
-  console.log('Releasing Deppers!');
-  const deppingContacts = await prisma.contactMessage.findMany({
-    where: {
-      eventSectionId: eventSectionId,
-      status: 'DEP OUT',
-    },
-    orderBy: [
-      {
-        indexNumber: 'asc',
-      },
-    ],
-  });
-  if (deppingContacts.length > 0) {
-    try {
-      const releaseMusician = await prisma.contactMessage.update({
-        where: {
-          id: deppingContacts[0].id,
-        },
-        data: {
-          status: 'RELEASED',
-          accepted: false,
-        },
-        include: {
-          contact: true,
-          calls: true,
-          eventSection: {
-            include: {
-              event: true,
-            },
-          },
-        },
-      });
-      return await emailDeppingMusician({
-        ...releaseMusician,
-        ensembleName: releaseMusician.eventSection.event.ensembleName,
-        eventId: releaseMusician.eventSection.eventId,
-      });
-    } catch (e) {
-      throw new Error(e);
-    }
-  }
-};
 
 export const updateContactIndex = async (data: {
   eventSectionId: number;

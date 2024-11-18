@@ -43,16 +43,20 @@ export default function EnsemblesMenu(props: EnsemblesMenuProps) {
               </Link>
             ))
           ) : (
-            <p className='m-1 p-2 flex flex-row items-center justify-start'>No Ensembles</p>
+            <p className='m-1 flex flex-row items-center justify-start p-2'>
+              No Ensembles
+            </p>
           )}
           <Link
             href='/ensembles/join/'
             className='m-1 flex flex-row items-center justify-start p-2 hover:bg-slate-50 hover:text-blue-600'
+            data-testid='join-link'
           >
             <BsBuildingAdd />
             <p className='ml-1'>Join Ensemble</p>
           </Link>
           <Link
+            data-testid='create-link'
             href='/ensembles/create/'
             className='m-1 flex flex-row items-center justify-start p-2 hover:bg-slate-50 hover:text-blue-600'
           >

@@ -1,5 +1,5 @@
 import prisma from '../../../../../client';
-import { emailBookingMusicians } from '../../../contactMessage/api/create/functions';
+import { emailBookingMusicians } from '../../../contactMessage/api/create/emailFunctions';
 
 export const updateEventSection = async (sectionObj: {
   eventSectionId: number;

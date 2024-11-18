@@ -1,9 +1,7 @@
 import '@testing-library/jest-dom';
 import { screen, render, fireEvent, act } from '@testing-library/react';
 import { paymentOptions } from '../../../app/billing/paymentOptions';
-import PricingModel, {
-  PricingModelProps,
-} from '../../../app/billing/pricing';
+import PricingModel, { PricingModelProps } from '../../../app/billing/pricing';
 import axios from 'axios';
 
 jest.mock('axios');
@@ -44,17 +42,19 @@ describe('<PricingModel />', () => {
       );
     }
   });
-  it("billing type is in the document", () => {
+  it('billing type is in the document', () => {
     const billingType = screen.getByText(mockProps.priceModel.billingType);
     expect(billingType).toBeInTheDocument();
   });
-  it("price and payment frequency are clearly stated", () => {
+  it('price and payment frequency are clearly stated', () => {
     const optionPrice = screen.getByTestId('option-price');
-    expect(optionPrice).toHaveTextContent(`${mockProps.priceModel.price} /${mockProps.priceModel.paymentFrequency}`)
+    expect(optionPrice).toHaveTextContent(
+      `${mockProps.priceModel.price} /${mockProps.priceModel.paymentFrequency}`
+    );
   });
   it("'get started' link is in the document with href='/signup' attr", () => {
-    const getStartedLink = screen.getByText("Get Started");
+    const getStartedLink = screen.getByText('Get Started');
     expect(getStartedLink).toBeInTheDocument();
-    expect(getStartedLink).toHaveAttribute("href", "/signup");
+    expect(getStartedLink).toHaveAttribute('href', '/signup');
   });
 });

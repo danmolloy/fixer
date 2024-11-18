@@ -152,7 +152,6 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                 </ErrorMessage>
               </div>
 
-             
               <button
                 className='m-4 self-center rounded bg-indigo-600 px-2 py-1 text-white shadow hover:bg-indigo-500'
                 disabled={props.isSubmitting}

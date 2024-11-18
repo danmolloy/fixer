@@ -2,8 +2,9 @@ import { DateTime } from 'luxon';
 import prisma from '../../../../client';
 import InfoDiv from '../../../event/[id]/infoDiv';
 import CallTile from '../../../event/[id]/callTile';
-import ResponsePanel from './responsePanel';
 import ResponseForm from './form';
+import ResponseHeader from './header';
+import ResponseConf from './responseConf';
 
 const getContactMessage = async (token: string) => {
   const contactMessage = await prisma.contactMessage.findUnique({
@@ -34,7 +35,7 @@ export default async function GigResponse({
 }: {
   params: { token: string };
 }) {
-  const { token } = params;
+  const { token } = await params;
   const data = await getContactMessage(token);
 
   if (!data) {
@@ -42,20 +43,20 @@ export default async function GigResponse({
   }
 
   return (
-    <div className='flex w-full flex-col items-center justify-center py-12'>
-      <div className='p-2 text-center'>
-        <h1 className='text-3xl font-semibold'>
-          {data.bookingOrAvailability.toLocaleLowerCase() === 'booking'
-            ? 'Gig Offer'
-            : 'Availability Check'}
-        </h1>
-        {data.accepted === null && (
-          <p className='my-2 text-sm'>
-            Hi {data.contact.firstName}, please indicate your decision below.
-          </p>
-        )}
-      </div>
-      <table className='w-[95vw] md:w-2/3'>
+    <div className='flex w-full flex-col items-center justify-center py-12 bg-slate-50 -mb-16'>
+      {data.accepted === null 
+      ? <ResponseHeader 
+        bookingOrAvailability={data.bookingOrAvailability}
+        fixerName={`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`}
+        contactFirstName={`${data.contact.firstName}`}
+        />
+      : <ResponseConf         
+        bookingOrAvailability={data.bookingOrAvailability}
+        availableFor={data.availableFor}
+        contactMessageCalls={data.calls}
+        accepted={data.accepted}
+      />}
+      <table className='w-[95vw] md:w-2/3 border my-4 rounded '>
         <tbody className={''}>
           <InfoDiv
             className='bg-slate-50'
@@ -68,7 +69,7 @@ export default async function GigResponse({
             }
           />
           <InfoDiv
-            className=''
+            className=' bg-white'
             id='event-status'
             title='Status'
             value={data.eventSection.event.confirmedOrOnHold.toLocaleUpperCase()}
@@ -81,7 +82,7 @@ export default async function GigResponse({
           />
           <tr
             data-testid='calls-row'
-            className='flex w-full flex-col p-4 md:flex-row lg:items-center lg:justify-evenly'
+            className='flex w-full flex-col p-4 md:flex-row lg:items-center lg:justify-evenly bg-white'
           >
             <td className='text-sm text-slate-600 md:w-1/2'>
               {data.calls.length} Call(s)
@@ -105,7 +106,7 @@ export default async function GigResponse({
             value={data.eventSection.event.concertProgram}
           />
           <InfoDiv
-            className=''
+            className=' bg-white'
             id='position'
             title='Position'
             value={data.position}
@@ -117,7 +118,7 @@ export default async function GigResponse({
             value={data.eventSection.event.dressCode}
           />
           <InfoDiv
-            className=''
+            className=' bg-white'
             id='event-fee'
             title='Fee'
             value={data.eventSection.event.fee}
@@ -129,7 +130,7 @@ export default async function GigResponse({
             value={data.eventSection.event.additionalInfo}
           />
           <InfoDiv
-            className=''
+            className=' bg-white'
             id='event-fixer-name'
             title='Fixer'
             value={`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`}
@@ -141,7 +142,7 @@ export default async function GigResponse({
             value={data.eventSection.event.fixer.mobileNumber}
           />
           <InfoDiv
-            className=''
+            className=' bg-white'
             id='event-fixer-email'
             title='Fixer email'
             value={data.eventSection.event.fixer.email}
@@ -153,14 +154,8 @@ export default async function GigResponse({
             title='Personal Message'
             value={data.playerMessage}
           />
-          {/* <InfoDiv
-        className='bg-slate-50'
-        id='section-message'
-        title='Section Message'
-        value={data.eventSection.}
-      /> */}
           <InfoDiv
-            className='text-sm text-slate-600'
+            className='text-sm text-slate-600 bg-white'
             id='created-datetime'
             title='Event created'
             value={String(
@@ -181,73 +176,21 @@ export default async function GigResponse({
           />
         </tbody>
       </table>
-      <div className='my-4'>
-        {data.accepted !== null &&
-        data.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? (
-          <div>
-            <h2 className='text-sm'>
-              You have {data.accepted === true ? 'accepted' : 'declined'} this
-              offer.
-            </h2>
-            <p className='text-sm'>
-              If this was an error, contact{' '}
-              {`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`}{' '}
-              directly.
-            </p>
+      
+      <div className='my-4 flex flex-col items-center justify-center'>
+        
+        {(data.accepted == null 
+        || data.bookingOrAvailability.toLocaleLowerCase() !== 'booking')
+        && <ResponseForm
+          contactMessage={data}
+          fixerName={data.eventSection.event.fixerName!}
+          bookingOrAvailability={data.bookingOrAvailability}
+          accepted={data.accepted}
+        />}
+          <p className='my-2 text-sm text-gray-600'>
+            Please contact {data.eventSection.event.fixer.firstName} {data.eventSection.event.fixer.lastName} directly for any gig related queries or to change your response. <br /> For technical issues, please contact GigFix.
+          </p>
           </div>
-        ) : (
-          <div>
-            {data.accepted !== null &&
-              data.bookingOrAvailability.toLocaleLowerCase() !== 'booking' && (
-                <div className='text-sm'>
-                  {data.accepted === false ? (
-                    <h2 className='text-sm'>
-                      You have indicated that you are not available for this
-                      work.
-                    </h2>
-                  ) : data.strictlyTied ? (
-                    <h2 className='text-sm'>
-                      You have indicated that you are available for this work.
-                    </h2>
-                  ) : (
-                    <div>
-                      <h2 className='text-sm'>
-                        You have indicated that you are available for the
-                        following:
-                      </h2>
-                      <div className='my-2'>
-                        {data.calls
-                          .filter((i) =>
-                            data.availableFor.includes(Number(i.id))
-                          )
-                          .map((i) => (
-                            <p key={i.id}>
-                              {DateTime.fromJSDate(
-                                new Date(i.startTime)
-                              ).toFormat('HH:mm DD')}
-                            </p>
-                          ))}
-                      </div>
-                    </div>
-                  )}
-                  <p>You can revise your response below.</p>
-                </div>
-              )}
-            <ResponseForm
-              contactMessage={data}
-              fixerName={data.eventSection.event.fixerName!}
-              bookingOrAvailability={data.bookingOrAvailability}
-              accepted={data.accepted}
-            />
-          </div>
-        )}
-        {/* <ResponsePanel 
-        contactMessage={data}
-        fixerName={data.eventSection.event.fixerName!}
-        bookingOrAvailability={data.bookingOrAvailability} 
-        accepted={data.accepted} 
-         /> */}
-      </div>
     </div>
   );
 }

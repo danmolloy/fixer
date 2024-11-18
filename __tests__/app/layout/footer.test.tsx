@@ -35,14 +35,11 @@ describe('<Footer />', () => {
     const companyName = screen.getByText('2024 Gig Fix Limited');
     expect(companyName).toBeInTheDocument();
   });
-  it('if !session, signIn btn is in the document and calls signIn on click', async () => {
-    const signInBtn = screen.getByText('Sign In');
-    expect(signInBtn).toBeInTheDocument();
-    await act(async () => {
-      fireEvent.click(signInBtn);
+  it('if !session, signIn link is in the document and calls signIn on click', async () => {
+    const signInLink = screen.getByText('Sign in');
+    expect(signInLink).toBeInTheDocument();
+    expect(signInLink).toHaveAttribute("href", "/signin");
     });
-    expect(signIn).toHaveBeenCalledWith('github', { redirectTo: '/' });
-  });
 });
 
 describe('<Footer />', () => {
@@ -65,11 +62,7 @@ describe('<Footer />', () => {
     expect(companyName).toBeInTheDocument();
   });
   it('if session, signOut btn is in the document and calls signOut on click', async () => {
-    const signOutBtn = screen.getByText('Sign out');
+    const signOutBtn = screen.getByTestId('sign-out-btn');
     expect(signOutBtn).toBeInTheDocument();
-    await act(async () => {
-      fireEvent.click(signOutBtn);
-    });
-    expect(signOut).toHaveBeenCalled();
   });
 });

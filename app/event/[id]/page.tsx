@@ -1,6 +1,6 @@
 import prisma from '../../../client';
 import { auth } from '../../auth';
-import EventInfoTable from './eventInfoTable';
+import EventInfoTable from './eventIndex';
 
 export async function generateStaticParams() {
   const events = await prisma.event.findMany();
@@ -61,7 +61,7 @@ export default async function EventDetail({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
   const data = await getData(id);
   const session = await auth();
 

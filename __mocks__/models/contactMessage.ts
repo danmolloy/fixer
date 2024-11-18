@@ -1,17 +1,19 @@
 import { faker } from '@faker-js/faker';
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
-import { generateToken } from '../../app/fixing/contactMessage/api/create/functions';
 
 export const mockContactMessage: ContactMessage = {
+  strictlyTied: false,
+  urgent: false,
+  availableFor:  [],
   contactId: faker.string.uuid(),
-  token: generateToken(),
+  token: faker.string.uuid(),
   position: 'Tutti',
   playerMessage: faker.lorem.words(8),
   id: faker.number.int(),
   createdAt: new Date(),
   updatedAt: new Date(),
-  recieved: Math.random() > 0.5 ? false : true,
-  recievedDate: new Date(),
+  received: Math.random() > 0.5 ? false : true,
+  receivedDate: new Date(),
   acceptedDate: new Date(),
   accepted: Math.random() > 0.3 ? true : Math.random() > 0.6 ? false : null,
   indexNumber: Math.floor(Math.random() * 10),
@@ -22,18 +24,22 @@ export const mockContactMessage: ContactMessage = {
 };
 
 export const mockContactMessageForTable: ContactMessage & {
+  
   calls: Call[];
   contact: EnsembleContact;
 } = {
+  strictlyTied: false,
+  urgent: false,
+  availableFor:  [],
   contactId: faker.string.uuid(),
   playerMessage: faker.lorem.words(8),
   position: 'Tutti',
-  token: generateToken(),
+  token: faker.string.uuid(),
   id: faker.number.int(),
   createdAt: new Date(),
   updatedAt: new Date(),
-  recieved: Math.random() > 0.5 ? false : true,
-  recievedDate: new Date(),
+  received: Math.random() > 0.5 ? false : true,
+  receivedDate: new Date(),
   acceptedDate: new Date(),
   accepted: Math.random() > 0.3 ? true : Math.random() > 0.6 ? false : null,
   indexNumber: Math.floor(Math.random() * 10),

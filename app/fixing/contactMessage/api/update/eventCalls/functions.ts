@@ -1,6 +1,5 @@
 import axios from 'axios';
 import prisma from '../../../../../../client';
-import { createEmailData } from '../../create/functions';
 
 const url = `${process.env.URL}`;
 
@@ -31,7 +30,6 @@ export const updateContactEventCalls = async (data: {
       },
     });
 
-    //const emailData = createEmailData(contactMsg)
 
     //await axios.post(`${url}/response/api`, {body: emailData});
   } catch (e) {

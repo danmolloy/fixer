@@ -24,8 +24,9 @@ describe('<EnsemblesMenu />', () => {
     const menuBtn = screen.getByTestId('ensembles-btn');
     expect(menuBtn).toBeInTheDocument();
   });
-  it('ensembles-menu is in the document on click', () => {
+  it('ensembles-menu is in the document with "Ensembles" text content', () => {
     const menuBtn = screen.getByTestId('ensembles-btn');
+    expect(menuBtn).toHaveTextContent('Ensembles');
     act(() => {
       fireEvent.click(menuBtn);
     });
@@ -37,8 +38,9 @@ describe('<EnsemblesMenu />', () => {
     act(() => {
       fireEvent.click(menuBtn);
     });
-    const joinLink = screen.getByText('Join Ensemble');
+    const joinLink = screen.getByTestId('join-link');
     expect(joinLink).toBeInTheDocument();
+    expect(joinLink).toHaveTextContent('Join Ensemble');
     expect(joinLink).toHaveAttribute('href', '/ensembles/join');
   });
   it('create ensemble link is in the document with expected href', () => {
@@ -46,11 +48,12 @@ describe('<EnsemblesMenu />', () => {
     act(() => {
       fireEvent.click(menuBtn);
     });
-    const createLink = screen.getByText('Create Ensemble');
+    const createLink = screen.getByTestId('create-link');
     expect(createLink).toBeInTheDocument();
+    expect(createLink).toHaveTextContent('Create Ensemble');
     expect(createLink).toHaveAttribute('href', '/ensembles/create');
   });
-  it('all ensembles are in the document with href', () => {
+  it('all ensembles are in the document with text content & href', () => {
     const menuBtn = screen.getByTestId('ensembles-btn');
     act(() => {
       fireEvent.click(menuBtn);

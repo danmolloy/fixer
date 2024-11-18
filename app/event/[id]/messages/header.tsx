@@ -14,7 +14,7 @@ export default function MessagesHeader(props: MessagesHeaderProps) {
   const { event } = props;
 
   return (
-    <div className='flex flex-row justify-between'>
+    <div data-testid="messages-header" className='flex flex-row justify-between'>
       <div className='flex flex-col items-start'>
         <h2>Sent Messages</h2>
         <h3 className='text-base'>
@@ -23,6 +23,7 @@ export default function MessagesHeader(props: MessagesHeaderProps) {
       </div>
       <div className='flex flex-col items-center justify-between'>
         <Link
+          data-testid="event-link"
           href={`/event/${event.id}/`}
           className='flex h-8 flex-row items-center justify-center rounded border px-2 text-sm hover:bg-slate-50'
         >

@@ -12,14 +12,16 @@ export default function Hero() {
           Communication made <span className='text-blue-600'>simple</span> for
           fixers and musicians.
         </h1>
-        <p className='p-4 text-lg text-slate-700'>
+        <p data-testid="tagline" className='p-4 text-lg text-slate-700'>
           Effortless fixing and seamless communications for orchestras and
           musicians.
         </p>
         <div className='flex w-full flex-row flex-wrap justify-center'>
-          <Link 
-            href="/signup" className='m-2 rounded bg-black px-4 py-2 text-sm text-white hover:bg-slate-800'>
-          Start now
+          <Link
+            href='/signup'
+            className='m-2 rounded bg-black px-4 py-2 text-sm text-white hover:bg-slate-800'
+          >
+            Start now
           </Link>
           <Link
             href='/about'

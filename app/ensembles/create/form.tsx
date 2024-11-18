@@ -3,12 +3,9 @@ import { ErrorMessage, FieldArray, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../forms/textInput';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { Ensemble } from '@prisma/client';
 import { getBillingRoute } from '../../billing/api/manage/lib';
 
 export default function CreateEnsembleForm(props: { userId: string }) {
-  const router = useRouter();
   const { userId } = props;
 
   const formSchema = Yup.object().shape({
@@ -32,8 +29,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
       getBillingRoute(await newEnsemble.data.id);
       const response = await getBillingRoute(await newEnsemble.data.id);
       window.location.href = response.data.url;
-    
-    } catch(e) {
+    } catch (e) {
       throw new Error(e);
     }
   };

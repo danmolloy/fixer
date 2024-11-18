@@ -23,8 +23,8 @@ describe('<ContactInfo />', () => {
     const contactForm = screen.getByTestId('contact-form');
     expect(contactForm).toBeInTheDocument();
   });
-  it("matches snapshot", () => {
+  it('matches snapshot', () => {
     const contactPage = screen.getByTestId('contact-page');
     expect(contactPage).toMatchSnapshot();
-  })
+  });
 });

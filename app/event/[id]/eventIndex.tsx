@@ -13,9 +13,8 @@ import {
 import EventHeader from './eventHeader';
 import EventInfo from './eventInfo';
 import { useRef, useState } from 'react';
-import html2pdf from 'html2pdf.js';
+//import html2pdf from 'html2pdf.js';
 import EventMenu from './menu';
-import { instrumentSections } from '../../contacts/lib';
 import OrchestraList from './orchestraList';
 import FixingIndex from '../../fixing';
 import Link from 'next/link';
@@ -62,11 +61,11 @@ export default function EventInfoTable(props: EventInfoTableProps) {
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
     };
 
-    html2pdf().from(eventTable).set(options).save();
+    //html2pdf().from(eventTable).set(options).save();
   };
 
   return (
-    <div className='flex w-full flex-col'>
+    <div data-testid="event-info-table" className='flex w-full flex-col'>
       <EventMenu
         getRunningSheet={() => getRunningSheet()}
         event={event}
@@ -90,22 +89,19 @@ export default function EventInfoTable(props: EventInfoTableProps) {
           href={`/event/${event.id}/messages`}
         >
           <TbSend />
-          <p className='ml-1'>Sent Messages</p>
+          <p className='ml-1'>Sent messages</p>
         </Link>
       </div>
-      {selectedView === 'playerList' ? (
-        <div className=''>
-          <OrchestraList sections={sections} />
-        </div>
-      ) : (
-        <FixingIndex
+      {selectedView === 'playerList' ? 
+        <OrchestraList sections={sections} />
+        : <FixingIndex
           ensembleSections={ensemble.sections}
           eventCalls={event.calls}
           eventSections={sections}
           eventId={event.id}
           ensemble={ensemble}
         />
-      )}
+      }
     </div>
   );
 }

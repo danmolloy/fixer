@@ -18,8 +18,8 @@ describe('<AboutIndex />', () => {
     const pricingIndex = screen.getByTestId('pricing-index');
     expect(pricingIndex).toBeInTheDocument();
   });
-  it("matches snapshot", () => {
+  it('matches snapshot', () => {
     const aboutIndex = screen.getByTestId('about-index');
     expect(aboutIndex).toMatchSnapshot();
-  })
+  });
 });

@@ -33,7 +33,7 @@ describe('<ContactsIndex />', () => {
   });
   it("'Musicians' header is in the document", () => {
     const header = screen.getByRole('heading');
-    expect(header).toHaveTextContent("Musicians")
+    expect(header).toHaveTextContent('Musicians');
   });
   it('all contacts are in the document', () => {
     const contactsIndex = screen.getByTestId('contacts-index');
@@ -44,29 +44,26 @@ describe('<ContactsIndex />', () => {
     }
   });
   it("'Name' btn calls setSortedContacts('Alphabetical') on click", () => {
-    const nameBtn = screen.getByText("Name");
+    const nameBtn = screen.getByText('Name');
     act(() => fireEvent.click(nameBtn));
-    expect(mockProps.setSortedContacts).toHaveBeenCalledWith("Alphabetical")
+    expect(mockProps.setSortedContacts).toHaveBeenCalledWith('Alphabetical');
   });
   it("'Section' btn calls setSortedContacts('Section') on click", () => {
-    const sectionBtn = screen.getByText("Section");
+    const sectionBtn = screen.getByText('Section');
     act(() => fireEvent.click(sectionBtn));
-    expect(mockProps.setSortedContacts).toHaveBeenCalledWith("Section")
+    expect(mockProps.setSortedContacts).toHaveBeenCalledWith('Section');
   });
   it("'Position' btn calls setSortedContacts('Position') on click", () => {
-    const positionBtn = screen.getByText("Position");
+    const positionBtn = screen.getByText('Position');
     act(() => fireEvent.click(positionBtn));
-    expect(mockProps.setSortedContacts).toHaveBeenCalledWith("Position")
+    expect(mockProps.setSortedContacts).toHaveBeenCalledWith('Position');
   });
   it("'Category' btn calls setSortedContacts('Category') on click", () => {
-    const categoryBtn = screen.getByText("Category");
+    const categoryBtn = screen.getByText('Category');
     act(() => fireEvent.click(categoryBtn));
-    expect(mockProps.setSortedContacts).toHaveBeenCalledWith("Category")
+    expect(mockProps.setSortedContacts).toHaveBeenCalledWith('Category');
   });
-
 });
-
-
 
 describe('<ContactsIndex />', () => {
   const mockProps: ContactsIndexProps = {

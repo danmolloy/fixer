@@ -2,7 +2,15 @@ import '@testing-library/jest-dom';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import CreateEnsembleForm from '../../../../app/ensembles/create/form';
 import axios from '../../../../__mocks__/axios';
-import { useRouter } from 'next/navigation';
+import { getBillingRoute } from '../../../../app/billing/api/manage/lib';
+
+jest.mock('../../../../app/billing/api/manage/lib', () => ({
+  getBillingRoute: jest.fn(() => ({
+    data: {
+      url: '/',
+    },
+  })),
+}));
 
 jest.mock('next/navigation');
 
@@ -37,7 +45,7 @@ describe('<CreateEnsembleForm />', () => {
     });
     expect(nameOne).toBeInTheDocument();
     // Add Button adds
-    const addBtn = screen.getByText('Add');
+    const addBtn = screen.getByText('Add Name');
     expect(addBtn).toBeInTheDocument();
     await act(async () => {
       fireEvent.click(addBtn);
@@ -76,7 +84,7 @@ describe('<CreateEnsembleForm />', () => {
     expect(createForm.textContent).toMatch('Field cannot be left blank');
     expect(axios.post).not.toHaveBeenCalled();
   });
-  it('if valid form, submit btn calls axios.post() and useRouter()', async () => {
+  it('if valid form, submit btn calls axios.post() and redirects', async () => {
     const nameInput = screen.getByLabelText('Organisation Name');
     const createForm = screen.getByTestId('create-ensemble-form');
     const ensembleName = screen.getByTestId(`ensembleNames[0]-input`);
@@ -97,6 +105,6 @@ describe('<CreateEnsembleForm />', () => {
       name: 'LSO',
       userId: 'mock-id',
     });
-    expect(useRouter).toHaveBeenCalled();
+    expect(getBillingRoute).toHaveBeenCalled();
   });
 });

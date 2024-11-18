@@ -45,7 +45,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
   const router = useRouter();
 
   const EventSchema = Yup.object().shape({
-    createOrUpdate: Yup.string().required(),
     updateMessage: Yup.string().when('createOrUpdate', {
       is: 'Update',
       then: (schema) => schema.required(),
@@ -80,7 +79,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     >
       <Formik
         initialValues={{
-          createOrUpdate: createOrUpdate,
           updateMessage: '',
           fixerId: userId,
           id: initialValues ? initialValues.id : '',
@@ -339,7 +337,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               id='additional-info'
               className=''
             />
-            {props.values.createOrUpdate === 'Update' && (
+            {createOrUpdate === 'Update' && (
               <TextInput
                 optional={false}
                 asHtml='textarea'

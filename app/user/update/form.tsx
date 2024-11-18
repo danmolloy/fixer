@@ -32,21 +32,22 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
         phoneRegex,
         'number must be international format, i.e. +445504281329'
       )
-      .required('required'),
+      .required('mobile number required'),
     email: Yup.string().required('email address required'),
   });
 
   return (
     <div data-testid='user-form' className='flex flex-col p-4'>
       <div>
-      <h1>Update User</h1>
-              {(!session.user.firstName
-              || !session.user.lastName
-              || !session.user.mobileNumber
-              || !session.user.email)
-              &&<p className='my1-1'>We just need a few more details from you.</p> }
-            </div>
-      
+        <h1>Update User</h1>
+        {(!session.user.firstName ||
+          !session.user.lastName ||
+          !session.user.mobileNumber ||
+          !session.user.email) && (
+          <p className='my1-1'>We just need a few more details from you.</p>
+        )}
+      </div>
+
       <Formik
         validationSchema={formSchema}
         initialValues={initialVals}
@@ -63,7 +64,6 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
       >
         {(props) => (
           <Form>
-            
             <TextInput name='firstName' id='firstName' label='First Name' />
             <TextInput name='lastName' id='lastName' label='Last Name' />
             <TextInput

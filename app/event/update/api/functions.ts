@@ -66,7 +66,7 @@ export const updateEvent = async (eventObj: Event) => {
           contacts: {
             where: {
               accepted: !false,
-              recieved: true,
+              received: true,
             },
             include: {
               calls: true,
@@ -96,7 +96,6 @@ export const updateOrCreateCall = async (callObj: any) => {
 
     return updatedCall;
   } catch (e) {
-    console.log(e);
     const createCall = await prisma.call.create({
       data: {
         startTime: new Date(callObj.startTime),
@@ -184,7 +183,7 @@ export const updateEmailPlayers = async (
     contacts = [
       ...contacts,
       ...data.event.sections[i].contacts.filter(
-        (i) => i.accepted !== false && i.recieved === true
+        (i) => i.accepted !== false && i.received === true
       ),
     ];
   }

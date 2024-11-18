@@ -10,7 +10,6 @@ import { BiDetail } from 'react-icons/bi';
 import { FaQuestion } from 'react-icons/fa';
 import { IoHomeOutline } from 'react-icons/io5';
 import { Session } from 'next-auth';
-import SignInBtn from './signInBtn';
 import SignOutBtn from './signOutBtn';
 
 export const socialMedia: {
@@ -106,7 +105,7 @@ export default function Footer(props: { session: Session | null }) {
           </div>
         ))}
       </div>
-      <div className='flex flex-row items-center p-2 text-sm text-slate-500 '>
+      <div className='flex flex-row items-center p-2 text-sm text-slate-500'>
         <AiOutlineCopyrightCircle />
         <p className='ml-1'>2024 Gig Fix Limited</p>
       </div>

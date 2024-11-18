@@ -18,12 +18,10 @@ export default function ContactCard(props: ContactCardProps) {
       className='m-1 w-full rounded border-b text-xs sm:text-sm'
     >
       <td className='flex flex-row px-1 py-2'>
-        
         <div>
           <p>
             {contact.firstName} {contact.lastName}
           </p>
-          
         </div>
       </td>
       <td>

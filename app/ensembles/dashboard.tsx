@@ -7,24 +7,17 @@ import { IoCaretDown } from 'react-icons/io5';
 import { getBillingRoute } from '../billing/api/manage/lib';
 
 export type EnsembleDashboardProps = {
-  addContact: () => void;
-  sortContacts: string;
-  setSortContacts: (arg: string) => void;
-  filterContacts: string[];
-  setFilterContacts: (arg: 'Member' | 'Extra') => void;
-  ensemble: Ensemble
+  ensemble: Ensemble;
 };
 
 export const buttonPrimary =
   'py-1 px-2 mx-4 rounded text-sm flex flex-row items-center hover:bg-gray-50 text-black border';
 
 export default function EnsembleDashboard(props: EnsembleDashboardProps) {
-  const {
-    ensemble,
-  } = props;
+  const { ensemble } = props;
   const [showOptions, setShowOptions] = useState(false);
 
-  const handleManageSub = async() => {
+  const handleManageSub = async () => {
     let response: AxiosResponse;
     response = await getBillingRoute(ensemble);
     try {
@@ -39,7 +32,7 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
     } /* finally {
       setLoading(false);
     } */
-  }
+  };
 
   return (
     <div
@@ -77,13 +70,14 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
             </Link>
             <Link
               className='m-1 p-2 text-start hover:bg-gray-50'
-              href={`ensembles/update/${ensemble.id}`}
+              href={`/ensembles/update/${ensemble.id}`}
             >
               Edit Ensemble
             </Link>
             <button
               onClick={() => handleManageSub()}
-              className='m-1 p-2 text-start hover:bg-gray-50'>
+              className='m-1 p-2 text-start hover:bg-gray-50'
+            >
               Manage Subscription
             </button>
           </div>

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -13,11 +13,9 @@ export async function POST(req: Request) {
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: subscription.customer,
       return_url: returnUrl,
-      
     });
 
-    return NextResponse.json({ url: portalSession.url }); 
-
+    return NextResponse.json({ url: portalSession.url });
   } catch (err) {
     console.error(err);
     throw new Error('Unable to create checkout session.');

@@ -22,7 +22,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
 
   const initialVals = {
     id: contact.id,
-    recieved: contact.recieved,
+    received: contact.received,
     accepted:
       contact.accepted === true
         ? 'true'
@@ -40,7 +40,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
   };
 
   const contactSchema = Yup.object().shape({
-    recieved: Yup.boolean().required(), //
+    received: Yup.boolean().required(), //
     accepted: Yup.boolean().nullable(),
     playerMessage: Yup.string(),
     calls: Yup.array().min(1),
@@ -58,7 +58,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
         .post('/fixing/contactMessage/api/update', {
           id: contact.id,
           data: {
-            recieved: values.recieved,
+            received: values.received,
             accepted:
               values.accepted === 'true'
                 ? true

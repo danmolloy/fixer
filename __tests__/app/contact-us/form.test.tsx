@@ -43,7 +43,7 @@ describe('<ContactForm />', () => {
 
     expect(mockPost).not.toHaveBeenCalled();
   });
-  it("calls sengrid with expected args on submit", async () => {
+  it('calls sengrid with expected args on submit', async () => {
     const nameInput = screen.getByLabelText('Name');
     const emailInput = screen.getByLabelText('Email');
     const messageInput = screen.getByLabelText('Message');
@@ -60,12 +60,13 @@ describe('<ContactForm />', () => {
     const submitBtn = screen.getByText('Submit');
     await act(async () => fireEvent.click(submitBtn));
 
-    expect(mockPost).toHaveBeenCalledWith("/sendGrid", {"body": {
-      emailAddress: "danielmolloy_6@icloud.com",
-      emailData: {
-        bodyText: `Dear GigFix Admin,
+    expect(mockPost).toHaveBeenCalledWith('/sendGrid', {
+      body: {
+        emailAddress: 'danielmolloy_6@icloud.com',
+        emailData: {
+          bodyText: `Dear GigFix Admin,
           <br /><br />
-          You have recieved the following contact form message from Greg Ievers:
+          You have received the following contact form message from Greg Ievers:
           <br /><br />
           Hi mate!
           <br /><br />
@@ -75,10 +76,10 @@ describe('<ContactForm />', () => {
           <br /><br />
           Kind regards,
           GigFix`,
-          subject: "New Message from GigFix"},
-        templateID: "d-2b2e84b23956415ba770e7c36264bef9",
-      
-    }});
-
-  })
+          subject: 'New Message from GigFix',
+        },
+        templateID: 'd-2b2e84b23956415ba770e7c36264bef9',
+      },
+    });
+  });
 });

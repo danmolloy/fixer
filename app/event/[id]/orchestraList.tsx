@@ -17,6 +17,14 @@ export type OrchestraListProps = {
   })[];
 };
 
+export const pdfOptions = {
+  margin: 1,
+  filename: 'orchestra_list.pdf',
+  image: { type: 'jpeg', quality: 0.98 },
+  html2canvas: { scale: 2 },
+  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+};
+
 export default function OrchestraList(props: OrchestraListProps) {
   const { sections } = props;
   const playersRef = useRef(null);
@@ -33,19 +41,11 @@ export default function OrchestraList(props: OrchestraListProps) {
   const getOrchList = () => {
     const orchList = playersRef.current;
 
-    const options = {
-      margin: 1,
-      filename: 'orchestra_list.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-    };
-
-    html2pdf().from(orchList).set(options).save();
+    html2pdf().from(orchList).set(pdfOptions).save();
   };
 
   return (
-    <div className='flex flex-col'>
+    <div data-testid="orchestra-list" className='flex flex-col'>
       <button
         className='m-1 self-end rounded border p-1 px-2 shadow-sm hover:bg-slate-50'
         onClick={() => getOrchList()}
@@ -55,7 +55,7 @@ export default function OrchestraList(props: OrchestraListProps) {
       <div ref={playersRef} className='-mt-8 flex flex-col'>
         <h2 className='my-4 font-semibold'>Orchestra List</h2>
         {sections.filter((i) => i.contacts.length > 0).length < 1 && (
-          <div className='flex flex-col self-center text-center'>
+          <div data-testid="help-msg" className='flex flex-col self-center text-center'>
             <h3 className='text-xl font-semibold'>No calls made.</h3>
             <p>To get started, fix sections in the Fixing tab.</p>
           </div>
@@ -63,7 +63,7 @@ export default function OrchestraList(props: OrchestraListProps) {
         {sortedSections
           .filter((i) => i.contacts.length > 0)
           .map((i) => (
-            <div key={i.id} className='my-2'>
+            <div data-testid={`${i.id}-section`} key={i.id} className='my-2'>
               <h3 className='font-semibold'>{i.ensembleSection.name}</h3>
               <ol>
                 {i.contacts
@@ -77,7 +77,12 @@ export default function OrchestraList(props: OrchestraListProps) {
                 {new Array(
                   i.numToBook -
                     i.contacts.filter((j) => j.accepted === true).length
-                ).fill(<li className='text-sm'>TBC</li>)}
+                ).fill(null)
+                .map((_, index) => (
+                  <li data-testid={`${i.id}-tbc`} key={index} className="text-sm">
+                    TBC
+                  </li>
+                ))}
               </ol>
             </div>
           ))}

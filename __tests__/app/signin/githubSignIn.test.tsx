@@ -1,20 +1,21 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import SignInBtn from '../../../app/layout/signInBtn';
 import { signIn } from 'next-auth/react';
+import GithubSignIn from '../../../app/signin/githubSignIn';
 
 jest.mock('next-auth/react');
 
-describe('<SignInBtn />', () => {
+describe('<GithubSignIn />', () => {
   beforeEach(() => {
-    render(<SignInBtn />);
+    render(<GithubSignIn />);
   });
-  it('<SignInBtn /> renders', () => {
-    const signInBtn = screen.getByText('Sign In');
+  it('<GithubSignIn /> renders', () => {
+    const signInBtn = screen.getByTestId('github-sign-in');
+    expect(signInBtn.textContent).toMatch("GitHub");
     expect(signInBtn).toBeInTheDocument();
   });
   it('calls signIn on click', async () => {
-    const signInBtn = screen.getByText('Sign In');
+    const signInBtn = screen.getByTestId('github-sign-in');
     await act(async () => {
       fireEvent.click(signInBtn);
     });

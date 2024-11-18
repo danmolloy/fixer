@@ -12,10 +12,12 @@ export default function SentEmailList(props: SentEmailListProps) {
   const [selectedEmail, setSelectedEmail] = useState<null | string>(null);
 
   return (
-    <div className='m-4 text-sm'>
+    <div className='m-4 text-sm' data-testid="email-list">
       {emails.map((i) => (
-        <div className='rounded border transition-all' key={i.id}>
-          <div
+        <div 
+          className='rounded border transition-all' key={i.id}>
+          <div 
+            data-testid={`${i.id}-preview`}
             onClick={() => {
               selectedEmail === i.id
                 ? setSelectedEmail(null)
@@ -29,7 +31,7 @@ export default function SentEmailList(props: SentEmailListProps) {
             <p>{DateTime.fromJSDate(i.timestamp).toFormat('f')}</p>
           </div>
           {selectedEmail === i.id && (
-            <div className='p-2 text-sm'>
+            <div data-testid={`${i.id}-body`} className='p-2 text-sm'>
               <div dangerouslySetInnerHTML={{ __html: i.bodyText }} />
             </div>
           )}

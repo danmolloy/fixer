@@ -4,7 +4,6 @@ import { Session } from 'next-auth';
 import MenuButton from './menuButton';
 import { externalMenuLinks, sessionMenuLinks } from './menuLinks';
 import SignOutBtn from './signOutBtn';
-import SignInBtn from './signInBtn';
 import EnsemblesMenu from '../ensembles/menu';
 import { useState } from 'react';
 
@@ -20,7 +19,7 @@ export default function Header(props: HeaderProps) {
   return (
     <div
       data-testid='header'
-      className={`${'h-14'} fixed top-0 z-30 flex w-screen flex-row items-center justify-between  shadow backdrop-blur transition-all`}
+      className={`${'h-14'} fixed top-0 z-30 flex w-screen flex-row items-center justify-between shadow backdrop-blur transition-all`}
     >
       <Link data-testid='gigfix-link' className='' href='/'>
         <h2

@@ -5,7 +5,6 @@ import EventHeader, {
 } from '../../../../app/event/[id]/eventHeader';
 
 const mockProps: DetailHeaderProps = {
-  eventId: 'mock-id',
   eventTitle: 'The Big Gig',
 };
 
@@ -24,9 +23,5 @@ describe('<EventHeader />', () => {
   it('event title is in the document', () => {
     const eventTitle = screen.getByText(mockProps.eventTitle);
     expect(eventTitle).toBeInTheDocument();
-  });
-  it('eventMenu is in the document', () => {
-    const eventMenu = screen.getByTestId('event-menu');
-    expect(eventMenu).toBeInTheDocument();
   });
 });

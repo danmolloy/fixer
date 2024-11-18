@@ -4,6 +4,7 @@ export default function SignOutBtn(props: { classNames?: string }) {
   const { classNames } = props;
   return (
     <form
+      data-testid="sign-out-btn"
       action={async () => {
         'use server';
         await signOut({ redirectTo: '/' });

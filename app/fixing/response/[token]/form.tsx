@@ -13,12 +13,10 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import {
-  createEmailData,
   getDateRange,
 } from '../../contactMessage/api/create/functions';
 import { DateTime } from 'luxon';
 import { responseConfEmail } from '../../../sendGrid/lib';
-const url = `${process.env.URL}`;
 
 export type ResponseFormProps = {
   contactMessage: ContactMessage & {
@@ -35,7 +33,7 @@ export type ResponseFormProps = {
 };
 
 export default function ResponseForm(props: ResponseFormProps) {
-  const { contactMessage, accepted, bookingOrAvailability, fixerName } = props;
+  const { contactMessage, bookingOrAvailability } = props;
   const router = useRouter();
 
   const initialVals: {
@@ -91,7 +89,9 @@ export default function ResponseForm(props: ResponseFormProps) {
       confMsg = confirm('Are you sure you are NOT available for this work?');
     }
     if (confMsg) {
+      
       try {
+        
         await axios
           .post(`/fixing/contactMessage/api/update`, {
             id: contactMessage.id,
@@ -105,14 +105,16 @@ export default function ResponseForm(props: ResponseFormProps) {
             },
           })
           .then(async () => {
+            
             const emailData = responseConfEmail({
               dateRange: getDateRange(contactMessage.calls),
               firstName: contactMessage.contact.firstName,
               email: contactMessage.contact.email!,
               ensemble: contactMessage.eventSection.event.ensembleName,
-              accepted: contactMessage.accepted ? true : false,
+              accepted: values.accepted ? true : false,
               bookingOrAvailability: contactMessage.bookingOrAvailability,
             });
+            
             await axios.post(`/sendGrid`, {
               body: {
                 emailData: emailData,
@@ -131,37 +133,48 @@ export default function ResponseForm(props: ResponseFormProps) {
   };
 
   return (
+    <div data-testid="response-form"  className=' w-screen flex items-center justify-center'>
+
     <Formik
       validationSchema={responseSchema}
       initialValues={initialVals}
       onSubmit={(values, actions) => {
-        handleSubmit(values);
+        actions.setSubmitting(true);
+        handleSubmit(values).then(() => {
+          actions.setSubmitting(false);
 
-        actions.setSubmitting(false);
+        });
+
       }}
     >
       {(props) => (
-        <Form className='my-4 text-sm'>
+        <Form  className='bg-white shadow my-4 p-1 text-sm border rounded w-[95vw] md:w-2/3 flex flex-col'>
           <div
             role='group'
             aria-labelledby='my-radio-group'
             className='flex flex-col'
           >
-            <p className='my-2'>
+            <h3 className='m-2 font-semibold'>Your Response</h3>
+            <p className='m-2 text-gray-500'>
               This work is {contactMessage.strictlyTied === false && 'not '}
               strictly tied.
             </p>
-            <label className='flex flex-row items-center'>
+            <label htmlFor='false-label' className='flex flex-row items-center '>
               <Field
+                id="false-label"
+                data-testid="false-radio"
                 className='m-2'
                 type='radio'
                 name='accepted'
                 value={'false'}
+                label="No, I am not available."
               />
               No, I am not available.
             </label>
-            <label className='flex flex-row items-center'>
+            <label htmlFor='true-radio' className='flex flex-row items-center'>
               <Field
+              id="true-radio"
+                data-testid="true-radio"
                 className='m-2'
                 type='radio'
                 name='accepted'
@@ -174,8 +187,8 @@ export default function ResponseForm(props: ResponseFormProps) {
                   : props.values.availableFor.length ===
                       contactMessage.calls.length
                     ? `I am available for all calls`
-                    : `I am available for ${props.values.availableFor.length} calls`}
-              .
+                    : `I am available for ${props.values.availableFor.length} call(s)`}
+              
             </label>
 
             <ErrorMessage name='accepted'>
@@ -219,9 +232,10 @@ export default function ResponseForm(props: ResponseFormProps) {
               </div>
             )}
           <button
-            className='m-2 rounded border border-blue-600 p-2 text-blue-600 shadow-sm hover:bg-blue-50'
+            className='disabled:bg-blue-100 m-2 rounded self-center bg-blue-600 px-2 py-1 text-white shadow-sm hover:bg-blue-500'
             disabled={
-              props.values.availableFor.length < 1 &&
+              (props.isSubmitting.toString() === 'true' 
+              || props.values.availableFor.length < 1) &&
               props.values.accepted === 'true'
             }
             type={'submit'}
@@ -231,5 +245,7 @@ export default function ResponseForm(props: ResponseFormProps) {
         </Form>
       )}
     </Formik>
+    </div>
+
   );
 }

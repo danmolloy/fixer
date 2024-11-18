@@ -36,7 +36,7 @@ export default function EventMenu(props: EventMenuProps) {
     const message = prompt('Message to all players:');
 
     const mailList = contacts
-      .filter((i) => i.accepted !== false && i.recieved == true)
+      .filter((i) => i.accepted !== false && i.received == true)
       .map((i) => i.contact.email);
     if (message === null || mailList.length === 0) {
       return;
@@ -48,7 +48,7 @@ export default function EventMenu(props: EventMenuProps) {
       fixerFullName: `${event.fixer.firstName} ${event.fixer.lastName}`,
       dateRange: getDateRange(event.calls),
       email: contacts
-        .filter((i) => i.accepted !== false && i.recieved == true)
+        .filter((i) => i.accepted !== false && i.received == true)
         .map((i) => i.contact.email!),
       eventId: event.id,
     });
@@ -120,6 +120,7 @@ export default function EventMenu(props: EventMenuProps) {
     <div data-testid='event-menu' className='m-2 self-end'>
       <button
         onFocus={() => setShowMenu(true)}
+        onClick={() => setShowMenu(true)}
         onBlur={() => setTimeout(() => setShowMenu(false), 100)}
         className='rounded border p-1 text-center text-black hover:bg-gray-50'
         data-testid='options-btn'
@@ -130,7 +131,7 @@ export default function EventMenu(props: EventMenuProps) {
         <div
           ref={menuRef}
           tabIndex={-1}
-          onBlur={() => setTimeout(() => setShowMenu(false), 100)}
+          //onBlur={() => setTimeout(() => setShowMenu(false), 100)}
           data-testid='menu-options'
           className='absolute -ml-32 flex w-48 flex-col items-center justify-center rounded border bg-white text-sm font-medium shadow'
         >

@@ -126,8 +126,8 @@ model ContactMessage {
   updatedAt          DateTime @updatedAt
   //eventInstrument    EventInstrument     @relation(fields: [eventInstrumentId], references: [id], onDelete: Cascade)
   contact            EnsembleContact    @relation(fields: [contactId], references: [id])
-  recieved           Boolean @default(false)
-  recievedDate       DateTime?
+  received           Boolean @default(false)
+  receivedDate       DateTime?
   accepted           Boolean? 
   acceptedDate       DateTime?
   contactId          String //@default("clg6usgbg0000l80846i92lbb")

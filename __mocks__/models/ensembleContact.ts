@@ -21,7 +21,9 @@ export const mockCreateEnsembleContact: CreateEnsembleContact = {
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
   section: {
-    name: instrumentSections[Math.floor(Math.random() * instrumentSections.length)].name,
+    name: instrumentSections[
+      Math.floor(Math.random() * instrumentSections.length)
+    ].name,
     id: faker.string.uuid(),
   },
   role: faker.string.alpha(10),

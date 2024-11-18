@@ -32,7 +32,8 @@ export type FixingIndexProps = {
 };
 
 export default function FixingIndex(props: FixingIndexProps) {
-  const { eventCalls, eventId, ensembleSections, eventSections, ensemble } = props;
+  const { eventCalls, eventId, ensembleSections, eventSections, ensemble } =
+    props;
   const [createSection, setCreateSection] = useState<boolean>(false);
 
   const handlePauseClick = async () => {
@@ -67,13 +68,13 @@ export default function FixingIndex(props: FixingIndexProps) {
     } /* finally {
       setLoading(false);
     } */
-  }; 
+  };
 
   if (!ensemble.stripeSubscriptionId) {
     <div>
       <p>You must subscribe to book players.</p>
       <button onClick={() => handleSubscribe()}>Subscribe</button>
-    </div>
+    </div>;
   }
 
   return (

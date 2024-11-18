@@ -1,13 +1,3 @@
-import { SlOptions } from 'react-icons/sl';
-import EventMenu from './menu';
-import {
-  Call,
-  ContactMessage,
-  EnsembleContact,
-  Event,
-  EventSection,
-  User,
-} from '@prisma/client';
 
 export type DetailHeaderProps = {
   eventTitle: string;

@@ -16,7 +16,7 @@ export default async function UpdateAdmin({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
   const session = await auth();
   const data = session && (await getAdmin(id));
 

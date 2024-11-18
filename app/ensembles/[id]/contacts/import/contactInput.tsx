@@ -25,22 +25,24 @@ export default function ContactInput(props: ContactInputProps) {
   const router = useRouter();
 
   const contactInputSchema = Yup.object().shape({
-    contacts: Yup.array().of(
-      Yup.object({
-        firstName: Yup.string().required('required'),
-        lastName: Yup.string().required('required'),
-        email: Yup.string().required('required'),
-        phoneNumber: Yup.string()
-          .matches(
-            phoneRegex,
-            'number must be international format, i.e. +445504281329'
-          )
-          .required('required'),
-        sectionName: Yup.string().required('required'),
-        role: Yup.string().required('required'),
-        category: Yup.string().required('required'),
-      })
-    ).min(1),
+    contacts: Yup.array()
+      .of(
+        Yup.object({
+          firstName: Yup.string().required('required'),
+          lastName: Yup.string().required('required'),
+          email: Yup.string().required('required'),
+          phoneNumber: Yup.string()
+            .matches(
+              phoneRegex,
+              'number must be international format, i.e. +445504281329'
+            )
+            .required('required'),
+          sectionName: Yup.string().required('required'),
+          role: Yup.string().required('required'),
+          category: Yup.string().required('required'),
+        })
+      )
+      .min(1),
     ensembleId: Yup.string().required(),
   });
 
@@ -71,7 +73,7 @@ export default function ContactInput(props: ContactInputProps) {
       }}
     >
       {(props) => (
-        <Form data-testid="contact-input-form">
+        <Form data-testid='contact-input-form'>
           <FieldArray
             name='contacts'
             render={({ push, remove }) => (
@@ -79,7 +81,7 @@ export default function ContactInput(props: ContactInputProps) {
                 <div className='flex flex-col items-center overflow-x-scroll rounded'>
                   <table className='m-4 table-auto text-sm'>
                     <thead>
-                      <tr data-testid="table-head-row">
+                      <tr data-testid='table-head-row'>
                         <th className='border'>First Name</th>
                         <th className='border'>Last Name</th>
                         <th className='border'>Email</th>
@@ -91,7 +93,7 @@ export default function ContactInput(props: ContactInputProps) {
                       </tr>
                     </thead>
 
-                    <tbody data-testid="table-body">
+                    <tbody data-testid='table-body'>
                       {props.values.contacts.map((i, index) => (
                         <tr className='border' key={index}>
                           <td className='border'>
@@ -99,7 +101,6 @@ export default function ContactInput(props: ContactInputProps) {
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.firstName`}
                               data-testid={`contacts.${index}.firstName`}
-
                             />
                             <ErrorMessage
                               className='mx-0 rounded border border-black'

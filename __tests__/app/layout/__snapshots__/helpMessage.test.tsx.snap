@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HelpMessage /> matches snapshot 1`] = `
+<div
+  data-testid="help-message"
+>
+  <p
+    class="font-semibold"
+  >
+    Alert!!
+  </p>
+  <p
+    class="text-sm"
+  >
+    Beware!
+  </p>
+</div>
+`;

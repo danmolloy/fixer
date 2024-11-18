@@ -42,7 +42,7 @@ export default async function UpdateEvent({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
   const data = await getData(id);
   const session = await auth();
 

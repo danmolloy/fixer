@@ -5,11 +5,10 @@ import { buttonPrimary } from '../dashboard';
 
 export type EnsembleManagementProps = {
   admins: (EnsembleAdmin & { user: User })[];
-  ensembleId: string;
 };
 
 export default function EnsembleManagement(props: EnsembleManagementProps) {
-  const { admins, ensembleId } = props;
+  const { admins } = props;
   return (
     <div
       data-testid='ensemble-management '

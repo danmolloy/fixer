@@ -1,12 +1,11 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-import { headers } from "next/headers"
-import Stripe from "stripe";
-import prisma from "../../../../client";
-import { createSubscription, updateSubscription } from "./lib";
+import { headers } from 'next/headers';
+import Stripe from 'stripe';
+import prisma from '../../../../client';
+import { createSubscription, updateSubscription } from './lib';
 
 // Update sub
 // Delete sub
-
 
 /* 
 To listen to local events:
@@ -26,15 +25,14 @@ export async function POST(request: Request): Promise<any> {
   // Only verify the event if you have an endpoint secret defined.
   // Otherwise use the basic event deserialized with JSON.parse */
   const endpointSecret = process.env.ENDPOINT_SECRET;
-  const body = await request.text()
-  const signature = headers().get("Stripe-Signature") as string
+  const body = await request.text();
+  const signature = headers().get('Stripe-Signature') as string;
 
-  let event: Stripe.Event
+  let event: Stripe.Event;
 
-    // Get the signature sent by Stripe
-    //const signature = request.headers['stripe-signature'];
-    //const signature = headers().get("Stripe-Signature") as string
-
+  // Get the signature sent by Stripe
+  //const signature = request.headers['stripe-signature'];
+  //const signature = headers().get("Stripe-Signature") as string
 
   console.log(`signature: ${signature}`);
   try {
@@ -48,35 +46,35 @@ export async function POST(request: Request): Promise<any> {
     console.log(`⚠️  Webhook signature verification failed.`, err.message);
     return new Response();
   }
-  
+
   let subscription;
   let status;
   // Handle the event
   switch (event.type) {
-      case 'customer.subscription.created':
-        const customerSubscriptionCreated = event.data.object;
-        console.log(`customer.subscription.created`);
-        await createSubscription({
-          ensembleID: customerSubscriptionCreated.metadata.ensembleID,
-          subscriptionId: customerSubscriptionCreated.id,
-          subscriptionStatus: customerSubscriptionCreated.status
-        })
-        // Then define and call a function to handle the event customer.subscription.created
-        break;
-      case 'customer.subscription.updated':
-        const subscriptionUpdated = event.data.object;
-        console.log(`customer.subscription.updated`);
-        await updateSubscription({
-          subscriptionId: subscriptionUpdated.id,
-          subscriptionStatus: subscriptionUpdated.status
-        })
-      case 'customer.subscription.deleted':
-        const subscriptionDeleted = event.data.object;
-        console.log(`customer.subscription.updated`);
-        await updateSubscription({
-          subscriptionId: subscriptionDeleted.id,
-          subscriptionStatus: subscriptionDeleted.status
-        })
+    case 'customer.subscription.created':
+      const customerSubscriptionCreated = event.data.object;
+      console.log(`customer.subscription.created`);
+      await createSubscription({
+        ensembleID: customerSubscriptionCreated.metadata.ensembleID,
+        subscriptionId: customerSubscriptionCreated.id,
+        subscriptionStatus: customerSubscriptionCreated.status,
+      });
+      // Then define and call a function to handle the event customer.subscription.created
+      break;
+    case 'customer.subscription.updated':
+      const subscriptionUpdated = event.data.object;
+      console.log(`customer.subscription.updated`);
+      await updateSubscription({
+        subscriptionId: subscriptionUpdated.id,
+        subscriptionStatus: subscriptionUpdated.status,
+      });
+    case 'customer.subscription.deleted':
+      const subscriptionDeleted = event.data.object;
+      console.log(`customer.subscription.updated`);
+      await updateSubscription({
+        subscriptionId: subscriptionDeleted.id,
+        subscriptionStatus: subscriptionDeleted.status,
+      });
     default:
       // Unexpected event type
       console.log(`Unhandled event type ${event.type}.`);

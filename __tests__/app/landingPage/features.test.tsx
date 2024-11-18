@@ -13,9 +13,9 @@ describe('<LandingFeatures />', () => {
     expect(features).toBeInTheDocument();
   });
   it('title and tagline are in the document', () => {
-    const title = screen.getByText('Everything you need to book an orchestra');
+    const title = screen.getByText('Streamline your orchestra management');
     expect(title).toBeInTheDocument();
-    const tagline = screen.getByText('Fix faster');
+    const tagline = screen.getByText('Work faster');
     expect(tagline).toBeInTheDocument();
   });
   it('all featuresList titles & blurbs are in the document', () => {

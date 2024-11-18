@@ -78,6 +78,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       .post('/fixing/contactMessage/api/create', data)
       .then(() => {
         router.refresh();
+        
       });
   };
 
@@ -89,6 +90,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
         onSubmit={(values, actions) => {
           handleSubmit(values);
           actions.setSubmitting(false);
+          cancelForm();
         }}
       >
         {(props) => (

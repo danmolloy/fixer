@@ -25,7 +25,7 @@ export default function JoinEnsembleForm(props: JoinEnsembleFormProps) {
 
   const handleSubmit = async (data: { accessCode: string; userId: string }) => {
     return await axios.post('/ensembles/admin/api/join', data).then(() => {
-      router.push('/ensembles');
+      router.push('/');
     });
   };
 

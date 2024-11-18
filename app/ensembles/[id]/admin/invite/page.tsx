@@ -7,7 +7,7 @@ export default async function InviteAdmin({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
   const session = await auth();
 
   return !session ? (

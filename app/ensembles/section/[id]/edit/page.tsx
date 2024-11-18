@@ -19,7 +19,7 @@ export default async function EditSection({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
   const session = await auth();
   const data = id && (await getSection(id));
 

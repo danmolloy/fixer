@@ -27,7 +27,7 @@ export default async function EventMail({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
   const data = await getData(Number(id));
   const session = await auth();
 

@@ -27,7 +27,7 @@ export const deleteEvent = async (eventId: number) => {
           contacts: {
             where: {
               accepted: !false,
-              recieved: true,
+              received: true,
             },
             include: {
               contact: true,
@@ -92,7 +92,7 @@ export const deleteEmailPlayers = async (event:
   for (let i = 0; i < event.sections.length; i++) {
     contacts = [...contacts, 
       ...event.sections[i].contacts.filter(i => 
-        i.accepted !== false && i.recieved === true)];
+        i.accepted !== false && i.received === true)];
   }
 
   for (let i = 0; i < contacts.length; i++) {

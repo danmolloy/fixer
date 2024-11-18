@@ -10,6 +10,7 @@ import { mockEvent } from '../../../../__mocks__/models/event';
 import { mockCall } from '../../../../__mocks__/models/call';
 import axios from '../../../../__mocks__/axios';
 import { useRouter } from 'next/navigation';
+import { mockUser } from '../../../../__mocks__/models/user';
 
 jest.mock('');
 
@@ -21,12 +22,13 @@ mockPost.mockResolvedValue({ data: {} });
 
 describe('<CreateEventForm />', () => {
   const mockProps: CreateEventFormProps = {
-    adminEnsembleList: [
-      {
+    ensembleList: [{
+      ...mockEnsemble,
+      admin: [{
         ...mockEnsembleAdmin,
-        ensemble: mockEnsemble,
-      },
-    ],
+        user: mockUser
+      }]
+    }],
     userId: 'mock-user-id',
     userName: 'mock-name',
     createOrUpdate: 'Create',
@@ -48,16 +50,16 @@ describe('<CreateEventForm />', () => {
     expect(orgSelect).toBeInTheDocument();
     expect(orgSelect).toHaveRole('combobox');
     expect(orgSelect).toHaveAttribute('name', 'ensembleId');
-    for (let i = 0; i < mockProps.adminEnsembleList.length; i++) {
+    for (let i = 0; i < mockProps.ensembleList.length; i++) {
       expect(orgSelect.textContent).toMatch(
-        mockProps.adminEnsembleList[i].ensemble.name
+        mockProps.ensembleList[i].name
       );
       const option = screen.getByText(
-        mockProps.adminEnsembleList[i].ensemble.name
+        mockProps.ensembleList[i].name
       );
       expect(option).toHaveAttribute(
         'value',
-        mockProps.adminEnsembleList[i].ensembleId
+        mockProps.ensembleList[i].id
       );
     }
   });
@@ -207,14 +209,14 @@ describe('<CreateEventForm />', () => {
       additionalInfo: mockVals.additionalInfo,
       concertProgram: mockVals.concertProgram,
       dressCode: mockVals.dressCode,
-      ensembleId: mockProps.adminEnsembleList[0].ensembleId,
-      ensembleName: mockProps.adminEnsembleList[0].ensemble.ensembleNames[0],
+      ensembleId: mockProps.ensembleList[0].id,
+      ensembleName: mockProps.ensembleList[0].ensembleNames[0],
       eventTitle: mockVals.eventTitle,
       fee: mockVals.fee,
-      fixerName: mockProps.userName,
       fixerId: mockProps.userId,
       confirmedOrOnHold: mockVals.confirmedOrOnHold,
       id: '',
+      updateMessage: "",
       calls: mockVals.calls.map((i) => ({
         id: 0,
         info: '',
@@ -229,7 +231,13 @@ describe('<CreateEventForm />', () => {
 
 describe('<CreateEventForm />', () => {
   const mockProps: CreateEventFormProps = {
-    adminEnsembleList: [],
+    ensembleList: [{
+      ...mockEnsemble,
+      admin: [{
+        ...mockEnsembleAdmin,
+        user: mockUser
+      }]
+    }],
     initialValues: undefined,
     userId: 'mock-user-id',
     userName: 'mock-name',
@@ -253,12 +261,13 @@ describe('<CreateEventForm />', () => {
     confirmedOrOnHold: 'Confirmed',
   };
   const mockProps: CreateEventFormProps = {
-    adminEnsembleList: [
-      {
+    ensembleList: [{
+      ...mockEnsemble,
+      admin: [{
         ...mockEnsembleAdmin,
-        ensemble: mockEnsemble,
-      },
-    ],
+        user: mockUser
+      }]
+    }],
     initialValues: initialVals,
     userId: 'mock-user-id',
     userName: 'mock-name',
@@ -273,9 +282,9 @@ describe('<CreateEventForm />', () => {
     expect(formTitle).toHaveRole('heading');
   });
   it('Ensemble name radio group is in the document with label, all options have label, name, value & type attrs', () => {
-    const ensembleNames = mockProps.adminEnsembleList.find(
-      (i) => i.ensembleId === mockEnsembleAdmin.ensembleId
-    )?.ensemble.ensembleNames;
+    const ensembleNames = mockProps.ensembleList.find(
+      (i) => i.id === mockEnsembleAdmin.ensembleId
+    )?.ensembleNames;
     for (let i = 0; i < ensembleNames!.length; i++) {
       const ensembleName = screen.getByLabelText(ensembleNames![i]);
       expect(ensembleName).toBeInTheDocument();
@@ -320,7 +329,6 @@ describe('<CreateEventForm />', () => {
       ensembleName: initialVals.ensembleName,
       eventTitle: initialVals.eventTitle,
       fee: initialVals.fee,
-      fixerName: mockProps.userName,
       fixerId: mockProps.userId,
       confirmedOrOnHold: initialVals.confirmedOrOnHold,
       id: initialVals.id,

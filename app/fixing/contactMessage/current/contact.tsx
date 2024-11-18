@@ -26,7 +26,7 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
 
   return (
     <tr className={`text-sm ${contact.accepted === false && 'text-gray-300'}`}>
-      <td className='text-center'>{contact.indexNumber}</td>
+      <td className='text-center'>{contact.bookingOrAvailability === "Booking" ? contact.indexNumber : "N/A"}</td>
       <td className='text-center'>
         <p>{`${contact.contact.firstName} ${contact.contact.lastName}`}</p>
       </td>
@@ -36,6 +36,11 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       {eventCalls.map((i) => (
         <td className='' key={i.id}>
           {contact.bookingOrAvailability.toLocaleLowerCase() ===
+          'availability' && contact.accepted === null
+          ? <div className='m-2 flex items-center justify-center'>
+              {contact.calls.map((j) => j.id).includes(i.id) ? <TiTick /> : <TiTimes />}
+            </div>
+          : contact.bookingOrAvailability.toLocaleLowerCase() ===
           'availability' ? (
             <div className='m-2 flex items-center justify-center'>
               {contact.availableFor.includes(i.id) ? <TiTick /> : <TiTimes />}
@@ -65,7 +70,9 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           <p className=''>Mixed</p>
         </td>
       ) : contact.bookingOrAvailability.toLocaleLowerCase() ===
-          'availability' && contact.availableFor.length === 0 ? (
+          'availability' 
+          && contact.accepted === false 
+          && contact.availableFor.length === 0 ? (
         <td className='bg-red-500 text-center text-white'>
           <p className=''>Declined</p>
         </td>
@@ -82,7 +89,7 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
         <td className='bg-red-300 text-center'>
           <p className='text-white'>Declined</p>
         </td>
-      ) : contact.recieved ? (
+      ) : contact.received ? (
         <td className='bg-amber-500 text-center'>
           <p className='text-white'>Awaiting Reply</p>
         </td>
