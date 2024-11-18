@@ -45,9 +45,9 @@ const getEnsemble = async (ensembleId: string) => {
 export default async function EnsembleDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  const id = (await params).id;
   const session = await auth();
   const ensembleId = session?.user.admins.find(
     (i) => i.ensembleId === id

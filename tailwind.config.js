@@ -1,8 +1,7 @@
+/** @type {import('tailwindcss').Config} */
 const plugin = require('tailwindcss/plugin');
-
 const { fontFamily } = require('tailwindcss/defaultTheme');
 
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -18,8 +17,8 @@ module.exports = {
         main: '80%',
       },
       fontFamily: {
-        sans: ['var(--font-poppins)', ...fontFamily.sans],
-        display: ['var(--font-inria-sans)', ...fontFamily.sans],
+        sans: ['var(--font-poppins)'],
+        display: ['var(--font-inria-sans)'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

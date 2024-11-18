@@ -8,7 +8,7 @@ export default function TutorialIndex() {
   const [indexNum, setIndexNum] = useState<number>(0);
 
   return (
-    <div data-testid="tutorial-index" className='flex min-h-[120vh] w-full flex-col justify-center bg-slate-200 p-4 py-36 text-black transition-all'>
+    <div data-testid="tutorial-index" className='flex min-h-[120vh] w-full flex-col justify-center bg-slate-100 p-4 py-36 text-black transition-all'>
       <div className='text-center'>
         <p className='text-lg text-blue-600'>How it works</p>
         <h2 className='text-3xl font-medium'>

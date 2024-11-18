@@ -33,9 +33,9 @@ const getContactMessage = async (token: string) => {
 export default async function GigResponse({
   params,
 }: {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 }) {
-  const { token } = await params;
+  const token = (await params).token;
   const data = await getContactMessage(token);
 
   if (!data) {

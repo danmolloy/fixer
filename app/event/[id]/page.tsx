@@ -59,9 +59,9 @@ async function getData(id: string) {
 export default async function EventDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  const id = (await params).id;
   const data = await getData(id);
   const session = await auth();
 

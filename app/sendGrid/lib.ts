@@ -10,12 +10,6 @@ import { DateTime } from 'luxon';
 import prisma from '../../client';
 import { getDateRange } from '../fixing/contactMessage/api/create/functions';
 
-export type ShortEmailData = {
-  message: string;
-  ensembleName: string;
-  fixerName: string;
-  dateRange: string;
-};
 
 export type EmailData = {
   updateMessage?: string;

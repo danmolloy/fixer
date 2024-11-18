@@ -14,9 +14,9 @@ const getAdmin = async (id: string) => {
 export default async function UpdateAdmin({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  const id = (await params).id;
   const session = await auth();
   const data = session && (await getAdmin(id));
 
