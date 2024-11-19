@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
 import { auth } from '../auth';
 import GithubSignIn from '../signin/githubSignIn';
-import SignUpBtn from '../signin/signUpBtn';
 import { EmailSignIn } from '../signin/emailSignIn';
 import Link from 'next/link';
 
