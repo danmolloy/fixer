@@ -26,8 +26,9 @@ export async function POST(request: Request): Promise<any> {
   // Otherwise use the basic event deserialized with JSON.parse */
   const endpointSecret = process.env.ENDPOINT_SECRET;
   const body = await request.text();
-  const signature = headers().get('Stripe-Signature') as string;
-
+  const headersObject = await headers();
+  const signature = headersObject.get('Stripe-Signature') as string;
+  
   let event: Stripe.Event;
 
   // Get the signature sent by Stripe

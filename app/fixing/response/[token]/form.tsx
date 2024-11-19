@@ -106,7 +106,7 @@ export default function ResponseForm(props: ResponseFormProps) {
           })
           .then(async () => {
             
-            const emailData = responseConfEmail({
+            const emailData = await responseConfEmail({
               dateRange: getDateRange(contactMessage.calls),
               firstName: contactMessage.contact.firstName,
               email: contactMessage.contact.email!,

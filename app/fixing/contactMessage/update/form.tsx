@@ -6,6 +6,7 @@ import TextInput from '../../../forms/textInput';
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/navigation';
+import { updateOfferEmail } from '../../../sendGrid/lib';
 
 export type UpdateContactMessageProps = {
   contact: ContactMessage & {
@@ -22,7 +23,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
 
   const initialVals = {
     id: contact.id,
-    received: contact.received,
+    received: contact.received === true ? 'true' : 'false',
     accepted:
       contact.accepted === true
         ? 'true'
@@ -54,11 +55,11 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
 
   const handleSubmit = async (values) => {
     try {
-      await axios
+      const newData = await axios
         .post('/fixing/contactMessage/api/update', {
           id: contact.id,
           data: {
-            received: values.received,
+            received: values.received === 'true' ? true : false,
             accepted:
               values.accepted === 'true'
                 ? true
@@ -82,9 +83,15 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             },
           },
         })
-        .then(() => {
+          const emailData = await updateOfferEmail(newData.data);
+          await axios.post(`/sendGrid`, {
+            body: {
+              emailData: emailData,
+              templateID: emailData.templateID,
+              emailAddress: emailData.email,
+            },
+          });
           router.push(`/event/${event.id}`);
-        });
     } catch (e) {
       throw new Error(e);
     }
@@ -99,25 +106,31 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
       initialValues={initialVals}
     >
       {(props) => (
-        <Form>
-          <h2>Update Contact Call</h2>
+        <Form className=' flex w-full flex-col py-8 lg:w-2/3 px-2'>
+          <h2 className='py-1'>Update Contact Call</h2>
           <p>{event.ensembleName}</p>
           <p>
             {contact.contact.firstName} {contact.contact.lastName} ({instrument}
             )
           </p>
-          <Field as='select' name='bookingOrAvailability'>
+          <Field  className="border my-1 rounded" as='select' name='bookingOrAvailability'>
             <option value='Booking'>To Book</option>
             <option value='Availability'>Availability Check</option>
           </Field>
           <ErrorMessage name='bookingOrAvailability'>
             {(err) => <p className='text-xs text-red-500'>{err}</p>}
           </ErrorMessage>
-          <div>
-            <p>Calls</p>
+          <div className='my-2'>
+            <p className=''>Calls</p>
             {event.calls.map((i) => (
-              <label key={i.id}>
-                <div>
+              <label key={i.id} className='flex flex-row p-1 my-1'>
+                <Field
+                  checked={props.values.calls.includes(String(i.id))}
+                  type='checkbox'
+                  name='calls'
+                  value={String(i.id)}
+                />
+                <div className='text-sm ml-1'>
                   <p>
                     {DateTime.fromJSDate(new Date(i.startTime)).toFormat(
                       'HH:mm'
@@ -127,34 +140,32 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                     {DateTime.fromJSDate(new Date(i.startTime)).toFormat('DD')}
                   </p>
                 </div>
-                <Field
-                  checked={props.values.calls.includes(String(i.id))}
-                  type='checkbox'
-                  name='calls'
-                  value={String(i.id)}
-                />
+                
               </label>
             ))}
             <ErrorMessage name='calls'>
               {(err) => <p className='text-xs text-red-500'>{err}</p>}
             </ErrorMessage>
           </div>
-          <div>
-            <label>
+          <div className=''>
+            <label className='flex flex-col my-2'>
               Status
-              <Field as='select' name='accepted'>
+              </label>
+
+              <Field className="border rounded my-1" as='select' name='accepted'>
                 <option value='true'>Accepted</option>
                 <option value='false'>Declined</option>
-                <option value={''}>Awaiting Response</option>
+                <option value={''}>Not responded</option>
               </Field>
-            </label>
             <ErrorMessage name='accepted'>
               {(err) => <p className='text-xs text-red-500'>{err}</p>}
             </ErrorMessage>
           </div>
-          <div>
+          
+          <div className='my-2'>
             <label>
               <Field
+                className="m-1"
                 checked={props.values.strictlyTied}
                 type='checkbox'
                 name='strictlyTied'
@@ -168,6 +179,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div>
             <label>
               <Field
+                className="m-1"
                 checked={props.values.urgent}
                 type='checkbox'
                 name='urgent'
@@ -188,7 +200,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             label='Message to Player'
             name='playerMessage'
           />
-          <button type='submit'>Submit</button>
+          <button className='hover:bg-blue-50 px-2 py-1 m-2 rounded border border-blue-600 text-blue-600 ' type='submit'>Submit</button>
         </Form>
       )}
     </Formik>

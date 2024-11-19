@@ -1,8 +1,8 @@
-import { EmailData } from '../../sendGrid/lib';
+import { SentEmailData } from "../../sendGrid/lib";
 
 const sgMail = require('@sendgrid/mail');
 
-export async function POST(request: Request & { body: EmailData }) {
+export async function POST(request: Request & { body: SentEmailData }) {
   const req = await request.json();
 
   if (process.env.TWILIO_ACTIVE === 'false') {

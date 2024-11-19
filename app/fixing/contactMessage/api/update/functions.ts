@@ -16,10 +16,13 @@ export const updateContactMessage = async (contactMessageObj: {
       },
       data: contactMessageObj.data,
       include: {
+        calls: true,
+        contact: true,
         eventSection: {
           include: {
             event: {
               include: {
+                fixer: true,
                 ensemble: true,
               },
             },

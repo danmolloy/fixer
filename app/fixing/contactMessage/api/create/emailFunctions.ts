@@ -41,7 +41,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
   if (await gigIsFixed(eventID)) {
      try {
       // Let fixer know it's done.
-      const bookingComplete = bookingCompleteEmail({
+      const bookingComplete = await bookingCompleteEmail({
         dateRange: getDateRange(contactMessages[0].eventSection.event.calls),
         fixerFirstName: contactMessages[0].eventSection.event.fixer.firstName!,
         email: contactMessages[0].eventSection.event.fixer.email!,
@@ -74,7 +74,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
 
   if (numToContact > notContacted.length) {
     // Let fixer know they need to add to list
-    const emailAlert = listExhaustedEmail({
+    const emailAlert = await listExhaustedEmail({
       dateRange: getDateRange(contactMessages[0].eventSection.event.calls),
       fixerFirstName: contactMessages[0].eventSection.event.fixer.firstName!,
       email: contactMessages[0].eventSection.event.fixer.email!,
@@ -94,7 +94,11 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     }
   }
 
-  for (let i = 0; i < numToContact; i++) {
+  const numEmails: number = numToContact < notContacted.length 
+    ? numToContact 
+    : notContacted.length;
+
+  for (let i = 0; i < numEmails; i++) {
     const contact = notContacted[i];
     const sentEmailData = await createOfferEmail(contact);
 

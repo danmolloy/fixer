@@ -10,38 +10,6 @@ import { DateTime } from 'luxon';
 import prisma from '../../client';
 import { getDateRange } from '../fixing/contactMessage/api/create/functions';
 
-
-export type EmailData = {
-  updateMessage?: string;
-  accepted: boolean | null;
-  dateRange: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  booking: boolean;
-  ensembleName: string;
-  personalMessage?: string;
-  sectionMessage?: string;
-  position: string;
-  sectionName: string;
-  fixerName: string;
-  fixerEmail: string;
-  fixerMobile: string;
-  responseURL: string;
-  concertProgram: string;
-  confirmed: boolean;
-  dressCode: string;
-  fee: string;
-  additionalInfo?: string;
-  calls: {
-    date: string;
-    startTime: string;
-    endTime: string;
-    venue: string;
-  }[];
-};
-
 const url = process.env.URL;
 const responseTemplate = 'd-f23e2cc89b50474b95ed0839995510c1';
 const readOnlyTemplate = 'd-2b2e84b23956415ba770e7c36264bef9';
@@ -57,7 +25,7 @@ export type SentEmailData = {
 export const createSentEmail = async (
   data: SentEmailData & { eventId: number }
 ) => {
-  console.log(`createSentEmail called`);
+
   return await prisma.sentEmail.create({
     data: {
       subject: data.subject,
@@ -84,8 +52,6 @@ export const createOfferEmail = async (
     };
   }
 ): Promise<SentEmailData> => {
-  console.log(`createOfferEmail called`);
-
   const subject = `${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
   const templateID = responseTemplate;
   const responseLink = `${url}/fixing/response/${data.token}/`;
@@ -137,6 +103,118 @@ GigFix
   return emailData;
 };
 
+export const updateOfferEmail = async (
+  data: ContactMessage & {
+    contact: EnsembleContact;
+    calls: Call[];
+    eventSection: EventSection & {
+      event: Event & {
+        fixer: User;
+      };
+    };
+  }
+): Promise<SentEmailData> => {
+
+  const subject = `Update: ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
+  const templateID = responseTemplate;
+  const responseLink = `${url}/fixing/response/${data.token}/`;
+  const email = data.contact.email!;
+  const bodyText = `Dear ${data.contact.firstName}, <br />
+  <br />
+  <br />
+  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.
+  <br />
+  <br />
+  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
+  <br />
+  ${data.calls
+    .map(
+      (i) =>
+        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
+        ' to<br />' +
+        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
+        '<br />' +
+        i.venue +
+        '<br /><br />'
+    )
+    .join(',')}
+  <br />
+  Gig Status: ${data.eventSection.event.confirmedOrOnHold}<br />
+  Position: ${data.position}<br />
+  Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee : 'Not specified'}<br />
+  Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : 'Not specified'}<br />
+  Additional Information: ${data.eventSection.event.additionalInfo ? data.eventSection.event.additionalInfo : 'Not specified'}<br />
+  ${data.playerMessage !== null ? data.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + data.playerMessage : ''}
+<br />
+<br />
+  Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond. <br /> <br />
+
+  If you need further information, contact ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} at ${data.eventSection.event.fixer.email} or ${data.eventSection.event.fixer.mobileNumber}. <br /> <br />
+
+Best wishes,<br />
+GigFix
+  `;
+
+  const emailData = {
+    subject,
+    responseLink,
+    email,
+    bodyText,
+    templateID,
+  };
+
+ /*  await createSentEmail({
+    ...emailData,
+    eventId: data.eventSection.eventId,
+  }); */
+
+  return emailData;
+};
+
+export const gigUpdateEmail = async (data: {
+  dateRange: string;
+  fixerFullName: string;
+  email: string[];
+  message: string;
+  ensemble: string;
+  eventId: number;
+}): Promise<SentEmailData> => {
+  const subject = `Message from ${data.fixerFullName} ${data.ensemble}`;
+  const email = data.email;
+  const templateID = readOnlyTemplate;
+  const bodyText = `Dear musician,
+  <br />
+  <br />
+  ${data.fixerFullName} has updated ${data.ensemble} ${data.dateRange}, and sends the following message:
+  <br />
+  <br />
+  ${data.message}
+  <br />
+  <br />
+  End of Message.
+  <br />
+  <br />
+  Please refer to the link sent in your original gig offer for full up-to-date gig details.
+  <br />
+  Kind regards,
+  <br />
+  GigFix`;
+
+  const emailData = {
+    subject,
+    bodyText,
+    email,
+    templateID,
+  };
+
+
+  await createSentEmail({
+    ...emailData,
+    eventId: data.eventId,
+  });
+  return emailData;
+}
+
 export const messageToAllEmail = async (data: {
   dateRange: string;
   fixerFullName: string;
@@ -175,7 +253,7 @@ export const messageToAllEmail = async (data: {
   return emailData;
 };
 
-export const bookingCompleteEmail = (data: {
+export const bookingCompleteEmail =  (data: {
   dateRange: string;
   fixerFirstName: string;
   email: string;
@@ -202,7 +280,7 @@ export const bookingCompleteEmail = (data: {
   };
 };
 
-export const listExhaustedEmail = (data: {
+export const listExhaustedEmail =  (data: {
   dateRange: string;
   fixerFirstName: string;
   email: string;
@@ -233,7 +311,7 @@ export const listExhaustedEmail = (data: {
   };
 };
 
-export const adminInviteEmail = (data: {
+export const adminInviteEmail =  (data: {
   firstName: string;
   ensembleName: string;
   senderName: string;
@@ -303,14 +381,14 @@ export const releaseDepperEmail = async (data: {
   return emailData;
 };
 
-export const responseConfEmail = (data: {
+export const responseConfEmail = async (data: {
   dateRange: string;
   firstName: string;
   email: string;
   ensemble: string;
   accepted: boolean;
   bookingOrAvailability: string;
-}): SentEmailData => {
+}): Promise<SentEmailData> => {
   const subject = `Response Confirmation: ${data.dateRange} ${data.ensemble}`;
   const email = data.email;
   const templateID = readOnlyTemplate;
@@ -328,7 +406,6 @@ export const responseConfEmail = (data: {
   <br />
   GigFix`;
 
-  console.log(`subject: ${subject}`);
   return {
     subject,
     bodyText,
@@ -337,7 +414,7 @@ export const responseConfEmail = (data: {
   };
 };
 
-export const eventReminderMusician = (
+export const eventReminderMusician =  (
   data: ContactMessage & {
     contact: EnsembleContact;
     calls: Call[];
@@ -389,7 +466,7 @@ GigFix
   };
 };
 
-export const eventReminderFixer = (
+export const eventReminderFixer =  (
   event: Event & {
     calls: Call[];
     fixer: User;
@@ -434,7 +511,7 @@ GigFix
   };
 };
 
-export const reportUnresponsiveMusicianEmail = (
+export const reportUnresponsiveMusicianEmail =  (
   data: ContactMessage & {
     contact: EnsembleContact;
     eventSection: EventSection & {
@@ -471,7 +548,7 @@ export const reportUnresponsiveMusicianEmail = (
   };
 };
 
-export const remindUnresponsiveMusicianEmail = (
+export const remindUnresponsiveMusicianEmail =  (
   data: ContactMessage & {
     calls: Call[];
     contact: EnsembleContact;

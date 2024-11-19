@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import prisma from '../../../../client';
 import {
   Call,
@@ -8,9 +7,8 @@ import {
   EventSection,
   User,
 } from '@prisma/client';
-import { EmailData, messageToAllEmail } from '../../../sendGrid/lib';
+import { gigUpdateEmail, } from '../../../sendGrid/lib';
 import axios from 'axios';
-import { DateTime } from 'luxon';
 import { getDateRange } from '../../../fixing/contactMessage/api/create/functions';
 
 const url = `${process.env.URL}`;
@@ -126,44 +124,6 @@ export const updateCalls = async (
   return updatedCalls;
 };
 
-export const getUpdateEmailData = (
-  event: Event & { fixer: User },
-  calls: Call[],
-  contact: ContactMessage & { contact: EnsembleContact }
-): EmailData => {
-  const emailData = {
-    accepted: contact.accepted,
-    firstName: contact.contact.firstName,
-    lastName: contact.contact.lastName,
-    email: contact.contact.email!,
-    phoneNumber: contact.contact.phoneNumber!,
-    booking: contact.bookingOrAvailability === 'Booking',
-    ensembleName: event.ensembleName,
-    dateRange: getDateRange(calls),
-    personalMessage:
-      contact.playerMessage !== null ? contact.playerMessage : undefined,
-    sectionMessage: undefined,
-    position: contact.position,
-    sectionName: '',
-    fixerName: `${event.fixer.firstName} ${event.fixer.lastName}`,
-    fixerEmail: event.fixer.email!,
-    fixerMobile: event.fixer.mobileNumber!,
-    responseURL: `https://gigfix.co.uk/response/${contact.token}/`,
-    concertProgram: event.concertProgram,
-    confirmed: event.confirmedOrOnHold.toLocaleLowerCase() === 'confirmed',
-    dressCode: event.dressCode,
-    fee: event.fee,
-    additionalInfo: event.additionalInfo ? event.additionalInfo : undefined,
-    calls: calls.map((i) => ({
-      date: DateTime.fromJSDate(i.startTime).toFormat('ccc LL LLL y'),
-      startTime: DateTime.fromJSDate(i.startTime).toFormat('hh:mm a'),
-      endTime: DateTime.fromJSDate(i.endTime).toFormat('hh:mm a'),
-      venue: i.venue,
-    })),
-  };
-
-  return emailData;
-};
 
 export const updateEmailPlayers = async (
   data: {
@@ -188,7 +148,7 @@ export const updateEmailPlayers = async (
     ];
   }
 
-  const emailData = await messageToAllEmail({
+  const emailData = await gigUpdateEmail({
     dateRange: getDateRange(data.calls),
     fixerFullName: `${data.event.fixer.firstName} ${data.event.fixer.lastName}`,
     email: contacts.map((i) => i.contact.email!),
@@ -207,18 +167,7 @@ export const updateEmailPlayers = async (
   } catch (e) {
     throw Error(e);
   }
-  /* for (let i = 0; i < contacts.length; i++) {
-    const emailData = getUpdateEmailData(data.event, data.calls, contacts[i])
-    try {
-      await axios.post(`${url}/sendGrid`, {body: {
-        emailData: {...emailData, updateMessage: updateMessage},
-        templateID: "d-64b6930d20d3471f85c7519750c9e444",
-        emailAddress: contacts[i].contact.email
-      }})
-    } catch(e) {
-      throw Error(e)
-    }
-  } */
+
 };
 
 export const updateEventandCalls = async (eventAndCalls: {

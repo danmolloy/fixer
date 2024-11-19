@@ -19,6 +19,7 @@ import OrchestraList from './orchestraList';
 import FixingIndex from '../../fixing';
 import Link from 'next/link';
 import { TbSend } from 'react-icons/tb';
+import FullRunIndex from './fullRun';
 
 export type EventInfoTableProps = {
   event: Event & {
@@ -45,7 +46,7 @@ export type EventInfoTableProps = {
 
 export default function EventInfoTable(props: EventInfoTableProps) {
   const { event, contacts, ensemble, sections } = props;
-  const [selectedView, setSelectedView] = useState<'fixing' | 'playerList'>(
+  const [selectedView, setSelectedView] = useState<'fixing' | 'playerList' | 'fullRun'>(
     'fixing'
   );
   const eventRef = useRef(null);
@@ -83,6 +84,8 @@ export default function EventInfoTable(props: EventInfoTableProps) {
         >
           <option value='playerList'>Orchestra List</option>
           <option value='fixing'>Fixing</option>
+          <option value='fullRun'>Full Run</option>
+
         </select>
         <Link
           className='m-2 flex flex-row items-center justify-center rounded border p-1 text-sm shadow-sm hover:bg-slate-50'
@@ -94,6 +97,8 @@ export default function EventInfoTable(props: EventInfoTableProps) {
       </div>
       {selectedView === 'playerList' ? 
         <OrchestraList sections={sections} />
+        :selectedView === 'fullRun' 
+        ? <FullRunIndex sections={sections} calls={event.calls} />
         : <FixingIndex
           ensembleSections={ensemble.sections}
           eventCalls={event.calls}

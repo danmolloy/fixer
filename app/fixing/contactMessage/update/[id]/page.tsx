@@ -40,7 +40,7 @@ export default async function UpdateContactMessagePage({
   ) : !data ? (
     <p>No data</p>
   ) : (
-    <div>
+    <div className='my-4 flex w-full flex-col items-center rounded p-1 sm:my-8 sm:p-2 md:w-3/4'>
       <UpdateContactMessage
         instrument={data.eventSection.ensembleSection.name}
         event={data.eventSection.event}
