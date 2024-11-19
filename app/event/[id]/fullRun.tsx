@@ -51,7 +51,7 @@ export default function FullRunIndex(props: FullRunIndexProps) {
         {sortedSections.filter(i => i.numToBook > 0).map(i => (
           new Array(i.numToBook).fill(null)
           .map((_, index) => (
-            <tr>
+            <tr key={index}>
               <td className="border flex flex-row p-1 justify-between">
                 <p>{index === 0 &&`${i.ensembleSection.name} `}</p>
                 <p className="ml-1">{index + 1}</p>
@@ -64,7 +64,7 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                   && c.bookingOrAvailability === "Booking"
                   && c.calls.map(z => z.id).includes(j.id))) 
                   .map((c, ind) => (
-                    <p>{ind === index && `${c.contact.firstName} ${c.contact.lastName}`}</p>
+                    <p key={c.id}>{ind === index && `${c.contact.firstName} ${c.contact.lastName}`}</p>
                   ))}
                 </p>
               </td>
