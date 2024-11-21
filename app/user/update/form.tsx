@@ -53,7 +53,8 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
         initialValues={initialVals}
         onSubmit={async (vals) => {
           return await axios.post('update/api', vals).then(() => {
-            router.push('/');
+            //router.push('/');
+            router.refresh();
             //setSubmitStatus("Successfully updated!")
           });
           /* .catch(function (error) {

@@ -16,11 +16,8 @@ export default function ContactsIndex(props: ContactsIndexProps) {
   const { setSortedContacts, contacts, editContact, sortContacts } = props;
 
   return (
-    <div data-testid='contacts-index' className='m-1 w-full'>
-      <h2>Musicians</h2>
-      {contacts.length === 0 ? (
-        <p>No contacts</p>
-      ) : (
+    <div data-testid='contacts-index' className='m-1 my-4 w-full'>
+      <h2 className='text-2xl  py-2'>Musicians</h2>
         <table
           data-testid='alphabetical-list'
           className='w-full overflow-scroll border'
@@ -81,7 +78,15 @@ export default function ContactsIndex(props: ContactsIndexProps) {
             </tr>
           </thead>
           <tbody>
-            {contacts
+            {contacts.length === 0 ? (
+        <tr>
+          <td colSpan={7} >
+            <div className=' w-full flex flex-col items-center justify-center py-8'>
+              <h2>No contacts</h2>
+              <p>Get started by importing your musicians.</p>
+            </div>
+            </td></tr>
+      ) : contacts
               .sort((a, b) =>
                 sortContacts.toLocaleLowerCase() === 'section'
                   ? a.section.name.localeCompare(b.section.name)
@@ -100,7 +105,6 @@ export default function ContactsIndex(props: ContactsIndexProps) {
               ))}
           </tbody>
         </table>
-      )}
     </div>
   );
 }

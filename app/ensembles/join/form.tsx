@@ -40,13 +40,15 @@ export default function JoinEnsembleForm(props: JoinEnsembleFormProps) {
         }}
       >
         {(props) => (
-          <Form>
+          <Form className='p-4'>
+            <h1>Join Existing Ensemble</h1>
+            <p>Enter the access code sent to your email address.</p>
             <TextInput
               name='accessCode'
               id='access-code-input'
               label='Access Code'
             />
-            <button type='submit'>Submit</button>
+            <button type='submit' className='bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 m-2 rounded shadow-sm'>Submit</button>
           </Form>
         )}
       </Formik>
