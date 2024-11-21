@@ -1,4 +1,3 @@
-
 export type DetailHeaderProps = {
   eventTitle: string;
 };

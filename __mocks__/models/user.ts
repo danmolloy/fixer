@@ -5,14 +5,14 @@ import { UserWithEventsAndCallsWithEnsemble } from '../../app/calendar';
 export const mockUserId = faker.string.uuid();
 
 export const mockUser: User = {
-  name: "mockName",
+  name: 'mockName',
   id: mockUserId,
   email: faker.internet.email(),
   emailVerified: new Date(),
   image: faker.image.urlLoremFlickr(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  mobileNumber: faker.phone.number({style: 'international'}),
+  mobileNumber: faker.phone.number({ style: 'international' }),
   fixingEnsembles: [faker.lorem.words(3)],
   preferredMethod: 'WhatsApp',
   instrumentsList: ['Cello', 'Viola'],

@@ -1,4 +1,9 @@
-import { EnsembleContact, EnsembleSection, Event, EventSection } from '@prisma/client';
+import {
+  EnsembleContact,
+  EnsembleSection,
+  Event,
+  EventSection,
+} from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import { mockCall } from './call';
 import { mockEnsembleContact } from './ensembleContact';
@@ -12,4 +17,3 @@ export const mockEventSection: EventSection = {
   bookingStatus: 'ok',
   numToBook: Math.ceil(Math.random() * 10),
 };
-

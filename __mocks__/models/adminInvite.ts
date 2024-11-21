@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { AdminInvite } from '@prisma/client';
 
 export const mockAdminInvite: AdminInvite = {
-  senderName: "Bradley Clegg",
+  senderName: 'Bradley Clegg',
   id: faker.string.uuid(),
   ensembleId: faker.string.alpha(10),
   accepted: Math.random() > 0.5 ? true : false,

@@ -15,11 +15,13 @@ export const updateEventSection = async (sectionObj: {
       numToBook: sectionObj.numToBook,
     },
     include: {
-      contacts: true
-    }
+      contacts: true,
+    },
   });
-  if (sectionObj.bookingStatus.toLocaleLowerCase() === 'active' 
-  && updatedSection.contacts.length > 0) {
+  if (
+    sectionObj.bookingStatus.toLocaleLowerCase() === 'active' &&
+    updatedSection.contacts.length > 0
+  ) {
     await emailBookingMusicians(updatedSection.id);
   }
   return updatedSection;

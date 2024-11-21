@@ -89,7 +89,6 @@ export default function DiaryContacts(props: DiaryContactsProps) {
                       </div>
                     </button>
                   </th>
-                  
                 </tr>
               </thead>
               <tbody>

@@ -38,8 +38,8 @@ describe('<Footer />', () => {
   it('if !session, signIn link is in the document and calls signIn on click', async () => {
     const signInLink = screen.getByText('Sign in');
     expect(signInLink).toBeInTheDocument();
-    expect(signInLink).toHaveAttribute("href", "/signin");
-    });
+    expect(signInLink).toHaveAttribute('href', '/signin');
+  });
 });
 
 describe('<Footer />', () => {

@@ -4,7 +4,7 @@ import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 export const mockContactMessage: ContactMessage = {
   strictlyTied: false,
   urgent: false,
-  availableFor:  [],
+  availableFor: [],
   contactId: faker.string.uuid(),
   token: faker.string.uuid(),
   position: 'Tutti',
@@ -24,13 +24,12 @@ export const mockContactMessage: ContactMessage = {
 };
 
 export const mockContactMessageForTable: ContactMessage & {
-  
   calls: Call[];
   contact: EnsembleContact;
 } = {
   strictlyTied: false,
   urgent: false,
-  availableFor:  [],
+  availableFor: [],
   contactId: faker.string.uuid(),
   playerMessage: faker.lorem.words(8),
   position: 'Tutti',

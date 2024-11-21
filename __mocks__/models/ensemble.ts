@@ -4,7 +4,7 @@ import { Ensemble, EnsembleAdmin } from '@prisma/client';
 export const mockEnsemble: Ensemble = {
   stripeSubscriptionId: faker.string.uuid(),
   stripeCustomerId: faker.string.uuid(),
-  subscriptionStatus: "ACTIVE",
+  subscriptionStatus: 'ACTIVE',
 
   name: faker.lorem.words(3),
   ensembleNames: [faker.lorem.words(3)],
@@ -16,10 +16,9 @@ const ensembleId = faker.string.uuid();
 export const mockEnsembleWithAdmin: Ensemble & {
   admin: EnsembleAdmin[];
 } = {
-
   stripeSubscriptionId: faker.string.uuid(),
   stripeCustomerId: faker.string.uuid(),
-  subscriptionStatus: "ACTIVE",
+  subscriptionStatus: 'ACTIVE',
 
   name: faker.lorem.words(3),
   ensembleNames: [faker.lorem.words(3)],

@@ -43,20 +43,22 @@ export default async function GigResponse({
   }
 
   return (
-    <div className='flex w-full flex-col items-center justify-center py-12 bg-slate-50 -mb-16'>
-      {data.accepted === null 
-      ? <ResponseHeader 
-        bookingOrAvailability={data.bookingOrAvailability}
-        fixerName={`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`}
-        contactFirstName={`${data.contact.firstName}`}
+    <div className='-mb-16 flex w-full flex-col items-center justify-center bg-slate-50 py-12'>
+      {data.accepted === null ? (
+        <ResponseHeader
+          bookingOrAvailability={data.bookingOrAvailability}
+          fixerName={`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`}
+          contactFirstName={`${data.contact.firstName}`}
         />
-      : <ResponseConf         
-        bookingOrAvailability={data.bookingOrAvailability}
-        availableFor={data.availableFor}
-        contactMessageCalls={data.calls}
-        accepted={data.accepted}
-      />}
-      <table className='w-[95vw] md:w-2/3 border my-4 rounded '>
+      ) : (
+        <ResponseConf
+          bookingOrAvailability={data.bookingOrAvailability}
+          availableFor={data.availableFor}
+          contactMessageCalls={data.calls}
+          accepted={data.accepted}
+        />
+      )}
+      <table className='my-4 w-[95vw] rounded border md:w-2/3'>
         <tbody className={''}>
           <InfoDiv
             className='bg-slate-50'
@@ -69,7 +71,7 @@ export default async function GigResponse({
             }
           />
           <InfoDiv
-            className=' bg-white'
+            className='bg-white'
             id='event-status'
             title='Status'
             value={data.eventSection.event.confirmedOrOnHold.toLocaleUpperCase()}
@@ -82,7 +84,7 @@ export default async function GigResponse({
           />
           <tr
             data-testid='calls-row'
-            className='flex w-full flex-col p-4 md:flex-row lg:items-center lg:justify-evenly bg-white'
+            className='flex w-full flex-col bg-white p-4 md:flex-row lg:items-center lg:justify-evenly'
           >
             <td className='text-sm text-slate-600 md:w-1/2'>
               {data.calls.length} Call(s)
@@ -106,7 +108,7 @@ export default async function GigResponse({
             value={data.eventSection.event.concertProgram}
           />
           <InfoDiv
-            className=' bg-white'
+            className='bg-white'
             id='position'
             title='Position'
             value={data.position}
@@ -118,7 +120,7 @@ export default async function GigResponse({
             value={data.eventSection.event.dressCode}
           />
           <InfoDiv
-            className=' bg-white'
+            className='bg-white'
             id='event-fee'
             title='Fee'
             value={data.eventSection.event.fee}
@@ -130,7 +132,7 @@ export default async function GigResponse({
             value={data.eventSection.event.additionalInfo}
           />
           <InfoDiv
-            className=' bg-white'
+            className='bg-white'
             id='event-fixer-name'
             title='Fixer'
             value={`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`}
@@ -142,7 +144,7 @@ export default async function GigResponse({
             value={data.eventSection.event.fixer.mobileNumber}
           />
           <InfoDiv
-            className=' bg-white'
+            className='bg-white'
             id='event-fixer-email'
             title='Fixer email'
             value={data.eventSection.event.fixer.email}
@@ -155,7 +157,7 @@ export default async function GigResponse({
             value={data.playerMessage}
           />
           <InfoDiv
-            className='text-sm text-slate-600 bg-white'
+            className='bg-white text-sm text-slate-600'
             id='created-datetime'
             title='Event created'
             value={String(
@@ -176,21 +178,24 @@ export default async function GigResponse({
           />
         </tbody>
       </table>
-      
+
       <div className='my-4 flex flex-col items-center justify-center'>
-        
-        {(data.accepted == null 
-        || data.bookingOrAvailability.toLocaleLowerCase() !== 'booking')
-        && <ResponseForm
-          contactMessage={data}
-          fixerName={data.eventSection.event.fixerName!}
-          bookingOrAvailability={data.bookingOrAvailability}
-          accepted={data.accepted}
-        />}
-          <p className='my-2 text-sm text-gray-600'>
-            Please contact {data.eventSection.event.fixer.firstName} {data.eventSection.event.fixer.lastName} directly for any gig related queries or to change your response. <br /> For technical issues, please contact GigFix.
-          </p>
-          </div>
+        {(data.accepted == null ||
+          data.bookingOrAvailability.toLocaleLowerCase() !== 'booking') && (
+          <ResponseForm
+            contactMessage={data}
+            fixerName={data.eventSection.event.fixerName!}
+            bookingOrAvailability={data.bookingOrAvailability}
+            accepted={data.accepted}
+          />
+        )}
+        <p className='my-2 text-sm text-gray-600'>
+          Please contact {data.eventSection.event.fixer.firstName}{' '}
+          {data.eventSection.event.fixer.lastName} directly for any gig related
+          queries or to change your response. <br /> For technical issues,
+          please contact GigFix.
+        </p>
+      </div>
     </div>
   );
 }

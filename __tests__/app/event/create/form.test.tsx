@@ -22,13 +22,17 @@ mockPost.mockResolvedValue({ data: {} });
 
 describe('<CreateEventForm />', () => {
   const mockProps: CreateEventFormProps = {
-    ensembleList: [{
-      ...mockEnsemble,
-      admin: [{
-        ...mockEnsembleAdmin,
-        user: mockUser
-      }]
-    }],
+    ensembleList: [
+      {
+        ...mockEnsemble,
+        admin: [
+          {
+            ...mockEnsembleAdmin,
+            user: mockUser,
+          },
+        ],
+      },
+    ],
     userId: 'mock-user-id',
     userName: 'mock-name',
     createOrUpdate: 'Create',
@@ -51,16 +55,9 @@ describe('<CreateEventForm />', () => {
     expect(orgSelect).toHaveRole('combobox');
     expect(orgSelect).toHaveAttribute('name', 'ensembleId');
     for (let i = 0; i < mockProps.ensembleList.length; i++) {
-      expect(orgSelect.textContent).toMatch(
-        mockProps.ensembleList[i].name
-      );
-      const option = screen.getByText(
-        mockProps.ensembleList[i].name
-      );
-      expect(option).toHaveAttribute(
-        'value',
-        mockProps.ensembleList[i].id
-      );
+      expect(orgSelect.textContent).toMatch(mockProps.ensembleList[i].name);
+      const option = screen.getByText(mockProps.ensembleList[i].name);
+      expect(option).toHaveAttribute('value', mockProps.ensembleList[i].id);
     }
   });
   it('<ConfirmedOrOnHold /> is in the document', () => {
@@ -216,7 +213,7 @@ describe('<CreateEventForm />', () => {
       fixerId: mockProps.userId,
       confirmedOrOnHold: mockVals.confirmedOrOnHold,
       id: '',
-      updateMessage: "",
+      updateMessage: '',
       calls: mockVals.calls.map((i) => ({
         id: 0,
         info: '',
@@ -231,13 +228,17 @@ describe('<CreateEventForm />', () => {
 
 describe('<CreateEventForm />', () => {
   const mockProps: CreateEventFormProps = {
-    ensembleList: [{
-      ...mockEnsemble,
-      admin: [{
-        ...mockEnsembleAdmin,
-        user: mockUser
-      }]
-    }],
+    ensembleList: [
+      {
+        ...mockEnsemble,
+        admin: [
+          {
+            ...mockEnsembleAdmin,
+            user: mockUser,
+          },
+        ],
+      },
+    ],
     initialValues: undefined,
     userId: 'mock-user-id',
     userName: 'mock-name',
@@ -261,13 +262,17 @@ describe('<CreateEventForm />', () => {
     confirmedOrOnHold: 'Confirmed',
   };
   const mockProps: CreateEventFormProps = {
-    ensembleList: [{
-      ...mockEnsemble,
-      admin: [{
-        ...mockEnsembleAdmin,
-        user: mockUser
-      }]
-    }],
+    ensembleList: [
+      {
+        ...mockEnsemble,
+        admin: [
+          {
+            ...mockEnsembleAdmin,
+            user: mockUser,
+          },
+        ],
+      },
+    ],
     initialValues: initialVals,
     userId: 'mock-user-id',
     userName: 'mock-name',

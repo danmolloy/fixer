@@ -20,12 +20,12 @@ describe('<Hero />', () => {
       /^Communication made simple for fixers and musicians./
     );
   });
-  it("tagline is in the document", () => {
-    const tagline = screen.getByTestId("tagline");
+  it('tagline is in the document', () => {
+    const tagline = screen.getByTestId('tagline');
     expect(tagline.textContent).toMatch(
       /^Effortless fixing and seamless communications for orchestras and musicians.$/
     );
-  })
+  });
   it("'learn more' link is in the document with expected href", () => {
     const learnMore = screen.getByText('Learn more');
     expect(learnMore).toBeInTheDocument();
@@ -34,6 +34,6 @@ describe('<Hero />', () => {
   it('"start now" link is in the document with expected href attr', () => {
     const startLink = screen.getByText('Start now');
     expect(startLink).toBeInTheDocument();
-    expect(startLink).toHaveAttribute("href", "/signup");
+    expect(startLink).toHaveAttribute('href', '/signup');
   });
 });

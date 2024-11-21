@@ -1,5 +1,11 @@
 import EnsembleIndex, { EnsembleIndexProps } from '../../../app/ensembles';
-import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
+import {
+  render,
+  screen,
+  act,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { mockSection } from '../../../__mocks__/models/ensembleSection';
 import { mockEnsembleContact } from '../../../__mocks__/models/ensembleContact';
@@ -18,35 +24,34 @@ jest.mock('../../../app/billing/api/manage/lib', () => ({
 global.focus = jest.fn();
 
 describe('<EnsembleIndex />', () => {
-
-const mockProps: EnsembleIndexProps = {
-  sections: [mockSection],
-  ensemble: mockEnsemble,
-  contacts: [
-    {
-      ...mockEnsembleContact,
-      id: '1',
-      firstName: 'Greg',
-      lastName: 'Ievers',
-      category: 'Member',
-      section: mockSection,
-    },
-    {
-      ...mockEnsembleContact,
-      id: '2',
-      firstName: 'Elliot',
-      lastName: 'Gannon',
-      category: 'Extra',
-      section: mockSection,
-    },
-  ],
-  admins: [
-    {
-      ...mockEnsembleAdmin,
-      user: mockUser,
-    },
-  ],
-};
+  const mockProps: EnsembleIndexProps = {
+    sections: [mockSection],
+    ensemble: mockEnsemble,
+    contacts: [
+      {
+        ...mockEnsembleContact,
+        id: '1',
+        firstName: 'Greg',
+        lastName: 'Ievers',
+        category: 'Member',
+        section: mockSection,
+      },
+      {
+        ...mockEnsembleContact,
+        id: '2',
+        firstName: 'Elliot',
+        lastName: 'Gannon',
+        category: 'Extra',
+        section: mockSection,
+      },
+    ],
+    admins: [
+      {
+        ...mockEnsembleAdmin,
+        user: mockUser,
+      },
+    ],
+  };
 
   beforeEach(() => {
     render(<EnsembleIndex {...mockProps} />);
@@ -63,63 +68,70 @@ const mockProps: EnsembleIndexProps = {
     const ensembleDash = screen.getByTestId('ensemble-dashboard');
     expect(ensembleDash).toBeInTheDocument();
   });
-  it("Alphabetical sort select sorts contact list", () => {
-    const alphabeticalSort = screen.getByText("Name")
+  it('Alphabetical sort select sorts contact list', () => {
+    const alphabeticalSort = screen.getByText('Name');
     waitFor(() => {
       fireEvent.click(alphabeticalSort);
     });
-    for (let i = 0; i < mockProps.contacts.length; i ++) {
-      const contactRows = screen.getAllByTestId("contact-card");
-      const sortedContacts = mockProps.contacts.sort((a,b) => a.lastName.localeCompare(b.lastName));
+    for (let i = 0; i < mockProps.contacts.length; i++) {
+      const contactRows = screen.getAllByTestId('contact-card');
+      const sortedContacts = mockProps.contacts.sort((a, b) =>
+        a.lastName.localeCompare(b.lastName)
+      );
       expect(contactRows[i].textContent).toMatch(sortedContacts[i].lastName);
     }
-  })
-  it("Section sort select sorts contact list", () => {
-    const sectionSort = screen.getByText("Section");
+  });
+  it('Section sort select sorts contact list', () => {
+    const sectionSort = screen.getByText('Section');
     waitFor(() => {
       fireEvent.click(sectionSort);
     });
-    for (let i = 0; i < mockProps.contacts.length; i ++) {
-      const contactRows = screen.getAllByTestId("contact-card");
-      const sortedContacts = mockProps.contacts.sort((a,b) => a.section.name.localeCompare(b.section.name));
+    for (let i = 0; i < mockProps.contacts.length; i++) {
+      const contactRows = screen.getAllByTestId('contact-card');
+      const sortedContacts = mockProps.contacts.sort((a, b) =>
+        a.section.name.localeCompare(b.section.name)
+      );
       expect(contactRows[i].textContent).toMatch(sortedContacts[i].lastName);
     }
-  })
-  it("Position sort select sorts contact list", () => {
-    const positionSort = screen.getByText("Position");
+  });
+  it('Position sort select sorts contact list', () => {
+    const positionSort = screen.getByText('Position');
     waitFor(() => {
       fireEvent.click(positionSort);
     });
-    for (let i = 0; i < mockProps.contacts.length; i ++) {
-      const contactRows = screen.getAllByTestId("contact-card");
-      const sortedContacts = mockProps.contacts.sort((a,b) => a.role.localeCompare(b.role));
+    for (let i = 0; i < mockProps.contacts.length; i++) {
+      const contactRows = screen.getAllByTestId('contact-card');
+      const sortedContacts = mockProps.contacts.sort((a, b) =>
+        a.role.localeCompare(b.role)
+      );
       expect(contactRows[i].textContent).toMatch(sortedContacts[i].lastName);
     }
-  })
-  it("Category sort select sorts contact list", () => {
-    const categorySort = screen.getByText("Category");
+  });
+  it('Category sort select sorts contact list', () => {
+    const categorySort = screen.getByText('Category');
     waitFor(() => {
       fireEvent.click(categorySort);
     });
-    for (let i = 0; i < mockProps.contacts.length; i ++) {
-      const contactRows = screen.getAllByTestId("contact-card");
-      const sortedContacts = mockProps.contacts.sort((a,b) => a.category!.localeCompare(b.category!));
+    for (let i = 0; i < mockProps.contacts.length; i++) {
+      const contactRows = screen.getAllByTestId('contact-card');
+      const sortedContacts = mockProps.contacts.sort((a, b) =>
+        a.category!.localeCompare(b.category!)
+      );
       expect(contactRows[i].textContent).toMatch(sortedContacts[i].lastName);
     }
-  })
-  it("<CreateContactForm /> renders when Edit contact btn clicked", () => {
-    const menuBtns = screen.getAllByText("Contact Options");
+  });
+  it('<CreateContactForm /> renders when Edit contact btn clicked', () => {
+    const menuBtns = screen.getAllByText('Contact Options');
     waitFor(() => {
       fireEvent.click(menuBtns[0]);
     });
-    const editBtn = screen.getByText("Edit");
+    const editBtn = screen.getByText('Edit');
     waitFor(() => {
       fireEvent.click(editBtn);
-    })
+    });
     const createContactForm = screen.getByTestId('create-contact-form');
     expect(createContactForm).toBeInTheDocument();
-
-  })
+  });
   it('<EnsembleManagement /> is in the document with all admins listed', () => {
     const ensembleManagement = screen.getByTestId('ensemble-management');
     expect(ensembleManagement).toBeInTheDocument();
@@ -135,35 +147,32 @@ const mockProps: EnsembleIndexProps = {
   });
 });
 
-
 describe('<EnsembleIndex />', () => {
-
-const mockProps: EnsembleIndexProps = {
-  sections: [],
-  ensemble: {
-    ...mockEnsemble,
-    stripeSubscriptionId: null,
-  },
-  contacts: [],
-  admins: [
-    {
-      ...mockEnsembleAdmin,
-      user: mockUser,
+  const mockProps: EnsembleIndexProps = {
+    sections: [],
+    ensemble: {
+      ...mockEnsemble,
+      stripeSubscriptionId: null,
     },
-  ],
-};
+    contacts: [],
+    admins: [
+      {
+        ...mockEnsembleAdmin,
+        user: mockUser,
+      },
+    ],
+  };
 
   beforeEach(() => {
     render(<EnsembleIndex {...mockProps} />);
   });
-  
-  it("if !stripeSub, Subscribe btn is in the document and calls getBillingRoute()", () => {
-    const subscribeBtn = screen.getByText("Subscribe");
+
+  it('if !stripeSub, Subscribe btn is in the document and calls getBillingRoute()', () => {
+    const subscribeBtn = screen.getByText('Subscribe');
     expect(subscribeBtn).toBeInTheDocument();
     waitFor(() => {
       fireEvent.click(subscribeBtn);
     });
     expect(getBillingRoute).toHaveBeenCalled();
-  })  
+  });
 });
-

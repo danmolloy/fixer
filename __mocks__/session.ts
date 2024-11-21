@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 export const mockSession: Session = {
   user: {
     ...mockUser,
-    image: "",
+    image: '',
     lastName: 'Ievers',
     firstName: 'Greg',
     email: 'greg@ievers.com.au',

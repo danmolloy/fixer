@@ -48,7 +48,10 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     createOrUpdate: Yup.string().required(),
     updateMessage: Yup.string().when('createOrUpdate', {
       is: 'Update',
-      then: (schema) => schema.required('Required: message to players explaining what has been changed'),
+      then: (schema) =>
+        schema.required(
+          'Required: message to players explaining what has been changed'
+        ),
     }),
     fixerId: Yup.string().required('Fixer selection required'),
     id: Yup.string(),

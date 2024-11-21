@@ -1,8 +1,7 @@
-import prisma from "../../../../../client";
-import { emailDeppingMusician } from "../create/emailFunctions";
+import prisma from '../../../../../client';
+import { emailDeppingMusician } from '../create/emailFunctions';
 
 export const releaseDeppers = async (eventSectionId: number) => {
-
   const deppingContacts = await prisma.contactMessage.findMany({
     where: {
       eventSectionId: eventSectionId,

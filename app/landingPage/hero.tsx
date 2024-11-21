@@ -12,7 +12,7 @@ export default function Hero() {
           Communication made <span className='text-blue-600'>simple</span> for
           fixers and musicians.
         </h1>
-        <p data-testid="tagline" className='p-4 text-lg text-slate-700'>
+        <p data-testid='tagline' className='p-4 text-lg text-slate-700'>
           Effortless fixing and seamless communications for orchestras and
           musicians.
         </p>

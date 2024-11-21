@@ -21,7 +21,7 @@ export const mockCallWithEventWithEnsemble: CallWithEventWithEnsemble = {
     ensemble: {
       stripeSubscriptionId: faker.string.uuid(),
       stripeCustomerId: faker.string.uuid(),
-      subscriptionStatus: "ACTIVE",
+      subscriptionStatus: 'ACTIVE',
       ensembleNames: [faker.lorem.words(2), faker.lorem.words(2)],
       name: faker.lorem.words(2),
       id: faker.string.uuid(),

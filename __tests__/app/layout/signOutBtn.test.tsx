@@ -4,7 +4,7 @@ import SignOutBtn from '../../../app/layout/signOutBtn';
 import { signOut } from '../../../app/auth';
 
 jest.mock('../../../app/auth', () => ({
-  signOut: jest.fn()
+  signOut: jest.fn(),
 }));
 
 describe('<SignOutBtn />', () => {

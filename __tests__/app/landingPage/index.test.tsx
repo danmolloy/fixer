@@ -18,12 +18,12 @@ describe('<LandingPage />', () => {
     const landingFeatures = screen.getByTestId('fixer-features');
     expect(landingFeatures).toBeInTheDocument();
   });
-  it("<TutorialIndex /> is in the document", () => {
-    const tutorialIndex = screen.getByTestId("tutorial-index");
+  it('<TutorialIndex /> is in the document', () => {
+    const tutorialIndex = screen.getByTestId('tutorial-index');
     expect(tutorialIndex).toBeInTheDocument();
-  })
-  it("<CTASection /> is in the document", () => {
-    const ctaSection = screen.getByTestId("cta-section");
+  });
+  it('<CTASection /> is in the document', () => {
+    const ctaSection = screen.getByTestId('cta-section');
     expect(ctaSection).toBeInTheDocument();
-  })
+  });
 });

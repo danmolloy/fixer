@@ -28,7 +28,7 @@ export async function POST(request: Request): Promise<any> {
   const body = await request.text();
   const headersObject = await headers();
   const signature = headersObject.get('Stripe-Signature') as string;
-  
+
   let event: Stripe.Event;
 
   // Get the signature sent by Stripe

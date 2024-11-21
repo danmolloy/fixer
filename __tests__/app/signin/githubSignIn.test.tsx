@@ -11,7 +11,7 @@ describe('<GithubSignIn />', () => {
   });
   it('<GithubSignIn /> renders', () => {
     const signInBtn = screen.getByTestId('github-sign-in');
-    expect(signInBtn.textContent).toMatch("GitHub");
+    expect(signInBtn.textContent).toMatch('GitHub');
     expect(signInBtn).toBeInTheDocument();
   });
   it('calls signIn on click', async () => {

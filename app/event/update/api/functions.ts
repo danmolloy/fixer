@@ -7,7 +7,7 @@ import {
   EventSection,
   User,
 } from '@prisma/client';
-import { gigUpdateEmail, } from '../../../sendGrid/lib';
+import { gigUpdateEmail } from '../../../sendGrid/lib';
 import axios from 'axios';
 import { getDateRange } from '../../../fixing/contactMessage/api/create/functions';
 
@@ -124,7 +124,6 @@ export const updateCalls = async (
   return updatedCalls;
 };
 
-
 export const updateEmailPlayers = async (
   data: {
     event: Event & {
@@ -167,7 +166,6 @@ export const updateEmailPlayers = async (
   } catch (e) {
     throw Error(e);
   }
-
 };
 
 export const updateEventandCalls = async (eventAndCalls: {

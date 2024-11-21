@@ -18,7 +18,7 @@ export const mockEventWithEnsemble: Event & { ensemble: Ensemble } = {
   ensemble: {
     stripeSubscriptionId: faker.string.uuid(),
     stripeCustomerId: faker.string.uuid(),
-    subscriptionStatus: "ACTIVE",
+    subscriptionStatus: 'ACTIVE',
     ensembleNames: [faker.lorem.words(3), faker.lorem.words(3)],
     name: faker.lorem.words(3),
     id: faker.string.uuid(),

@@ -12,7 +12,7 @@ import { mockUser } from '../../../../__mocks__/models/user';
 const mockProps: EventInfoProps = {
   event: {
     ...mockEvent,
-    fixer: mockUser
+    fixer: mockUser,
   },
   calls: [mockCall],
   ensemble: mockEnsemble,
@@ -93,7 +93,9 @@ describe('<EventInfo />', () => {
     const fixerName = screen.getByTestId('event-fixer-name');
     expect(fixerName).toBeInTheDocument();
     expect(fixerName.textContent).toMatch(/^Fixer/);
-    expect(fixerName.textContent).toMatch(`${mockProps.event.fixer.firstName} ${mockProps.event.fixer.lastName}`);
+    expect(fixerName.textContent).toMatch(
+      `${mockProps.event.fixer.firstName} ${mockProps.event.fixer.lastName}`
+    );
   });
   it('created datetime is in the document with label', () => {
     const fixerName = screen.getByTestId('event-fixer-name');

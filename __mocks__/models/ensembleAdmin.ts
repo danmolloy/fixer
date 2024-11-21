@@ -10,8 +10,8 @@ export const mockAdminWithUser: EnsembleAdmin & { user: User } = {
   positionTitle: faker.lorem.word(),
   userId: mockUserId,
   user: {
-    name: "Greg Ievers",
-    image: "",
+    name: 'Greg Ievers',
+    image: '',
     id: mockUserId,
     email: faker.internet.email(),
     emailVerified: new Date(),
@@ -41,7 +41,7 @@ export const mockAdminWithEnsemble: EnsembleAdmin & { ensemble: Ensemble } = {
   ensemble: {
     stripeSubscriptionId: faker.string.uuid(),
     stripeCustomerId: faker.string.uuid(),
-    subscriptionStatus: "ACTIVE",
+    subscriptionStatus: 'ACTIVE',
     ensembleNames: [faker.lorem.words(3)],
     name: faker.lorem.words(3),
     id: faker.string.uuid(),

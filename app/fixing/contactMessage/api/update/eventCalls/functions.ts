@@ -30,7 +30,6 @@ export const updateContactEventCalls = async (data: {
       },
     });
 
-
     //await axios.post(`${url}/response/api`, {body: emailData});
   } catch (e) {
     throw Error(e);

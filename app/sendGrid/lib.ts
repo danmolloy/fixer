@@ -25,7 +25,6 @@ export type SentEmailData = {
 export const createSentEmail = async (
   data: SentEmailData & { eventId: number }
 ) => {
-
   return await prisma.sentEmail.create({
     data: {
       subject: data.subject,
@@ -114,7 +113,6 @@ export const updateOfferEmail = async (
     };
   }
 ): Promise<SentEmailData> => {
-
   const subject = `Update: ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
   const templateID = responseTemplate;
   const responseLink = `${url}/fixing/response/${data.token}/`;
@@ -163,7 +161,7 @@ GigFix
     templateID,
   };
 
- /*  await createSentEmail({
+  /*  await createSentEmail({
     ...emailData,
     eventId: data.eventSection.eventId,
   }); */
@@ -207,13 +205,12 @@ export const gigUpdateEmail = async (data: {
     templateID,
   };
 
-
   await createSentEmail({
     ...emailData,
     eventId: data.eventId,
   });
   return emailData;
-}
+};
 
 export const messageToAllEmail = async (data: {
   dateRange: string;
@@ -253,7 +250,7 @@ export const messageToAllEmail = async (data: {
   return emailData;
 };
 
-export const bookingCompleteEmail =  (data: {
+export const bookingCompleteEmail = (data: {
   dateRange: string;
   fixerFirstName: string;
   email: string;
@@ -280,7 +277,7 @@ export const bookingCompleteEmail =  (data: {
   };
 };
 
-export const listExhaustedEmail =  (data: {
+export const listExhaustedEmail = (data: {
   dateRange: string;
   fixerFirstName: string;
   email: string;
@@ -311,7 +308,7 @@ export const listExhaustedEmail =  (data: {
   };
 };
 
-export const adminInviteEmail =  (data: {
+export const adminInviteEmail = (data: {
   firstName: string;
   ensembleName: string;
   senderName: string;
@@ -414,7 +411,7 @@ export const responseConfEmail = async (data: {
   };
 };
 
-export const eventReminderMusician =  (
+export const eventReminderMusician = (
   data: ContactMessage & {
     contact: EnsembleContact;
     calls: Call[];
@@ -466,7 +463,7 @@ GigFix
   };
 };
 
-export const eventReminderFixer =  (
+export const eventReminderFixer = (
   event: Event & {
     calls: Call[];
     fixer: User;
@@ -511,7 +508,7 @@ GigFix
   };
 };
 
-export const reportUnresponsiveMusicianEmail =  (
+export const reportUnresponsiveMusicianEmail = (
   data: ContactMessage & {
     contact: EnsembleContact;
     eventSection: EventSection & {
@@ -548,7 +545,7 @@ export const reportUnresponsiveMusicianEmail =  (
   };
 };
 
-export const remindUnresponsiveMusicianEmail =  (
+export const remindUnresponsiveMusicianEmail = (
   data: ContactMessage & {
     calls: Call[];
     contact: EnsembleContact;

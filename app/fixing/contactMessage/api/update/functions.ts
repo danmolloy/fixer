@@ -1,8 +1,6 @@
 import prisma from '../../../../../client';
 import { addMeterEvent } from '../../../../billing/api/meterEvent/lib';
-import {
-  emailBookingMusicians,
-} from '../create/emailFunctions';
+import { emailBookingMusicians } from '../create/emailFunctions';
 import { releaseDeppers } from './depFunctions';
 
 export const updateContactMessage = async (contactMessageObj: {
@@ -30,7 +28,6 @@ export const updateContactMessage = async (contactMessageObj: {
         },
       },
     });
-    
 
     if (
       updatedData.bookingOrAvailability.toLocaleLowerCase() === 'booking' &&
@@ -48,7 +45,6 @@ export const updateContactMessage = async (contactMessageObj: {
     throw new Error(e);
   }
 };
-
 
 export const updateContactIndex = async (data: {
   eventSectionId: number;

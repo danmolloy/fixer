@@ -55,43 +55,42 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
 
   const handleSubmit = async (values) => {
     try {
-      const newData = await axios
-        .post('/fixing/contactMessage/api/update', {
-          id: contact.id,
-          data: {
-            received: values.received === 'true' ? true : false,
-            accepted:
-              values.accepted === 'true'
-                ? true
-                : values.accepted === 'false'
-                  ? false
-                  : null,
-            playerMessage: values.playerMessage,
-            //offerExpiry: values.offerExpiry,
-            position: values.position,
-            strictlyTied: values.strictlyTied,
-            bookingOrAvailability: values.bookingOrAvailability,
-            urgent: values.urgent,
-            calls: {
-              connect: values.calls.map((i) => ({ id: Number(i) })),
-              disconnect: contact.calls
-                .map((i) => String(i.id))
-                .filter((i) => !values.calls.includes(i))
-                .map((i) => ({
-                  id: Number(i),
-                })),
-            },
+      const newData = await axios.post('/fixing/contactMessage/api/update', {
+        id: contact.id,
+        data: {
+          received: values.received === 'true' ? true : false,
+          accepted:
+            values.accepted === 'true'
+              ? true
+              : values.accepted === 'false'
+                ? false
+                : null,
+          playerMessage: values.playerMessage,
+          //offerExpiry: values.offerExpiry,
+          position: values.position,
+          strictlyTied: values.strictlyTied,
+          bookingOrAvailability: values.bookingOrAvailability,
+          urgent: values.urgent,
+          calls: {
+            connect: values.calls.map((i) => ({ id: Number(i) })),
+            disconnect: contact.calls
+              .map((i) => String(i.id))
+              .filter((i) => !values.calls.includes(i))
+              .map((i) => ({
+                id: Number(i),
+              })),
           },
-        })
-          const emailData = await updateOfferEmail(newData.data);
-          await axios.post(`/sendGrid`, {
-            body: {
-              emailData: emailData,
-              templateID: emailData.templateID,
-              emailAddress: emailData.email,
-            },
-          });
-          router.push(`/event/${event.id}`);
+        },
+      });
+      const emailData = await updateOfferEmail(newData.data);
+      await axios.post(`/sendGrid`, {
+        body: {
+          emailData: emailData,
+          templateID: emailData.templateID,
+          emailAddress: emailData.email,
+        },
+      });
+      router.push(`/event/${event.id}`);
     } catch (e) {
       throw new Error(e);
     }
@@ -106,14 +105,18 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
       initialValues={initialVals}
     >
       {(props) => (
-        <Form className=' flex w-full flex-col py-8 lg:w-2/3 px-2'>
+        <Form className='flex w-full flex-col px-2 py-8 lg:w-2/3'>
           <h2 className='py-1'>Update Contact Call</h2>
           <p>{event.ensembleName}</p>
           <p>
             {contact.contact.firstName} {contact.contact.lastName} ({instrument}
             )
           </p>
-          <Field  className="border my-1 rounded" as='select' name='bookingOrAvailability'>
+          <Field
+            className='my-1 rounded border'
+            as='select'
+            name='bookingOrAvailability'
+          >
             <option value='Booking'>To Book</option>
             <option value='Availability'>Availability Check</option>
           </Field>
@@ -123,14 +126,14 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div className='my-2'>
             <p className=''>Calls</p>
             {event.calls.map((i) => (
-              <label key={i.id} className='flex flex-row p-1 my-1'>
+              <label key={i.id} className='my-1 flex flex-row p-1'>
                 <Field
                   checked={props.values.calls.includes(String(i.id))}
                   type='checkbox'
                   name='calls'
                   value={String(i.id)}
                 />
-                <div className='text-sm ml-1'>
+                <div className='ml-1 text-sm'>
                   <p>
                     {DateTime.fromJSDate(new Date(i.startTime)).toFormat(
                       'HH:mm'
@@ -140,7 +143,6 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                     {DateTime.fromJSDate(new Date(i.startTime)).toFormat('DD')}
                   </p>
                 </div>
-                
               </label>
             ))}
             <ErrorMessage name='calls'>
@@ -148,24 +150,22 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             </ErrorMessage>
           </div>
           <div className=''>
-            <label className='flex flex-col my-2'>
-              Status
-              </label>
+            <label className='my-2 flex flex-col'>Status</label>
 
-              <Field className="border rounded my-1" as='select' name='accepted'>
-                <option value='true'>Accepted</option>
-                <option value='false'>Declined</option>
-                <option value={''}>Not responded</option>
-              </Field>
+            <Field className='my-1 rounded border' as='select' name='accepted'>
+              <option value='true'>Accepted</option>
+              <option value='false'>Declined</option>
+              <option value={''}>Not responded</option>
+            </Field>
             <ErrorMessage name='accepted'>
               {(err) => <p className='text-xs text-red-500'>{err}</p>}
             </ErrorMessage>
           </div>
-          
+
           <div className='my-2'>
             <label>
               <Field
-                className="m-1"
+                className='m-1'
                 checked={props.values.strictlyTied}
                 type='checkbox'
                 name='strictlyTied'
@@ -179,7 +179,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div>
             <label>
               <Field
-                className="m-1"
+                className='m-1'
                 checked={props.values.urgent}
                 type='checkbox'
                 name='urgent'
@@ -200,7 +200,12 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             label='Message to Player'
             name='playerMessage'
           />
-          <button className='hover:bg-blue-50 px-2 py-1 m-2 rounded border border-blue-600 text-blue-600 ' type='submit'>Submit</button>
+          <button
+            className='m-2 rounded border border-blue-600 px-2 py-1 text-blue-600 hover:bg-blue-50'
+            type='submit'
+          >
+            Submit
+          </button>
         </Form>
       )}
     </Formik>

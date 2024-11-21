@@ -1,12 +1,11 @@
 import prisma from '../../../../../client';
 import { DateTime } from 'luxon';
-import {
-  Call,
-  ContactMessage,
-} from '@prisma/client';
+import { Call, ContactMessage } from '@prisma/client';
 import crypto from 'crypto';
-import { emailAvailabilityChecks, emailBookingMusicians } from './emailFunctions';
-
+import {
+  emailAvailabilityChecks,
+  emailBookingMusicians,
+} from './emailFunctions';
 
 export type CreateContactMessageProps = {
   contacts: {
@@ -27,7 +26,9 @@ export const generateToken = () => {
   return token;
 };
 
-export const createContactMessages = async (data: CreateContactMessageProps) => {
+export const createContactMessages = async (
+  data: CreateContactMessageProps
+) => {
   const currentCalls = await prisma.contactMessage.findMany({
     where: {
       eventSectionId: Number(data.eventSectionId),
@@ -36,7 +37,7 @@ export const createContactMessages = async (data: CreateContactMessageProps) => 
       indexNumber: 'asc',
     },
   });
-  
+
   let currentHighestIndex =
     currentCalls.length > 0
       ? currentCalls[currentCalls.length - 1].indexNumber + 1
@@ -67,13 +68,13 @@ export const createContactMessages = async (data: CreateContactMessageProps) => 
     await emailBookingMusicians(Number(data.eventSectionId));
   } else {
     await emailAvailabilityChecks(Number(data.eventSectionId));
-  }  
+  }
   return;
 };
 
 export const getDateRange = (calls: Call[]) => {
   const sortedCalls = calls.sort(
-    (a, b) => 
+    (a, b) =>
       Number(DateTime.fromJSDate(new Date(a.startTime))) -
       Number(DateTime.fromJSDate(new Date(b.startTime)))
   );
@@ -116,9 +117,10 @@ export const gigIsFixed = async (eventID: number) => {
   for (let i = 0; i < event?.sections.length; i++) {
     const numToBook = event.sections[i].numToBook;
     const numBooked = event.sections[i].contacts.filter(
-      (i) => i.accepted === true 
-      && i.status.toLocaleLowerCase() !== 'dep out'
-      && i.bookingOrAvailability.toLocaleLowerCase() === "booking"
+      (i) =>
+        i.accepted === true &&
+        i.status.toLocaleLowerCase() !== 'dep out' &&
+        i.bookingOrAvailability.toLocaleLowerCase() === 'booking'
     ).length;
     if (numToBook - numBooked !== 0) {
       return false;
@@ -127,14 +129,20 @@ export const gigIsFixed = async (eventID: number) => {
   return true;
 };
 
-export const getNumToContact = (data: {contactMessages: ContactMessage[], numToBook: number}): number => {
-  const numBooked = data.contactMessages.filter((i) => i.accepted === true).length;
+export const getNumToContact = (data: {
+  contactMessages: ContactMessage[];
+  numToBook: number;
+}): number => {
+  const numBooked = data.contactMessages.filter(
+    (i) => i.accepted === true
+  ).length;
   const numYetToRespond = data.contactMessages.filter(
     (i) => i.accepted === null && i.received === true
   ).length;
   const toDepCount = data.contactMessages.filter(
     (i) => i.status.toLocaleLowerCase() === 'dep out'
   ).length;
-  const numToContact = data.numToBook - numBooked - numYetToRespond + toDepCount;
+  const numToContact =
+    data.numToBook - numBooked - numYetToRespond + toDepCount;
   return numToContact;
-}
+};
