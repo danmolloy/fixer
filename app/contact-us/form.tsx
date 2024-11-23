@@ -42,7 +42,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div data-testid='contact-form' className='p-4'>
+    <div data-testid='contact-form' className='p-4  w-full'>
       <Formik
         initialValues={initialValues}
         validationSchema={formSchema}
@@ -52,7 +52,7 @@ export default function ContactForm() {
         }}
       >
         {(props) => (
-          <Form className='flex flex-col'>
+          <Form className='flex flex-col w-full p-2'>
             <TextInput
               name={'name'}
               id={'name-input'}
@@ -77,7 +77,7 @@ export default function ContactForm() {
                 rows='4'
                 component='textarea'
                 id='msg-text'
-                className='w-full rounded-md border p-1 text-black shadow-sm lg:w-[60vw]'
+                className=' rounded-md border p-1 text-black shadow-sm '
                 type='textarea'
                 name='message'
               />
