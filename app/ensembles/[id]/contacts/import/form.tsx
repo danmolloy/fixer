@@ -4,16 +4,20 @@ import { useState } from 'react';
 import Papa from 'papaparse';
 import { Ensemble, EnsembleSection } from '@prisma/client';
 import ContactInput from './contactInput';
+import { instrumentSections } from '../../../../contacts/lib';
+import { faker } from '@faker-js/faker';
 
 export type ImportFormProps = {
   ensemble: Ensemble & {
     sections: EnsembleSection[];
   };
+  environment: string|undefined;
 };
+
 
 export default function ImportForm(props: ImportFormProps) {
   const [data, setData] = useState<null | any[]>(null);
-  const { ensemble } = props;
+  const { ensemble, environment } = props;
   const router = useRouter();
 
   const csvHeaders = [
@@ -33,11 +37,40 @@ export default function ImportForm(props: ImportFormProps) {
     URL.revokeObjectURL(url); // Clean up the URL object
   };
 
+  const handleManually = () => {
+    setData([
+      {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        sectionName: '',
+        role: '',
+        category: '',
+      },
+    ])
+  }
+
+  const handleSeeding = () => {
+    const mockContacts = new Array(100)
+      .fill(null)
+      .map(i => ({
+        'Section': instrumentSections[Math.floor(Math.random() * instrumentSections.length)].name,
+        'First Name': faker.person.firstName(),
+        'Last Name': faker.person.lastName(),
+        'Category': Math.random() > 0.5 ? 'Extra' : 'Member',
+        'Email': faker.internet.email(),
+        'Phone Number': faker.phone.number({ style: 'international' }),
+        'Role': Math.random() > 0.3 ? 'Tutti' : 'Principal',
+      }));
+    setData(mockContacts)
+  }
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
 
     Papa.parse(file, {
-      header: true, // Assuming the CSV has a header row
+      header: true, 
       complete: (results: any) => {
         alert(JSON.stringify(results.data));
         const currentSections = ensemble.sections.map((i) =>
@@ -56,10 +89,18 @@ export default function ImportForm(props: ImportFormProps) {
             results.data[i].sectionId = correspondingSection.id;
           }
         }
-        setData(results.data); // Results will be an object with data as the parsed array
+        setData(results.data); 
       },
     });
   };
+
+  const handleBackBtn = () => {
+    const conf = confirm("Are you sure you want to go back? Any unsaved contacts will be lost.")
+    if (conf) {
+      setData(null)
+    };
+    
+  }
 
   return (
     <div
@@ -67,45 +108,54 @@ export default function ImportForm(props: ImportFormProps) {
       className='flex w-screen flex-col items-center justify-center'
     >
       <h2 className='m-4 text-2xl'>Add Contacts</h2>
+      {data && <button onClick={() => handleBackBtn()}>Back</button>}
       {data === null && (
-        <div className='flex flex-col items-center justify-center'>
-          <button
-            className='rounded border border-blue-600 p-1 text-blue-600 hover:bg-blue-50'
-            onClick={() =>
-              setData([
-                {
-                  firstName: '',
-                  lastName: '',
-                  email: '',
-                  phoneNumber: '',
-                  sectionName: '',
-                  role: '',
-                  category: '',
-                },
-              ])
-            }
+        <div>
+      <div className='flex flex-col items-center justify-center'>
+        <p className='text-sm text-gray-700'>
+        Add musicians to your address book by either entering their details manually or importing a spreadsheet. <br /> If importing a spreadsheet, please follow the format of the downloadable template. 
+        </p>
+        <button
+            className='m-4 text-sm rounded border  py-1 px-2  hover:bg-slate-50'
+            onClick={handleDownload}
           >
-            Add manually
+            Download Template
           </button>
-          <p>or</p>
-          <div>
-            <h3>Import Spreadsheet</h3>
-            <input
+      </div>
+      
+        <div className='flex flex-col items-center justify-evenly w-screen'>
+          
+          
+          <div className='text-sm flex flex-col items-center'>
+{/*             <h3 className='text-sm '>Import Spreadsheet</h3>
+ */}            <input
               data-testid='spreadsheet-input'
-              className='text-sm'
+              className="my-4 items-center text-gray-400 file:px-2 file:py-1 file:bg-white file:rounded file:border file:hover:bg-slate-50 file:hover:cursor-pointer file:shadow-none"
               type='file'
               onChange={handleFileUpload}
             />
           </div>
+          <div className='w-1/2 my-4 border-b border-slate-400' />
           <button
-            className='m-1 rounded border border-blue-600 p-1 text-blue-600 hover:bg-blue-50'
-            onClick={handleDownload}
+            className='rounded border px-2 py-1 text-sm hover:bg-slate-50'
+            onClick={() => handleManually()}
           >
-            Download Spreadsheet Template
+            <p>Enter manually</p>
           </button>
+          {environment === "preview" && <div className='w-1/2 flex flex-col items-center'>
+           <div className='w-full self-center  my-4 border-b border-slate-400' />
+          <button
+            className='rounded border px-2 py-1 text-sm hover:bg-slate-50'
+            onClick={() => handleSeeding()}
+          >
+            <p>Seed Database</p>
+          </button>
+          </div>}
+          </div>
         </div>
       )}
-      <div className='w-screen p-4'>
+      
+      <div className='w-screen m-1 p-1'>
         {data && (
           <ContactInput
             ensembleId={ensemble.id}

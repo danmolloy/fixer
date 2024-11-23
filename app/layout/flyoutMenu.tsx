@@ -81,16 +81,16 @@ export default function FlyOutMenu(props: ExternalMenuProps) {
           <p className='px-2 py-1 text-black'>Sign out</p>
         </button>
       ) : (
-        <button
+        <Link
           data-testid='sign-in-btn'
-          onClick={() => signIn('github')}
+          href="/signin"
           className='flex w-full flex-row items-center px-2 py-1 hover:bg-gray-50 hover:text-blue-600'
         >
           <div>
             <IoEnterOutline />
           </div>
           <p className='px-2 py-1 text-black'>Sign in</p>
-        </button>
+        </Link>
       )}
     </div>
   );

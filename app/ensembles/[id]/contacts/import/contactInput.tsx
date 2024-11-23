@@ -77,9 +77,9 @@ export default function ContactInput(props: ContactInputProps) {
           <FieldArray
             name='contacts'
             render={({ push, remove }) => (
-              <div>
-                <div className='flex flex-col items-center overflow-x-scroll rounded'>
-                  <table className='m-4 table-auto text-sm'>
+              <div className='flex flex-col  px-2'>
+                <div className='lg:flex lg:flex-col lg:items-center lg:justify-center '>
+                  <table className='table-auto text-sm overflow-x-scroll'>
                     <thead>
                       <tr data-testid='table-head-row'>
                         <th className='border'>First Name</th>

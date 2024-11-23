@@ -16,7 +16,7 @@ export const tutorialData: TutorialStep[] = [
   {
     step: 1,
     header: 'Sign Up & Create an Organisation',
-    body: `Use your GitHub account to sign up quickly. Add your organisation’s details in seconds.`,
+    body: `Use your email or GitHub account to sign up quickly. Add your organisation’s details in seconds.`,
     svg: SignUp,
   },
   {

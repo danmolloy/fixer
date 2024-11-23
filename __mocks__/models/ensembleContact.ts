@@ -13,7 +13,7 @@ export const mockEnsembleContact: EnsembleContact = {
   email: faker.internet.email(),
   phoneNumber: faker.phone.number({ style: 'international' }),
   ensembleId: faker.string.uuid(),
-  role: Math.random() > 0.5 ? 'Tutti' : 'Principal',
+  role: Math.random() > 0.3 ? 'Tutti' : 'Principal',
   sectionId: faker.string.uuid(),
 };
 

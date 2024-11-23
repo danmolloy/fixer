@@ -3,6 +3,8 @@ import { auth } from '../../../../auth';
 import SignIn from '../../../../signin/page';
 import ImportForm from './form';
 
+const environment = process.env.ENVIRONMENT;
+
 const getEnsemble = async (ensembleId: string) => {
   return await prisma.ensemble.findUnique({
     where: {
@@ -29,6 +31,6 @@ export default async function ImportContacts({
   ) : !data ? (
     <p>No data</p>
   ) : (
-    <ImportForm ensemble={data} />
+    <ImportForm environment={environment} ensemble={data} />
   );
 }
