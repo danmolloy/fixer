@@ -31,10 +31,6 @@ export async function POST(request: Request): Promise<any> {
 
   let event: Stripe.Event;
 
-  // Get the signature sent by Stripe
-  //const signature = request.headers['stripe-signature'];
-  //const signature = headers().get("Stripe-Signature") as string
-
   console.log(`signature: ${signature}`);
   try {
     event = stripe.webhooks.constructEvent(
