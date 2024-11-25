@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import TextInput from '../../../forms/textInput';
 import { EnsembleAdmin } from '@prisma/client';
+import ValidationError from '../../../forms/validationError';
+import SubmitButton from '../../../forms/submitBtn';
 
 export type InviteAdminFormProps = {
   admin: EnsembleAdmin;
@@ -49,23 +51,25 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
         {(props) => (
           <Form>
             <TextInput
+            disabled={props.isSubmitting}
               label='Position Title'
               id='position-title-input'
               name='positionTitle'
             />
             <div id='access-radio-group'>Access Type</div>
-            <div role='group' aria-labelledby='access-radio-group'>
+            <div className='flex flex-col' role='group' aria-labelledby='access-radio-group'>
               <label>
-                <Field type='radio' name='accessType' value='restricted' />
+                <Field disabled={props.isSubmitting} type='radio' name='accessType' value='restricted' />
                 Restricted
               </label>
               <label>
-                <Field type='radio' name='accessType' value='full' />
+                <Field disabled={props.isSubmitting} type='radio' name='accessType' value='full' />
                 Full
               </label>
             </div>
-            <button type='submit'>Submit</button>
-            {JSON.stringify(props.errors)}
+            <SubmitButton 
+              disabled={props.isSubmitting}/>
+            <ValidationError errors={Object.values(props.errors)} />
           </Form>
         )}
       </Formik>

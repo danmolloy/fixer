@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import { buttonPrimary } from '../../ensembles/dashboard';
 import { phoneRegex } from '../../ensembles/[id]/contacts/import/contactInput';
+import SubmitButton from '../../forms/submitBtn';
+import ValidationError from '../../forms/validationError';
 
 export type UpdateUserFormProps = {
   session: Session;
@@ -51,37 +53,34 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
       <Formik
         validationSchema={formSchema}
         initialValues={initialVals}
-        onSubmit={async (vals) => {
-          return await axios.post('update/api', vals).then(() => {
+        onSubmit={(vals,actions) => {
+          return axios.post('update/api', vals).then(() => {
             //router.push('/');
             router.refresh();
             //setSubmitStatus("Successfully updated!")
-          });
-          /* .catch(function (error) {
+            actions.setSubmitting(false)
+
+          }).catch(function (error) {
               router.refresh();
               console.log(error);
-            }); */
+              actions.setSubmitting(false)
+
+            });
         }}
       >
         {(props) => (
           <Form>
-            <TextInput name='firstName' id='firstName' label='First Name' />
-            <TextInput name='lastName' id='lastName' label='Last Name' />
+            <TextInput disabled={props.isSubmitting} name='firstName' id='firstName' label='First Name' />
+            <TextInput disabled={props.isSubmitting} name='lastName' id='lastName' label='Last Name' />
             <TextInput
+            disabled={props.isSubmitting}
               name='mobileNumber'
               id='mobileNumber'
               label='Mobile Number'
               type='tel'
             />
-            <TextInput name='email' id='email' label='Email' type='email' />
-            <button
-              className={
-                'mx-4 flex flex-row items-center self-end rounded border px-2 py-1 text-sm text-black hover:bg-gray-50'
-              }
-              type='submit'
-            >
-              Submit
-            </button>
+            <TextInput disabled={props.isSubmitting} name='email' id='email' label='Email' type='email' />
+            <SubmitButton disabled={props.isSubmitting} />
           </Form>
         )}
       </Formik>

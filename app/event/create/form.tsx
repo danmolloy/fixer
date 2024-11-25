@@ -11,6 +11,7 @@ import ConfirmedOrOnHold from './confirmedOrOnHold';
 import { EnsembleAdmin, Prisma, Ensemble, User } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import SubmitButton from '../../forms/submitBtn';
 
 export type EventWithCallsAndEnsemble = Prisma.EventGetPayload<{
   include: {
@@ -165,6 +166,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 >
                   Organisation
                   <Field
+                  disabled={props.isSubmitting}
                     className='rounded border p-1'
                     data-testid='org-select'
                     as='select'
@@ -235,6 +237,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 >
                   Fixer
                   <Field
+                  disabled={props.isSubmitting}
                     className='rounded border p-1'
                     data-testid='org-select'
                     as='select'
@@ -265,9 +268,10 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 </label>
               </div>
 
-              <ConfirmedOrOnHold />
+              <ConfirmedOrOnHold disabled={props.isSubmitting}/>
             </div>
             <TextInput
+            disabled={props.isSubmitting}
               asHtml='input'
               label='Event Title'
               name='eventTitle'
@@ -275,6 +279,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               className=''
             />
             <TextInput
+            disabled={props.isSubmitting}
               asHtml='textarea'
               name='concertProgram'
               id='concert-program'
@@ -291,6 +296,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                       data-testid={`call-${index + 1}-div`}
                     >
                       <CallInput
+                      disabled={props.isSubmitting}
                         call={call}
                         setVenue={(venue) =>
                           props.setFieldValue(`calls.${index}.venue`, venue)
@@ -303,6 +309,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                     </div>
                   ))}
                   <ButtonPrimary
+                    disabled={props.isSubmitting}
                     id='add-call-btn'
                     className='self-end border-blue-600 text-blue-600 hover:text-blue-500'
                     text='Add Call'
@@ -319,6 +326,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               )}
             </FieldArray>
             <TextInput
+            disabled={props.isSubmitting}
               optional={true}
               asHtml='input'
               label='Dress Code'
@@ -327,6 +335,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               className=''
             />
             <TextInput
+            disabled={props.isSubmitting}
               optional={true}
               asHtml='input'
               label='Fee'
@@ -335,6 +344,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               id='fee'
             />
             <TextInput
+            disabled={props.isSubmitting}
               optional={true}
               asHtml='textarea'
               label='Additional Information'
@@ -344,6 +354,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
             />
             {createOrUpdate === 'Update' && (
               <TextInput
+              disabled={props.isSubmitting}
                 optional={false}
                 asHtml='textarea'
                 label='Update Message to Players'
@@ -352,16 +363,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 className=''
               />
             )}
-            <ButtonPrimary
-              handleClick={() => {}}
-              isSubmitting={
-                props.isSubmitting.toString() === 'true' ? true : false
-              }
-              id='create-event-btn'
-              type='submit'
-              className='w-24 self-end bg-blue-600 text-white hover:bg-blue-500 disabled:bg-blue-100'
-              text='Submit'
-            />
+            <SubmitButton disabled={props.isSubmitting} />
             <div className='h-8'>
               {Object.keys(props.errors).length > 0 &&
                 props.submitCount > 0 && (

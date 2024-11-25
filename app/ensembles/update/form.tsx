@@ -5,6 +5,8 @@ import { ErrorMessage, FieldArray, Form, Formik } from 'formik';
 import TextInput from '../../forms/textInput';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
+import SubmitButton from '../../forms/submitBtn';
+import ValidationError from '../../forms/validationError';
 
 export type UpdateEnsembleProps = {
   ensemble: Ensemble;
@@ -15,9 +17,9 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
   const router = useRouter();
 
   const formSchema = Yup.object().shape({
-    name: Yup.string().required('Ensemble name required'),
+    name: Yup.string().required('Organisation name required'),
     ensembleNames: Yup.array()
-      .of(Yup.string())
+      .of(Yup.string().required('Ensemble name required'))
       .required('Ensemble name(s) required')
       .min(1, 'You must provide at least one ensemble name.'),
   });
@@ -52,12 +54,12 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
         validationSchema={formSchema}
         onSubmit={(values, actions) => {
           handleSubmit(values);
-          actions.setSubmitting(false);
+          actions.setSubmitting(false); 
         }}
       >
         {(props) => (
           <Form>
-            <TextInput name={'name'} id='name-input' label='Ensemble Name' />
+            <TextInput disabled={props.isSubmitting} name={'name'} id='name-input' label='Ensemble Name' />
             <div>
               <label htmlFor='ensembleNames'>Ensemble Names</label>
               <FieldArray
@@ -67,11 +69,14 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                     {props.values.ensembleNames.map((j, index) => (
                       <div key={index}>
                         <TextInput
+                                                disabled={props.isSubmitting}
+
                           name={`ensembleNames[${index}]`}
                           id={`ensembleNames[${index}]`}
                           label=''
                         />
                         <button
+                        disabled={props.isSubmitting}
                           onClick={(e) => {
                             e.preventDefault();
                             props.values.ensembleNames.length > 1 &&
@@ -83,6 +88,7 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                       </div>
                     ))}
                     <button
+                    disabled={props.isSubmitting}
                       onClick={(e) => {
                         e.preventDefault();
                         arrayHelpers.push('');
@@ -97,16 +103,12 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                 {(e) => <p className='text-sm text-red-500'>{e}</p>}
               </ErrorMessage>
             </div>
-            <button
-              type='submit'
-              className='w-24 self-end rounded bg-indigo-600 px-2 py-1 text-white shadow hover:bg-indigo-700 active:bg-indigo-800'
-            >
-              Submit
-            </button>
+            <SubmitButton disabled={props.isSubmitting} />
+                <ValidationError errors={Object.values(props.errors).flat()} />
           </Form>
         )}
       </Formik>
-      <button onClick={() => handleDelete()}>Delete</button>
+      <button onClick={() => handleDelete()}>Delete Ensemble</button>
     </div>
   );
 }

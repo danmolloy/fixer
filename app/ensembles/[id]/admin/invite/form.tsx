@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import TextInput from '../../../../forms/textInput';
 import { buttonPrimary } from '../../../dashboard';
+import SubmitButton from '../../../../forms/submitBtn';
+import ValidationError from '../../../../forms/validationError';
 
 export type InviteAdminFormProps = {
   ensembleId: string;
@@ -64,18 +66,23 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
             <h1>Invite Admin</h1>
             <p>Sender: {userName}</p>
             <TextInput
+              disabled={props.isSubmitting}
               label='First Name'
               id='first-name-input'
               name='firstName'
             />
-            <TextInput label='Last Name' id='last-name-input' name='lastName' />
+            <TextInput               
+            disabled={props.isSubmitting}
+ label='Last Name' id='last-name-input' name='lastName' />
             <TextInput
+              disabled={props.isSubmitting}
               label='Email'
               id='email-input'
               name='email'
               type='email'
             />
-            <TextInput
+            <TextInput              
+              disabled={props.isSubmitting}
               label='Position Title'
               id='position-title-input'
               name='positionTitle'
@@ -83,7 +90,8 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
             <div id='access-radio-group'>Access Type</div>
             <div role='group' aria-labelledby='access-radio-group'>
               <label className='m-1'>
-                <Field
+                <Field              
+                  disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
                   name='accessType'
@@ -93,6 +101,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
               </label>
               <label className='m-1'>
                 <Field
+                disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
                   name='accessType'
@@ -101,14 +110,8 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
                 Full
               </label>
             </div>
-            <button
-              className={
-                'mx-4 my-4 flex flex-row items-center self-end rounded border px-2 py-1 text-sm text-black hover:bg-gray-50'
-              }
-              type='submit'
-            >
-              Submit
-            </button>
+            <SubmitButton disabled={props.isSubmitting === true} />
+            <ValidationError errors={Object.values(props.errors)} />
           </Form>
         )}
       </Formik>

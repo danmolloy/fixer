@@ -24,6 +24,7 @@ export const venueOptions = [
 ];
 
 export type CallInputProps = {
+  disabled: boolean
   index: number;
   id: number;
   remove: (arg: number) => void;
@@ -38,13 +39,13 @@ export type CallInputProps = {
 };
 
 export default function CallInput(props: CallInputProps) {
-  const { index, remove, propsValueVenue, setVenue, call } = props;
+  const { index, remove, propsValueVenue, setVenue, call, disabled } = props;
   return (
     <div data-testid={`call-${index}-input-div`} className='flex flex-col'>
       <div className='flex flex-row items-center justify-between'>
         <p className='font-medium'>{`Call ${index + 1}`}</p>
         <button
-          disabled={index === 0}
+          disabled={index === 0 || disabled === true}
           data-testid={`calls-${index}-delete`}
           className='delete-btn m-1 rounded-full p-1 text-xl text-slate-700 hover:bg-slate-100'
           onClick={() => remove(index)}
@@ -58,6 +59,7 @@ export default function CallInput(props: CallInputProps) {
             Start Time
           </label>
           <Field
+            disabled={disabled}
             data-testid={`calls.${index}.startTime`}
             label='Start Time'
             className='my-1 w-48 rounded border p-2 shadow-sm'
@@ -83,6 +85,7 @@ export default function CallInput(props: CallInputProps) {
             End Time
           </label>
           <Field
+          disabled={disabled}
             label='End Time'
             className='my-1 w-48 rounded border p-2 shadow-sm'
             id={`calls.${index}.endTime`}
@@ -106,6 +109,7 @@ export default function CallInput(props: CallInputProps) {
       </div>
       {/*  <TextInput */}
       <ComboBox
+        disabled={disabled}
         optional={false}
         setValue={(venue: string) => setVenue(venue)}
         includeId={false}
@@ -118,6 +122,7 @@ export default function CallInput(props: CallInputProps) {
         asHtml='input'
       />
       <TextInput
+      disabled={disabled}
         optional={true}
         label={`Call Information`}
         className=''

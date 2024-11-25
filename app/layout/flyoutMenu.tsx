@@ -33,7 +33,7 @@ export default function FlyOutMenu(props: ExternalMenuProps) {
               session.user.admins.map((i) => (
                 <Link
                   key={i.id}
-                  href={`ensembles/${i.ensemble.id}/`}
+                  href={`/ensembles/${i.ensemble.id}/`}
                   className='px-6 py-1 text-start hover:bg-gray-50'
                 >
                   {i.ensemble.name}
@@ -43,13 +43,13 @@ export default function FlyOutMenu(props: ExternalMenuProps) {
               <p>No Ensembles</p>
             )}
             <Link
-              href='ensembles/join/'
+              href='/ensembles/join/'
               className='px-6 py-1 text-start hover:bg-gray-50'
             >
               Join Ensemble
             </Link>
             <Link
-              href='ensembles/create/'
+              href='/ensembles/create/'
               className='px-6 py-1 text-start hover:bg-gray-50'
             >
               Create Ensemble

@@ -8,6 +8,8 @@ import { categories, instrumentSections, rolesArr } from './lib';
 import { CreateEnsembleContact } from './api/create/functions';
 import { useRouter } from 'next/navigation';
 import { phoneRegex } from '../ensembles/[id]/contacts/import/contactInput';
+import ValidationError from '../forms/validationError';
+import SubmitButton from '../forms/submitBtn';
 
 export type CreateContactFormProps = {
   ensembleId: string;
@@ -112,16 +114,17 @@ export default function CreateContactForm(props: CreateContactFormProps) {
         >
           {(props) => (
             <form className='flex flex-col' onSubmit={props.handleSubmit}>
-              <TextInput label='First Name' id='first-name' name='firstName' />
-              <TextInput label='Last Name' id='last-name' name='lastName' />
-              <TextInput label='Email' id='email' name='email' type='email' />
-              <TextInput label='Phone' id='phone' name='phone' type='phone' />
-              <TextInput label='Role' id='role' name='role' />
-              <TextInput label='Category' id='category' name='category' />
+              <TextInput disabled={props.isSubmitting} label='First Name' id='first-name' name='firstName' />
+              <TextInput disabled={props.isSubmitting} label='Last Name' id='last-name' name='lastName' />
+              <TextInput disabled={props.isSubmitting} label='Email' id='email' name='email' type='email' />
+              <TextInput disabled={props.isSubmitting} label='Phone' id='phone' name='phone' type='phone' />
+              <TextInput disabled={props.isSubmitting} label='Role' id='role' name='role' />
+              <TextInput disabled={props.isSubmitting} label='Category' id='category' name='category' />
 
               <div className='flex flex-col'>
                 <label htmlFor='section-select'>Section Select</label>
                 <Field
+                disabled={props.isSubmitting}
                   id='section-select'
                   as='select'
                   name='section'
@@ -152,13 +155,9 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                 </ErrorMessage>
               </div>
 
-              <button
-                className='m-4 self-center rounded bg-indigo-600 px-2 py-1 text-white shadow hover:bg-indigo-500'
-                disabled={props.isSubmitting}
-                type='submit'
-              >
-                Submit
-              </button>
+              <SubmitButton disabled={props.isSubmitting} />
+              <ValidationError errors={Object.values(props.errors)} />
+
             </form>
           )}
         </Formik>

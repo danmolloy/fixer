@@ -4,6 +4,8 @@ import { TiTimes } from 'react-icons/ti';
 import { instrumentSections } from '../../../../contacts/lib';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import ValidationError from '../../../../forms/validationError';
+import SubmitButton from '../../../../forms/submitBtn';
 
 export type ContactInputProps = {
   contacts: {
@@ -28,22 +30,22 @@ export default function ContactInput(props: ContactInputProps) {
     contacts: Yup.array()
       .of(
         Yup.object({
-          firstName: Yup.string().required('required'),
-          lastName: Yup.string().required('required'),
-          email: Yup.string().required('required'),
+          firstName: Yup.string().required('first name required'),
+          lastName: Yup.string().required('last name required'),
+          email: Yup.string().required('email required'),
           phoneNumber: Yup.string()
             .matches(
               phoneRegex,
               'number must be international format, i.e. +445504281329'
             )
-            .required('required'),
-          sectionName: Yup.string().required('required'),
-          role: Yup.string().required('required'),
-          category: Yup.string().required('required'),
+            .required('phone number required'),
+          sectionName: Yup.string().required('section required'),
+          role: Yup.string().required('role required'),
+          category: Yup.string().required('category required'),
         })
       )
       .min(1),
-    ensembleId: Yup.string().required(),
+    ensembleId: Yup.string().required('ensemble ID required. Contact GigFix.'),
   });
 
   const handleSubmit = async (values) => {
@@ -98,6 +100,7 @@ export default function ContactInput(props: ContactInputProps) {
                         <tr className='border' key={index}>
                           <td className='border'>
                             <Field
+                            disabled={props.isSubmitting}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.firstName`}
                               data-testid={`contacts.${index}.firstName`}
@@ -113,6 +116,7 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <Field
+                              disabled={props.isSubmitting}
                               data-testid={`contacts.${index}.lastName`}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.lastName`}
@@ -125,6 +129,7 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <Field
+                            disabled={props.isSubmitting}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.email`}
                               data-testid={`contacts.${index}.email`}
@@ -137,6 +142,7 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <Field
+                              disabled={props.isSubmitting}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.phoneNumber`}
                               data-testid={`contacts.${index}.phoneNumber`}
@@ -151,6 +157,7 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <Field
+                              disabled={props.isSubmitting}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.role`}
                               data-testid={`contacts.${index}.role`}
@@ -163,6 +170,7 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='flex flex-col items-start border'>
                             <Field
+                              disabled={props.isSubmitting}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.sectionName`}
                               data-testid={`contacts.${index}.sectionName`}
@@ -187,6 +195,7 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <Field
+                              disabled={props.isSubmitting}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.category`}
                               data-testid={`contacts.${index}.category`}
@@ -199,9 +208,10 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <button
+                              
                               data-testid={`contacts.${index}.remove`}
                               className='disabled:opacity-40'
-                              disabled={props.values.contacts.length < 2}
+                              disabled={props.values.contacts.length < 2 || props.isSubmitting}
                               onClick={() => remove(index)}
                             >
                               <TiTimes />
@@ -213,12 +223,13 @@ export default function ContactInput(props: ContactInputProps) {
                   </table>
                 </div>
                 {props.errors.contacts && (
-                  <p className='text-center text-xs'>
+                  <p className='text-center text-xs '>
                     Missing fields are stated in red in the table.
                   </p>
                 )}
                 <div className='flex flex-row items-center justify-between'>
                   <button
+                    disabled={props.isSubmitting}
                     className='m-1 rounded border border-black p-1 text-sm hover:bg-slate-50'
                     onClick={() =>
                       push({
@@ -234,16 +245,12 @@ export default function ContactInput(props: ContactInputProps) {
                   >
                     Add Row
                   </button>
-                  <button
-                    className='m-1 rounded border border-blue-600 p-1 text-sm text-blue-600 hover:bg-blue-50'
-                    type='submit'
-                  >
-                    Submit
-                  </button>
+                  <SubmitButton disabled={props.isSubmitting} />
                 </div>
               </div>
             )}
           />
+         
         </Form>
       )}
     </Formik>

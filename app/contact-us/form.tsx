@@ -3,6 +3,8 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../forms/textInput';
 import axios from 'axios';
+import SubmitButton from '../forms/submitBtn';
+import ValidationError from '../forms/validationError';
 
 export default function ContactForm() {
   const formSchema = Yup.object().shape({
@@ -54,12 +56,14 @@ export default function ContactForm() {
         {(props) => (
           <Form className='flex flex-col w-full p-2'>
             <TextInput
+              disabled={props.isSubmitting}
               name={'name'}
               id={'name-input'}
               label={'Name'}
               max={'30'}
             />
             <TextInput
+              disabled={props.isSubmitting}
               name={'email'}
               id={'email-input'}
               type='email'
@@ -72,6 +76,7 @@ export default function ContactForm() {
                 {/* <span className='text-sm text-gray-400'>Optional</span> */}
               </label>
               <Field
+                disabled={props.isSubmitting}
                 multiline='6'
                 maxLength='500'
                 rows='4'
@@ -91,12 +96,8 @@ export default function ContactForm() {
                 </ErrorMessage>
               </div>
             </div>
-            <button
-              type='submit'
-              className='w-24 self-end rounded bg-blue-600 px-2 py-1 text-white shadow hover:bg-blue-500'
-            >
-              Submit
-            </button>
+            <SubmitButton disabled={props.isSubmitting} />
+            <ValidationError errors={Object.values(props.errors)} />
           </Form>
         )}
       </Formik>

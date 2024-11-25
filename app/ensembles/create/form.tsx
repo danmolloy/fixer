@@ -5,6 +5,8 @@ import TextInput from '../../forms/textInput';
 import axios from 'axios';
 import { getBillingRoute } from '../../billing/api/manage/lib';
 import { FaRegQuestionCircle } from "react-icons/fa";
+import ValidationError from '../../forms/validationError';
+import SubmitButton from '../../forms/submitBtn';
 
 export default function CreateEnsembleForm(props: { userId: string }) {
   const { userId } = props;
@@ -12,7 +14,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
   const formSchema = Yup.object().shape({
     name: Yup.string().required('Organisation name required'),
     ensembleNames: Yup.array()
-      .of(Yup.string().required('Field cannot be left blank'))
+      .of(Yup.string().required('Ensemble name required'))
       .required('Ensemble name(s) required')
       .min(1, 'You must provide at least one ensemble name.'),
     userId: Yup.string().required('User ID required'),
@@ -48,6 +50,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
         {(props) => (
           <Form className='flex flex-col'>
             <TextInput
+              disabled={props.isSubmitting}
               name={'name'}
               id='name-input'
               label='Organisation Name'
@@ -70,11 +73,13 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                     {props.values.ensembleNames.map((j, index) => (
                       <div key={index}>
                         <TextInput
+                        disabled={props.isSubmitting}
                           name={`ensembleNames[${index}]`}
                           id={`ensembleNames[${index}]`}
                           label=''
                         />
                         <button
+                        disabled={props.isSubmitting}
                           className='rounded border p-1 text-sm'
                           onClick={(e) => {
                             e.preventDefault();
@@ -87,6 +92,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                       </div>
                     ))}
                     <button
+                    disabled={props.isSubmitting}
                       className='mt-4 w-24 rounded border p-1 text-sm'
                       onClick={(e) => {
                         e.preventDefault();
@@ -98,16 +104,10 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                   </div>
                 )}
               />
-              <ErrorMessage name='ensembleNames'>
-                {(e) => <p className='text-sm text-red-500'>{e}</p>}
-              </ErrorMessage>
+              
             </div>
-            <button
-              type='submit'
-              className='w-24 self-end rounded bg-indigo-600 px-2 py-1 text-white shadow hover:bg-indigo-700 active:bg-indigo-800'
-            >
-              Submit
-            </button>
+            <SubmitButton disabled={props.isSubmitting} />
+            <ValidationError errors={Object.values(props.errors).flat()} />
           </Form>
         )}
       </Formik>

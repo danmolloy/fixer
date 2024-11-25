@@ -1,6 +1,5 @@
 import { Ensemble } from '@prisma/client';
 import axios, { AxiosResponse } from 'axios';
-import { Field } from 'formik';
 import Link from 'next/link';
 import { useState } from 'react';
 import { IoCaretDown } from 'react-icons/io5';
@@ -42,7 +41,7 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
       <div className='w-32'>
         <button
           className={buttonPrimary}
-          onBlur={() => setTimeout(() => setShowOptions(false), 250)}
+          onBlur={() => (() => setShowOptions(false), 250)}
           onClick={() => {
             focus();
             setShowOptions(!showOptions);

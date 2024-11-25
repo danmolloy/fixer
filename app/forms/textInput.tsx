@@ -11,10 +11,11 @@ export interface TextInputProps {
   min?: string;
   max?: string;
   optional?: boolean;
+  disabled?: boolean;
 }
 
 export default function TextInput(props: TextInputProps) {
-  const { name, id, className, label, asHtml, type, min, max, optional } =
+  const { name, id, className, label, asHtml, type, min, max, optional, disabled } =
     props;
 
   return (
@@ -26,6 +27,7 @@ export default function TextInput(props: TextInputProps) {
         <span className='ml-2 text-sm text-slate-500'>Optional</span>
       )}
       <Field
+        disabled={disabled}
         as={asHtml}
         id={id}
         label={label ? label : name}

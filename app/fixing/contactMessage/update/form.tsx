@@ -7,6 +7,8 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/navigation';
 import { updateOfferEmail } from '../../../sendGrid/lib';
+import SubmitButton from '../../../forms/submitBtn';
+import ValidationError from '../../../forms/validationError';
 
 export type UpdateContactMessageProps = {
   contact: ContactMessage & {
@@ -44,11 +46,11 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
     received: Yup.boolean().required(), //
     accepted: Yup.boolean().nullable(),
     playerMessage: Yup.string(),
-    calls: Yup.array().min(1),
+    calls: Yup.array().min(1, "at least one call must be offered"),
     bookingOrAvailability: Yup.string().required(),
     //offerExpiry: Yup.number(),
     //status: Yup.string(),
-    position: Yup.string(),
+    position: Yup.string().required("player position required"),
     strictlyTied: Yup.boolean(),
     urgent: Yup.boolean(),
   });
@@ -98,8 +100,9 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
 
   return (
     <Formik
-      onSubmit={(values) => {
+      onSubmit={(values, actions) => {
         handleSubmit(values);
+        actions.setSubmitting(false); 
       }}
       validationSchema={contactSchema}
       initialValues={initialVals}
@@ -113,6 +116,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             )
           </p>
           <Field
+          disabled={props.isSubmitting}
             className='my-1 rounded border'
             as='select'
             name='bookingOrAvailability'
@@ -128,6 +132,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             {event.calls.map((i) => (
               <label key={i.id} className='my-1 flex flex-row p-1'>
                 <Field
+                disabled={props.isSubmitting}
                   checked={props.values.calls.includes(String(i.id))}
                   type='checkbox'
                   name='calls'
@@ -152,7 +157,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div className=''>
             <label className='my-2 flex flex-col'>Status</label>
 
-            <Field className='my-1 rounded border' as='select' name='accepted'>
+            <Field disabled={props.isSubmitting} className='my-1 rounded border' as='select' name='accepted'>
               <option value='true'>Accepted</option>
               <option value='false'>Declined</option>
               <option value={''}>Not responded</option>
@@ -165,6 +170,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div className='my-2'>
             <label>
               <Field
+              disabled={props.isSubmitting}
                 className='m-1'
                 checked={props.values.strictlyTied}
                 type='checkbox'
@@ -179,6 +185,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div>
             <label>
               <Field
+              disabled={props.isSubmitting}
                 className='m-1'
                 checked={props.values.urgent}
                 type='checkbox'
@@ -191,21 +198,19 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             </ErrorMessage>
           </div>
           <TextInput
+          disabled={props.isSubmitting}
             id='player-position-input'
             label='Position'
             name='position'
           />
           <TextInput
+          disabled={props.isSubmitting}
             id='player-message-input'
             label='Message to Player'
             name='playerMessage'
           />
-          <button
-            className='m-2 rounded border border-blue-600 px-2 py-1 text-blue-600 hover:bg-blue-50'
-            type='submit'
-          >
-            Submit
-          </button>
+          <SubmitButton disabled={props.isSubmitting} />
+          <ValidationError errors={Object.values(props.errors).flat()} />
         </Form>
       )}
     </Formik>

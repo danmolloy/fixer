@@ -4,6 +4,9 @@ import TextInput from '../../forms/textInput';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { TiTimes } from 'react-icons/ti';
+import ValidationError from '../../forms/validationError';
+import SubmitButton from '../../forms/submitBtn';
 
 export type JoinEnsembleFormProps = {
   userId: string;
@@ -44,11 +47,15 @@ export default function JoinEnsembleForm(props: JoinEnsembleFormProps) {
             <h1>Join Existing Ensemble</h1>
             <p>Enter the access code sent to your email address.</p>
             <TextInput
+              disabled={props.isSubmitting}
               name='accessCode'
               id='access-code-input'
               label='Access Code'
             />
-            <button type='submit' className='bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 m-2 rounded shadow-sm'>Submit</button>
+            <SubmitButton disabled={props.isSubmitting} />
+              
+              <ValidationError errors={Object.values(props.errors)} />
+
           </Form>
         )}
       </Formik>

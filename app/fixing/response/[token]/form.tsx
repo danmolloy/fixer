@@ -15,6 +15,8 @@ import * as Yup from 'yup';
 import { getDateRange } from '../../contactMessage/api/create/functions';
 import { DateTime } from 'luxon';
 import { responseConfEmail } from '../../../sendGrid/lib';
+import SubmitButton from '../../../forms/submitBtn';
+import ValidationError from '../../../forms/validationError';
 
 export type ResponseFormProps = {
   contactMessage: ContactMessage & {
@@ -159,6 +161,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                 className='flex flex-row items-center'
               >
                 <Field
+                  disabled={props.isSubmitting}
                   id='false-label'
                   data-testid='false-radio'
                   className='m-2'
@@ -174,6 +177,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                 className='flex flex-row items-center'
               >
                 <Field
+                disabled={props.isSubmitting}
                   id='true-radio'
                   data-testid='true-radio'
                   className='m-2'
@@ -204,6 +208,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                       className='m-1 flex flex-row items-center text-xs'
                     >
                       <Field
+                      disabled={props.isSubmitting}
                         checked={
                           props.values.availableFor.includes(String(i.id))
                             ? true
@@ -231,17 +236,8 @@ export default function ResponseForm(props: ResponseFormProps) {
                   )}
                 </div>
               )}
-            <button
-              className='m-2 self-center rounded bg-blue-600 px-2 py-1 text-white shadow-sm hover:bg-blue-500 disabled:bg-blue-100'
-              disabled={
-                (props.isSubmitting.toString() === 'true' ||
-                  props.values.availableFor.length < 1) &&
-                props.values.accepted === 'true'
-              }
-              type={'submit'}
-            >
-              Submit
-            </button>
+            <SubmitButton disabled={props.isSubmitting} />
+            <ValidationError errors={Object.values(props.errors).flat()} />
           </Form>
         )}
       </Formik>
