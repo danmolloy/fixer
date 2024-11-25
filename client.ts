@@ -12,10 +12,17 @@ let prisma: PrismaClient | undefined;
 
 if (typeof window === 'undefined') {
   if (process.env.NODE_ENV === 'production') {
-    prisma = new PrismaClient();
+    prisma = new PrismaClient({
+      log: ["info"]
+    });
+    console.log('Initializing PrismaClient');
   } else {
     if (!global.prisma) {
-      global.prisma = new PrismaClient();
+      global.prisma = new PrismaClient({
+        log: ["info"]
+      });
+      console.log('Initializing PrismaClient');
+
     }
 
     prisma = global.prisma;

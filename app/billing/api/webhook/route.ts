@@ -1,11 +1,8 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
-import prisma from '../../../../client';
 import { createSubscription, updateSubscription } from './lib';
 
-// Update sub
-// Delete sub
 
 /* 
 To listen to local events:
