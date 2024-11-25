@@ -23,62 +23,50 @@ export const createContacts = async (data: CreateContactsProps) => {
     },
   });
 
-  // Map the contact creation process
-  const contactCreationPromises = data.contacts.map(async (contact) => {
-    // Find section or prepare to create a new one
-    const section = ensembleSections.find(
-      (section) => section.name === contact.sectionName
-    );
+  const batchSize = 10; // Adjust batch size based on your database limits
 
-    // Create a contact with either a connected section or a new one
-    const newContact = await prisma.ensembleContact.create({
-      data: {
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        email: contact.email,
-        phoneNumber: contact.phoneNumber,
-        role: contact.role,
-        category: contact.category,
-        ensemble: {
-          connect: {
-            id: data.ensembleId,
-          },
-        },
-        section: section
-          ? {
-              connect: {
-                id: section.id,
-              },
-            }
-          : {
-              create: {
-                name: contact.sectionName,
-                ensemble: {
-                  connect: {
-                    id: data.ensembleId,
-                  },
-                },
-              },
+const throttlePromises = async (promises, batchSize) => {
+  const results: any = [];
+  for (let i = 0; i < promises.length; i += batchSize) {
+    const batch = promises.slice(i, i + batchSize);
+    results.push(...(await Promise.all(batch)));
+  }
+  return results;
+};
+
+  
+const contactCreationPromises = data.contacts.map(async (contact) => {
+  const section = ensembleSections.find((section) => section.name === contact.sectionName);
+  const newContact = await prisma.ensembleContact.create({
+    data: {
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      email: contact.email,
+      phoneNumber: contact.phoneNumber,
+      role: contact.role,
+      category: contact.category,
+      ensemble: { connect: { id: data.ensembleId } },
+      section: section
+        ? { connect: { id: section.id } }
+        : {
+            create: {
+              name: contact.sectionName,
+              ensemble: { connect: { id: data.ensembleId } },
             },
-      },
-      include: {
-        ensemble: {
-          include: {
-            sections: true,
           },
-        },
-      },
-    });
-
-    // Update sections if a new section was created
-    if (!section) {
-      ensembleSections = newContact.ensemble.sections;
-    }
-
-    return newContact;
+    },
+    include: {
+      ensemble: { include: { sections: true } },
+    },
   });
 
-  // Wait for all contacts to be created
-  const createdContacts = await Promise.all(contactCreationPromises);
-  return createdContacts;
+  if (!section) {
+    ensembleSections = newContact.ensemble.sections;
+  }
+
+  return newContact;
+});
+
+const createdContacts = await throttlePromises(contactCreationPromises, batchSize);
+return createdContacts;
 };
