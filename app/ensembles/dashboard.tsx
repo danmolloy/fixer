@@ -41,7 +41,7 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
       <div className='w-32'>
         <button
           className={buttonPrimary}
-          onBlur={() => (() => setShowOptions(false), 250)}
+          onBlur={() => setTimeout(() => setShowOptions(false), 250)}
           onClick={() => {
             focus();
             setShowOptions(!showOptions);
