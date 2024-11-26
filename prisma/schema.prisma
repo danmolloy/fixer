@@ -1,30 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  //shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // Only needed when using a cloud provider that doesn't support the creation of new databases, like Heroku. Learn more: https://pris.ly/migrate-shadow
-}
-
-generator client {
-  provider        = "prisma-client-js"
-  //previewFeatures = ["referentialActions"] // You won't need this in Prisma 3.X or higher.
 }
 
 model Account {
-  id                        String  @id @default(cuid())
-  userId                    String
-  type                      String
-  provider                  String
-  providerAccountId         String
-  refresh_token             String?  @db.Text
-  access_token              String?  @db.Text
-  expires_at                Int?
-  refresh_token_expires_in  Int?
-  token_type                String?
-  scope                     String?
-  id_token                  String?  @db.Text
-  session_state             String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?
+  access_token             String?
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?
+  session_state            String?
+  refresh_token_expires_in Int?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -38,25 +35,23 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String? 
-  image         String?
-  email         String?   @unique
-  emailVerified DateTime? 
-  firstName     String?
-  lastName      String?
-  mobileNumber  String?
-  instrumentsList String[] 
-  preferredMethod String? //
-  fixingEnsembles String[] //
-  accounts      Account[]
-  sessions      Session[]
-  events        Event[]
-  calls         Call[]
-  admins EnsembleAdmin[]
+  id              String          @id @default(cuid())
+  email           String?         @unique
+  emailVerified   DateTime?
+  firstName       String?
+  lastName        String?
+  mobileNumber    String?
+  fixingEnsembles String[]
+  instrumentsList String[]
+  preferredMethod String?
+  name            String?
+  image           String?
+  accounts        Account[]
+  calls           Call[]
+  admins          EnsembleAdmin[]
+  events          Event[]
+  sessions        Session[]
 }
-
-
 
 model VerificationToken {
   identifier String
@@ -66,161 +61,153 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-
 model Event {
-  id                 Int      @id @default(autoincrement())
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  ensembleId         String
-  ensembleName       String 
-  ensemble           Ensemble @relation(fields: [ensembleId], references: [id])
-  eventTitle         String 
-  concertProgram     String
-  confirmedOrOnHold  String @default("On Hold")
-  calls              Call[]
-  dressCode          String
-  fee                String
-  additionalInfo     String?
-  //instrumentSections EventInstrument[]
-  sections           EventSection[]
-  //fixerEmail         String
-  fixerId            String//
-  fixer              User     @relation(fields: [fixerId], references: [id])//
-  fixerName          String?//
-  //fixer              User     @relation(fields: [fixerEmail], references: [email])
-  sentEmails      SentEmail[]
+  id                Int            @id @default(autoincrement())
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  additionalInfo    String?
+  concertProgram    String
+  dressCode         String
+  fee               String
+  confirmedOrOnHold String         @default("On Hold")
+  eventTitle        String
+  fixerId           String
+  fixerName         String?
+  ensembleId        String
+  ensembleName      String
+  calls             Call[]
+  ensemble          Ensemble       @relation(fields: [ensembleId], references: [id])
+  fixer             User           @relation(fields: [fixerId], references: [id])
+  sections          EventSection[]
+  sentEmails        SentEmail[]
 }
 
 model Call {
-  id                 Int      @id @default(autoincrement())
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  startTime          DateTime
-  endTime            DateTime
-  venue              String
-  eventId            Int 
-  event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  fixerId           String
-  fixer              User     @relation(fields: [fixerId], references: [id])
-  contactMessages    ContactMessage[]
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  venue           String
+  eventId         Int
+  endTime         DateTime
+  startTime       DateTime
+  fixerId         String
+  event           Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  fixer           User             @relation(fields: [fixerId], references: [id])
+  contactMessages ContactMessage[] @relation("CallToContactMessage")
 }
 
 model EventSection {
-  id                 Int      @id @default(autoincrement())
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  event              Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId            Int 
-  ensembleSectionId  String
-  ensembleSection    EnsembleSection @relation(fields: [ensembleSectionId], references: [id], onDelete: Cascade)
-  bookingStatus      String @default("active")
-  numToBook          Int
-  contacts           ContactMessage[]
-  //messageToAll     String
+  id                Int              @id @default(autoincrement())
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  eventId           Int
+  ensembleSectionId String
+  bookingStatus     String           @default("active")
+  numToBook         Int
+  contacts          ContactMessage[]
+  ensembleSection   EnsembleSection  @relation(fields: [ensembleSectionId], references: [id], onDelete: Cascade)
+  event             Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model ContactMessage {
-  id                 Int      @id @default(autoincrement())
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  //eventInstrument    EventInstrument     @relation(fields: [eventInstrumentId], references: [id], onDelete: Cascade)
-  contact            EnsembleContact    @relation(fields: [contactId], references: [id])
-  received           Boolean @default(false)
-  receivedDate       DateTime?
-  accepted           Boolean? 
-  acceptedDate       DateTime?
-  contactId          String //@default("clg6usgbg0000l80846i92lbb")
-  //eventInstrumentId  Int
-  playerMessage      String?
-  calls             Call[]
-  eventSectionId    Int
-  eventSection      EventSection @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
-  indexNumber       Int
-  bookingOrAvailability String @default ("Booking")
-  offerExpiry       Int?
-  status            String @default("OK")
-  position        String @default("Tutti")
-  token           String @unique @default(cuid())
-  strictlyTied    Boolean @default(true)
-  urgent Boolean @default(false)
-  availableFor    Int[]
+  id                    Int             @id @default(autoincrement())
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  accepted              Boolean?
+  acceptedDate          DateTime?
+  contactId             String
+  playerMessage         String?
+  eventSectionId        Int
+  indexNumber           Int
+  bookingOrAvailability String          @default("Booking")
+  offerExpiry           Int?
+  status                String          @default("OK")
+  position              String          @default("Tutti")
+  token                 String          @unique @default(cuid())
+  strictlyTied          Boolean         @default(true)
+  availableFor          Int[]
+  urgent                Boolean         @default(false)
+  received              Boolean         @default(false)
+  receivedDate          DateTime?
+  contact               EnsembleContact @relation(fields: [contactId], references: [id])
+  eventSection          EventSection    @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
+  calls                 Call[]          @relation("CallToContactMessage")
 }
 
 model Ensemble {
-  name String @unique
-  ensembleNames String[]
-  id String @id @default(cuid())
-  sections EnsembleSection[]
-  admin EnsembleAdmin[]
-  adminInvites AdminInvite[]
-  events Event[]
-  contacts EnsembleContact[]
-  stripeCustomerId        String? 
-  stripeSubscriptionId   String?  @unique
-  subscriptionStatus      String?  
+  name                 String            @unique
+  id                   String            @id @default(cuid())
+  ensembleNames        String[]
+  subscriptionStatus   String?
+  stripeCustomerId     String?
+  stripeSubscriptionId String?           @unique
+  adminInvites         AdminInvite[]
+  admin                EnsembleAdmin[]
+  contacts             EnsembleContact[]
+  sections             EnsembleSection[]
+  events               Event[]
 }
 
 model EnsembleAdmin {
-  id String @id @default(cuid())
-  ensembleId String
-  accessType String @default("full")
-  userId String 
-  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  ensembleId    String
+  userId        String
   positionTitle String
-  user User @relation(fields: [userId], references: [id])
+  accessType    String   @default("full")
+  ensemble      Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id])
 }
 
 model EnsembleSection {
-  id String @id @default(cuid())
-  name String
+  id         String            @id @default(cuid())
+  name       String
   ensembleId String
-  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
-  events  EventSection[]
-  contacts EnsembleContact[]
+  contacts   EnsembleContact[]
+  ensemble   Ensemble          @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  events     EventSection[]
 }
 
-
 model EnsembleContact {
-  id String @id @default(cuid())
-  status String @default("OK")
-  ensembleId String
-  indexNumber Int @default(0)
-  email String?
-  phoneNumber String?
-  firstName String
-  lastName String
-  role String
-  sectionId String
-  section EnsembleSection @relation(fields: [sectionId], references: [id])
-  category String? 
-  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  id              String           @id @default(cuid())
+  ensembleId      String
+  email           String?
+  phoneNumber     String?
+  firstName       String
+  lastName        String
+  role            String
+  category        String?
+  sectionId       String
+  status          String           @default("OK")
+  indexNumber     Int              @default(0)
   contactMessages ContactMessage[]
+  ensemble        Ensemble         @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+  section         EnsembleSection  @relation(fields: [sectionId], references: [id])
 }
 
 model AdminInvite {
-  id String @id @default(cuid())
-  senderName String
-  ensembleId String
-  ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
-  accepted Boolean?
-  firstName String
-  lastName String
-  email String
+  id            String   @id @default(cuid())
+  ensembleId    String
+  accepted      Boolean?
+  firstName     String
+  lastName      String
+  email         String
   positionTitle String
-  accessType String @default("restricted")
+  accessType    String   @default("restricted")
+  senderName    String
+  ensemble      Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
 }
 
 model SentEmail {
-  id String @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email String
-  subject String
-  bodyText String
-  status EmailStatus @default(PROCESSED)
-  eventId Int
+  id        String      @id @default(cuid())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  email     String
+  subject   String
+  bodyText  String
+  status    EmailStatus @default(PROCESSED)
+  eventId   Int
   timestamp DateTime
-  event Event @relation(fields: [eventId], references: [id])
+  event     Event       @relation(fields: [eventId], references: [id])
 }
 
 enum EmailStatus {
