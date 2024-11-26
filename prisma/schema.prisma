@@ -9,7 +9,6 @@ generator client {
   //previewFeatures = ["referentialActions"] // You won't need this in Prisma 3.X or higher.
 }
 
-
 model Account {
   id                        String  @id @default(cuid())
   userId                    String
