@@ -5,6 +5,7 @@ import TextInput from '../forms/textInput';
 import axios from 'axios';
 import SubmitButton from '../forms/submitBtn';
 import ValidationError from '../forms/validationError';
+import StatusMessage from '../forms/statusMessage';
 
 export default function ContactForm() {
   const formSchema = Yup.object().shape({
@@ -19,38 +20,42 @@ export default function ContactForm() {
     message: '',
   };
 
-  const handleSubmit = async (data) => {
-    await axios.post('/sendGrid', {
-      body: {
-        emailData: {
-          subject: 'New Message from GigFix',
-          bodyText: `Dear GigFix Admin,
-          <br /><br />
-          You have received the following contact form message from ${data.name}:
-          <br /><br />
-          ${data.message}
-          <br /><br />
-          End of Message
-          <br /><br />
-          Reply email: ${data.email}
-          <br /><br />
-          Kind regards,
-          GigFix`,
-        },
-        templateID: 'd-2b2e84b23956415ba770e7c36264bef9',
-        emailAddress: process.env.FROM_EMAIL,
-      },
-    });
-  };
 
   return (
     <div data-testid='contact-form' className='p-4  w-full'>
       <Formik
         initialValues={initialValues}
         validationSchema={formSchema}
-        onSubmit={(values, actions) => {
-          handleSubmit(values);
-          actions.setSubmitting(false);
+        onSubmit={async (values, actions) => {
+          actions.setStatus(null);
+          await axios.post('/sendGrid', {
+            body: {
+              emailData: {
+                subject: 'New Message from GigFix',
+                bodyText: `Dear GigFix Admin,
+                <br /><br />
+                You have received the following contact form message from ${values.name}:
+                <br /><br />
+                ${values.message}
+                <br /><br />
+                End of Message
+                <br /><br />
+                Reply email: ${values.email}
+                <br /><br />
+                Kind regards,
+                GigFix`,
+              },
+              templateID: 'd-2b2e84b23956415ba770e7c36264bef9',
+              emailAddress: process.env.FROM_EMAIL,
+            },
+          }).then(() => {
+            actions.setStatus("success");
+          }).catch((error) => {
+            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          }).finally(() => {
+            actions.setSubmitting(false);
+          })
         }}
       >
         {(props) => (
@@ -98,6 +103,7 @@ export default function ContactForm() {
             </div>
             <SubmitButton disabled={props.isSubmitting} />
             <ValidationError errors={Object.values(props.errors)} />
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

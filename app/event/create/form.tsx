@@ -12,6 +12,7 @@ import { EnsembleAdmin, Prisma, Ensemble, User } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import SubmitButton from '../../forms/submitBtn';
+import StatusMessage from '../../forms/statusMessage';
 
 export type EventWithCallsAndEnsemble = Prisma.EventGetPayload<{
   include: {
@@ -125,27 +126,21 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           additionalInfo: initialValues ? initialValues.additionalInfo : '',
         }}
         validationSchema={EventSchema}
-        onSubmit={(values, actions) => {
-          actions.setSubmitting(true);
-          if (createOrUpdate === 'Update') {
-            axios
-              .post('/event/update/api', values)
-              .then((res) => {
-                router.push(`/event/${res.data.event.id}`);
-              })
-              .catch((e) => {
-                actions.setSubmitting(false);
-              });
-          } else {
-            axios
-              .post('create/api', values)
-              .then((res) => {
-                router.push(`/event/${res.data.id}`);
-              })
-              .catch((e) => {
-                actions.setSubmitting(false);
-              });
-          }
+        onSubmit={async (values, actions) => {
+          actions.setStatus(null);
+          await axios
+              .post((createOrUpdate === 'Update' ? '/event/update/api': 'create/api'), values)
+          .then((res: any) => {
+            
+            actions.setStatus('success');
+            router.push(`/event/${res.data.id}`);
+          }).catch((error) => {
+            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          }).finally(() => {
+            actions.setSubmitting(false);
+          })
+          
         }}
       >
         {(props) => (
@@ -372,6 +367,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                   </p>
                 )}
             </div>
+            <StatusMessage status={props.status} />
           </form>
         )}
       </Formik>

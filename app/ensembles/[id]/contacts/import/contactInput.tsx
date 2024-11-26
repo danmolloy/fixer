@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import ValidationError from '../../../../forms/validationError';
 import SubmitButton from '../../../../forms/submitBtn';
+import StatusMessage from '../../../../forms/statusMessage';
 
 export type ContactInputProps = {
   contacts: {
@@ -48,20 +49,6 @@ export default function ContactInput(props: ContactInputProps) {
     ensembleId: Yup.string().required('ensemble ID required. Contact GigFix.'),
   });
 
-  const handleSubmit = async (values) => {
-    try {
-      return await axios
-        .post('/contacts/api/create/import', {
-          values,
-        })
-        .then(() => {
-          router.push(`/ensembles/${values.ensembleId}`);
-        });
-    } catch (e) {
-      throw new Error(e);
-    }
-  };
-
   return (
     <Formik
       initialValues={{
@@ -69,9 +56,22 @@ export default function ContactInput(props: ContactInputProps) {
         ensembleId: ensembleId,
       }}
       validationSchema={contactInputSchema}
-      onSubmit={(values, actions) => {
-        handleSubmit(values);
-        actions.setSubmitting(false);
+      onSubmit={async (values, actions) => {
+        actions.setSubmitting(true);
+        actions.setStatus(null);
+        await axios
+        .post('/contacts/api/create/import', {
+          values,
+        })
+        .then(() => {
+          router.push(`/ensembles/${values.ensembleId}`);
+          actions.setStatus("success");
+        }).catch((error) => {
+          const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+          actions.setStatus(errorMessage);
+        }).finally(() => {
+          actions.setSubmitting(false);
+        })
       }}
     >
       {(props) => (
@@ -247,6 +247,7 @@ export default function ContactInput(props: ContactInputProps) {
                   </button>
                   <SubmitButton disabled={props.isSubmitting} />
                 </div>
+                  <StatusMessage status={props.status} />
               </div>
             )}
           />

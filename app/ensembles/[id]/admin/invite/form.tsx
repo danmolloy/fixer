@@ -7,6 +7,7 @@ import TextInput from '../../../../forms/textInput';
 import { buttonPrimary } from '../../../dashboard';
 import SubmitButton from '../../../../forms/submitBtn';
 import ValidationError from '../../../../forms/validationError';
+import StatusMessage from '../../../../forms/statusMessage';
 
 export type InviteAdminFormProps = {
   ensembleId: string;
@@ -56,9 +57,19 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
       <Formik
         initialValues={initialVals}
         validationSchema={formSchema}
-        onSubmit={(values, actions) => {
-          handleSubmit(values);
-          actions.setSubmitting(false);
+        onSubmit={async (values, actions) => {
+          actions.setSubmitting(true);
+          actions.setStatus(null);
+          await axios.post('/ensembles/admin/api/invite', values)
+          .then(() => {
+            router.push(`/ensembles/${ensembleId}`);
+            actions.setStatus("success");
+          }).catch((error) => {
+            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          }).finally(() => {
+            actions.setSubmitting(false);
+          })
         }}
       >
         {(props) => (
@@ -112,6 +123,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
             </div>
             <SubmitButton disabled={props.isSubmitting === true} />
             <ValidationError errors={Object.values(props.errors)} />
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

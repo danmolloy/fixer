@@ -109,6 +109,7 @@ export default function UpdateSectionForm(props: UpdateSectionFormProps) {
               isSubmitting={
                 props.isSubmitting.toString() === 'true' ? true : false
               }
+              disabled={props.isSubmitting}
               id='edit-section-btn'
               type='submit'
               className='w-24 self-end bg-blue-600 text-white hover:bg-blue-500 disabled:bg-blue-100'

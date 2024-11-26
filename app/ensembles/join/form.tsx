@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { TiTimes } from 'react-icons/ti';
 import ValidationError from '../../forms/validationError';
 import SubmitButton from '../../forms/submitBtn';
+import SubmissionError from '../../forms/statusMessage';
+import StatusMessage from '../../forms/statusMessage';
 
 export type JoinEnsembleFormProps = {
   userId: string;
@@ -26,20 +28,25 @@ export default function JoinEnsembleForm(props: JoinEnsembleFormProps) {
     userId: userId,
   };
 
-  const handleSubmit = async (data: { accessCode: string; userId: string }) => {
-    return await axios.post('/ensembles/admin/api/join', data).then(() => {
-      router.push('/');
-    });
-  };
-
   return (
     <div data-testid='join-form'>
       <Formik
         initialValues={initialVals}
         validationSchema={formSchema}
-        onSubmit={(values, actions) => {
-          handleSubmit(values);
-          actions.setSubmitting(false);
+        onSubmit={async (values, actions) => {
+          actions.setStatus(null);
+          actions.setSubmitting(true);
+
+            await axios.post('/ensembles/admin/api/join', values)
+            .then(() => {
+              router.push('/');
+              actions.setStatus("success");
+            }).catch((error) => {
+              const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            }).finally(() => {
+              actions.setSubmitting(false);
+            })
         }}
       >
         {(props) => (
@@ -53,9 +60,8 @@ export default function JoinEnsembleForm(props: JoinEnsembleFormProps) {
               label='Access Code'
             />
             <SubmitButton disabled={props.isSubmitting} />
-              
-              <ValidationError errors={Object.values(props.errors)} />
-
+            <ValidationError errors={Object.values(props.errors)} />
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

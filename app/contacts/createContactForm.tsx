@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { phoneRegex } from '../ensembles/[id]/contacts/import/contactInput';
 import ValidationError from '../forms/validationError';
 import SubmitButton from '../forms/submitBtn';
+import StatusMessage from '../forms/statusMessage';
 
 export type CreateContactFormProps = {
   ensembleId: string;
@@ -59,24 +60,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
     category: Yup.string().required('category required'),
   });
 
-  const handleSubmit = async (values: CreateEnsembleContact) => {
-    try {
-      return contact !== undefined
-        ? await axios
-            .post('/contacts/api/update', {
-              updatedData: { ...values },
-              contactId: contact.id,
-            })
-            .then(() => {
-              router.refresh();
-            })
-        : await axios.post('/contacts/api/create', values).then(() => {
-            router.refresh();
-          });
-    } catch (e) {
-      throw new Error(e);
-    }
-  };
+  
 
   return (
     <div
@@ -98,17 +82,40 @@ export default function CreateContactForm(props: CreateContactFormProps) {
         <Formik
           initialValues={initialValues}
           validationSchema={CreateContactSchema}
-          onSubmit={(values, actions) => {
+          onSubmit={async (values, actions) => {
             actions.setSubmitting(true);
+
+            actions.setStatus(null);
             const section = {
               name: values.section,
               id:
                 sections.find((i) => i.name === values.section)?.id ||
                 undefined,
             };
-            handleSubmit({ ...values, section: section }).then(() => {
+            
+          const postRequest = async() =>{ 
+            contact !== undefined
+            ? await axios
+                .post('/contacts/api/update', {
+                  updatedData: { 
+                    ...values, 
+                    section: section },
+                  contactId: contact.id,
+                })
+            : await axios.post('/contacts/api/create', { 
+                ...values, 
+                section: section 
+              });
+            }
+          postRequest()
+          .then(() => {
+            router.refresh();
+            actions.setStatus("success");
+          }).catch((error) => {
+              const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            }).finally(() => {
               actions.setSubmitting(false);
-              closeForm();
             });
           }}
         >
@@ -157,7 +164,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
 
               <SubmitButton disabled={props.isSubmitting} />
               <ValidationError errors={Object.values(props.errors)} />
-
+              <StatusMessage status={props.status} />
             </form>
           )}
         </Formik>

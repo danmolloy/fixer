@@ -7,6 +7,7 @@ import { getBillingRoute } from '../../billing/api/manage/lib';
 import { FaRegQuestionCircle } from "react-icons/fa";
 import ValidationError from '../../forms/validationError';
 import SubmitButton from '../../forms/submitBtn';
+import StatusMessage from '../../forms/statusMessage';
 
 export default function CreateEnsembleForm(props: { userId: string }) {
   const { userId } = props;
@@ -26,25 +27,24 @@ export default function CreateEnsembleForm(props: { userId: string }) {
     userId: userId,
   };
 
-  const handleSubmit = async (data: { name: string }) => {
-    try {
-      const newEnsemble = await axios.post('create/api', data);
-      getBillingRoute(await newEnsemble.data.id);
-      const response = await getBillingRoute(await newEnsemble.data.id);
-      window.location.href = response.data.url;
-    } catch (e) {
-      throw new Error(e);
-    }
-  };
-
   return (
     <div data-testid='create-ensemble-form' className='p-4'>
       <Formik
         initialValues={initialVals}
         validationSchema={formSchema}
-        onSubmit={(values, actions) => {
-          handleSubmit(values);
-          actions.setSubmitting(false);
+        onSubmit={async (values, actions) => {
+          actions.setStatus(null);
+          await axios.post('create/api', values).then(async (res) => {
+            const checkout = await getBillingRoute(await res.data.id);
+            window.location.href = checkout.data.url;
+            actions.setStatus("success");
+          }).catch((error) => {
+            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          }).finally(() => {
+            actions.setSubmitting(false);
+          })
+          
         }}
       >
         {(props) => (
@@ -108,6 +108,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
             </div>
             <SubmitButton disabled={props.isSubmitting} />
             <ValidationError errors={Object.values(props.errors).flat()} />
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

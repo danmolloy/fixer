@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import SubmitButton from '../../forms/submitBtn';
 import ValidationError from '../../forms/validationError';
+import StatusMessage from '../../forms/statusMessage';
 
 export type UpdateEnsembleProps = {
   ensemble: Ensemble;
@@ -30,11 +31,6 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
     ensembleId: ensemble.id,
   };
 
-  const handleSubmit = async (data: { name: string }) => {
-    return await axios.post('update/api', data).then(() => {
-      router.push('/ensembles');
-    });
-  };
 
   const handleDelete = async () => {
     return (
@@ -42,7 +38,7 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
       (await axios
         .post('/ensembles/delete', { ensembleId: ensemble.id })
         .then(() => {
-          router.push('/ensembles');
+          router.push('/');
         }))
     );
   };
@@ -52,9 +48,19 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
       <Formik
         initialValues={initialVals}
         validationSchema={formSchema}
-        onSubmit={(values, actions) => {
-          handleSubmit(values);
-          actions.setSubmitting(false); 
+        onSubmit={async (values, actions) => {
+
+          actions.setStatus(null);
+          await axios.post('update/api', values)
+          .then(() => {
+            router.push(`/ensembles/${ensemble.id}`);
+            actions.setStatus('success');
+          }).catch((error) => {
+            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          }).finally(() => {
+            actions.setSubmitting(false);
+          })
         }}
       >
         {(props) => (
@@ -105,6 +111,7 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
             </div>
             <SubmitButton disabled={props.isSubmitting} />
                 <ValidationError errors={Object.values(props.errors).flat()} />
+                <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

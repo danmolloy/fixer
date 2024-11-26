@@ -7,6 +7,7 @@ import TextInput from '../../../forms/textInput';
 import { EnsembleAdmin } from '@prisma/client';
 import ValidationError from '../../../forms/validationError';
 import SubmitButton from '../../../forms/submitBtn';
+import StatusMessage from '../../../forms/statusMessage';
 
 export type InviteAdminFormProps = {
   admin: EnsembleAdmin;
@@ -28,24 +29,24 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
     accessType: admin.accessType,
   };
 
-  const handleSubmit = async (data: {
-    adminId: string;
-    positionTitle: string;
-    accessType: string;
-  }) => {
-    return await axios.post('/ensembles/admin/api/update', data).then(() => {
-      router.push(`/ensembles/${admin.ensembleId}`);
-    });
-  };
-
   return (
     <div data-testid='update-admin-form'>
       <Formik
         initialValues={initialVals}
         validationSchema={formSchema}
-        onSubmit={(values, actions) => {
-          handleSubmit(values);
-          actions.setSubmitting(false);
+        onSubmit={async (values, actions) => {
+          actions.setSubmitting(true);
+          actions.setStatus(null);
+          await axios.post('/ensembles/admin/api/update', values)
+          .then(() => {
+            router.push(`/ensembles/${admin.ensembleId}`);
+            actions.setStatus("success");
+          }).catch((error) => {
+            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          }).finally(() => {
+            actions.setSubmitting(false);
+          })
         }}
       >
         {(props) => (
@@ -70,6 +71,7 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
             <SubmitButton 
               disabled={props.isSubmitting}/>
             <ValidationError errors={Object.values(props.errors)} />
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>
