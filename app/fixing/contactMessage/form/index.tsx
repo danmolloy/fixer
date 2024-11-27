@@ -9,6 +9,9 @@ import { useState } from 'react';
 import HelpMessage from '../../../layout/helpMessage';
 import { buttonPrimary } from '../../../ensembles/dashboard';
 import DiaryContacts from './diaryContacts';
+import StatusMessage from '../../../forms/statusMessage';
+import ValidationError from '../../../forms/validationError';
+import SubmitButton from '../../../forms/submitBtn';
 
 export type ContactMessageFormProps = {
   cancelForm: () => void;
@@ -86,10 +89,24 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       <Formik
         initialValues={initialVals}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          handleSubmit(values);
+        onSubmit={async(values, actions) => {
+          //handleSubmit(values);
+          //actions.setSubmitting(false);
+          //cancelForm();
+          actions.setStatus(null);
+
+          await axios
+          .post('/fixing/contactMessage/api/create', values)
+          .then(() => {
+          router.refresh();
+          actions.setStatus("success");
+        }).catch((error) => {
+          const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+          actions.setStatus(errorMessage);
+        }).finally(() => {
           actions.setSubmitting(false);
           cancelForm();
+        })
         }}
       >
         {(props) => (
@@ -163,14 +180,11 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
               >
                 Cancel
               </button>
-              <button
-                disabled={props.values.contacts.length == 0}
-                className='m-1 rounded bg-indigo-500 px-2 py-1 text-sm text-white hover:bg-indigo-600 disabled:opacity-40'
-                type='submit'
-              >
-                Submit
-              </button>
+              <SubmitButton
+                disabled={props.values.contacts.length == 0 || props.isSubmitting}
+                />
             </div>
+            <StatusMessage status={props.status} />
             <div className=''>
               <div className='mb-2 mt-12 flex w-full flex-col'>
                 <h3 className='text-base'>Your List</h3>

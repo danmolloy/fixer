@@ -9,6 +9,7 @@ import { buttonPrimary } from '../../ensembles/dashboard';
 import { phoneRegex } from '../../ensembles/[id]/contacts/import/contactInput';
 import SubmitButton from '../../forms/submitBtn';
 import ValidationError from '../../forms/validationError';
+import StatusMessage from '../../forms/statusMessage';
 
 export type UpdateUserFormProps = {
   session: Session;
@@ -53,19 +54,18 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
       <Formik
         validationSchema={formSchema}
         initialValues={initialVals}
-        onSubmit={(vals,actions) => {
-          return axios.post('update/api', vals).then(() => {
-            //router.push('/');
-            router.refresh();
-            //setSubmitStatus("Successfully updated!")
-            actions.setSubmitting(false)
-
-          }).catch(function (error) {
-              router.refresh();
-              console.log(error);
-              actions.setSubmitting(false)
-
-            });
+        onSubmit={async (vals,actions) => {
+          actions.setStatus(null);
+          await axios.post('update/api', vals)
+          .then(() => {
+            router.replace("/");
+            actions.setStatus("success");
+          }).catch((error) => {
+            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          }).finally(() => {
+            actions.setSubmitting(false);
+          })
         }}
       >
         {(props) => (
@@ -81,6 +81,7 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
             />
             <TextInput disabled={props.isSubmitting} name='email' id='email' label='Email' type='email' />
             <SubmitButton disabled={props.isSubmitting} />
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

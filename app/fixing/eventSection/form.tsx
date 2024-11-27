@@ -6,6 +6,9 @@ import TextInput from '../../forms/textInput';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { buttonPrimary } from '../../ensembles/dashboard';
+import SubmitButton from '../../forms/submitBtn';
+import ValidationError from '../../forms/validationError';
+import StatusMessage from '../../forms/statusMessage';
 
 export type CreateEventSectionProps = {
   eventId: number;
@@ -55,17 +58,11 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
           ...vals,
           eventSectionId: eventSectionId,
         })
-        .then(() => {
-          router.refresh();
-          setCreateSection(false);
-        });
+        
     } else {
       return await axios
         .post('/fixing/eventSection/api/create', vals)
-        .then(() => {
-          router.refresh();
-          setCreateSection(false);
-        });
+        
     }
   };
 
@@ -85,9 +82,20 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
     >
       <Formik
         initialValues={initialVals}
-        onSubmit={(values, actions) => {
-          handleSubmit(values);
-          actions.setSubmitting(false);
+        onSubmit={async (values, actions) => {
+          actions.setStatus(null);
+
+          await handleSubmit(values)
+          .then(() => {
+            router.refresh();
+            setCreateSection(false);
+          }).catch((error) => {
+            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          }).finally(() => {
+            actions.setSubmitting(false);
+          })
+          
         }}
         validationSchema={formSchema}
       >
@@ -101,6 +109,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               <div className='flex flex-col'>
                 <label htmlFor='ensembleSectionId'>Section</label>
                 <Field
+                disabled={props.isSubmitting}
                   className='my-1 w-60 rounded border p-1 shadow-sm'
                   as='select'
                   name='ensembleSectionId'
@@ -133,6 +142,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               </div>
             )}
             <TextInput
+            disabled={props.isSubmitting}
               className='w-60'
               type='number'
               name='numToBook'
@@ -147,6 +157,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               <label>Fixing Status</label>
               <label>
                 <Field
+                disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
                   name='bookingStatus'
@@ -156,6 +167,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               </label>
               <label>
                 <Field
+                disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
                   name='bookingStatus'
@@ -164,9 +176,10 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 Inactive
               </label>
             </div>
-            <div className='my-4 flex flex-row'>
+            <div className='my-4 flex flex-row items-center '>
               <button
-                className={buttonPrimary}
+                disabled={props.isSubmitting}
+                className={`border text-sm rounded px-2 py-1 h-8 hover:bg-slate-50 disabled:opacity-40`}
                 onClick={(e) => {
                   e.preventDefault();
                   setCreateSection(false);
@@ -174,13 +187,10 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               >
                 Cancel
               </button>
-              <button
-                className='rounded bg-indigo-500 px-2 py-1 text-sm text-white hover:bg-indigo-600'
-                type='submit'
-              >
-                Submit
-              </button>
+              <SubmitButton disabled={props.isSubmitting} />
             </div>
+              <ValidationError errors={Object.values(props.errors)} />
+              <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

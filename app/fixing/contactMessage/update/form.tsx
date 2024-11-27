@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { updateOfferEmail } from '../../../sendGrid/lib';
 import SubmitButton from '../../../forms/submitBtn';
 import ValidationError from '../../../forms/validationError';
+import StatusMessage from '../../../forms/statusMessage';
 
 export type UpdateContactMessageProps = {
   contact: ContactMessage & {
@@ -100,10 +101,57 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
 
   return (
     <Formik
-      onSubmit={(values, actions) => {
-        handleSubmit(values);
-        actions.setSubmitting(false); 
+      onSubmit={async(values, actions) => {
+        //handleSubmit(values);
+        //actions.setSubmitting(false); 
+
+        actions.setStatus(null);
+        actions.setSubmitting(true); 
+        await axios.post('/fixing/contactMessage/api/update', {
+          id: contact.id,
+          data: {
+            received: values.received === 'true' ? true : false,
+            accepted:
+              values.accepted === 'true'
+                ? true
+                : values.accepted === 'false'
+                  ? false
+                  : null,
+            playerMessage: values.playerMessage,
+            position: values.position,
+            strictlyTied: values.strictlyTied,
+            bookingOrAvailability: values.bookingOrAvailability,
+            urgent: values.urgent,
+            calls: {
+              connect: values.calls.map((i) => ({ id: Number(i) })),
+              disconnect: contact.calls
+                .map((i) => String(i.id))
+                .filter((i) => !values.calls.includes(i))
+                .map((i) => ({
+                  id: Number(i),
+                })),
+            },
+          },
+        }).then(async (res) => {
+          const emailData = await updateOfferEmail(res.data);
+        await axios.post(`/sendGrid`, {
+          body: {
+            emailData: emailData,
+            templateID: emailData.templateID,
+            emailAddress: emailData.email,
+          },
+        });
+        router.push(`/event/${event.id}`);
+        actions.setStatus("success");
+
+        }).catch((error) => {
+          const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+          actions.setStatus(errorMessage);
+        }).finally(() => {
+          actions.setSubmitting(false);
+        })
       }}
+
       validationSchema={contactSchema}
       initialValues={initialVals}
     >
@@ -211,6 +259,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           />
           <SubmitButton disabled={props.isSubmitting} />
           <ValidationError errors={Object.values(props.errors).flat()} />
+          <StatusMessage status={props.status} />
         </Form>
       )}
     </Formik>

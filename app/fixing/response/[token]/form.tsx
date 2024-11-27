@@ -17,6 +17,7 @@ import { DateTime } from 'luxon';
 import { responseConfEmail } from '../../../sendGrid/lib';
 import SubmitButton from '../../../forms/submitBtn';
 import ValidationError from '../../../forms/validationError';
+import StatusMessage from '../../../forms/statusMessage';
 
 export type ResponseFormProps = {
   contactMessage: ContactMessage & {
@@ -47,7 +48,16 @@ export default function ResponseForm(props: ResponseFormProps) {
         : contactMessage.calls.map((i) => String(i.id)),
   };
 
-  const responseSchema = Yup.object().shape({
+  const responseSchema = bookingOrAvailability === "Availability" 
+  ? Yup.object().shape({
+    accepted: Yup.string().required(''),
+    availableFor: Yup.array().of(Yup.string()).when('accepted', {
+      is: "true", 
+      then: (schema) => schema.min(1, "If indicating you are available, you must select at least one call."),
+      otherwise: (schema) => schema.min(0),
+    }),
+  })
+  : Yup.object().shape({
     accepted: Yup.string().required(''),
     availableFor: Yup.array().of(Yup.string()),
   });
@@ -89,8 +99,8 @@ export default function ResponseForm(props: ResponseFormProps) {
       confMsg = confirm('Are you sure you are NOT available for this work?');
     }
     if (confMsg) {
-      try {
-        await axios
+
+      return  await axios
           .post(`/fixing/contactMessage/api/update`, {
             id: contactMessage.id,
             data: {
@@ -120,12 +130,8 @@ export default function ResponseForm(props: ResponseFormProps) {
               },
             });
           })
-          .then(() => {
-            router.refresh();
-          });
-      } catch (e) {
-        alert(`Error: ${e}`);
-      }
+          
+      
     }
   };
 
@@ -139,9 +145,19 @@ export default function ResponseForm(props: ResponseFormProps) {
         initialValues={initialVals}
         onSubmit={(values, actions) => {
           actions.setSubmitting(true);
-          handleSubmit(values).then(() => {
+          handleSubmit(values)
+          .then(() => {
+            router.refresh();
+            actions.setStatus("success");
+          }).catch((error) => {
+            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          }).finally(() => {
             actions.setSubmitting(false);
-          });
+          })
+
+          actions.setStatus(null);
+
         }}
       >
         {(props) => (
@@ -238,6 +254,7 @@ export default function ResponseForm(props: ResponseFormProps) {
               )}
             <SubmitButton disabled={props.isSubmitting} />
             <ValidationError errors={Object.values(props.errors).flat()} />
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

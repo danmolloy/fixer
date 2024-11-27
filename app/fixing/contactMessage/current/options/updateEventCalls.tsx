@@ -4,6 +4,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
+import SubmitButton from '../../../../forms/submitBtn';
 
 export type UpdateContactEventCallsProps = {
   contact: ContactMessage & {
@@ -41,7 +42,7 @@ export default function UpdateContactEventCalls(
     <Formik
       initialValues={initialVals}
       validationSchema={validationSchema}
-      onSubmit={(values, actions) => {
+      onSubmit={async (values, actions) => {
         if (
           values.calls.length < 1 &&
           contact.calls
@@ -52,7 +53,7 @@ export default function UpdateContactEventCalls(
             'This player will no longer have any calls offered, which is not a valid action. If you wish to remove them from the event, delete them from the list.'
           );
         }
-        handleSubmit({
+        /* handleSubmit({
           contactMessageId: values.contactMessageId,
           calls: {
             connect: values.calls.map((i) => ({ id: Number(i) })),
@@ -64,7 +65,30 @@ export default function UpdateContactEventCalls(
               })),
           },
         });
-        actions.setSubmitting(false);
+        actions.setSubmitting(false); */
+
+        actions.setStatus(null);
+        await axios
+        .post('/fixing/contactMessage/api/update/eventCalls', {
+          contactMessageId: values.contactMessageId,
+          calls: {
+            connect: values.calls.map((i) => ({ id: Number(i) })),
+            disconnect: contact.calls
+              .map((i) => String(i.id))
+              .filter((i) => !values.calls.includes(i))
+              .map((i) => ({
+                id: Number(i),
+              })),
+          },
+        }).then(() => {
+          router.refresh();
+          actions.setStatus("success");
+        }).catch((error) => {
+          const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+          actions.setStatus(errorMessage);
+        }).finally(() => {
+          actions.setSubmitting(false);
+        })
       }}
     >
       {(props) => (
@@ -105,16 +129,13 @@ export default function UpdateContactEventCalls(
               At least one call must be offered.
             </p>
           )}
-          <button
+          <SubmitButton
             disabled={
-              JSON.stringify(initialVals.calls.map((i) => String(i))) ===
-              JSON.stringify(props.values.calls.map((i) => String(i)))
+              (JSON.stringify(initialVals.calls.map((i) => String(i))) ===
+              JSON.stringify(props.values.calls.map((i) => String(i))))
+            || props.isSubmitting
             }
-            className='m-1 w-36 rounded border border-blue-600 text-blue-600 hover:bg-blue-50 disabled:opacity-40'
-            type='submit'
-          >
-            Update Calls
-          </button>
+          />
         </Form>
       )}
     </Formik>
