@@ -1,7 +1,13 @@
+import { NextResponse } from 'next/server';
 import { archiveContact } from './functions';
 
 export async function POST(request: Request) {
   const req = await request.json();
-  const data = await archiveContact(req);
-  return Response.json(data);
+  
+  try {
+    const data = await archiveContact(req);
+    return NextResponse.json({...data, success: true}, {status: 201});
+  } catch(e: any) {
+    return NextResponse.json({error: e.message || "An unexpected error occurred", success: false}, {status: 500});
+  }
 }

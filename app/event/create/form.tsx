@@ -131,7 +131,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           await axios
               .post((createOrUpdate === 'Update' ? '/event/update/api': 'create/api'), values)
           .then((res: any) => {
-            
             actions.setStatus('success');
             router.push(`/event/${res.data.id}`);
           }).catch((error) => {

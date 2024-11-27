@@ -61,7 +61,7 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
             router.replace("/");
             actions.setStatus("success");
           }).catch((error) => {
-            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+            const errorMessage = error..data.error || 'An unexpected error occurred.';
             actions.setStatus(errorMessage);
           }).finally(() => {
             actions.setSubmitting(false);

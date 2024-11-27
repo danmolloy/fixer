@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
@@ -15,10 +17,8 @@ export async function POST(
 
   if (process.env.TWILIO_ACTIVE === 'false') {
     console.log(`Recieved at Twilio: ${JSON.stringify(req.message)}`);
-    return new Response(
-      JSON.stringify({ status: 'SMS would have sent successfully!' }),
-      { status: 202 }
-    );
+    return NextResponse.json({ success: true}, {status: 201});
+
   }
 
   try {
@@ -30,16 +30,10 @@ export async function POST(
           ? '+447479016386'
           : req.body.phoneNumber,
     });
-    console.log(message.body);
 
-    return new Response(JSON.stringify({ status: 'SMS sent successfully!' }), {
-      status: 202,
-    });
-  } catch (error) {
-    console.error(`Err!: ${error}`);
-    return new Response(
-      JSON.stringify({ error: 'Failed to send message', details: error }),
-      { status: 500 }
-    );
+    return NextResponse.json({...message, success: true}, {status: 201});
+
+  } catch(e: any) {
+    return NextResponse.json({error: e.message || "An unexpected error occurred", success: false}, {status: 500});
   }
 }

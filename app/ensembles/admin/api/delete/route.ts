@@ -1,7 +1,13 @@
+import { NextResponse } from 'next/server';
 import { deleteAdmin } from './functions';
 
 export async function POST(request: Request) {
   const req = await request.json();
-  await deleteAdmin(req);
-  return new Response();
+
+  try {
+    const data = await deleteAdmin(req);
+    return NextResponse.json({...data, success: true}, {status: 201});
+  } catch(e: any) {
+    return NextResponse.json({error: e.message || "An unexpected error occurred", success: false}, {status: 500});
+  }
 }

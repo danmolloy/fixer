@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import {
   remindFixers,
   remindMusicians,
@@ -11,10 +12,9 @@ export async function POST() {
     await remindFixers();
     await reportUnresponsiveMusicians();
     await remindUnresponsiveMusicians();
-  } catch (e) {
-    console.log(`error: ${e}`);
-    throw new Error(e);
+    return NextResponse.json({success: true}, {status: 201});
+  } catch(e: any) {
+    return NextResponse.json({error: e.message || "An unexpected error occurred", success: false}, {status: 500});
   }
 
-  return new Response().json();
 }

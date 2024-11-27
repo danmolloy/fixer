@@ -8,12 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const meterEvent = addMeterEvent(subscriptionID);
     return NextResponse.json({ meterEvent: meterEvent });
-  } catch (err) {
-    console.error('Error creating meter event:', err);
-    // Return error response in case of failure
-    return new NextResponse(
-      JSON.stringify({ error: 'Unable to add meter event' }),
-      { status: 500 }
-    );
+  } catch(e: any) {
+    return NextResponse.json({error: e.message || "An unexpected error occurred", success: false}, {status: 500});
   }
 }

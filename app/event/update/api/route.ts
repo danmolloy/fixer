@@ -1,5 +1,6 @@
 import { Call } from '@prisma/client';
 import { eventObj, updateEventandCalls, updateEmailPlayers } from './functions';
+import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   const req = await request.json();
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
   } = req;
 
   let updateEventArg = eventObj({
-    id: req.id,
+    id: Number(id),
     ensembleId,
     ensembleName,
     eventTitle,
@@ -34,10 +35,17 @@ export async function POST(request: Request) {
     //createdAt: new Date()
   });
   const callsArr: Call[] = calls;
-  const data = await updateEventandCalls({
-    eventObj: updateEventArg,
-    callsArr,
-  });
-  await updateEmailPlayers(data, updateMessage);
-  return Response.json(data);
+  
+  
+
+  try {
+    const data = await updateEventandCalls({
+      eventObj: updateEventArg,
+      callsArr,
+    });
+    await updateEmailPlayers(data, updateMessage);
+    return NextResponse.json({...data.event, success: true}, {status: 201});
+  } catch(e: any) {
+    return NextResponse.json({error: e.message || "An unexpected error occurred", success: false}, {status: 500});
+  }
 }
