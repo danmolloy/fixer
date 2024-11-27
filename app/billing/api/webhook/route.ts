@@ -3,7 +3,6 @@ import { headers } from 'next/headers';
 import Stripe from 'stripe';
 import { createSubscription, updateSubscription } from './lib';
 
-
 /* 
 To listen to local events:
 stripe listen --forward-to localhost:3000/billing/api/webhook

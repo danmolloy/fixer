@@ -1,8 +1,8 @@
-import { TiWarning, TiTick } from "react-icons/ti";
+import { TiWarning, TiTick } from 'react-icons/ti';
 
 export type StatusMessageProps = {
-  status?: string
-}
+  status?: string;
+};
 
 export default function StatusMessage(props: StatusMessageProps) {
   const { status } = props;
@@ -11,29 +11,29 @@ export default function StatusMessage(props: StatusMessageProps) {
     return null;
   }
 
-  if (status.toLocaleLowerCase() === "success") {
+  if (status.toLocaleLowerCase() === 'success') {
     return (
-      <div className='bg-blue-100 text-blue-800 p-4 rounded my-8 text-sm lg:w-1/2 self-center'>
-      <div className='flex flex-row items-center'>
-        <div className=' text-blue-100 bg-blue-500 w-5 h-5 rounded-full flex items-center justify-center'>
-          <TiTick />
+      <div className='my-8 self-center rounded bg-blue-100 p-4 text-sm text-blue-800 lg:w-1/2'>
+        <div className='flex flex-row items-center'>
+          <div className='flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-blue-100'>
+            <TiTick />
+          </div>
+
+          <p className='ml-2'>Form successfully submitted</p>
         </div>
-        
-        <p className='ml-2'>Form successfully submitted</p>
       </div>
-    </div>
-    )
+    );
   }
 
   return (
-    <div className='bg-amber-100 text-amber-800 p-4 rounded my-8 text-sm lg:w-1/2 self-center'>
+    <div className='my-8 self-center rounded bg-amber-100 p-4 text-sm text-amber-800 lg:w-1/2'>
       <div className='flex flex-row items-center'>
-        <div className=' text-amber-100 bg-amber-500 w-5 h-5 rounded-full flex items-center justify-center'>
+        <div className='flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-amber-100'>
           <TiWarning />
         </div>
-        
+
         <p className='ml-2'>{status}</p>
       </div>
     </div>
-  )
+  );
 }

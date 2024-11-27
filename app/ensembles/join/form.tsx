@@ -37,16 +37,20 @@ export default function JoinEnsembleForm(props: JoinEnsembleFormProps) {
           actions.setStatus(null);
           actions.setSubmitting(true);
 
-            await axios.post('/ensembles/admin/api/join', values)
+          await axios
+            .post('/ensembles/admin/api/join', values)
             .then(() => {
               router.push('/');
-              actions.setStatus("success");
-            }).catch((error) => {
-              const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-              actions.setStatus(errorMessage);
-            }).finally(() => {
-              actions.setSubmitting(false);
+              actions.setStatus('success');
             })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
         }}
       >
         {(props) => (

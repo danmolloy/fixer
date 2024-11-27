@@ -31,7 +31,6 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
     ensembleId: ensemble.id,
   };
 
-
   const handleDelete = async () => {
     return (
       confirm(`Are you sure you want to delete ${ensemble.name}?`) &&
@@ -49,23 +48,31 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
         initialValues={initialVals}
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
-
           actions.setStatus(null);
-          await axios.post('update/api', values)
-          .then(() => {
-            router.push(`/ensembles/${ensemble.id}`);
-            actions.setStatus('success');
-          }).catch((error) => {
-            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-            actions.setStatus(errorMessage);
-          }).finally(() => {
-            actions.setSubmitting(false);
-          })
+          await axios
+            .post('update/api', values)
+            .then(() => {
+              router.push(`/ensembles/${ensemble.id}`);
+              actions.setStatus('success');
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
         }}
       >
         {(props) => (
           <Form>
-            <TextInput disabled={props.isSubmitting} name={'name'} id='name-input' label='Ensemble Name' />
+            <TextInput
+              disabled={props.isSubmitting}
+              name={'name'}
+              id='name-input'
+              label='Ensemble Name'
+            />
             <div>
               <label htmlFor='ensembleNames'>Ensemble Names</label>
               <FieldArray
@@ -75,14 +82,13 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                     {props.values.ensembleNames.map((j, index) => (
                       <div key={index}>
                         <TextInput
-                                                disabled={props.isSubmitting}
-
+                          disabled={props.isSubmitting}
                           name={`ensembleNames[${index}]`}
                           id={`ensembleNames[${index}]`}
                           label=''
                         />
                         <button
-                        disabled={props.isSubmitting}
+                          disabled={props.isSubmitting}
                           onClick={(e) => {
                             e.preventDefault();
                             props.values.ensembleNames.length > 1 &&
@@ -94,7 +100,7 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                       </div>
                     ))}
                     <button
-                    disabled={props.isSubmitting}
+                      disabled={props.isSubmitting}
                       onClick={(e) => {
                         e.preventDefault();
                         arrayHelpers.push('');
@@ -110,8 +116,8 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
               </ErrorMessage>
             </div>
             <SubmitButton disabled={props.isSubmitting} />
-                <ValidationError errors={Object.values(props.errors).flat()} />
-                <StatusMessage status={props.status} />
+            <ValidationError errors={Object.values(props.errors).flat()} />
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

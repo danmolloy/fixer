@@ -60,18 +60,21 @@ export default function ContactInput(props: ContactInputProps) {
         actions.setSubmitting(true);
         actions.setStatus(null);
         await axios
-        .post('/contacts/api/create/import', {
-          values,
-        })
-        .then(() => {
-          router.push(`/ensembles/${values.ensembleId}`);
-          actions.setStatus("success");
-        }).catch((error) => {
-          const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-          actions.setStatus(errorMessage);
-        }).finally(() => {
-          actions.setSubmitting(false);
-        })
+          .post('/contacts/api/create/import', {
+            values,
+          })
+          .then(() => {
+            router.push(`/ensembles/${values.ensembleId}`);
+            actions.setStatus('success');
+          })
+          .catch((error) => {
+            const errorMessage =
+              error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          })
+          .finally(() => {
+            actions.setSubmitting(false);
+          });
       }}
     >
       {(props) => (
@@ -79,9 +82,9 @@ export default function ContactInput(props: ContactInputProps) {
           <FieldArray
             name='contacts'
             render={({ push, remove }) => (
-              <div className='flex flex-col  px-2'>
-                <div className='lg:flex lg:flex-col lg:items-center lg:justify-center '>
-                  <table className='table-auto text-sm overflow-x-scroll'>
+              <div className='flex flex-col px-2'>
+                <div className='lg:flex lg:flex-col lg:items-center lg:justify-center'>
+                  <table className='table-auto overflow-x-scroll text-sm'>
                     <thead>
                       <tr data-testid='table-head-row'>
                         <th className='border'>First Name</th>
@@ -100,7 +103,7 @@ export default function ContactInput(props: ContactInputProps) {
                         <tr className='border' key={index}>
                           <td className='border'>
                             <Field
-                            disabled={props.isSubmitting}
+                              disabled={props.isSubmitting}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.firstName`}
                               data-testid={`contacts.${index}.firstName`}
@@ -129,7 +132,7 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <Field
-                            disabled={props.isSubmitting}
+                              disabled={props.isSubmitting}
                               className='mx-0 rounded border border-black'
                               name={`contacts.${index}.email`}
                               data-testid={`contacts.${index}.email`}
@@ -208,10 +211,12 @@ export default function ContactInput(props: ContactInputProps) {
                           </td>
                           <td className='border'>
                             <button
-                              
                               data-testid={`contacts.${index}.remove`}
                               className='disabled:opacity-40'
-                              disabled={props.values.contacts.length < 2 || props.isSubmitting}
+                              disabled={
+                                props.values.contacts.length < 2 ||
+                                props.isSubmitting
+                              }
                               onClick={() => remove(index)}
                             >
                               <TiTimes />
@@ -223,7 +228,7 @@ export default function ContactInput(props: ContactInputProps) {
                   </table>
                 </div>
                 {props.errors.contacts && (
-                  <p className='text-center text-xs '>
+                  <p className='text-center text-xs'>
                     Missing fields are stated in red in the table.
                   </p>
                 )}
@@ -247,11 +252,10 @@ export default function ContactInput(props: ContactInputProps) {
                   </button>
                   <SubmitButton disabled={props.isSubmitting} />
                 </div>
-                  <StatusMessage status={props.status} />
+                <StatusMessage status={props.status} />
               </div>
             )}
           />
-         
         </Form>
       )}
     </Formik>

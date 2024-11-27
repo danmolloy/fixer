@@ -20,19 +20,19 @@ export default function ContactForm() {
     message: '',
   };
 
-
   return (
-    <div data-testid='contact-form' className='p-4  w-full'>
+    <div data-testid='contact-form' className='w-full p-4'>
       <Formik
         initialValues={initialValues}
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
           actions.setStatus(null);
-          await axios.post('/sendGrid', {
-            body: {
-              emailData: {
-                subject: 'New Message from GigFix',
-                bodyText: `Dear GigFix Admin,
+          await axios
+            .post('/sendGrid', {
+              body: {
+                emailData: {
+                  subject: 'New Message from GigFix',
+                  bodyText: `Dear GigFix Admin,
                 <br /><br />
                 You have received the following contact form message from ${values.name}:
                 <br /><br />
@@ -44,22 +44,26 @@ export default function ContactForm() {
                 <br /><br />
                 Kind regards,
                 GigFix`,
+                },
+                templateID: 'd-2b2e84b23956415ba770e7c36264bef9',
+                emailAddress: process.env.FROM_EMAIL,
               },
-              templateID: 'd-2b2e84b23956415ba770e7c36264bef9',
-              emailAddress: process.env.FROM_EMAIL,
-            },
-          }).then(() => {
-            actions.setStatus("success");
-          }).catch((error) => {
-            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-            actions.setStatus(errorMessage);
-          }).finally(() => {
-            actions.setSubmitting(false);
-          })
+            })
+            .then(() => {
+              actions.setStatus('success');
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
         }}
       >
         {(props) => (
-          <Form className='flex flex-col w-full p-2'>
+          <Form className='flex w-full flex-col p-2'>
             <TextInput
               disabled={props.isSubmitting}
               name={'name'}
@@ -87,7 +91,7 @@ export default function ContactForm() {
                 rows='4'
                 component='textarea'
                 id='msg-text'
-                className=' rounded-md border p-1 text-black shadow-sm '
+                className='rounded-md border p-1 text-black shadow-sm'
                 type='textarea'
                 name='message'
               />

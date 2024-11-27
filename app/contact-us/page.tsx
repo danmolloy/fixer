@@ -3,7 +3,10 @@ import ContactInfo from './info';
 
 export default function ContactPage() {
   return (
-    <div data-testid='contact-page' className=' flex flex-col md:flex-row justify-evenly items-center'>
+    <div
+      data-testid='contact-page'
+      className='flex flex-col items-center justify-evenly md:flex-row'
+    >
       <ContactInfo />
       <ContactForm />
     </div>

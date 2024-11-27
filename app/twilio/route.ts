@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -17,8 +17,7 @@ export async function POST(
 
   if (process.env.TWILIO_ACTIVE === 'false') {
     console.log(`Recieved at Twilio: ${JSON.stringify(req.message)}`);
-    return NextResponse.json({ success: true}, {status: 201});
-
+    return NextResponse.json({ success: true }, { status: 201 });
   }
 
   try {
@@ -31,9 +30,11 @@ export async function POST(
           : req.body.phoneNumber,
     });
 
-    return NextResponse.json({...message, success: true}, {status: 201});
-
-  } catch(e: any) {
-    return NextResponse.json({error: e.message || "An unexpected error occurred", success: false}, {status: 500});
+    return NextResponse.json({ ...message, success: true }, { status: 201 });
+  } catch (e: any) {
+    return NextResponse.json(
+      { error: e.message || 'An unexpected error occurred', success: false },
+      { status: 500 }
+    );
   }
 }

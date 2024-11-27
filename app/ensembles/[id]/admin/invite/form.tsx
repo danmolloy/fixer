@@ -60,16 +60,20 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           actions.setStatus(null);
-          await axios.post('/ensembles/admin/api/invite', values)
-          .then(() => {
-            router.push(`/ensembles/${ensembleId}`);
-            actions.setStatus("success");
-          }).catch((error) => {
-            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-            actions.setStatus(errorMessage);
-          }).finally(() => {
-            actions.setSubmitting(false);
-          })
+          await axios
+            .post('/ensembles/admin/api/invite', values)
+            .then(() => {
+              router.push(`/ensembles/${ensembleId}`);
+              actions.setStatus('success');
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
         }}
       >
         {(props) => (
@@ -82,9 +86,12 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
               id='first-name-input'
               name='firstName'
             />
-            <TextInput               
-            disabled={props.isSubmitting}
- label='Last Name' id='last-name-input' name='lastName' />
+            <TextInput
+              disabled={props.isSubmitting}
+              label='Last Name'
+              id='last-name-input'
+              name='lastName'
+            />
             <TextInput
               disabled={props.isSubmitting}
               label='Email'
@@ -92,7 +99,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
               name='email'
               type='email'
             />
-            <TextInput              
+            <TextInput
               disabled={props.isSubmitting}
               label='Position Title'
               id='position-title-input'
@@ -101,7 +108,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
             <div id='access-radio-group'>Access Type</div>
             <div role='group' aria-labelledby='access-radio-group'>
               <label className='m-1'>
-                <Field              
+                <Field
                   disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
@@ -112,7 +119,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
               </label>
               <label className='m-1'>
                 <Field
-                disabled={props.isSubmitting}
+                  disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
                   name='accessType'

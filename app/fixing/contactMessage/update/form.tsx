@@ -47,11 +47,11 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
     received: Yup.boolean().required(), //
     accepted: Yup.boolean().nullable(),
     playerMessage: Yup.string(),
-    calls: Yup.array().min(1, "at least one call must be offered"),
+    calls: Yup.array().min(1, 'at least one call must be offered'),
     bookingOrAvailability: Yup.string().required(),
     //offerExpiry: Yup.number(),
     //status: Yup.string(),
-    position: Yup.string().required("player position required"),
+    position: Yup.string().required('player position required'),
     strictlyTied: Yup.boolean(),
     urgent: Yup.boolean(),
   });
@@ -101,57 +101,60 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
 
   return (
     <Formik
-      onSubmit={async(values, actions) => {
+      onSubmit={async (values, actions) => {
         //handleSubmit(values);
-        //actions.setSubmitting(false); 
+        //actions.setSubmitting(false);
 
         actions.setStatus(null);
-        actions.setSubmitting(true); 
-        await axios.post('/fixing/contactMessage/api/update', {
-          id: contact.id,
-          data: {
-            received: values.received === 'true' ? true : false,
-            accepted:
-              values.accepted === 'true'
-                ? true
-                : values.accepted === 'false'
-                  ? false
-                  : null,
-            playerMessage: values.playerMessage,
-            position: values.position,
-            strictlyTied: values.strictlyTied,
-            bookingOrAvailability: values.bookingOrAvailability,
-            urgent: values.urgent,
-            calls: {
-              connect: values.calls.map((i) => ({ id: Number(i) })),
-              disconnect: contact.calls
-                .map((i) => String(i.id))
-                .filter((i) => !values.calls.includes(i))
-                .map((i) => ({
-                  id: Number(i),
-                })),
+        actions.setSubmitting(true);
+        await axios
+          .post('/fixing/contactMessage/api/update', {
+            id: contact.id,
+            data: {
+              received: values.received === 'true' ? true : false,
+              accepted:
+                values.accepted === 'true'
+                  ? true
+                  : values.accepted === 'false'
+                    ? false
+                    : null,
+              playerMessage: values.playerMessage,
+              position: values.position,
+              strictlyTied: values.strictlyTied,
+              bookingOrAvailability: values.bookingOrAvailability,
+              urgent: values.urgent,
+              calls: {
+                connect: values.calls.map((i) => ({ id: Number(i) })),
+                disconnect: contact.calls
+                  .map((i) => String(i.id))
+                  .filter((i) => !values.calls.includes(i))
+                  .map((i) => ({
+                    id: Number(i),
+                  })),
+              },
             },
-          },
-        }).then(async (res) => {
-          const emailData = await updateOfferEmail(res.data);
-        await axios.post(`/sendGrid`, {
-          body: {
-            emailData: emailData,
-            templateID: emailData.templateID,
-            emailAddress: emailData.email,
-          },
-        });
-        router.push(`/event/${event.id}`);
-        actions.setStatus("success");
-
-        }).catch((error) => {
-          const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-          actions.setStatus(errorMessage);
-        }).finally(() => {
-          actions.setSubmitting(false);
-        })
+          })
+          .then(async (res) => {
+            const emailData = await updateOfferEmail(res.data);
+            await axios.post(`/sendGrid`, {
+              body: {
+                emailData: emailData,
+                templateID: emailData.templateID,
+                emailAddress: emailData.email,
+              },
+            });
+            router.push(`/event/${event.id}`);
+            actions.setStatus('success');
+          })
+          .catch((error) => {
+            const errorMessage =
+              error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          })
+          .finally(() => {
+            actions.setSubmitting(false);
+          });
       }}
-
       validationSchema={contactSchema}
       initialValues={initialVals}
     >
@@ -164,7 +167,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             )
           </p>
           <Field
-          disabled={props.isSubmitting}
+            disabled={props.isSubmitting}
             className='my-1 rounded border'
             as='select'
             name='bookingOrAvailability'
@@ -180,7 +183,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             {event.calls.map((i) => (
               <label key={i.id} className='my-1 flex flex-row p-1'>
                 <Field
-                disabled={props.isSubmitting}
+                  disabled={props.isSubmitting}
                   checked={props.values.calls.includes(String(i.id))}
                   type='checkbox'
                   name='calls'
@@ -205,7 +208,12 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div className=''>
             <label className='my-2 flex flex-col'>Status</label>
 
-            <Field disabled={props.isSubmitting} className='my-1 rounded border' as='select' name='accepted'>
+            <Field
+              disabled={props.isSubmitting}
+              className='my-1 rounded border'
+              as='select'
+              name='accepted'
+            >
               <option value='true'>Accepted</option>
               <option value='false'>Declined</option>
               <option value={''}>Not responded</option>
@@ -218,7 +226,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div className='my-2'>
             <label>
               <Field
-              disabled={props.isSubmitting}
+                disabled={props.isSubmitting}
                 className='m-1'
                 checked={props.values.strictlyTied}
                 type='checkbox'
@@ -233,7 +241,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div>
             <label>
               <Field
-              disabled={props.isSubmitting}
+                disabled={props.isSubmitting}
                 className='m-1'
                 checked={props.values.urgent}
                 type='checkbox'
@@ -246,13 +254,13 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             </ErrorMessage>
           </div>
           <TextInput
-          disabled={props.isSubmitting}
+            disabled={props.isSubmitting}
             id='player-position-input'
             label='Position'
             name='position'
           />
           <TextInput
-          disabled={props.isSubmitting}
+            disabled={props.isSubmitting}
             id='player-message-input'
             label='Message to Player'
             name='playerMessage'

@@ -24,7 +24,7 @@ export const venueOptions = [
 ];
 
 export type CallInputProps = {
-  disabled: boolean
+  disabled: boolean;
   index: number;
   id: number;
   remove: (arg: number) => void;
@@ -85,7 +85,7 @@ export default function CallInput(props: CallInputProps) {
             End Time
           </label>
           <Field
-          disabled={disabled}
+            disabled={disabled}
             label='End Time'
             className='my-1 w-48 rounded border p-2 shadow-sm'
             id={`calls.${index}.endTime`}
@@ -122,7 +122,7 @@ export default function CallInput(props: CallInputProps) {
         asHtml='input'
       />
       <TextInput
-      disabled={disabled}
+        disabled={disabled}
         optional={true}
         label={`Call Information`}
         className=''

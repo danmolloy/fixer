@@ -129,17 +129,22 @@ export default function CreateEventForm(props: CreateEventFormProps) {
         onSubmit={async (values, actions) => {
           actions.setStatus(null);
           await axios
-              .post((createOrUpdate === 'Update' ? '/event/update/api': 'create/api'), values)
-          .then((res: any) => {
-            actions.setStatus('success');
-            router.push(`/event/${res.data.id}`);
-          }).catch((error) => {
-            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-            actions.setStatus(errorMessage);
-          }).finally(() => {
-            actions.setSubmitting(false);
-          })
-          
+            .post(
+              createOrUpdate === 'Update' ? '/event/update/api' : 'create/api',
+              values
+            )
+            .then((res: any) => {
+              actions.setStatus('success');
+              router.push(`/event/${res.data.id}`);
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
         }}
       >
         {(props) => (
@@ -160,7 +165,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 >
                   Organisation
                   <Field
-                  disabled={props.isSubmitting}
+                    disabled={props.isSubmitting}
                     className='rounded border p-1'
                     data-testid='org-select'
                     as='select'
@@ -231,7 +236,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 >
                   Fixer
                   <Field
-                  disabled={props.isSubmitting}
+                    disabled={props.isSubmitting}
                     className='rounded border p-1'
                     data-testid='org-select'
                     as='select'
@@ -262,10 +267,10 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 </label>
               </div>
 
-              <ConfirmedOrOnHold disabled={props.isSubmitting}/>
+              <ConfirmedOrOnHold disabled={props.isSubmitting} />
             </div>
             <TextInput
-            disabled={props.isSubmitting}
+              disabled={props.isSubmitting}
               asHtml='input'
               label='Event Title'
               name='eventTitle'
@@ -273,7 +278,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               className=''
             />
             <TextInput
-            disabled={props.isSubmitting}
+              disabled={props.isSubmitting}
               asHtml='textarea'
               name='concertProgram'
               id='concert-program'
@@ -290,7 +295,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                       data-testid={`call-${index + 1}-div`}
                     >
                       <CallInput
-                      disabled={props.isSubmitting}
+                        disabled={props.isSubmitting}
                         call={call}
                         setVenue={(venue) =>
                           props.setFieldValue(`calls.${index}.venue`, venue)
@@ -320,7 +325,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               )}
             </FieldArray>
             <TextInput
-            disabled={props.isSubmitting}
+              disabled={props.isSubmitting}
               optional={true}
               asHtml='input'
               label='Dress Code'
@@ -329,7 +334,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               className=''
             />
             <TextInput
-            disabled={props.isSubmitting}
+              disabled={props.isSubmitting}
               optional={true}
               asHtml='input'
               label='Fee'
@@ -338,7 +343,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               id='fee'
             />
             <TextInput
-            disabled={props.isSubmitting}
+              disabled={props.isSubmitting}
               optional={true}
               asHtml='textarea'
               label='Additional Information'
@@ -348,7 +353,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
             />
             {createOrUpdate === 'Update' && (
               <TextInput
-              disabled={props.isSubmitting}
+                disabled={props.isSubmitting}
                 optional={false}
                 asHtml='textarea'
                 label='Update Message to Players'

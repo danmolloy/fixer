@@ -89,24 +89,27 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       <Formik
         initialValues={initialVals}
         validationSchema={validationSchema}
-        onSubmit={async(values, actions) => {
+        onSubmit={async (values, actions) => {
           //handleSubmit(values);
           //actions.setSubmitting(false);
           //cancelForm();
           actions.setStatus(null);
 
           await axios
-          .post('/fixing/contactMessage/api/create', values)
-          .then(() => {
-          router.refresh();
-          actions.setStatus("success");
-        }).catch((error) => {
-          const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-          actions.setStatus(errorMessage);
-        }).finally(() => {
-          actions.setSubmitting(false);
-          cancelForm();
-        })
+            .post('/fixing/contactMessage/api/create', values)
+            .then(() => {
+              router.refresh();
+              actions.setStatus('success');
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+              cancelForm();
+            });
         }}
       >
         {(props) => (
@@ -181,8 +184,10 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
                 Cancel
               </button>
               <SubmitButton
-                disabled={props.values.contacts.length == 0 || props.isSubmitting}
-                />
+                disabled={
+                  props.values.contacts.length == 0 || props.isSubmitting
+                }
+              />
             </div>
             <StatusMessage status={props.status} />
             <div className=''>

@@ -37,39 +37,56 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           actions.setStatus(null);
-          await axios.post('/ensembles/admin/api/update', values)
-          .then(() => {
-            router.push(`/ensembles/${admin.ensembleId}`);
-            actions.setStatus("success");
-          }).catch((error) => {
-            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-            actions.setStatus(errorMessage);
-          }).finally(() => {
-            actions.setSubmitting(false);
-          })
+          await axios
+            .post('/ensembles/admin/api/update', values)
+            .then(() => {
+              router.push(`/ensembles/${admin.ensembleId}`);
+              actions.setStatus('success');
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
         }}
       >
         {(props) => (
           <Form>
             <TextInput
-            disabled={props.isSubmitting}
+              disabled={props.isSubmitting}
               label='Position Title'
               id='position-title-input'
               name='positionTitle'
             />
             <div id='access-radio-group'>Access Type</div>
-            <div className='flex flex-col' role='group' aria-labelledby='access-radio-group'>
+            <div
+              className='flex flex-col'
+              role='group'
+              aria-labelledby='access-radio-group'
+            >
               <label>
-                <Field disabled={props.isSubmitting} type='radio' name='accessType' value='restricted' />
+                <Field
+                  disabled={props.isSubmitting}
+                  type='radio'
+                  name='accessType'
+                  value='restricted'
+                />
                 Restricted
               </label>
               <label>
-                <Field disabled={props.isSubmitting} type='radio' name='accessType' value='full' />
+                <Field
+                  disabled={props.isSubmitting}
+                  type='radio'
+                  name='accessType'
+                  value='full'
+                />
                 Full
               </label>
             </div>
-            <SubmitButton 
-              disabled={props.isSubmitting}/>
+            <SubmitButton disabled={props.isSubmitting} />
             <ValidationError errors={Object.values(props.errors)} />
             <StatusMessage status={props.status} />
           </Form>

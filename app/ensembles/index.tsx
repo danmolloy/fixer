@@ -48,17 +48,18 @@ export default function EnsembleIndex(props: EnsembleIndexProps) {
       <div className='flex flex-col justify-between lg:flex-row'>
         <div className='flex flex-col items-start'>
           <h1 className='m-4 text-3xl font-semibold'>{ensemble.name}</h1>
-          <div className='flex flex-row items-center justify-between w-full'>
-          {!ensemble.stripeSubscriptionId && (
-            <button
-            className='rounded border px-2 h-8 text-sm'
-            onClick={() => handleSubscribe()}
-            >
-              Subscribe
-            </button>
-          )}
-        <EnsembleDashboard ensemble={ensemble} />
-        </div></div>
+          <div className='flex w-full flex-row items-center justify-between'>
+            {!ensemble.stripeSubscriptionId && (
+              <button
+                className='h-8 rounded border px-2 text-sm'
+                onClick={() => handleSubscribe()}
+              >
+                Subscribe
+              </button>
+            )}
+            <EnsembleDashboard ensemble={ensemble} />
+          </div>
+        </div>
       </div>
       {addContact && (
         <CreateContactForm

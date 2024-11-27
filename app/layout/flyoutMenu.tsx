@@ -83,7 +83,7 @@ export default function FlyOutMenu(props: ExternalMenuProps) {
       ) : (
         <Link
           data-testid='sign-in-btn'
-          href="/signin"
+          href='/signin'
           className='flex w-full flex-row items-center px-2 py-1 hover:bg-gray-50 hover:text-blue-600'
         >
           <div>

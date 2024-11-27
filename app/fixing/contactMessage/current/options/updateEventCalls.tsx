@@ -69,26 +69,30 @@ export default function UpdateContactEventCalls(
 
         actions.setStatus(null);
         await axios
-        .post('/fixing/contactMessage/api/update/eventCalls', {
-          contactMessageId: values.contactMessageId,
-          calls: {
-            connect: values.calls.map((i) => ({ id: Number(i) })),
-            disconnect: contact.calls
-              .map((i) => String(i.id))
-              .filter((i) => !values.calls.includes(i))
-              .map((i) => ({
-                id: Number(i),
-              })),
-          },
-        }).then(() => {
-          router.refresh();
-          actions.setStatus("success");
-        }).catch((error) => {
-          const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-          actions.setStatus(errorMessage);
-        }).finally(() => {
-          actions.setSubmitting(false);
-        })
+          .post('/fixing/contactMessage/api/update/eventCalls', {
+            contactMessageId: values.contactMessageId,
+            calls: {
+              connect: values.calls.map((i) => ({ id: Number(i) })),
+              disconnect: contact.calls
+                .map((i) => String(i.id))
+                .filter((i) => !values.calls.includes(i))
+                .map((i) => ({
+                  id: Number(i),
+                })),
+            },
+          })
+          .then(() => {
+            router.refresh();
+            actions.setStatus('success');
+          })
+          .catch((error) => {
+            const errorMessage =
+              error.response.data.error || 'An unexpected error occurred.';
+            actions.setStatus(errorMessage);
+          })
+          .finally(() => {
+            actions.setSubmitting(false);
+          });
       }}
     >
       {(props) => (
@@ -131,9 +135,9 @@ export default function UpdateContactEventCalls(
           )}
           <SubmitButton
             disabled={
-              (JSON.stringify(initialVals.calls.map((i) => String(i))) ===
-              JSON.stringify(props.values.calls.map((i) => String(i))))
-            || props.isSubmitting
+              JSON.stringify(initialVals.calls.map((i) => String(i))) ===
+                JSON.stringify(props.values.calls.map((i) => String(i))) ||
+              props.isSubmitting
             }
           />
         </Form>

@@ -48,19 +48,26 @@ export default function ResponseForm(props: ResponseFormProps) {
         : contactMessage.calls.map((i) => String(i.id)),
   };
 
-  const responseSchema = bookingOrAvailability === "Availability" 
-  ? Yup.object().shape({
-    accepted: Yup.string().required(''),
-    availableFor: Yup.array().of(Yup.string()).when('accepted', {
-      is: "true", 
-      then: (schema) => schema.min(1, "If indicating you are available, you must select at least one call."),
-      otherwise: (schema) => schema.min(0),
-    }),
-  })
-  : Yup.object().shape({
-    accepted: Yup.string().required(''),
-    availableFor: Yup.array().of(Yup.string()),
-  });
+  const responseSchema =
+    bookingOrAvailability === 'Availability'
+      ? Yup.object().shape({
+          accepted: Yup.string().required(''),
+          availableFor: Yup.array()
+            .of(Yup.string())
+            .when('accepted', {
+              is: 'true',
+              then: (schema) =>
+                schema.min(
+                  1,
+                  'If indicating you are available, you must select at least one call.'
+                ),
+              otherwise: (schema) => schema.min(0),
+            }),
+        })
+      : Yup.object().shape({
+          accepted: Yup.string().required(''),
+          availableFor: Yup.array().of(Yup.string()),
+        });
 
   const handleSubmit = async (values: {
     accepted: string;
@@ -99,39 +106,36 @@ export default function ResponseForm(props: ResponseFormProps) {
       confMsg = confirm('Are you sure you are NOT available for this work?');
     }
     if (confMsg) {
+      return await axios
+        .post(`/fixing/contactMessage/api/update`, {
+          id: contactMessage.id,
+          data: {
+            accepted: values.accepted === 'true',
+            acceptedDate: new Date(),
+            availableFor:
+              values.accepted === 'true'
+                ? values.availableFor!.map((i) => Number(i))
+                : [],
+          },
+        })
+        .then(async () => {
+          const emailData = await responseConfEmail({
+            dateRange: getDateRange(contactMessage.calls),
+            firstName: contactMessage.contact.firstName,
+            email: contactMessage.contact.email!,
+            ensemble: contactMessage.eventSection.event.ensembleName,
+            accepted: values.accepted ? true : false,
+            bookingOrAvailability: contactMessage.bookingOrAvailability,
+          });
 
-      return  await axios
-          .post(`/fixing/contactMessage/api/update`, {
-            id: contactMessage.id,
-            data: {
-              accepted: values.accepted === 'true',
-              acceptedDate: new Date(),
-              availableFor:
-                values.accepted === 'true'
-                  ? values.availableFor!.map((i) => Number(i))
-                  : [],
+          await axios.post(`/sendGrid`, {
+            body: {
+              emailData: emailData,
+              templateID: emailData.templateID,
+              emailAddress: emailData.email,
             },
-          })
-          .then(async () => {
-            const emailData = await responseConfEmail({
-              dateRange: getDateRange(contactMessage.calls),
-              firstName: contactMessage.contact.firstName,
-              email: contactMessage.contact.email!,
-              ensemble: contactMessage.eventSection.event.ensembleName,
-              accepted: values.accepted ? true : false,
-              bookingOrAvailability: contactMessage.bookingOrAvailability,
-            });
-
-            await axios.post(`/sendGrid`, {
-              body: {
-                emailData: emailData,
-                templateID: emailData.templateID,
-                emailAddress: emailData.email,
-              },
-            });
-          })
-          
-      
+          });
+        });
     }
   };
 
@@ -146,18 +150,20 @@ export default function ResponseForm(props: ResponseFormProps) {
         onSubmit={(values, actions) => {
           actions.setSubmitting(true);
           handleSubmit(values)
-          .then(() => {
-            router.refresh();
-            actions.setStatus("success");
-          }).catch((error) => {
-            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-            actions.setStatus(errorMessage);
-          }).finally(() => {
-            actions.setSubmitting(false);
-          })
+            .then(() => {
+              router.refresh();
+              actions.setStatus('success');
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
 
           actions.setStatus(null);
-
         }}
       >
         {(props) => (
@@ -193,7 +199,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                 className='flex flex-row items-center'
               >
                 <Field
-                disabled={props.isSubmitting}
+                  disabled={props.isSubmitting}
                   id='true-radio'
                   data-testid='true-radio'
                   className='m-2'
@@ -224,7 +230,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                       className='m-1 flex flex-row items-center text-xs'
                     >
                       <Field
-                      disabled={props.isSubmitting}
+                        disabled={props.isSubmitting}
                         checked={
                           props.values.availableFor.includes(String(i.id))
                             ? true

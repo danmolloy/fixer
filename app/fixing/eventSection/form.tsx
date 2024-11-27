@@ -53,16 +53,12 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
 
   const handleSubmit = async (vals) => {
     if (eventSectionId !== undefined) {
-      return await axios
-        .post('/fixing/eventSection/api/update', {
-          ...vals,
-          eventSectionId: eventSectionId,
-        })
-        
+      return await axios.post('/fixing/eventSection/api/update', {
+        ...vals,
+        eventSectionId: eventSectionId,
+      });
     } else {
-      return await axios
-        .post('/fixing/eventSection/api/create', vals)
-        
+      return await axios.post('/fixing/eventSection/api/create', vals);
     }
   };
 
@@ -86,16 +82,18 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
           actions.setStatus(null);
 
           await handleSubmit(values)
-          .then(() => {
-            router.refresh();
-            setCreateSection(false);
-          }).catch((error) => {
-            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-            actions.setStatus(errorMessage);
-          }).finally(() => {
-            actions.setSubmitting(false);
-          })
-          
+            .then(() => {
+              router.refresh();
+              setCreateSection(false);
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
         }}
         validationSchema={formSchema}
       >
@@ -109,7 +107,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               <div className='flex flex-col'>
                 <label htmlFor='ensembleSectionId'>Section</label>
                 <Field
-                disabled={props.isSubmitting}
+                  disabled={props.isSubmitting}
                   className='my-1 w-60 rounded border p-1 shadow-sm'
                   as='select'
                   name='ensembleSectionId'
@@ -142,7 +140,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               </div>
             )}
             <TextInput
-            disabled={props.isSubmitting}
+              disabled={props.isSubmitting}
               className='w-60'
               type='number'
               name='numToBook'
@@ -157,7 +155,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               <label>Fixing Status</label>
               <label>
                 <Field
-                disabled={props.isSubmitting}
+                  disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
                   name='bookingStatus'
@@ -167,7 +165,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               </label>
               <label>
                 <Field
-                disabled={props.isSubmitting}
+                  disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
                   name='bookingStatus'
@@ -176,10 +174,10 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 Inactive
               </label>
             </div>
-            <div className='my-4 flex flex-row items-center '>
+            <div className='my-4 flex flex-row items-center'>
               <button
                 disabled={props.isSubmitting}
-                className={`border text-sm rounded px-2 py-1 h-8 hover:bg-slate-50 disabled:opacity-40`}
+                className={`h-8 rounded border px-2 py-1 text-sm hover:bg-slate-50 disabled:opacity-40`}
                 onClick={(e) => {
                   e.preventDefault();
                   setCreateSection(false);
@@ -189,8 +187,8 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               </button>
               <SubmitButton disabled={props.isSubmitting} />
             </div>
-              <ValidationError errors={Object.values(props.errors)} />
-              <StatusMessage status={props.status} />
+            <ValidationError errors={Object.values(props.errors)} />
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

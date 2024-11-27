@@ -60,8 +60,6 @@ export default function CreateContactForm(props: CreateContactFormProps) {
     category: Yup.string().required('category required'),
   });
 
-  
-
   return (
     <div
       data-testid='create-contact-form'
@@ -92,46 +90,81 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                 sections.find((i) => i.name === values.section)?.id ||
                 undefined,
             };
-            
-          const postRequest = async() =>{ 
-            contact !== undefined
-            ? await axios
-                .post('/contacts/api/update', {
-                  updatedData: { 
-                    ...values, 
-                    section: section },
-                  contactId: contact.id,
-                })
-            : await axios.post('/contacts/api/create', { 
-                ...values, 
-                section: section 
+
+            const postRequest = async () => {
+              contact !== undefined
+                ? await axios.post('/contacts/api/update', {
+                    updatedData: {
+                      ...values,
+                      section: section,
+                    },
+                    contactId: contact.id,
+                  })
+                : await axios.post('/contacts/api/create', {
+                    ...values,
+                    section: section,
+                  });
+            };
+            postRequest()
+              .then(() => {
+                router.refresh();
+                actions.setStatus('success');
+              })
+              .catch((error) => {
+                const errorMessage =
+                  error.response.data.error || 'An unexpected error occurred.';
+                actions.setStatus(errorMessage);
+              })
+              .finally(() => {
+                actions.setSubmitting(false);
               });
-            }
-          postRequest()
-          .then(() => {
-            router.refresh();
-            actions.setStatus("success");
-          }).catch((error) => {
-              const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-              actions.setStatus(errorMessage);
-            }).finally(() => {
-              actions.setSubmitting(false);
-            });
           }}
         >
           {(props) => (
             <form className='flex flex-col' onSubmit={props.handleSubmit}>
-              <TextInput disabled={props.isSubmitting} label='First Name' id='first-name' name='firstName' />
-              <TextInput disabled={props.isSubmitting} label='Last Name' id='last-name' name='lastName' />
-              <TextInput disabled={props.isSubmitting} label='Email' id='email' name='email' type='email' />
-              <TextInput disabled={props.isSubmitting} label='Phone' id='phone' name='phone' type='phone' />
-              <TextInput disabled={props.isSubmitting} label='Role' id='role' name='role' />
-              <TextInput disabled={props.isSubmitting} label='Category' id='category' name='category' />
+              <TextInput
+                disabled={props.isSubmitting}
+                label='First Name'
+                id='first-name'
+                name='firstName'
+              />
+              <TextInput
+                disabled={props.isSubmitting}
+                label='Last Name'
+                id='last-name'
+                name='lastName'
+              />
+              <TextInput
+                disabled={props.isSubmitting}
+                label='Email'
+                id='email'
+                name='email'
+                type='email'
+              />
+              <TextInput
+                disabled={props.isSubmitting}
+                label='Phone'
+                id='phone'
+                name='phone'
+                type='phone'
+              />
+              <TextInput
+                disabled={props.isSubmitting}
+                label='Role'
+                id='role'
+                name='role'
+              />
+              <TextInput
+                disabled={props.isSubmitting}
+                label='Category'
+                id='category'
+                name='category'
+              />
 
               <div className='flex flex-col'>
                 <label htmlFor='section-select'>Section Select</label>
                 <Field
-                disabled={props.isSubmitting}
+                  disabled={props.isSubmitting}
                   id='section-select'
                   as='select'
                   name='section'

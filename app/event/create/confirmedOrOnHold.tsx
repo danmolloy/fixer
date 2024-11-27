@@ -1,9 +1,7 @@
 import { ErrorMessage, Field } from 'formik';
 import React from 'react';
 
-export default function ConfirmedOrOnHold(props: {
-  disabled: boolean
-}) {
+export default function ConfirmedOrOnHold(props: { disabled: boolean }) {
   const { disabled } = props;
   return (
     <div data-testid='status-div' className='w-1/2 py-4 sm:self-start'>
@@ -19,7 +17,7 @@ export default function ConfirmedOrOnHold(props: {
       >
         <label className='py-1'>
           <Field
-          disabled={disabled}
+            disabled={disabled}
             className='mr-2'
             type='radio'
             id='confirmedOrOnHold'
@@ -31,7 +29,7 @@ export default function ConfirmedOrOnHold(props: {
         </label>
         <label className='py-1'>
           <Field
-          disabled={disabled}
+            disabled={disabled}
             className='mr-2'
             type='radio'
             id='confirmedOrOnHold'

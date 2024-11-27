@@ -35,8 +35,6 @@ export async function POST(request: Request) {
     //createdAt: new Date()
   });
   const callsArr: Call[] = calls;
-  
-  
 
   try {
     const data = await updateEventandCalls({
@@ -44,8 +42,11 @@ export async function POST(request: Request) {
       callsArr,
     });
     await updateEmailPlayers(data, updateMessage);
-    return NextResponse.json({...data.event, success: true}, {status: 201});
-  } catch(e: any) {
-    return NextResponse.json({error: e.message || "An unexpected error occurred", success: false}, {status: 500});
+    return NextResponse.json({ ...data.event, success: true }, { status: 201 });
+  } catch (e: any) {
+    return NextResponse.json(
+      { error: e.message || 'An unexpected error occurred', success: false },
+      { status: 500 }
+    );
   }
 }

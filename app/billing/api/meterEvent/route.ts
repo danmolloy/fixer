@@ -8,7 +8,10 @@ export async function POST(req: NextRequest) {
   try {
     const meterEvent = addMeterEvent(subscriptionID);
     return NextResponse.json({ meterEvent: meterEvent });
-  } catch(e: any) {
-    return NextResponse.json({error: e.message || "An unexpected error occurred", success: false}, {status: 500});
+  } catch (e: any) {
+    return NextResponse.json(
+      { error: e.message || 'An unexpected error occurred', success: false },
+      { status: 500 }
+    );
   }
 }

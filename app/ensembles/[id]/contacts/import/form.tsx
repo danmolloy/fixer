@@ -11,9 +11,8 @@ export type ImportFormProps = {
   ensemble: Ensemble & {
     sections: EnsembleSection[];
   };
-  environment: string|undefined;
+  environment: string | undefined;
 };
-
 
 export default function ImportForm(props: ImportFormProps) {
   const [data, setData] = useState<null | any[]>(null);
@@ -48,29 +47,30 @@ export default function ImportForm(props: ImportFormProps) {
         role: '',
         category: '',
       },
-    ])
-  }
+    ]);
+  };
 
   const handleSeeding = () => {
-    const mockContacts = new Array(100)
-      .fill(null)
-      .map(i => ({
-        'Section': instrumentSections[Math.floor(Math.random() * instrumentSections.length)].name,
-        'First Name': faker.person.firstName(),
-        'Last Name': faker.person.lastName(),
-        'Category': Math.random() > 0.5 ? 'Extra' : 'Member',
-        'Email': faker.internet.email(),
-        'Phone Number': faker.phone.number({ style: 'international' }),
-        'Role': Math.random() > 0.3 ? 'Tutti' : 'Principal',
-      }));
-    setData(mockContacts)
-  }
+    const mockContacts = new Array(100).fill(null).map((i) => ({
+      Section:
+        instrumentSections[
+          Math.floor(Math.random() * instrumentSections.length)
+        ].name,
+      'First Name': faker.person.firstName(),
+      'Last Name': faker.person.lastName(),
+      Category: Math.random() > 0.5 ? 'Extra' : 'Member',
+      Email: faker.internet.email(),
+      'Phone Number': faker.phone.number({ style: 'international' }),
+      Role: Math.random() > 0.3 ? 'Tutti' : 'Principal',
+    }));
+    setData(mockContacts);
+  };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
 
     Papa.parse(file, {
-      header: true, 
+      header: true,
       complete: (results: any) => {
         alert(JSON.stringify(results.data));
         const currentSections = ensemble.sections.map((i) =>
@@ -89,18 +89,19 @@ export default function ImportForm(props: ImportFormProps) {
             results.data[i].sectionId = correspondingSection.id;
           }
         }
-        setData(results.data); 
+        setData(results.data);
       },
     });
   };
 
   const handleBackBtn = () => {
-    const conf = confirm("Are you sure you want to go back? Any unsaved contacts will be lost.")
+    const conf = confirm(
+      'Are you sure you want to go back? Any unsaved contacts will be lost.'
+    );
     if (conf) {
-      setData(null)
-    };
-    
-  }
+      setData(null);
+    }
+  };
 
   return (
     <div
@@ -111,51 +112,55 @@ export default function ImportForm(props: ImportFormProps) {
       {data && <button onClick={() => handleBackBtn()}>Back</button>}
       {data === null && (
         <div>
-      <div className='flex flex-col items-center justify-center'>
-        <p className='text-sm text-gray-700'>
-        Add musicians to your address book by either entering their details manually or importing a spreadsheet. <br /> If importing a spreadsheet, please follow the format of the downloadable template. 
-        </p>
-        <button
-            className='m-4 text-sm rounded border  py-1 px-2  hover:bg-slate-50'
-            onClick={handleDownload}
-          >
-            Download Template
-          </button>
-      </div>
-      
-        <div className='flex flex-col items-center justify-evenly w-screen'>
-          
-          
-          <div className='text-sm flex flex-col items-center'>
-{/*             <h3 className='text-sm '>Import Spreadsheet</h3>
- */}            <input
-              data-testid='spreadsheet-input'
-              className="my-4 items-center text-gray-400 file:px-2 file:py-1 file:bg-white file:rounded file:border file:hover:bg-slate-50 file:hover:cursor-pointer file:shadow-none"
-              type='file'
-              onChange={handleFileUpload}
-            />
+          <div className='flex flex-col items-center justify-center'>
+            <p className='text-sm text-gray-700'>
+              Add musicians to your address book by either entering their
+              details manually or importing a spreadsheet. <br /> If importing a
+              spreadsheet, please follow the format of the downloadable
+              template.
+            </p>
+            <button
+              className='m-4 rounded border px-2 py-1 text-sm hover:bg-slate-50'
+              onClick={handleDownload}
+            >
+              Download Template
+            </button>
           </div>
-          <div className='w-1/2 my-4 border-b border-slate-400' />
-          <button
-            className='rounded border px-2 py-1 text-sm hover:bg-slate-50'
-            onClick={() => handleManually()}
-          >
-            <p>Enter manually</p>
-          </button>
-          {environment === "preview" && <div className='w-1/2 flex flex-col items-center'>
-           <div className='w-full self-center  my-4 border-b border-slate-400' />
-          <button
-            className='rounded border px-2 py-1 text-sm hover:bg-slate-50'
-            onClick={() => handleSeeding()}
-          >
-            <p>Seed Database</p>
-          </button>
-          </div>}
+
+          <div className='flex w-screen flex-col items-center justify-evenly'>
+            <div className='flex flex-col items-center text-sm'>
+              {/*             <h3 className='text-sm '>Import Spreadsheet</h3>
+               */}{' '}
+              <input
+                data-testid='spreadsheet-input'
+                className='my-4 items-center text-gray-400 file:rounded file:border file:bg-white file:px-2 file:py-1 file:shadow-none file:hover:cursor-pointer file:hover:bg-slate-50'
+                type='file'
+                onChange={handleFileUpload}
+              />
+            </div>
+            <div className='my-4 w-1/2 border-b border-slate-400' />
+            <button
+              className='rounded border px-2 py-1 text-sm hover:bg-slate-50'
+              onClick={() => handleManually()}
+            >
+              <p>Enter manually</p>
+            </button>
+            {environment === 'preview' && (
+              <div className='flex w-1/2 flex-col items-center'>
+                <div className='my-4 w-full self-center border-b border-slate-400' />
+                <button
+                  className='rounded border px-2 py-1 text-sm hover:bg-slate-50'
+                  onClick={() => handleSeeding()}
+                >
+                  <p>Seed Database</p>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
-      
-      <div className='w-screen m-1 p-1'>
+
+      <div className='m-1 w-screen p-1'>
         {data && (
           <ContactInput
             ensembleId={ensemble.id}

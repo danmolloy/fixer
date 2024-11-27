@@ -54,32 +54,52 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
       <Formik
         validationSchema={formSchema}
         initialValues={initialVals}
-        onSubmit={async (vals,actions) => {
+        onSubmit={async (vals, actions) => {
           actions.setStatus(null);
-          await axios.post('update/api', vals)
-          .then(() => {
-            router.replace("/");
-            actions.setStatus("success");
-          }).catch((error) => {
-            const errorMessage = error..data.error || 'An unexpected error occurred.';
-            actions.setStatus(errorMessage);
-          }).finally(() => {
-            actions.setSubmitting(false);
-          })
+          await axios
+            .post('update/api', vals)
+            .then(() => {
+              router.replace('/');
+              actions.setStatus('success');
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
         }}
       >
         {(props) => (
           <Form>
-            <TextInput disabled={props.isSubmitting} name='firstName' id='firstName' label='First Name' />
-            <TextInput disabled={props.isSubmitting} name='lastName' id='lastName' label='Last Name' />
             <TextInput
-            disabled={props.isSubmitting}
+              disabled={props.isSubmitting}
+              name='firstName'
+              id='firstName'
+              label='First Name'
+            />
+            <TextInput
+              disabled={props.isSubmitting}
+              name='lastName'
+              id='lastName'
+              label='Last Name'
+            />
+            <TextInput
+              disabled={props.isSubmitting}
               name='mobileNumber'
               id='mobileNumber'
               label='Mobile Number'
               type='tel'
             />
-            <TextInput disabled={props.isSubmitting} name='email' id='email' label='Email' type='email' />
+            <TextInput
+              disabled={props.isSubmitting}
+              name='email'
+              id='email'
+              label='Email'
+              type='email'
+            />
             <SubmitButton disabled={props.isSubmitting} />
             <StatusMessage status={props.status} />
           </Form>

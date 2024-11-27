@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import TextInput from '../../forms/textInput';
 import axios from 'axios';
 import { getBillingRoute } from '../../billing/api/manage/lib';
-import { FaRegQuestionCircle } from "react-icons/fa";
+import { FaRegQuestionCircle } from 'react-icons/fa';
 import ValidationError from '../../forms/validationError';
 import SubmitButton from '../../forms/submitBtn';
 import StatusMessage from '../../forms/statusMessage';
@@ -34,17 +34,21 @@ export default function CreateEnsembleForm(props: { userId: string }) {
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
           actions.setStatus(null);
-          await axios.post('create/api', values).then(async (res) => {
-            const checkout = await getBillingRoute(await res.data.id);
-            window.location.href = checkout.data.url;
-            actions.setStatus("success");
-          }).catch((error) => {
-            const errorMessage = error.response.data.error || 'An unexpected error occurred.';
-            actions.setStatus(errorMessage);
-          }).finally(() => {
-            actions.setSubmitting(false);
-          })
-          
+          await axios
+            .post('create/api', values)
+            .then(async (res) => {
+              const checkout = await getBillingRoute(await res.data.id);
+              window.location.href = checkout.data.url;
+              actions.setStatus('success');
+            })
+            .catch((error) => {
+              const errorMessage =
+                error.response.data.error || 'An unexpected error occurred.';
+              actions.setStatus(errorMessage);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
         }}
       >
         {(props) => (
@@ -57,15 +61,18 @@ export default function CreateEnsembleForm(props: { userId: string }) {
             />
             <div className='my-4'>
               <div className='-mb-4 flex flex-row items-center'>
-              <label htmlFor='ensembleNames'>Ensemble Names</label>
-              <button
-              className=' text-sm ml-2 hover:cursor-pointer  w-4 h-4 z-10'  
-                onClick={() => alert(
-                  "Please list all of your ensemble names. It may be the same as your organisation name.")}
-                  >
-                    <FaRegQuestionCircle />
+                <label htmlFor='ensembleNames'>Ensemble Names</label>
+                <button
+                  className='z-10 ml-2 h-4 w-4 text-sm hover:cursor-pointer'
+                  onClick={() =>
+                    alert(
+                      'Please list all of your ensemble names. It may be the same as your organisation name.'
+                    )
+                  }
+                >
+                  <FaRegQuestionCircle />
                 </button>
-                </div>
+              </div>
               <FieldArray
                 name='ensembleNames'
                 render={(arrayHelpers) => (
@@ -73,13 +80,13 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                     {props.values.ensembleNames.map((j, index) => (
                       <div key={index}>
                         <TextInput
-                        disabled={props.isSubmitting}
+                          disabled={props.isSubmitting}
                           name={`ensembleNames[${index}]`}
                           id={`ensembleNames[${index}]`}
                           label=''
                         />
                         <button
-                        disabled={props.isSubmitting}
+                          disabled={props.isSubmitting}
                           className='rounded border p-1 text-sm'
                           onClick={(e) => {
                             e.preventDefault();
@@ -92,7 +99,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                       </div>
                     ))}
                     <button
-                    disabled={props.isSubmitting}
+                      disabled={props.isSubmitting}
                       className='mt-4 w-24 rounded border p-1 text-sm'
                       onClick={(e) => {
                         e.preventDefault();
@@ -104,7 +111,6 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                   </div>
                 )}
               />
-              
             </div>
             <SubmitButton disabled={props.isSubmitting} />
             <ValidationError errors={Object.values(props.errors).flat()} />

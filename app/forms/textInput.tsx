@@ -15,8 +15,18 @@ export interface TextInputProps {
 }
 
 export default function TextInput(props: TextInputProps) {
-  const { name, id, className, label, asHtml, type, min, max, optional, disabled } =
-    props;
+  const {
+    name,
+    id,
+    className,
+    label,
+    asHtml,
+    type,
+    min,
+    max,
+    optional,
+    disabled,
+  } = props;
 
   return (
     <div className='flex w-full flex-col py-4' data-testid={`${id}-div`}>
