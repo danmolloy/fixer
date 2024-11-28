@@ -1,5 +1,5 @@
 'use client';
-import { ErrorMessage, FieldArray, Form, Formik } from 'formik';
+import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../forms/textInput';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import { FaRegQuestionCircle } from 'react-icons/fa';
 import ValidationError from '../../forms/validationError';
 import SubmitButton from '../../forms/submitBtn';
 import StatusMessage from '../../forms/statusMessage';
+import { TiTimes } from 'react-icons/ti';
 
 export default function CreateEnsembleForm(props: { userId: string }) {
   const { userId } = props;
@@ -37,7 +38,8 @@ export default function CreateEnsembleForm(props: { userId: string }) {
           await axios
             .post('create/api', values)
             .then(async (res) => {
-              const checkout = await getBillingRoute(await res.data.id);
+              alert(JSON.stringify(res));
+              const checkout = await getBillingRoute(await res.data);
               window.location.href = checkout.data.url;
               actions.setStatus('success');
             })
@@ -60,7 +62,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
               label='Organisation Name'
             />
             <div className='my-4'>
-              <div className='-mb-4 flex flex-row items-center'>
+              <div className=' flex flex-row items-center'>
                 <label htmlFor='ensembleNames'>Ensemble Names</label>
                 <button
                   className='z-10 ml-2 h-4 w-4 text-sm hover:cursor-pointer'
@@ -78,24 +80,37 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                 render={(arrayHelpers) => (
                   <div className='flex flex-col'>
                     {props.values.ensembleNames.map((j, index) => (
-                      <div key={index}>
-                        <TextInput
+                      <div key={index} className='flex flex-col '>
+                        <div className='flex flex-row '>
+                        <Field
                           disabled={props.isSubmitting}
                           name={`ensembleNames[${index}]`}
                           id={`ensembleNames[${index}]`}
-                          label=''
+                          className="my-1 h-8 w-80 max-w-[60vw] rounded border px-1 shadow-sm"
                         />
                         <button
                           disabled={props.isSubmitting}
-                          className='rounded border p-1 text-sm'
+                          className='rounded-full border hover:bg-slate-50 p-2 text-sm m-1 disabled:opacity-40'
                           onClick={(e) => {
                             e.preventDefault();
                             props.values.ensembleNames.length > 1 &&
                               arrayHelpers.remove(index);
                           }}
                         >
-                          Remove
+                          <TiTimes  />
                         </button>
+                        </div>
+                        <ErrorMessage name={`ensembleNames[${index}]`}>
+        {(msg) => (
+          <div
+            className='p-1 text-sm text-red-600'
+            data-testid={`${`ensembleNames[${index}]`}-error`}
+          >
+            {msg}
+          </div>
+        )}
+      </ErrorMessage>
+                        
                       </div>
                     ))}
                     <button
