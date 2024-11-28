@@ -20,6 +20,7 @@ import FixingIndex from '../../fixing';
 import Link from 'next/link';
 import { TbSend } from 'react-icons/tb';
 import FullRunIndex from './fullRun';
+import EventViewSelect from './viewSelect';
 
 export type EventInfoTableProps = {
   event: Event & {
@@ -47,7 +48,7 @@ export type EventInfoTableProps = {
 export default function EventInfoTable(props: EventInfoTableProps) {
   const { event, contacts, ensemble, sections } = props;
   const [selectedView, setSelectedView] = useState<
-    'fixing' | 'playerList' | 'fullRun'
+    'details'|'fixing' | 'playerList' | 'fullRun'
   >('fixing');
   const eventRef = useRef(null);
 
@@ -67,6 +68,12 @@ export default function EventInfoTable(props: EventInfoTableProps) {
 
   return (
     <div data-testid='event-info-table' className='flex w-full flex-col'>
+      <EventViewSelect 
+        selectedView={selectedView}
+        setSelectedView={(arg) => setSelectedView(arg)}
+        />
+      {selectedView === 'details' ?
+      <div>
       <EventMenu
         getRunningSheet={() => getRunningSheet()}
         event={event}
@@ -76,7 +83,7 @@ export default function EventInfoTable(props: EventInfoTableProps) {
         <EventHeader eventTitle={event.eventTitle} />
         <EventInfo event={event} calls={event.calls} ensemble={ensemble} />
       </table>
-      <div className='flex flex-row justify-between'>
+      {/* <div className='flex flex-row justify-between'>
         <select
           className='m-2 self-center border'
           value={selectedView}
@@ -86,15 +93,9 @@ export default function EventInfoTable(props: EventInfoTableProps) {
           <option value='fixing'>Fixing</option>
           <option value='fullRun'>Full Run</option>
         </select>
-        <Link
-          className='m-2 flex flex-row items-center justify-center rounded border p-1 text-sm shadow-sm hover:bg-slate-50'
-          href={`/event/${event.id}/messages`}
-        >
-          <TbSend />
-          <p className='ml-1'>Sent messages</p>
-        </Link>
+        </div> */}
       </div>
-      {selectedView === 'playerList' ? (
+      :selectedView === 'playerList' ? (
         <OrchestraList sections={sections} />
       ) : selectedView === 'fullRun' ? (
         <FullRunIndex sections={sections} calls={event.calls} />

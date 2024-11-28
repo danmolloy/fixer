@@ -14,6 +14,7 @@ import {
 } from '@prisma/client';
 import { unparse } from 'papaparse';
 import { useRef } from 'react';
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 const url = `${process.env.URL}`;
 
@@ -117,7 +118,7 @@ export default function EventMenu(props: EventMenuProps) {
   };
 
   return (
-    <div data-testid='event-menu' className='m-2 self-end'>
+    <div data-testid='event-menu' className='m-2 flex justify-end '>
       <button
         onFocus={() => setShowMenu(true)}
         onClick={() => setShowMenu(true)}
@@ -125,7 +126,7 @@ export default function EventMenu(props: EventMenuProps) {
         className='rounded border p-1 text-center text-black hover:bg-gray-50'
         data-testid='options-btn'
       >
-        Options
+        <BsThreeDotsVertical />
       </button>
       {showMenu && (
         <div

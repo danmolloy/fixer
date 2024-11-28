@@ -5,9 +5,8 @@ export async function POST(request: Request) {
   const req = await request.json();
 
   try {
-    await createContactMessages(req).then(() => {
-      return NextResponse.json({ success: true }, { status: 201 });
-    });
+    await createContactMessages(req)
+    return NextResponse.json({ success: true }, { status: 201 });
   } catch (e: any) {
     return NextResponse.json(
       { error: e.message || 'An unexpected error occurred', success: false },

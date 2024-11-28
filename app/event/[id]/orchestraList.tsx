@@ -5,8 +5,9 @@ import {
   EventSection,
 } from '@prisma/client';
 import { instrumentSections } from '../../contacts/lib';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import html2pdf from 'html2pdf.js';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 
 export type OrchestraListProps = {
   sections: (EventSection & {
@@ -27,6 +28,7 @@ export const pdfOptions = {
 
 export default function OrchestraList(props: OrchestraListProps) {
   const { sections } = props;
+  const [showMenu, setShowMenu] = useState<boolean>(false)
   const playersRef = useRef(null);
 
   const sortedSections = sections
@@ -46,15 +48,41 @@ export default function OrchestraList(props: OrchestraListProps) {
 
   return (
     <div data-testid='orchestra-list' className='flex flex-col'>
-      <button
-        className='m-1 self-end rounded border p-1 px-2 shadow-sm hover:bg-slate-50'
-        onClick={() => getOrchList()}
-      >
-        Print List
-      </button>
-      <div ref={playersRef} className='-mt-8 flex flex-col'>
-        <h2 className='my-4 font-semibold'>Orchestra List</h2>
-        {sections.filter((i) => i.contacts.length > 0).length < 1 && (
+
+<div className=' flex justify-end'>
+            <button
+                    className='rounded border p-1 text-center text-black hover:bg-gray-50'
+
+              onClick={() => {
+                focus();
+                setShowMenu(!showMenu);
+              }}
+              onBlur={() => setTimeout(() => setShowMenu(false), 250)}
+            >
+              <BsThreeDotsVertical />
+              <p className='hidden'>Options</p>
+            </button>
+            {showMenu && (
+              <div
+                data-testid='options-menu'
+                className='mt-8 absolute -ml-10 flex flex-col rounded border bg-white'
+              >
+                
+                <button
+                  className='px-2 py-1 hover:bg-gray-50'
+                  onClick={() => getOrchList()}
+                >
+                 Print List
+
+                </button>
+              </div>
+            )}
+          </div>
+
+      
+      <div ref={playersRef} className=' flex flex-col'>
+{/*         <h2 className='my-4 font-semibold'>Orchestra List</h2>
+ */}        {sections.filter((i) => i.contacts.length > 0).length < 1 && (
           <div
             data-testid='help-msg'
             className='flex flex-col self-center text-center'

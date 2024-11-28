@@ -7,7 +7,6 @@ import {
 } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { instrumentSections } from '../../contacts/lib';
-import { X } from '@faker-js/faker/dist/airline-BLb3y-7w';
 
 export type FullRunIndexProps = {
   calls: Call[];
@@ -40,6 +39,18 @@ export default function FullRunIndex(props: FullRunIndexProps) {
         c.calls.map((m) => m.id).includes(call.id)
     );
   };
+
+  if (sections.length === 0) {
+    return (
+      <div
+            data-testid='help-msg'
+            className='flex flex-col self-center text-center mt-6'
+          >
+            <h3 className='text-lg font-semibold'>No calls made.</h3>
+            <p className='text-sm'>To get started, fix sections in the Fixing tab.</p>
+          </div>
+    )
+  }
 
   return (
     <div className='flex flex-col items-center justify-center p-2'>
