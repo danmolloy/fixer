@@ -2,26 +2,7 @@ import { ErrorMessage, Field } from 'formik';
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import TextInput from '../../forms/textInput';
-import ComboBox from '../../forms/comboBox';
 
-export const venueOptions = [
-  {
-    id: '0',
-    textPrimary: 'BBC Maida Vale Studios',
-  },
-  {
-    id: '1',
-    textPrimary: 'LSO St Lukes',
-  },
-  {
-    id: '2',
-    textPrimary: 'Barbican Concert Hall',
-  },
-  {
-    id: '3',
-    textPrimary: 'Royal Festival Hall',
-  },
-];
 
 export type CallInputProps = {
   disabled: boolean;
@@ -108,13 +89,9 @@ export default function CallInput(props: CallInputProps) {
         </div>
       </div>
       {/*  <TextInput */}
-      <ComboBox
+      <TextInput
         disabled={disabled}
         optional={false}
-        setValue={(venue: string) => setVenue(venue)}
-        includeId={false}
-        options={venueOptions}
-        propsValue={propsValueVenue}
         label='Venue'
         className=''
         id={`calls.${index}.venue`}

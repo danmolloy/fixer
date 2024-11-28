@@ -83,8 +83,9 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
 
           await handleSubmit(values)
             .then(() => {
-              router.refresh();
-              setCreateSection(false);
+              actions.setStatus("success");
+
+              //setCreateSection(false);
             })
             .catch((error) => {
               const errorMessage =
@@ -93,6 +94,8 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
             })
             .finally(() => {
               actions.setSubmitting(false);
+              router.refresh();
+
             });
         }}
         validationSchema={formSchema}

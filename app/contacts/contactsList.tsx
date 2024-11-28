@@ -1,6 +1,7 @@
 import { EnsembleContact, EnsembleSection } from '@prisma/client';
 import ContactCard from './contactCard';
 import { FaCaretDown } from 'react-icons/fa';
+import Link from 'next/link';
 
 export type ContactsIndexProps = {
   contacts: (EnsembleContact & {
@@ -13,7 +14,7 @@ export type ContactsIndexProps = {
 };
 
 export default function ContactsIndex(props: ContactsIndexProps) {
-  const { setSortedContacts, contacts, editContact, sortContacts } = props;
+  const { setSortedContacts, contacts, editContact, sortContacts, ensembleId } = props;
 
   return (
     <div data-testid='contacts-index' className='m-1 my-4 w-full'>
@@ -82,8 +83,13 @@ export default function ContactsIndex(props: ContactsIndexProps) {
             <tr>
               <td colSpan={7}>
                 <div className='flex w-full flex-col items-center justify-center py-8'>
-                  <h2>No contacts</h2>
-                  <p>Get started by importing your musicians.</p>
+                  <h2 className='text-lg'>No contacts</h2>
+                  <p className='text-sm'>Get started by adding your musicians.</p>
+                  <Link 
+                    className='text-sm border rounded hover:bg-slate-50 mt-6 p-1'
+                    href={`/ensembles/${ensembleId}/contacts/import`}>
+                      Add Musicians
+                  </Link>
                 </div>
               </td>
             </tr>

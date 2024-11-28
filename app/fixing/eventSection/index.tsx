@@ -11,6 +11,8 @@ import { useState } from 'react';
 import CreateEventSection from './form';
 import EventSectionContacts from '../contactMessage';
 import Link from 'next/link';
+import SectionMenu from './sectionMenu';
+import SectionViewSelect from './viewSelect';
 
 export type EventSectionProps = {
   section: EventSection & { ensembleSection: EnsembleSection };
@@ -36,7 +38,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
   const router = useRouter();
   const [updateSection, setUpdateSection] = useState<boolean>(false);
   const [bookingOrAvailability, setBookingOrAvailability] =
-    useState<string>('Booking');
+    useState<"Booking"|"Availability">('Booking');
   const [editContacts, setEditContacts] = useState<boolean>(false);
 
   return (
@@ -57,36 +59,31 @@ export default function EventSectionIndex(props: EventSectionProps) {
         />
       ) : (
         <div>
-          <div>
+          <div className='w-full  flex flex-row justify-between'>
             <h2>
               {section.ensembleSection.name}
               <span
                 className={` ${section.bookingStatus.toLocaleLowerCase() !== 'active' && 'text-amber-500'} text-sm`}
               >
                 {' '}
-                (booking {section.bookingStatus})
+                Booking {section.bookingStatus}
               </span>
             </h2>
+            <SectionMenu 
+              editSection={() => setUpdateSection(true)}
+              addToList={() => setEditContacts(true)}/>
           </div>
-          <div className='flex flex-row justify-between'>
+          <div className='flex flex-col justify-between'>
             <div className='flex flex-row items-center'>
-              <p className='text-sm'>Booking {section.numToBook} player(s)</p>
-              <button
-                className='mx-1 rounded border p-1 text-xs hover:bg-gray-50'
-                onClick={() => setUpdateSection(true)}
-              >
-                Change
-              </button>
+              <p className='text-sm ml-1'>Booking {section.numToBook} player(s)</p>
+              
             </div>
-            <select
-              className='w-48 self-center rounded border p-1 disabled:border-0'
-              data-testid='status-select'
-              disabled={editContacts}
-              onChange={(e) => setBookingOrAvailability(e.target.value)}
-            >
-              <option value='Booking'>Booking</option>
-              <option value='Availability'>Availability</option>
-            </select>
+            <SectionViewSelect
+            selectedView={bookingOrAvailability}
+            setSelectedView={arg => setBookingOrAvailability(arg)}
+            disabled={editContacts}
+             />
+          
           </div>
         </div>
       )}

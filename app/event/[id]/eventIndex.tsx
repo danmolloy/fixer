@@ -49,7 +49,7 @@ export default function EventInfoTable(props: EventInfoTableProps) {
   const { event, contacts, ensemble, sections } = props;
   const [selectedView, setSelectedView] = useState<
     'details'|'fixing' | 'playerList' | 'fullRun'
-  >('fixing');
+  >('details');
   const eventRef = useRef(null);
 
   const getRunningSheet = () => {

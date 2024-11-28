@@ -40,7 +40,8 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
               : 'booking calls'}{' '}
             made.
           </p>
-          <p className='text-sm'>Click Edit Contacts to get started.</p>
+          <p className='text-sm'>Add Contacts to get started.</p>
+          <button onClick={() => setEditContacts(true)} className="mt-4 p-1 border rounded hover:bg-slate-50 text-sm">Add Contacts</button>
         </div>
       ) : currentContacts.filter(
           (i) => i.bookingOrAvailability === bookingOrAvailability
@@ -51,14 +52,7 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
           contacts={currentContacts}
         />
       ) : null}
-      {!editContacts && (
-        <button
-          className='my-2 self-end rounded border px-2 py-1 text-sm'
-          onClick={() => setEditContacts(!editContacts)}
-        >
-          Edit Contacts
-        </button>
-      )}
+      
       {editContacts && (
         <ContactMessageForm
           currentContacts={currentContacts}
