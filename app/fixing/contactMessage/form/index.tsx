@@ -52,6 +52,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       name: `${i.contact.firstName} ${i.contact.lastName}`,
       playerMessage: i.playerMessage,
       calls: i.calls,
+      autoAccepted: false
     })),
     eventSectionId: eventSectionId,
     bookingOrAvailability: bookingOrAvailability,
@@ -66,6 +67,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
         position: Yup.string().required(),
         playerMessage: Yup.string(),
         calls: Yup.array().of(Yup.string()).min(1),
+        autoAccepted: Yup.boolean().required(),
       })
     ),
     eventSectionId: Yup.number().required('Event section ID required'),

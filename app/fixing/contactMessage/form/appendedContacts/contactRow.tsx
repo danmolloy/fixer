@@ -11,6 +11,7 @@ export type AppendedContactRowProps = {
     name: string;
     playerMessage: string | null;
     calls: number[];
+    autoAccepted: boolean;
   };
   index: number;
   eventCalls: Call[];
@@ -133,6 +134,14 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
           {contact.playerMessage && <TiMail size={24} />}
         </button>
       </td>
+      <td className='text-center' >
+          <Field
+            checked={contact.autoAccepted}
+            type='checkbox'
+
+            name={`contacts[${index}]autoAccepted`}
+          />
+        </td>
     </tr>
   );
 }

@@ -11,6 +11,7 @@ export type AppendedContactsProps = {
     name: string;
     playerMessage: string | null;
     calls: number[];
+    autoAccepted: boolean;
   }[];
   eventCalls: Call[];
   bookingOrAvailability: string;
@@ -47,6 +48,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
               </th>
             ))}
             <th>Options</th>
+            <th>Auto Accept</th>
           </tr>
         </thead>
         <FieldArray name='contacts'>

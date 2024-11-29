@@ -13,6 +13,7 @@ export type CreateContactMessageProps = {
     position: string;
     playerMessage?: string;
     calls: string[];
+    autoAccepted: boolean
   }[];
   eventSectionId: string;
   bookingOrAvailability: string;
@@ -44,6 +45,7 @@ export const createContactMessages = async (
       : 1;
 
   for (let i = 0; i < data.contacts.length; i++) {
+    console.log(`autoAccept: ${data.contacts[i].autoAccepted}`)
     await prisma.contactMessage.create({
       data: {
         eventSectionId: Number(data.eventSectionId),
@@ -53,6 +55,7 @@ export const createContactMessages = async (
             id: Number(j),
           })),
         },
+        accepted: data.contacts[i].autoAccepted === true ? true : null,
         token: generateToken(),
         //position: data.contacts[i].position,
         playerMessage: data.contacts[i].playerMessage,
