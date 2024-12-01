@@ -13,7 +13,7 @@ import { mockCall } from '../../../../../__mocks__/models/call';
 import {
   responseConfEmail,
   SentEmailData,
-} from '../../../../../app/sendGrid/lib';
+} from '../../../../../app/sendGrid/playerLib';
 import axios from '../../../../../__mocks__/axios';
 import { getDateRange } from '../../../../../app/fixing/contactMessage/api/create/functions';
 

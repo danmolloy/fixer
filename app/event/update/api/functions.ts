@@ -7,7 +7,7 @@ import {
   EventSection,
   User,
 } from '@prisma/client';
-import { gigUpdateEmail } from '../../../sendGrid/lib';
+import { gigUpdateEmail } from '../../../sendGrid/playerLib';
 import axios from 'axios';
 import { getDateRange } from '../../../fixing/contactMessage/api/create/functions';
 

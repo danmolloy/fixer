@@ -1,13 +1,12 @@
 import axios from 'axios';
 import prisma from '../../../../../client';
 import {
-  bookingCompleteEmail,
   createOfferEmail,
-  listExhaustedEmail,
   releaseDepperEmail,
-} from '../../../../sendGrid/lib';
+} from '../../../../sendGrid/playerLib';
 import { getDateRange, getNumToContact, gigIsFixed } from './functions';
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
+import { bookingCompleteEmail, listExhaustedEmail,  } from '../../../../sendGrid/adminEmailLib';
 const url = `${process.env.URL}`;
 
 export const emailBookingMusicians = async (eventSectionId: number) => {

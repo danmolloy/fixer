@@ -1,6 +1,6 @@
 import axios from 'axios';
 import prisma from '../../../../../client';
-import { adminInviteEmail } from '../../../../sendGrid/lib';
+import { adminInviteEmail } from '../../../../sendGrid/adminEmailLib';
 
 const url = `${process.env.URL}`;
 

@@ -1,4 +1,4 @@
-import { SentEmailData } from '../../sendGrid/lib';
+import { SentEmailData } from '../../sendGrid/playerLib';
 
 const sgMail = require('@sendgrid/mail');
 

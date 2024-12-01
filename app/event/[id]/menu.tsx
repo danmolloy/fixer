@@ -3,7 +3,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { messageToAllEmail } from '../../sendGrid/lib';
+import { messageToAllEmail } from '../../sendGrid/playerLib';
 import { getDateRange } from '../../fixing/contactMessage/api/create/functions';
 import {
   Call,

@@ -6,7 +6,7 @@ import TextInput from '../../../forms/textInput';
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/navigation';
-import { updateOfferEmail } from '../../../sendGrid/lib';
+import { updateOfferEmail } from '../../../sendGrid/playerLib';
 import SubmitButton from '../../../forms/submitBtn';
 import ValidationError from '../../../forms/validationError';
 import StatusMessage from '../../../forms/statusMessage';

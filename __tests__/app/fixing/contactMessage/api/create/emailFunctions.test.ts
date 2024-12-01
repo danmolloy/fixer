@@ -15,7 +15,7 @@ import {
   listExhaustedEmail,
   releaseDepperEmail,
   SentEmailData,
-} from '../../../../../../app/sendGrid/lib';
+} from '../../../../../../app/sendGrid/playerLib';
 import {
   getDateRange,
   getNumToContact,

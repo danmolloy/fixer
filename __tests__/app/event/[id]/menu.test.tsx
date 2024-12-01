@@ -14,7 +14,7 @@ import { mockCall } from '../../../../__mocks__/models/call';
 import { mockUser } from '../../../../__mocks__/models/user';
 import { mockContactMessage } from '../../../../__mocks__/models/contactMessage';
 import { mockEnsembleContact } from '../../../../__mocks__/models/ensembleContact';
-import { messageToAllEmail } from '../../../../app/sendGrid/lib';
+import { messageToAllEmail } from '../../../../app/sendGrid/playerLib';
 
 global.confirm = jest.fn(() => true);
 global.prompt = jest.fn(() => 'Hello, world. This is a mock message');

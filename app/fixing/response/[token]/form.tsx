@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import { getDateRange } from '../../contactMessage/api/create/functions';
 import { DateTime } from 'luxon';
-import { responseConfEmail } from '../../../sendGrid/lib';
+import { responseConfEmail } from '../../../sendGrid/playerLib';
 import SubmitButton from '../../../forms/submitBtn';
 import ValidationError from '../../../forms/validationError';
 import StatusMessage from '../../../forms/statusMessage';
@@ -120,6 +120,7 @@ export default function ResponseForm(props: ResponseFormProps) {
         })
         .then(async () => {
           const emailData = await responseConfEmail({
+            token: contactMessage.token,
             dateRange: getDateRange(contactMessage.calls),
             firstName: contactMessage.contact.firstName,
             email: contactMessage.contact.email!,

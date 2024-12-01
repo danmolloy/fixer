@@ -1,20 +1,11 @@
 import {
-  Call,
-  ContactMessage,
-  EnsembleContact,
-  Event,
-  EventSection,
-  User,
-} from '@prisma/client';
-import {
-  eventReminderFixer,
   eventReminderMusician,
   remindUnresponsiveMusicianEmail,
-  reportUnresponsiveMusicianEmail,
-} from '../lib';
+} from '../playerLib';
 import axios from 'axios';
 import prisma from '../../../client';
 import { DateTime } from 'luxon';
+import { eventReminderFixer, reportUnresponsiveMusicianEmail } from '../adminEmailLib';
 
 const url = process.env.URL;
 
