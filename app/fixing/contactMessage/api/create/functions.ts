@@ -122,7 +122,7 @@ export const gigIsFixed = async (eventID: number) => {
     const numBooked = event.sections[i].contacts.filter(
       (i) =>
         i.accepted === true &&
-        i.status.toLocaleLowerCase() !== 'dep out' &&
+        i.status !== "FINDINGDEP" &&
         i.bookingOrAvailability.toLocaleLowerCase() === 'booking'
     ).length;
     if (numToBook - numBooked !== 0) {
@@ -143,7 +143,7 @@ export const getNumToContact = (data: {
     (i) => i.accepted === null && i.received === true
   ).length;
   const toDepCount = data.contactMessages.filter(
-    (i) => i.status.toLocaleLowerCase() === 'dep out'
+    (i) => i.status === "FINDINGDEP"
   ).length;
   const numToContact =
     data.numToBook - numBooked - numYetToRespond + toDepCount;

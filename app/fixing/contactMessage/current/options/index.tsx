@@ -97,7 +97,7 @@ export default function CurrentContactsOptions(
           }
           onClick={() =>
             handleUpdate(
-              { status: 'DEP OUT' },
+              { status: "FINDINGDEP" },
               'Are you sure you want to find a dep for this player?'
             )
           }

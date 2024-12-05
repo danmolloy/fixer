@@ -121,7 +121,6 @@ model ContactMessage {
   indexNumber           Int
   bookingOrAvailability String          @default("Booking")
   offerExpiry           Int?
-  status                String          @default("OK")
   position              String          @default("Tutti")
   token                 String          @unique @default(cuid())
   strictlyTied          Boolean         @default(true)
@@ -132,6 +131,26 @@ model ContactMessage {
   contact               EnsembleContact @relation(fields: [contactId], references: [id])
   eventSection          EventSection    @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
   calls                 Call[]          @relation("CallToContactMessage")
+  type                  ContactMessageType @default(AVAILABILITY)
+  status                ContactMessageStatus @default(NOTCONTACTED)
+}
+
+enum ContactMessageType {
+  BOOKING
+  AVAILABILITY
+  AUTOBOOK
+}
+
+enum ContactMessageStatus {
+  ACCEPTED
+  DECLINED
+  NOTCONTACTED
+  AWAITINGREPLY
+  AVAILABLE
+  MIXED
+  AUTOBOOKED
+  ERROR
+  FINDINGDEP
 }
 
 model Ensemble {

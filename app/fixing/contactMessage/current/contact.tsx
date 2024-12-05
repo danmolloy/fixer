@@ -85,11 +85,11 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           <p className=''>Declined</p>
         </td>
       ) : contact.accepted === true &&
-        contact.status.toLocaleLowerCase() === 'dep out' ? (
+        contact.status === "FINDINGDEP" ? (
         <td className='bg-amber-500 text-center text-white'>
           <p className=''>Finding Dep</p>
         </td>
-      ) : contact.accepted === true ? (
+      )  : contact.accepted === true ? (
         <td className='bg-green-500 text-center text-white'>
           <p className=''>Accepted</p>
         </td>

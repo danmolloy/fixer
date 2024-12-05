@@ -5,7 +5,7 @@ export const releaseDeppers = async (eventSectionId: number) => {
   const deppingContacts = await prisma.contactMessage.findMany({
     where: {
       eventSectionId: eventSectionId,
-      status: 'DEP OUT',
+      status: "FINDINGDEP",
     },
     orderBy: [
       {
@@ -20,7 +20,7 @@ export const releaseDeppers = async (eventSectionId: number) => {
           id: deppingContacts[0].id,
         },
         data: {
-          status: 'RELEASED',
+          status: "DECLINED",
           accepted: false,
         },
         include: {
