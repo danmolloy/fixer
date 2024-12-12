@@ -6,7 +6,7 @@ export async function POST(request: Request) {
 
   try {
     const data = await deleteEventSection(req.sectionId);
-    return NextResponse.json({ ...data, success: true }, { status: 201 });
+    return NextResponse.json({ ...data, success: true }, { status: 200 });
   } catch (e: any) {
     return NextResponse.json(
       { error: e.message || 'An unexpected error occurred', success: false },

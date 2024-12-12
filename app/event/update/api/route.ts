@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       callsArr,
     });
     await updateEmailPlayers(data, updateMessage);
-    return NextResponse.json({ ...data.event, success: true }, { status: 201 });
+    return NextResponse.json({ ...data.event, success: true }, { status: 200 });
   } catch (e: any) {
     return NextResponse.json(
       { error: e.message || 'An unexpected error occurred', success: false },
