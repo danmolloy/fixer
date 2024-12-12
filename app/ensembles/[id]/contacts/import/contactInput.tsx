@@ -250,7 +250,9 @@ export default function ContactInput(props: ContactInputProps) {
                   >
                     Add Row
                   </button>
-                  <SubmitButton disabled={props.isSubmitting} />
+                  <SubmitButton 
+              disabled={props.isSubmitting || props.status === "success"} 
+              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
                 </div>
                 <StatusMessage status={props.status} />
               </div>

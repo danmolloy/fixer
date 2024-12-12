@@ -18,7 +18,7 @@ export type AppendedContactRowProps = {
   remove: () => void;
   swap: (a: number, b: number) => void;
   numContacts: number;
-  bookingOrAvailability: string;
+  type: "BOOKING"|"AVAILABILITY"|"AUTOBOOK"
   addPlayerMessage: (index: number, message: string) => void;
   currentCallCount: number;
 };
@@ -26,7 +26,7 @@ export type AppendedContactRowProps = {
 export default function AppendedContactRow(props: AppendedContactRowProps) {
   const {
     addPlayerMessage,
-    bookingOrAvailability,
+    type,
     contact,
     eventCalls,
     remove,
@@ -53,21 +53,23 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
   };
 
   return (
-    <tr className='h-10 text-center text-sm'>
-      <td className='px-1'>
-        {bookingOrAvailability.toLocaleLowerCase() === 'booking' &&
+    <tr data-testid="appended-contact" className='h-10 text-center text-sm'>
+      <td className='px-1' data-testid="queue-num">
+        {type !== "AVAILABILITY" &&
           currentCallCount + index + 1}
       </td>
       <td className=''>{contact.name}</td>
       <td className=''>
-        <Field as='select' name={`contacts[${index}]position`}>
+      <Field data-testid="position-input" name={`contacts[${index}]position`} />
+        {/* <Field as='select' name={`contacts[${index}]position`}>
           <option value={'Principal'}>Principal</option>
           <option value={'Tutti'}>Tutti</option>
-        </Field>
+        </Field> */}
       </td>
       {eventCalls.map((i) => (
         <td className='text-center' key={i.id}>
           <Field
+            data-testid={`${i.id}-field`}
             checked={
               contact.calls.map((j) => Number(j)).includes(Number(i.id))
                 ? true
@@ -81,6 +83,7 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
       ))}
       <td className='flex flex-row items-center justify-center'>
         <button
+          data-testid="options-btn"
           className='m-1 self-center rounded-full p-1 hover:bg-gray-100'
           onBlur={() => setTimeout(() => setShowMenu(false), 250)}
           onClick={(e) => {
@@ -89,10 +92,11 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
             setShowMenu(!showMenu);
           }}
         >
+          <p className='hidden'>Options</p>
           <BsThreeDotsVertical />
         </button>
         {showMenu && (
-          <div className='absolute -mb-36 -ml-40 flex flex-col border bg-white'>
+          <div data-testid="options-menu" className='absolute -mb-36 -ml-40 flex flex-col border bg-white'>
             <button
               className='p-2 text-start text-sm hover:bg-slate-100 disabled:opacity-40'
               disabled={index === 0}
@@ -125,20 +129,22 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
           </div>
         )}
         <button
+        data-testid="player-message"
           className='m-1 p-1 hover:bg-gray-50'
           onClick={(e) => {
             e.preventDefault();
             showMessage();
           }}
         >
+          <p className='hidden'>Player Message</p>
           {contact.playerMessage && <TiMail size={24} />}
         </button>
       </td>
       <td className='text-center' >
           <Field
+            data-testid="auto-accept-checkbox"
             checked={contact.autoAccepted}
             type='checkbox'
-
             name={`contacts[${index}]autoAccepted`}
           />
         </td>

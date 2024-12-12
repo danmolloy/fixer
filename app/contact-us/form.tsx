@@ -105,7 +105,9 @@ export default function ContactForm() {
                 </ErrorMessage>
               </div>
             </div>
-            <SubmitButton disabled={props.isSubmitting} />
+            <SubmitButton 
+              disabled={props.isSubmitting || props.status === "success"} 
+              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
             <ValidationError errors={Object.values(props.errors)} />
             <StatusMessage status={props.status} />
           </Form>

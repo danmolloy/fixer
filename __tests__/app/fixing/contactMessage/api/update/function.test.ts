@@ -7,6 +7,7 @@ import { updateContactMessage } from '../../../../../../app/fixing/contactMessag
 import { mockEventSection } from '../../../../../../__mocks__/models/eventSection';
 import { mockEvent } from '../../../../../../__mocks__/models/event';
 import { mockEnsemble } from '../../../../../../__mocks__/models/ensemble';
+import { ContactMessage, Ensemble, Event, EventSection } from '@prisma/client';
 
 jest.mock(
   '../../../../../../app/fixing/contactMessage/api/create/emailFunctions',
@@ -27,25 +28,37 @@ jest.mock('../../../../../../app/billing/api/meterEvent/lib', () => ({
 }));
 
 describe('updateContactMessage', () => {
+  type FuncArg =  ContactMessage & {
+    eventSection: EventSection & {
+      event: Event & {
+        ensemble: Ensemble
+      }
+    }
+  }
   it('calls prisma.contactMessage.update with expected args', async () => {
     prismaMock.contactMessage.update.mockResolvedValueOnce(mockContactMessage);
     updateContactMessage({
       id: 1,
       data: {
-        accepted: true,
+        status: "DECLINED",
       },
     });
     expect(prismaMock.contactMessage.update).toHaveBeenCalledWith({
       where: {
         id: 1,
       },
-      data: { accepted: true },
+      data: {         
+        status: "DECLINED",
+      },
       include: {
+        calls: true,
+        contact: true,
         eventSection: {
           include: {
             event: {
               include: {
                 ensemble: true,
+                fixer: true
               },
             },
           },
@@ -53,10 +66,10 @@ describe('updateContactMessage', () => {
       },
     });
   });
-  it('if a booking is being accepted, addMeterEvent(subscriptionID) & releaseDeppers(args) is called', async () => {
-    const mockData = {
+  it('if an AUTOBOOKED booking is being accepted, addMeterEvent(subscriptionID) & releaseDeppers(args) are called', async () => {
+    const mockData: FuncArg = {
       ...mockContactMessage,
-      bookingOrAvailability: 'Booking',
+      status: 'AUTOBOOKED',
       eventSection: {
         ...mockEventSection,
         event: {
@@ -69,7 +82,31 @@ describe('updateContactMessage', () => {
     await updateContactMessage({
       id: 1,
       data: {
-        accepted: true,
+        status: 'AUTOBOOKED',
+      },
+    });
+    expect(addMeterEvent).toHaveBeenCalledWith(
+      mockData.eventSection.event.ensemble.stripeSubscriptionId
+    );
+    expect(releaseDeppers).toHaveBeenCalledWith(mockData.eventSectionId);
+  });
+  it('if a BOOKING booking is being accepted, addMeterEvent(subscriptionID) & releaseDeppers(args) are called', async () => {
+    const mockData: FuncArg = {
+      ...mockContactMessage,
+      status: 'ACCEPTED',
+      eventSection: {
+        ...mockEventSection,
+        event: {
+          ...mockEvent,
+          ensemble: mockEnsemble,
+        },
+      },
+    };
+    prismaMock.contactMessage.update.mockResolvedValueOnce(mockData);
+    await updateContactMessage({
+      id: 1,
+      data: {
+        status: 'ACCEPTED',
       },
     });
     expect(addMeterEvent).toHaveBeenCalledWith(
@@ -78,9 +115,9 @@ describe('updateContactMessage', () => {
     expect(releaseDeppers).toHaveBeenCalledWith(mockData.eventSectionId);
   });
   it('emailBookingMusicians is called', async () => {
-    const mockData = {
+    const mockData: FuncArg = {
       ...mockContactMessage,
-      bookingOrAvailability: 'Booking',
+      status: 'ACCEPTED',
       eventSection: {
         ...mockEventSection,
         event: {
@@ -98,14 +135,29 @@ describe('updateContactMessage', () => {
     });
     expect(emailBookingMusicians).toHaveBeenCalledWith(mockData.eventSectionId);
   });
-  it('returns updated contactMessage', () => {});
-  it('catches errors', () => {});
+  it('returns updated contactMessage', async () => {
+    const mockData: FuncArg = {
+      ...mockContactMessage,
+      status: 'ACCEPTED',
+      eventSection: {
+        ...mockEventSection,
+        event: {
+          ...mockEvent,
+          ensemble: mockEnsemble,
+        },
+      },
+    };
+    prismaMock.contactMessage.update.mockResolvedValueOnce(mockData);
+    await updateContactMessage({
+      id: 1,
+      data: {
+        status: 'ACCEPTED',
+      },
+    });
+    expect(emailBookingMusicians).toHaveBeenCalledWith(mockData.eventSectionId);
+  });
+  //it('catches errors', () => {});
 });
 
-describe('releaseDeppers', () => {
-  it('updates first contactMessage in depping queue', () => {});
-  it('calls emailDeppingMusician(args)', () => {});
-  it('catches err', () => {});
-});
 
-describe('updateContactIndex', () => {});
+//describe('updateContactIndex', () => {});

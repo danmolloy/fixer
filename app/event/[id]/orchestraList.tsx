@@ -97,20 +97,19 @@ export default function OrchestraList(props: OrchestraListProps) {
               <h3 className='font-semibold'>{i.ensembleSection.name}</h3>
               <ol>
                 {i.contacts
-                  .filter((j) => j.accepted === true && j.bookingOrAvailability === "Booking")
+                  .filter((j) => (j.status === "ACCEPTED" || j.status === "AUTOBOOKED"))
                   .sort((a, b) => a.indexNumber - b.indexNumber)
                   .map((j) => (
                     <li className='text-sm' key={j.id}>
                       {`${j.contact.firstName} ${j.contact.lastName} (${j.position})`}
                     </li>
                   ))}
-                {i.numToBook - i.contacts.filter((j) => j.accepted === true && j.bookingOrAvailability.toLocaleLowerCase() === "booking").length === 0 
+                {i.numToBook - i.contacts.filter((j) => (j.status === "ACCEPTED" || j.status === "AUTOBOOKED")).length === 0 
                 ? null
-                : i.numToBook - i.contacts.filter((j) => j.accepted === true && j.bookingOrAvailability.toLocaleLowerCase() === "booking").length < 0 
-                ? <p className='font-bold'>Overbooked by {i.contacts.filter((j) => j.accepted === true && j.bookingOrAvailability === "Booking").length - i.numToBook} </p>
+                : i.numToBook - i.contacts.filter((j) => (j.status === "ACCEPTED" || j.status === "AUTOBOOKED")).length < 0 
+                ? <p className='font-bold'>Overbooked by {i.contacts.filter((j) => (j.status === "ACCEPTED" || j.status === "AUTOBOOKED")).length - i.numToBook} </p>
                 : new Array(
-                  i.numToBook/*  -
-                    i.contacts.filter((j) => j.accepted === true).length */
+                  i.numToBook
                 )
                   .fill(null)
                   .map((_, index) => (

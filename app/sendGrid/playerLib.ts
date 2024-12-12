@@ -1,6 +1,8 @@
 import {
   Call,
   ContactMessage,
+  ContactMessageStatus,
+  ContactMessageType,
   EnsembleContact,
   Event,
   EventSection,
@@ -11,6 +13,17 @@ import { getDateRange } from '../fixing/contactMessage/api/create/functions';
 import { createSentEmail, readOnlyTemplate, responseTemplate, SentEmailData } from './lib';
 
 const url = process.env.URL;
+
+export type ResponseConfEmailProps = {
+  dateRange: string;
+  firstName: string;
+  email: string;
+  ensemble: string;
+  status: ContactMessageStatus;
+  type: ContactMessageType;
+  accepted: boolean;
+  token: string;
+}
 
 export const createOfferEmail = async (
   data: ContactMessage & {
@@ -24,20 +37,20 @@ export const createOfferEmail = async (
   }
 ): Promise<SentEmailData> => {
   const subject = 
-    data.bookingOrAvailability === "Booking" && data.accepted === true 
+    data.type === "AUTOBOOK" 
     ? `Booking Alert: ${getDateRange(data.calls)} ${data.eventSection.event.ensembleName}`
-    : data.bookingOrAvailability === "Booking" && data.accepted === null 
+    : data.type === "BOOKING" 
     ? `Action Required: Offer from ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`
     : `Action Required: Availability check from ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`
   
   const templateID = 
-    (data.bookingOrAvailability === "Booking" && data.accepted === true) 
+    (data.status === "ACCEPTED" || data.status === "AUTOBOOKED" || data.status === "FINDINGDEP") 
     ? readOnlyTemplate : responseTemplate
 
   const responseLink = `${url}/fixing/response/${data.token}/`;
   const email = data.contact.email!;
   const bodyText = `Dear ${data.contact.firstName}, <br />
-  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${(data.bookingOrAvailability.toLocaleLowerCase() === 'booking' && data.accepted === true) ? 'has booked you for' : data.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
+  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.type === "AUTOBOOK" ? 'has booked you for' : data.type === "BOOKING" ? 'offers' : 'checks your availability for'} the following: <br />
   <br />
   ${data.calls
     .map(
@@ -59,7 +72,7 @@ export const createOfferEmail = async (
   ${data.playerMessage !== null ? data.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + data.playerMessage : ''}
 <br />
 <br />
-${data.accepted === true && data.bookingOrAvailability === "Booking" 
+${data.type === "AUTOBOOK"
 ? `View up to date gig details at <a href="${responseLink}">this link</a>.<br /><br />`
 :`Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond. <br /> <br />`}
 
@@ -107,7 +120,7 @@ export const updateOfferEmail = async (
   ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.
   <br />
   <br />
-  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
+  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.type !== "AVAILABILITY" ? 'offers' : 'checks your availability for'} the following: <br />
   <br />
   ${data.calls
     .map(
@@ -131,7 +144,7 @@ export const updateOfferEmail = async (
 <br />
   ${ data.accepted === null
 ? `Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`
-: `You can view up to date gig details at <a href="${responseLink}">this link</a>. It has been marked as ${data.accepted ? 'accepted' : 'declined'}.`
+: `You can view up to date gig details at <a href="${responseLink}">this link</a>. It has been marked as ${data.status === "ACCEPTED" ? 'accepted' : data.status === "AUTOBOOKED" ? "auto-booked" : 'declined'}.`
 }<br /> <br />
 
   If you need further information, contact ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} at ${data.eventSection.event.fixer.email} or ${data.eventSection.event.fixer.mobileNumber}. <br /> <br />
@@ -269,15 +282,7 @@ export const releaseDepperEmail = async (data: {
   return emailData;
 };
 
-export const responseConfEmail = async (data: {
-  dateRange: string;
-  firstName: string;
-  email: string;
-  ensemble: string;
-  accepted: boolean;
-  token: string;
-  bookingOrAvailability: string;
-}): Promise<SentEmailData> => {
+export const responseConfEmail = async (data: ResponseConfEmailProps): Promise<SentEmailData> => {
   const subject = `Response Confirmation: ${data.dateRange} ${data.ensemble}`;
   const email = data.email;
   const templateID = readOnlyTemplate;
@@ -285,11 +290,7 @@ export const responseConfEmail = async (data: {
   const bodyText = `Dear ${data.firstName},
   <br />
   <br />
-  ${
-    data.bookingOrAvailability.toLocaleLowerCase() === 'booking'
-      ? `This email confirms you ${data.accepted ? 'accepted' : 'declined'} ${data.dateRange} (${data.ensemble}).`
-      : `This email confirms you ${data.accepted ? 'indicated your availability for' : 'declined'} ${data.dateRange} (${data.ensemble}).`
-  }
+  This email confirms you ${data.status === "ACCEPTED" ? 'accepted' : (data.status === "AVAILABLE" || data.status === "MIXED") ? 'indicated your availability for' : 'declined'} ${data.dateRange} (${data.ensemble}).
   <br />
   Please refer to your <a href="${responseLink}">response page</a> for up to date information and confirmation of your response.
   <br />
@@ -379,7 +380,7 @@ export const remindUnresponsiveMusicianEmail = (
   <br />
   We are yet to receive a response from you regarding the gig below. If we have not received a response with 48 hours, we will alert the fixer.
   <br /><br />
-  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
+  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.type === "BOOKING" ? 'offers' :data.type === "AUTOBOOK" ? "has booked you for" :'checks your availability for'} the following: <br />
   <br />
   ${data.calls
     .map(

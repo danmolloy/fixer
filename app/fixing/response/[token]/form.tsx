@@ -29,12 +29,12 @@ export type ResponseFormProps = {
     calls: Call[];
   };
   accepted: boolean | null;
-  bookingOrAvailability: string;
+  type: "BOOKING"|"AVAILABILITY"|"AUTOBOOK"
   fixerName: string;
 };
 
 export default function ResponseForm(props: ResponseFormProps) {
-  const { contactMessage, bookingOrAvailability } = props;
+  const { contactMessage, type } = props;
   const router = useRouter();
 
   const initialVals: {
@@ -49,7 +49,7 @@ export default function ResponseForm(props: ResponseFormProps) {
   };
 
   const responseSchema =
-    bookingOrAvailability === 'Availability'
+    type === 'AVAILABILITY'
       ? Yup.object().shape({
           accepted: Yup.string().required(''),
           availableFor: Yup.array()
@@ -86,17 +86,17 @@ export default function ResponseForm(props: ResponseFormProps) {
         `);
     } else if (
       values.accepted === 'true' &&
-      bookingOrAvailability.toLocaleLowerCase() === 'booking'
+      type !== "AVAILABILITY"
     ) {
       confMsg = confirm('Are you sure you want to ACCEPT this offer?');
     } else if (
       values.accepted !== 'true' &&
-      bookingOrAvailability.toLocaleLowerCase() === 'booking'
+      type !== "AVAILABILITY"
     ) {
       confMsg = confirm('Are you sure you want to DECLINE this offer?');
     } else if (
       values.accepted === 'true' &&
-      bookingOrAvailability.toLocaleLowerCase() !== 'booking'
+      type === "AVAILABILITY"
     ) {
       confMsg = confirm(`
         Please confirm you are available for this work. 
@@ -111,6 +111,10 @@ export default function ResponseForm(props: ResponseFormProps) {
           id: contactMessage.id,
           data: {
             accepted: values.accepted === 'true',
+            status: (values.accepted === 'true' && values.availableFor.length === contactMessage.calls.length) 
+              ?  "AVAILABLE" 
+              : values.accepted === 'true' 
+              ? "MIXED" : "DECLINED",
             acceptedDate: new Date(),
             availableFor:
               values.accepted === 'true'
@@ -126,7 +130,13 @@ export default function ResponseForm(props: ResponseFormProps) {
             email: contactMessage.contact.email!,
             ensemble: contactMessage.eventSection.event.ensembleName,
             accepted: values.accepted ? true : false,
-            bookingOrAvailability: contactMessage.bookingOrAvailability,
+            status: values.accepted === 'true' && contactMessage.type !== "AVAILABILITY" 
+            ? "ACCEPTED"
+            : (values.accepted === 'true' && values.availableFor.length === contactMessage.calls.length) 
+              ?  "AVAILABLE" 
+              : values.accepted === 'true' 
+              ? "MIXED" : "DECLINED",
+            type: contactMessage.type,
           });
 
           await axios.post(`/sendGrid`, {
@@ -152,7 +162,11 @@ export default function ResponseForm(props: ResponseFormProps) {
           actions.setSubmitting(true);
           handleSubmit(values)
             .then(() => {
-              router.refresh();
+              if (values.accepted === 'true') {
+                router.push(`/fixing/response/${contactMessage.token}/?accepted=true`);
+              } else {
+                router.push(`/fixing/response/${contactMessage.token}`);
+              }
               actions.setStatus('success');
             })
             .catch((error) => {
@@ -259,7 +273,9 @@ export default function ResponseForm(props: ResponseFormProps) {
                   )}
                 </div>
               )}
-            <SubmitButton disabled={props.isSubmitting} />
+            <SubmitButton 
+              disabled={props.isSubmitting || props.status === "success"} 
+              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
             <ValidationError errors={Object.values(props.errors).flat()} />
             <StatusMessage status={props.status} />
           </Form>

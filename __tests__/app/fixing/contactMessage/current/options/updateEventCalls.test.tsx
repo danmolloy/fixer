@@ -67,7 +67,7 @@ describe('<UpdateContactEventCalls', () => {
         fireEvent.click(eventCall);
       });
     }
-    const updateBtn = screen.getByText('Update Calls');
+    const updateBtn = screen.getByText('Submit');
     await act(async () => {
       fireEvent.click(updateBtn);
     });
@@ -77,7 +77,7 @@ describe('<UpdateContactEventCalls', () => {
     );
   });
   it('axios.post is not called on update button click if calls === contact calls', async () => {
-    const updateBtn = screen.getByText('Update Calls');
+    const updateBtn = screen.getByText('Submit');
     expect(updateBtn).toBeInTheDocument();
     expect(updateBtn).toHaveRole('button');
     expect(updateBtn).toHaveAttribute('type', 'submit');
@@ -134,7 +134,7 @@ describe('<UpdateContactEventCalls', () => {
     await act(async () => {
       fireEvent.click(eventCallOne);
     });
-    const updateBtn = screen.getByText('Update Calls');
+    const updateBtn = screen.getByText('Submit');
     await act(async () => {
       fireEvent.click(updateBtn);
     });
@@ -175,7 +175,7 @@ describe('<UpdateContactEventCalls', () => {
   });
   it('at least one call must be offered', async () => {
     const updateEventCalls = screen.getByTestId('update-event-calls');
-    const updateBtn = screen.getByText('Update Calls');
+    const updateBtn = screen.getByText('Submit');
     expect(updateBtn).toBeInTheDocument();
     expect(updateBtn).toHaveRole('button');
     expect(updateBtn).toHaveAttribute('type', 'submit');
@@ -188,7 +188,7 @@ describe('<UpdateContactEventCalls', () => {
     );
   });
   it('Update Calls btn is in the document and calls axios.post and useRouter on click', async () => {
-    const updateBtn = screen.getByText('Update Calls');
+    const updateBtn = screen.getByText('Submit');
     const updateEventCalls = screen.getByTestId('update-event-calls');
     const eventCallZero = screen.getByLabelText(
       `${DateTime.fromJSDate(new Date(mockProps.eventCalls[0].startTime)).toFormat('HH:mm')}${DateTime.fromJSDate(new Date(mockProps.eventCalls[0].startTime)).toFormat('DD')}`

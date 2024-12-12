@@ -8,13 +8,43 @@ import { mockCall } from '../../../../__mocks__/models/call';
 import { mockContactMessage } from '../../../../__mocks__/models/contactMessage';
 
 const mockProps: EventSectionContactsProps = {
+  type: "AVAILABILITY",
+  editContacts: false,
+  setEditContacts: jest.fn(),
   eventSectionId: 1,
   sectionContacts: [mockEnsembleContact],
   eventCalls: [mockCall],
   currentContacts: [
     {
       ...mockContactMessage,
-      contact: mockEnsembleContact,
+      contact: {
+        ...mockEnsembleContact,
+        firstName: "Greg",
+        lastName: "Ievers"
+      },
+      type: "AVAILABILITY",
+      calls: [mockCall],
+    },
+    {
+      ...mockContactMessage,
+      id: 2,
+      contact: {
+        ...mockEnsembleContact,
+        firstName: "Elliot",
+        lastName: "Gannon"
+      },
+      type: "BOOKING",
+      calls: [mockCall],
+    },
+    {
+      ...mockContactMessage,
+      id: 3,
+      contact: {
+        ...mockEnsembleContact,
+        firstName: "Brett",
+        lastName: "Sturdy"
+      },
+      type: "AUTOBOOK",
       calls: [mockCall],
     },
   ],
@@ -22,51 +52,86 @@ const mockProps: EventSectionContactsProps = {
 
 describe('<EventSectionContacts />', () => {
   beforeEach(() => {
-    render(<EventSectionContacts {...mockProps} />);
+    render(<EventSectionContacts {...mockProps} type="AVAILABILITY" />);
   });
   it('<EventSectionContacts /> renders', () => {
     const eventSectionContacts = screen.getByTestId('event-section-contacts');
     expect(eventSectionContacts).toBeInTheDocument();
   });
-  it('booking/availability select menu is in the document with options', () => {
-    const statusSelect = screen.getByTestId('status-select');
-    expect(statusSelect).toBeInTheDocument();
-    expect(statusSelect).toHaveRole('combobox');
-    expect(statusSelect).toHaveValue('Booking');
+  it("if availability selected, shows just AVAILABILITY types", () => {
+    const eventSectionContacts = screen.getByTestId('event-section-contacts');
+    expect(eventSectionContacts.textContent).toMatch("Greg Ievers")
+    expect(eventSectionContacts.textContent).not.toMatch("Elliot Gannon")
+    expect(eventSectionContacts.textContent).not.toMatch("Brett Sturdy")
+  })
+});
 
-    expect(statusSelect).toHaveTextContent('Booking');
-    expect(statusSelect).toHaveTextContent('Availability');
-
-    const bookingOption = screen.getByText('Booking');
-    expect(bookingOption).toBeInTheDocument();
-    expect(bookingOption).toHaveRole('option');
-    expect(bookingOption).toHaveValue('Booking');
-
-    const availabilityOption = screen.getByText('Availability');
-    expect(availabilityOption).toBeInTheDocument();
-    expect(availabilityOption).toHaveRole('option');
-    expect(availabilityOption).toHaveValue('Availability');
+describe('<EventSectionContacts />', () => {
+  beforeEach(() => {
+    render(<EventSectionContacts {...mockProps} currentContacts={[]} type="AVAILABILITY" />);
   });
 
-  it('Edit btn is in the document and renders <ContactMessageForm /> on click', () => {
-    const editBtn = screen.getByText('Edit Contacts');
+  it("if availability selected, it states if there have been no calls & Add Contacts btn", () => {
+    const eventSectionContacts = screen.getByTestId('event-section-contacts');
+    expect(eventSectionContacts.textContent).toMatch("No availability checks made.")
+    expect(eventSectionContacts.textContent).toMatch("Add contacts to get started.")
+
+  })  
+
+});
+
+describe('<EventSectionContacts />', () => {
+  beforeEach(() => {
+    render(<EventSectionContacts {...mockProps} type='BOOKING' />);
+  });
+  it('<EventSectionContacts /> renders', () => {
+    const eventSectionContacts = screen.getByTestId('event-section-contacts');
+    expect(eventSectionContacts).toBeInTheDocument();
+  });
+  it("if booking selected, shows both BOOKING and AUTOBOOK types", () => {
+    const eventSectionContacts = screen.getByTestId('event-section-contacts');
+    expect(eventSectionContacts.textContent).not.toMatch("Greg Ievers")
+    expect(eventSectionContacts.textContent).toMatch("Elliot Gannon")
+    expect(eventSectionContacts.textContent).toMatch("Brett Sturdy")
+  })
+});
+
+describe('<EventSectionContacts />', () => {
+  beforeEach(() => {
+    render(<EventSectionContacts {...mockProps} currentContacts={[]} type='BOOKING' />);
+  });
+
+  it("if booking selected, it states if there have been no calls & Add Contacts btn", () => {
+    const eventSectionContacts = screen.getByTestId('event-section-contacts');
+    expect(eventSectionContacts.textContent).toMatch("No booking calls made.")
+    expect(eventSectionContacts.textContent).toMatch("Add contacts to get started.")
+  })
+ 
+});
+
+
+
+describe('<EventSectionContacts />', () => {
+  const mockProps: EventSectionContactsProps = {
+    type: "BOOKING",
+    editContacts: false,
+    setEditContacts: jest.fn(),
+    eventSectionId: 1,
+    sectionContacts: [mockEnsembleContact],
+    eventCalls: [mockCall],
+    currentContacts: [],
+  };
+  beforeEach(() => {
+    render(<EventSectionContacts {...mockProps} />);
+  });
+  it('if !calls, Add Contacts btn is in the document and calls setEditContacts on click', () => {
+    const editBtn = screen.getByText('Add Contacts');
     expect(editBtn).toBeInTheDocument();
     expect(editBtn).toHaveRole('button');
     act(() => {
       fireEvent.click(editBtn);
     });
-    const form = screen.getByTestId('contact-message-form');
-    expect(form).toBeInTheDocument();
+    expect(mockProps.setEditContacts).toHaveBeenCalledWith(true);
   });
 
-  it('statusSelect is disabled on Edit btn click', () => {
-    const editBtn = screen.getByText('Edit Contacts');
-    expect(editBtn).toBeInTheDocument();
-    expect(editBtn).toHaveRole('button');
-    act(() => {
-      fireEvent.click(editBtn);
-    });
-    const statusSelect = screen.getByTestId('status-select');
-    expect(statusSelect).toHaveAttribute('disabled');
-  });
 });

@@ -7,7 +7,7 @@ import { mockEventSection } from "../../../__mocks__/models/eventSection";
 import { mockSentEmail } from "../../../__mocks__/models/sentEmail";
 import { mockUser } from "../../../__mocks__/models/user";
 import { prismaMock } from "../../../__mocks__/singleton";
-import { createOfferEmail, eventReminderMusician, gigUpdateEmail, messageToAllEmail, releaseDepperEmail, remindUnresponsiveMusicianEmail, responseConfEmail, updateOfferEmail } from "../../../app/sendGrid/playerLib";
+import { createOfferEmail, eventReminderMusician, gigUpdateEmail, messageToAllEmail, releaseDepperEmail, remindUnresponsiveMusicianEmail, responseConfEmail, ResponseConfEmailProps, updateOfferEmail } from "../../../app/sendGrid/playerLib";
 import { getDateRange } from "../../../app/fixing/contactMessage/api/create/functions";
 import { createSentEmail, readOnlyTemplate, responseTemplate } from "../../../app/sendGrid/lib";
 
@@ -32,7 +32,7 @@ describe("createOfferEmail()", () => {
     prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
     expect((await createOfferEmail({
       ...mockArg,
-      bookingOrAvailability: "Availability",
+      type: "AVAILABILITY",
       accepted: null
     })).subject)
       .toBe(`Action Required: Availability check from ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName})`);
@@ -41,29 +41,21 @@ describe("createOfferEmail()", () => {
     prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
     expect((await createOfferEmail({
       ...mockArg,
-      bookingOrAvailability: "Booking",
+      type: "BOOKING",
       accepted: null
     })).subject)
       .toBe(`Action Required: Offer from ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName})`);
-  });
+    
+    });
   it("returns expected subject if booked on behalf of", async () => {
     prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
-    expect((await createOfferEmail({
-      ...mockArg,
-      accepted: true,
-      bookingOrAvailability: "Booking"
-    })).subject)
-      .toBe(`Booking Alert: ${getDateRange(mockArg.calls)} ${mockArg.eventSection.event.ensembleName}`);
+      expect((await createOfferEmail({
+        ...mockArg,
+        accepted: true,
+        type: "AUTOBOOK"
+      })).subject)
+        .toBe(`Booking Alert: ${getDateRange(mockArg.calls)} ${mockArg.eventSection.event.ensembleName}`);
   });
-  it("default subject is availability check", async () => {
-    expect((await createOfferEmail({
-      ...mockArg,
-      bookingOrAvailability: "Booking",
-      accepted: false
-    })).subject)
-      .toBe(`Action Required: Availability check from ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName})`);
-
-  })
   it("returns expected email address", async () => {
     prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
     expect((await createOfferEmail(mockArg)).email)
@@ -74,23 +66,35 @@ describe("createOfferEmail()", () => {
     expect((await createOfferEmail({
       ...mockArg,
       accepted: true,
-      bookingOrAvailability: "Booking"
+      type: "BOOKING"
     })).templateID)
       .toBe(readOnlyTemplate);
+      expect((await createOfferEmail({
+        ...mockArg,
+        accepted: true,
+        type: "AUTOBOOK"
+      })).templateID)
+        .toBe(readOnlyTemplate);
+        expect((await createOfferEmail({
+          ...mockArg,
+          accepted: null,
+          type: "AUTOBOOK"
+        })).templateID)
+          .toBe(readOnlyTemplate);
   });
   it("returns expected templateID if response required", async () => {
     prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
     expect((await createOfferEmail({
       ...mockArg,
       accepted: null,
-      bookingOrAvailability: "Booking"
+      type: "BOOKING"
     })).templateID)
       .toBe(responseTemplate);
     
     expect((await createOfferEmail({
       ...mockArg,
       accepted: null,
-      bookingOrAvailability: "Availability"
+      type: "AVAILABILITY"
     })).templateID)
       .toBe(responseTemplate);
   });
@@ -99,7 +103,7 @@ describe("createOfferEmail()", () => {
     expect((await createOfferEmail({
       ...mockArg,
       accepted: null,
-      bookingOrAvailability: "Booking"
+      type: "BOOKING"
     })).bodyText)
       .toBe(
         `Dear ${mockArg.contact.firstName}, <br />
@@ -137,7 +141,7 @@ GigFix`
         prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
     expect((await createOfferEmail({
       ...mockArg,
-      bookingOrAvailability: "Availability"
+      type: "AVAILABILITY"
     })).bodyText)
       .toBe(
         `Dear ${mockArg.contact.firstName}, <br />
@@ -175,7 +179,7 @@ GigFix`
     prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
     expect((await createOfferEmail({
       ...mockArg,
-      bookingOrAvailability: "Booking",
+      type: "AUTOBOOK",
       accepted: true
     })).bodyText)
       .toBe(
@@ -260,7 +264,7 @@ describe("updateOfferEmail()", () => {
   ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.
   <br />
   <br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) ${mockArg.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
+  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) ${mockArg.type !== "AVAILABILITY" ? 'offers' : 'checks your availability for'} the following: <br />
   <br />
   ${mockArg.calls
     .map(
@@ -290,9 +294,10 @@ Best wishes,<br />
 GigFix`
       );
   })
-  it("returns expected email body text if response required", async () => {
+  it("returns expected email body text if response required to availability check", async () => {
     expect(( await updateOfferEmail({
       ...mockArg,
+      type: "AVAILABILITY",
       accepted: null
     })).bodyText)
       .toBe(
@@ -302,7 +307,49 @@ GigFix`
   ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.
   <br />
   <br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) ${mockArg.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
+  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) checks your availability for the following: <br />
+  <br />
+  ${mockArg.calls
+    .map(
+      (i) =>
+        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
+        ' to<br />' +
+        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
+        '<br />' +
+        i.venue +
+        '<br /><br />'
+    )
+    .join(',')}
+  <br />
+  Gig Status: ${mockArg.eventSection.event.confirmedOrOnHold}<br />
+  Position: ${mockArg.position}<br />
+  Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
+  Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
+  Additional Information: ${mockArg.eventSection.event.additionalInfo ? mockArg.eventSection.event.additionalInfo : 'Not specified'}<br />
+  ${mockArg.playerMessage !== null ? mockArg.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + mockArg.playerMessage : ''}
+<br />
+<br />
+  Click the blue 'Respond' button below or follow <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a> to respond.<br /> <br />
+
+  If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}. <br /> <br />
+
+Best wishes,<br />
+GigFix`);
+  })
+  it("returns expected email body text if response required to offer update", async () => {
+    expect(( await updateOfferEmail({
+      ...mockArg,
+      type: "BOOKING",
+      accepted: null
+    })).bodyText)
+      .toBe(
+        `Dear ${mockArg.contact.firstName}, <br />
+  <br />
+  <br />
+  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.
+  <br />
+  <br />
+  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) offers the following: <br />
   <br />
   ${mockArg.calls
     .map(
@@ -491,14 +538,15 @@ describe("releaseDepperEmail", () => {
 });
 
 describe("responseConfEmail", () => {
-  const mockArg = {
+  const mockArg: ResponseConfEmailProps = {
     token: "luckyToken",
     dateRange: "24 July",
     firstName: "Greg",
     email: "greg@ievers.com.au",
     ensemble: "WA Police String Orchestra",
     accepted: false,
-    bookingOrAvailability: "Booking",
+    type: "BOOKING",
+    status: "AWAITINGREPLY"
   }
   it("returns expected subject", async () => {
     expect((await responseConfEmail(mockArg)).subject)
@@ -515,8 +563,26 @@ describe("responseConfEmail", () => {
   it("returns expected email body text to accepted availability check", async () => {
     expect((await responseConfEmail({
       ...mockArg, 
-      accepted: true, 
-      bookingOrAvailability: "Availability"})
+      status: "AVAILABLE",})
+    ).bodyText)
+      .toBe(
+        `Dear ${mockArg.firstName},
+  <br />
+  <br />
+  This email confirms you indicated your availability for ${mockArg.dateRange} (${mockArg.ensemble}).
+  <br />
+  Please refer to your <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">response page</a> for up to date information and confirmation of your response.
+  <br />
+  <br />
+  Kind regards,
+  <br />
+  GigFix`
+      );
+  })
+  it("returns expected email body text to mixed availability check", async () => {
+    expect((await responseConfEmail({
+      ...mockArg, 
+      status: "MIXED",})
     ).bodyText)
       .toBe(
         `Dear ${mockArg.firstName},
@@ -552,7 +618,27 @@ describe("responseConfEmail", () => {
     expect((await responseConfEmail({
       ...mockArg,
       accepted: true,
-      bookingOrAvailability: "Booking",
+      status: "ACCEPTED",
+      type: "BOOKING",
+    })).bodyText)
+      .toBe(
+        `Dear ${mockArg.firstName},
+  <br />
+  <br />
+  This email confirms you accepted ${mockArg.dateRange} (${mockArg.ensemble}).
+  <br />
+  Please refer to your <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">response page</a> for up to date information and confirmation of your response.
+  <br />
+  <br />
+  Kind regards,
+  <br />
+  GigFix`
+      );
+      expect((await responseConfEmail({
+      ...mockArg,
+      accepted: true,
+      status: "ACCEPTED",
+      type: "BOOKING",
     })).bodyText)
       .toBe(
         `Dear ${mockArg.firstName},
@@ -680,7 +766,7 @@ describe("remindUnresponsiveMusicianEmail", () => {
   <br />
   We are yet to receive a response from you regarding the gig below. If we have not received a response with 48 hours, we will alert the fixer.
   <br /><br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) ${mockArg.bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'offers' : 'checks your availability for'} the following: <br />
+  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) ${mockArg.type === "BOOKING" ? 'offers' : mockArg.type === "AUTOBOOK" ? 'has auto-booked you for'  : 'checks your availability for'} the following: <br />
   <br />
   ${mockArg.calls
     .map(

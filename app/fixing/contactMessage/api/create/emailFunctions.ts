@@ -13,7 +13,10 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
   const contactMessages = await prisma.contactMessage.findMany({
     where: {
       eventSectionId: eventSectionId,
-      bookingOrAvailability: 'Booking',
+      OR: [
+        {type: "AUTOBOOK"},
+        {type: "BOOKING"}
+      ]
     },
     include: {
       eventSection: {
@@ -69,7 +72,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     numToBook: contactMessages[0].eventSection.numToBook,
   });
   const notContacted = contactMessages.filter(
-    (i) => i.received === false && i.accepted === null
+    (i) => i.status === "NOTCONTACTED"
   );
 
   if (numToContact === 0) {
@@ -131,12 +134,16 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
         },
         data: {
           received: true,
+          status: "AWAITINGREPLY"
         },
       });
       if (contact.urgent === true) {
-        await axios.post(`/twilio`, {
-          phoneNumber: contact.contact.phoneNumber,
-          message: `Hi ${contact.contact.firstName}, we have just sent you an urgent email on behalf of ${contact.eventSection.event.fixer.firstName} ${contact.eventSection.event.fixer.lastName} (${contact.eventSection.event.ensembleName}). GigFix`,
+        await axios.post(`${url}/twilio`, {
+          body: {
+
+            phoneNumber: contact.contact.phoneNumber,
+            message: `Hi ${contact.contact.firstName}, we have just sent you an urgent email on behalf of ${contact.eventSection.event.fixer.firstName} ${contact.eventSection.event.fixer.lastName} (${contact.eventSection.event.ensembleName}). GigFix`,
+          }
         });
       }
     } catch (e) {
@@ -152,7 +159,7 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
   const availabilityChecks = await prisma.contactMessage.findMany({
     where: {
       eventSectionId: eventSectionId,
-      bookingOrAvailability: 'Availability',
+      type: "AVAILABILITY",
       received: false,
     },
     include: {

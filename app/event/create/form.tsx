@@ -362,7 +362,9 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 className=''
               />
             )}
-            <SubmitButton disabled={props.isSubmitting} />
+            <SubmitButton 
+              disabled={props.isSubmitting || props.status === "success"} 
+              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
             <div className='h-8'>
               {Object.keys(props.errors).length > 0 &&
                 props.submitCount > 0 && (

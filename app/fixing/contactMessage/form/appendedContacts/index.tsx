@@ -14,7 +14,7 @@ export type AppendedContactsProps = {
     autoAccepted: boolean;
   }[];
   eventCalls: Call[];
-  bookingOrAvailability: string;
+  type: "BOOKING"|"AVAILABILITY"|"AUTOBOOK"
   addPlayerMessage: (index: number, message: string) => void;
   currentCallCount: number;
 };
@@ -25,7 +25,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
     addPlayerMessage,
     contacts,
     eventCalls,
-    bookingOrAvailability,
+    type,
   } = props;
 
   return (
@@ -72,7 +72,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
                     addPlayerMessage={(index, message) =>
                       addPlayerMessage(index, message)
                     }
-                    bookingOrAvailability={bookingOrAvailability}
+                    type={type}
                     key={i.contactId}
                     numContacts={contacts.length}
                     swap={(a, b) => swap(a, b)}

@@ -1,7 +1,4 @@
-import axios from 'axios';
 import prisma from '../../../../../../client';
-
-const url = `${process.env.URL}`;
 
 export const updateContactEventCalls = async (data: {
   calls: {
@@ -11,7 +8,7 @@ export const updateContactEventCalls = async (data: {
   contactMessageId: number;
 }) => {
   try {
-    const contactMsg = await prisma.contactMessage.update({
+    return await prisma.contactMessage.update({
       where: {
         id: data.contactMessageId,
       },
@@ -30,7 +27,6 @@ export const updateContactEventCalls = async (data: {
       },
     });
 
-    //await axios.post(`${url}/response/api`, {body: emailData});
   } catch (e) {
     throw Error(e);
   }

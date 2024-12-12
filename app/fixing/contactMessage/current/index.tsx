@@ -8,23 +8,23 @@ export type CurrentContactMessagesProps = {
     contact: EnsembleContact;
     calls: Call[];
   })[];
-  bookingOrAvailability: string;
+  type: "BOOKING"|"AVAILABILITY"
 };
 
 export default function CurrentContactMessages(
   props: CurrentContactMessagesProps
 ) {
-  const { contacts, eventCalls, bookingOrAvailability } = props;
+  const { contacts, eventCalls, type } = props;
 
   return (
-    <table className='my-4 table-auto rounded border'>
-      <thead className='border bg-slate-50 text-sm'>
+    <table data-testid="current-contacts-table" className='my-4 table-auto rounded border'>
+      <thead data-testid="table-head" className='border bg-slate-50 text-sm'>
         <tr>
-          <th>Queue Number</th>
+          {type !== "AVAILABILITY" && <th>Queue Number</th>}
           <th>Name</th>
           <th>Position</th>
           {eventCalls.map((i) => (
-            <th key={i.id} className='text-xs'>
+            <th data-testid={`${i.id}-col`} key={i.id} className='text-xs'>
               <p>
                 {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
               </p>
@@ -37,7 +37,9 @@ export default function CurrentContactMessages(
       </thead>
       <tbody>
         {contacts
-          .filter((i) => i.bookingOrAvailability === bookingOrAvailability)
+          .filter((i) => (type === "AVAILABILITY" 
+            ? i.type === "AVAILABILITY"
+            : (i.type === "BOOKING" || i.type === "AUTOBOOK")))
           .map((i, index) => (
             <CurrentContactRow
               numContacts={contacts.length}

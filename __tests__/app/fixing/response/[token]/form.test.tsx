@@ -12,10 +12,10 @@ import { mockSection } from '../../../../../__mocks__/models/ensembleSection';
 import { mockCall } from '../../../../../__mocks__/models/call';
 import {
   responseConfEmail,
-  SentEmailData,
 } from '../../../../../app/sendGrid/playerLib';
 import axios from '../../../../../__mocks__/axios';
 import { getDateRange } from '../../../../../app/fixing/contactMessage/api/create/functions';
+import { SentEmailData } from '../../../../../app/sendGrid/lib';
 
 global.confirm = jest.fn(() => true);
 
@@ -49,7 +49,7 @@ let mockProps: ResponseFormProps = {
     calls: [mockCall],
   },
   accepted: null,
-  bookingOrAvailability: 'booking',
+  type: 'BOOKING',
   fixerName: 'mock fixer name',
 };
 
@@ -113,8 +113,8 @@ describe('<ResponseForm />', () => {
       email: localMockProps.contactMessage.contact.email!,
       ensemble: localMockProps.contactMessage.eventSection.event.ensembleName,
       accepted: true,
-      bookingOrAvailability:
-        localMockProps.contactMessage.bookingOrAvailability,
+      type:
+        localMockProps.contactMessage.type,
     });
     expect(axios.post).toHaveBeenCalledWith('/sendGrid', {
       body: {

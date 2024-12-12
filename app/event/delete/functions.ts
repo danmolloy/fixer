@@ -1,17 +1,4 @@
-import axios from 'axios';
 import prisma from '../../../client';
-import {
-  Call,
-  ContactMessage,
-  EnsembleContact,
-  Event,
-  EventSection,
-  User,
-} from '@prisma/client';
-import { getDateRange } from '../../fixing/contactMessage/api/create/functions';
-import { DateTime } from 'luxon';
-
-const url = `${process.env.URL}`;
 
 export const deleteEvent = async (eventId: number) => {
   return await prisma.event.delete({
@@ -25,8 +12,14 @@ export const deleteEvent = async (eventId: number) => {
         include: {
           contacts: {
             where: {
-              accepted: !false,
-              received: true,
+              OR: [
+                {status: "AUTOBOOKED"},
+                {status: "ACCEPTED"},
+                {status: "AVAILABLE"},
+                {status: "MIXED"},
+                {status: "FINDINGDEP"},
+                {status: "AWAITINGREPLY"},
+              ]
             },
             include: {
               contact: true,

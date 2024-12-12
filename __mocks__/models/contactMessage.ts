@@ -1,5 +1,8 @@
 import { faker } from '@faker-js/faker';
-import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
+import { Call, ContactMessage, EnsembleContact, ContactMessageType, ContactMessageStatus } from '@prisma/client';
+
+const statusArr = Object.values(ContactMessageStatus);
+const typeArr = Object.values(ContactMessageType);
 
 export const mockContactMessage: ContactMessage = {
   strictlyTied: false,
@@ -18,9 +21,31 @@ export const mockContactMessage: ContactMessage = {
   accepted: Math.random() > 0.3 ? true : Math.random() > 0.6 ? false : null,
   indexNumber: Math.floor(Math.random() * 10),
   eventSectionId: faker.number.int(),
-  bookingOrAvailability: Math.random() > 0.5 ? 'Booking' : 'Availability',
   offerExpiry: null,
-  status: 'active',
+  type: typeArr[Math.floor(Math.random() * typeArr.length)],
+  status: statusArr[Math.floor(Math.random() * statusArr.length)]
+};
+
+export const mockNotContactedContactMessage: ContactMessage = {
+  strictlyTied: false,
+  urgent: false,
+  availableFor: [],
+  contactId: faker.string.uuid(),
+  token: faker.string.uuid(),
+  position: 'Tutti',
+  playerMessage: faker.lorem.words(8),
+  id: faker.number.int(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  received: Math.random() > 0.5 ? false : true,
+  receivedDate: new Date(),
+  acceptedDate: new Date(),
+  accepted: Math.random() > 0.3 ? true : Math.random() > 0.6 ? false : null,
+  indexNumber: Math.floor(Math.random() * 10),
+  eventSectionId: faker.number.int(),
+  offerExpiry: null,
+  type: typeArr[Math.floor(Math.random() * typeArr.length)],
+  status: "NOTCONTACTED"
 };
 
 export const mockContactMessageForTable: ContactMessage & {
@@ -43,9 +68,9 @@ export const mockContactMessageForTable: ContactMessage & {
   accepted: Math.random() > 0.3 ? true : Math.random() > 0.6 ? false : null,
   indexNumber: Math.floor(Math.random() * 10),
   eventSectionId: faker.number.int(),
-  bookingOrAvailability: Math.random() > 0.5 ? 'Booking' : 'Availability',
   offerExpiry: null,
-  status: 'active',
+  type: typeArr[Math.floor(Math.random() * typeArr.length)],
+  status: statusArr[Math.floor(Math.random() * statusArr.length)],  
   calls: [
     {
       id: faker.number.int(),

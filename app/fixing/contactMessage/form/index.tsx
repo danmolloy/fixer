@@ -22,7 +22,7 @@ export type ContactMessageFormProps = {
     contactMessageId: number | undefined;
   })[];
   eventSectionId: number;
-  bookingOrAvailability: string;
+  type: "BOOKING"|"AVAILABILITY"|"AUTOBOOK"
   sectionContacts: EnsembleContact[];
   currentContacts: ContactMessage /* & {contact: EnsembleContact} */[];
 };
@@ -35,7 +35,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     sectionContacts,
     eventContacts,
     eventSectionId,
-    bookingOrAvailability,
+    type,
   } = props;
   const router = useRouter();
   const [filterCategories, setFilterCategories] = useState<string[]>(
@@ -55,7 +55,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       autoAccepted: false
     })),
     eventSectionId: eventSectionId,
-    bookingOrAvailability: bookingOrAvailability,
+    type: type,
     strictlyTied: 'true',
     urgent: false,
   };
@@ -71,7 +71,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       })
     ),
     eventSectionId: Yup.number().required('Event section ID required'),
-    bookingOrAvailability: Yup.string().required(
+    type: Yup.string().required(
       'Availability check/offer to book not clarified'
     ),
     strictlyTied: Yup.boolean().required(),
@@ -121,7 +121,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
                 currentCallCount={
                   currentContacts.filter(
                     (i) =>
-                      i.bookingOrAvailability.toLocaleLowerCase() == 'booking'
+                      i.type !== "AVAILABILITY"
                   ).length
                 }
                 addPlayerMessage={(index, message) =>
@@ -130,12 +130,12 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
                     message
                   )
                 }
-                bookingOrAvailability={props.values.bookingOrAvailability}
+                type={props.values.type}
                 eventCalls={eventCalls}
                 contacts={props.values.contacts}
               />
             )}
-            {bookingOrAvailability.toLocaleLowerCase() !== 'booking' && (
+            {type === "AVAILABILITY" && (
               <div
                 role='group'
                 aria-labelledby='my-radio-group'
@@ -187,15 +187,15 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
               </button>
               <SubmitButton
                 disabled={
-                  props.values.contacts.length == 0 || props.isSubmitting
-                }
+                  props.values.contacts.length == 0 || props.isSubmitting || props.status === "success"} 
+              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined}
               />
             </div>
             <StatusMessage status={props.status} />
             <div className=''>
               <div className='mb-2 mt-12 flex w-full flex-col'>
                 <h3 className='text-base'>Your List</h3>
-                <p className='text-sm text-gray-500'>{`Select musicians to ${bookingOrAvailability.toLocaleLowerCase() === 'booking' ? 'book' : 'check availability'}.`}</p>
+                <p className='text-sm text-gray-500'>{`Select musicians to ${type !== "AVAILABILITY" ? 'book' : 'check availability'}.`}</p>
               </div>
 
               <DiaryContacts

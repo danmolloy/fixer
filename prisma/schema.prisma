@@ -119,7 +119,6 @@ model ContactMessage {
   playerMessage         String?
   eventSectionId        Int
   indexNumber           Int
-  bookingOrAvailability String          @default("Booking")
   offerExpiry           Int?
   position              String          @default("Tutti")
   token                 String          @unique @default(cuid())

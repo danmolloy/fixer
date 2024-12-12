@@ -37,8 +37,8 @@ export default function EventSectionIndex(props: EventSectionProps) {
   } = props;
   const router = useRouter();
   const [updateSection, setUpdateSection] = useState<boolean>(false);
-  const [bookingOrAvailability, setBookingOrAvailability] =
-    useState<"Booking"|"Availability">('Booking');
+  const [callType, setCallType] =
+    useState<"BOOKING"|"AVAILABILITY">("BOOKING");
   const [editContacts, setEditContacts] = useState<boolean>(false);
 
   return (
@@ -79,8 +79,8 @@ export default function EventSectionIndex(props: EventSectionProps) {
               
             </div>
             <SectionViewSelect
-            selectedView={bookingOrAvailability}
-            setSelectedView={arg => setBookingOrAvailability(arg)}
+            selectedView={callType}
+            setSelectedView={arg => setCallType(arg)}
             disabled={editContacts}
              />
           
@@ -90,7 +90,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
       <EventSectionContacts
         editContacts={editContacts}
         setEditContacts={(arg) => setEditContacts(arg)}
-        bookingOrAvailability={bookingOrAvailability}
+        type={callType}
         currentContacts={currentContacts}
         eventCalls={eventCalls}
         eventSectionId={section.id}

@@ -44,18 +44,16 @@ export default async function GigResponse({
 
   return (
     <div className='-mb-16 flex w-full flex-col items-center justify-center bg-slate-50 py-12'>
-      {data.accepted === null ? (
+      {data.status === "AWAITINGREPLY" ? (
         <ResponseHeader
-          bookingOrAvailability={data.bookingOrAvailability}
+          type={data.type}
           fixerName={`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`}
           contactFirstName={`${data.contact.firstName}`}
         />
       ) : (
         <ResponseConf
-          bookingOrAvailability={data.bookingOrAvailability}
-          availableFor={data.availableFor}
-          contactMessageCalls={data.calls}
-          accepted={data.accepted}
+         
+          contactMessage={data}
         />
       )}
       <table className='my-4 w-[95vw] rounded border md:w-2/3'>
@@ -65,7 +63,7 @@ export default async function GigResponse({
             id='call-type'
             title='Call Type'
             value={
-              data.bookingOrAvailability.toLocaleLowerCase() === 'booking'
+              data.type !== "AVAILABILITY"
                 ? 'Gig Offer'
                 : 'Availability Check'
             }
@@ -181,11 +179,11 @@ export default async function GigResponse({
 
       <div className='my-4 flex flex-col items-center justify-center'>
         {(data.accepted == null ||
-          data.bookingOrAvailability.toLocaleLowerCase() !== 'booking') && (
+          data.type === "AVAILABILITY") && (
           <ResponseForm
             contactMessage={data}
             fixerName={data.eventSection.event.fixerName!}
-            bookingOrAvailability={data.bookingOrAvailability}
+            type={data.type}
             accepted={data.accepted}
           />
         )}

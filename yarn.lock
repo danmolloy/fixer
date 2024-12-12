@@ -3990,7 +3990,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     formik: "npm:^2.4.6"
     html2pdf.js: "npm:^0.10.2"
-    ics: "npm:^3.5.0"
+    ics: "npm:^3.8.1"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     jest-mock-extended: "npm:^3.0.4"
@@ -4004,6 +4004,7 @@ __metadata:
     prettier-plugin-tailwindcss: "npm:^0.6.6"
     prisma: "npm:^5.22.0"
     react: "npm:^18.3.1"
+    react-confetti: "npm:^6.1.0"
     react-csv: "npm:^2.2.2"
     react-diary: "npm:^1.0.16"
     react-dom: "npm:^18.3.1"
@@ -4600,13 +4601,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ics@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "ics@npm:3.5.0"
+"ics@npm:^3.8.1":
+  version: 3.8.1
+  resolution: "ics@npm:3.8.1"
   dependencies:
     nanoid: "npm:^3.1.23"
+    runes2: "npm:^1.1.2"
     yup: "npm:^1.2.0"
-  checksum: 10c0/d45939457a8e5ac9639e8f95998d2284dcc2b80c39447bac3d636d5b5be27280578e8e1441b9525fa3495e7fd2fa6a472a33fc988d94ef77f3181704adee14e9
+  checksum: 10c0/a11634279c15f1c3f3a6c2d669a28079c95d5f59de5e268c560379d76e79f24d80915f66f45a7a959d30a2bef9c7696d8800dc8db95abcc8044b9dcb2accaf26
   languageName: node
   linkType: hard
 
@@ -7196,6 +7198,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-confetti@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "react-confetti@npm:6.1.0"
+  dependencies:
+    tween-functions: "npm:^1.2.0"
+  peerDependencies:
+    react: ^16.3.0 || ^17.0.1 || ^18.0.0
+  checksum: 10c0/5b4eb23eef564695f6db1d25b294ed31d5fa21ff4092c6a38e641f85cd10e3e0b50014366e3ac0f7cf772e73faaecd14614e5b11a5531336fa769dda8068ab59
+  languageName: node
+  linkType: hard
+
 "react-csv@npm:^2.2.2":
   version: 2.2.2
   resolution: "react-csv@npm:2.2.2"
@@ -7495,6 +7508,13 @@ __metadata:
   dependencies:
     queue-microtask: "npm:^1.2.2"
   checksum: 10c0/200b5ab25b5b8b7113f9901bfe3afc347e19bb7475b267d55ad0eb86a62a46d77510cb0f232507c9e5d497ebda569a08a9867d0d14f57a82ad5564d991588b39
+  languageName: node
+  linkType: hard
+
+"runes2@npm:^1.1.2":
+  version: 1.1.4
+  resolution: "runes2@npm:1.1.4"
+  checksum: 10c0/306e5ffe2acfe59ec82108d5a6f2ae367c669e63a89372f9f328d5fd2f18ac6f832eeae84c263addef9c24938246f7216df1a7dcd7ae7bb60c223f4edf56f0b7
   languageName: node
   linkType: hard
 
@@ -8417,6 +8437,13 @@ __metadata:
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 10c0/e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
+  languageName: node
+  linkType: hard
+
+"tween-functions@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "tween-functions@npm:1.2.0"
+  checksum: 10c0/7e59295b8b0ee4132ed2fe335f56a9db5c87056dad6b6fd3011be72239fd20398003ddb4403bc98ad9f5c94468890830f64016edbbde35581faf95b32cda8305
   languageName: node
   linkType: hard
 

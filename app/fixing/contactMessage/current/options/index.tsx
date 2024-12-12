@@ -1,9 +1,6 @@
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 import axios from 'axios';
-import { DateTime } from 'luxon';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import UpdateContactEventCalls from './updateEventCalls';
 import { TiTimes } from 'react-icons/ti';
 import Link from 'next/link';
 
@@ -21,7 +18,7 @@ export type CurrentContactsOptionsProps = {
 export default function CurrentContactsOptions(
   props: CurrentContactsOptionsProps
 ) {
-  const { contact, index, numContacts, eventCalls, setCloseMenu } = props;
+  const { contact, index, numContacts, setCloseMenu } = props;
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -75,9 +72,11 @@ export default function CurrentContactsOptions(
       <div className='m-1 flex flex-row items-center justify-between'>
         <h3>{`${contact.contact.firstName} ${contact.contact.lastName}`}</h3>
         <button
+          data-testid="close-btn"
           onClick={() => setCloseMenu()}
           className='m-1 p-1 hover:bg-slate-100'
         >
+          <p className='hidden'>Close</p>
           <TiTimes size={16} />
         </button>
       </div>
@@ -92,8 +91,7 @@ export default function CurrentContactsOptions(
         <button
           className='p-1 text-start hover:bg-slate-100 disabled:opacity-40'
           disabled={
-            contact.accepted !== true ||
-            contact.bookingOrAvailability.toLocaleLowerCase() !== 'booking'
+            contact.status !== "ACCEPTED" && contact.status !== "AUTOBOOKED"
           }
           onClick={() =>
             handleUpdate(

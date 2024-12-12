@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import ContactMessageForm from './form';
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 import CurrentContactMessages from './current';
@@ -11,7 +10,7 @@ export type EventSectionContactsProps = {
     contact: EnsembleContact;
     calls: Call[];
   })[];
-  bookingOrAvailability: string;
+  type: "BOOKING"|"AVAILABILITY"
   editContacts: boolean;
   setEditContacts: (arg: boolean) => void;
 };
@@ -20,39 +19,40 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
   const {
     editContacts,
     setEditContacts,
-    bookingOrAvailability,
     currentContacts,
     eventSectionId,
     sectionContacts,
     eventCalls,
+    type
   } = props;
 
   return (
     <div data-testid='event-section-contacts' className='my-2 flex flex-col'>
       {currentContacts.filter(
-        (i) => i.bookingOrAvailability === bookingOrAvailability
+        (i) => i.type === type
       ).length === 0 && editContacts === false ? (
         <div className='my-4 flex w-full flex-col items-center'>
           <p className='font-medium'>
             No{' '}
-            {bookingOrAvailability.toLowerCase() === 'availability'
+            {type === "AVAILABILITY"
               ? 'availability checks'
               : 'booking calls'}{' '}
             made.
           </p>
-          <p className='text-sm'>Add Contacts to get started.</p>
+          <p className='text-sm'>Add contacts to get started.</p>
           <button onClick={() => setEditContacts(true)} className="mt-4 p-1 border rounded hover:bg-slate-50 text-sm">Add Contacts</button>
         </div>
       ) : currentContacts.filter(
-          (i) => i.bookingOrAvailability === bookingOrAvailability
+          (i) => (type === "AVAILABILITY" 
+          ? i.type === "AVAILABILITY"
+          : (i.type === "BOOKING" || i.type === "AUTOBOOK"))
         ).length > 0 ? (
         <CurrentContactMessages
-          bookingOrAvailability={bookingOrAvailability}
+          type={type}
           eventCalls={eventCalls}
           contacts={currentContacts}
         />
       ) : null}
-      
       {editContacts && (
         <ContactMessageForm
           currentContacts={currentContacts}
@@ -60,7 +60,7 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
           cancelForm={() => setEditContacts(false)}
           eventContacts={[]}
           eventSectionId={eventSectionId}
-          bookingOrAvailability={bookingOrAvailability}
+          type={type}
           sectionContacts={sectionContacts}
         />
       )}

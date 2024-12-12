@@ -5,10 +5,8 @@ import TextInput from '../../forms/textInput';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
-import { buttonPrimary } from '../../ensembles/dashboard';
 import { phoneRegex } from '../../ensembles/[id]/contacts/import/contactInput';
 import SubmitButton from '../../forms/submitBtn';
-import ValidationError from '../../forms/validationError';
 import StatusMessage from '../../forms/statusMessage';
 
 export type UpdateUserFormProps = {
@@ -100,7 +98,9 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
               label='Email'
               type='email'
             />
-            <SubmitButton disabled={props.isSubmitting} />
+            <SubmitButton 
+              disabled={props.isSubmitting || props.status === "success"} 
+              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
             <StatusMessage status={props.status} />
           </Form>
         )}

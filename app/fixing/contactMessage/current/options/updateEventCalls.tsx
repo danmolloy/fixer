@@ -137,8 +137,8 @@ export default function UpdateContactEventCalls(
             disabled={
               JSON.stringify(initialVals.calls.map((i) => String(i))) ===
                 JSON.stringify(props.values.calls.map((i) => String(i))) ||
-              props.isSubmitting
-            }
+              props.isSubmitting || props.status === "success"} 
+            status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined}
           />
         </Form>
       )}

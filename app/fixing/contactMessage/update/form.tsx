@@ -35,7 +35,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           : '',
     playerMessage: contact.playerMessage,
     calls: contact.calls.map((i) => String(i.id)),
-    bookingOrAvailability: contact.bookingOrAvailability,
+    type: contact.type,
     offerExpiry: contact.offerExpiry,
     status: contact.status,
     position: contact.position,
@@ -48,7 +48,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
     accepted: Yup.boolean().nullable(),
     playerMessage: Yup.string(),
     calls: Yup.array().min(1, 'at least one call must be offered'),
-    bookingOrAvailability: Yup.string().required(),
+    type: Yup.string().required(),
     //offerExpiry: Yup.number(),
     //status: Yup.string(),
     position: Yup.string().required('player position required'),
@@ -56,48 +56,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
     urgent: Yup.boolean(),
   });
 
-  const handleSubmit = async (values) => {
-    try {
-      const newData = await axios.post('/fixing/contactMessage/api/update', {
-        id: contact.id,
-        data: {
-          received: values.received === 'true' ? true : false,
-          accepted:
-            values.accepted === 'true'
-              ? true
-              : values.accepted === 'false'
-                ? false
-                : null,
-          playerMessage: values.playerMessage,
-          //offerExpiry: values.offerExpiry,
-          position: values.position,
-          strictlyTied: values.strictlyTied,
-          bookingOrAvailability: values.bookingOrAvailability,
-          urgent: values.urgent,
-          calls: {
-            connect: values.calls.map((i) => ({ id: Number(i) })),
-            disconnect: contact.calls
-              .map((i) => String(i.id))
-              .filter((i) => !values.calls.includes(i))
-              .map((i) => ({
-                id: Number(i),
-              })),
-          },
-        },
-      });
-      const emailData = await updateOfferEmail(newData.data);
-      await axios.post(`/sendGrid`, {
-        body: {
-          emailData: emailData,
-          templateID: emailData.templateID,
-          emailAddress: emailData.email,
-        },
-      });
-      router.push(`/event/${event.id}`);
-    } catch (e) {
-      throw new Error(e);
-    }
-  };
+  
 
   return (
     <Formik
@@ -118,10 +77,15 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                   : values.accepted === 'false'
                     ? false
                     : null,
+              status: values.accepted === 'true'
+              ? "ACCEPTED"
+              : values.accepted === 'false'
+                ? 'DECLINED'
+                : 'AWAITINGREPLY',
               playerMessage: values.playerMessage,
               position: values.position,
               strictlyTied: values.strictlyTied,
-              bookingOrAvailability: values.bookingOrAvailability,
+              type: values.type,
               urgent: values.urgent,
               calls: {
                 connect: values.calls.map((i) => ({ id: Number(i) })),
@@ -170,12 +134,13 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             disabled={props.isSubmitting}
             className='my-1 rounded border'
             as='select'
-            name='bookingOrAvailability'
+            name='type'
           >
-            <option value='Booking'>To Book</option>
-            <option value='Availability'>Availability Check</option>
+            <option value='BOOKING'>To Book</option>
+            <option value='AVAILABILITY'>Availability Check</option>
+            <option value="AUTOBOOK">Auto-Book</option>
           </Field>
-          <ErrorMessage name='bookingOrAvailability'>
+          <ErrorMessage name='type'>
             {(err) => <p className='text-xs text-red-500'>{err}</p>}
           </ErrorMessage>
           <div className='my-2'>
@@ -265,7 +230,9 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             label='Message to Player'
             name='playerMessage'
           />
-          <SubmitButton disabled={props.isSubmitting} />
+          <SubmitButton 
+              disabled={props.isSubmitting || props.status === "success"} 
+              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
           <ValidationError errors={Object.values(props.errors).flat()} />
           <StatusMessage status={props.status} />
         </Form>

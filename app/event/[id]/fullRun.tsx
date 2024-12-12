@@ -31,14 +31,7 @@ export default function FullRunIndex(props: FullRunIndexProps) {
     }))
     .sort((a, b) => a.indexNum - b.indexNum);
 
-  const zeroIndContact = (section, call) => {
-    return section.contacts.filter(
-      (c, ind) =>
-        c.accepted === true &&
-        c.bookingOrAvailability === 'Booking' &&
-        c.calls.map((m) => m.id).includes(call.id)
-    );
-  };
+
 
   if (sections.length === 0) {
     return (
@@ -81,8 +74,8 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                       {i.contacts
                         .filter(
                           (c) =>
-                            c.accepted === true &&
-                            c.bookingOrAvailability === 'Booking' &&
+                            (c.status === 'ACCEPTED' || c.status === 'AUTOBOOKED' || c.status === "FINDINGDEP") &&
+                            c.type !== "AVAILABILITY" &&
                             c.calls.map((z) => z.id).includes(j.id)
                         )
                         .map((c, ind) => (
