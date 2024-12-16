@@ -6,6 +6,7 @@ import CalendarHeader from './header';
 import DayView from './views/dayView';
 import MonthView from './views/monthView';
 import YearView from './views/yearView';
+import ViewAllUpcoming from './viewAll';
 
 export type UserWithEventsAndCallsWithEnsemble = Prisma.UserGetPayload<{
   include: {
@@ -16,11 +17,24 @@ export type UserWithEventsAndCallsWithEnsemble = Prisma.UserGetPayload<{
             ensemble: true;
           };
         };
-      };
+      },
+      orderBy: {
+        startTime: 'asc'
+      }
     };
     events: {
       include: {
-        calls: true;
+        sections: {
+          include: {
+            contacts: true,
+            ensembleSection: true
+          }
+        },
+        calls: {
+          orderBy: {
+            startTime: 'asc'
+          }
+        }
       };
     };
   };
@@ -44,6 +58,14 @@ export default function CalendarIndex(props: CalendarIndexProps) {
     );
   }
 
+  const upcomingEventIDs = data.calls.filter(i => (
+    DateTime.fromJSDate(new Date(i.endTime)) > DateTime.now().startOf('day')
+  )).sort((a, b) => DateTime.fromJSDate(new Date(a.startTime)).toMillis() - DateTime.fromJSDate(new Date(b.startTime)).toMillis()).map(i => i.eventId)
+  const uniqueIds = Array.from(new Set(upcomingEventIDs));
+  const idOrder = new Map(uniqueIds.map((id, index) => [id, index]));
+  const sortedEvents = data.events.filter(i => idOrder.has(i.id)).sort((a, b) => (idOrder.get(a.id) ?? 0) - (idOrder.get(b.id) ?? 0));
+
+
   return (
     <div
       data-testid='calendar-index'
@@ -55,7 +77,9 @@ export default function CalendarIndex(props: CalendarIndexProps) {
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
       />
-      {selectedView === 'Year' ? (
+      {selectedView === 'All Upcoming' ?
+      <ViewAllUpcoming events={sortedEvents}/>
+      : selectedView === 'Year' ? (
         <YearView
           setSelectedView={(arg) => setSelectedView(arg)}
           selectedDate={selectedDate}

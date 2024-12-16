@@ -108,7 +108,7 @@ export const updateOfferEmail = async (
     };
   }
 ): Promise<SentEmailData> => {
-  const subject = data.accepted === null 
+  const subject = data.status === "AWAITINGREPLY"
     ? `Action Required: Update from ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`
     : `Update: ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
   const templateID = responseTemplate;
@@ -151,7 +151,6 @@ export const updateOfferEmail = async (
 
 Best wishes,<br />
 GigFix`;
-
   const emailData = {
     subject,
     responseLink,

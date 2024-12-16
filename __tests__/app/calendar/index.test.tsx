@@ -27,4 +27,5 @@ describe('<CalendarIndex />', () => {
     const callList = screen.getByTestId('call-list');
     expect(callList).toBeInTheDocument();
   });
+  it("past events are not in upcoming events", () => {})
 });

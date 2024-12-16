@@ -79,6 +79,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
               
             </div>
             <SectionViewSelect
+            availabilityCheckCount={currentContacts.filter(i => i.type === "AVAILABILITY").length}
             selectedView={callType}
             setSelectedView={arg => setCallType(arg)}
             disabled={editContacts}

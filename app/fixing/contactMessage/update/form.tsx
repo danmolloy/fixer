@@ -46,7 +46,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
   const contactSchema = Yup.object().shape({
     received: Yup.boolean().required(), //
     accepted: Yup.boolean().nullable(),
-    playerMessage: Yup.string(),
+    playerMessage: Yup.string().nullable(),
     calls: Yup.array().min(1, 'at least one call must be offered'),
     type: Yup.string().required(),
     //offerExpiry: Yup.number(),
@@ -99,14 +99,16 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             },
           })
           .then(async (res) => {
-            const emailData = await updateOfferEmail(res.data);
+
+            /* const emailData = await updateOfferEmail(res.data);
+
             await axios.post(`/sendGrid`, {
               body: {
                 emailData: emailData,
                 templateID: emailData.templateID,
                 emailAddress: emailData.email,
               },
-            });
+            }); */
             router.push(`/event/${event.id}`);
             actions.setStatus('success');
           })

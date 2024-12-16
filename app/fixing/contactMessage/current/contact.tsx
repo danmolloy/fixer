@@ -28,7 +28,7 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
     <tr data-testid="contact-row" className={`text-sm ${contact.status === 'DECLINED' && 'text-gray-300'}`}>
       {contact.type !== "AVAILABILITY" 
       && <td className='text-center'>
-        {contact.indexNumber}
+        {index}
       </td>}
       <td className='text-center'>
         <p>{`${contact.contact.firstName} ${contact.contact.lastName}`}</p>
@@ -82,9 +82,30 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           )}
         </td>
       ))}
-      <td className='text-center'>
+      {(contact.status === "ACCEPTED" 
+      || contact.status === "AUTOBOOKED" 
+      || contact.status === "AVAILABLE")
+      ? <td className='text-center text-white bg-green-500'>
           <p className=''>{contact.status}</p>
-        </td>
+      </td> : contact.status === "DECLINED" 
+      ? <td className='text-center text-black bg-white opacity-40'>
+          <p className=''>{contact.status}</p>
+      </td> : contact.status === "AWAITINGREPLY"
+      ? <td className='text-center text-white bg-amber-500'>
+          <p className=''>AWAITING REPLY</p>
+      </td> : contact.status === "NOTCONTACTED" 
+      ? <td className='text-center text-black bg-white opacity-40'>
+          <p className=''>NOT CONTACTED</p>
+      </td> : contact.status === "FINDINGDEP" 
+      ? <td className='text-center text-white bg-amber-500'>
+          <p className=''>FINDING DEP</p>
+      </td> : contact.status === "MIXED" 
+      ? <td className='text-center text-white bg-orange-500'>
+          <p className=''>{contact.status}</p>
+      </td> : <td className='text-center text-white bg-red-600'> {/* ERROR */}
+          <p className=''>{contact.status}</p>
+      </td> 
+      }
       <td className='flex items-center justify-center text-black'>
         <button
           data-testid="menu-btn"

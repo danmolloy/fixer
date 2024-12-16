@@ -67,7 +67,7 @@ export default function CurrentContactsOptions(
   return (
     <div
       data-testid='contact-options'
-      className='absolute -ml-12 mt-12 flex flex-col border bg-white p-2'
+      className='absolute -ml-12 mt-12 flex flex-col border bg-white p-2 z-10'
     >
       <div className='m-1 flex flex-row items-center justify-between'>
         <h3>{`${contact.contact.firstName} ${contact.contact.lastName}`}</h3>
