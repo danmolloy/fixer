@@ -162,7 +162,7 @@ export default function ResponseForm(props: ResponseFormProps) {
           actions.setSubmitting(true);
           handleSubmit(values)
             .then(() => {
-              if (values.accepted === 'true') {
+              if (values.accepted === 'true' && contactMessage.type !== "AVAILABILITY") {
                 router.push(`/fixing/response/${contactMessage.token}/?accepted=true`);
               } else {
                 router.push(`/fixing/response/${contactMessage.token}`);

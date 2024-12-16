@@ -54,10 +54,9 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
 
   return (
     <tr data-testid="appended-contact" className='h-10 text-center text-sm'>
-      <td className='px-1' data-testid="queue-num">
-        {type !== "AVAILABILITY" &&
-          currentCallCount + index + 1}
-      </td>
+      {type !== "AVAILABILITY" &&<td className='px-1' data-testid="queue-num">
+        {currentCallCount + index + 1}
+      </td>}
       <td className=''>{contact.name}</td>
       <td className=''>
       <Field data-testid="position-input" name={`contacts[${index}]position`} />
@@ -140,14 +139,14 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
           {contact.playerMessage && <TiMail size={24} />}
         </button>
       </td>
-      <td className='text-center' >
+      {type !== "AVAILABILITY" && <td className='text-center' >
           <Field
             data-testid="auto-accept-checkbox"
             checked={contact.autoAccepted}
             type='checkbox'
             name={`contacts[${index}]autoAccepted`}
           />
-        </td>
+        </td>}
     </tr>
   );
 }
