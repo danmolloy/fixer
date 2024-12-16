@@ -160,7 +160,7 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
     where: {
       eventSectionId: eventSectionId,
       type: "AVAILABILITY",
-      received: false,
+      status: "NOTCONTACTED"
     },
     include: {
       eventSection: {
@@ -230,7 +230,7 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
           id: contact.id,
         },
         data: {
-          received: true,
+          status: "AWAITINGREPLY"
         },
       });
     } catch (e) {
