@@ -130,7 +130,7 @@ export default function ResponseForm(props: ResponseFormProps) {
             email: contactMessage.contact.email!,
             ensemble: contactMessage.eventSection.event.ensembleName,
             accepted: values.accepted ? true : false,
-            status: values.accepted === 'true' && contactMessage.type !== "AVAILABILITY" 
+            status:  (values.accepted === 'true' && contactMessage.type !== "AVAILABILITY") 
             ? "ACCEPTED"
             : (values.accepted === 'true' && values.availableFor.length === contactMessage.calls.length) 
               ?  "AVAILABLE" 

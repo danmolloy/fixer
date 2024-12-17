@@ -71,6 +71,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
     );
   };
 
+
   return (
     <div
       data-testid='create-event-section'

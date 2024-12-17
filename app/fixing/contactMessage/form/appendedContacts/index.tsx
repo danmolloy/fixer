@@ -34,7 +34,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
       <table className='my-4 w-full border'>
         <thead className='border-b bg-slate-50 text-sm'>
           <tr>
-            {"AVAILABILITY" !== "AVAILABILITY" && <th>Queue Number</th>}
+            {type !== "AVAILABILITY" && <th>Queue Number</th>}
             <th>Name</th>
             <th className=''>Position</th>
             {eventCalls.map((i) => (
