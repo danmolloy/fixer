@@ -13,12 +13,9 @@ import {
 import EventHeader from './eventHeader';
 import EventInfo from './eventInfo';
 import { useRef, useState } from 'react';
-//import html2pdf from 'html2pdf.js';
 import EventMenu from './menu';
 import OrchestraList from './orchestraList';
 import FixingIndex from '../../fixing';
-import Link from 'next/link';
-import { TbSend } from 'react-icons/tb';
 import FullRunIndex from './fullRun';
 import EventViewSelect from './viewSelect';
 

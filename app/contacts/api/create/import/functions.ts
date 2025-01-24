@@ -8,7 +8,7 @@ export type CreateContactsProps = {
     email: string;
     phoneNumber: string;
     role: string;
-    sectionName: string;
+    sectionId: string;
     category: string;
     //sectionId: string | undefined;
   }[];
@@ -16,6 +16,44 @@ export type CreateContactsProps = {
 };
 
 export const createContacts = async (data: CreateContactsProps) => {
+  
+    return await prisma.ensembleContact.createMany({
+      data: data.contacts.map(contact => ({
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        email: contact.email,
+        phoneNumber: contact.phoneNumber,
+        role: contact.role,
+        category: contact.category,
+        ensembleId: data.ensembleId,
+        sectionId: contact.sectionId,
+      }))
+      /* data: {
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        email: contact.email,
+        phoneNumber: contact.phoneNumber,
+        role: contact.role,
+        category: contact.category,
+        ensemble: { connect: { id: data.ensembleId } },
+        section: section
+          ? { connect: { id: section.id } }
+          : {
+              create: {
+                name: contact.sectionName,
+                ensemble: { connect: { id: data.ensembleId } },
+              },
+            },
+      },
+      include: {
+        ensemble: { include: { sections: true } },
+      }, */
+    });
+
+};
+
+
+/* export const createContacts = async (data: CreateContactsProps) => {
   let ensembleSections = await prisma.ensembleSection.findMany({
     where: {
       ensembleId: data.ensembleId,
@@ -73,3 +111,4 @@ export const createContacts = async (data: CreateContactsProps) => {
   );
   return createdContacts;
 };
+ */

@@ -38,7 +38,6 @@ export default function CreateEnsembleForm(props: { userId: string }) {
           await axios
             .post('create/api', values)
             .then(async (res) => {
-              alert(JSON.stringify(res));
               const checkout = await getBillingRoute(await res.data);
               window.location.href = checkout.data.url;
               actions.setStatus('success');

@@ -3,10 +3,7 @@ import prisma from '../../../../client';
 export type CreateEnsembleContact = {
   firstName: string;
   lastName: string;
-  section: {
-    name: string;
-    id: undefined | string;
-  };
+  section: string
   role: string;
   ensembleId: string;
   email: string;
@@ -15,7 +12,7 @@ export type CreateEnsembleContact = {
 };
 
 export const createContact = async (args: CreateEnsembleContact) => {
-  const sectionData = args.section.id
+  /* const sectionData = args.section.id
     ? { connect: { id: args.section.id } }
     : {
         create: {
@@ -26,7 +23,7 @@ export const createContact = async (args: CreateEnsembleContact) => {
             },
           },
         },
-      };
+      }; */
   return await prisma.ensembleContact.create({
     data: {
       firstName: args.firstName,
@@ -40,7 +37,11 @@ export const createContact = async (args: CreateEnsembleContact) => {
           id: args.ensembleId,
         },
       },
-      section: sectionData,
-    },
+      section: {
+        connect: {
+          id: args.section
+        }
+      }
+     },
   });
 };

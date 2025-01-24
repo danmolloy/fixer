@@ -5,10 +5,7 @@ export const updateContact = async (data: {
   updatedData: {
     firstName: string;
     lastName: string;
-    section: {
-      name: string;
-      id: string | undefined;
-    };
+    section: string;
     role: string;
     ensembleId: string;
     email: string;
@@ -16,7 +13,7 @@ export const updateContact = async (data: {
     category: string;
   };
 }) => {
-  const sectionData = data.updatedData.section.id
+  /* const sectionData = data.updatedData.section.id
     ? { connect: { id: data.updatedData.section.id } }
     : {
         create: {
@@ -27,7 +24,7 @@ export const updateContact = async (data: {
             },
           },
         },
-      };
+      }; */
 
   return await prisma.ensembleContact.update({
     where: {
@@ -40,7 +37,11 @@ export const updateContact = async (data: {
       role: data.updatedData.role,
       email: data.updatedData.email,
       phoneNumber: data.updatedData.phone,
-      section: sectionData,
+      section: {
+        connect: {
+          id: data.updatedData.section
+        }
+      },
     },
   });
 };

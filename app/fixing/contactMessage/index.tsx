@@ -29,7 +29,9 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
   return (
     <div data-testid='event-section-contacts' className='my-2 flex flex-col'>
       {currentContacts.filter(
-        (i) => i.type === type
+        (i) => (type === "AVAILABILITY" 
+          ? i.type === "AVAILABILITY"
+          : (i.type === "BOOKING" || i.type === "AUTOBOOK"))
       ).length === 0 && editContacts === false ? (
         <div className='my-4 flex w-full flex-col items-center'>
           <p className='font-medium'>

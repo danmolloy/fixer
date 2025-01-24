@@ -6,6 +6,7 @@ import { Ensemble, EnsembleSection } from '@prisma/client';
 import ContactInput from './contactInput';
 import { instrumentSections } from '../../../../contacts/lib';
 import { faker } from '@faker-js/faker';
+import { sectionNamesArr } from '../../../create/api/functions';
 
 export type ImportFormProps = {
   ensemble: Ensemble & {
@@ -51,11 +52,10 @@ export default function ImportForm(props: ImportFormProps) {
   };
 
   const handleSeeding = () => {
+    alert(ensemble.sections[Math.floor(Math.random() * ensemble.sections.length)].id)
     const mockContacts = new Array(100).fill(null).map((i) => ({
       Section:
-        instrumentSections[
-          Math.floor(Math.random() * instrumentSections.length)
-        ].name,
+      ensemble.sections[Math.floor(Math.random() * ensemble.sections.length)].id,
       'First Name': faker.person.firstName(),
       'Last Name': faker.person.lastName(),
       Category: Math.random() > 0.5 ? 'Extra' : 'Member',
@@ -63,6 +63,7 @@ export default function ImportForm(props: ImportFormProps) {
       'Phone Number': faker.phone.number({ style: 'international' }),
       Role: Math.random() > 0.3 ? 'Tutti' : 'Principal',
     }));
+    console.log(mockContacts[0].Section)
     setData(mockContacts);
   };
 
@@ -163,13 +164,14 @@ export default function ImportForm(props: ImportFormProps) {
       <div className='m-1 w-screen p-1'>
         {data && (
           <ContactInput
+          sections={ensemble.sections}
             ensembleId={ensemble.id}
             contacts={data.map((i, index) => ({
               firstName: i['First Name'],
               lastName: i['Last Name'],
               email: i['Email'],
               phoneNumber: i['Phone Number'],
-              sectionName: i['Section'],
+              sectionId: i['Section'],
               role: i['Role'],
               category: i['Category'],
             }))}

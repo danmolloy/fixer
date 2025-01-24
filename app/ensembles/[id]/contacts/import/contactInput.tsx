@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import ValidationError from '../../../../forms/validationError';
 import SubmitButton from '../../../../forms/submitBtn';
 import StatusMessage from '../../../../forms/statusMessage';
+import { EnsembleSection } from '@prisma/client';
 
 export type ContactInputProps = {
   contacts: {
@@ -14,17 +15,18 @@ export type ContactInputProps = {
     lastName: string;
     email: string;
     phoneNumber: string;
-    sectionName: string;
+    sectionId: string;
     role: string;
     category: string;
   }[];
   ensembleId: string;
+  sections: EnsembleSection[];
 };
 
 export const phoneRegex = /^\+[1-9]\d{1,14}$/;
 
 export default function ContactInput(props: ContactInputProps) {
-  const { contacts, ensembleId } = props;
+  const { contacts, ensembleId, sections } = props;
   const router = useRouter();
 
   const contactInputSchema = Yup.object().shape({
@@ -40,7 +42,7 @@ export default function ContactInput(props: ContactInputProps) {
               'number must be international format, i.e. +445504281329'
             )
             .required('phone number required'),
-          sectionName: Yup.string().required('section required'),
+          sectionId: Yup.string().required('section required'),
           role: Yup.string().required('role required'),
           category: Yup.string().required('category required'),
         })
@@ -175,21 +177,20 @@ export default function ContactInput(props: ContactInputProps) {
                             <Field
                               disabled={props.isSubmitting}
                               className='mx-0 rounded border border-black'
-                              name={`contacts.${index}.sectionName`}
-                              data-testid={`contacts.${index}.sectionName`}
+                              name={`contacts.${index}.sectionId`}
+                              data-testid={`contacts.${index}.sectionId`}
                               as='select'
                             >
                               <option value={''}>select</option>
-                              {instrumentSections.map((i) => (
-                                <option value={i.name} key={i.id}>
+                              {sections.map((i) => (
+                                <option value={i.id} key={i.id}>
                                   {i.name}
                                 </option>
                               ))}
                             </Field>
-
                             <ErrorMessage
                               className='border'
-                              name={`contacts.${index}.sectionName`}
+                              name={`contacts.${index}.sectionId`}
                             >
                               {(e) => (
                                 <p className='text-xs text-red-500'>{e}</p>
@@ -242,7 +243,7 @@ export default function ContactInput(props: ContactInputProps) {
                         lastName: '',
                         email: '',
                         phoneNumber: '',
-                        sectionName: '',
+                        sectionId: '',
                         role: '',
                         category: '',
                       })

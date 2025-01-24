@@ -13,6 +13,7 @@ import { useState } from 'react';
 import CreateContactForm from '../contacts/createContactForm';
 import { AxiosResponse } from 'axios';
 import { getBillingRoute } from '../billing/api/manage/lib';
+import { TiWarning } from 'react-icons/ti';
 
 export type EnsembleIndexProps = {
   sections: EnsembleSection[];
@@ -45,20 +46,33 @@ export default function EnsembleIndex(props: EnsembleIndexProps) {
 
   return (
     <div data-testid='ensemble-index' className='w-full p-2 sm:px-4 lg:px-24'>
+      {!ensemble.stripeSubscriptionId && <div className='flex flex-col  my-8 self-center rounded bg-amber-50 p-4 text-sm text-amber-800 lg:w-1/2'>
+        <div className='flex flex-row items-center justify-start'>
+        <div className='flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-amber-100'>
+                  <TiWarning />
+                </div>
+          <h4 className='ml-1 font-semibold'>No active subscription</h4>
+          </div>
+          <p className=' font-medium mx-5 my-1 '>You need an active subscription to fix gigs. You can still create events, import your address book and invite admin users.</p>
+          <button
+                className='my-2 self-center p-1 rounded hover:bg-amber-100 text-center'
+                onClick={() => handleSubscribe()}
+              >
+                Subscribe
+              </button>
+        </div>}
       <div className='flex flex-col justify-between lg:flex-row'>
-        <div className='flex flex-col items-start'>
-          <h1 className='m-4 text-3xl font-semibold'>{ensemble.name}</h1>
-          <div className='flex w-full flex-row items-center justify-between'>
-            {!ensemble.stripeSubscriptionId && (
+        <div className='flex flex-row items-start justify-between w-full '>
+          <h1 className='text-3xl font-semibold'>{ensemble.name}</h1>
+            {/* {!ensemble.stripeSubscriptionId && (
               <button
                 className='h-8 rounded border px-2 text-sm'
                 onClick={() => handleSubscribe()}
               >
                 Subscribe
               </button>
-            )}
+            )} */}
             <EnsembleDashboard ensemble={ensemble} />
-          </div>
         </div>
       </div>
       {addContact && (

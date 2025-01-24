@@ -36,7 +36,7 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
   return (
     <div
       data-testid='ensemble-dashboard'
-      className='m-1 flex flex-row items-center justify-between'
+      className='m-1 flex flex-row items-center justify-between '
     >
       <div className='w-32'>
         <button

@@ -94,7 +94,18 @@ model Call {
   event           Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
   fixer           User             @relation(fields: [fixerId], references: [id])
   contactMessages ContactMessage[] @relation("CallToContactMessage")
+  //orchestration   Orchestration[]  @relation("CallToOrchestration")
 }
+
+/* model Orchestration {
+  id          Int     @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  callId      Int
+  instrument  SectionName
+  numRequired Int     
+  call        Call    @relation(fields: [callId], references: [id], onDelete: Cascade)
+} */
 
 model EventSection {
   id                Int              @id @default(autoincrement())
@@ -178,11 +189,31 @@ model EnsembleAdmin {
 
 model EnsembleSection {
   id         String            @id @default(cuid())
-  name       String
+  name       SectionName
   ensembleId String
   contacts   EnsembleContact[]
   ensemble   Ensemble          @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
   events     EventSection[]
+}
+
+enum SectionName {
+  FLUTE
+  OBOE
+  CLARINET
+  BASSOON
+  HORN
+  TRUMPET
+  TROMBONE
+  TUBA
+  TIMPANI
+  PERCUSSION
+  ORGAN
+  PIANO
+  VIOLIN1
+  VIOLIN2
+  VIOLA
+  CELLO
+  DOUBLEBASS
 }
 
 model EnsembleContact {

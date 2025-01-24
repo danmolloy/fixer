@@ -11,6 +11,7 @@ import { phoneRegex } from '../ensembles/[id]/contacts/import/contactInput';
 import ValidationError from '../forms/validationError';
 import SubmitButton from '../forms/submitBtn';
 import StatusMessage from '../forms/statusMessage';
+import { sectionNamesArr } from '../ensembles/create/api/functions';
 
 export type CreateContactFormProps = {
   ensembleId: string;
@@ -37,7 +38,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
   const initialValues: CreateEnsembleContactForm = {
     firstName: contact ? contact.firstName : '',
     lastName: contact ? contact.lastName : '',
-    section: contact ? contact.section.name : '',
+    section: contact ? contact.section.id : '',
     role: contact ? contact.role : '',
     ensembleId: ensembleId,
     email: contact && contact.email !== null ? contact.email : '',
@@ -84,26 +85,26 @@ export default function CreateContactForm(props: CreateContactFormProps) {
             actions.setSubmitting(true);
 
             actions.setStatus(null);
-            const section = {
+            /* const section = {
               name: values.section,
               id:
                 sections.find((i) => i.name === values.section)?.id ||
                 undefined,
-            };
+            }; */
 
             const postRequest = async () => {
               contact !== undefined
                 ? await axios.post('/contacts/api/update', {
                     updatedData: {
                       ...values,
-                      section: section,
-                    },
+/*                       section: section,
+ */                    },
                     contactId: contact.id,
                   })
                 : await axios.post('/contacts/api/create', {
                     ...values,
-                    section: section,
-                  });
+/*                     section: section,
+ */                  });
             };
             postRequest()
               .then(() => {
@@ -173,11 +174,11 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                   <option data-testid='section-blank' value={''}>
                     select
                   </option>
-                  {instrumentSections.map((i) => (
+                  {sections.map((i) => (
                     <option
-                      data-testid={`section-option-${i.id}`}
+                      data-testid={`section-option-${i}`}
                       key={i.id}
-                      value={i.name}
+                      value={i.id}
                     >
                       {i.name}
                     </option>

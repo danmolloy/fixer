@@ -77,11 +77,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                   : values.accepted === 'false'
                     ? false
                     : null,
-              status: values.accepted === 'true'
-              ? "ACCEPTED"
-              : values.accepted === 'false'
-                ? 'DECLINED'
-                : 'AWAITINGREPLY',
+              status: values.status,
               playerMessage: values.playerMessage,
               position: values.position,
               strictlyTied: values.strictlyTied,
@@ -179,11 +175,13 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
               disabled={props.isSubmitting}
               className='my-1 rounded border'
               as='select'
-              name='accepted'
+              name='status'
             >
-              <option value='true'>Accepted</option>
-              <option value='false'>Declined</option>
-              <option value={''}>Not responded</option>
+              <option disabled={props.values.type !== "AVAILABILITY" } value='AVAILABLE'>Available</option> 
+                <option disabled={props.values.type === "AVAILABILITY"} value='AUTOBOOKED'>Auto-Booked</option>
+              <option disabled={props.values.type === "AVAILABILITY"} value='ACCEPTED'>Accepted</option>
+              <option value='DECLINED'>Declined</option>
+              <option value={'AWAITINGREPLY'}>Not responded</option>
             </Field>
             <ErrorMessage name='accepted'>
               {(err) => <p className='text-xs text-red-500'>{err}</p>}
