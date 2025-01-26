@@ -80,17 +80,11 @@ export default function EventInfoTable(props: EventInfoTableProps) {
         <EventHeader eventTitle={event.eventTitle} />
         <EventInfo event={event} calls={event.calls} ensemble={ensemble} />
       </table>
-      {/* <div className='flex flex-row justify-between'>
-        <select
-          className='m-2 self-center border'
-          value={selectedView}
-          onChange={(e: any) => setSelectedView(e.target.value)}
-        >
-          <option value='playerList'>Orchestra List</option>
-          <option value='fixing'>Fixing</option>
-          <option value='fullRun'>Full Run</option>
-        </select>
-        </div> */}
+      
+      </div>
+      :!ensemble.stripeSubscriptionId
+      ? <div>
+        <p>No active subscription</p>
       </div>
       :selectedView === 'playerList' ? (
         <OrchestraList sections={sections} />

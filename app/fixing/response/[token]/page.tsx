@@ -178,7 +178,7 @@ export default async function GigResponse({
       </table>
 
       <div className='my-4 flex flex-col items-center justify-center'>
-        {(data.accepted == null ||
+        {(data.status == "AWAITINGREPLY" ||
           data.type === "AVAILABILITY") && (
           <ResponseForm
             contactMessage={data}

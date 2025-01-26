@@ -97,15 +97,15 @@ model Call {
   //orchestration   Orchestration[]  @relation("CallToOrchestration")
 }
 
-/* model Orchestration {
-  id          Int     @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  callId      Int
-  instrument  SectionName
-  numRequired Int     
-  call        Call    @relation(fields: [callId], references: [id], onDelete: Cascade)
-} */
+//model Orchestration {
+//  id          Int     @id @default(autoincrement())
+//  createdAt   DateTime @default(now())
+//  updatedAt   DateTime @updatedAt
+//  callId      Int
+//  instrument  SectionName
+//  numRequired Int     
+//  call        Call    @relation(fields: [callId], references: [id], onDelete: Cascade)
+//}
 
 model EventSection {
   id                Int              @id @default(autoincrement())

@@ -111,7 +111,9 @@ export default function ResponseForm(props: ResponseFormProps) {
           id: contactMessage.id,
           data: {
             accepted: values.accepted === 'true',
-            status: (values.accepted === 'true' && values.availableFor.length === contactMessage.calls.length) 
+            status: (contactMessage.type !== "AVAILABILITY" &&  values.accepted === 'true' && values.availableFor.length === contactMessage.calls.length)
+            ? "ACCEPTED"
+            : (values.accepted === 'true' && values.availableFor.length === contactMessage.calls.length) 
               ?  "AVAILABLE" 
               : values.accepted === 'true' 
               ? "MIXED" : "DECLINED",
