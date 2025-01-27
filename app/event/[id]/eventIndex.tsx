@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import {
   Call,
   ContactMessage,
@@ -14,10 +13,15 @@ import EventHeader from './eventHeader';
 import EventInfo from './eventInfo';
 import { useRef, useState } from 'react';
 import EventMenu from './menu';
-import OrchestraList from './orchestraList';
+//import OrchestraList from './orchestraList';
 import FixingIndex from '../../fixing';
 import FullRunIndex from './fullRun';
 import EventViewSelect from './viewSelect';
+import dynamic from 'next/dynamic'
+
+const DynamicOrchestraList = dynamic(() => import('./orchestraList'), {
+  ssr: false,
+})
 
 export type EventInfoTableProps = {
   event: Event & {
@@ -86,7 +90,7 @@ export default function EventInfoTable(props: EventInfoTableProps) {
           <p>No active subscription</p>
         </div>
       ) : selectedView === 'playerList' ? (
-        <OrchestraList sections={sections} />
+        <DynamicOrchestraList sections={sections} />
       ) : selectedView === 'fullRun' ? (
         <FullRunIndex sections={sections} calls={event.calls} />
       ) : (
