@@ -31,18 +31,18 @@ export default function FullRunIndex(props: FullRunIndexProps) {
     }))
     .sort((a, b) => a.indexNum - b.indexNum);
 
-
-
   if (sections.length === 0) {
     return (
       <div
-            data-testid='help-msg'
-            className='flex flex-col self-center text-center mt-6'
-          >
-            <h3 className='text-lg font-semibold'>No calls made.</h3>
-            <p className='text-sm'>To get started, fix sections in the Fixing tab.</p>
-          </div>
-    )
+        data-testid='help-msg'
+        className='mt-6 flex flex-col self-center text-center'
+      >
+        <h3 className='text-lg font-semibold'>No calls made.</h3>
+        <p className='text-sm'>
+          To get started, fix sections in the Fixing tab.
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -74,8 +74,10 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                       {i.contacts
                         .filter(
                           (c) =>
-                            (c.status === 'ACCEPTED' || c.status === 'AUTOBOOKED' || c.status === "FINDINGDEP") &&
-                            c.type !== "AVAILABILITY" &&
+                            (c.status === 'ACCEPTED' ||
+                              c.status === 'AUTOBOOKED' ||
+                              c.status === 'FINDINGDEP') &&
+                            c.type !== 'AVAILABILITY' &&
                             c.calls.map((z) => z.id).includes(j.id)
                         )
                         .map((c, ind) => (

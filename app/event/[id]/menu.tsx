@@ -14,7 +14,7 @@ import {
 } from '@prisma/client';
 import { unparse } from 'papaparse';
 import { useRef } from 'react';
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsThreeDotsVertical } from 'react-icons/bs';
 
 const url = `${process.env.URL}`;
 
@@ -37,7 +37,16 @@ export default function EventMenu(props: EventMenuProps) {
     const message = prompt('Message to all players:');
 
     const mailList = contacts
-      .filter((i) => (i.status === "ACCEPTED" || i.status === "AUTOBOOKED" || i.status === "AVAILABLE" || i.status === "MIXED" || i.status === "FINDINGDEP" || i.status === "AWAITINGREPLY") && i.received == true)
+      .filter(
+        (i) =>
+          (i.status === 'ACCEPTED' ||
+            i.status === 'AUTOBOOKED' ||
+            i.status === 'AVAILABLE' ||
+            i.status === 'MIXED' ||
+            i.status === 'FINDINGDEP' ||
+            i.status === 'AWAITINGREPLY') &&
+          i.received == true
+      )
       .map((i) => i.contact.email);
     if (message === null || mailList.length === 0) {
       return;
@@ -49,7 +58,15 @@ export default function EventMenu(props: EventMenuProps) {
       fixerFullName: `${event.fixer.firstName} ${event.fixer.lastName}`,
       dateRange: getDateRange(event.calls),
       email: contacts
-        .filter((i) => (i.status === "ACCEPTED" || i.status === "AUTOBOOKED" || i.status === "AVAILABLE" || i.status === "MIXED" || i.status === "FINDINGDEP" || i.status === "AWAITINGREPLY"))
+        .filter(
+          (i) =>
+            i.status === 'ACCEPTED' ||
+            i.status === 'AUTOBOOKED' ||
+            i.status === 'AVAILABLE' ||
+            i.status === 'MIXED' ||
+            i.status === 'FINDINGDEP' ||
+            i.status === 'AWAITINGREPLY'
+        )
         .map((i) => i.contact.email!),
       eventId: event.id,
     });
@@ -118,7 +135,7 @@ export default function EventMenu(props: EventMenuProps) {
   };
 
   return (
-    <div data-testid='event-menu' className='m-2 flex justify-end '>
+    <div data-testid='event-menu' className='m-2 flex justify-end'>
       <button
         onFocus={() => setShowMenu(true)}
         onClick={() => setShowMenu(true)}

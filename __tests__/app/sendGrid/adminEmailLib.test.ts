@@ -1,32 +1,39 @@
-import { DateTime } from "luxon";
-import { mockCall } from "../../../__mocks__/models/call";
-import { mockEvent } from "../../../__mocks__/models/event";
-import { mockUser } from "../../../__mocks__/models/user";
-import { getDateRange } from "../../../app/fixing/contactMessage/api/create/functions";
-import { adminInviteEmail, bookingCompleteEmail, eventReminderFixer, listExhaustedEmail, reportUnresponsiveMusicianEmail } from "../../../app/sendGrid/adminEmailLib";
-import { readOnlyTemplate } from "../../../app/sendGrid/playerLib";
-import { mockContactMessage } from "../../../__mocks__/models/contactMessage";
-import { mockEnsembleContact } from "../../../__mocks__/models/ensembleContact";
-import { mockEventSection } from "../../../__mocks__/models/eventSection";
-import { mockAdminInvite } from "../../../__mocks__/models/adminInvite";
+import { DateTime } from 'luxon';
+import { mockCall } from '../../../__mocks__/models/call';
+import { mockEvent } from '../../../__mocks__/models/event';
+import { mockUser } from '../../../__mocks__/models/user';
+import { getDateRange } from '../../../app/fixing/contactMessage/api/create/functions';
+import {
+  adminInviteEmail,
+  bookingCompleteEmail,
+  eventReminderFixer,
+  listExhaustedEmail,
+  reportUnresponsiveMusicianEmail,
+} from '../../../app/sendGrid/adminEmailLib';
+import { readOnlyTemplate } from '../../../app/sendGrid/playerLib';
+import { mockContactMessage } from '../../../__mocks__/models/contactMessage';
+import { mockEnsembleContact } from '../../../__mocks__/models/ensembleContact';
+import { mockEventSection } from '../../../__mocks__/models/eventSection';
+import { mockAdminInvite } from '../../../__mocks__/models/adminInvite';
 
-describe("eventReminderFixer()", () => {
+describe('eventReminderFixer()', () => {
   const mockArg = {
-      ...mockEvent,
-      calls: [mockCall],
-      fixer: mockUser
-  }
-  it("returns expected subject", () => {
-    expect(eventReminderFixer(mockArg).subject)
-      .toBe(`Starting tomorrow: ${mockArg.ensembleName} ${getDateRange(mockArg.calls)}`)
+    ...mockEvent,
+    calls: [mockCall],
+    fixer: mockUser,
+  };
+  it('returns expected subject', () => {
+    expect(eventReminderFixer(mockArg).subject).toBe(
+      `Starting tomorrow: ${mockArg.ensembleName} ${getDateRange(mockArg.calls)}`
+    );
   });
-  it("returns expected email address", () => {
+  it('returns expected email address', () => {
     expect(eventReminderFixer(mockArg).email).toBe(mockArg.fixer.email);
   });
-  it("returns expected templateID", () => {
+  it('returns expected templateID', () => {
     expect(eventReminderFixer(mockArg).templateID).toBe(readOnlyTemplate);
   });
-  it("returns expected email body text", () => {
+  it('returns expected email body text', () => {
     expect(eventReminderFixer(mockArg).bodyText).toBe(
       `Dear ${mockArg.fixer.firstName},
   <br /><br />
@@ -56,11 +63,11 @@ You can update any of the gig details via the event page. Your booked musicians 
 Best wishes,<br />
 GigFix
   `
-    )
+    );
   });
-})
+});
 
-describe("reportUnresponsiveMusicianEmail()", () => {
+describe('reportUnresponsiveMusicianEmail()', () => {
   const mockArg = {
     ...mockContactMessage,
     contact: mockEnsembleContact,
@@ -69,26 +76,28 @@ describe("reportUnresponsiveMusicianEmail()", () => {
       event: {
         ...mockEvent,
         calls: [mockCall],
-        fixer: mockUser
-      }
-    }
-  }
-  it("returns expected subject", () => {
-    expect(reportUnresponsiveMusicianEmail(mockArg).subject)
-      .toBe("Unresponsive Musician Alert");
+        fixer: mockUser,
+      },
+    },
+  };
+  it('returns expected subject', () => {
+    expect(reportUnresponsiveMusicianEmail(mockArg).subject).toBe(
+      'Unresponsive Musician Alert'
+    );
   });
-  it("returns expected email address", () => {
-    expect(reportUnresponsiveMusicianEmail(mockArg).email)
-      .toBe(mockArg.eventSection.event.fixer.email);
+  it('returns expected email address', () => {
+    expect(reportUnresponsiveMusicianEmail(mockArg).email).toBe(
+      mockArg.eventSection.event.fixer.email
+    );
   });
-  it("returns expected templateID", () => {
-    expect(reportUnresponsiveMusicianEmail(mockArg).templateID)
-      .toBe(readOnlyTemplate);
+  it('returns expected templateID', () => {
+    expect(reportUnresponsiveMusicianEmail(mockArg).templateID).toBe(
+      readOnlyTemplate
+    );
   });
-  it("returns expected email body text", () => {
-    expect(reportUnresponsiveMusicianEmail(mockArg).bodyText)
-      .toBe(
-        `Dear ${mockArg.eventSection.event.fixer},
+  it('returns expected email body text', () => {
+    expect(reportUnresponsiveMusicianEmail(mockArg).bodyText).toBe(
+      `Dear ${mockArg.eventSection.event.fixer},
   <br />
   <br />
   We are yet to receive a response from ${mockArg.contact.firstName} ${mockArg.contact.lastName} regarding ${mockArg.eventSection.event.ensembleName} ${getDateRange(mockArg.eventSection.event.calls)}.
@@ -102,34 +111,32 @@ describe("reportUnresponsiveMusicianEmail()", () => {
   Best wishes,<br />
   GigFix
   `
-      );
+    );
   });
-})
+});
 
-describe("adminInviteEmail()", () => {
+describe('adminInviteEmail()', () => {
   const mockArg = {
-    firstName: "Greg",
-    ensembleName: "GC Trombone-Viola Duo",
-    senderName: "Elliot Gannon",
-    inviteID: "123abc",
-    email: "greg@ievers.com.au"
-  }
-  it("returns expected subject", () => {
-    expect(adminInviteEmail(mockArg).subject)
-      .toBe(`Invitation from ${mockArg.senderName} (${mockArg.ensembleName})`)
+    firstName: 'Greg',
+    ensembleName: 'GC Trombone-Viola Duo',
+    senderName: 'Elliot Gannon',
+    inviteID: '123abc',
+    email: 'greg@ievers.com.au',
+  };
+  it('returns expected subject', () => {
+    expect(adminInviteEmail(mockArg).subject).toBe(
+      `Invitation from ${mockArg.senderName} (${mockArg.ensembleName})`
+    );
   });
-  it("returns expected email address", () => {
-    expect(adminInviteEmail(mockArg).email)
-      .toBe(mockArg.email);
+  it('returns expected email address', () => {
+    expect(adminInviteEmail(mockArg).email).toBe(mockArg.email);
   });
-  it("returns expected templateID", () => {
-    expect(adminInviteEmail(mockArg).templateID)
-      .toBe(readOnlyTemplate);
+  it('returns expected templateID', () => {
+    expect(adminInviteEmail(mockArg).templateID).toBe(readOnlyTemplate);
   });
-  it("returns expected email body text", () => {
-    expect(adminInviteEmail(mockArg).bodyText)
-      .toBe(
-        `Dear ${mockArg.firstName},
+  it('returns expected email body text', () => {
+    expect(adminInviteEmail(mockArg).bodyText).toBe(
+      `Dear ${mockArg.firstName},
   <br />
   <br />
 ${mockArg.senderName} (${mockArg.ensembleName}) invites you to join the admin team at GigFix. 
@@ -147,33 +154,32 @@ Invitation code:  ${mockArg.inviteID}
 Kind regards,
 <br />
 GigFix`
-      );
+    );
   });
 });
 
-describe("listExhaustedEmail()", () => {
+describe('listExhaustedEmail()', () => {
   const mockArg = {
-    dateRange: "12-14 Oct",
-    fixerFirstName: "Hank",
-    email: "hankthetank@hank.com.au",
-    ensemble: "GC Youth Orchestra",
-    instrument: "Harp"
-  }
-  it("returns expected subject", () => {
-    expect(listExhaustedEmail(mockArg).subject).toBe(`Action Required: ${mockArg.instrument} list exhausted`)
+    dateRange: '12-14 Oct',
+    fixerFirstName: 'Hank',
+    email: 'hankthetank@hank.com.au',
+    ensemble: 'GC Youth Orchestra',
+    instrument: 'Harp',
+  };
+  it('returns expected subject', () => {
+    expect(listExhaustedEmail(mockArg).subject).toBe(
+      `Action Required: ${mockArg.instrument} list exhausted`
+    );
   });
-  it("returns expected email address", () => {
-    expect(listExhaustedEmail(mockArg).email)
-      .toBe(mockArg.email)
+  it('returns expected email address', () => {
+    expect(listExhaustedEmail(mockArg).email).toBe(mockArg.email);
   });
-  it("returns expected templateID", () => {
-    expect(listExhaustedEmail(mockArg).templateID)
-      .toBe(readOnlyTemplate)
+  it('returns expected templateID', () => {
+    expect(listExhaustedEmail(mockArg).templateID).toBe(readOnlyTemplate);
   });
-  it("returns expected email body text", () => {
-    expect(listExhaustedEmail(mockArg).bodyText)
-      .toBe(
-        `Dear ${mockArg.fixerFirstName},
+  it('returns expected email body text', () => {
+    expect(listExhaustedEmail(mockArg).bodyText).toBe(
+      `Dear ${mockArg.fixerFirstName},
   <br />
   <br/>
   We are contacting the last of your ${mockArg.instrument.toLocaleLowerCase()} players for ${mockArg.dateRange} (${mockArg.ensemble}).
@@ -185,32 +191,30 @@ describe("listExhaustedEmail()", () => {
   Kind regards,
   <br />
   GigFix`
-      )
+    );
   });
 });
 
-describe("bookingCompleteEmail()", () => {
+describe('bookingCompleteEmail()', () => {
   const mockArg = {
-    dateRange: "12-14 Oct",
-    fixerFirstName: "Steve",
-    email: "steve@adler.com.au",
-    ensemble: "Sydney Bass Quartet"
-  }
-  it("returns expected subject", () => {
-    expect(bookingCompleteEmail(mockArg).subject)
-      .toBe(`Gig Fixed: ${mockArg.dateRange} ${mockArg.ensemble}`);
+    dateRange: '12-14 Oct',
+    fixerFirstName: 'Steve',
+    email: 'steve@adler.com.au',
+    ensemble: 'Sydney Bass Quartet',
+  };
+  it('returns expected subject', () => {
+    expect(bookingCompleteEmail(mockArg).subject).toBe(
+      `Gig Fixed: ${mockArg.dateRange} ${mockArg.ensemble}`
+    );
   });
-  it("returns expected email address", () => {
-    expect(bookingCompleteEmail(mockArg).email)
-    .toBe(mockArg.email);
+  it('returns expected email address', () => {
+    expect(bookingCompleteEmail(mockArg).email).toBe(mockArg.email);
   });
-  it("returns expected templateID", () => {
-    expect(bookingCompleteEmail(mockArg).templateID)
-    .toBe(readOnlyTemplate);
+  it('returns expected templateID', () => {
+    expect(bookingCompleteEmail(mockArg).templateID).toBe(readOnlyTemplate);
   });
-  it("returns expected email body text", () => {
-    expect(bookingCompleteEmail(mockArg).bodyText)
-    .toBe(
+  it('returns expected email body text', () => {
+    expect(bookingCompleteEmail(mockArg).bodyText).toBe(
       `Dear ${mockArg.fixerFirstName},
   <br />
   <br/>
@@ -222,7 +226,7 @@ describe("bookingCompleteEmail()", () => {
   GigFix`
     );
   });
-})
+});
 
 /* //describe("sectionFixedAlert()", () => {
 it("returns expected subject", () => {});

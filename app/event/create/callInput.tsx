@@ -3,7 +3,6 @@ import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import TextInput from '../../forms/textInput';
 
-
 export type CallInputProps = {
   disabled: boolean;
   index: number;

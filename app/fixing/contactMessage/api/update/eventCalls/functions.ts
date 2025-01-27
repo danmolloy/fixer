@@ -26,7 +26,6 @@ export const updateContactEventCalls = async (data: {
         },
       },
     });
-
   } catch (e) {
     throw Error(e);
   }

@@ -10,7 +10,7 @@ export type EventSectionContactsProps = {
     contact: EnsembleContact;
     calls: Call[];
   })[];
-  type: "BOOKING"|"AVAILABILITY"
+  type: 'BOOKING' | 'AVAILABILITY';
   editContacts: boolean;
   setEditContacts: (arg: boolean) => void;
 };
@@ -23,31 +23,34 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
     eventSectionId,
     sectionContacts,
     eventCalls,
-    type
+    type,
   } = props;
 
   return (
     <div data-testid='event-section-contacts' className='my-2 flex flex-col'>
-      {currentContacts.filter(
-        (i) => (type === "AVAILABILITY" 
-          ? i.type === "AVAILABILITY"
-          : (i.type === "BOOKING" || i.type === "AUTOBOOK"))
+      {currentContacts.filter((i) =>
+        type === 'AVAILABILITY'
+          ? i.type === 'AVAILABILITY'
+          : i.type === 'BOOKING' || i.type === 'AUTOBOOK'
       ).length === 0 && editContacts === false ? (
         <div className='my-4 flex w-full flex-col items-center'>
           <p className='font-medium'>
             No{' '}
-            {type === "AVAILABILITY"
-              ? 'availability checks'
-              : 'booking calls'}{' '}
+            {type === 'AVAILABILITY' ? 'availability checks' : 'booking calls'}{' '}
             made.
           </p>
           <p className='text-sm'>Add contacts to get started.</p>
-          <button onClick={() => setEditContacts(true)} className="mt-4 p-1 border rounded hover:bg-slate-50 text-sm">Add Contacts</button>
+          <button
+            onClick={() => setEditContacts(true)}
+            className='mt-4 rounded border p-1 text-sm hover:bg-slate-50'
+          >
+            Add Contacts
+          </button>
         </div>
-      ) : currentContacts.filter(
-          (i) => (type === "AVAILABILITY" 
-          ? i.type === "AVAILABILITY"
-          : (i.type === "BOOKING" || i.type === "AUTOBOOK"))
+      ) : currentContacts.filter((i) =>
+          type === 'AVAILABILITY'
+            ? i.type === 'AVAILABILITY'
+            : i.type === 'BOOKING' || i.type === 'AUTOBOOK'
         ).length > 0 ? (
         <CurrentContactMessages
           type={type}

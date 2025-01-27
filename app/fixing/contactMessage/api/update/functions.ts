@@ -30,7 +30,8 @@ export const updateContactMessage = async (contactMessageObj: {
     });
 
     if (
-      contactMessageObj.data.status === "AUTOBOOKED" || (contactMessageObj.data.status === "ACCEPTED" && contactMessageObj.data) 
+      contactMessageObj.data.status === 'AUTOBOOKED' ||
+      (contactMessageObj.data.status === 'ACCEPTED' && contactMessageObj.data)
     ) {
       const subscriptionID =
         updatedData.eventSection.event.ensemble.stripeSubscriptionId;

@@ -67,12 +67,12 @@ export default function CurrentContactsOptions(
   return (
     <div
       data-testid='contact-options'
-      className='absolute -ml-12 mt-12 flex flex-col border bg-white p-2 z-10'
+      className='absolute z-10 -ml-12 mt-12 flex flex-col border bg-white p-2'
     >
       <div className='m-1 flex flex-row items-center justify-between'>
         <h3>{`${contact.contact.firstName} ${contact.contact.lastName}`}</h3>
         <button
-          data-testid="close-btn"
+          data-testid='close-btn'
           onClick={() => setCloseMenu()}
           className='m-1 p-1 hover:bg-slate-100'
         >
@@ -91,11 +91,11 @@ export default function CurrentContactsOptions(
         <button
           className='p-1 text-start hover:bg-slate-100 disabled:opacity-40'
           disabled={
-            contact.status !== "ACCEPTED" && contact.status !== "AUTOBOOKED"
+            contact.status !== 'ACCEPTED' && contact.status !== 'AUTOBOOKED'
           }
           onClick={() =>
             handleUpdate(
-              { status: "FINDINGDEP" },
+              { status: 'FINDINGDEP' },
               'Are you sure you want to find a dep for this player?'
             )
           }

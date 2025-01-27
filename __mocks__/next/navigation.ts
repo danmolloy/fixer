@@ -1,4 +1,3 @@
-
 export const useRouter = jest.fn();
 
 useRouter.mockImplementation(() => ({
@@ -11,5 +10,5 @@ useRouter.mockImplementation(() => ({
 
 export const useSearchParams = jest.fn();
 useSearchParams.mockImplementation(() => ({
-  get: jest.fn().mockReturnValue(null)
-}))
+  get: jest.fn().mockReturnValue(null),
+}));

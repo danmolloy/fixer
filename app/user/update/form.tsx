@@ -98,9 +98,16 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
               label='Email'
               type='email'
             />
-            <SubmitButton 
-              disabled={props.isSubmitting || props.status === "success"} 
-              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
+            <SubmitButton
+              disabled={props.isSubmitting || props.status === 'success'}
+              status={
+                props.isSubmitting
+                  ? 'SUBMITTING'
+                  : props.status === 'success'
+                    ? 'SUCCESS'
+                    : undefined
+              }
+            />
             <StatusMessage status={props.status} />
           </Form>
         )}

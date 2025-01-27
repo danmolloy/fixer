@@ -3,7 +3,7 @@ import prisma from '../../../../client';
 export type CreateEnsembleContact = {
   firstName: string;
   lastName: string;
-  section: string
+  section: string;
   role: string;
   ensembleId: string;
   email: string;
@@ -39,9 +39,9 @@ export const createContact = async (args: CreateEnsembleContact) => {
       },
       section: {
         connect: {
-          id: args.section
-        }
-      }
-     },
+          id: args.section,
+        },
+      },
+    },
   });
 };

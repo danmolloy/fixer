@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const req = await request.json();
   //console.log(JSON.stringify(req));
   try {
-    await createContactMessages(req)
+    await createContactMessages(req);
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (e: any) {
     return NextResponse.json(

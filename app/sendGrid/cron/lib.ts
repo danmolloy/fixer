@@ -5,7 +5,10 @@ import {
 import axios from 'axios';
 import prisma from '../../../client';
 import { DateTime } from 'luxon';
-import { eventReminderFixer, reportUnresponsiveMusicianEmail } from '../adminEmailLib';
+import {
+  eventReminderFixer,
+  reportUnresponsiveMusicianEmail,
+} from '../adminEmailLib';
 
 const url = process.env.URL;
 
@@ -103,7 +106,7 @@ export const remindFixers = async () => {
 export const getUnresponsiveMusicians = async (receivedLTE: Date) => {
   const musicians = await prisma.contactMessage.findMany({
     where: {
-      status: "AWAITINGREPLY",
+      status: 'AWAITINGREPLY',
       received: true,
       receivedDate: {
         lte: receivedLTE,

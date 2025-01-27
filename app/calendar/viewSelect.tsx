@@ -1,4 +1,4 @@
-export const viewOptions = [/* 'All Upcoming', */ 'Day', 'Month', 'Year'];
+export const viewOptions = ['All Upcoming', 'Day', 'Month', 'Year'];
 
 export type ViewSelectProps = {
   selectedView: string;
@@ -15,7 +15,7 @@ export default function ViewSelect(props: ViewSelectProps) {
       onChange={(e) => setSelectedView(e.target.value)}
       className='rounded p-1 shadow-sm'
     >
-      {viewOptions.map((i: 'Day' | 'Month' | 'Year' /* | 'All Upcoming' */) => (
+      {viewOptions.map((i: 'Day' | 'Month' | 'Year' | 'All Upcoming') => (
         <option value={i} key={i} data-testid={`${i}-option`}>
           {i}
         </option>

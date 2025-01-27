@@ -46,25 +46,30 @@ export default function EnsembleIndex(props: EnsembleIndexProps) {
 
   return (
     <div data-testid='ensemble-index' className='w-full p-2 sm:px-4 lg:px-24'>
-      {!ensemble.stripeSubscriptionId && <div className='flex flex-col  my-8 self-center rounded bg-amber-50 p-4 text-sm text-amber-800 lg:w-1/2'>
-        <div className='flex flex-row items-center justify-start'>
-        <div className='flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-amber-100'>
-                  <TiWarning />
-                </div>
-          <h4 className='ml-1 font-semibold'>No active subscription</h4>
+      {!ensemble.stripeSubscriptionId && (
+        <div className='my-8 flex flex-col self-center rounded bg-amber-50 p-4 text-sm text-amber-800 lg:w-1/2'>
+          <div className='flex flex-row items-center justify-start'>
+            <div className='flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-amber-100'>
+              <TiWarning />
+            </div>
+            <h4 className='ml-1 font-semibold'>No active subscription</h4>
           </div>
-          <p className=' font-medium mx-5 my-1 '>You need an active subscription to fix gigs. You can still create events, import your address book and invite admin users.</p>
+          <p className='mx-5 my-1 font-medium'>
+            You need an active subscription to fix gigs. You can still create
+            events, import your address book and invite admin users.
+          </p>
           <button
-                className='my-2 self-center p-1 rounded hover:bg-amber-100 text-center'
-                onClick={() => handleSubscribe()}
-              >
-                Subscribe
-              </button>
-        </div>}
+            className='my-2 self-center rounded p-1 text-center hover:bg-amber-100'
+            onClick={() => handleSubscribe()}
+          >
+            Subscribe
+          </button>
+        </div>
+      )}
       <div className='flex flex-col justify-between lg:flex-row'>
-        <div className='flex flex-row items-start justify-between w-full '>
+        <div className='flex w-full flex-row items-start justify-between'>
           <h1 className='text-3xl font-semibold'>{ensemble.name}</h1>
-            {/* {!ensemble.stripeSubscriptionId && (
+          {/* {!ensemble.stripeSubscriptionId && (
               <button
                 className='h-8 rounded border px-2 text-sm'
                 onClick={() => handleSubscribe()}
@@ -72,7 +77,7 @@ export default function EnsembleIndex(props: EnsembleIndexProps) {
                 Subscribe
               </button>
             )} */}
-            <EnsembleDashboard ensemble={ensemble} />
+          <EnsembleDashboard ensemble={ensemble} />
         </div>
       </div>
       {addContact && (

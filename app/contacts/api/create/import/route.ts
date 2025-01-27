@@ -3,7 +3,7 @@ import { createContacts } from './functions';
 
 export async function POST(request: Request) {
   const req = await request.json();
-  console.log(JSON.stringify(req))
+  console.log(JSON.stringify(req));
 
   try {
     const data = await createContacts(req.values);

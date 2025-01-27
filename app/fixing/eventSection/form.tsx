@@ -71,7 +71,6 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
     );
   };
 
-
   return (
     <div
       data-testid='create-event-section'
@@ -84,7 +83,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
 
           await handleSubmit(values)
             .then(() => {
-              actions.setStatus("success");
+              actions.setStatus('success');
 
               //setCreateSection(false);
             })
@@ -96,7 +95,6 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
             .finally(() => {
               actions.setSubmitting(false);
               router.refresh();
-
             });
         }}
         validationSchema={formSchema}
@@ -189,9 +187,16 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               >
                 Cancel
               </button>
-              <SubmitButton 
-              disabled={props.isSubmitting || props.status === "success"} 
-              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
+              <SubmitButton
+                disabled={props.isSubmitting || props.status === 'success'}
+                status={
+                  props.isSubmitting
+                    ? 'SUBMITTING'
+                    : props.status === 'success'
+                      ? 'SUCCESS'
+                      : undefined
+                }
+              />
             </div>
             <ValidationError errors={Object.values(props.errors)} />
             <StatusMessage status={props.status} />

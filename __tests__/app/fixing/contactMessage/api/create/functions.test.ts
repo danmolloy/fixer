@@ -130,7 +130,6 @@ describe('createContactMessages', () => {
     urgent: false,
   };
 
-  
   it('if autobook, gives new contactMessages correct vals incl. status & type', async () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
@@ -151,13 +150,12 @@ describe('createContactMessages', () => {
         status: 'AUTOBOOKED',
         playerMessage: mockContactMessages.contacts[0].playerMessage,
         indexNumber: mockContactMessage.indexNumber + 1,
-        type: "AUTOBOOK",
+        type: 'AUTOBOOK',
         strictlyTied: mockContactMessages.strictlyTied === 'true',
         urgent: mockContactMessages.urgent,
       },
     });
   });
-  
 });
 
 describe('getDateRange', () => {
@@ -246,30 +244,29 @@ describe('gigIsFixed', () => {
             {
               ...mockEnsembleContact,
               type: 'AUTOBOOK',
-              status: "AUTOBOOKED",
+              status: 'AUTOBOOKED',
               id: 42,
             },
             {
               ...mockEnsembleContact,
               type: 'BOOKING',
-              status: "ACCEPTED",
+              status: 'ACCEPTED',
               id: 4,
             },
             {
               ...mockEnsembleContact,
               id: 2,
-              status: "DECLINED",
-
+              status: 'DECLINED',
             },
             {
               ...mockEnsembleContact,
               type: 'AVAILABILITY',
-              status: "MIXED",
+              status: 'MIXED',
             },
             {
               ...mockEnsembleContact,
               id: 3,
-              status: "DECLINED",
+              status: 'DECLINED',
             },
           ],
         },
@@ -289,19 +286,19 @@ describe('gigIsFixed', () => {
             {
               ...mockContactMessage,
               type: 'AUTOBOOKED',
-              status: "FINDINGDEP",
+              status: 'FINDINGDEP',
               id: 3,
             },
             {
               ...mockContactMessage,
               type: 'BOOKING',
-              status: "DECLINED",
+              status: 'DECLINED',
               id: 3,
             },
             {
               ...mockContactMessage,
               type: 'AVAILABILITY',
-              status: "AVAILABLE",
+              status: 'AVAILABLE',
               id: 4,
             },
           ],
@@ -313,23 +310,23 @@ describe('gigIsFixed', () => {
             {
               ...mockContactMessage,
               type: 'BOOKING',
-              status: "ACCEPTED",
+              status: 'ACCEPTED',
               id: 4,
             },
             {
               ...mockContactMessage,
               id: 2,
-              status: "DECLINED",
+              status: 'DECLINED',
             },
             {
               ...mockContactMessage,
               type: 'AVAILABILITY',
-              status: "MIXED",
+              status: 'MIXED',
             },
             {
               ...mockContactMessage,
               id: 3,
-              status: "DECLINED",
+              status: 'DECLINED',
             },
           ],
         },
@@ -345,56 +342,62 @@ describe('numToContact', () => {
     const contacts: ContactMessage[] = [
       {
         ...mockContactMessage,
-        type: "AUTOBOOK",
-        status: "AUTOBOOKED",
+        type: 'AUTOBOOK',
+        status: 'AUTOBOOKED',
         id: 42,
       },
       {
         ...mockContactMessage,
-        type: "BOOKING",
-        status: "NOTCONTACTED",
+        type: 'BOOKING',
+        status: 'NOTCONTACTED',
         id: 4,
       },
       {
         ...mockContactMessage,
         id: 2,
-        type: "BOOKING",
-        status: "NOTCONTACTED",
+        type: 'BOOKING',
+        status: 'NOTCONTACTED',
       },
       {
         ...mockContactMessage,
         id: 2,
         status: 'FINDINGDEP',
-        type: "BOOKING",
+        type: 'BOOKING',
       },
       {
         ...mockContactMessage,
         id: 2,
-        type: "BOOKING",
-        status: "ACCEPTED",
+        type: 'BOOKING',
+        status: 'ACCEPTED',
       },
       {
         ...mockContactMessage,
         id: 2,
-        type: "AUTOBOOK",
-        status: "FINDINGDEP",
+        type: 'AUTOBOOK',
+        status: 'FINDINGDEP',
       },
       {
         ...mockContactMessage,
         type: 'AVAILABILITY',
-        status: "NOTCONTACTED",
+        status: 'NOTCONTACTED',
       },
       {
         ...mockContactMessage,
         id: 3,
-        status: "NOTCONTACTED",
+        status: 'NOTCONTACTED',
       },
     ];
     const numToBook = Math.ceil(Math.random() * 42) + 10;
-    const numBooked = contacts.filter(i => i.status === "ACCEPTED" || i.status === "AUTOBOOKED").length
-    const numThinking = contacts.filter(i => i.status === "AWAITINGREPLY" && (i.type === "BOOKING" || i.type ==="AUTOBOOK")).length
-    expect(getNumToContact({ contactMessages: contacts, numToBook: numToBook })).toBe(
-      numToBook - (numBooked + numThinking)
-    );
+    const numBooked = contacts.filter(
+      (i) => i.status === 'ACCEPTED' || i.status === 'AUTOBOOKED'
+    ).length;
+    const numThinking = contacts.filter(
+      (i) =>
+        i.status === 'AWAITINGREPLY' &&
+        (i.type === 'BOOKING' || i.type === 'AUTOBOOK')
+    ).length;
+    expect(
+      getNumToContact({ contactMessages: contacts, numToBook: numToBook })
+    ).toBe(numToBook - (numBooked + numThinking));
   });
 });

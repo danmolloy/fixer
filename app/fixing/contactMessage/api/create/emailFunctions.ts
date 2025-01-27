@@ -6,17 +6,17 @@ import {
 } from '../../../../sendGrid/playerLib';
 import { getDateRange, getNumToContact, gigIsFixed } from './functions';
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
-import { bookingCompleteEmail, listExhaustedEmail,  } from '../../../../sendGrid/adminEmailLib';
+import {
+  bookingCompleteEmail,
+  listExhaustedEmail,
+} from '../../../../sendGrid/adminEmailLib';
 const url = `${process.env.URL}`;
 
 export const emailBookingMusicians = async (eventSectionId: number) => {
   const contactMessages = await prisma.contactMessage.findMany({
     where: {
       eventSectionId: eventSectionId,
-      OR: [
-        {type: "AUTOBOOK"},
-        {type: "BOOKING"}
-      ]
+      OR: [{ type: 'AUTOBOOK' }, { type: 'BOOKING' }],
     },
     include: {
       eventSection: {
@@ -72,7 +72,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     numToBook: contactMessages[0].eventSection.numToBook,
   });
   const notContacted = contactMessages.filter(
-    (i) => i.status === "NOTCONTACTED"
+    (i) => i.status === 'NOTCONTACTED'
   );
 
   if (numToContact === 0) {
@@ -134,16 +134,15 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
         },
         data: {
           received: true,
-          status: "AWAITINGREPLY"
+          status: 'AWAITINGREPLY',
         },
       });
       if (contact.urgent === true) {
         await axios.post(`${url}/twilio`, {
           body: {
-
             phoneNumber: contact.contact.phoneNumber,
             message: `Hi ${contact.contact.firstName}, we have just sent you an urgent email on behalf of ${contact.eventSection.event.fixer.firstName} ${contact.eventSection.event.fixer.lastName} (${contact.eventSection.event.ensembleName}). GigFix`,
-          }
+          },
         });
       }
     } catch (e) {
@@ -159,8 +158,8 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
   const availabilityChecks = await prisma.contactMessage.findMany({
     where: {
       eventSectionId: eventSectionId,
-      type: "AVAILABILITY",
-      status: "NOTCONTACTED"
+      type: 'AVAILABILITY',
+      status: 'NOTCONTACTED',
     },
     include: {
       eventSection: {
@@ -230,7 +229,7 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
           id: contact.id,
         },
         data: {
-          status: "AWAITINGREPLY"
+          status: 'AWAITINGREPLY',
         },
       });
     } catch (e) {

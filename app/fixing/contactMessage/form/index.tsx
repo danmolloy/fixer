@@ -22,7 +22,7 @@ export type ContactMessageFormProps = {
     contactMessageId: number | undefined;
   })[];
   eventSectionId: number;
-  type: "BOOKING"|"AVAILABILITY"|"AUTOBOOK"
+  type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
   sectionContacts: EnsembleContact[];
   currentContacts: ContactMessage /* & {contact: EnsembleContact} */[];
 };
@@ -52,7 +52,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
       name: `${i.contact.firstName} ${i.contact.lastName}`,
       playerMessage: i.playerMessage,
       calls: i.calls,
-      autoAccepted: false
+      autoAccepted: false,
     })),
     eventSectionId: eventSectionId,
     type: type,
@@ -119,10 +119,8 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
             {props.values.contacts.length > 0 && (
               <AppendedContacts
                 currentCallCount={
-                  currentContacts.filter(
-                    (i) =>
-                      i.type !== "AVAILABILITY"
-                  ).length
+                  currentContacts.filter((i) => i.type !== 'AVAILABILITY')
+                    .length
                 }
                 addPlayerMessage={(index, message) =>
                   props.setFieldValue(
@@ -135,7 +133,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
                 contacts={props.values.contacts}
               />
             )}
-            {type === "AVAILABILITY" && (
+            {type === 'AVAILABILITY' && (
               <div
                 role='group'
                 aria-labelledby='my-radio-group'
@@ -187,15 +185,24 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
               </button>
               <SubmitButton
                 disabled={
-                  props.values.contacts.length == 0 || props.isSubmitting || props.status === "success"} 
-              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined}
+                  props.values.contacts.length == 0 ||
+                  props.isSubmitting ||
+                  props.status === 'success'
+                }
+                status={
+                  props.isSubmitting
+                    ? 'SUBMITTING'
+                    : props.status === 'success'
+                      ? 'SUCCESS'
+                      : undefined
+                }
               />
             </div>
             <StatusMessage status={props.status} />
             <div className=''>
               <div className='mb-2 mt-12 flex w-full flex-col'>
                 <h3 className='text-base'>Your List</h3>
-                <p className='text-sm text-gray-500'>{`Select musicians to ${type !== "AVAILABILITY" ? 'book' : 'check availability'}.`}</p>
+                <p className='text-sm text-gray-500'>{`Select musicians to ${type !== 'AVAILABILITY' ? 'book' : 'check availability'}.`}</p>
               </div>
 
               <DiaryContacts

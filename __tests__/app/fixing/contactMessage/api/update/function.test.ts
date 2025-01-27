@@ -28,27 +28,27 @@ jest.mock('../../../../../../app/billing/api/meterEvent/lib', () => ({
 }));
 
 describe('updateContactMessage', () => {
-  type FuncArg =  ContactMessage & {
+  type FuncArg = ContactMessage & {
     eventSection: EventSection & {
       event: Event & {
-        ensemble: Ensemble
-      }
-    }
-  }
+        ensemble: Ensemble;
+      };
+    };
+  };
   it('calls prisma.contactMessage.update with expected args', async () => {
     prismaMock.contactMessage.update.mockResolvedValueOnce(mockContactMessage);
     updateContactMessage({
       id: 1,
       data: {
-        status: "DECLINED",
+        status: 'DECLINED',
       },
     });
     expect(prismaMock.contactMessage.update).toHaveBeenCalledWith({
       where: {
         id: 1,
       },
-      data: {         
-        status: "DECLINED",
+      data: {
+        status: 'DECLINED',
       },
       include: {
         calls: true,
@@ -58,7 +58,7 @@ describe('updateContactMessage', () => {
             event: {
               include: {
                 ensemble: true,
-                fixer: true
+                fixer: true,
               },
             },
           },
@@ -158,6 +158,5 @@ describe('updateContactMessage', () => {
   });
   //it('catches errors', () => {});
 });
-
 
 //describe('updateContactIndex', () => {});

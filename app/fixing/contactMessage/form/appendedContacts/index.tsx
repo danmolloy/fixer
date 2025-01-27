@@ -14,19 +14,14 @@ export type AppendedContactsProps = {
     autoAccepted: boolean;
   }[];
   eventCalls: Call[];
-  type: "BOOKING"|"AVAILABILITY"|"AUTOBOOK"
+  type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
   addPlayerMessage: (index: number, message: string) => void;
   currentCallCount: number;
 };
 
 export default function AppendedContacts(props: AppendedContactsProps) {
-  const {
-    currentCallCount,
-    addPlayerMessage,
-    contacts,
-    eventCalls,
-    type,
-  } = props;
+  const { currentCallCount, addPlayerMessage, contacts, eventCalls, type } =
+    props;
 
   return (
     <div>
@@ -34,7 +29,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
       <table className='my-4 w-full border'>
         <thead className='border-b bg-slate-50 text-sm'>
           <tr>
-            {type !== "AVAILABILITY" && <th>Queue Number</th>}
+            {type !== 'AVAILABILITY' && <th>Queue Number</th>}
             <th>Name</th>
             <th className=''>Position</th>
             {eventCalls.map((i) => (
@@ -48,7 +43,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
               </th>
             ))}
             <th>Options</th>
-            {type !== "AVAILABILITY" && <th>Auto Accept</th>}
+            {type !== 'AVAILABILITY' && <th>Auto Accept</th>}
           </tr>
         </thead>
         <FieldArray name='contacts'>

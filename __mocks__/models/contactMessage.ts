@@ -1,5 +1,11 @@
 import { faker } from '@faker-js/faker';
-import { Call, ContactMessage, EnsembleContact, ContactMessageType, ContactMessageStatus } from '@prisma/client';
+import {
+  Call,
+  ContactMessage,
+  EnsembleContact,
+  ContactMessageType,
+  ContactMessageStatus,
+} from '@prisma/client';
 
 const statusArr = Object.values(ContactMessageStatus);
 const typeArr = Object.values(ContactMessageType);
@@ -23,7 +29,7 @@ export const mockContactMessage: ContactMessage = {
   eventSectionId: faker.number.int(),
   offerExpiry: null,
   type: typeArr[Math.floor(Math.random() * typeArr.length)],
-  status: statusArr[Math.floor(Math.random() * statusArr.length)]
+  status: statusArr[Math.floor(Math.random() * statusArr.length)],
 };
 
 export const mockNotContactedContactMessage: ContactMessage = {
@@ -45,7 +51,7 @@ export const mockNotContactedContactMessage: ContactMessage = {
   eventSectionId: faker.number.int(),
   offerExpiry: null,
   type: typeArr[Math.floor(Math.random() * typeArr.length)],
-  status: "NOTCONTACTED"
+  status: 'NOTCONTACTED',
 };
 
 export const mockContactMessageForTable: ContactMessage & {
@@ -70,7 +76,7 @@ export const mockContactMessageForTable: ContactMessage & {
   eventSectionId: faker.number.int(),
   offerExpiry: null,
   type: typeArr[Math.floor(Math.random() * typeArr.length)],
-  status: statusArr[Math.floor(Math.random() * statusArr.length)],  
+  status: statusArr[Math.floor(Math.random() * statusArr.length)],
   calls: [
     {
       id: faker.number.int(),

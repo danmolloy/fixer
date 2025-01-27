@@ -38,8 +38,6 @@ export default function FixingIndex(props: FixingIndexProps) {
   const [createSection, setCreateSection] = useState<boolean>(false);
 
   const handlePauseClick = async () => {
-
-
     const confMsg = 'Are you sure you want to pause all fixing for this event?';
 
     if (confirm(confMsg)) {
@@ -84,15 +82,14 @@ export default function FixingIndex(props: FixingIndexProps) {
     <div data-testid='fixing-index' className='flex flex-col p-4'>
       <div className='flex w-full flex-row justify-end'>
         {/* <h2>Fixing</h2> */}
-          <FixingMenu 
-            eventID={String(eventId)}
-            fixingActive={eventSections.filter((i) => i.bookingStatus === 'active').length > 0}
-            pauseFixing={() => handlePauseClick()}
-            createSection={() => setCreateSection(true)}
-            />
-          
-
-          
+        <FixingMenu
+          eventID={String(eventId)}
+          fixingActive={
+            eventSections.filter((i) => i.bookingStatus === 'active').length > 0
+          }
+          pauseFixing={() => handlePauseClick()}
+          createSection={() => setCreateSection(true)}
+        />
       </div>
 
       {eventSections.length === 0 && !createSection ? (
@@ -100,8 +97,11 @@ export default function FixingIndex(props: FixingIndexProps) {
           <h3 className='text-lg font-semibold'>No event sections.</h3>
           <p className='text-sm'>Create a section to get started.</p>
           <button
-            className='m-2 flex w-32 flex-row items-center justify-center rounded border  p-1 text-sm  hover:bg-slate-50'
-            onClick={() => setCreateSection(true)}>Create Section</button>
+            className='m-2 flex w-32 flex-row items-center justify-center rounded border p-1 text-sm hover:bg-slate-50'
+            onClick={() => setCreateSection(true)}
+          >
+            Create Section
+          </button>
         </div>
       ) : createSection ? (
         <CreateEventSection

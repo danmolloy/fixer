@@ -64,13 +64,13 @@ export const updateEvent = async (eventObj: Event) => {
           contacts: {
             where: {
               OR: [
-                {status: "AUTOBOOKED"},
-                {status: "ACCEPTED"},
-                {status: "AVAILABLE"},
-                {status: "MIXED"},
-                {status: "FINDINGDEP"},
-                {status: "AWAITINGREPLY"},
-              ]
+                { status: 'AUTOBOOKED' },
+                { status: 'ACCEPTED' },
+                { status: 'AVAILABLE' },
+                { status: 'MIXED' },
+                { status: 'FINDINGDEP' },
+                { status: 'AWAITINGREPLY' },
+              ],
             },
             include: {
               calls: true,
@@ -148,7 +148,13 @@ export const updateEmailPlayers = async (
     contacts = [
       ...contacts,
       ...data.event.sections[i].contacts.filter(
-        (i) => i.status === "ACCEPTED" || i.status === "AUTOBOOKED" || i.status === "FINDINGDEP" || i.status === "AWAITINGREPLY" || i.status === "AVAILABLE" || i.status === "MIXED" 
+        (i) =>
+          i.status === 'ACCEPTED' ||
+          i.status === 'AUTOBOOKED' ||
+          i.status === 'FINDINGDEP' ||
+          i.status === 'AWAITINGREPLY' ||
+          i.status === 'AVAILABLE' ||
+          i.status === 'MIXED'
       ),
     ];
   }

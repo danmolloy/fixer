@@ -13,13 +13,13 @@ export const deleteEvent = async (eventId: number) => {
           contacts: {
             where: {
               OR: [
-                {status: "AUTOBOOKED"},
-                {status: "ACCEPTED"},
-                {status: "AVAILABLE"},
-                {status: "MIXED"},
-                {status: "FINDINGDEP"},
-                {status: "AWAITINGREPLY"},
-              ]
+                { status: 'AUTOBOOKED' },
+                { status: 'ACCEPTED' },
+                { status: 'AVAILABLE' },
+                { status: 'MIXED' },
+                { status: 'FINDINGDEP' },
+                { status: 'AWAITINGREPLY' },
+              ],
             },
             include: {
               contact: true,

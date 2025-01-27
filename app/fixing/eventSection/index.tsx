@@ -37,8 +37,9 @@ export default function EventSectionIndex(props: EventSectionProps) {
   } = props;
   const router = useRouter();
   const [updateSection, setUpdateSection] = useState<boolean>(false);
-  const [callType, setCallType] =
-    useState<"BOOKING"|"AVAILABILITY">("BOOKING");
+  const [callType, setCallType] = useState<'BOOKING' | 'AVAILABILITY'>(
+    'BOOKING'
+  );
   const [editContacts, setEditContacts] = useState<boolean>(false);
 
   return (
@@ -59,7 +60,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
         />
       ) : (
         <div>
-          <div className='w-full  flex flex-row justify-between'>
+          <div className='flex w-full flex-row justify-between'>
             <h2>
               {section.ensembleSection.name}
               <span
@@ -69,22 +70,25 @@ export default function EventSectionIndex(props: EventSectionProps) {
                 Booking {section.bookingStatus}
               </span>
             </h2>
-            <SectionMenu 
+            <SectionMenu
               editSection={() => setUpdateSection(true)}
-              addToList={() => setEditContacts(true)}/>
+              addToList={() => setEditContacts(true)}
+            />
           </div>
           <div className='flex flex-col justify-between'>
             <div className='flex flex-row items-center'>
-              <p className='text-sm ml-1'>Booking {section.numToBook} player(s)</p>
-              
+              <p className='ml-1 text-sm'>
+                Booking {section.numToBook} player(s)
+              </p>
             </div>
             <SectionViewSelect
-            availabilityCheckCount={currentContacts.filter(i => i.type === "AVAILABILITY").length}
-            selectedView={callType}
-            setSelectedView={arg => setCallType(arg)}
-            disabled={editContacts}
-             />
-          
+              availabilityCheckCount={
+                currentContacts.filter((i) => i.type === 'AVAILABILITY').length
+              }
+              selectedView={callType}
+              setSelectedView={(arg) => setCallType(arg)}
+              disabled={editContacts}
+            />
           </div>
         </div>
       )}

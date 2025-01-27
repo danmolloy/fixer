@@ -56,8 +56,6 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
     urgent: Yup.boolean(),
   });
 
-  
-
   return (
     <Formik
       onSubmit={async (values, actions) => {
@@ -95,7 +93,6 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             },
           })
           .then(async (res) => {
-
             /* const emailData = await updateOfferEmail(res.data);
 
             await axios.post(`/sendGrid`, {
@@ -136,7 +133,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           >
             <option value='BOOKING'>To Book</option>
             <option value='AVAILABILITY'>Availability Check</option>
-            <option value="AUTOBOOK">Auto-Book</option>
+            <option value='AUTOBOOK'>Auto-Book</option>
           </Field>
           <ErrorMessage name='type'>
             {(err) => <p className='text-xs text-red-500'>{err}</p>}
@@ -177,9 +174,24 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
               as='select'
               name='status'
             >
-              <option disabled={props.values.type !== "AVAILABILITY" } value='AVAILABLE'>Available</option> 
-                <option disabled={props.values.type === "AVAILABILITY"} value='AUTOBOOKED'>Auto-Booked</option>
-              <option disabled={props.values.type === "AVAILABILITY"} value='ACCEPTED'>Accepted</option>
+              <option
+                disabled={props.values.type !== 'AVAILABILITY'}
+                value='AVAILABLE'
+              >
+                Available
+              </option>
+              <option
+                disabled={props.values.type === 'AVAILABILITY'}
+                value='AUTOBOOKED'
+              >
+                Auto-Booked
+              </option>
+              <option
+                disabled={props.values.type === 'AVAILABILITY'}
+                value='ACCEPTED'
+              >
+                Accepted
+              </option>
               <option value='DECLINED'>Declined</option>
               <option value={'AWAITINGREPLY'}>Not responded</option>
             </Field>
@@ -230,9 +242,16 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             label='Message to Player'
             name='playerMessage'
           />
-          <SubmitButton 
-              disabled={props.isSubmitting || props.status === "success"} 
-              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
+          <SubmitButton
+            disabled={props.isSubmitting || props.status === 'success'}
+            status={
+              props.isSubmitting
+                ? 'SUBMITTING'
+                : props.status === 'success'
+                  ? 'SUCCESS'
+                  : undefined
+            }
+          />
           <ValidationError errors={Object.values(props.errors).flat()} />
           <StatusMessage status={props.status} />
         </Form>

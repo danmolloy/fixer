@@ -52,10 +52,13 @@ export default function ImportForm(props: ImportFormProps) {
   };
 
   const handleSeeding = () => {
-    alert(ensemble.sections[Math.floor(Math.random() * ensemble.sections.length)].id)
+    alert(
+      ensemble.sections[Math.floor(Math.random() * ensemble.sections.length)].id
+    );
     const mockContacts = new Array(100).fill(null).map((i) => ({
       Section:
-      ensemble.sections[Math.floor(Math.random() * ensemble.sections.length)].id,
+        ensemble.sections[Math.floor(Math.random() * ensemble.sections.length)]
+          .id,
       'First Name': faker.person.firstName(),
       'Last Name': faker.person.lastName(),
       Category: Math.random() > 0.5 ? 'Extra' : 'Member',
@@ -63,7 +66,7 @@ export default function ImportForm(props: ImportFormProps) {
       'Phone Number': faker.phone.number({ style: 'international' }),
       Role: Math.random() > 0.3 ? 'Tutti' : 'Principal',
     }));
-    console.log(mockContacts[0].Section)
+    console.log(mockContacts[0].Section);
     setData(mockContacts);
   };
 
@@ -164,7 +167,7 @@ export default function ImportForm(props: ImportFormProps) {
       <div className='m-1 w-screen p-1'>
         {data && (
           <ContactInput
-          sections={ensemble.sections}
+            sections={ensemble.sections}
             ensembleId={ensemble.id}
             contacts={data.map((i, index) => ({
               firstName: i['First Name'],

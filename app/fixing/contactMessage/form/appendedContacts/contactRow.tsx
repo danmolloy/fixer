@@ -18,7 +18,7 @@ export type AppendedContactRowProps = {
   remove: () => void;
   swap: (a: number, b: number) => void;
   numContacts: number;
-  type: "BOOKING"|"AVAILABILITY"|"AUTOBOOK"
+  type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
   addPlayerMessage: (index: number, message: string) => void;
   currentCallCount: number;
 };
@@ -53,13 +53,18 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
   };
 
   return (
-    <tr data-testid="appended-contact" className='h-10 text-center text-sm'>
-      {type !== "AVAILABILITY" &&<td className='px-1' data-testid="queue-num">
-        {currentCallCount + index + 1}
-      </td>}
+    <tr data-testid='appended-contact' className='h-10 text-center text-sm'>
+      {type !== 'AVAILABILITY' && (
+        <td className='px-1' data-testid='queue-num'>
+          {currentCallCount + index + 1}
+        </td>
+      )}
       <td className=''>{contact.name}</td>
       <td className=''>
-      <Field data-testid="position-input" name={`contacts[${index}]position`} />
+        <Field
+          data-testid='position-input'
+          name={`contacts[${index}]position`}
+        />
         {/* <Field as='select' name={`contacts[${index}]position`}>
           <option value={'Principal'}>Principal</option>
           <option value={'Tutti'}>Tutti</option>
@@ -82,7 +87,7 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
       ))}
       <td className='flex flex-row items-center justify-center'>
         <button
-          data-testid="options-btn"
+          data-testid='options-btn'
           className='m-1 self-center rounded-full p-1 hover:bg-gray-100'
           onBlur={() => setTimeout(() => setShowMenu(false), 250)}
           onClick={(e) => {
@@ -95,7 +100,10 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
           <BsThreeDotsVertical />
         </button>
         {showMenu && (
-          <div data-testid="options-menu" className='absolute -mb-36 -ml-40 flex flex-col border bg-white'>
+          <div
+            data-testid='options-menu'
+            className='absolute -mb-36 -ml-40 flex flex-col border bg-white'
+          >
             <button
               className='p-2 text-start text-sm hover:bg-slate-100 disabled:opacity-40'
               disabled={index === 0}
@@ -128,7 +136,7 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
           </div>
         )}
         <button
-        data-testid="player-message"
+          data-testid='player-message'
           className='m-1 p-1 hover:bg-gray-50'
           onClick={(e) => {
             e.preventDefault();
@@ -139,14 +147,16 @@ export default function AppendedContactRow(props: AppendedContactRowProps) {
           {contact.playerMessage && <TiMail size={24} />}
         </button>
       </td>
-      {type !== "AVAILABILITY" && <td className='text-center' >
+      {type !== 'AVAILABILITY' && (
+        <td className='text-center'>
           <Field
-            data-testid="auto-accept-checkbox"
+            data-testid='auto-accept-checkbox'
             checked={contact.autoAccepted}
             type='checkbox'
             name={`contacts[${index}]autoAccepted`}
           />
-        </td>}
+        </td>
+      )}
     </tr>
   );
 }

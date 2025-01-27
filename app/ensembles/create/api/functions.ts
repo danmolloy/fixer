@@ -2,24 +2,24 @@ import { SectionName } from '@prisma/client';
 import prisma from '../../../../client';
 
 export const sectionNamesArr: SectionName[] = [
-  "FLUTE",
-  "OBOE",
-  "CLARINET",
-  "BASSOON",
-  "HORN",
-  "TRUMPET",
-  "TROMBONE",
-  "TUBA",
-  "TIMPANI",
-  "PERCUSSION",
-  "ORGAN",
-  "PIANO",
-  "VIOLIN1",
-  "VIOLIN2",
-  "VIOLA",
-  "CELLO",
-  "DOUBLEBASS"
-]
+  'FLUTE',
+  'OBOE',
+  'CLARINET',
+  'BASSOON',
+  'HORN',
+  'TRUMPET',
+  'TROMBONE',
+  'TUBA',
+  'TIMPANI',
+  'PERCUSSION',
+  'ORGAN',
+  'PIANO',
+  'VIOLIN1',
+  'VIOLIN2',
+  'VIOLA',
+  'CELLO',
+  'DOUBLEBASS',
+];
 
 export const createEnsemble = async (ensembleObj: {
   name: string;
@@ -35,9 +35,9 @@ export const createEnsemble = async (ensembleObj: {
         name: ensembleObj.name,
         ensembleNames: ensembleObj.ensembleNames,
         sections: {
-          create: sectionNamesArr.map(i => ({
-            name: i
-          }))
+          create: sectionNamesArr.map((i) => ({
+            name: i,
+          })),
         },
         admin: {
           create: {

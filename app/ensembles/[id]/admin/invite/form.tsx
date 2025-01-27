@@ -128,9 +128,16 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
                 Full
               </label>
             </div>
-            <SubmitButton 
-              disabled={props.isSubmitting || props.status === "success"} 
-              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
+            <SubmitButton
+              disabled={props.isSubmitting || props.status === 'success'}
+              status={
+                props.isSubmitting
+                  ? 'SUBMITTING'
+                  : props.status === 'success'
+                    ? 'SUCCESS'
+                    : undefined
+              }
+            />
             <ValidationError errors={Object.values(props.errors)} />
             <StatusMessage status={props.status} />
           </Form>

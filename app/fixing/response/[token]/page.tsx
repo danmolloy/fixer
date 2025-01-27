@@ -44,17 +44,14 @@ export default async function GigResponse({
 
   return (
     <div className='-mb-16 flex w-full flex-col items-center justify-center bg-slate-50 py-12'>
-      {data.status === "AWAITINGREPLY" ? (
+      {data.status === 'AWAITINGREPLY' ? (
         <ResponseHeader
           type={data.type}
           fixerName={`${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName}`}
           contactFirstName={`${data.contact.firstName}`}
         />
       ) : (
-        <ResponseConf
-         
-          contactMessage={data}
-        />
+        <ResponseConf contactMessage={data} />
       )}
       <table className='my-4 w-[95vw] rounded border md:w-2/3'>
         <tbody className={''}>
@@ -63,9 +60,7 @@ export default async function GigResponse({
             id='call-type'
             title='Call Type'
             value={
-              data.type !== "AVAILABILITY"
-                ? 'Gig Offer'
-                : 'Availability Check'
+              data.type !== 'AVAILABILITY' ? 'Gig Offer' : 'Availability Check'
             }
           />
           <InfoDiv
@@ -178,8 +173,7 @@ export default async function GigResponse({
       </table>
 
       <div className='my-4 flex flex-col items-center justify-center'>
-        {(data.status == "AWAITINGREPLY" ||
-          data.type === "AVAILABILITY") && (
+        {(data.status == 'AWAITINGREPLY' || data.type === 'AVAILABILITY') && (
           <ResponseForm
             contactMessage={data}
             fixerName={data.eventSection.event.fixerName!}

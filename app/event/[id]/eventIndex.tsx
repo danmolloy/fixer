@@ -45,7 +45,7 @@ export type EventInfoTableProps = {
 export default function EventInfoTable(props: EventInfoTableProps) {
   const { event, contacts, ensemble, sections } = props;
   const [selectedView, setSelectedView] = useState<
-    'details'|'fixing' | 'playerList' | 'fullRun'
+    'details' | 'fixing' | 'playerList' | 'fullRun'
   >('details');
   const eventRef = useRef(null);
 
@@ -65,28 +65,27 @@ export default function EventInfoTable(props: EventInfoTableProps) {
 
   return (
     <div data-testid='event-info-table' className='flex w-full flex-col'>
-      <EventViewSelect 
+      <EventViewSelect
         selectedView={selectedView}
         setSelectedView={(arg) => setSelectedView(arg)}
-        />
-      {selectedView === 'details' ?
-      <div>
-      <EventMenu
-        getRunningSheet={() => getRunningSheet()}
-        event={event}
-        contacts={contacts}
       />
-      <table ref={eventRef} className='w-full border'>
-        <EventHeader eventTitle={event.eventTitle} />
-        <EventInfo event={event} calls={event.calls} ensemble={ensemble} />
-      </table>
-      
-      </div>
-      :!ensemble.stripeSubscriptionId
-      ? <div>
-        <p>No active subscription</p>
-      </div>
-      :selectedView === 'playerList' ? (
+      {selectedView === 'details' ? (
+        <div>
+          <EventMenu
+            getRunningSheet={() => getRunningSheet()}
+            event={event}
+            contacts={contacts}
+          />
+          <table ref={eventRef} className='w-full border'>
+            <EventHeader eventTitle={event.eventTitle} />
+            <EventInfo event={event} calls={event.calls} ensemble={ensemble} />
+          </table>
+        </div>
+      ) : !ensemble.stripeSubscriptionId ? (
+        <div>
+          <p>No active subscription</p>
+        </div>
+      ) : selectedView === 'playerList' ? (
         <OrchestraList sections={sections} />
       ) : selectedView === 'fullRun' ? (
         <FullRunIndex sections={sections} calls={event.calls} />

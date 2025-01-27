@@ -30,7 +30,7 @@ describe('<CurrentContactsOptions />', () => {
     setCloseMenu: jest.fn(),
     contact: {
       ...mockContactMessage,
-      status: "AVAILABLE",
+      status: 'AVAILABLE',
       type: 'AVAILABILITY',
       contact: mockEnsembleContact,
       calls: [mockCall],
@@ -43,33 +43,38 @@ describe('<CurrentContactsOptions />', () => {
     const contactOptions = screen.getByTestId('contact-options');
     expect(contactOptions).toBeInTheDocument();
   });
-  it("musician name is in the document", () => {
-    const musicianName = screen.getByText(`${mockProps.contact.contact.firstName} ${mockProps.contact.contact.lastName}`);
+  it('musician name is in the document', () => {
+    const musicianName = screen.getByText(
+      `${mockProps.contact.contact.firstName} ${mockProps.contact.contact.lastName}`
+    );
     expect(musicianName).toBeInTheDocument();
     expect(musicianName).toHaveRole('heading');
-  })
-  it("close btn is in the document and calls setCloseMenu", () => {
-    const closeBtn = screen.getByTestId("close-btn");
+  });
+  it('close btn is in the document and calls setCloseMenu', () => {
+    const closeBtn = screen.getByTestId('close-btn');
     expect(closeBtn).toBeInTheDocument();
-    expect(closeBtn).toHaveTextContent("Close");
+    expect(closeBtn).toHaveTextContent('Close');
     act(() => {
-      fireEvent.click(closeBtn)
-    })
+      fireEvent.click(closeBtn);
+    });
     expect(mockProps.setCloseMenu).toHaveBeenCalled();
-  })
-  it("Edit link is in the document with expected href", () => {
-    const editLink = screen.getByText("Edit");
-    expect(editLink).toHaveAttribute("href", `/fixing/contactMessage/update/${mockProps.contact.id}`);
-  })
-  it("find dep btn is disabled if status !== ACCEPTED and status !== AUTOBOOKED", () => {
-    const findDepBtn = screen.getByText("Find Dep");
+  });
+  it('Edit link is in the document with expected href', () => {
+    const editLink = screen.getByText('Edit');
+    expect(editLink).toHaveAttribute(
+      'href',
+      `/fixing/contactMessage/update/${mockProps.contact.id}`
+    );
+  });
+  it('find dep btn is disabled if status !== ACCEPTED and status !== AUTOBOOKED', () => {
+    const findDepBtn = screen.getByText('Find Dep');
 
     act(() => {
       fireEvent.click(findDepBtn);
     });
     expect(global.confirm).not.toHaveBeenCalled();
     expect(axios.post).not.toHaveBeenCalled();
-  })
+  });
   it('move up btn is in the document and calls handleShift(true) on click', async () => {
     const upBtn = screen.getByText('Move Up');
     expect(upBtn).toBeInTheDocument();
@@ -131,7 +136,7 @@ describe('<CurrentContactsOptions />', () => {
     contact: {
       ...mockContactMessage,
       type: 'AVAILABILITY',
-      status: "DECLINED",
+      status: 'DECLINED',
       contact: mockEnsembleContact,
       calls: [mockCall],
     },
@@ -179,7 +184,6 @@ describe('<CurrentContactsOptions />', () => {
   });
 });
 
-
 describe('<CurrentContactsOptions />', () => {
   const index = Math.ceil(Math.random() * 10) + 1;
   const mockProps: CurrentContactsOptionsProps = {
@@ -189,7 +193,7 @@ describe('<CurrentContactsOptions />', () => {
     setCloseMenu: jest.fn(),
     contact: {
       ...mockContactMessage,
-      status: "AUTOBOOKED",
+      status: 'AUTOBOOKED',
       type: 'AUTOBOOK',
       contact: mockEnsembleContact,
       calls: [mockCall],
@@ -199,8 +203,8 @@ describe('<CurrentContactsOptions />', () => {
     render(<CurrentContactsOptions {...mockProps} />);
   });
 
-  it("Find Dep btn is in the document and calls global.confirm & axios.post with expected args", () => {
-    const findDepBtn = screen.getByText("Find Dep");
+  it('Find Dep btn is in the document and calls global.confirm & axios.post with expected args', () => {
+    const findDepBtn = screen.getByText('Find Dep');
     expect(findDepBtn).toBeInTheDocument();
     act(() => {
       fireEvent.click(findDepBtn);
@@ -213,9 +217,9 @@ describe('<CurrentContactsOptions />', () => {
       {
         id: mockProps.contact.id,
         data: {
-          status: "FINDINGDEP"
-        }
+          status: 'FINDINGDEP',
+        },
       }
-    )
-  })
+    );
+  });
 });

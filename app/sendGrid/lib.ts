@@ -1,4 +1,4 @@
-import prisma from "../../client";
+import prisma from '../../client';
 
 const url = process.env.URL;
 export const responseTemplate = 'd-f23e2cc89b50474b95ed0839995510c1';
@@ -11,8 +11,6 @@ export type SentEmailData = {
   email: string | string[];
   templateID: string;
 };
-
-
 
 export const createSentEmail = async (
   data: SentEmailData & { eventId: number }

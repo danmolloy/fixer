@@ -13,10 +13,10 @@ export type CreateContactMessageProps = {
     position: string;
     playerMessage?: string;
     calls: string[];
-    autoAccepted: boolean
+    autoAccepted: boolean;
   }[];
   eventSectionId: string;
-  type: "BOOKING"|"AVAILABILITY"|"AUTOBOOK";
+  type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
   strictlyTied: string;
   urgent: boolean;
 };
@@ -55,19 +55,22 @@ export const createContactMessages = async (
           })),
         },
         //accepted: data.contacts[i].autoAccepted === true ? true : null,
-        status: data.contacts[i].autoAccepted === true ? "AUTOBOOKED": "NOTCONTACTED" ,
+        status:
+          data.contacts[i].autoAccepted === true
+            ? 'AUTOBOOKED'
+            : 'NOTCONTACTED',
         token: generateToken(),
         //position: data.contacts[i].position,
         playerMessage: data.contacts[i].playerMessage,
         indexNumber: currentHighestIndex,
-        type: data.contacts[i].autoAccepted === true ? "AUTOBOOK":data.type,
+        type: data.contacts[i].autoAccepted === true ? 'AUTOBOOK' : data.type,
         strictlyTied: data.strictlyTied === 'true',
         urgent: data.urgent,
       },
     });
     currentHighestIndex += 1;
   }
-  if (data.type !== "AVAILABILITY") {
+  if (data.type !== 'AVAILABILITY') {
     await emailBookingMusicians(Number(data.eventSectionId));
   } else {
     await emailAvailabilityChecks(Number(data.eventSectionId));
@@ -121,8 +124,8 @@ export const gigIsFixed = async (eventID: number) => {
     const numToBook = event.sections[i].numToBook;
     const numBooked = event.sections[i].contacts.filter(
       (i) =>
-        (i.status === "ACCEPTED" || i.status === "AUTOBOOKED") &&
-        i.type !== "AVAILABILITY"
+        (i.status === 'ACCEPTED' || i.status === 'AUTOBOOKED') &&
+        i.type !== 'AVAILABILITY'
     ).length;
     if (numToBook - numBooked !== 0) {
       return false;
@@ -136,13 +139,14 @@ export const getNumToContact = (data: {
   numToBook: number;
 }): number => {
   const numBooked = data.contactMessages.filter(
-    (i) => i.status === "AUTOBOOKED" || i.status === "ACCEPTED"
+    (i) => i.status === 'AUTOBOOKED' || i.status === 'ACCEPTED'
   ).length;
   const numYetToRespond = data.contactMessages.filter(
-    (i) => i.status === "AWAITINGREPLY" && (i.type ==="AUTOBOOK" || i.type ==="BOOKING")
+    (i) =>
+      i.status === 'AWAITINGREPLY' &&
+      (i.type === 'AUTOBOOK' || i.type === 'BOOKING')
   ).length;
 
-  const numToContact =
-    data.numToBook - numBooked - numYetToRespond;
+  const numToContact = data.numToBook - numBooked - numYetToRespond;
   return numToContact;
 };

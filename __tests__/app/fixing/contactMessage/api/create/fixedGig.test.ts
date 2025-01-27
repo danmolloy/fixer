@@ -5,12 +5,10 @@ import { mockEvent } from '../../../../../../__mocks__/models/event';
 import { mockEventSection } from '../../../../../../__mocks__/models/eventSection';
 import { mockUser } from '../../../../../../__mocks__/models/user';
 import { prismaMock } from '../../../../../../__mocks__/singleton';
-import {
-  emailBookingMusicians,
-} from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
+import { emailBookingMusicians } from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
 import { SentEmailData } from '../../../../../../app/sendGrid/lib';
-import { bookingCompleteEmail,  } from '../../../../../../app/sendGrid/adminEmailLib';
-import { getDateRange, } from '../../../../../../app/fixing/contactMessage/api/create/functions';
+import { bookingCompleteEmail } from '../../../../../../app/sendGrid/adminEmailLib';
+import { getDateRange } from '../../../../../../app/fixing/contactMessage/api/create/functions';
 import { mockCall } from '../../../../../../__mocks__/models/call';
 import { mockSection } from '../../../../../../__mocks__/models/ensembleSection';
 
@@ -18,7 +16,6 @@ import { mockSection } from '../../../../../../__mocks__/models/ensembleSection'
 This is funcitonality in emailFunctions, however it requires a different mock for gigIsFixed.
 
 */
-
 
 jest.mock('axios');
 const mockPost = jest.spyOn(axios, 'post');
@@ -44,7 +41,6 @@ jest.mock('../../../../../../app/sendGrid/adminEmailLib', () => ({
 jest.mock(
   '../../../../../../app/fixing/contactMessage/api/create/functions',
   () => ({
-    
     gigIsFixed: jest.fn().mockReturnValue(true),
     getDateRange: jest.fn().mockReturnValue('date range'),
     getNumToContact: jest.fn().mockReturnValue(1),
@@ -52,9 +48,7 @@ jest.mock(
 );
 
 describe('emailBookingMusicians', () => {
-  
-  
-  it("if gigIsFixed, bookingCompleteEmail and sendGrid are called with expected args", async () => {
+  it('if gigIsFixed, bookingCompleteEmail and sendGrid are called with expected args', async () => {
     const mockReturn = {
       ...mockContactMessage,
       contact: mockUser,
@@ -66,29 +60,28 @@ describe('emailBookingMusicians', () => {
           ...mockEvent,
           calls: [mockCall],
           fixer: mockUser,
-        }
-      }
-    }
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce([{
-      ...mockReturn,
-      status: "ACCEPTED"
-    }]);
+        },
+      },
+    };
+    prismaMock.contactMessage.findMany.mockResolvedValueOnce([
+      {
+        ...mockReturn,
+        status: 'ACCEPTED',
+      },
+    ]);
     await emailBookingMusicians(42);
     expect(bookingCompleteEmail).toHaveBeenCalledWith({
       dateRange: getDateRange(mockReturn.eventSection.event.calls),
-        fixerFirstName: mockReturn.eventSection.event.fixer.firstName,
-        email: mockReturn.eventSection.event.fixer.email!,
-        ensemble: mockReturn.eventSection.event.ensembleName,
-    })
-    expect(axios.post).toHaveBeenCalledWith(
-      "http://localhost:3000/sendGrid",
-      {
-        body: {
-          emailAddress: mockEmail.email,
-          emailData: mockEmail, 
-          templateID: mockEmail.templateID,
-        }
-      }
-    );
-  }) 
+      fixerFirstName: mockReturn.eventSection.event.fixer.firstName,
+      email: mockReturn.eventSection.event.fixer.email!,
+      ensemble: mockReturn.eventSection.event.ensembleName,
+    });
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:3000/sendGrid', {
+      body: {
+        emailAddress: mockEmail.email,
+        emailData: mockEmail,
+        templateID: mockEmail.templateID,
+      },
+    });
+  });
 });

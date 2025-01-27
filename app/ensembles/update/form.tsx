@@ -115,9 +115,16 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                 {(e) => <p className='text-sm text-red-500'>{e}</p>}
               </ErrorMessage>
             </div>
-            <SubmitButton 
-              disabled={props.isSubmitting || props.status === "success"} 
-              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
+            <SubmitButton
+              disabled={props.isSubmitting || props.status === 'success'}
+              status={
+                props.isSubmitting
+                  ? 'SUBMITTING'
+                  : props.status === 'success'
+                    ? 'SUCCESS'
+                    : undefined
+              }
+            />
             <ValidationError errors={Object.values(props.errors).flat()} />
             <StatusMessage status={props.status} />
           </Form>

@@ -1,5 +1,8 @@
 import axios from '../../../../../../__mocks__/axios';
-import { mockContactMessage, mockNotContactedContactMessage } from '../../../../../../__mocks__/models/contactMessage';
+import {
+  mockContactMessage,
+  mockNotContactedContactMessage,
+} from '../../../../../../__mocks__/models/contactMessage';
 import { mockEnsembleContact } from '../../../../../../__mocks__/models/ensembleContact';
 import { mockEvent } from '../../../../../../__mocks__/models/event';
 import { mockEventSection } from '../../../../../../__mocks__/models/eventSection';
@@ -10,12 +13,27 @@ import {
   emailBookingMusicians,
 } from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
 import { SentEmailData } from '../../../../../../app/sendGrid/lib';
-import { createOfferEmail, releaseDepperEmail } from '../../../../../../app/sendGrid/playerLib';
-import { bookingCompleteEmail, listExhaustedEmail } from '../../../../../../app/sendGrid/adminEmailLib';
-import { getDateRange, getNumToContact, gigIsFixed } from '../../../../../../app/fixing/contactMessage/api/create/functions';
+import {
+  createOfferEmail,
+  releaseDepperEmail,
+} from '../../../../../../app/sendGrid/playerLib';
+import {
+  bookingCompleteEmail,
+  listExhaustedEmail,
+} from '../../../../../../app/sendGrid/adminEmailLib';
+import {
+  getDateRange,
+  getNumToContact,
+  gigIsFixed,
+} from '../../../../../../app/fixing/contactMessage/api/create/functions';
 import { mockCall } from '../../../../../../__mocks__/models/call';
 import { mockSection } from '../../../../../../__mocks__/models/ensembleSection';
-import { ContactMessage, EnsembleContact, Event, EventSection } from '@prisma/client';
+import {
+  ContactMessage,
+  EnsembleContact,
+  Event,
+  EventSection,
+} from '@prisma/client';
 
 jest.mock('axios');
 const mockPost = jest.spyOn(axios, 'post');
@@ -41,7 +59,6 @@ jest.mock('../../../../../../app/sendGrid/adminEmailLib', () => ({
 jest.mock(
   '../../../../../../app/fixing/contactMessage/api/create/functions',
   () => ({
-    
     gigIsFixed: jest.fn().mockReturnValue(false),
     getDateRange: jest.fn().mockReturnValue('date range'),
     getNumToContact: jest.fn().mockReturnValue(1),
@@ -55,10 +72,7 @@ describe('emailBookingMusicians', () => {
     const prismaArgs = {
       where: {
         eventSectionId: 42,
-        OR: [
-          {type: "AUTOBOOK"},
-          {type: "BOOKING"}
-        ]
+        OR: [{ type: 'AUTOBOOK' }, { type: 'BOOKING' }],
       },
       include: {
         eventSection: {
@@ -107,35 +121,35 @@ describe('emailBookingMusicians', () => {
     await emailBookingMusicians(42);
     expect(gigIsFixed).toHaveBeenCalled();
   });
-  it("if no contactMessages are returned, function is returned with calling anything", async () => {
+  it('if no contactMessages are returned, function is returned with calling anything', async () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([]);
     expect(await emailBookingMusicians(42)).toBe(undefined);
     expect(axios.post).not.toHaveBeenCalled();
+  });
 
-  }) 
-  
-  it("if !fixed, getNumToContact is called with expected args", async () => {
-    const mockReturn = [{
-      ...mockContactMessage,
-      contact: mockUser,
-      eventSection: {
-        ...mockEventSection,
-        ensembleSection: mockSection,
-        numToBook: 2,
-        event: {
-          ...mockEvent,
-          calls: [mockCall],
-          fixer: mockUser,
-        }
-      }
-    }]
+  it('if !fixed, getNumToContact is called with expected args', async () => {
+    const mockReturn = [
+      {
+        ...mockContactMessage,
+        contact: mockUser,
+        eventSection: {
+          ...mockEventSection,
+          ensembleSection: mockSection,
+          numToBook: 2,
+          event: {
+            ...mockEvent,
+            calls: [mockCall],
+            fixer: mockUser,
+          },
+        },
+      },
+    ];
     prismaMock.contactMessage.findMany.mockResolvedValueOnce(mockReturn);
     await emailBookingMusicians(42);
     expect(getNumToContact).toHaveBeenCalled();
-  }) 
-  
-  
-  it("if numToContact > notContacted.length, listExhaustedEmail & axios.post are called with expected args", async () => {
+  });
+
+  it('if numToContact > notContacted.length, listExhaustedEmail & axios.post are called with expected args', async () => {
     const mockReturn = {
       ...mockContactMessage,
       contact: mockUser,
@@ -147,21 +161,22 @@ describe('emailBookingMusicians', () => {
           ...mockEvent,
           calls: [mockCall],
           fixer: mockUser,
-        }
-      }
-    }
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce([{...mockReturn, status: "DECLINED"}]);
+        },
+      },
+    };
+    prismaMock.contactMessage.findMany.mockResolvedValueOnce([
+      { ...mockReturn, status: 'DECLINED' },
+    ]);
     await emailBookingMusicians(42);
     expect(listExhaustedEmail).toHaveBeenCalled();
-    expect(axios.post).toHaveBeenCalledWith(
-      "http://localhost:3000/sendGrid",
-      {body: {
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:3000/sendGrid', {
+      body: {
         emailData: mockEmail,
         templateID: mockEmail.templateID,
-        emailAddress: mockEmail.email
-      }}
-    );
-  })
+        emailAddress: mockEmail.email,
+      },
+    });
+  });
   it('calls createOfferEmail & axios.post with expected arg', async () => {
     const mockReturn = [
       {
@@ -219,31 +234,33 @@ describe('emailBookingMusicians', () => {
       },
       data: {
         received: true,
-        status: "AWAITINGREPLY"
+        status: 'AWAITINGREPLY',
       },
     });
   });
   it('if urgent, calls axios.post with expected args', async () => {
-    const mockReturn =  {
-        ...mockContactMessage,
-        contact: mockEnsembleContact,
-        accepted: null,
-        received: false,
-        urgent: true,
-        calls: [mockCall],
-        eventSection: {
-          ...mockEventSection,
-          ensembleSection: mockSection,
-          numToBook: 1,
-          event: {
-            ...mockEvent,
-            calls: [mockCall],
-            fixer: mockUser,
-          },
+    const mockReturn = {
+      ...mockContactMessage,
+      contact: mockEnsembleContact,
+      accepted: null,
+      received: false,
+      urgent: true,
+      calls: [mockCall],
+      eventSection: {
+        ...mockEventSection,
+        ensembleSection: mockSection,
+        numToBook: 1,
+        event: {
+          ...mockEvent,
+          calls: [mockCall],
+          fixer: mockUser,
         },
-      }
-    
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce([{...mockReturn, status: "NOTCONTACTED", urgent: true}]);
+      },
+    };
+
+    prismaMock.contactMessage.findMany.mockResolvedValueOnce([
+      { ...mockReturn, status: 'NOTCONTACTED', urgent: true },
+    ]);
     await emailBookingMusicians(42);
     expect(axios.post).toHaveBeenCalledWith('http://localhost:3000/sendGrid', {
       body: {
@@ -263,7 +280,6 @@ describe('emailBookingMusicians', () => {
 
 describe('emailAvailabilityChecks', () => {
   it('calls prisma.contactMessage.findMany with expected args', async () => {
-
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([]);
     await emailAvailabilityChecks(1);
     expect(await prismaMock.contactMessage.findMany).toHaveBeenCalledWith({
@@ -299,27 +315,42 @@ describe('emailAvailabilityChecks', () => {
   });
   it('for each unsent availability check, createOfferEmail(args) is called', async () => {
     const mockData = [
-      { ...mockContactMessage, id: 1, contact: mockEnsembleContact,eventSection: {
-        ...mockEventSection,
-        event: {
-          ...mockEvent,
-          fixer: mockUser
-        }
-      } },
-      { ...mockContactMessage, id: 2, contact: mockEnsembleContact,eventSection: {
-        ...mockEventSection,
-        event: {
-          ...mockEvent,
-          fixer: mockUser
-        }
-      } },
-      { ...mockContactMessage, id: 3, contact: mockEnsembleContact,eventSection: {
-        ...mockEventSection,
-        event: {
-          ...mockEvent,
-          fixer: mockUser
-        }
-      } },
+      {
+        ...mockContactMessage,
+        id: 1,
+        contact: mockEnsembleContact,
+        eventSection: {
+          ...mockEventSection,
+          event: {
+            ...mockEvent,
+            fixer: mockUser,
+          },
+        },
+      },
+      {
+        ...mockContactMessage,
+        id: 2,
+        contact: mockEnsembleContact,
+        eventSection: {
+          ...mockEventSection,
+          event: {
+            ...mockEvent,
+            fixer: mockUser,
+          },
+        },
+      },
+      {
+        ...mockContactMessage,
+        id: 3,
+        contact: mockEnsembleContact,
+        eventSection: {
+          ...mockEventSection,
+          event: {
+            ...mockEvent,
+            fixer: mockUser,
+          },
+        },
+      },
     ];
     prismaMock.contactMessage.findMany.mockResolvedValueOnce(mockData);
     prismaMock.contactMessage.update.mockResolvedValueOnce(mockContactMessage);
@@ -331,17 +362,18 @@ describe('emailAvailabilityChecks', () => {
   });
   it('for each unsent availability check, axios.post(args) is called', async () => {
     const mockData = [
-      { 
-        ...mockContactMessage, 
-        id: 1, 
+      {
+        ...mockContactMessage,
+        id: 1,
         contact: mockEnsembleContact,
         eventSection: {
           ...mockEventSection,
           event: {
             ...mockEvent,
-            fixer: mockUser
-          }
-        } },
+            fixer: mockUser,
+          },
+        },
+      },
     ];
     prismaMock.contactMessage.findMany.mockResolvedValueOnce(mockData);
     prismaMock.contactMessage.update.mockResolvedValueOnce(mockContactMessage);
@@ -356,17 +388,17 @@ describe('emailAvailabilityChecks', () => {
   });
   it('calls prisma.contactMessage.update with expected args', async () => {
     const mockData = [
-      { 
-        ...mockContactMessage, 
-        id: 1, 
+      {
+        ...mockContactMessage,
+        id: 1,
         contact: mockEnsembleContact,
         eventSection: {
           ...mockEventSection,
           event: {
             ...mockEvent,
-            fixer: mockUser
-          }
-        }
+            fixer: mockUser,
+          },
+        },
       },
     ];
     prismaMock.contactMessage.findMany.mockResolvedValueOnce(mockData);

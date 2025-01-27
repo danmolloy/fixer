@@ -28,14 +28,16 @@ export const pdfOptions = {
 
 export default function OrchestraList(props: OrchestraListProps) {
   const { sections } = props;
-  const [showMenu, setShowMenu] = useState<boolean>(false)
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const playersRef = useRef(null);
 
   const sortedSections = sections
     .map((i) => ({
       ...i,
       indexNum: instrumentSections.find(
-        (j) => j.name.toLowerCase() === i.ensembleSection.name.toLowerCase()
+        (j) =>
+          j.name.replace(/\s/g, '').toLowerCase() ===
+          i.ensembleSection.name.replace(/\s/g, '').toLowerCase()
       )!.index,
     }))
     .sort((a, b) => a.indexNum - b.indexNum);
@@ -48,40 +50,36 @@ export default function OrchestraList(props: OrchestraListProps) {
 
   return (
     <div data-testid='orchestra-list' className='flex flex-col'>
-
-<div className=' flex justify-end'>
+      <div className='flex justify-end'>
+        <button
+          className='rounded border p-1 text-center text-black hover:bg-gray-50'
+          onClick={() => {
+            focus();
+            setShowMenu(!showMenu);
+          }}
+          onBlur={() => setTimeout(() => setShowMenu(false), 250)}
+        >
+          <BsThreeDotsVertical />
+          <p className='hidden'>Options</p>
+        </button>
+        {showMenu && (
+          <div
+            data-testid='options-menu'
+            className='absolute -ml-10 mt-8 flex flex-col rounded border bg-white'
+          >
             <button
-                    className='rounded border p-1 text-center text-black hover:bg-gray-50'
-
-              onClick={() => {
-                focus();
-                setShowMenu(!showMenu);
-              }}
-              onBlur={() => setTimeout(() => setShowMenu(false), 250)}
+              className='px-2 py-1 hover:bg-gray-50'
+              onClick={() => getOrchList()}
             >
-              <BsThreeDotsVertical />
-              <p className='hidden'>Options</p>
+              Print List
             </button>
-            {showMenu && (
-              <div
-                data-testid='options-menu'
-                className='mt-8 absolute -ml-10 flex flex-col rounded border bg-white'
-              >
-                
-                <button
-                  className='px-2 py-1 hover:bg-gray-50'
-                  onClick={() => getOrchList()}
-                >
-                 Print List
-
-                </button>
-              </div>
-            )}
           </div>
+        )}
+      </div>
 
-      
-      <div ref={playersRef} className=' flex flex-col'>
-{/* 1 */}        {sections.filter((i) => i.contacts.length > 0).length < 1 && (
+      <div ref={playersRef} className='flex flex-col'>
+        {/* 1 */}{' '}
+        {sections /* .filter((i) => i.contacts.length > 0) */.length < 1 && (
           <div
             data-testid='help-msg'
             className='flex flex-col self-center text-center'
@@ -91,28 +89,45 @@ export default function OrchestraList(props: OrchestraListProps) {
           </div>
         )}
         {sortedSections
-          .filter((i) => i.contacts.length > 0)
+          /* .filter((i) => i.contacts.length > 0) */
           .map((i) => (
             <div data-testid={`${i.id}-section`} key={i.id} className='my-2'>
               <h3 className='font-semibold'>{i.ensembleSection.name}</h3>
               <ol>
                 {i.contacts
-                  .filter((j) => j.type !== "AVAILABILITY" && (j.status === "ACCEPTED" || j.status === "AUTOBOOKED"))
+                  .filter(
+                    (j) =>
+                      j.type !== 'AVAILABILITY' &&
+                      (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED')
+                  )
                   .sort((a, b) => a.indexNumber - b.indexNumber)
                   .map((j) => (
                     <li className='text-sm' key={j.id}>
                       {`${j.contact.firstName} ${j.contact.lastName} (${j.position})`}
                     </li>
                   ))}
-                {i.numToBook - i.contacts.filter((j) => j.type !== "AVAILABILITY" && (j.status === "ACCEPTED" || j.status === "AUTOBOOKED")).length === 0 
-                ? null
-                : i.numToBook - i.contacts.filter((j) => j.type !== "AVAILABILITY" && (j.status === "ACCEPTED" || j.status === "AUTOBOOKED")).length < 0 
-                ? <p className='font-bold'>Overbooked by {i.contacts.filter((j) => (j.status === "ACCEPTED" || j.status === "AUTOBOOKED")).length - i.numToBook} </p>
-                : new Array(
-                  i.numToBook
-                )
-                  .fill(null)
-                  .map((_, index) => (
+                {i.numToBook -
+                  i.contacts.filter(
+                    (j) =>
+                      j.type !== 'AVAILABILITY' &&
+                      (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED')
+                  ).length ===
+                0 ? null : i.numToBook -
+                    i.contacts.filter(
+                      (j) =>
+                        j.type !== 'AVAILABILITY' &&
+                        (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED')
+                    ).length <
+                  0 ? (
+                  <p className='font-bold'>
+                    Overbooked by{' '}
+                    {i.contacts.filter(
+                      (j) =>
+                        j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED'
+                    ).length - i.numToBook}{' '}
+                  </p>
+                ) : (
+                  new Array(i.numToBook).fill(null).map((_, index) => (
                     <li
                       data-testid={`${i.id}-tbc`}
                       key={index}
@@ -120,7 +135,8 @@ export default function OrchestraList(props: OrchestraListProps) {
                     >
                       TBC
                     </li>
-                  ))}
+                  ))
+                )}
               </ol>
             </div>
           ))}

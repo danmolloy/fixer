@@ -110,7 +110,7 @@ export default function DiaryContacts(props: DiaryContactsProps) {
                           name: `${i.firstName} ${i.lastName}`,
                           playerMessage: undefined,
                           calls: eventCalls.map((j) => String(j.id)),
-                          autoAccepted: false
+                          autoAccepted: false,
                         })
                       }
                       disabled={

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { SentEmailData } from './lib'; 
+import { SentEmailData } from './lib';
 const sgMail = require('@sendgrid/mail');
 
 export async function POST(

@@ -1,10 +1,16 @@
-import { readOnlyTemplate, SentEmailData } from "./lib"; 
-import { Call, ContactMessage, EnsembleContact, Event, EventSection, User } from "@prisma/client";
-import { getDateRange } from "../fixing/contactMessage/api/create/functions";
-import { DateTime } from "luxon";
+import { readOnlyTemplate, SentEmailData } from './lib';
+import {
+  Call,
+  ContactMessage,
+  EnsembleContact,
+  Event,
+  EventSection,
+  User,
+} from '@prisma/client';
+import { getDateRange } from '../fixing/contactMessage/api/create/functions';
+import { DateTime } from 'luxon';
 
 const url = process.env.URL;
-
 
 export const eventReminderFixer = (
   event: Event & {
@@ -87,7 +93,6 @@ export const reportUnresponsiveMusicianEmail = (
     templateID,
   };
 };
-
 
 export const adminInviteEmail = (data: {
   firstName: string;

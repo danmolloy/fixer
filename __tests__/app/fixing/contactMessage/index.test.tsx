@@ -8,7 +8,7 @@ import { mockCall } from '../../../../__mocks__/models/call';
 import { mockContactMessage } from '../../../../__mocks__/models/contactMessage';
 
 const mockProps: EventSectionContactsProps = {
-  type: "AVAILABILITY",
+  type: 'AVAILABILITY',
   editContacts: false,
   setEditContacts: jest.fn(),
   eventSectionId: 1,
@@ -19,10 +19,10 @@ const mockProps: EventSectionContactsProps = {
       ...mockContactMessage,
       contact: {
         ...mockEnsembleContact,
-        firstName: "Greg",
-        lastName: "Ievers"
+        firstName: 'Greg',
+        lastName: 'Ievers',
       },
-      type: "AVAILABILITY",
+      type: 'AVAILABILITY',
       calls: [mockCall],
     },
     {
@@ -30,10 +30,10 @@ const mockProps: EventSectionContactsProps = {
       id: 2,
       contact: {
         ...mockEnsembleContact,
-        firstName: "Elliot",
-        lastName: "Gannon"
+        firstName: 'Elliot',
+        lastName: 'Gannon',
       },
-      type: "BOOKING",
+      type: 'BOOKING',
       calls: [mockCall],
     },
     {
@@ -41,10 +41,10 @@ const mockProps: EventSectionContactsProps = {
       id: 3,
       contact: {
         ...mockEnsembleContact,
-        firstName: "Brett",
-        lastName: "Sturdy"
+        firstName: 'Brett',
+        lastName: 'Sturdy',
       },
-      type: "AUTOBOOK",
+      type: 'AUTOBOOK',
       calls: [mockCall],
     },
   ],
@@ -52,32 +52,40 @@ const mockProps: EventSectionContactsProps = {
 
 describe('<EventSectionContacts />', () => {
   beforeEach(() => {
-    render(<EventSectionContacts {...mockProps} type="AVAILABILITY" />);
+    render(<EventSectionContacts {...mockProps} type='AVAILABILITY' />);
   });
   it('<EventSectionContacts /> renders', () => {
     const eventSectionContacts = screen.getByTestId('event-section-contacts');
     expect(eventSectionContacts).toBeInTheDocument();
   });
-  it("if availability selected, shows just AVAILABILITY types", () => {
+  it('if availability selected, shows just AVAILABILITY types', () => {
     const eventSectionContacts = screen.getByTestId('event-section-contacts');
-    expect(eventSectionContacts.textContent).toMatch("Greg Ievers")
-    expect(eventSectionContacts.textContent).not.toMatch("Elliot Gannon")
-    expect(eventSectionContacts.textContent).not.toMatch("Brett Sturdy")
-  })
+    expect(eventSectionContacts.textContent).toMatch('Greg Ievers');
+    expect(eventSectionContacts.textContent).not.toMatch('Elliot Gannon');
+    expect(eventSectionContacts.textContent).not.toMatch('Brett Sturdy');
+  });
 });
 
 describe('<EventSectionContacts />', () => {
   beforeEach(() => {
-    render(<EventSectionContacts {...mockProps} currentContacts={[]} type="AVAILABILITY" />);
+    render(
+      <EventSectionContacts
+        {...mockProps}
+        currentContacts={[]}
+        type='AVAILABILITY'
+      />
+    );
   });
 
-  it("if availability selected, it states if there have been no calls & Add Contacts btn", () => {
+  it('if availability selected, it states if there have been no calls & Add Contacts btn', () => {
     const eventSectionContacts = screen.getByTestId('event-section-contacts');
-    expect(eventSectionContacts.textContent).toMatch("No availability checks made.")
-    expect(eventSectionContacts.textContent).toMatch("Add contacts to get started.")
-
-  })  
-
+    expect(eventSectionContacts.textContent).toMatch(
+      'No availability checks made.'
+    );
+    expect(eventSectionContacts.textContent).toMatch(
+      'Add contacts to get started.'
+    );
+  });
 });
 
 describe('<EventSectionContacts />', () => {
@@ -88,32 +96,37 @@ describe('<EventSectionContacts />', () => {
     const eventSectionContacts = screen.getByTestId('event-section-contacts');
     expect(eventSectionContacts).toBeInTheDocument();
   });
-  it("if booking selected, shows both BOOKING and AUTOBOOK types", () => {
+  it('if booking selected, shows both BOOKING and AUTOBOOK types', () => {
     const eventSectionContacts = screen.getByTestId('event-section-contacts');
-    expect(eventSectionContacts.textContent).not.toMatch("Greg Ievers")
-    expect(eventSectionContacts.textContent).toMatch("Elliot Gannon")
-    expect(eventSectionContacts.textContent).toMatch("Brett Sturdy")
-  })
+    expect(eventSectionContacts.textContent).not.toMatch('Greg Ievers');
+    expect(eventSectionContacts.textContent).toMatch('Elliot Gannon');
+    expect(eventSectionContacts.textContent).toMatch('Brett Sturdy');
+  });
 });
 
 describe('<EventSectionContacts />', () => {
   beforeEach(() => {
-    render(<EventSectionContacts {...mockProps} currentContacts={[]} type='BOOKING' />);
+    render(
+      <EventSectionContacts
+        {...mockProps}
+        currentContacts={[]}
+        type='BOOKING'
+      />
+    );
   });
 
-  it("if booking selected, it states if there have been no calls & Add Contacts btn", () => {
+  it('if booking selected, it states if there have been no calls & Add Contacts btn', () => {
     const eventSectionContacts = screen.getByTestId('event-section-contacts');
-    expect(eventSectionContacts.textContent).toMatch("No booking calls made.")
-    expect(eventSectionContacts.textContent).toMatch("Add contacts to get started.")
-  })
- 
+    expect(eventSectionContacts.textContent).toMatch('No booking calls made.');
+    expect(eventSectionContacts.textContent).toMatch(
+      'Add contacts to get started.'
+    );
+  });
 });
-
-
 
 describe('<EventSectionContacts />', () => {
   const mockProps: EventSectionContactsProps = {
-    type: "BOOKING",
+    type: 'BOOKING',
     editContacts: false,
     setEditContacts: jest.fn(),
     eventSectionId: 1,
@@ -133,5 +146,4 @@ describe('<EventSectionContacts />', () => {
     });
     expect(mockProps.setEditContacts).toHaveBeenCalledWith(true);
   });
-
 });

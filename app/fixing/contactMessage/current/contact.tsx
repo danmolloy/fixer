@@ -25,11 +25,13 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
   };
 
   return (
-    <tr data-testid="contact-row" className={`text-sm ${contact.status === 'DECLINED' && 'text-gray-300'}`}>
-      {contact.type !== "AVAILABILITY" 
-      && <td className='text-center'>
-        {index}
-      </td>}
+    <tr
+      data-testid='contact-row'
+      className={`text-sm ${contact.status === 'DECLINED' && 'text-gray-300'}`}
+    >
+      {contact.type !== 'AVAILABILITY' && (
+        <td className='text-center'>{index}</td>
+      )}
       <td className='text-center'>
         <p>{`${contact.contact.firstName} ${contact.contact.lastName}`}</p>
       </td>
@@ -38,77 +40,87 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       </td>
       {eventCalls.map((i) => (
         <td className='' key={i.id} data-testid={`call-${i.id}`}>
-          {contact.type === "AVAILABILITY" ? (
+          {contact.type === 'AVAILABILITY' ? (
             <div className='m-2 flex items-center justify-center'>
-              {!contact.calls.map((j) => j.id).includes(i.id) 
-              ? <div>
-                <p className='hidden'>Not Checked</p>
-                <TiTimes />
+              {!contact.calls.map((j) => j.id).includes(i.id) ? (
+                <div>
+                  <p className='hidden'>Not Checked</p>
+                  <TiTimes />
                 </div>
-              : contact.availableFor.includes(i.id)
-              ? (
+              ) : contact.availableFor.includes(i.id) ? (
                 <div>
                   <p className='hidden'>Available</p>
                   <TiTick />
                 </div>
-              ) : contact.status === "AWAITINGREPLY"
-              ? <div>
-                  <p className="hidden">Awaiting Reply</p>
-                    •
-                </div>
-              : (
+              ) : contact.status === 'AWAITINGREPLY' ? (
                 <div>
-                  <p className="hidden">Declined</p>
+                  <p className='hidden'>Awaiting Reply</p>•
+                </div>
+              ) : (
+                <div>
+                  <p className='hidden'>Declined</p>
                   <TiTimes />
                 </div>
-              )
-              }
+              )}
             </div>
           ) : (
             <div className='m-2 flex items-center justify-center'>
-              {contact.calls.map((j) => j.id).includes(i.id) 
-              ? (
+              {contact.calls.map((j) => j.id).includes(i.id) ? (
                 <div>
-                  {contact.status === "AWAITINGREPLY" || contact.status === "NOTCONTACTED" ? <p className='hidden'>Offered</p> : <p className='hidden'>Booked</p>}
+                  {contact.status === 'AWAITINGREPLY' ||
+                  contact.status === 'NOTCONTACTED' ? (
+                    <p className='hidden'>Offered</p>
+                  ) : (
+                    <p className='hidden'>Booked</p>
+                  )}
                   <TiTick />
                 </div>
               ) : (
                 <div>
                   <p className='hidden'>Not Booked</p>
-                <TiTimes />
+                  <TiTimes />
                 </div>
               )}
             </div>
           )}
         </td>
       ))}
-      {(contact.status === "ACCEPTED" 
-      || contact.status === "AUTOBOOKED" 
-      || contact.status === "AVAILABLE")
-      ? <td className='text-center text-white bg-green-500'>
+      {contact.status === 'ACCEPTED' ||
+      contact.status === 'AUTOBOOKED' ||
+      contact.status === 'AVAILABLE' ? (
+        <td className='bg-green-500 text-center text-white'>
           <p className=''>{contact.status}</p>
-      </td> : contact.status === "DECLINED" 
-      ? <td className='text-center text-black bg-white opacity-40'>
+        </td>
+      ) : contact.status === 'DECLINED' ? (
+        <td className='bg-white text-center text-black opacity-40'>
           <p className=''>{contact.status}</p>
-      </td> : contact.status === "AWAITINGREPLY"
-      ? <td className='text-center text-white bg-amber-500'>
+        </td>
+      ) : contact.status === 'AWAITINGREPLY' ? (
+        <td className='bg-amber-500 text-center text-white'>
           <p className=''>AWAITING REPLY</p>
-      </td> : contact.status === "NOTCONTACTED" 
-      ? <td className='text-center text-black bg-white opacity-40'>
+        </td>
+      ) : contact.status === 'NOTCONTACTED' ? (
+        <td className='bg-white text-center text-black opacity-40'>
           <p className=''>NOT CONTACTED</p>
-      </td> : contact.status === "FINDINGDEP" 
-      ? <td className='text-center text-white bg-amber-500'>
+        </td>
+      ) : contact.status === 'FINDINGDEP' ? (
+        <td className='bg-amber-500 text-center text-white'>
           <p className=''>FINDING DEP</p>
-      </td> : contact.status === "MIXED" 
-      ? <td className='text-center text-white bg-orange-500'>
+        </td>
+      ) : contact.status === 'MIXED' ? (
+        <td className='bg-orange-500 text-center text-white'>
           <p className=''>{contact.status}</p>
-      </td> : <td className='text-center text-white bg-red-600'> {/* ERROR */}
+        </td>
+      ) : (
+        <td className='bg-red-600 text-center text-white'>
+          {' '}
+          {/* ERROR */}
           <p className=''>{contact.status}</p>
-      </td> 
-      }
+        </td>
+      )}
       <td className='flex items-center justify-center text-black'>
         <button
-          data-testid="menu-btn"
+          data-testid='menu-btn'
           className='rounded p-2 hover:bg-gray-100'
           onClick={(e) => {
             e.preventDefault();
@@ -128,7 +140,7 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
         )}
         {contact.playerMessage && (
           <button
-            data-testid="player-msg-btn"
+            data-testid='player-msg-btn'
             className='m-1 p-1 hover:bg-gray-50'
             onClick={(e) => {
               e.preventDefault();

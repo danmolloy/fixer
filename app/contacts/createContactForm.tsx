@@ -97,14 +97,16 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                 ? await axios.post('/contacts/api/update', {
                     updatedData: {
                       ...values,
-/*                       section: section,
- */                    },
+                      /*                       section: section,
+                       */
+                    },
                     contactId: contact.id,
                   })
                 : await axios.post('/contacts/api/create', {
                     ...values,
-/*                     section: section,
- */                  });
+                    /*                     section: section,
+                     */
+                  });
             };
             postRequest()
               .then(() => {
@@ -196,9 +198,16 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                 </ErrorMessage>
               </div>
 
-              <SubmitButton 
-              disabled={props.isSubmitting || props.status === "success"} 
-              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
+              <SubmitButton
+                disabled={props.isSubmitting || props.status === 'success'}
+                status={
+                  props.isSubmitting
+                    ? 'SUBMITTING'
+                    : props.status === 'success'
+                      ? 'SUCCESS'
+                      : undefined
+                }
+              />
               <ValidationError errors={Object.values(props.errors)} />
               <StatusMessage status={props.status} />
             </form>

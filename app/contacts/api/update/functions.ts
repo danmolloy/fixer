@@ -39,8 +39,8 @@ export const updateContact = async (data: {
       phoneNumber: data.updatedData.phone,
       section: {
         connect: {
-          id: data.updatedData.section
-        }
+          id: data.updatedData.section,
+        },
       },
     },
   });

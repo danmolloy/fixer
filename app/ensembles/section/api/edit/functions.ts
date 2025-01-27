@@ -1,9 +1,9 @@
-import { EnsembleContact } from '@prisma/client';
+import { EnsembleContact, SectionName } from '@prisma/client';
 import prisma from '../../../../../client';
 
 export type UpdateSectionProps = {
   id: string;
-  name: string;
+  name: SectionName;
   contacts: EnsembleContact[];
 };
 

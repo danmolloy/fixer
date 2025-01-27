@@ -10,9 +10,7 @@ import { mockEvent } from '../../../../../__mocks__/models/event';
 import { mockUser } from '../../../../../__mocks__/models/user';
 import { mockSection } from '../../../../../__mocks__/models/ensembleSection';
 import { mockCall } from '../../../../../__mocks__/models/call';
-import {
-  responseConfEmail,
-} from '../../../../../app/sendGrid/playerLib';
+import { responseConfEmail } from '../../../../../app/sendGrid/playerLib';
 import axios from '../../../../../__mocks__/axios';
 import { getDateRange } from '../../../../../app/fixing/contactMessage/api/create/functions';
 import { SentEmailData } from '../../../../../app/sendGrid/lib';
@@ -113,8 +111,7 @@ describe('<ResponseForm />', () => {
       email: localMockProps.contactMessage.contact.email!,
       ensemble: localMockProps.contactMessage.eventSection.event.ensembleName,
       accepted: true,
-      type:
-        localMockProps.contactMessage.type,
+      type: localMockProps.contactMessage.type,
     });
     expect(axios.post).toHaveBeenCalledWith('/sendGrid', {
       body: {

@@ -16,30 +16,30 @@ const getCalendar = async (
         include: {
           event: {
             include: {
-              ensemble: true
-            }
-          }
+              ensemble: true,
+            },
+          },
         },
         orderBy: {
-          startTime: 'asc'
-        }
+          startTime: 'asc',
+        },
       },
       events: {
         include: {
           sections: {
             include: {
               contacts: true,
-              ensembleSection: true
-            }
+              ensembleSection: true,
+            },
           },
           calls: {
             orderBy: {
-              startTime: 'asc'
-            }
-          }
-        }
-      }
-    }
+              startTime: 'asc',
+            },
+          },
+        },
+      },
+    },
   });
 };
 

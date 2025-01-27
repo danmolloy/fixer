@@ -29,7 +29,7 @@ export type ResponseFormProps = {
     calls: Call[];
   };
   accepted: boolean | null;
-  type: "BOOKING"|"AVAILABILITY"|"AUTOBOOK"
+  type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
   fixerName: string;
 };
 
@@ -84,20 +84,11 @@ export default function ResponseForm(props: ResponseFormProps) {
               `\n${DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD')}`
           )}
         `);
-    } else if (
-      values.accepted === 'true' &&
-      type !== "AVAILABILITY"
-    ) {
+    } else if (values.accepted === 'true' && type !== 'AVAILABILITY') {
       confMsg = confirm('Are you sure you want to ACCEPT this offer?');
-    } else if (
-      values.accepted !== 'true' &&
-      type !== "AVAILABILITY"
-    ) {
+    } else if (values.accepted !== 'true' && type !== 'AVAILABILITY') {
       confMsg = confirm('Are you sure you want to DECLINE this offer?');
-    } else if (
-      values.accepted === 'true' &&
-      type === "AVAILABILITY"
-    ) {
+    } else if (values.accepted === 'true' && type === 'AVAILABILITY') {
       confMsg = confirm(`
         Please confirm you are available for this work. 
         If the fixer requires you, you will get a further offer which you will need to confirm.
@@ -111,12 +102,17 @@ export default function ResponseForm(props: ResponseFormProps) {
           id: contactMessage.id,
           data: {
             accepted: values.accepted === 'true',
-            status: (contactMessage.type !== "AVAILABILITY" &&  values.accepted === 'true' && values.availableFor.length === contactMessage.calls.length)
-            ? "ACCEPTED"
-            : (values.accepted === 'true' && values.availableFor.length === contactMessage.calls.length) 
-              ?  "AVAILABLE" 
-              : values.accepted === 'true' 
-              ? "MIXED" : "DECLINED",
+            status:
+              contactMessage.type !== 'AVAILABILITY' &&
+              values.accepted === 'true' &&
+              values.availableFor.length === contactMessage.calls.length
+                ? 'ACCEPTED'
+                : values.accepted === 'true' &&
+                    values.availableFor.length === contactMessage.calls.length
+                  ? 'AVAILABLE'
+                  : values.accepted === 'true'
+                    ? 'MIXED'
+                    : 'DECLINED',
             acceptedDate: new Date(),
             availableFor:
               values.accepted === 'true'
@@ -132,12 +128,16 @@ export default function ResponseForm(props: ResponseFormProps) {
             email: contactMessage.contact.email!,
             ensemble: contactMessage.eventSection.event.ensembleName,
             accepted: values.accepted ? true : false,
-            status:  (values.accepted === 'true' && contactMessage.type !== "AVAILABILITY") 
-            ? "ACCEPTED"
-            : (values.accepted === 'true' && values.availableFor.length === contactMessage.calls.length) 
-              ?  "AVAILABLE" 
-              : values.accepted === 'true' 
-              ? "MIXED" : "DECLINED",
+            status:
+              values.accepted === 'true' &&
+              contactMessage.type !== 'AVAILABILITY'
+                ? 'ACCEPTED'
+                : values.accepted === 'true' &&
+                    values.availableFor.length === contactMessage.calls.length
+                  ? 'AVAILABLE'
+                  : values.accepted === 'true'
+                    ? 'MIXED'
+                    : 'DECLINED',
             type: contactMessage.type,
           });
 
@@ -164,8 +164,13 @@ export default function ResponseForm(props: ResponseFormProps) {
           actions.setSubmitting(true);
           handleSubmit(values)
             .then(() => {
-              if (values.accepted === 'true' && contactMessage.type !== "AVAILABILITY") {
-                router.push(`/fixing/response/${contactMessage.token}/?accepted=true`);
+              if (
+                values.accepted === 'true' &&
+                contactMessage.type !== 'AVAILABILITY'
+              ) {
+                router.push(
+                  `/fixing/response/${contactMessage.token}/?accepted=true`
+                );
               } else {
                 router.push(`/fixing/response/${contactMessage.token}`);
               }
@@ -275,9 +280,16 @@ export default function ResponseForm(props: ResponseFormProps) {
                   )}
                 </div>
               )}
-            <SubmitButton 
-              disabled={props.isSubmitting || props.status === "success"} 
-              status={props.isSubmitting ? 'SUBMITTING': props.status === "success" ? "SUCCESS" : undefined} />
+            <SubmitButton
+              disabled={props.isSubmitting || props.status === 'success'}
+              status={
+                props.isSubmitting
+                  ? 'SUBMITTING'
+                  : props.status === 'success'
+                    ? 'SUCCESS'
+                    : undefined
+              }
+            />
             <ValidationError errors={Object.values(props.errors).flat()} />
             <StatusMessage status={props.status} />
           </Form>

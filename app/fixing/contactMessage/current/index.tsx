@@ -8,7 +8,7 @@ export type CurrentContactMessagesProps = {
     contact: EnsembleContact;
     calls: Call[];
   })[];
-  type: "BOOKING"|"AVAILABILITY"
+  type: 'BOOKING' | 'AVAILABILITY';
 };
 
 export default function CurrentContactMessages(
@@ -16,16 +16,20 @@ export default function CurrentContactMessages(
 ) {
   const { contacts, eventCalls, type } = props;
 
-  const typedContacts = contacts
-  .filter((i) => (type === "AVAILABILITY" 
-    ? i.type === "AVAILABILITY"
-    : (i.type === "BOOKING" || i.type === "AUTOBOOK")));
+  const typedContacts = contacts.filter((i) =>
+    type === 'AVAILABILITY'
+      ? i.type === 'AVAILABILITY'
+      : i.type === 'BOOKING' || i.type === 'AUTOBOOK'
+  );
 
   return (
-    <table data-testid="current-contacts-table" className='my-4 table-auto rounded border'>
-      <thead data-testid="table-head" className='border bg-slate-50 text-sm'>
+    <table
+      data-testid='current-contacts-table'
+      className='my-4 table-auto rounded border'
+    >
+      <thead data-testid='table-head' className='border bg-slate-50 text-sm'>
         <tr>
-          {type !== "AVAILABILITY" && <th>Queue Number</th>}
+          {type !== 'AVAILABILITY' && <th>Queue Number</th>}
           <th>Name</th>
           <th>Position</th>
           {eventCalls.map((i) => (
@@ -41,16 +45,15 @@ export default function CurrentContactMessages(
         </tr>
       </thead>
       <tbody>
-        {typedContacts
-          .map((i, index) => (
-            <CurrentContactRow
-              numContacts={typedContacts.length}
-              index={index + 1}
-              key={i.id}
-              eventCalls={eventCalls}
-              contact={i}
-            />
-          ))}
+        {typedContacts.map((i, index) => (
+          <CurrentContactRow
+            numContacts={typedContacts.length}
+            index={index + 1}
+            key={i.id}
+            eventCalls={eventCalls}
+            contact={i}
+          />
+        ))}
       </tbody>
     </table>
   );
