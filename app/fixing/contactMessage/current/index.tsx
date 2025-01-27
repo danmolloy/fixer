@@ -1,6 +1,7 @@
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 import { DateTime } from 'luxon';
 import CurrentContactRow from './contact';
+import AvailabilityTable from './availabilityTable';
 
 export type CurrentContactMessagesProps = {
   eventCalls: Call[];
@@ -23,13 +24,15 @@ export default function CurrentContactMessages(
   );
 
   return (
-    <table
+    type === 'AVAILABILITY' 
+    ? <AvailabilityTable eventCalls={eventCalls} contacts={contacts} type={type} />
+    : <table
       data-testid='current-contacts-table'
       className='my-4 table-auto rounded border'
     >
       <thead data-testid='table-head' className='border bg-slate-50 text-sm'>
         <tr>
-          {type !== 'AVAILABILITY' && <th>Queue Number</th>}
+          <th>Queue Number</th>
           <th>Name</th>
           <th>Position</th>
           {eventCalls.map((i) => (

@@ -67,7 +67,14 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
       confirm(`Are you sure you want to delete this section?`) &&
       (await axios.post('/fixing/eventSection/api/delete', {
         sectionId: Number(eventSectionId),
-      }))
+      }).then(() => {
+        setCreateSection(false);
+        router.refresh();
+      }).catch((error) => {
+        const errorMessage =
+          error.response.data.error || 'An unexpected error occurred.';
+      })
+    )
     );
   };
 
@@ -85,7 +92,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
             .then(() => {
               actions.setStatus('success');
 
-              //setCreateSection(false);
+              setCreateSection(false);
             })
             .catch((error) => {
               const errorMessage =
@@ -93,6 +100,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               actions.setStatus(errorMessage);
             })
             .finally(() => {
+
               actions.setSubmitting(false);
               router.refresh();
             });

@@ -78,13 +78,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     urgent: Yup.boolean().required(),
   });
 
-  const handleSubmit = async (data) => {
-    return await axios
-      .post('/fixing/contactMessage/api/create', data)
-      .then(() => {
-        router.refresh();
-      });
-  };
+ 
 
   return (
     <div data-testid='contact-message-form'>

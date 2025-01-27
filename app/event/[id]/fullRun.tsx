@@ -23,12 +23,14 @@ export default function FullRunIndex(props: FullRunIndexProps) {
   const { calls, sections } = props;
 
   const sortedSections = sections
-    .map((i) => ({
-      ...i,
-      indexNum: instrumentSections.find(
-        (j) => j.name.toLowerCase() === i.ensembleSection.name.toLowerCase()
-      )!.index,
-    }))
+  .map((i) => ({
+    ...i,
+    indexNum: instrumentSections.find(
+      (j) =>
+        j.name.replace(/\s/g, '').toLowerCase() ===
+        i.ensembleSection.name.replace(/\s/g, '').toLowerCase()
+    )!.index,
+  }))
     .sort((a, b) => a.indexNum - b.indexNum);
 
   if (sections.length === 0) {

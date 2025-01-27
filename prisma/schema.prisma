@@ -161,6 +161,7 @@ enum ContactMessageStatus {
   AUTOBOOKED
   ERROR
   FINDINGDEP
+  CANCELLED
 }
 
 model Ensemble {

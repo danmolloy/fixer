@@ -1,7 +1,65 @@
+import { ContactMessageStatus } from '@prisma/client';
 import prisma from '../../../../../client';
 import { addMeterEvent } from '../../../../billing/api/meterEvent/lib';
 import { emailBookingMusicians } from '../create/emailFunctions';
 import { releaseDeppers } from './depFunctions';
+import { emailNotRequired } from '../../../../sendGrid/playerLib';
+import axios from 'axios';
+
+export const updateManyContactMessage = async (args: {contactIDs: number[], data: {status: ContactMessageStatus}}) => {
+
+
+  try {
+    const updatedData = await prisma.contactMessage.updateManyAndReturn({
+      where: {
+        id: {
+          in: args.contactIDs,
+        },
+      },
+      data: args.data,
+    });
+
+    if (args.data.status === "CANCELLED") {
+      const contactMessages = await prisma.contactMessage.findMany({
+        where: {
+          id: {
+            in: args.contactIDs,
+          },
+        },
+        include: {
+          contact: true,
+          calls: true,
+          eventSection: {
+            include: {
+              event: {
+                include: {
+                  fixer: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+    for (const contactMessage of contactMessages) {
+      const emailData = await emailNotRequired(contactMessage);
+      await axios.post(`${process.env.URL}/sendGrid`, {
+        body: {
+          emailData: emailData,
+          templateID: emailData.templateID,
+          emailAddress: emailData.email,
+        },
+      });
+    }
+    }
+    return updatedData;
+  } catch (e) {
+
+    console.log(e);
+    throw new Error(e);
+  }
+  
+}
 
 export const updateContactMessage = async (contactMessageObj: {
   id: number;
@@ -38,7 +96,6 @@ export const updateContactMessage = async (contactMessageObj: {
       await addMeterEvent(subscriptionID!);
       await releaseDeppers(updatedData.eventSectionId);
     }
-    await emailBookingMusicians(updatedData.eventSectionId);
     return updatedData;
   } catch (e) {
     console.log(e);

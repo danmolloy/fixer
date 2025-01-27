@@ -30,6 +30,44 @@ export type ResponseConfEmailProps = {
   token: string;
 };
 
+export const emailNotRequired = async (data: ContactMessage & {
+  contact: EnsembleContact;
+  calls: Call[];
+  eventSection: EventSection & {
+    event: Event & {
+      fixer: User;
+    };
+  };
+}): Promise<SentEmailData> => {
+  const subject = `Update: ${getDateRange(data.calls)} ${data.eventSection.event.ensembleName}`
+     
+  const templateID = readOnlyTemplate;
+
+  const email = data.contact.email!;
+  const bodyText = `Dear ${data.contact.firstName}, <br /><br />
+  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) has indicated you will not be required for ${getDateRange(data.calls)}.
+  <br /><br />
+If you need further information, contact ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} at ${data.eventSection.event.fixer.email} or ${data.eventSection.event.fixer.mobileNumber}. <br /> <br />
+
+Best wishes,<br />
+GigFix`;
+
+  const emailData = {
+    subject,
+    email,
+    bodyText,
+    templateID,
+  };
+
+
+  await createSentEmail({
+    ...emailData,
+    eventId: data.eventSection.eventId,
+  });
+
+  return emailData;
+}
+
 export const createOfferEmail = async (
   data: ContactMessage & {
     contact: EnsembleContact;
