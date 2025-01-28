@@ -101,7 +101,7 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
         </td>
       ) : contact.status === 'AWAITINGREPLY' ? (
         <td className='bg-amber-500 text-center text-white'>
-          <p className=''>AWAITING REPLY</p>
+          <p className=''>AWAITING REPLY{contact.emailStatus && ` (${contact.emailStatus})`}</p>
         </td>
       ) : contact.status === 'NOTCONTACTED' ? (
         <td className='bg-white text-center text-black opacity-40'>
@@ -113,7 +113,7 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
         </td>
       ) : contact.status === 'CANCELLED' ? (
         <td className='bg-amber-500 text-center text-white'>
-          <p className=''>{contact.status}</p>
+          <p className=''>{contact.status} {contact.emailStatus && ` (${contact.emailStatus})`}</p>
         </td>
       ): contact.status === 'MIXED' ? (
         <td className='bg-orange-500 text-center text-white'>

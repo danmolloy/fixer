@@ -97,7 +97,7 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
         </td>
       ) : contact.status === 'AWAITINGREPLY' ? (
         <td className='bg-amber-500 text-center text-white'>
-          <p className=''>AWAITING REPLY</p>
+          <p className=''>AWAITING REPLY{contact.emailStatus && ` ${contact.emailStatus}`}</p>
         </td>
       ) : contact.status === 'NOTCONTACTED' ? (
         <td className='bg-white text-center text-black opacity-40'>

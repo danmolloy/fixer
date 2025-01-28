@@ -42,7 +42,7 @@ export const emailNotRequired = async (data: ContactMessage & {
   const subject = `Update: ${getDateRange(data.calls)} ${data.eventSection.event.ensembleName}`
      
   const templateID = readOnlyTemplate;
-
+  const contactMessageID = data.id;
   const email = data.contact.email!;
   const bodyText = `Dear ${data.contact.firstName}, <br /><br />
   ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) has indicated you will not be required for ${getDateRange(data.calls)}.
@@ -53,6 +53,7 @@ Best wishes,<br />
 GigFix`;
 
   const emailData = {
+    contactMessageID,
     subject,
     email,
     bodyText,
@@ -92,6 +93,7 @@ export const createOfferEmail = async (
     data.status === 'FINDINGDEP'
       ? readOnlyTemplate
       : responseTemplate;
+      const contactMessageID = data.id;
 
   const responseLink = `${url}/fixing/response/${data.token}/`;
   const email = data.contact.email!;
@@ -130,6 +132,7 @@ Best wishes,<br />
 GigFix`;
 
   const emailData = {
+    contactMessageID,
     subject,
     responseLink,
     email,
@@ -161,6 +164,7 @@ export const updateOfferEmail = async (
       ? `Action Required: Update from ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`
       : `Update: ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
   const templateID = responseTemplate;
+  const contactMessageID = data.id;
   const responseLink = `${url}/fixing/response/${data.token}/`;
   const email = data.contact.email!;
   const bodyText = `Dear ${data.contact.firstName}, <br />
@@ -202,6 +206,7 @@ export const updateOfferEmail = async (
 Best wishes,<br />
 GigFix`;
   const emailData = {
+    contactMessageID,
     subject,
     responseLink,
     email,
@@ -304,10 +309,13 @@ export const releaseDepperEmail = async (data: {
   email: string;
   ensemble: string;
   eventId: number;
+  contactMessageID: number;
 }): Promise<SentEmailData> => {
   const subject = `Update: ${data.dateRange} ${data.ensemble}`;
   const email = data.email;
   const templateID = readOnlyTemplate;
+  const contactMessageID = data.contactMessageID;
+
   const bodyText = `Dear ${data.firstName},
   <br />
   <br />
@@ -319,6 +327,7 @@ export const releaseDepperEmail = async (data: {
   GigFix`;
 
   const emailData = {
+    contactMessageID,
     subject,
     bodyText,
     email,

@@ -10,6 +10,7 @@ export type SentEmailData = {
   responseLink?: string;
   email: string | string[];
   templateID: string;
+  contactMessageID?: number;
 };
 
 export const createSentEmail = async (

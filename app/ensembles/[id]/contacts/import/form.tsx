@@ -149,7 +149,7 @@ export default function ImportForm(props: ImportFormProps) {
             >
               <p>Enter manually</p>
             </button>
-            {environment === 'preview' && (
+            {(environment === 'preview' || environment === 'local') && (
               <div className='flex w-1/2 flex-col items-center'>
                 <div className='my-4 w-full self-center border-b border-slate-400' />
                 <button

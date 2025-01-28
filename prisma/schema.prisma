@@ -143,6 +143,7 @@ model ContactMessage {
   calls                 Call[]          @relation("CallToContactMessage")
   type                  ContactMessageType @default(AVAILABILITY)
   status                ContactMessageStatus @default(NOTCONTACTED)
+  emailStatus           EmailStatus?
 }
 
 enum ContactMessageType {
@@ -263,8 +264,7 @@ model SentEmail {
 enum EmailStatus {
   PROCESSED
   DELIVERED
-  OPENED
-  CLICKED
-  FAILED
-  BOUNCED
+  OPEN
+  CLICK
+  BOUNCE
 }

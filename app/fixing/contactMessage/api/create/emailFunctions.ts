@@ -256,6 +256,7 @@ export const emailDeppingMusician = async (
     dateRange: getDateRange(contactMessage.calls),
     ensemble: contactMessage.ensembleName,
     eventId: contactMessage.eventId,
+    contactMessageID: contactMessage.id
   });
   try {
     await axios.post(`${url}/sendGrid`, {
