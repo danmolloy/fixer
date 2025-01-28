@@ -49,11 +49,11 @@ export default function FullRunIndex(props: FullRunIndexProps) {
 
   return (
     <div className='flex flex-col items-center justify-center p-2'>
-      <table className='border-collapse border text-sm'>
-        <tr className='border bg-slate-50 text-xs'>
-          <th className='border p-1'>Instrument</th>
+      <table className='border-collapse  text-sm '>
+        <tr className='border-b text-xs  '>
+          <th className='border-b p-1 font-semibold'>Instrument</th>
           {calls.map((i) => (
-            <th className='border p-1' key={i.id}>
+            <th className=' p-1 px-2' key={i.id}>
               <p>
                 {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
               </p>
@@ -65,13 +65,13 @@ export default function FullRunIndex(props: FullRunIndexProps) {
           .filter((i) => i.numToBook > 0)
           .map((i) =>
             new Array(i.numToBook).fill(null).map((_, index) => (
-              <tr key={index}>
-                <td className='flex flex-row justify-between border p-1'>
+              <tr className='border-b' key={index}>
+                <td className='flex flex-row justify-between p-2'>
                   <p>{index === 0 && `${i.ensembleSection.name} `}</p>
                   <p className='ml-1'>{index + 1}</p>
                 </td>
                 {calls.map((j) => (
-                  <td className='border p-1' key={j.id}>
+                  <td className=' p-1' key={j.id}>
                     <p>
                       {i.contacts
                         .filter(

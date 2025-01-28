@@ -73,6 +73,13 @@ export default function EnsembleDashboard(props: EnsembleDashboardProps) {
             >
               Edit Ensemble
             </Link>
+            {ensemble.stripeSubscriptionId 
+            && <Link
+            className='m-1 p-2 text-start hover:bg-gray-50'
+
+             href={`/billing/invoices/${ensemble.stripeSubscriptionId}`}>
+              Invoices
+            </Link>}
             <button
               onClick={() => handleManageSub()}
               className='m-1 p-2 text-start hover:bg-gray-50'
