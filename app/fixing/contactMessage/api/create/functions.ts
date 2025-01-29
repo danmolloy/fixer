@@ -54,7 +54,6 @@ export const createContactMessages = async (
             id: Number(j),
           })),
         },
-        //accepted: data.contacts[i].autoAccepted === true ? true : null,
         status:
           data.contacts[i].autoAccepted === true
             ? 'AUTOBOOKED'

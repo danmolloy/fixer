@@ -26,7 +26,6 @@ export type ResponseConfEmailProps = {
   ensemble: string;
   status: ContactMessageStatus;
   type: ContactMessageType;
-  accepted: boolean;
   token: string;
 };
 
@@ -196,7 +195,7 @@ export const updateOfferEmail = async (
 <br />
 <br />
   ${
-    data.accepted === null
+    data.status === "AWAITINGREPLY"
       ? `Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`
       : `You can view up to date gig details at <a href="${responseLink}">this link</a>. It has been marked as ${data.status === 'ACCEPTED' ? 'accepted' : data.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`
   }<br /> <br />

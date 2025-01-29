@@ -16,7 +16,7 @@ export async function POST(
   console.log(`Twilio req: ${JSON.stringify(req)}`);
 
   if (process.env.TWILIO_ACTIVE === 'false') {
-    console.log(`Recieved at Twilio: ${JSON.stringify(req.message)}`);
+    console.log(`Received at Twilio: ${JSON.stringify(req.message)}`);
     return NextResponse.json({ success: true }, { status: 200 });
   }
 

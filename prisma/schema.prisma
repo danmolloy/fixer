@@ -124,7 +124,6 @@ model ContactMessage {
   id                    Int             @id @default(autoincrement())
   createdAt             DateTime        @default(now())
   updatedAt             DateTime        @updatedAt
-  accepted              Boolean?
   acceptedDate          DateTime?
   contactId             String
   playerMessage         String?
@@ -136,7 +135,6 @@ model ContactMessage {
   strictlyTied          Boolean         @default(true)
   availableFor          Int[]
   urgent                Boolean         @default(false)
-  received              Boolean         @default(false)
   receivedDate          DateTime?
   contact               EnsembleContact @relation(fields: [contactId], references: [id])
   eventSection          EventSection    @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)

@@ -21,7 +21,6 @@ export const releaseDeppers = async (eventSectionId: number) => {
         },
         data: {
           status: 'DECLINED',
-          accepted: false,
         },
         include: {
           contact: true,

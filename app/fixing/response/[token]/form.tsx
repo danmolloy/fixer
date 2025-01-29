@@ -2,6 +2,7 @@
 import {
   Call,
   ContactMessage,
+  ContactMessageStatus,
   EnsembleContact,
   EnsembleSection,
   Event,
@@ -28,7 +29,6 @@ export type ResponseFormProps = {
     };
     calls: Call[];
   };
-  accepted: boolean | null;
   type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
   fixerName: string;
 };
@@ -38,10 +38,10 @@ export default function ResponseForm(props: ResponseFormProps) {
   const router = useRouter();
 
   const initialVals: {
-    accepted: string;
+    status: ContactMessageStatus;
     availableFor: string[];
   } = {
-    accepted: '',
+    status: contactMessage.status,
     availableFor:
       contactMessage.availableFor.length > 1
         ? contactMessage.availableFor.map((i) => String(i))
@@ -51,11 +51,11 @@ export default function ResponseForm(props: ResponseFormProps) {
   const responseSchema =
     type === 'AVAILABILITY'
       ? Yup.object().shape({
-          accepted: Yup.string().required(''),
+          status: Yup.string().required(''),
           availableFor: Yup.array()
             .of(Yup.string())
-            .when('accepted', {
-              is: 'true',
+            .when('status', {
+              is: 'AVAILABLE',
               then: (schema) =>
                 schema.min(
                   1,
@@ -65,18 +65,18 @@ export default function ResponseForm(props: ResponseFormProps) {
             }),
         })
       : Yup.object().shape({
-          accepted: Yup.string().required(''),
+          status: Yup.string().required(''),
           availableFor: Yup.array().of(Yup.string()),
         });
 
   const handleSubmit = async (values: {
-    accepted: string;
+    status: ContactMessageStatus;
     availableFor: string[];
   }) => {
     let confMsg: boolean;
-    if (values.accepted === 'true' && !contactMessage.strictlyTied) {
+    if (values.status === 'AVAILABLE' && !contactMessage.strictlyTied && (values.availableFor.length !== contactMessage.calls.length)) {
       confMsg = confirm(`
-        Are you sure you are availble for the following?
+        Are you sure you are availble for the following? If the fixer requires you, you will get a further offer which you will need to confirm.
         ${contactMessage.calls
           .filter((i) => values.availableFor.includes(String(i.id)))
           .map(
@@ -84,11 +84,11 @@ export default function ResponseForm(props: ResponseFormProps) {
               `\n${DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD')}`
           )}
         `);
-    } else if (values.accepted === 'true' && type !== 'AVAILABILITY') {
+    } else if (values.status === 'ACCEPTED') {
       confMsg = confirm('Are you sure you want to ACCEPT this offer?');
-    } else if (values.accepted !== 'true' && type !== 'AVAILABILITY') {
+    } else if (values.status === 'DECLINED') {
       confMsg = confirm('Are you sure you want to DECLINE this offer?');
-    } else if (values.accepted === 'true' && type === 'AVAILABILITY') {
+    } else if (values.status === 'AVAILABLE') {
       confMsg = confirm(`
         Please confirm you are available for this work. 
         If the fixer requires you, you will get a further offer which you will need to confirm.
@@ -101,21 +101,10 @@ export default function ResponseForm(props: ResponseFormProps) {
         .post(`/fixing/contactMessage/api/update`, {
           id: contactMessage.id,
           data: {
-            accepted: values.accepted === 'true',
-            status:
-              contactMessage.type !== 'AVAILABILITY' &&
-              values.accepted === 'true' &&
-              values.availableFor.length === contactMessage.calls.length
-                ? 'ACCEPTED'
-                : values.accepted === 'true' &&
-                    values.availableFor.length === contactMessage.calls.length
-                  ? 'AVAILABLE'
-                  : values.accepted === 'true'
-                    ? 'MIXED'
-                    : 'DECLINED',
+            status: contactMessage.availableFor.length !== contactMessage.calls.length ? "MIXED" : values.status,
             acceptedDate: new Date(),
             availableFor:
-              values.accepted === 'true'
+              values.status === 'AVAILABLE'
                 ? values.availableFor!.map((i) => Number(i))
                 : [],
           },
@@ -127,17 +116,7 @@ export default function ResponseForm(props: ResponseFormProps) {
             firstName: contactMessage.contact.firstName,
             email: contactMessage.contact.email!,
             ensemble: contactMessage.eventSection.event.ensembleName,
-            accepted: values.accepted ? true : false,
-            status:
-              values.accepted === 'true' &&
-              contactMessage.type !== 'AVAILABILITY'
-                ? 'ACCEPTED'
-                : values.accepted === 'true' &&
-                    values.availableFor.length === contactMessage.calls.length
-                  ? 'AVAILABLE'
-                  : values.accepted === 'true'
-                    ? 'MIXED'
-                    : 'DECLINED',
+            status: contactMessage.availableFor.length !== contactMessage.calls.length ? "MIXED" : values.status,
             type: contactMessage.type,
           });
 
@@ -165,8 +144,7 @@ export default function ResponseForm(props: ResponseFormProps) {
           handleSubmit(values)
             .then(() => {
               if (
-                values.accepted === 'true' &&
-                contactMessage.type !== 'AVAILABILITY'
+                values.status === 'ACCEPTED' 
               ) {
                 router.push(
                   `/fixing/response/${contactMessage.token}/?accepted=true`
@@ -210,8 +188,8 @@ export default function ResponseForm(props: ResponseFormProps) {
                   data-testid='false-radio'
                   className='m-2'
                   type='radio'
-                  name='accepted'
-                  value={'false'}
+                  name='status'
+                  value={'DECLINED'}
                   label='No, I am not available.'
                 />
                 No, I am not available.
@@ -226,12 +204,12 @@ export default function ResponseForm(props: ResponseFormProps) {
                   data-testid='true-radio'
                   className='m-2'
                   type='radio'
-                  name='accepted'
-                  value={'true'}
+                  name='status'
+                  value={contactMessage.type === "AVAILABILITY" ? 'AVAILABLE' : "ACCEPTED"}
                 />
                 {contactMessage.strictlyTied === true
                   ? 'Yes, I am available'
-                  : props.values.accepted !== 'true'
+                  : (props.values.status === 'AVAILABLE' || props.values.status === 'MIXED')
                     ? 'I am available for all/some of this work'
                     : props.values.availableFor.length ===
                         contactMessage.calls.length
@@ -239,11 +217,11 @@ export default function ResponseForm(props: ResponseFormProps) {
                       : `I am available for ${props.values.availableFor.length} call(s)`}
               </label>
 
-              <ErrorMessage name='accepted'>
+              <ErrorMessage name='status'>
                 {(e) => <p className='text-xs text-red-500'>{e}</p>}
               </ErrorMessage>
             </div>
-            {props.values.accepted === 'true' &&
+            {(props.values.status === 'AVAILABLE' || props.values.status === 'MIXED') &&
               contactMessage.strictlyTied === false && (
                 <div>
                   {contactMessage.calls.map((i) => (

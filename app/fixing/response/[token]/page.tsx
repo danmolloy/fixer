@@ -178,7 +178,6 @@ export default async function GigResponse({
             contactMessage={data}
             fixerName={data.eventSection.event.fixerName!}
             type={data.type}
-            accepted={data.accepted}
           />
         )}
         <p className='my-2 text-sm text-gray-600'>

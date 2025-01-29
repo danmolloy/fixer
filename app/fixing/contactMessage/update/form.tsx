@@ -26,13 +26,6 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
 
   const initialVals = {
     id: contact.id,
-    received: contact.received === true ? 'true' : 'false',
-    accepted:
-      contact.accepted === true
-        ? 'true'
-        : contact.accepted === false
-          ? 'false'
-          : '',
     playerMessage: contact.playerMessage,
     calls: contact.calls.map((i) => String(i.id)),
     type: contact.type,
@@ -44,13 +37,11 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
   };
 
   const contactSchema = Yup.object().shape({
-    received: Yup.boolean().required(), //
-    accepted: Yup.boolean().nullable(),
     playerMessage: Yup.string().nullable(),
     calls: Yup.array().min(1, 'at least one call must be offered'),
     type: Yup.string().required(),
     //offerExpiry: Yup.number(),
-    //status: Yup.string(),
+    status: Yup.string(),
     position: Yup.string().required('player position required'),
     strictlyTied: Yup.boolean(),
     urgent: Yup.boolean(),
@@ -68,13 +59,6 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           .post('/fixing/contactMessage/api/update', {
             id: contact.id,
             data: {
-              received: values.received === 'true' ? true : false,
-              accepted:
-                values.accepted === 'true'
-                  ? true
-                  : values.accepted === 'false'
-                    ? false
-                    : null,
               status: values.status,
               playerMessage: values.playerMessage,
               position: values.position,
@@ -195,7 +179,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
               <option value='DECLINED'>Declined</option>
               <option value={'AWAITINGREPLY'}>Not responded</option>
             </Field>
-            <ErrorMessage name='accepted'>
+            <ErrorMessage name='status'>
               {(err) => <p className='text-xs text-red-500'>{err}</p>}
             </ErrorMessage>
           </div>

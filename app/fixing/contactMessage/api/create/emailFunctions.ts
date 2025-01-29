@@ -133,7 +133,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
           id: contact.id,
         },
         data: {
-          received: true,
+          emailStatus: null,
           status: 'AWAITINGREPLY',
         },
       });

@@ -44,8 +44,7 @@ export default function EventMenu(props: EventMenuProps) {
             i.status === 'AVAILABLE' ||
             i.status === 'MIXED' ||
             i.status === 'FINDINGDEP' ||
-            i.status === 'AWAITINGREPLY') &&
-          i.received == true
+            i.status === 'AWAITINGREPLY')
       )
       .map((i) => i.contact.email);
     if (message === null || mailList.length === 0) {

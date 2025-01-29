@@ -107,7 +107,6 @@ export const getUnresponsiveMusicians = async (receivedLTE: Date) => {
   const musicians = await prisma.contactMessage.findMany({
     where: {
       status: 'AWAITINGREPLY',
-      received: true,
       receivedDate: {
         lte: receivedLTE,
       },
