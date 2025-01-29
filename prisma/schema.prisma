@@ -193,7 +193,7 @@ model EnsembleAdmin {
   ensembleId    String
   userId        String
   positionTitle String
-  accessType    String   @default("full")
+  accessType    AccessType   @default(FULL)
   ensemble      Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
   user          User     @relation(fields: [userId], references: [id])
 }

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import prisma from '../../../../../client';
 import { adminInviteEmail } from '../../../../sendGrid/adminEmailLib';
+import { AccessType } from '@prisma/client';
 
 const url = `${process.env.URL}`;
 
@@ -11,7 +12,7 @@ export const createAdminInvite = async (data: {
   email: string;
   ensembleId: string;
   positionTitle: string;
-  accessType: string;
+  accessType: AccessType;
 }) => {
   if (!data) {
     throw new Error('Failed to create invite: invite data is undefined.');

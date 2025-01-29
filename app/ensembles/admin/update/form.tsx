@@ -72,7 +72,7 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
                   disabled={props.isSubmitting}
                   type='radio'
                   name='accessType'
-                  value='restricted'
+                  value='RESTRICTED'
                 />
                 Restricted
               </label>
@@ -81,7 +81,7 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
                   disabled={props.isSubmitting}
                   type='radio'
                   name='accessType'
-                  value='full'
+                  value='FULL'
                 />
                 Full
               </label>

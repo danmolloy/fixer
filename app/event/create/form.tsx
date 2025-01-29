@@ -249,7 +249,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                       && !props.values.adminAccess.includes(e.target.id) 
                       && ensembleList
                       .find((i) => i.id === props.values.ensembleId)
-                      ?.admin.find(i => i.userId)?.accessType === "restricted"
+                      ?.admin.find(i => i.userId)?.accessType === "RESTRICTED"
                       && props.setFieldValue('adminAccess', [...props.values.adminAccess, e.target.value]);
                     }}
                   >

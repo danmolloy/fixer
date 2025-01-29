@@ -1,9 +1,10 @@
+import { AccessType } from '@prisma/client';
 import prisma from '../../../../../client';
 
 export const updateAdmin = async (data: {
   adminId: string;
   positionTitle: string;
-  accessType: string;
+  accessType: AccessType;
 }) => {
   if (!data) {
     throw new Error('Failed to update ensemble admin: data is undefined');
