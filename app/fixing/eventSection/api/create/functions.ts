@@ -1,9 +1,10 @@
+import { BookingStatus } from '@prisma/client';
 import prisma from '../../../../../client';
 
 export const createEventSection = async (sectionObj: {
   eventId: number;
   ensembleSectionId: string;
-  bookingStatus: string;
+  bookingStatus: BookingStatus;
   numToBook: number;
 }) => {
   return await prisma.eventSection.create({

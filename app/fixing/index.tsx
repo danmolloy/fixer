@@ -45,7 +45,7 @@ export default function FixingIndex(props: FixingIndexProps) {
         return await axios.post('/fixing/eventSection/api/updateMany', {
           eventId: eventId,
           data: {
-            bookingStatus: 'inactive',
+            bookingStatus: 'INACTIVE',
           },
         });
       } catch (e) {
@@ -85,7 +85,7 @@ export default function FixingIndex(props: FixingIndexProps) {
         <FixingMenu
           eventID={String(eventId)}
           fixingActive={
-            eventSections.filter((i) => i.bookingStatus === 'active').length > 0
+            eventSections.filter((i) => i.bookingStatus === 'ACTIVE').length > 0
           }
           pauseFixing={() => handlePauseClick()}
           createSection={() => setCreateSection(true)}
@@ -108,7 +108,7 @@ export default function FixingIndex(props: FixingIndexProps) {
           eventSections={eventSections}
           eventSectionId={undefined}
           numToBook={0}
-          bookingStatus='active'
+          bookingStatus='ACTIVE'
           ensembleSectionId={undefined}
           eventId={eventId}
           ensembleSections={ensembleSections}

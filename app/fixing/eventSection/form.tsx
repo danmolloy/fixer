@@ -1,5 +1,5 @@
 'use client';
-import { EnsembleSection, EventSection } from '@prisma/client';
+import { BookingStatus, EnsembleSection, EventSection } from '@prisma/client';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../forms/textInput';
@@ -15,7 +15,7 @@ export type CreateEventSectionProps = {
   ensembleSections: EnsembleSection[];
   setCreateSection: (arg: boolean) => void;
   ensembleSectionId: undefined | string;
-  bookingStatus: string;
+  bookingStatus: BookingStatus;
   numToBook: number;
   eventSectionId: number | undefined;
   eventSections: (EventSection & { ensembleSection: EnsembleSection })[];
@@ -169,7 +169,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                   className='m-1'
                   type='radio'
                   name='bookingStatus'
-                  value='active'
+                  value='ACTIVE'
                 />
                 Active
               </label>
@@ -179,7 +179,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                   className='m-1'
                   type='radio'
                   name='bookingStatus'
-                  value='inactive'
+                  value='INACTIVE'
                 />
                 Inactive
               </label>

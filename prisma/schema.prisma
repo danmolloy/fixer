@@ -119,11 +119,16 @@ model EventSection {
   updatedAt         DateTime         @updatedAt
   eventId           Int
   ensembleSectionId String
-  bookingStatus     String           @default("active")
+  bookingStatus     BookingStatus           @default(INACTIVE)
   numToBook         Int
   contacts          ContactMessage[]
   ensembleSection   EnsembleSection  @relation(fields: [ensembleSectionId], references: [id], onDelete: Cascade)
   event             Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+enum BookingStatus {
+  ACTIVE
+  INACTIVE
 }
 
 model ContactMessage {

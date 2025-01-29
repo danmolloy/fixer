@@ -1,9 +1,10 @@
+import { BookingStatus } from '@prisma/client';
 import prisma from '../../../../../client';
 import { emailBookingMusicians } from '../../../contactMessage/api/create/emailFunctions';
 
 export const updateEventSection = async (sectionObj: {
   eventSectionId: number;
-  bookingStatus: string;
+  bookingStatus: BookingStatus;
   numToBook: number;
 }) => {
   const updatedSection = await prisma.eventSection.update({
@@ -19,7 +20,7 @@ export const updateEventSection = async (sectionObj: {
     },
   });
   if (
-    sectionObj.bookingStatus.toLocaleLowerCase() === 'active' &&
+    sectionObj.bookingStatus === 'ACTIVE' &&
     updatedSection.contacts.length > 0
   ) {
     await emailBookingMusicians(updatedSection.id);

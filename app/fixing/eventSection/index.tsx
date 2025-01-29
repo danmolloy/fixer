@@ -64,7 +64,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
             <h2>
               {section.ensembleSection.name}
               <span
-                className={` ${section.bookingStatus.toLocaleLowerCase() !== 'active' && 'text-amber-500'} text-sm`}
+                className={` ${section.bookingStatus !== 'ACTIVE' && 'text-amber-500'} text-sm`}
               >
                 {' '}
                 Booking {section.bookingStatus}

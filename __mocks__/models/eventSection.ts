@@ -14,6 +14,6 @@ export const mockEventSection: EventSection = {
   updatedAt: new Date(),
   eventId: Math.ceil(Math.random() * 20),
   ensembleSectionId: faker.string.uuid(),
-  bookingStatus: 'ok',
+  bookingStatus: "ACTIVE",
   numToBook: Math.ceil(Math.random() * 10),
 };
