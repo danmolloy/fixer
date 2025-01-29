@@ -37,7 +37,7 @@ export const eventReminderFixer = (
     )
     .join(',')}
   <br />
-  Gig Status: ${event.confirmedOrOnHold}<br />
+  Gig Status: ${event.status}<br />
   Fee: ${event.fee ? event.fee : 'Not specified'}<br />
   Dress: ${event.dressCode ? event.dressCode : 'Not specified'}<br />
   Additional Information: ${event.additionalInfo ? event.additionalInfo : 'Not specified'}<br />

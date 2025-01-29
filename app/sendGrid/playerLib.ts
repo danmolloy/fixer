@@ -111,7 +111,7 @@ export const createOfferEmail = async (
     )
     .join(',')}
   <br />
-  Gig Status: ${data.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${data.eventSection.event.status}<br />
   Position: ${data.position}<br />
   Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : 'Not specified'}<br />
@@ -186,7 +186,7 @@ export const updateOfferEmail = async (
     )
     .join(',')}
   <br />
-  Gig Status: ${data.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${data.eventSection.event.status}<br />
   Position: ${data.position}<br />
   Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : 'Not specified'}<br />
@@ -396,7 +396,7 @@ export const eventReminderMusician = (
     )
     .join(',')}
   <br />
-  Gig Status: ${data.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${data.eventSection.event.status}<br />
   Position: ${data.position}<br />
   Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : 'Not specified'}<br />
@@ -451,7 +451,7 @@ export const remindUnresponsiveMusicianEmail = (
     )
     .join(',')}
   <br />
-  Gig Status: ${data.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${data.eventSection.event.status}<br />
   Position: ${data.position}<br />
   Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : 'Not specified'}<br />

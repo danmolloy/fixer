@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       location: i.venue,
       title: `${req.eventSection.event.ensembleName}: ${req.eventSection.event.eventTitle}`,
       status:
-        req.eventSection.event.confirmedOrOnHold === 'Confirmed'
+        req.eventSection.event.status === 'CONFIRMED'
           ? 'CONFIRMED'
           : 'TENTATIVE',
       url: `${url}/fixing/response/${req.token}`,

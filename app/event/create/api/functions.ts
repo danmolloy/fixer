@@ -34,7 +34,7 @@ export const eventObj = (obj) => {
     ensembleName: obj.ensembleName,
     eventTitle: obj.eventTitle,
     concertProgram: obj.concertProgram,
-    confirmedOrOnHold: obj.confirmedOrOnHold,
+    status: obj.status,
     formattedCalls: formattedCalls(obj.calls, obj.fixerId),
     dressCode: obj.dressCode,
     fee: obj.fee,
@@ -55,7 +55,7 @@ export const createEvent = async (eventObj) => {
       eventTitle: eventObj.eventTitle,
       ensembleName: eventObj.ensembleName,
       concertProgram: eventObj.concertProgram,
-      confirmedOrOnHold: eventObj.confirmedOrOnHold,
+      status: eventObj.status,
       adminAccess: eventObj.adminAccess,
       calls: {
         create: eventObj.formattedCalls,

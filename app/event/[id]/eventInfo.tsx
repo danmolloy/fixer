@@ -22,7 +22,7 @@ export default function EventInfo(props: EventInfoProps) {
         className=''
         id='event-status'
         title='Status'
-        value={event.confirmedOrOnHold.toLocaleUpperCase()}
+        value={event.status}
       />
       <InfoDiv
         className='bg-slate-50'

@@ -69,7 +69,7 @@ model Event {
   concertProgram    String
   dressCode         String
   fee               String
-  confirmedOrOnHold String         @default("On Hold")
+  status            EventStatus         @default(ONHOLD)
   eventTitle        String
   fixerId           String
   fixerName         String?
@@ -81,6 +81,11 @@ model Event {
   sections          EventSection[]
   sentEmails        SentEmail[]
   adminAccess       String[]
+}
+
+enum EventStatus {
+  CONFIRMED
+  ONHOLD
 }
 
 model Call {

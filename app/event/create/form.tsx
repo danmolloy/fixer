@@ -7,7 +7,7 @@ import { useState } from 'react';
 import React from 'react';
 import CallInput from './callInput';
 import ButtonPrimary from '../../forms/buttonPrimary';
-import ConfirmedOrOnHold from './confirmedOrOnHold';
+import GigStatus from './gigStatus';
 import { EnsembleAdmin, Prisma, Ensemble, User } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -57,7 +57,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     }),
     fixerId: Yup.string().required('Fixer selection required'),
     id: Yup.string(),
-    confirmedOrOnHold: Yup.string().required(
+    status: Yup.string().required(
       'Event confirmation status required'
     ),
     ensembleName: Yup.string().required('Ensemble name required'),
@@ -90,8 +90,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           updateMessage: '',
           fixerId: userId,
           id: initialValues ? initialValues.id : '',
-          confirmedOrOnHold: initialValues
-            ? initialValues.confirmedOrOnHold
+          status: initialValues
+            ? initialValues.status
             : '',
           ensembleName: initialValues
             ? initialValues.ensembleName
@@ -290,7 +290,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                       ))}
               </div>
 
-              <ConfirmedOrOnHold disabled={props.isSubmitting} />
+              <GigStatus disabled={props.isSubmitting} />
             </div>
             <TextInput
               disabled={props.isSubmitting}

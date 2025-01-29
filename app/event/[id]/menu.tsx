@@ -106,7 +106,7 @@ export default function EventMenu(props: EventMenuProps) {
       'ensemble id': event.ensembleId,
       'event title': event.eventTitle,
       'concert program': event.concertProgram,
-      status: event.confirmedOrOnHold,
+      status: event.status,
       dress: event.dressCode,
       fee: event.fee,
       info: event.additionalInfo,

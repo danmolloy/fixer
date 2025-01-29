@@ -67,7 +67,7 @@ export default async function GigResponse({
             className='bg-white'
             id='event-status'
             title='Status'
-            value={data.eventSection.event.confirmedOrOnHold.toLocaleUpperCase()}
+            value={data.eventSection.event.status}
           />
           <InfoDiv
             className='bg-slate-50'

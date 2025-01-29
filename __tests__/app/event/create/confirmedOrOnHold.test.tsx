@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import ConfirmedOrOnHold from '../../../../app/event/create/confirmedOrOnHold';
+import ConfirmedOrOnHold from '../../../../app/event/create/gigStatus';
 import { Formik } from 'formik';
+import GigStatus from '../../../../app/event/create/gigStatus';
 
 describe('<ConfirmedOrOnHold />', () => {
   beforeEach(() => {
@@ -12,7 +13,7 @@ describe('<ConfirmedOrOnHold />', () => {
           confirmedOrOnHold: 'Confirmed',
         }}
       >
-        {(props) => <ConfirmedOrOnHold />}
+        {(props) => <GigStatus />}
       </Formik>
     );
   });
