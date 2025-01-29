@@ -36,6 +36,7 @@ export const eventObj = (obj) => {
     additionalInfo: obj.additionalInfo,
     //fixerName: obj.fixerName,
     fixerId: obj.fixerId,
+    adminAccess: obj.adminAccess
   };
 };
 
@@ -47,7 +48,7 @@ export const updateEvent = async (eventObj: Event) => {
     data: {
       eventTitle: eventObj.eventTitle,
       ensembleName: eventObj.ensembleName,
-
+      adminAccess: eventObj.adminAccess,
       concertProgram: eventObj.concertProgram,
       confirmedOrOnHold: eventObj.confirmedOrOnHold,
       dressCode: eventObj.dressCode,

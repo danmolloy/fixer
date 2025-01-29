@@ -1,5 +1,6 @@
 import prisma from '../../../../../client';
 import { auth } from '../../../../auth';
+import AuthWall from '../../../../signin/auth';
 import SignIn from '../../../../signin/page';
 import UpdateSectionForm from '../../edit';
 
@@ -23,11 +24,12 @@ export default async function EditSection({
   const session = await auth();
   const data = id && (await getSection(id));
 
-  return !session ? (
-    <SignIn />
-  ) : !data ? (
+  return (
+    <AuthWall session={session}>
+    {!data ? (
     <p>No data</p>
-  ) : (
-    <UpdateSectionForm section={data} />
+  ) : 
+    <UpdateSectionForm section={data} />}
+    </AuthWall>
   );
 }

@@ -1,10 +1,13 @@
 import { auth } from '../../auth';
-import SignIn from '../../signin/page';
+import AuthWall from '../../signin/auth';
 import UpdateUserForm from './form';
-import prisma from '../../../client';
 
 export default async function UpdateUserPage() {
   const session = await auth();
 
-  return session ? <UpdateUserForm session={session} /> : <SignIn />;
+  return (
+    <AuthWall session={session}>
+      <UpdateUserForm session={session!} />
+    </AuthWall>
+  );
 }

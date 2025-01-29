@@ -2,6 +2,7 @@ import { auth } from '../../auth';
 import SignIn from '../../signin/page';
 import prisma from '../../../client';
 import EnsembleIndex from '..';
+import AuthWall from '../../signin/auth';
 
 export async function generateStaticParams() {
   const ensembles = await prisma.ensemble.findMany();
@@ -54,16 +55,17 @@ export default async function EnsembleDetail({
   )?.ensembleId;
   const data = ensembleId && (await getEnsemble(ensembleId));
 
-  return !session ? (
-    <SignIn />
-  ) : !data ? (
+  return  (
+    <AuthWall session={session}>
+    {!data ? (
     <p>No data</p>
-  ) : (
+  ) : 
     <EnsembleIndex
       admins={data.admin}
       contacts={data.contacts.filter((i) => i.status !== 'ARCHIVED')}
       sections={data.sections}
       ensemble={data}
-    />
+    />}
+    </AuthWall>
   );
 }

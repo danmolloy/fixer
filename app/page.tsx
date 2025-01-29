@@ -53,6 +53,6 @@ export default async function Page() {
   ) {
     redirect('/user/update');
   }
-
+  /* Not using <AuthWall /> because I want different redirect */
   return session ? <CalendarIndex data={data} /> : <LandingPage />;
 }

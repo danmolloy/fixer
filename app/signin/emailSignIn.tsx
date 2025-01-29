@@ -1,16 +1,14 @@
+'use client'
 import { signIn } from '../auth';
 
 export function EmailSignIn() {
+  const sendgridAction = (formData: FormData) => {
+    signIn("sendgrid", formData)
+  }
+
   return (
-    <form
-      action={async (
-        formData: FormData & {
-          email: string;
-        }
-      ) => {
-        'use server';
-        await signIn('sendgrid', formData);
-      }}
+        <form action={sendgridAction}
+
       className='flex w-full flex-col'
     >
       <input

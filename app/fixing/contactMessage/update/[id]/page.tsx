@@ -1,5 +1,6 @@
 import prisma from '../../../../../client';
 import { auth } from '../../../../auth';
+import AuthWall from '../../../../signin/auth';
 import SignIn from '../../../../signin/page';
 import UpdateContactMessage from '../form';
 
@@ -35,17 +36,18 @@ export default async function UpdateContactMessagePage({
   const session = await auth();
   const data = contactMsgID && (await getContactMessage(contactMsgID));
 
-  return !session ? (
-    <SignIn />
-  ) : !data ? (
+  return (
+    <AuthWall session={session}>
+    {!data ? (
     <p>No data</p>
-  ) : (
+  ) : 
     <div className='my-4 flex w-full flex-col items-center rounded p-1 sm:my-8 sm:p-2 md:w-3/4'>
       <UpdateContactMessage
         instrument={data.eventSection.ensembleSection.name}
         event={data.eventSection.event}
         contact={data}
       />
-    </div>
+    </div>}
+    </AuthWall>
   );
 }

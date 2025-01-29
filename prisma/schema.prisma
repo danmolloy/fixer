@@ -80,6 +80,7 @@ model Event {
   fixer             User           @relation(fields: [fixerId], references: [id])
   sections          EventSection[]
   sentEmails        SentEmail[]
+  adminAccess       String[]
 }
 
 model Call {
@@ -241,9 +242,14 @@ model AdminInvite {
   lastName      String
   email         String
   positionTitle String
-  accessType    String   @default("restricted")
+  accessType    AccessType   @default(RESTRICTED)
   senderName    String
   ensemble      Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+}
+
+enum AccessType {
+  FULL
+  RESTRICTED
 }
 
 model SentEmail {

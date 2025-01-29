@@ -76,6 +76,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     dressCode: Yup.string(),
     fee: Yup.string(),
     additionalInfo: Yup.string(),
+    adminAccess: Yup.array().of(Yup.string())
   });
 
   return (
@@ -124,6 +125,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           dressCode: initialValues ? initialValues.dressCode : '',
           fee: initialValues ? initialValues.fee : '',
           additionalInfo: initialValues ? initialValues.additionalInfo : '',
+          adminAccess: initialValues ? initialValues.adminAccess : [],
         }}
         validationSchema={EventSchema}
         onSubmit={async (values, actions) => {
@@ -242,14 +244,20 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                     as='select'
                     name='fixerId'
                     onChange={(e) => {
-                      props.setFieldValue('fixerId', e.target.value.userId);
+                      props.setFieldValue('fixerId', e.target.value);
+                      e.target.value !== "" 
+                      && !props.values.adminAccess.includes(e.target.id) 
+                      && ensembleList
+                      .find((i) => i.id === props.values.ensembleId)
+                      ?.admin.find(i => i.userId)?.accessType === "restricted"
+                      && props.setFieldValue('adminAccess', [...props.values.adminAccess, e.target.value]);
                     }}
                   >
                     <option value={''}>Select Fixer</option>
                     {ensembleList
                       .find((i) => i.id === props.values.ensembleId)
                       ?.admin.map((i) => (
-                        <option key={i.id} value={i.userId}>
+                        <option key={i.id} value={i.userId} >
                           {`${i.user.firstName} ${i.user.lastName}`}
                         </option>
                       ))}
@@ -265,6 +273,21 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                     )}
                   </ErrorMessage>
                 </label>
+              </div>
+              <div className='flex flex-col'>
+                <label>Additional Admin Access</label>
+                {ensembleList
+                      .find((i) => i.id === props.values.ensembleId)
+                      ?.admin.map(i => (
+                        <label key={i.id}>
+                          {`${i.user.firstName} ${i.user.lastName}`}
+                          <Field 
+                          className="ml-1"
+                            name={'adminAccess'} 
+                            value={i.userId} 
+                            checked={props.values.adminAccess.includes(i.userId)} type='checkbox' />
+                        </label>
+                      ))}
               </div>
 
               <ConfirmedOrOnHold disabled={props.isSubmitting} />

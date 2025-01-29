@@ -3,6 +3,7 @@ import SignIn from '../signin/page';
 import prisma from '../../client';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import AuthWall from '../signin/auth';
 
 const getEnsembles = async (userId: string) => {
   return await prisma.user.findUnique({
@@ -23,16 +24,16 @@ export default async function EnsemblesPage() {
   const session = await auth();
   const data = session && (await getEnsembles(session.user.id));
 
-  if (
-    (session && !data?.firstName) ||
+  if  (session && (
+      !data?.firstName ||
     !data?.lastName ||
     !data?.mobileNumber ||
-    !data.email
+    !data.email)
   ) {
     redirect('/user/update');
   }
 
-  return session ? (
+  return (<AuthWall session={session}>
     <div data-testid='ensembles-page' className='p-2'>
       <h1>Your Ensembles</h1>
       <Link
@@ -69,7 +70,5 @@ export default async function EnsemblesPage() {
         <p>No Ensembles</p>
       )}
     </div>
-  ) : (
-    <SignIn />
-  );
+    </AuthWall>)
 }

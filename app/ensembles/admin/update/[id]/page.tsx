@@ -1,5 +1,6 @@
 import prisma from '../../../../../client';
 import { auth } from '../../../../auth';
+import AuthWall from '../../../../signin/auth';
 import SignIn from '../../../../signin/page';
 import UpdateAdminForm from '../form';
 
@@ -20,11 +21,12 @@ export default async function UpdateAdmin({
   const session = await auth();
   const data = session && (await getAdmin(id));
 
-  return !session ? (
-    <SignIn />
-  ) : !data ? (
+  return (
+    <AuthWall session={session}>
+    {!data ? 
     <p>No data</p>
-  ) : (
-    <UpdateAdminForm admin={data} />
+   : 
+    <UpdateAdminForm admin={data} />}
+    </AuthWall>
   );
 }

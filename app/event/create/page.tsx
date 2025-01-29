@@ -1,5 +1,6 @@
 import prisma from '../../../client';
 import { auth } from '../../auth';
+import AuthWall from '../../signin/auth';
 import SignIn from '../../signin/page';
 import CreateEventForm from './form';
 
@@ -31,14 +32,14 @@ export default async function CreateEventPage() {
     return <div>Error</div>;
   }
 
-  return session ? (
+  return (
+    <AuthWall session={session}>
     <CreateEventForm
       ensembleList={UserEnsembleList}
       userId={session.user.id}
       userName={session.user.name}
       createOrUpdate='Create'
     />
-  ) : (
-    <SignIn />
+    </AuthWall>
   );
 }

@@ -1,5 +1,6 @@
 import prisma from '../../../../../client';
 import { auth } from '../../../../auth';
+import AuthWall from '../../../../signin/auth';
 import SignIn from '../../../../signin/page';
 import ImportForm from './form';
 
@@ -26,11 +27,12 @@ export default async function ImportContacts({
   const session = await auth();
   const data = ensembleId && (await getEnsemble(ensembleId));
 
-  return !session ? (
-    <SignIn />
-  ) : !data ? (
+  return (
+    <AuthWall session={session}>
+    {!data ? (
     <p>No data</p>
-  ) : (
-    <ImportForm environment={environment} ensemble={data} />
+  ) : 
+    <ImportForm environment={environment} ensemble={data} />}
+    </AuthWall>
   );
 }

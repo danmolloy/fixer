@@ -40,6 +40,7 @@ export const eventObj = (obj) => {
     fee: obj.fee,
     additionalInfo: obj.additionalInfo,
     fixerId: obj.fixerId,
+    adminAccess: obj.adminAccess
   };
 };
 
@@ -55,6 +56,7 @@ export const createEvent = async (eventObj) => {
       ensembleName: eventObj.ensembleName,
       concertProgram: eventObj.concertProgram,
       confirmedOrOnHold: eventObj.confirmedOrOnHold,
+      adminAccess: eventObj.adminAccess,
       calls: {
         create: eventObj.formattedCalls,
       },

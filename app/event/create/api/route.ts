@@ -14,6 +14,7 @@ export async function POST(request: Request) {
     dressCode,
     fee,
     additionalInfo,
+    adminAccess
   } = req;
 
   let createEventArg = eventObj({
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
     dressCode,
     fee,
     additionalInfo,
+    adminAccess
   });
 
   try {

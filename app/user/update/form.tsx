@@ -8,14 +8,19 @@ import * as Yup from 'yup';
 import { phoneRegex } from '../../ensembles/[id]/contacts/import/contactInput';
 import SubmitButton from '../../forms/submitBtn';
 import StatusMessage from '../../forms/statusMessage';
+import { NoSession } from '../../signin/auth';
 
 export type UpdateUserFormProps = {
-  session: Session;
+  session: Session | null;
 };
 
 export default function UpdateUserForm(props: UpdateUserFormProps) {
   const { session } = props;
   const router = useRouter();
+
+  if (!session) {
+    return <NoSession />
+  }
 
   const initialVals = {
     firstName: session.user.firstName ? session.user.firstName : '',

@@ -1,5 +1,6 @@
 import prisma from '../../../client';
 import { auth } from '../../auth';
+import AuthWall from '../../signin/auth';
 import EventInfoTable from './eventIndex';
 
 export async function generateStaticParams() {
@@ -74,6 +75,7 @@ export default async function EventDetail({
   }
 
   return (
+    <AuthWall session={session}>
     <div className='flex w-full flex-col p-2 sm:p-4 lg:px-24'>
       <EventInfoTable
         sections={data.sections}
@@ -83,5 +85,6 @@ export default async function EventDetail({
         contacts={data.sections.map((i) => i.contacts).flat(1)}
       />
     </div>
+    </AuthWall>
   );
 }

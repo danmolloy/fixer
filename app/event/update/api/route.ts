@@ -17,6 +17,7 @@ export async function POST(request: Request) {
     dressCode,
     fee,
     additionalInfo,
+    adminAccess
   } = req;
 
   let updateEventArg = eventObj({
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
     dressCode,
     fee,
     additionalInfo,
+    adminAccess
     //createdAt: new Date()
   });
   const callsArr: Call[] = calls;

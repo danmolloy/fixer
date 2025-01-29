@@ -1,5 +1,6 @@
 import prisma from '../../../../client';
 import { auth } from '../../../auth';
+import AuthWall from '../../../signin/auth';
 import SignIn from '../../../signin/page';
 import CreateEventForm from '../../create/form';
 
@@ -46,15 +47,15 @@ export default async function UpdateEvent({
   const data = await getData(id);
   const session = await auth();
 
-  return session ? (
+  return (
+    <AuthWall session={session}>
     <CreateEventForm
       ensembleList={[data.ensemble]}
-      userId={session.user.id}
-      userName={session.user.name}
+      userId={session!.user.id}
+      userName={session!.user.name}
       initialValues={data}
       createOrUpdate='Update'
     />
-  ) : (
-    <SignIn />
+    </AuthWall>
   );
 }

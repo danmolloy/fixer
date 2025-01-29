@@ -1,6 +1,6 @@
 import prisma from '../../../../client';
 import { auth } from '../../../auth';
-import SignIn from '../../../signin/page';
+import AuthWall from '../../../signin/auth';
 import UpdateEnsembleForm from '../form';
 
 const getEnsemble = async (ensembleId: string) => {
@@ -23,13 +23,14 @@ export default async function UpdateEnsemble({
   )?.ensembleId;
   const data = ensembleId && (await getEnsemble(ensembleId));
 
-  return !session ? (
-    <SignIn />
-  ) : !data ? (
+  return (
+    <AuthWall session={session}>
+  {!data ? (
     <p>No data</p>
-  ) : (
+  ) : 
     <div>
       <UpdateEnsembleForm ensemble={data} />
-    </div>
+    </div>}
+    </AuthWall>
   );
 }

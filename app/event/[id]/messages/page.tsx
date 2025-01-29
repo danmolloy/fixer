@@ -1,5 +1,6 @@
 import prisma from '../../../../client';
 import { auth } from '../../../auth';
+import AuthWall from '../../../signin/auth';
 import MessagesHeader from './header';
 import SentEmailList from './sentList';
 
@@ -31,14 +32,16 @@ export default async function EventMail({
   const data = await getData(Number(id));
   const session = await auth();
 
-  /* if (session && session.user.admins.filter(i => i.ensembleId === data.ensembleId).length < 1) {
+  if (session && session.user.admins.filter(i => i.ensembleId === data.ensembleId).length < 1) {
     <div>Access Denied</div>
-  } */
+  } 
 
   return (
+    <AuthWall session={session}>
     <div className='flex w-full flex-col p-2 sm:p-4 lg:px-24'>
       <MessagesHeader event={data} />
       <SentEmailList emails={data.sentEmails} />
     </div>
+    </AuthWall>
   );
 }

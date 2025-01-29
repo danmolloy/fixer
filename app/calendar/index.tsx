@@ -14,7 +14,7 @@ export type UserWithEventsAndCallsWithEnsemble = Prisma.UserGetPayload<{
       include: {
         event: {
           include: {
-            ensemble: true;
+            ensemble: true,
           };
         };
       };
