@@ -6,6 +6,7 @@ import {
   EnsembleContact,
   EnsembleSection,
   EventSection,
+  Orchestration,
 } from '@prisma/client';
 import CreateEventSection from './eventSection/form';
 import { useState } from 'react';
@@ -21,6 +22,7 @@ export type FixingIndexProps = {
   ensemble: Ensemble;
   ensembleSections: EnsembleSection[];
   eventSections: (EventSection & {
+    orchestration: Orchestration[]
     contacts: (ContactMessage & {
       contact: EnsembleContact;
       calls: Call[];
@@ -105,9 +107,11 @@ export default function FixingIndex(props: FixingIndexProps) {
         </div>
       ) : createSection ? (
         <CreateEventSection
+          orchestration={[]}
+          eventCalls={eventCalls}
           eventSections={eventSections}
           eventSectionId={undefined}
-          numToBook={0}
+          //numToBook={0}
           bookingStatus='ACTIVE'
           ensembleSectionId={undefined}
           eventId={eventId}

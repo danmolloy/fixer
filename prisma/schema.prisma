@@ -38,14 +38,15 @@ model User {
   id              String          @id @default(cuid())
   email           String?         @unique
   emailVerified   DateTime?
+  // mobileVerified DateTime
   firstName       String?
   lastName        String?
   mobileNumber    String?
-  fixingEnsembles String[]
-  instrumentsList String[]
-  preferredMethod String?
-  name            String?
-  image           String?
+  fixingEnsembles String[] //
+  instrumentsList String[] //
+  preferredMethod String? //
+  name            String? //
+  image           String? //
   accounts        Account[]
   calls           Call[]
   admins          EnsembleAdmin[]
@@ -100,18 +101,19 @@ model Call {
   event           Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
   fixer           User             @relation(fields: [fixerId], references: [id])
   contactMessages ContactMessage[] @relation("CallToContactMessage")
-  //orchestration   Orchestration[]  @relation("CallToOrchestration")
+  orchestration   Orchestration[]  
 }
 
-//model Orchestration {
-//  id          Int     @id @default(autoincrement())
-//  createdAt   DateTime @default(now())
-//  updatedAt   DateTime @updatedAt
-//  callId      Int
-//  instrument  SectionName
-//  numRequired Int     
-//  call        Call    @relation(fields: [callId], references: [id], onDelete: Cascade)
-//}
+model Orchestration {
+  id          Int     @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  callId      Int
+  eventSectionId Int
+  eventSection  EventSection @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
+  numRequired Int     
+  call        Call    @relation(fields: [callId], references: [id], onDelete: Cascade)
+}
 
 model EventSection {
   id                Int              @id @default(autoincrement())
@@ -121,6 +123,7 @@ model EventSection {
   ensembleSectionId String
   bookingStatus     BookingStatus           @default(INACTIVE)
   numToBook         Int
+  orchestration     Orchestration[]
   contacts          ContactMessage[]
   ensembleSection   EnsembleSection  @relation(fields: [ensembleSectionId], references: [id], onDelete: Cascade)
   event             Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)

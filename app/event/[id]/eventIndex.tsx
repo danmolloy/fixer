@@ -7,6 +7,7 @@ import {
   EnsembleSection,
   Event,
   EventSection,
+  Orchestration,
   User,
 } from '@prisma/client';
 import EventHeader from './eventHeader';
@@ -36,6 +37,7 @@ export type EventInfoTableProps = {
     contact: EnsembleContact;
   })[];
   sections: (EventSection & {
+    orchestration: Orchestration[];
     contacts: (ContactMessage & {
       contact: EnsembleContact;
       calls: Call[];

@@ -4,6 +4,7 @@ import {
   EnsembleContact,
   EnsembleSection,
   EventSection,
+  Orchestration,
 } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -13,9 +14,10 @@ import EventSectionContacts from '../contactMessage';
 import Link from 'next/link';
 import SectionMenu from './sectionMenu';
 import SectionViewSelect from './viewSelect';
+import OrchestrationSummary from './orchestration';
 
 export type EventSectionProps = {
-  section: EventSection & { ensembleSection: EnsembleSection };
+  section: EventSection & { ensembleSection: EnsembleSection, orchestration: Orchestration[] };
   ensembleSections: EnsembleSection[];
   eventSections: (EventSection & { ensembleSection: EnsembleSection })[];
   sectionContacts: EnsembleContact[];
@@ -49,12 +51,14 @@ export default function EventSectionIndex(props: EventSectionProps) {
     >
       {updateSection ? (
         <CreateEventSection
+          orchestration={section.orchestration}
+          eventCalls={eventCalls}
           eventSections={eventSections}
           eventSectionId={section.id}
           eventId={section.eventId}
           ensembleSections={ensembleSections}
           bookingStatus={section.bookingStatus}
-          numToBook={section.numToBook}
+          //numToBook={section.numToBook}
           setCreateSection={(arg) => setUpdateSection(arg)}
           ensembleSectionId={section.ensembleSection.id}
         />
@@ -77,9 +81,10 @@ export default function EventSectionIndex(props: EventSectionProps) {
           </div>
           <div className='flex flex-col justify-between'>
             <div className='flex flex-row items-center'>
-              <p className='ml-1 text-sm'>
+              {/* <p className='ml-1 text-sm'>
                 Booking {section.numToBook} player(s)
-              </p>
+              </p> */}
+              <OrchestrationSummary eventCalls={eventCalls} eventSection={section} orchestration={section.orchestration} />
             </div>
             <SectionViewSelect
               availabilityCheckCount={

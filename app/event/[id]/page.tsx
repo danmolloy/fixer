@@ -20,6 +20,7 @@ async function getData(id: string) {
       calls: true,
       sections: {
         include: {
+          orchestration: true,
           contacts: {
             include: {
               contact: true,
