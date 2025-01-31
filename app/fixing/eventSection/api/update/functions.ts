@@ -18,7 +18,6 @@ export const updateEventSection = async (sectionObj: {
     },
     data: {
       bookingStatus: sectionObj.bookingStatus,
-      numToBook: 0,
     },
     include: {
       contacts: true,

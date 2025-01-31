@@ -4,6 +4,7 @@ import {
   EnsembleContact,
   EnsembleSection,
   EventSection,
+  Orchestration,
 } from '@prisma/client';
 import { instrumentSections } from '../../contacts/lib';
 import { useRef, useState } from 'react';
@@ -12,6 +13,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 
 export type OrchestraListProps = {
   sections: (EventSection & {
+    orchestration: Orchestration[]
     contacts: (ContactMessage & {
       contact: EnsembleContact;
     })[];
@@ -48,6 +50,10 @@ export default function OrchestraList(props: OrchestraListProps) {
 
     html2pdf().from(orchList).set(pdfOptions).save();
   };
+
+  const maxNumRequired = (args: Orchestration[]) => {
+    return args.sort((a, b) => b.numRequired - a.numRequired)[0].numRequired;
+  }
 
   return (
     <div data-testid='orchestra-list' className='flex flex-col'>
@@ -107,13 +113,13 @@ export default function OrchestraList(props: OrchestraListProps) {
                       {`${j.contact.firstName} ${j.contact.lastName} (${j.position})`}
                     </li>
                   ))}
-                {i.numToBook -
+                {maxNumRequired(i.orchestration) -
                   i.contacts.filter(
                     (j) =>
                       j.type !== 'AVAILABILITY' &&
                       (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED')
                   ).length ===
-                0 ? null : i.numToBook -
+                0 ? null : maxNumRequired(i.orchestration) -
                     i.contacts.filter(
                       (j) =>
                         j.type !== 'AVAILABILITY' &&
@@ -125,10 +131,10 @@ export default function OrchestraList(props: OrchestraListProps) {
                     {i.contacts.filter(
                       (j) =>
                         j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED'
-                    ).length - i.numToBook}{' '}
+                    ).length - maxNumRequired(i.orchestration)}{' '}
                   </p>
                 ) : (
-                  new Array(i.numToBook).fill(null).map((_, index) => (
+                  new Array(maxNumRequired(i.orchestration)).fill(null).map((_, index) => (
                     <li
                       data-testid={`${i.id}-tbc`}
                       key={index}

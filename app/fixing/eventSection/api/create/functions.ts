@@ -14,7 +14,6 @@ export const createEventSection = async (sectionObj: {
   return await prisma.eventSection.create({
     data: {
       bookingStatus: sectionObj.bookingStatus,
-      numToBook: 0,
       orchestration: {
         create: sectionObj.orchestration.map(i => ({
           numRequired: Number(i.numRequired),

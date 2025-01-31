@@ -26,8 +26,13 @@ export type UserWithEventsAndCallsWithEnsemble = Prisma.UserGetPayload<{
       include: {
         sections: {
           include: {
-            contacts: true;
+            contacts: {
+              include: {
+                calls: true;
+              }
+            };
             ensembleSection: true;
+            orchestration: true;
           };
         };
         calls: {

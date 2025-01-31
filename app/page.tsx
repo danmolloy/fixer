@@ -30,6 +30,7 @@ const getCalendar = async (
             include: {
               contacts: true,
               ensembleSection: true,
+              orchestration: true
             },
           },
           calls: {

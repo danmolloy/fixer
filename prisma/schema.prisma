@@ -122,7 +122,6 @@ model EventSection {
   eventId           Int
   ensembleSectionId String
   bookingStatus     BookingStatus           @default(INACTIVE)
-  numToBook         Int
   orchestration     Orchestration[]
   contacts          ContactMessage[]
   ensembleSection   EnsembleSection  @relation(fields: [ensembleSectionId], references: [id], onDelete: Cascade)

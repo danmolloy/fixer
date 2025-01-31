@@ -1,6 +1,6 @@
 import prisma from '../../../../../client';
 import { DateTime } from 'luxon';
-import { Call, ContactMessage } from '@prisma/client';
+import { Call, ContactMessage, Orchestration } from '@prisma/client';
 import crypto from 'crypto';
 import {
   emailAvailabilityChecks,
@@ -109,7 +109,12 @@ export const gigIsFixed = async (eventID: number) => {
       fixer: true,
       sections: {
         include: {
-          contacts: true,
+          contacts: {
+            include: {
+              calls: true
+            }
+          },
+          orchestration: true
         },
       },
     },
@@ -119,8 +124,22 @@ export const gigIsFixed = async (eventID: number) => {
     return true;
   }
 
-  for (let i = 0; i < event?.sections.length; i++) {
-    const numToBook = event.sections[i].numToBook;
+  for (let i = 0; i < event.sections.length; i++) {
+    const orchestrations = event?.sections[i].orchestration
+    for (let j = 0; j < orchestrations.length; j ++) {
+      let numStillRequired = orchestrations[j].numRequired;
+      let numBooked = event?.sections[i].contacts.filter(c => (
+        c.calls.map(call => call.id).includes(orchestrations[j].callId) 
+        && c.status === "ACCEPTED"
+        || c.status === "AUTOBOOKED"
+        || c.status === "FINDINGDEP"
+      )).length
+      if (numStillRequired - numBooked !== 0) {
+        return false;
+      }
+    }
+
+    /* const numToBook = event.sections[i].numToBook;
     const numBooked = event.sections[i].contacts.filter(
       (i) =>
         (i.status === 'ACCEPTED' || i.status === 'AUTOBOOKED') &&
@@ -128,14 +147,14 @@ export const gigIsFixed = async (eventID: number) => {
     ).length;
     if (numToBook - numBooked !== 0) {
       return false;
-    }
+    } */
   }
   return true;
 };
 
 export const getNumToContact = (data: {
   contactMessages: ContactMessage[];
-  numToBook: number;
+  maxNumRequired: number;
 }): number => {
   const numBooked = data.contactMessages.filter(
     (i) => i.status === 'AUTOBOOKED' || i.status === 'ACCEPTED'
@@ -146,6 +165,26 @@ export const getNumToContact = (data: {
       (i.type === 'AUTOBOOK' || i.type === 'BOOKING')
   ).length;
 
-  const numToContact = data.numToBook - numBooked - numYetToRespond;
+  const numToContact = data.maxNumRequired - numBooked - numYetToRespond;
   return numToContact;
 };
+
+export const callsToFix = (args: {
+  contactMessages: (ContactMessage & {calls: Call[]})[];
+  orchestration: Orchestration[]
+}): number[] => {
+  let callIDs: number[] = [];
+
+  for (let i = 0; i < args.orchestration.length; i ++) {
+    const bookedPlayers = args.contactMessages.filter(j => (
+      j.status === "ACCEPTED" 
+      || j.status === "AUTOBOOKED" 
+      || j.status ==="AWAITINGREPLY"
+    ) && j.calls.map(c => c.id).includes(args.orchestration[i].callId));
+    if (bookedPlayers.length < args.orchestration[i].numRequired) {
+      callIDs = [...callIDs, args.orchestration[i].callId]
+    }
+  }
+
+  return callIDs;
+}

@@ -4,6 +4,7 @@ import {
   EnsembleSection,
   Event,
   EventSection,
+  Orchestration,
 } from '@prisma/client';
 import Link from 'next/link';
 import EventOverview from './event';
@@ -12,8 +13,11 @@ export type ViewAllUpcomingProps = {
   events: (Event & {
     calls: Call[];
     sections: (EventSection & {
-      contacts: ContactMessage[];
+      contacts: (ContactMessage & {
+        calls: Call[]
+      })[];
       ensembleSection: EnsembleSection;
+      orchestration: Orchestration[]
     })[];
   })[];
 };

@@ -4,7 +4,7 @@ import {
   createOfferEmail,
   releaseDepperEmail,
 } from '../../../../sendGrid/playerLib';
-import { getDateRange, getNumToContact, gigIsFixed } from './functions';
+import { callsToFix, getDateRange, getNumToContact, gigIsFixed } from './functions';
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 import {
   bookingCompleteEmail,
@@ -21,6 +21,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     include: {
       eventSection: {
         include: {
+          orchestration: true,
           event: {
             include: {
               fixer: true,
@@ -69,8 +70,9 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
 
   const numToContact = getNumToContact({
     contactMessages: contactMessages,
-    numToBook: contactMessages[0].eventSection.numToBook,
+    maxNumRequired: contactMessages[0].eventSection.orchestration.sort((a, b) => b.numRequired - a.numRequired)[0].numRequired,
   });
+
   const notContacted = contactMessages.filter(
     (i) => i.status === 'NOTCONTACTED'
   );
@@ -105,17 +107,28 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     numToContact < notContacted.length ? numToContact : notContacted.length;
 
   for (let i = 0; i < numEmails; i++) {
+    const callsNotFixed = callsToFix({contactMessages: contactMessages, orchestration: contactMessages[0].eventSection.orchestration});
+    
     const contact = notContacted[i];
-    const sentEmailData = await createOfferEmail(contact);
+
+    const callsToOffer = contact.calls.filter(j => callsNotFixed.includes(j.id))
+
+    const contactWithCalls = {...contact, calls: callsToOffer};
+
+    if (callsToOffer.length < 1) {
+      break;
+    }
+
+    const sentEmailData = await createOfferEmail(contactWithCalls);
 
     if (
-      contact.contact.email === null &&
+      contactWithCalls.contact.email === null &&
       process.env.TWILIO_ACTIVE === 'true'
     ) {
       break;
     }
     if (
-      contact.contact.phoneNumber === null &&
+      contactWithCalls.contact.phoneNumber === null &&
       process.env.TWILIO_ACTIVE === 'true'
     ) {
       break;
@@ -130,18 +143,18 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
       });
       await prisma.contactMessage.update({
         where: {
-          id: contact.id,
+          id: contactWithCalls.id,
         },
         data: {
           emailStatus: null,
           status: 'AWAITINGREPLY',
         },
       });
-      if (contact.urgent === true) {
+      if (contactWithCalls.urgent === true) {
         await axios.post(`${url}/twilio`, {
           body: {
-            phoneNumber: contact.contact.phoneNumber,
-            message: `Hi ${contact.contact.firstName}, we have just sent you an urgent email on behalf of ${contact.eventSection.event.fixer.firstName} ${contact.eventSection.event.fixer.lastName} (${contact.eventSection.event.ensembleName}). GigFix`,
+            phoneNumber: contactWithCalls.contact.phoneNumber,
+            message: `Hi ${contactWithCalls.contact.firstName}, we have just sent you an urgent email on behalf of ${contact.eventSection.event.fixer.firstName} ${contact.eventSection.event.fixer.lastName} (${contact.eventSection.event.ensembleName}). GigFix`,
           },
         });
       }

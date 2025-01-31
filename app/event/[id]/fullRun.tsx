@@ -4,6 +4,7 @@ import {
   EnsembleContact,
   EnsembleSection,
   EventSection,
+  Orchestration,
 } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { instrumentSections } from '../../contacts/lib';
@@ -11,6 +12,7 @@ import { instrumentSections } from '../../contacts/lib';
 export type FullRunIndexProps = {
   calls: Call[];
   sections: (EventSection & {
+    orchestration: Orchestration[]
     contacts: (ContactMessage & {
       contact: EnsembleContact;
       calls: Call[];
@@ -61,10 +63,10 @@ export default function FullRunIndex(props: FullRunIndexProps) {
             </th>
           ))}
         </tr>
+        
         {sortedSections
-          .filter((i) => i.numToBook > 0)
           .map((i) =>
-            new Array(i.numToBook).fill(null).map((_, index) => (
+            new Array(i.orchestration.sort((a, b) => (b.numRequired - a.numRequired))[0].numRequired).fill(null).map((_, index) => (
               <tr className='border-b' key={index}>
                 <td className='flex flex-row justify-between p-2'>
                   <p>{index === 0 && `${i.ensembleSection.name} `}</p>
@@ -73,7 +75,9 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                 {calls.map((j) => (
                   <td className=' p-1' key={j.id}>
                     <p>
-                      {i.contacts
+                      {i.orchestration.find(orch => orch.callId === j.id)!.numRequired < (index + 1)
+                      ? <p>N/A</p>
+                      : i.contacts
                         .filter(
                           (c) =>
                             (c.status === 'ACCEPTED' ||
@@ -81,8 +85,17 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                               c.status === 'FINDINGDEP') &&
                             c.type !== 'AVAILABILITY' &&
                             c.calls.map((z) => z.id).includes(j.id)
-                        )
-                        .map((c, ind) => (
+                        ).length === 0 
+                        ? <p>TBC</p>
+                        :i.contacts
+                        .filter(
+                          (c) =>
+                            (c.status === 'ACCEPTED' ||
+                              c.status === 'AUTOBOOKED' ||
+                              c.status === 'FINDINGDEP') &&
+                            c.type !== 'AVAILABILITY' &&
+                            c.calls.map((z) => z.id).includes(j.id)
+                        ).map((c, ind) => (
                           <p key={c.id}>
                             {ind === index &&
                               `${c.contact.firstName} ${c.contact.lastName}`}
