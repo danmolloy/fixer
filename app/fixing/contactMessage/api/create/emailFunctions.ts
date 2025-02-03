@@ -4,7 +4,7 @@ import {
   createOfferEmail,
   releaseDepperEmail,
 } from '../../../../sendGrid/playerLib';
-import { callsToFix, getDateRange, getNumToContact, gigIsFixed } from './functions';
+import { callsNotFixed, getDateRange, getNumToContact, gigIsFixed } from './functions';
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 import {
   bookingCompleteEmail,
@@ -12,16 +12,26 @@ import {
 } from '../../../../sendGrid/adminEmailLib';
 const url = `${process.env.URL}`;
 
-export const emailBookingMusicians = async (eventSectionId: number) => {
-  const contactMessages = await prisma.contactMessage.findMany({
+const getContactMessages = async (eventSectionId: number) => {
+
+  return await prisma.contactMessage.findMany({
     where: {
       eventSectionId: eventSectionId,
       OR: [{ type: 'AUTOBOOK' }, { type: 'BOOKING' }],
     },
     include: {
+      eventCalls: {
+        include: {
+          call: true
+        }
+      },
       eventSection: {
         include: {
-          orchestration: true,
+          orchestration: {
+            include: {
+              bookedPlayers: true
+            }
+          },
           event: {
             include: {
               fixer: true,
@@ -32,7 +42,8 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
         },
       },
       contact: true,
-      calls: true,
+      
+      
     },
     orderBy: [
       {
@@ -40,6 +51,10 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
       },
     ],
   });
+} 
+export const emailBookingMusicians = async (eventSectionId: number) => {
+  
+  let contactMessages = await getContactMessages(eventSectionId);
 
   if (contactMessages.length === 0) {
     return;
@@ -68,20 +83,62 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     }
   }
 
-  const numToContact = getNumToContact({
-    contactMessages: contactMessages,
-    maxNumRequired: contactMessages[0].eventSection.orchestration.sort((a, b) => b.numRequired - a.numRequired)[0].numRequired,
-  });
+  for (let i = 0; i < contactMessages.filter(
+    (i) => i.status === 'NOTCONTACTED'
+  ).length; i ++) {
 
-  const notContacted = contactMessages.filter(
+  let notContacted = contactMessages.filter(
     (i) => i.status === 'NOTCONTACTED'
   );
 
-  if (numToContact === 0) {
-    return [];
+  let notFixedCalls = contactMessages[0].eventSection.orchestration.filter(i => i.numRequired > i.bookedPlayers.length).map(c => c.callId);
+  
+  // stop function if all calls are fixed
+  if (notFixedCalls.length === 0) {
+    return;
   }
+  // contact whoever I can currently
+    const callsToOfferNotFixed = notContacted[i].eventCalls.filter(c => notFixedCalls.includes(c.callId));
+    const callsNotFixed = contactMessages[0].eventSection.orchestration.filter(i => (
+      i.numRequired > (
+        i.bookedPlayers.length + 
+        contactMessages.filter(j => j.status === "AWAITINGREPLY" 
+          && j.eventCalls.map(c => c.callId).includes(i.callId)).length
+      )
+    )).map(c => c.callId)
+    console.log(`callsToOfferNotFixed: ${callsToOfferNotFixed.length}, callsNotFixed: ${callsNotFixed.length}`)
 
-  if (numToContact > notContacted.length) {
+    if (callsToOfferNotFixed.length === callsNotFixed.length) {
+
+      const callsToOffer = await prisma.contactEventCall.updateManyAndReturn({
+        where: {
+          id: {
+            in: callsToOfferNotFixed.map(c => c.id)
+          }
+        },
+        data: {
+          status: "OFFERING"
+        },
+        include: {
+          call: true
+        }
+      })
+      await prisma.contactMessage.update({
+        where: {
+          id: notContacted[i].id
+        },
+        data: {
+          status: "AWAITINGREPLY"
+        }
+      })
+      await createOfferEmail({...notContacted[i], calls: callsToOffer.map(c => c.call)});
+
+      contactMessages = await getContactMessages(eventSectionId);
+    }
+  } 
+
+
+  /* if (numToContact > notContacted.length) {
     // Let fixer know they need to add to list
     const emailAlert = await listExhaustedEmail({
       dateRange: getDateRange(contactMessages[0].eventSection.event.calls),
@@ -101,11 +158,9 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     } catch (e) {
       throw new Error(e);
     }
-  }
+  } */
 
-  const numEmails: number =
-    numToContact < notContacted.length ? numToContact : notContacted.length;
-
+  /* 
   for (let i = 0; i < numEmails; i++) {
     const callsNotFixed = callsToFix({contactMessages: contactMessages, orchestration: contactMessages[0].eventSection.orchestration});
     
@@ -162,7 +217,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
       //console.log(`Is this the error? ${e}`)
       throw new Error(e);
     }
-  }
+  } */
 
   return;
 };
@@ -186,7 +241,12 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
         },
       },
       contact: true,
-      calls: true,
+      //calls: true,
+      eventCalls: {
+        include: {
+          call: true
+        }
+      }
     },
     orderBy: [
       {
@@ -201,7 +261,7 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
 
   for (let i = 0; i < availabilityChecks.length; i++) {
     const contact = availabilityChecks[i];
-    const sentEmailData = await createOfferEmail(contact);
+    const sentEmailData = await createOfferEmail({...contact, calls: contact.eventCalls.map(c => c.call)});
 
     if (
       contact.contact.email === null &&

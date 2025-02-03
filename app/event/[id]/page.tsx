@@ -23,8 +23,13 @@ async function getData(id: string) {
           orchestration: true,
           contacts: {
             include: {
+              eventCalls: {
+                include: {
+                  call: true
+                }
+              },
               contact: true,
-              calls: true,
+              //calls: true,
             },
             orderBy: {
               indexNumber: 'asc',

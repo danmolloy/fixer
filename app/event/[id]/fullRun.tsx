@@ -1,5 +1,6 @@
 import {
   Call,
+  ContactEventCall,
   ContactMessage,
   EnsembleContact,
   EnsembleSection,
@@ -14,8 +15,9 @@ export type FullRunIndexProps = {
   sections: (EventSection & {
     orchestration: Orchestration[]
     contacts: (ContactMessage & {
+      eventCalls: (ContactEventCall & {call: Call})[]
       contact: EnsembleContact;
-      calls: Call[];
+      //calls: Call[];
     })[];
     ensembleSection: EnsembleSection;
   })[];
@@ -80,21 +82,22 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                       : i.contacts
                         .filter(
                           (c) =>
-                            (c.status === 'ACCEPTED' ||
+                            /* (c.status === 'RESPONDED' ||
+                              c.status === 'ACCEPTED' ||
                               c.status === 'AUTOBOOKED' ||
                               c.status === 'FINDINGDEP') &&
-                            c.type !== 'AVAILABILITY' &&
-                            c.calls.map((z) => z.id).includes(j.id)
+                            c.type !== 'AVAILABILITY' && */
+                            c.eventCalls.filter(i => i.status === "ACCEPTED").map((z) => z.callId).includes(j.id)
                         ).length === 0 
-                        ? <p>TBC</p>
+                        ? <p className='text-gray-400'>TBC</p>
                         :i.contacts
                         .filter(
                           (c) =>
-                            (c.status === 'ACCEPTED' ||
+                            /* (c.status === 'ACCEPTED' ||
                               c.status === 'AUTOBOOKED' ||
                               c.status === 'FINDINGDEP') &&
-                            c.type !== 'AVAILABILITY' &&
-                            c.calls.map((z) => z.id).includes(j.id)
+                            c.type !== 'AVAILABILITY' && */
+                            c.eventCalls.filter(i => i.status === "ACCEPTED").map((z) => z.callId).includes(j.id)
                         ).map((c, ind) => (
                           <p key={c.id}>
                             {ind === index &&

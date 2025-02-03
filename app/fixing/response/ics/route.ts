@@ -1,4 +1,4 @@
-import { Call, ContactMessage, Event, EventSection } from '@prisma/client';
+import { Call, ContactEventCall, ContactMessage, Event, EventSection } from '@prisma/client';
 import { writeFileSync } from 'fs';
 import { createEvents } from 'ics';
 import { DateTime } from 'luxon';
@@ -7,7 +7,9 @@ const url = process.env.URL;
 
 export async function POST(request: Request) {
   const req: ContactMessage & {
-    calls: Call[];
+    eventCalls: (ContactEventCall & {
+      call: Call
+    })[]
     eventSection: EventSection & {
       event: Event;
     };
@@ -15,10 +17,10 @@ export async function POST(request: Request) {
   console.log(`req: ${JSON.stringify(req)}`);
 
   const { error, value } = createEvents(
-    req.calls.map((i) => ({
-      start: DateTime.fromJSDate(new Date(i.startTime)).valueOf(),
-      end: DateTime.fromJSDate(new Date(i.endTime)).valueOf(),
-      location: i.venue,
+    req.eventCalls.filter(i => i.status === "ACCEPTED").map((i) => ({
+      start: DateTime.fromJSDate(new Date(i.call.startTime)).valueOf(),
+      end: DateTime.fromJSDate(new Date(i.call.endTime)).valueOf(),
+      location: i.call.venue,
       title: `${req.eventSection.event.ensembleName}: ${req.eventSection.event.eventTitle}`,
       status:
         req.eventSection.event.status === 'CONFIRMED'

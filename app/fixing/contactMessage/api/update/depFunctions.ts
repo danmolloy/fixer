@@ -24,7 +24,12 @@ export const releaseDeppers = async (eventSectionId: number) => {
         },
         include: {
           contact: true,
-          calls: true,
+          eventCalls: {
+            include: {
+              call: true
+            }
+          },
+          //calls: true,
           eventSection: {
             include: {
               event: true,
@@ -34,6 +39,7 @@ export const releaseDeppers = async (eventSectionId: number) => {
       });
       return await emailDeppingMusician({
         ...releaseMusician,
+        calls: releaseMusician.eventCalls.map(c => c.call),
         ensembleName: releaseMusician.eventSection.event.ensembleName,
         eventId: releaseMusician.eventSection.eventId,
       });

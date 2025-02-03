@@ -45,15 +45,15 @@ export const createContactMessages = async (
       : 1;
 
   for (let i = 0; i < data.contacts.length; i++) {
-    await prisma.contactMessage.create({
+    const newContact = await prisma.contactMessage.create({
       data: {
         eventSectionId: Number(data.eventSectionId),
         contactId: data.contacts[i].contactId,
-        calls: {
+        /* calls: {
           connect: data.contacts[i].calls.map((j) => ({
             id: Number(j),
           })),
-        },
+        }, */
         status:
           data.contacts[i].autoAccepted === true
             ? 'AUTOBOOKED'
@@ -67,6 +67,21 @@ export const createContactMessages = async (
         urgent: data.urgent,
       },
     });
+    for (let j = 0; j < data.contacts[i].calls.length; j ++) {
+      await prisma.contactEventCall.create({
+        data: {
+          callId: Number(data.contacts[i].calls[j]),
+          status: data.type === "AUTOBOOK" ? "ACCEPTED" : data.type === "AVAILABILITY" ? "TOCHECK" : "TOOFFER",
+          contactMessageId: newContact.id
+          /* call: {
+            connect: {
+              id: Number(data.contacts[i].calls[j]),
+            }
+          } */
+        }
+          
+    }) 
+  }
     currentHighestIndex += 1;
   }
   if (data.type !== 'AVAILABILITY') {
@@ -111,7 +126,12 @@ export const gigIsFixed = async (eventID: number) => {
         include: {
           contacts: {
             include: {
-              calls: true
+              //calls: true
+              eventCalls: {
+                include: {
+                  call: true
+                }
+              }
             }
           },
           orchestration: true
@@ -129,32 +149,20 @@ export const gigIsFixed = async (eventID: number) => {
     for (let j = 0; j < orchestrations.length; j ++) {
       let numStillRequired = orchestrations[j].numRequired;
       let numBooked = event?.sections[i].contacts.filter(c => (
-        c.calls.map(call => call.id).includes(orchestrations[j].callId) 
-        && c.status === "ACCEPTED"
-        || c.status === "AUTOBOOKED"
-        || c.status === "FINDINGDEP"
+        c.eventCalls.map(j => j.callId).includes(orchestrations[j].callId) 
+        && c.eventCalls.find(j => j.callId)!.status === "ACCEPTED"
       )).length
       if (numStillRequired - numBooked !== 0) {
         return false;
       }
     }
-
-    /* const numToBook = event.sections[i].numToBook;
-    const numBooked = event.sections[i].contacts.filter(
-      (i) =>
-        (i.status === 'ACCEPTED' || i.status === 'AUTOBOOKED') &&
-        i.type !== 'AVAILABILITY'
-    ).length;
-    if (numToBook - numBooked !== 0) {
-      return false;
-    } */
   }
   return true;
 };
 
 export const getNumToContact = (data: {
   contactMessages: ContactMessage[];
-  maxNumRequired: number;
+  orchestration: Orchestration[];
 }): number => {
   const numBooked = data.contactMessages.filter(
     (i) => i.status === 'AUTOBOOKED' || i.status === 'ACCEPTED'
@@ -165,11 +173,11 @@ export const getNumToContact = (data: {
       (i.type === 'AUTOBOOK' || i.type === 'BOOKING')
   ).length;
 
-  const numToContact = data.maxNumRequired - numBooked - numYetToRespond;
+  const numToContact = data.orchestration.sort((a, b) => b.numRequired - a.numRequired)[0].numRequired - numBooked - numYetToRespond;
   return numToContact;
 };
 
-export const callsToFix = (args: {
+export const callsNotFixed = (args: {
   contactMessages: (ContactMessage & {calls: Call[]})[];
   orchestration: Orchestration[]
 }): number[] => {
@@ -179,12 +187,24 @@ export const callsToFix = (args: {
     const bookedPlayers = args.contactMessages.filter(j => (
       j.status === "ACCEPTED" 
       || j.status === "AUTOBOOKED" 
-      || j.status ==="AWAITINGREPLY"
     ) && j.calls.map(c => c.id).includes(args.orchestration[i].callId));
     if (bookedPlayers.length < args.orchestration[i].numRequired) {
       callIDs = [...callIDs, args.orchestration[i].callId]
     }
   }
-
   return callIDs;
 }
+
+
+// players to msg
+/* 
+discard all fixed calls
+for each player{
+  discard fixed calls from playerMessage
+  if all remaining calls numRequired - (booked + aw) > 0 {
+    await offer those calls
+  }
+}
+  
+
+*/

@@ -1,5 +1,7 @@
 'use client'
 import {
+  Call,
+  ContactEventCall,
   ContactMessage,
   EnsembleContact,
   EnsembleSection,
@@ -15,6 +17,9 @@ export type OrchestraListProps = {
   sections: (EventSection & {
     orchestration: Orchestration[]
     contacts: (ContactMessage & {
+      eventCalls: (ContactEventCall & {
+        call: Call
+      })[]
       contact: EnsembleContact;
     })[];
     ensembleSection: EnsembleSection;
@@ -104,8 +109,9 @@ export default function OrchestraList(props: OrchestraListProps) {
                 {i.contacts
                   .filter(
                     (j) =>
-                      j.type !== 'AVAILABILITY' &&
-                      (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED')
+                      j.eventCalls.map(c => c.status).includes("ACCEPTED")
+                      /* j.type !== 'AVAILABILITY' &&
+                      (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED') */
                   )
                   .sort((a, b) => a.indexNumber - b.indexNumber)
                   .map((j) => (
@@ -116,25 +122,35 @@ export default function OrchestraList(props: OrchestraListProps) {
                 {maxNumRequired(i.orchestration) -
                   i.contacts.filter(
                     (j) =>
-                      j.type !== 'AVAILABILITY' &&
-                      (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED')
+                      j.eventCalls.map(c => c.status).includes("ACCEPTED")
+
+                      /* j.type !== 'AVAILABILITY' &&
+                      (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED') */
                   ).length ===
                 0 ? null : maxNumRequired(i.orchestration) -
                     i.contacts.filter(
                       (j) =>
-                        j.type !== 'AVAILABILITY' &&
-                        (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED')
+                        j.eventCalls.map(c => c.status).includes("ACCEPTED")
+
+                        /* j.type !== 'AVAILABILITY' &&
+                        (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED') */
                     ).length <
                   0 ? (
                   <p className='font-bold'>
                     Overbooked by{' '}
                     {i.contacts.filter(
                       (j) =>
-                        j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED'
+                        j.eventCalls.map(c => c.status).includes("ACCEPTED")
+
+                        /* j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED' */
                     ).length - maxNumRequired(i.orchestration)}{' '}
                   </p>
                 ) : (
-                  new Array(maxNumRequired(i.orchestration)).fill(null).map((_, index) => (
+                  new Array(maxNumRequired(i.orchestration) - i.contacts.filter(
+                    (j) =>
+                      j.eventCalls.map(c => c.status).includes("ACCEPTED")
+
+                  ).length).fill(null).map((_, index) => (
                     <li
                       data-testid={`${i.id}-tbc`}
                       key={index}

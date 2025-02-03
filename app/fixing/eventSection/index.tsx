@@ -1,5 +1,6 @@
 import {
   Call,
+  ContactEventCall,
   ContactMessage,
   EnsembleContact,
   EnsembleSection,
@@ -23,8 +24,9 @@ export type EventSectionProps = {
   sectionContacts: EnsembleContact[];
   eventCalls: Call[];
   currentContacts: (ContactMessage & {
+    eventCalls: (ContactEventCall & {call: Call})[]
     contact: EnsembleContact;
-    calls: Call[];
+    //calls: Call[];
   })[];
 };
 

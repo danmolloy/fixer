@@ -74,7 +74,11 @@ export const updateEvent = async (eventObj: Event) => {
               ],
             },
             include: {
-              calls: true,
+              eventCalls: {
+                include: {
+                  call: true
+                }
+              },
               contact: true,
             },
           },

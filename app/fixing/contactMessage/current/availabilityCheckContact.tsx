@@ -1,4 +1,4 @@
-import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
+import { Call, ContactEventCall, ContactMessage, EnsembleContact } from '@prisma/client';
 import CurrentContactsOptions from './options';
 import { useState } from 'react';
 import { TiMail, TiTick, TiTimes } from 'react-icons/ti';
@@ -8,7 +8,8 @@ export type CurrentContactRowProps = {
   eventCalls: Call[];
   contact: ContactMessage & {
     contact: EnsembleContact;
-    calls: Call[];
+    //calls: Call[];
+    eventCalls: (ContactEventCall & {call: Call})[]
   };
   index: number;
   numContacts: number;
@@ -44,49 +45,18 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
       </td>
       {eventCalls.map((i) => (
         <td className='' key={i.id} data-testid={`call-${i.id}`}>
-          {contact.type === 'AVAILABILITY' ? (
-            <div className='m-2 flex items-center justify-center'>
-              {!contact.calls.map((j) => j.id).includes(i.id) ? (
+          {<div className='m-2 flex items-center justify-center'>
+              {!contact.eventCalls.map((c) => c.callId).includes(i.id) ? (
                 <div>
-                  <p className='hidden'>Not Checked</p>
-                  <TiTimes />
+                  <p className=''>{contact.eventCalls.find(c => c.callId === i.id)?.status}</p>
                 </div>
-              ) : contact.availableFor.includes(i.id) ? (
+              ) :  (
                 <div>
-                  <p className='hidden'>Available</p>
-                  <TiTick />
-                </div>
-              ) : contact.status === 'AWAITINGREPLY' ? (
-                <div>
-                  <p className='hidden'>Awaiting Reply</p>•
-                </div>
-              ) : (
-                <div>
-                  <p className='hidden'>Declined</p>
-                  <TiTimes />
+                  <p className=''>-</p>
                 </div>
               )}
             </div>
-          ) : (
-            <div className='m-2 flex items-center justify-center'>
-              {contact.calls.map((j) => j.id).includes(i.id) ? (
-                <div>
-                  {contact.status === 'AWAITINGREPLY' ||
-                  contact.status === 'NOTCONTACTED' ? (
-                    <p className='hidden'>Offered</p>
-                  ) : (
-                    <p className='hidden'>Booked</p>
-                  )}
-                  <TiTick />
-                </div>
-              ) : (
-                <div>
-                  <p className='hidden'>Not Booked</p>
-                  <TiTimes />
-                </div>
-              )}
-            </div>
-          )}
+          }
         </td>
       ))}
       {contact.status === 'ACCEPTED' ||

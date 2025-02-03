@@ -1,7 +1,7 @@
 'use client';
 import * as Yup from 'yup';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
-import { Call, ContactMessage, EnsembleContact, Event } from '@prisma/client';
+import { Call, ContactEventCall, ContactEventCallStatus, ContactMessage, EnsembleContact, Event } from '@prisma/client';
 import TextInput from '../../../forms/textInput';
 import axios from 'axios';
 import { DateTime } from 'luxon';
@@ -10,11 +10,15 @@ import { updateOfferEmail } from '../../../sendGrid/playerLib';
 import SubmitButton from '../../../forms/submitBtn';
 import ValidationError from '../../../forms/validationError';
 import StatusMessage from '../../../forms/statusMessage';
+import prisma from '../../../../client';
 
 export type UpdateContactMessageProps = {
   contact: ContactMessage & {
     contact: EnsembleContact;
-    calls: Call[];
+    eventCalls: (ContactEventCall & {
+      call: Call
+    })[]
+    //calls: Call[];
   };
   event: Event & { calls: Call[] };
   instrument: string;
@@ -27,7 +31,11 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
   const initialVals = {
     id: contact.id,
     playerMessage: contact.playerMessage,
-    calls: contact.calls.map((i) => String(i.id)),
+    //calls: contact.calls.map((i) => String(i.id)),
+    eventCalls: contact.eventCalls.map(c => ({
+      status: c.status,
+      callId: c.callId
+    })),
     type: contact.type,
     offerExpiry: contact.offerExpiry,
     status: contact.status,
@@ -39,6 +47,10 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
   const contactSchema = Yup.object().shape({
     playerMessage: Yup.string().nullable(),
     calls: Yup.array().min(1, 'at least one call must be offered'),
+    eventCalls: Yup.array().of(Yup.object().shape({
+      callId: Yup.number(),
+      status: Yup.string()
+    })),
     type: Yup.string().required(),
     //offerExpiry: Yup.number(),
     status: Yup.string(),
@@ -58,14 +70,15 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
         await axios
           .post('/fixing/contactMessage/api/update', {
             id: contact.id,
+            eventCalls: values.eventCalls,
             data: {
               status: values.status,
               playerMessage: values.playerMessage,
               position: values.position,
-              strictlyTied: values.strictlyTied,
+              strictlyTied: (values.type === "BOOKING" || values.type === "AUTOBOOK") ? true : values.strictlyTied,
               type: values.type,
               urgent: values.urgent,
-              calls: {
+              /* calls: {
                 connect: values.calls.map((i) => ({ id: Number(i) })),
                 disconnect: contact.calls
                   .map((i) => String(i.id))
@@ -73,7 +86,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                   .map((i) => ({
                     id: Number(i),
                   })),
-              },
+              }, */
             },
           })
           .then(async (res) => {
@@ -124,25 +137,35 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           </ErrorMessage>
           <div className='my-2'>
             <p className=''>Calls</p>
-            {event.calls.map((i) => (
-              <label key={i.id} className='my-1 flex flex-row p-1'>
-                <Field
-                  disabled={props.isSubmitting}
-                  checked={props.values.calls.includes(String(i.id))}
-                  type='checkbox'
-                  name='calls'
-                  value={String(i.id)}
-                />
+            {contact.eventCalls.map((i, index) => (
+              <label key={i.callId} className='my-1 flex flex-row p-1'>
                 <div className='ml-1 text-sm'>
                   <p>
-                    {DateTime.fromJSDate(new Date(i.startTime)).toFormat(
+                    {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat(
                       'HH:mm'
                     )}
                   </p>
                   <p>
-                    {DateTime.fromJSDate(new Date(i.startTime)).toFormat('DD')}
+                    {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat('DD')}
                   </p>
                 </div>
+                <select
+                  disabled={props.isSubmitting}
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  name={`eventCalls[${index}].status`}
+                  value={props.values.eventCalls[index].status}
+                >
+                  <option value="">Select status</option>
+  <option value="TOOFFER" disabled={props.values.type === "AVAILABILITY"}>TOOFFER</option>
+  <option value="OFFERING" disabled={props.values.type === "AVAILABILITY"}>OFFERING</option>
+  <option value="ACCEPTED" disabled={props.values.type === "AVAILABILITY"} >ACCEPTED</option>
+  <option value="DECLINED">DECLINED</option>
+  <option value="TOCHECK" disabled={props.values.type !== "AVAILABILITY"}>TOCHECK</option>
+  <option value="CHECKING" disabled={props.values.type !== "AVAILABILITY"}>CHECKING</option>
+  <option value="AVAILABLE" disabled={props.values.type !== "AVAILABILITY"}>AVAILABLE</option>
+                </select>
+                
               </label>
             ))}
             <ErrorMessage name='calls'>
@@ -158,6 +181,11 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
               as='select'
               name='status'
             >
+  <option value="RESPONDED" disabled={props.values.type === "AUTOBOOK"}>Responded</option>
+  <option value="NOTCONTACTED" disabled={false}>Not Contacted</option>
+  <option value="AWAITINGREPLY" disabled={props.values.type === "AUTOBOOK"}>Awaiting Reply</option>
+  <option value="FINDINGDEP" disabled={props.values.type === "AVAILABILITY"}>Finding Dep</option>
+ 
               <option
                 disabled={props.values.type !== 'AVAILABILITY'}
                 value='AVAILABLE'
@@ -170,14 +198,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
               >
                 Auto-Booked
               </option>
-              <option
-                disabled={props.values.type === 'AVAILABILITY'}
-                value='ACCEPTED'
-              >
-                Accepted
-              </option>
-              <option value='DECLINED'>Declined</option>
-              <option value={'AWAITINGREPLY'}>Not responded</option>
+              
             </Field>
             <ErrorMessage name='status'>
               {(err) => <p className='text-xs text-red-500'>{err}</p>}
@@ -187,7 +208,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
           <div className='my-2'>
             <label>
               <Field
-                disabled={props.isSubmitting}
+                disabled={props.isSubmitting || props.values.type === "AUTOBOOK" || props.values.type === "BOOKING"}
                 className='m-1'
                 checked={props.values.strictlyTied}
                 type='checkbox'
@@ -236,7 +257,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                   : undefined
             }
           />
-          <ValidationError errors={Object.values(props.errors).flat()} />
+          {/* <ValidationError errors={Object.values(props.errors).flat()} /> */}
           <StatusMessage status={props.status} />
         </Form>
       )}

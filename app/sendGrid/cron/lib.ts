@@ -43,21 +43,26 @@ export const getUpcomingMusicians = async () => {
       },
     },
     include: {
-      contactMessages: {
+      contactEventCalls: {
         include: {
-          calls: true,
-          contact: true,
-          eventSection: {
+          contactMessage: {
             include: {
-              event: {
+              eventCalls: true,
+              contact: true,
+              eventSection: {
                 include: {
-                  fixer: true,
+                  event: {
+                    include: {
+                      fixer: true,
+                    },
+                  },
                 },
               },
             },
           },
-        },
-      },
+        }
+      }
+      
     },
   });
   return upcomingCalls.map((i) => i.contactMessages).flat();
@@ -112,7 +117,11 @@ export const getUnresponsiveMusicians = async (receivedLTE: Date) => {
       },
     },
     include: {
-      calls: true,
+      eventCalls: {
+        include: {
+          call: true,
+        }
+      },
       contact: true,
       eventSection: {
         include: {
@@ -156,7 +165,7 @@ export const remindUnresponsiveMusicians = async () => {
     DateTime.now().endOf('day').minus({ days: 5 }).toJSDate()
   );
   for (let i = 0; i < data.length; i++) {
-    const emailAlert = remindUnresponsiveMusicianEmail(data[i]);
+    const emailAlert = remindUnresponsiveMusicianEmail({...data[i], calls: data[i].eventCalls.map(c => c.call)});
     try {
       await axios.post(`${url}/sendGrid`, {
         body: {

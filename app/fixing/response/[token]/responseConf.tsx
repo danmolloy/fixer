@@ -1,5 +1,5 @@
 'use client';
-import { Call, ContactMessage, Event, EventSection } from '@prisma/client';
+import { Call, ContactEventCall, ContactMessage, Event, EventSection } from '@prisma/client';
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import {
@@ -13,7 +13,8 @@ import { useSearchParams } from 'next/navigation';
 import { FiAlertTriangle } from 'react-icons/fi';
 export type ResponseConfProps = {
   contactMessage: ContactMessage & {
-    calls: Call[];
+    //calls: Call[];
+    eventCalls: (ContactEventCall & {call: Call})[]
     eventSection: EventSection & {
       event: Event;
     };
@@ -75,86 +76,88 @@ export default function ResponseConf(props: ResponseConfProps) {
         <h2>Released.</h2>
       ) : contactMessage.type === 'AUTOBOOK' ? (
         <h2>Auto Booked</h2>
-      ) : contactMessage.type === 'BOOKING' &&
-        contactMessage.status === 'ACCEPTED' ? (
-        <h2>Offer accepted.</h2>
-      ) : contactMessage.type === 'BOOKING' &&
-        contactMessage.status === 'DECLINED' ? (
-        <h2>Offer declined.</h2>
-      ) : (
-        <h2>Response received.</h2>
-      )}
+      ) :  <h2>Response Received</h2>
+      }
       <div className='my-4 text-center text-gray-700'>
-        {contactMessage.status === 'DECLINED' &&
-        contactMessage.type === 'AUTOBOOK' ? (
-          <div className='flex flex-row items-center justify-center'>
-            <TiThumbsUp size={18} />
-            <p className='mx-2'>You are no longer booked for this work.</p>
-          </div>
-        ) : contactMessage.status === 'ACCEPTED' ? (
-          <div className='flex flex-row items-center justify-center'>
-            <TiThumbsUp size={18} />
-            <p className='mx-2'>You are booked for this work.</p>
-          </div>
-        ) : contactMessage.status === 'AUTOBOOKED' ? (
-          <div className='flex flex-row items-center justify-center'>
-            <TiThumbsUp size={18} />
-            <p className='mx-2'>
-              The fixer automatically booked you for this work.
-            </p>
-          </div>
-        ) : contactMessage.status === 'FINDINGDEP' ? (
+        {contactMessage.status === 'FINDINGDEP' &&
           <div className='flex flex-row items-center justify-center'>
             <TiThumbsOk size={18} />
             <p className='mx-2'>
               You are currently booked for this work, however we are trying to
               find you a dep.
             </p>
-          </div>
-        ) : contactMessage.type === 'AVAILABILITY' &&
-          (contactMessage.status === 'AVAILABLE' ||
-            contactMessage.status === 'MIXED') ? (
+          </div>}
+          {contactMessage.eventCalls.filter(c => c.status === "ACCEPTED").length > 0 && (
           <div>
             <div className='flex flex-row items-center justify-center'>
               <TiThumbsOk size={18} />
-              <p className='mx-2'>You are available for the following calls:</p>
+              <p className='mx-2'>You are booked for the following calls:</p>
             </div>
             <div className='my-2'>
-              {contactMessage.calls
+              {contactMessage.eventCalls
                 .filter((i) =>
-                  contactMessage.availableFor.includes(Number(i.id))
+                  i.status === "ACCEPTED"
                 )
                 .map((i) => (
                   <p key={i.id}>
-                    {DateTime.fromJSDate(new Date(i.startTime)).toFormat(
+                    {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat(
                       'HH:mm DD'
                     )}
                   </p>
                 ))}
             </div>
-          </div>
-        ) : contactMessage.status === 'DECLINED' ? (
-          <div className='flex flex-row items-center justify-center'>
-            <TiThumbsDown size={18} />
-            <p className='mx-2'>You declined this work.</p>
-          </div>
-        ) : (
-          <div className='flex flex-row items-center justify-center'>
-            <TiThumbsDown size={18} />
-            <p className='mx-2'>You are not available for this work.</p>
-          </div>
-        )}
-      </div>
-      {(contactMessage.status === 'ACCEPTED' ||
-        contactMessage.status === 'AUTOBOOKED') && (
-        <button
+            <button
           className='flex flex-row items-center justify-center rounded border p-1 text-sm hover:bg-slate-50'
           onClick={() => handleCalendar()}
         >
           <TiCalendarOutline />
           <p className='mx-1'>Add to Calendar</p>
         </button>
-      )}
+          </div>
+          
+        )  }
+         {contactMessage.eventCalls.filter(c => c.status === "AVAILABLE").length > 0 && (
+          <div>
+            <div className='flex flex-row items-center justify-center'>
+              <TiThumbsOk size={18} />
+              <p className='mx-2'>You are available for the following calls:</p>
+            </div>
+            <div className='my-2'>
+              {contactMessage.eventCalls
+                .filter((i) =>
+                  i.status === "AVAILABLE"
+                )
+                .map((i) => (
+                  <p key={i.id}>
+                    {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat(
+                      'HH:mm DD'
+                    )}
+                  </p>
+                ))}
+            </div>
+          </div>
+        )  }
+        {contactMessage.eventCalls.filter(c => c.status === "DECLINED").length > 0 && 
+          (<div className='flex flex-row items-center justify-center'>
+            <TiThumbsDown size={18} />
+            <p className='mx-2'>You declined the following work:</p>
+            <div className='my-2'>
+              {contactMessage.eventCalls
+                .filter((i) =>
+                  i.status === "DECLINED"
+                )
+                .map((i) => (
+                  <p key={i.id}>
+                    {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat(
+                      'HH:mm DD'
+                    )}
+                  </p>
+                ))}
+            </div>
+          </div>)}
+        
+      </div>
+      
     </div>
   );
 }

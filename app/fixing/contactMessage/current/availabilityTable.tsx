@@ -1,4 +1,4 @@
-import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
+import { Call, ContactEventCall, ContactMessage, EnsembleContact } from '@prisma/client';
 import { DateTime } from 'luxon';
 import CurrentContactRow from './contact';
 import AvailabilityContactRow from './availabilityCheckContact';
@@ -10,7 +10,8 @@ export type CurrentContactMessagesProps = {
   eventCalls: Call[];
   contacts: (ContactMessage & {
     contact: EnsembleContact;
-    calls: Call[];
+    //calls: Call[];
+    eventCalls: (ContactEventCall & {call: Call})[]
   })[];
   type: 'BOOKING' | 'AVAILABILITY';
 };

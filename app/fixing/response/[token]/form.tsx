@@ -1,6 +1,8 @@
 'use client';
 import {
   Call,
+  ContactEventCall,
+  ContactEventCallStatus,
   ContactMessage,
   ContactMessageStatus,
   EnsembleContact,
@@ -19,6 +21,7 @@ import { responseConfEmail } from '../../../sendGrid/playerLib';
 import SubmitButton from '../../../forms/submitBtn';
 import ValidationError from '../../../forms/validationError';
 import StatusMessage from '../../../forms/statusMessage';
+import { useState } from 'react';
 
 export type ResponseFormProps = {
   contactMessage: ContactMessage & {
@@ -27,7 +30,8 @@ export type ResponseFormProps = {
       ensembleSection: EnsembleSection;
       event: Event & { fixer: User };
     };
-    calls: Call[];
+    eventCalls: (ContactEventCall & {call: Call})[]
+    //calls: Call[];
   };
   type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
   fixerName: string;
@@ -36,59 +40,58 @@ export type ResponseFormProps = {
 export default function ResponseForm(props: ResponseFormProps) {
   const { contactMessage, type } = props;
   const router = useRouter();
+  const [accepted, setAccepted] = useState<boolean | null>(null);
 
   const initialVals: {
     status: ContactMessageStatus;
-    availableFor: string[];
+    eventCalls: {
+      status: ContactEventCallStatus;
+      callId: number;
+    }[]
   } = {
     status: contactMessage.status,
-    availableFor:
-      contactMessage.availableFor.length > 1
-        ? contactMessage.availableFor.map((i) => String(i))
-        : contactMessage.calls.map((i) => String(i.id)),
+    eventCalls: contactMessage.eventCalls.filter(c => c.status === "OFFERING" || c.status === "CHECKING").map(c => ({
+      status: c.status,
+      callId: c.callId
+    })),
+   
   };
 
-  const responseSchema =
-    type === 'AVAILABILITY'
-      ? Yup.object().shape({
+  const responseSchema =Yup.object().shape({
           status: Yup.string().required(''),
-          availableFor: Yup.array()
-            .of(Yup.string())
-            .when('status', {
-              is: 'AVAILABLE',
-              then: (schema) =>
-                schema.min(
-                  1,
-                  'If indicating you are available, you must select at least one call.'
-                ),
-              otherwise: (schema) => schema.min(0),
-            }),
+          eventCalls: Yup.array().of(Yup.object().shape({
+            status: Yup.string(),
+            callId: Yup.number(),
+          })),
+         
         })
-      : Yup.object().shape({
-          status: Yup.string().required(''),
-          availableFor: Yup.array().of(Yup.string()),
-        });
+      
 
   const handleSubmit = async (values: {
     status: ContactMessageStatus;
-    availableFor: string[];
+    eventCalls: {
+      status: ContactEventCallStatus;
+      callId: number;
+    }[]
   }) => {
     let confMsg: boolean;
-    if (values.status === 'AVAILABLE' && !contactMessage.strictlyTied && (values.availableFor.length !== contactMessage.calls.length)) {
+
+
+    if (values.eventCalls.filter(c => c.status ==="AVAILABLE").length !== values.eventCalls.length && !contactMessage.strictlyTied) {
       confMsg = confirm(`
         Are you sure you are availble for the following? If the fixer requires you, you will get a further offer which you will need to confirm.
-        ${contactMessage.calls
-          .filter((i) => values.availableFor.includes(String(i.id)))
+        ${values.eventCalls
+          .filter((c) => c.status === "AVAILABLE")
           .map(
             (i) =>
-              `\n${DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD')}`
+              `\n${DateTime.fromJSDate(new Date(contactMessage.eventCalls.find(c => c.callId == i.callId)!.call.startTime)).toFormat('HH:mm DD')}`
           )}
         `);
-    } else if (values.status === 'ACCEPTED') {
+    } else if (values.eventCalls.filter(c => c.status ==="ACCEPTED").length === values.eventCalls.length) {
       confMsg = confirm('Are you sure you want to ACCEPT this offer?');
-    } else if (values.status === 'DECLINED') {
+    } else if (values.eventCalls.filter(c => c.status ==="DECLINED").length === values.eventCalls.length) {
       confMsg = confirm('Are you sure you want to DECLINE this offer?');
-    } else if (values.status === 'AVAILABLE') {
+    } else if (values.eventCalls.filter(c => c.status ==="AVAILABLE").length === values.eventCalls.length) {
       confMsg = confirm(`
         Please confirm you are available for this work. 
         If the fixer requires you, you will get a further offer which you will need to confirm.
@@ -96,27 +99,28 @@ export default function ResponseForm(props: ResponseFormProps) {
     } else {
       confMsg = confirm('Are you sure you are NOT available for this work?');
     }
-    if (confMsg) {
+    if (confMsg !== false) {
       return await axios
         .post(`/fixing/contactMessage/api/update`, {
           id: contactMessage.id,
+          eventCalls: values.eventCalls,
           data: {
-            status: contactMessage.availableFor.length !== contactMessage.calls.length ? "MIXED" : values.status,
+            status: "RESPONDED",
             acceptedDate: new Date(),
-            availableFor:
+            /* availableFor:
               values.status === 'AVAILABLE'
                 ? values.availableFor!.map((i) => Number(i))
-                : [],
+                : [], */
           },
         })
         .then(async () => {
           const emailData = await responseConfEmail({
             token: contactMessage.token,
-            dateRange: getDateRange(contactMessage.calls),
+            dateRange: getDateRange(contactMessage.eventCalls.map(c => c.call)),
             firstName: contactMessage.contact.firstName,
             email: contactMessage.contact.email!,
             ensemble: contactMessage.eventSection.event.ensembleName,
-            status: contactMessage.availableFor.length !== contactMessage.calls.length ? "MIXED" : values.status,
+            status:  values.eventCalls.filter(c => c.status === (values.eventCalls[0].status)).length !== values.eventCalls.length? "MIXED" : "RESPONDED",
             type: contactMessage.type,
           });
 
@@ -191,6 +195,14 @@ export default function ResponseForm(props: ResponseFormProps) {
                   name='status'
                   value={'DECLINED'}
                   label='No, I am not available.'
+                  checked={accepted === false}
+
+                  onChange={() => {
+                    setAccepted(false);
+                    props.setFieldValue('eventCalls', props.values.eventCalls.map(c => ({
+                    ...c,
+                    status: "DECLINED"
+                  })))}}
                 />
                 No, I am not available.
               </label>
@@ -199,6 +211,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                 className='flex flex-row items-center'
               >
                 <Field
+                  checked={accepted === true}
                   disabled={props.isSubmitting}
                   id='true-radio'
                   data-testid='true-radio'
@@ -206,52 +219,52 @@ export default function ResponseForm(props: ResponseFormProps) {
                   type='radio'
                   name='status'
                   value={contactMessage.type === "AVAILABILITY" ? 'AVAILABLE' : "ACCEPTED"}
+                  onChange={() => {
+                    setAccepted(!accepted);
+                    props.setFieldValue('eventCalls', props.values.eventCalls.map(c => ({
+                    ...c,
+                    status: c.status === "CHECKING" ? "AVAILABLE" : "ACCEPTED"
+                  })));
+                }}
                 />
                 {contactMessage.strictlyTied === true
                   ? 'Yes, I am available'
-                  : (props.values.status === 'AVAILABLE' || props.values.status === 'MIXED')
-                    ? 'I am available for all/some of this work'
-                    : props.values.availableFor.length ===
-                        contactMessage.calls.length
-                      ? `I am available for all calls`
-                      : `I am available for ${props.values.availableFor.length} call(s)`}
+                      : `I am available for all/some calls`
+/*                       : `I am available for ${props.values.eventCalls.filter(c => c.status === "AVAILABLE").length} call(s)` */}
               </label>
 
               <ErrorMessage name='status'>
                 {(e) => <p className='text-xs text-red-500'>{e}</p>}
               </ErrorMessage>
             </div>
-            {(props.values.status === 'AVAILABLE' || props.values.status === 'MIXED') &&
+            {props.values.eventCalls.filter(c => c.status === "AVAILABLE").length > 0 &&
               contactMessage.strictlyTied === false && (
                 <div>
-                  {contactMessage.calls.map((i) => (
+                  {props.values.eventCalls.map((i, index) => (
                     <label
-                      key={i.id}
+                      key={i.callId}
                       className='m-1 flex flex-row items-center text-xs'
                     >
                       <Field
                         disabled={props.isSubmitting}
-                        checked={
-                          props.values.availableFor.includes(String(i.id))
-                            ? true
-                            : false
-                        }
+                        checked={props.values.eventCalls[index].status === "AVAILABLE"}
                         className='m-1'
                         type='checkbox'
-                        value={String(i.id)}
-                        name={`availableFor`}
+                        value={"AVAILABLE"}
+                        //name={`eventCalls[${index}].status`}
+                        onChange={() => props.setFieldValue(`eventCalls[${index}].status`, props.values.eventCalls[index].status === "AVAILABLE" ? "DECLINED" : "AVAILABLE")}
                       />
                       <p>
-                        {DateTime.fromJSDate(new Date(i.startTime)).toFormat(
+                        {DateTime.fromJSDate(new Date(contactMessage.eventCalls.find(c => c.callId === i.callId)!.call.startTime)).toFormat(
                           'HH:mm DD'
                         )}
                       </p>
                     </label>
                   ))}
-                  <ErrorMessage name='availableFor'>
+                  <ErrorMessage name='eventCalls'>
                     {(err) => <p>{err}</p>}
                   </ErrorMessage>
-                  {props.values.availableFor.length < 1 && (
+                  {props.values.eventCalls.filter(c => c.status === "AVAILABLE").length < 1 && (
                     <p className='text-xs text-red-600'>
                       You must be available for at least one call.
                     </p>
@@ -268,7 +281,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                     : undefined
               }
             />
-            <ValidationError errors={Object.values(props.errors).flat()} />
+            {/* <ValidationError errors={Object.values(props.errors).flat()} /> */}
             <StatusMessage status={props.status} />
           </Form>
         )}

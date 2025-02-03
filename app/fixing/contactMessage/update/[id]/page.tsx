@@ -10,7 +10,12 @@ async function getContactMessage(contactMsgID: string) {
       id: Number(contactMsgID),
     },
     include: {
-      calls: true,
+      eventCalls: {
+        include: {
+          call: true
+        }
+      },
+      //calls: true,
       contact: true,
       eventSection: {
         include: {

@@ -2,21 +2,27 @@
 
 ## Overview
 
-GigFix is a specialized communications tool designed to streamline the process of managing gig information for orchestras. It enhances communication between orchestra management and musicians by automating musician booking, centralizing gig information and promptly relaying updated information to the relevant parties.
+GigFix is a specialized communications tool designed to optimize the workflow for orchestra management. It enhances communication between the management team and musicians by automating musician bookings, centralizing gig information and promptly relaying updated information to the relevant parties.
 
-## Key Features
+This is an ongoing project which will hopefully soon be available for commercial use.
 
-- **Team Accounts**: Create and manage a management team with varying levels of access.
-- **Musician Database**: Import and maintain a comprehensive address book of musicians.
-- **Twilio SendGrid**: Integrated emailing automates booking of players and alerting relevant parties to event updates.
+## Features
+
+- **Team Accounts**: Create and manage a management team with varying levels of access. Suitable for teams that use freelance staff for projects.
+- **Musician Address Book**: Import and maintain a comprehensive address book of musicians. 
+- **Event Summary**: View all gig details, overview of the orchestra list and booking status of each instrument.
+- **Automated Communications**: Send automated email/SMS offers, check availability, and book an entire orchestra of a bespoke size. All musicians are notified via email/SMS when gig information changes.
+- **Flexible Bookings**: Book a varying number of players for each rehearsal, state their role, send them personal messages. 
 - **Event Creation**: Generate detailed gig pages that display all relevant information for involved parties.
-  **Automated Communications**: Send automated email/SMS offers, check availability, and book an entire orchestra of a bespoke size.
-- **Update Alerts**: Automatically notify all musicians via email/SMS when gig information changes.
 - **Responsive Calendar**: View events in a visually appealing calendar with day, week, month, and year views, optimized for all screen sizes.
+- **Attractive Landing Page**: A modern web app utilizing NextJS and Tailwind CSS.
+- **Responsive Design**: Suitable pages for all screen sizes.
+- **Stripe Subscription Payments**: Usage-based payments billed monthly.
+
 
 ## Technologies Used
 
-- NextJS 14
+- NextJS 15
 - TypeScript
 - Tailwind CSS
 - Formik & Yup
@@ -26,15 +32,13 @@ GigFix is a specialized communications tool designed to streamline the process o
 - Stripe
 - Twilio SMS & SendGrid
 
-## User Experience
+## Technical Overview
 
 - **Robust Forms** built with Formik to perform database queries. Rigourously tested to provide a seamless experience, complete with Yup validation, error messages and feedback.
 - **Concise Data Display**: HTML tables, thorough list filtering and sorting functions across various object arrays, ensuring clear and efficient presentation of complex data types.
 - **Attractive Interface** built with Tailwind CSS, based on Tailwind's components.
 - **Responsive Design** built with a mobile-first philosophy. The website has a number if features unique to mobile view.
-- **Relational Database**: Efficient management of CRUD operations with Prisma ORM and PostgreSQL, supporting one-to-many and many-to-many relationships..
-- **User Authorization/Authentication**: leveraging Auth.js hooks to ensure secure access.
-- **Stripe Subscription Payments** integrated into User accounts to simplify payments.
+- **Relational Database**: Efficient management of CRUD operations with Prisma ORM and PostgreSQL, supporting one-to-many and many-to-many relationships.
 
 ## Testing
 

@@ -1,4 +1,4 @@
-import { ContactMessageStatus } from '@prisma/client';
+import { ContactEventCallStatus, ContactMessageStatus } from '@prisma/client';
 import prisma from '../../../../../client';
 import { addMeterEvent } from '../../../../billing/api/meterEvent/lib';
 import { emailBookingMusicians } from '../create/emailFunctions';
@@ -27,8 +27,12 @@ export const updateManyContactMessage = async (args: {contactIDs: number[], data
           },
         },
         include: {
+          eventCalls: {
+            include: {
+              call: true
+            }
+          },
           contact: true,
-          calls: true,
           eventSection: {
             include: {
               event: {
@@ -42,7 +46,7 @@ export const updateManyContactMessage = async (args: {contactIDs: number[], data
       });
 
     for (const contactMessage of contactMessages) {
-      const emailData = await emailNotRequired(contactMessage);
+      const emailData = await emailNotRequired({...contactMessage, calls: contactMessage.eventCalls.map(c=> c.call)});
       await axios.post(`${process.env.URL}/sendGrid`, {
         body: {
           emailData: emailData,
@@ -64,15 +68,19 @@ export const updateManyContactMessage = async (args: {contactIDs: number[], data
 export const updateContactMessage = async (contactMessageObj: {
   id: number;
   data: any;
+  eventCalls?: {
+    status: ContactEventCallStatus;
+    callId: number;
+  }[]
 }) => {
   try {
+    console.log(JSON.stringify(contactMessageObj))
     const updatedData = await prisma.contactMessage.update({
       where: {
         id: contactMessageObj.id,
       },
       data: contactMessageObj.data,
       include: {
-        calls: true,
         contact: true,
         eventSection: {
           include: {
@@ -86,6 +94,20 @@ export const updateContactMessage = async (contactMessageObj: {
         },
       },
     });
+    if (contactMessageObj.eventCalls) {
+      for (let j = 0; j < contactMessageObj.eventCalls.length; j ++) {
+        await prisma.contactEventCall.updateMany({
+          where: {
+            callId: contactMessageObj.eventCalls[j].callId,
+            contactMessageId: contactMessageObj.id
+          },
+          data: {
+            status: contactMessageObj.eventCalls[j].status
+          }
+        })
+      }
+
+    }
 
     if (
       contactMessageObj.data.status === 'AUTOBOOKED' ||

@@ -1,6 +1,7 @@
 'use client';
 import {
   Call,
+  ContactEventCall,
   ContactMessage,
   Ensemble,
   EnsembleContact,
@@ -24,8 +25,9 @@ export type FixingIndexProps = {
   eventSections: (EventSection & {
     orchestration: Orchestration[]
     contacts: (ContactMessage & {
+      eventCalls: (ContactEventCall & {call: Call})[]
       contact: EnsembleContact;
-      calls: Call[];
+      //calls: Call[];
     })[];
     ensembleSection: EnsembleSection & {
       contacts: EnsembleContact[];

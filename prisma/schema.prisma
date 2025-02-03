@@ -100,7 +100,8 @@ model Call {
   fixerId         String
   event           Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
   fixer           User             @relation(fields: [fixerId], references: [id])
-  contactMessages ContactMessage[] @relation("CallToContactMessage")
+  //contactMessages ContactMessage[] @relation("CallToContactMessage")
+  contactEventCalls ContactEventCall[]
   orchestration   Orchestration[]  
 }
 
@@ -112,6 +113,7 @@ model Orchestration {
   eventSectionId Int
   eventSection  EventSection @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
   numRequired Int     
+  bookedPlayers ContactMessage[]
   call        Call    @relation(fields: [callId], references: [id], onDelete: Cascade)
 }
 
@@ -146,15 +148,35 @@ model ContactMessage {
   position              String          @default("Tutti")
   token                 String          @unique @default(cuid())
   strictlyTied          Boolean         @default(true)
-  availableFor          Int[]
   urgent                Boolean         @default(false)
   receivedDate          DateTime?
   contact               EnsembleContact @relation(fields: [contactId], references: [id])
   eventSection          EventSection    @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
-  calls                 Call[]          @relation("CallToContactMessage")
+  //calls                 Call[]          @relation("CallToContactMessage")
+  eventCalls            ContactEventCall[]
+  bookedCalls           Orchestration[]
   type                  ContactMessageType @default(AVAILABILITY)
   status                ContactMessageStatus @default(NOTCONTACTED)
   emailStatus           EmailStatus?
+}
+
+model ContactEventCall {
+  id                   String            @id @default(cuid())
+  callId  Int
+  call Call @relation(fields: [callId], references: [id], onDelete: Cascade)
+  status ContactEventCallStatus
+  contactMessageId Int 
+  contactMessage ContactMessage @relation(fields: [contactMessageId], references: [id], onDelete: Cascade)
+}
+
+enum ContactEventCallStatus {
+  TOOFFER
+  TOCHECK
+  OFFERING
+  CHECKING
+  ACCEPTED
+  DECLINED
+  AVAILABLE
 }
 
 enum ContactMessageType {
@@ -164,12 +186,13 @@ enum ContactMessageType {
 }
 
 enum ContactMessageStatus {
-  ACCEPTED
-  DECLINED
+  ACCEPTED//
+  DECLINED//
+  RESPONDED
   NOTCONTACTED
   AWAITINGREPLY
   AVAILABLE
-  MIXED
+  MIXED//
   AUTOBOOKED
   ERROR
   FINDINGDEP
