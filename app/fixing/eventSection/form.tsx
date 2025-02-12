@@ -53,10 +53,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
     eventId: Yup.number().required('event id required'),
     ensembleSectionId: Yup.string().required('ensemble section id required'),
     bookingStatus: Yup.string().required(),
-   /*  numToBook: Yup.number()
-      .min(0)
-      .max(50)
-      .required('number of musicians required'), */
+   
     orchestration: Yup.array().of(
           Yup.object({
             callId: Yup.number().required(),
@@ -71,20 +68,12 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
     eventId: eventId,
     ensembleSectionId: ensembleSectionId,
     bookingStatus: bookingStatus,
-//    numToBook: numToBook,
     orchestration: new Array(eventCalls.length).fill(null)
     .map((i, index) => ({
       callId: eventCalls[index].id,
       id: orchestration.find(j => j.callId === eventCalls[index].id)?.id || undefined,
-      numRequired: orchestration.find(j => j.callId === eventCalls[index].id)?.numRequired || 0//numToBook
+      numRequired: orchestration.find(j => j.callId === eventCalls[index].id)?.numRequired || 0
     })) 
-    /* orchestration.length === 0 
-      ? new Array(eventCalls.length).fill(null)
-        .map((i, index) => ({
-          callId: eventCalls[index].id,
-          numRequired: 0//numToBook
-        })) 
-      : orchestration */
   };
 
   const handleSubmit = async (vals) => {
@@ -185,17 +174,11 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 </ErrorMessage>
               </div>
             )}
-            {/* <TextInput
-              disabled={props.isSubmitting}
-              className='w-60'
-              type='number'
-              name='numToBook'
-              id='numtobook-input'
-              label='Num to Book'
-            /> */}
+
             <div className='flex flex-col'>
-            <label>Num Required</label>
+            <label htmlFor='num-required'>Num Required</label>
             <Field className='w-60'
+              id="num-required"
               name={fixedNumToBook && 'orchestration[0].numRequired'}
               disabled={!fixedNumToBook || props.isSubmitting}
               type='number' 
@@ -214,15 +197,15 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 </ErrorMessage>
 
             <div>
-            <label>
-              <input disabled={props.isSubmitting} className={'mr-1'} type={'checkbox'} 
+            <label htmlFor='fixed-num-required-checkbox'>
+              <input id="fixed-num-required-checkbox" disabled={props.isSubmitting} className={'mr-1'} type={'checkbox'} 
               onChange={() => {
                 setFixedNumToBook(!fixedNumToBook); 
                 props.setFieldValue("orchestration", props.values.orchestration.map(i => ({...i, numRequired: props.values.orchestration[0].numRequired})))
                 }} checked={fixedNumToBook} />
-              {fixedNumToBook ? props.values.orchestration[0].numRequired : "-"} musician(s) for all calls
+              {`${fixedNumToBook ? props.values.orchestration[0].numRequired : "-"} musician(s) for all calls`}
             </label>
-            {!fixedNumToBook && <div>
+            {!fixedNumToBook && <div data-testid="calls-num-required">
               {eventCalls.map((i, index) => (
                 <TextInput
                   key={i.id}
@@ -242,8 +225,9 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               className='flex flex-col'
             >
               <label>Fixing Status</label>
-              <label>
+              <label htmlFor='fixing-active'>
                 <Field
+                  id="fixing-active"
                   disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
@@ -252,8 +236,9 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 />
                 Active
               </label>
-              <label>
+              <label htmlFor='fixing-inactive'>
                 <Field
+                  id="fixing-inactive"
                   disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'

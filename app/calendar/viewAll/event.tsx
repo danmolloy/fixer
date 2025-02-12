@@ -25,7 +25,7 @@ export type EventOverviewProps = {
   };
 };
 
-const gigStatus = (
+export const gigStatus = (
   gig: Event & {
     calls: Call[];
     sections: (EventSection & {
@@ -37,59 +37,48 @@ const gigStatus = (
     })[];
   }
 ) => {
-  let notFixedCalls: (Orchestration & {
+  const notFixedCalls: (Orchestration & {
     sectionName: string;
     bookedForCall: number;
     numToDep: number;
     remainingOnList: number;
   })[] = [];
-  let sectionHighestNums: (Orchestration & {
-    sectionName: string;
-    bookedForCall: number;
-    numToDep: number;
-    remainingOnList: number;
-  })[] = [];
-  for (let i = 0; i < gig.sections.length; i++) {
-    const section = gig.sections[i];
+
+  gig.sections.forEach((section) => {
     const bookedMusicians = section.contacts.filter(
-      (j) =>
-        j.status === 'ACCEPTED' ||
-        j.status === 'AUTOBOOKED' ||
-        j.status === 'FINDINGDEP'
+      (contact) =>
+        contact.status === 'ACCEPTED' ||
+        contact.status === 'AUTOBOOKED' ||
+        contact.status === 'FINDINGDEP'
     );
-    // Get count for each instrument in each call i.e. 1 more bass to book for 24 Feb, 2 more for 25 Feb, 1 more for 26 Feb
-    // if sectionID & num to book matches, reduce like so: 1 more for 24 & 26 Feb, 2 more for 25 Feb
-    // OR for event overview, just take largest number: 2 more basses to book
 
-    // Make obj for each section
-    // set numYetToBook as call with greatest numYetToBook
+    section.orchestration.forEach((orchestration) => {
+      const bookedForCall = bookedMusicians.filter((musician) =>
+        musician.calls.filter((call) => call.id === orchestration.id)
+      );
 
-    // return all orchestration objs with booked, numToDep & remaining on list
-    for (let j = 0; j < section.orchestration.length; j ++) {
-      
-        const bookedForCall = bookedMusicians.filter(musician => musician.calls.map(c => c.id).includes(gig.calls[j].id));
-        const remainingOnList = section.contacts.filter(musician => (musician.type !== "AVAILABILITY" && (musician.status === "AWAITINGREPLY" || musician.status === "NOTCONTACTED")))
-        
-       if (section.orchestration[j].numRequired > bookedForCall.length) {
-          notFixedCalls = [
-            ...notFixedCalls,
-            {
-              ...section.orchestration[j],
-              sectionName: section.ensembleSection.name,
-              bookedForCall: bookedForCall.length,
-              numToDep: bookedForCall.filter(musician => musician.status === "FINDINGDEP").length,
-              remainingOnList: remainingOnList.length
-            }
-          ];
-       }
-      
-    }
-    sectionHighestNums = [
-      ...sectionHighestNums,
-      notFixedCalls.filter(call => call.eventSectionId == section.id).sort((a, b) =>  (b.numRequired - b.bookedForCall) - (a.numRequired - a.bookedForCall))[0]
-    ]
-  } 
-  return sectionHighestNums;
+      const remainingOnList = section.contacts.filter(
+        (musician) =>
+          musician.type !== 'AVAILABILITY' &&
+          (musician.status === 'AWAITINGREPLY' ||
+            musician.status === 'NOTCONTACTED')
+      );
+
+      if (orchestration.numRequired > bookedForCall.length) {
+        notFixedCalls.push({
+          ...orchestration,
+          sectionName: section.ensembleSection.name,
+          bookedForCall: bookedForCall.length,
+          numToDep: bookedForCall.filter(
+            (musician) => musician.status === 'FINDINGDEP'
+          ).length,
+          remainingOnList: remainingOnList.length,
+        });
+      }
+    });
+  });
+
+  return notFixedCalls;
 };
 
 export default function EventOverview(props: EventOverviewProps) {

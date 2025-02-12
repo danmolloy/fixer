@@ -9,6 +9,8 @@ import { mockEnsembleContact } from '../../../../__mocks__/models/ensembleContac
 import { mockSection } from '../../../../__mocks__/models/ensembleSection';
 import { mockEventSection } from '../../../../__mocks__/models/eventSection';
 import axios from '../../../../__mocks__/axios';
+import { mockOrchestration } from '../../../../__mocks__/models/orchestration';
+import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventCall';
 
 jest.mock('axios');
 const mockPost = jest.spyOn(axios, 'post');
@@ -21,6 +23,7 @@ const mockProps: EventSectionProps = {
   section: {
     ...mockEventSection,
     ensembleSection: mockSection,
+    orchestration: [mockOrchestration]
   },
   ensembleSections: [mockSection],
   eventSections: [
@@ -34,7 +37,7 @@ const mockProps: EventSectionProps = {
   currentContacts: [
     {
       ...mockContactMessage,
-      calls: [mockCall],
+      eventCalls: [{...mockContactEventCall, call: mockCall}],  
       contact: mockEnsembleContact,
     },
   ],
@@ -50,45 +53,42 @@ describe('<EventSectionIndex />', () => {
     );
     expect(eventSection).toBeInTheDocument();
   });
-  it('Update btn is in the document and renders <CreateEventSection /> on click', () => {
-    const updateBtn = screen.getByText('Change');
-    expect(updateBtn).toHaveRole('button');
-    act(() => {
-      fireEvent.click(updateBtn);
-    });
-    const createEventSection = screen.getByTestId('create-event-section');
-    expect(createEventSection).toBeInTheDocument();
-  });
-  it('ensemble section name header is in the document', () => {
-    const sectionName = screen.getByText(
-      mockProps.section.ensembleSection.name
-    );
+
+  it("section name is in the document", () => {
+    const sectionName = screen.getByText(mockProps.section.ensembleSection.name);
     expect(sectionName).toBeInTheDocument();
-    expect(sectionName).toHaveRole('heading');
   });
-  it('number of players to book is stated', () => {
-    const numToBook = screen.getByText(
-      `Booking ${mockProps.section.numToBook} player(s)`
-    );
-    expect(numToBook).toBeInTheDocument();
+  it("states booking status", () => {
+    const bookingStatus = screen.getByText(`Booking ${mockProps.section.bookingStatus}`)
+    expect(bookingStatus).toBeInTheDocument();
+  })
+  it("<SectionMenu /> is in the document", () => {
+    const sectionMenu = screen.getByTestId("section-menu");
+    expect(sectionMenu).toBeInTheDocument();
+  })
+  it("<OrchestrationSummary /> is in the document", () => {
+    const summary = screen.getByTestId("orchestration-summary");
+    expect(summary).toBeInTheDocument();
   });
-  it('delete btn is in the document and calls global.confirm() & axios.post() on click', () => {
-    const deleteBtn = screen.getByTestId('delete-section');
-    expect(deleteBtn).toBeInTheDocument();
-    expect(deleteBtn).toHaveRole('button');
-    expect(deleteBtn).toHaveTextContent('Delete');
-    act(() => {
-      fireEvent.click(deleteBtn);
-    });
-    expect(mockConfirm).toHaveBeenCalledWith(
-      'Are you sure you want to delete this section?'
-    );
-    expect(axios.post).toHaveBeenCalledWith('/fixing/eventSection/api/delete', {
-      sectionId: mockProps.section.id,
-    });
+  it("<SetionViewSelect /> is in the document", () => {
+    const viewSelect = screen.getByTestId("view-select");
+    expect(viewSelect).toBeInTheDocument();
   });
-  it('<EventSectionContacts /> is in the document', () => {
+  it("<EventSectionContacts /> is in the document", () => {
     const eventSectionContacts = screen.getByTestId('event-section-contacts');
     expect(eventSectionContacts).toBeInTheDocument();
+  })  
+  it("if updateSection, <CreateEventSection /> is in the document", () => {
+    const optionsBtn = screen.getByTestId("options-btn");
+    expect(optionsBtn).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(optionsBtn);
+    })
+    const editSection = screen.getByText("Edit Section");
+    act(() => {
+      fireEvent.click(editSection);
+    })
+    const createForm = screen.getByTestId("create-event-section");
+    expect(createForm).toBeInTheDocument();
   });
 });

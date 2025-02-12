@@ -14,8 +14,9 @@ export default function FixingMenu(props: FixingMenuProps) {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-    <div>
+    <div data-testid="fixing-menu">
       <button
+        data-testid="options-btn"
         className='rounded border p-1 hover:bg-slate-50'
         onClick={() => {
           focus();
@@ -28,14 +29,14 @@ export default function FixingMenu(props: FixingMenuProps) {
       </button>
       {showMenu && (
         <div
-          data-testid='options-menu'
+          data-testid='fixing-menu-options'
           className='absolute -ml-24 flex flex-col rounded border bg-white text-sm'
         >
           <button
             className='m-1 px-2 py-1 hover:bg-gray-50 hover:text-blue-600'
             onClick={() => createSection()}
           >
-            Create section
+            Create Section
           </button>
           <button
             disabled={!fixingActive}

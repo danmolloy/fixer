@@ -6,6 +6,7 @@ import EventSectionContacts, {
 import { mockEnsembleContact } from '../../../../__mocks__/models/ensembleContact';
 import { mockCall } from '../../../../__mocks__/models/call';
 import { mockContactMessage } from '../../../../__mocks__/models/contactMessage';
+import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventCall';
 
 const mockProps: EventSectionContactsProps = {
   type: 'AVAILABILITY',
@@ -23,7 +24,7 @@ const mockProps: EventSectionContactsProps = {
         lastName: 'Ievers',
       },
       type: 'AVAILABILITY',
-      calls: [mockCall],
+      eventCalls: [{...mockContactEventCall, call: mockCall}],
     },
     {
       ...mockContactMessage,
@@ -34,7 +35,7 @@ const mockProps: EventSectionContactsProps = {
         lastName: 'Gannon',
       },
       type: 'BOOKING',
-      calls: [mockCall],
+      eventCalls: [{...mockContactEventCall, call: mockCall}],
     },
     {
       ...mockContactMessage,
@@ -45,7 +46,7 @@ const mockProps: EventSectionContactsProps = {
         lastName: 'Sturdy',
       },
       type: 'AUTOBOOK',
-      calls: [mockCall],
+      eventCalls: [{...mockContactEventCall, call: mockCall}],
     },
   ],
 };

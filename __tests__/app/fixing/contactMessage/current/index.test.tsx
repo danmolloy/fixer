@@ -7,6 +7,7 @@ import { mockCall } from '../../../../../__mocks__/models/call';
 import { mockContactMessage } from '../../../../../__mocks__/models/contactMessage';
 import { mockEnsembleContact } from '../../../../../__mocks__/models/ensembleContact';
 import { DateTime } from 'luxon';
+import { mockContactEventCall } from '../../../../../__mocks__/models/ContactEventCall';
 
 describe('<CurrentContactMessages />', () => {
   const mockProps: CurrentContactMessagesProps = {
@@ -21,7 +22,10 @@ describe('<CurrentContactMessages />', () => {
         },
         id: 1,
         type: 'AUTOBOOK',
-        calls: [mockCall],
+        eventCalls: [{
+          ...mockContactEventCall,
+          call: mockCall
+        }]
       },
       {
         ...mockContactMessage,
@@ -32,7 +36,10 @@ describe('<CurrentContactMessages />', () => {
         },
         id: 2,
         type: 'AVAILABILITY',
-        calls: [mockCall],
+        eventCalls: [{
+          ...mockContactEventCall,
+          call: mockCall
+        }]
       },
       {
         ...mockContactMessage,
@@ -43,10 +50,13 @@ describe('<CurrentContactMessages />', () => {
         },
         id: 3,
         type: 'BOOKING',
-        calls: [mockCall],
+        eventCalls: [{
+          ...mockContactEventCall,
+          call: mockCall
+        }]
       },
     ],
-    type: Math.random() > 0.5 ? 'AVAILABILITY' : 'BOOKING',
+    type: 'BOOKING',
   };
   beforeEach(() => {
     render(<CurrentContactMessages {...mockProps} />);
@@ -100,8 +110,11 @@ describe('<CurrentContactMessages /> BOOKING', () => {
         },
         id: 1,
         type: 'AUTOBOOK',
-        calls: [mockCall],
-      },
+        eventCalls: [{
+          ...mockContactEventCall,
+          call: mockCall
+        }]
+            },
       {
         ...mockContactMessage,
         contact: {
@@ -111,8 +124,10 @@ describe('<CurrentContactMessages /> BOOKING', () => {
         },
         id: 2,
         type: 'AVAILABILITY',
-        calls: [mockCall],
-      },
+        eventCalls: [{
+          ...mockContactEventCall,
+          call: mockCall
+        }]      },
       {
         ...mockContactMessage,
         contact: {
@@ -122,8 +137,10 @@ describe('<CurrentContactMessages /> BOOKING', () => {
         },
         id: 3,
         type: 'BOOKING',
-        calls: [mockCall],
-      },
+        eventCalls: [{
+          ...mockContactEventCall,
+          call: mockCall
+        }]      },
     ],
     type: 'BOOKING',
   };
@@ -161,7 +178,10 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
         },
         id: 1,
         type: 'AUTOBOOK',
-        calls: [mockCall],
+        eventCalls: [{
+          ...mockContactEventCall,
+          call: mockCall
+        }]
       },
       {
         ...mockContactMessage,
@@ -172,7 +192,10 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
         },
         id: 2,
         type: 'AVAILABILITY',
-        calls: [mockCall],
+        eventCalls: [{
+          ...mockContactEventCall,
+          call: mockCall
+        }]
       },
       {
         ...mockContactMessage,
@@ -183,7 +206,10 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
         },
         id: 3,
         type: 'BOOKING',
-        calls: [mockCall],
+        eventCalls: [{
+          ...mockContactEventCall,
+          call: mockCall
+        }]
       },
     ],
     type: 'AVAILABILITY',
@@ -191,20 +217,16 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
   beforeEach(() => {
     render(<CurrentContactMessages {...mockProps} />);
   });
-  it('if AVAILABILITY, table body is in the document with all AVAILABILITY checks only', () => {
-    const currentContacts = screen.getByTestId('current-contacts-table');
+  it('if AVAILABILITY, <AvailabilityTable /> renders with props', () => {
+    const availabilityTable = screen.getByTestId('availability-table');
+    expect(availabilityTable).toBeInTheDocument();
     for (let i = 0; i < mockProps.contacts.length; i++) {
       const contactName = `${mockProps.contacts[i].contact.firstName} ${mockProps.contacts[i].contact.lastName}`;
       if (mockProps.contacts[i].type === 'AVAILABILITY') {
-        expect(currentContacts.textContent).toMatch(contactName);
+        expect(availabilityTable.textContent).toMatch(contactName);
       } else {
-        expect(currentContacts.textContent).not.toMatch(contactName);
+        expect(availabilityTable.textContent).not.toMatch(contactName);
       }
     }
-  });
-  it('if AVAILABILITY, Queue Number is not in the document', () => {
-    const tableHead = screen.getByTestId('table-head');
-    expect(tableHead).toBeInTheDocument();
-    expect(tableHead.textContent).not.toMatch('Queue Number');
   });
 });

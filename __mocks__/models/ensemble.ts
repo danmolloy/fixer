@@ -29,7 +29,7 @@ export const mockEnsembleWithAdmin: Ensemble & {
       ensembleId: ensembleId,
       userId: faker.string.uuid(),
       positionTitle: faker.lorem.words(2),
-      accessType: Math.random() > 0.5 ? 'restricted' : 'full',
+      accessType: Math.random() > 0.5 ? 'RESTRICTED' : 'FULL',
     },
   ],
 };

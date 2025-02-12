@@ -12,17 +12,10 @@ describe('<ContactsIndex />', () => {
     contacts: [
       { ...mockEnsembleContact, category: 'Extra', section: mockSection },
     ],
-    sections: [
-      {
-        ...mockSection,
-        contacts: [{ ...mockEnsembleContact, category: 'Extra' }],
-      },
-    ],
     ensembleId: mockEnsemble.id,
     editContact: jest.fn(),
     setSortedContacts: jest.fn(),
     sortContacts: 'Alphabetical',
-    filterContacts: ['Extra', 'Member'],
   };
   beforeEach(() => {
     render(<ContactsIndex {...mockProps} />);
@@ -68,12 +61,10 @@ describe('<ContactsIndex />', () => {
 describe('<ContactsIndex />', () => {
   const mockProps: ContactsIndexProps = {
     contacts: [],
-    sections: [{ ...mockSection, contacts: [mockEnsembleContact] }],
     ensembleId: mockEnsemble.id,
     editContact: jest.fn(),
     setSortedContacts: jest.fn(),
     sortContacts: 'Alphabetical',
-    filterContacts: ['Extra', 'Member'],
   };
   beforeEach(() => {
     render(<ContactsIndex {...mockProps} />);

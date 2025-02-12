@@ -178,7 +178,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                   </option>
                   {sections.map((i) => (
                     <option
-                      data-testid={`section-option-${i}`}
+                      data-testid={`section-option-${i.id}`}
                       key={i.id}
                       value={i.id}
                     >

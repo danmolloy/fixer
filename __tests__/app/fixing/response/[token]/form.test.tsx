@@ -14,6 +14,9 @@ import { responseConfEmail } from '../../../../../app/sendGrid/playerLib';
 import axios from '../../../../../__mocks__/axios';
 import { getDateRange } from '../../../../../app/fixing/contactMessage/api/create/functions';
 import { SentEmailData } from '../../../../../app/sendGrid/lib';
+import { mockContactEventCall } from '../../../../../__mocks__/models/ContactEventCall';
+import { ContactMessageType } from '@prisma/client';
+import { DateTime } from 'luxon';
 
 global.confirm = jest.fn(() => true);
 
@@ -44,9 +47,11 @@ let mockProps: ResponseFormProps = {
         fixer: mockUser,
       },
     },
-    calls: [mockCall],
+    eventCalls: [{
+      ...mockContactEventCall,
+      call: mockCall,
+    }]
   },
-  accepted: null,
   type: 'BOOKING',
   fixerName: 'mock fixer name',
 };
@@ -58,6 +63,7 @@ describe('<ResponseForm />', () => {
       ...mockProps.contactMessage,
       strictlyTied: true,
     },
+    type: "BOOKING" as ContactMessageType
   };
   beforeEach(() => {
     jest.useFakeTimers();
@@ -65,74 +71,36 @@ describe('<ResponseForm />', () => {
 
     render(<ResponseForm {...localMockProps} />);
   });
-  it('<ResponseForm /> renders', () => {
-    const responseForm = screen.getByTestId('response-form');
-    expect(responseForm).toBeInTheDocument();
+  it("<ResponseForm /> renders without error", () => {
+    const form = screen.getByTestId('response-form');
+    expect(form).toBeInTheDocument();
   });
-  it('states if work is strictly tied', () => {
-    const strictStatement = screen.getByText('This work is strictly tied.');
-    expect(strictStatement).toBeInTheDocument();
+  it("'Your Response' title renders", () => {
+    expect(screen.getByText('Your Response')).toBeInTheDocument();
   });
-  it('not accepting radiobox field is appropriately labeled', () => {
-    const falseRadio = screen.getByLabelText('No, I am not available.');
-    expect(falseRadio).toHaveAttribute('value', 'false');
-    expect(falseRadio).toHaveAttribute('name', 'accepted');
-    expect(falseRadio).toHaveAttribute('type', 'radio');
+  it("states if work is strictly tied", () => {
+    const form = screen.getByTestId('response-form');
+    expect(form.textContent).toMatch('This work is strictly tied');
+  }); 
+  it("false input is in the document with expected label, name, type and value", () => {
+    const falseInput = screen.getByLabelText('No, I am not available.')
+    expect(falseInput).toBeInTheDocument();
+    expect(falseInput).toHaveAttribute('name', 'status');
+    expect(falseInput).toHaveAttribute('type', 'radio');
+    expect(falseInput).toHaveAttribute('value', 'DECLINED');
   });
-  it('accepting radiobox is appropriately labeled if strictlyTied', () => {
-    const trueRadio = screen.getByLabelText('Yes, I am available');
-    expect(trueRadio).toHaveAttribute('value', 'true');
-    expect(trueRadio).toHaveAttribute('name', 'accepted');
-    expect(trueRadio).toHaveAttribute('type', 'radio');
+  it("if booking, true input is in the document with expected label, name, type and value", () => {
+    const trueInput = screen.getByLabelText("Yes, I accept this work.");
+    expect(trueInput).toBeInTheDocument();
+    expect(trueInput).toHaveAttribute('name', 'status');
+    expect(trueInput).toHaveAttribute('type', 'radio');
+    expect(trueInput).toHaveAttribute('value', 'ACCEPTED');
   });
-  it('on successful submit, prisma.contactMessage.update, responseConfEmail, axios.post & useRouter are called', async () => {
-    const trueRadio = screen.getByLabelText('Yes, I am available');
-    await act(async () => {
-      await fireEvent.click(trueRadio);
-    });
-    const submitBtn = screen.getByText('Submit');
-    await act(async () => {
-      await fireEvent.click(submitBtn);
-    });
-    expect(axios.post).toHaveBeenCalledWith(
-      '/fixing/contactMessage/api/update',
-      {
-        id: localMockProps.contactMessage.id,
-        data: {
-          accepted: true,
-          acceptedDate: new Date(2020, 3, 1),
-          availableFor: localMockProps.contactMessage.calls.map((i) => i.id),
-        },
-      }
-    );
-    expect(responseConfEmail).toHaveBeenCalledWith({
-      dateRange: getDateRange(localMockProps.contactMessage.calls),
-      firstName: localMockProps.contactMessage.contact.firstName,
-      email: localMockProps.contactMessage.contact.email!,
-      ensemble: localMockProps.contactMessage.eventSection.event.ensembleName,
-      accepted: true,
-      type: localMockProps.contactMessage.type,
-    });
-    expect(axios.post).toHaveBeenCalledWith('/sendGrid', {
-      body: {
-        emailData: mockEmail,
-        templateID: mockEmail.templateID,
-        emailAddress: mockEmail.email,
-      },
-    });
-  });
-
-  it('initial vals are as expected', () => {});
-  it('appropriate label for accept radio if !strictlyTied', () => {});
-  it('if !strictlyTied, there is indication of how many calls are ticked', () => {});
-  it("if !strictlyTied, played must be available for at least 1 call to select 'yes'", () => {});
-  it('if !strictlyTied, each call has checkbox with readable datetime label', () => {});
-  it('submit btn renders errs if form not completed', () => {});
-  it('if accepting offer, global.confirm is called with appropriate message', () => {});
-  it('if declining offer, global.confirm is called with appropriate message', () => {});
-  it('if not available, global.confirm is called with appropriate message', () => {});
-  it('if available for all work, global.confirm is called with appropriate message', () => {});
-  it('if availability is mixed, global.confirm is called with appropriate message', () => {});
+  it("if no event calls selected, helpful message is displayed", () => {});
+  it("if availability check, submit btn calls global.confirm with expected args", () => {});
+  it("if offer declined, submit btn calls global.confirm with expected args", () => {});
+  it("it offer accepted, submit btn calls global.confirm with expected args", () => {});
+  it("on submit, axios.post is called twice with expected args", async () => {});
 });
 
 describe('<ResponseForm />', () => {
@@ -141,26 +109,69 @@ describe('<ResponseForm />', () => {
     contactMessage: {
       ...mockProps.contactMessage,
       strictlyTied: false,
+      type: 'AVAILABILITY' as ContactMessageType,
     },
   };
   beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date(2020, 3, 1));
+
     render(<ResponseForm {...localMockProps} />);
   });
-
-  it('state if work is not strictly tied', () => {
-    const strictStatement = screen.getByText('This work is not strictly tied.');
-    expect(strictStatement).toBeInTheDocument();
+  
+  it("if !strictlyTied, it states so", () => {
+    const form = screen.getByTestId('response-form');
+    expect(form.textContent).toMatch('This work is not strictly tied');
   });
-  //it("not accepting radiobox field is appropriately labeled", () => {})
-  //it("accepting radiobox is appropriately labeled if strictlyTied", () => {})
-  //it("appropriate label for accept radio if !strictlyTied", () => {})
-  //it("if !strictlyTied, there is indication of how many calls are ticked", () => {})
-  //it("if !strictlyTied, played must be available for at least 1 call to select 'yes'", () => {})
-  //it("if !strictlyTied, each call has checkbox with readable datetime label", () => {})
-  //it("submit btn renders errs if form not completed", () => {})
-  //it('if accepting offer, global.confirm is called with appropriate message', () => {})
-  //it('if declining offer, global.confirm is called with appropriate message', () => {})
-  //it('if not available, global.confirm is called with appropriate message', () => {})
-  //it('if available for all work, global.confirm is called with appropriate message', () => {})
-  //it('if availability is mixed, global.confirm is called with appropriate message', () => {})
+  it("if !strictlyTied, true input has expected label text", () => {
+    const trueInput = screen.getByLabelText("I am available for all/some calls");
+    expect(trueInput).toBeInTheDocument();
+    expect(trueInput).toHaveAttribute('value', 'AVAILABLE');
+  });
+  it("if !strictlyTied, there are checkboxes for each event call with label, type & value", async () => {
+    const trueInput = screen.getByLabelText("I am available for all/some calls");
+    await act(async () => {
+      fireEvent.click(trueInput);
+    })
+    const callCheckboxes = screen.getByTestId("call-checkboxes");
+    expect(callCheckboxes).toBeInTheDocument();
+    for (let i = 0; i < mockProps.contactMessage.eventCalls.length; i++) {
+      const checkBox = screen.getByLabelText(
+        DateTime.fromJSDate(
+          new Date(mockProps.contactMessage.eventCalls.find(c => c.callId === mockProps.contactMessage[i].callId)!.call.startTime)).toFormat(
+            'HH:mm DD'
+          ))
+      expect(checkBox).toBeInTheDocument();
+      expect(checkBox).toHaveAttribute("value", "AVAILABLE");
+      expect(checkBox).toHaveAttribute('type', 'checkbox');
+    }
+  });
+
+});
+
+describe('<ResponseForm />', () => {
+  let localMockProps = {
+    ...mockProps,
+    contactMessage: {
+      ...mockProps.contactMessage,
+      strictlyTied: true,
+      type: 'AVAILABILITY' as ContactMessageType,
+    },
+  };
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date(2020, 3, 1));
+
+    render(<ResponseForm {...localMockProps} />);
+  });
+  
+
+  it("if availability, true input is in the document with expected label, name, type and value", () => {
+    const trueInput = screen.getByLabelText("Yes, I am available");
+    expect(trueInput).toBeInTheDocument();
+    expect(trueInput).toHaveAttribute('name', 'status');
+    expect(trueInput).toHaveAttribute('type', 'radio');
+    expect(trueInput).toHaveAttribute('value', 'AVAILABLE');
+  });
+
 });

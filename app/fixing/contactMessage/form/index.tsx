@@ -133,8 +133,9 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
                 aria-labelledby='my-radio-group'
                 className='flex flex-col'
               >
-                <label>
+                <label htmlFor='strictly-tied'>
                   <Field
+                  id="strictly-tied"
                     className='m-1'
                     type='radio'
                     name='strictlyTied'
@@ -142,8 +143,9 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
                   />
                   Strictly Tied
                 </label>
-                <label>
+                <label htmlFor='not-tied'>
                   <Field
+                    id="not-tied"
                     className='m-1'
                     type='radio'
                     name='strictlyTied'
@@ -157,8 +159,9 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
               </div>
             )}
             <div>
-              <label>
+              <label htmlFor='urgent-checkbox'>
                 <Field
+                  id="urgent-checkbox"
                   checked={props.values.urgent}
                   className='m-1'
                   type='checkbox'

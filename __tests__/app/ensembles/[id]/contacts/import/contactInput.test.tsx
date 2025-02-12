@@ -22,13 +22,14 @@ mockPost.mockResolvedValue({ data: {} });
 
 describe('<ContactInput />', () => {
   const mockProps: ContactInputProps = {
+    sections: [mockSection],
     contacts: [
       {
         firstName: mockEnsembleContact.firstName,
         lastName: mockEnsembleContact.lastName,
         email: mockEnsembleContact.email!,
         phoneNumber: mockEnsembleContact.phoneNumber!,
-        sectionName: mockSection.name,
+        sectionId: mockSection.id,
         role: mockEnsembleContact.role,
         category: mockEnsembleContact.category!,
       },
@@ -66,8 +67,8 @@ describe('<ContactInput />', () => {
       expect(phoneNumber).toHaveValue(mockProps.contacts[i].phoneNumber);
       const role = screen.getByTestId(`contacts.${i}.role`);
       expect(role).toHaveValue(mockProps.contacts[i].role);
-      const sectionName = screen.getByTestId(`contacts.${i}.sectionName`);
-      expect(sectionName).toHaveValue(mockProps.contacts[i].sectionName);
+      const sectionId = screen.getByTestId(`contacts.${i}.sectionId`);
+      expect(sectionId).toHaveValue(mockProps.contacts[i].sectionId);
       const category = screen.getByTestId(`contacts.${i}.category`);
       expect(category).toHaveValue(mockProps.contacts[i].category);
     }
@@ -134,6 +135,7 @@ describe('<ContactInput />', () => {
 
 describe('<ContactInput />', () => {
   const mockProps: ContactInputProps = {
+    sections: [mockSection],
     contacts: [],
     ensembleId: mockEnsembleContact.ensembleId,
   };

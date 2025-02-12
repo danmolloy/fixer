@@ -5,35 +5,25 @@ import ViewAllUpcoming, {
 import { render, screen } from '@testing-library/react';
 import { mockEvent } from '../../../../__mocks__/models/event';
 import { mockCall } from '../../../../__mocks__/models/call';
-import { E } from '@faker-js/faker/dist/airline-BLb3y-7w';
+import { mockSection } from '../../../../__mocks__/models/ensembleSection';
+import { mockEventSection } from '../../../../__mocks__/models/eventSection';
+import { mockContactMessage } from '../../../../__mocks__/models/contactMessage';
+import { mockOrchestration } from '../../../../__mocks__/models/orchestration';
 
 const mockProps: ViewAllUpcomingProps = {
-  events: [
-    {
-      ...mockEvent,
-      id: 3,
-      eventTitle: '2025 Party',
-      calls: [
-        {
-          ...mockCall,
-          startTime: new Date('2025-10-13T03:24:00'),
-          endTime: new Date('2025-10-13T04:24:00'),
-        },
-      ],
-    },
-    {
-      ...mockEvent,
-      id: 2,
-      eventTitle: '2026 Party',
-      calls: [
-        {
-          ...mockCall,
-          startTime: new Date('2026-10-13T03:24:00'),
-          endTime: new Date('2026-10-13T04:24:00'),
-        },
-      ],
-    },
-  ],
+  events: [{
+    ...mockEvent,
+    calls: [mockCall],
+    sections: [{
+      ...mockEventSection,
+      contacts: [{
+        ...mockContactMessage,
+        calls: [mockCall],
+      }],
+      orchestration: [mockOrchestration],
+      ensembleSection: mockSection,
+    }]
+  }],
 };
 
 describe('<ViewAllUpcoming />', () => {
@@ -51,8 +41,7 @@ describe('<ViewAllUpcoming />', () => {
   });
   it('all upcoming events are in the document', () => {
     const upcomingEventTiles = screen.getAllByTestId('event-overview');
-    expect(upcomingEventTiles[0].textContent).toMatch('2025 Party');
-    expect(upcomingEventTiles[1].textContent).toMatch('2026 Party');
+    expect(upcomingEventTiles[0].textContent).toMatch(mockProps.events[0].eventTitle);
   });
 });
 

@@ -3,6 +3,7 @@ import { Call, Ensemble, Event } from '@prisma/client';
 
 export const mockEventWithEnsemble: Event & { ensemble: Ensemble } = {
   id: faker.number.int(),
+  adminAccess: [],
   ensembleId: faker.string.uuid(),
   createdAt: new Date('2025-10-10T14:48:00'),
   updatedAt: new Date('2025-10-10T14:48:00'),
@@ -27,6 +28,7 @@ export const mockEventWithEnsemble: Event & { ensemble: Ensemble } = {
 
 export const mockEvent: Event = {
   id: faker.number.int(),
+  adminAccess: [],
   ensembleId: faker.string.uuid(),
   ensembleName: faker.lorem.words(3),
   createdAt: new Date('2025-10-10T14:48:00'),
@@ -43,6 +45,7 @@ export const mockEvent: Event = {
 
 export const mockEventWithCalls: Event & { calls: Call[] } = {
   id: faker.number.int(),
+  adminAccess: [],
   ensembleId: faker.string.uuid(),
   ensembleName: faker.lorem.words(3),
   createdAt: new Date('2025-10-10T14:48:00'),

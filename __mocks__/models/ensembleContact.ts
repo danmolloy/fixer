@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 import { EnsembleContact } from '@prisma/client';
 import { CreateEnsembleContact } from '../../app/contacts/api/create/functions';
 import { instrumentSections } from '../../app/contacts/lib';
+import { sectionNamesArr } from '../../app/ensembles/create/api/functions';
 
 export const mockEnsembleContact: EnsembleContact = {
   indexNumber: Math.floor(Math.random() * 10),
@@ -20,12 +21,9 @@ export const mockEnsembleContact: EnsembleContact = {
 export const mockCreateEnsembleContact: CreateEnsembleContact = {
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  section: {
-    name: instrumentSections[
-      Math.floor(Math.random() * instrumentSections.length)
-    ].name,
-    id: faker.string.uuid(),
-  },
+  section: sectionNamesArr[
+      Math.floor(Math.random() * sectionNamesArr.length)
+    ],
   role: faker.string.alpha(10),
   ensembleId: faker.string.uuid(),
   email: faker.internet.email(),

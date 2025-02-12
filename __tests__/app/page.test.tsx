@@ -8,8 +8,12 @@ import { auth } from '../../app/auth';
 import { mockCall } from '../../__mocks__/models/call';
 import { mockEvent } from '../../__mocks__/models/event';
 import { mockEnsemble } from '../../__mocks__/models/ensemble';
+import { redirect } from 'next/navigation';
 
 jest.mock('@auth/prisma-adapter');
+jest.mock('next/navigation', () => ({
+  redirect: jest.fn()
+}))
 
 const mockUserCalendar = {
   ...mockUser,

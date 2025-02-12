@@ -9,6 +9,7 @@ import { mockEnsembleContact } from '../../../../../../__mocks__/models/ensemble
 import axios from '../../../../../../__mocks__/axios';
 import { useRouter } from 'next/navigation';
 import { DateTime } from 'luxon';
+import { mockContactEventCall } from '../../../../../../__mocks__/models/ContactEventCall';
 
 global.prompt = jest.fn().mockReturnValue('This is the mock message');
 global.confirm = jest.fn(() => true);
@@ -32,8 +33,13 @@ describe('<CurrentContactsOptions />', () => {
       ...mockContactMessage,
       status: 'AVAILABLE',
       type: 'AVAILABILITY',
-      contact: mockEnsembleContact,
-      calls: [mockCall],
+      eventCalls: [{
+        ...mockContactEventCall,
+        call: mockCall
+      }],
+      contact: {
+        ...mockEnsembleContact,
+      },
     },
   };
   beforeEach(() => {
@@ -138,7 +144,10 @@ describe('<CurrentContactsOptions />', () => {
       type: 'AVAILABILITY',
       status: 'DECLINED',
       contact: mockEnsembleContact,
-      calls: [mockCall],
+      eventCalls: [{
+        ...mockContactEventCall,
+        call: mockCall
+      }],
     },
   };
   beforeEach(() => {
@@ -166,7 +175,10 @@ describe('<CurrentContactsOptions />', () => {
       type: 'AVAILABILITY',
       status: 'DECLINED',
       contact: mockEnsembleContact,
-      calls: [mockCall],
+      eventCalls: [{
+        ...mockContactEventCall,
+        call: mockCall
+      }],
     },
   };
   beforeEach(() => {
@@ -196,7 +208,10 @@ describe('<CurrentContactsOptions />', () => {
       status: 'AUTOBOOKED',
       type: 'AUTOBOOK',
       contact: mockEnsembleContact,
-      calls: [mockCall],
+      eventCalls: [{
+        ...mockContactEventCall,
+        call: mockCall
+      }],
     },
   };
   beforeEach(() => {

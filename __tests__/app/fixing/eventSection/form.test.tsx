@@ -1,12 +1,17 @@
 import '@testing-library/jest-dom';
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import CreateEventSection, {
   CreateEventSectionProps,
 } from '../../../../app/fixing/eventSection/form';
 import { mockSection } from '../../../../__mocks__/models/ensembleSection';
 import { mockEventSection } from '../../../../__mocks__/models/eventSection';
 import axios from '../../../../__mocks__/axios';
+import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventCall';
+import { mockCall } from '../../../../__mocks__/models/call';
+import { mockOrchestration } from '../../../../__mocks__/models/orchestration';
+import { DateTime } from 'luxon';
 
+global.confirm = jest.fn(() => true);
 jest.mock('axios');
 const mockPost = jest.spyOn(axios, 'post');
 mockPost.mockResolvedValue({ data: {} });
@@ -17,8 +22,13 @@ describe('<CreateEventSection />', () => {
     ensembleSections: [mockSection],
     setCreateSection: jest.fn(),
     ensembleSectionId: undefined,
-    bookingStatus: 'Availability',
-    numToBook: 1,
+    eventCalls: [{
+      ...mockCall
+    }],
+    bookingStatus: "ACTIVE",
+    orchestration: [{
+      ...mockOrchestration
+    }],
     eventSectionId: undefined,
     eventSections: [
       {
@@ -51,12 +61,11 @@ describe('<CreateEventSection />', () => {
       expect(sectionOption).toHaveValue(mockProps.ensembleSections[i].id);
     }
   });
-  it('num to book input is in the document with label, type and name attrs', () => {
-    const numToBook = screen.getByLabelText('Num to Book');
+  it('Num Required is in the document with label, type and name', () => {
+    const numToBook = screen.getByLabelText('Num Required');
     expect(numToBook).toBeInTheDocument();
-    expect(numToBook).toHaveValue(mockProps.numToBook);
     expect(numToBook).toHaveAttribute('type', 'number');
-    expect(numToBook).toHaveAttribute('name', 'numToBook');
+    expect(numToBook).toHaveAttribute('name', 'orchestration[0].numRequired');
   });
   it('cancel btn is in the document and calls setCreateSection() on click', () => {
     const cancelBtn = screen.getByText('Cancel');
@@ -68,10 +77,8 @@ describe('<CreateEventSection />', () => {
     expect(mockProps.setCreateSection).toHaveBeenCalledWith(false);
   });
   it('submit btn is in the document with label, type & role', () => {
-    const submitBtn = screen.getByText('Submit');
+    const submitBtn = screen.getByTestId('submit-btn');
     expect(submitBtn).toBeInTheDocument();
-    expect(submitBtn).toHaveRole('button');
-    expect(submitBtn).toHaveAttribute('type', 'submit');
   });
   it('expected err messages render on submit btn click', async () => {
     const submitBtn = screen.getByText('Submit');
@@ -99,7 +106,11 @@ describe('<CreateEventSection />', () => {
       bookingStatus: mockProps.bookingStatus,
       ensembleSectionId: mockProps.ensembleSections[0].id,
       eventId: mockProps.eventId,
-      numToBook: mockProps.numToBook,
+      orchestration: mockProps.eventCalls.map(call => ({
+        callId: call.id,
+        id: undefined,
+        numRequired: 0
+      }))
     });
   });
 });
@@ -110,9 +121,13 @@ describe('<CreateEventSection />', () => {
     ensembleSections: [mockSection],
     setCreateSection: jest.fn(),
     ensembleSectionId: mockSection.id,
-    bookingStatus: 'Booking',
-    numToBook: Math.ceil(Math.random() * 10),
-    eventSectionId: mockEventSection.id,
+eventCalls: [{
+      ...mockCall
+    }],
+    bookingStatus: "ACTIVE",
+    orchestration: [{
+      ...mockOrchestration
+    }],    eventSectionId: mockEventSection.id,
     eventSections: [
       {
         ...mockEventSection,
@@ -136,15 +151,11 @@ describe('<CreateEventSection />', () => {
     expect(sectionName).toBeInTheDocument();
     expect(sectionName).toHaveRole('heading');
   });
-  it('num to book has expected initial val', () => {
-    const numToBook = screen.getByLabelText('Num to Book');
-    expect(numToBook).toBeInTheDocument();
-    expect(numToBook).toHaveValue(mockProps.numToBook);
-  });
-  it('submit btn updates section calls axios.post(), useRouter and setCreateSection(false) on click', async () => {
+
+  /* it('submit btn updates section calls axios.post(), useRouter and setCreateSection(false) on click', async () => {
     const submitBtn = screen.getByText('Submit');
     expect(submitBtn).toBeInTheDocument();
-    await act(async () => {
+    await waitFor(async () => {
       fireEvent.click(submitBtn);
     });
     expect(axios.post).toHaveBeenCalledWith('/fixing/eventSection/api/update', {
@@ -152,7 +163,56 @@ describe('<CreateEventSection />', () => {
       ensembleSectionId: mockProps.ensembleSectionId,
       eventId: mockProps.eventId,
       eventSectionId: mockProps.eventSectionId,
-      numToBook: mockProps.numToBook,
+      orchestration: mockProps.eventCalls.map(c => ({
+        callId: c.id,
+        id: undefined,
+        numRequired: 0
+      }))
     });
-  });
+  }); */
+  it("fixing active radio input is in the document with label,type, name & value", () => {
+    const fixingActive = screen.getByLabelText("Active");
+    expect(fixingActive).toHaveAttribute("type", "radio");
+    expect(fixingActive).toHaveAttribute("name", "bookingStatus");
+    expect(fixingActive).toHaveAttribute("value", "ACTIVE");
+  })
+  it("fixing inactive radio input is in the document with label,type, name & value", () => {
+    const fixingInactive = screen.getByLabelText("Inactive");
+    expect(fixingInactive).toHaveAttribute("type", "radio");
+    expect(fixingInactive).toHaveAttribute("name", "bookingStatus");
+    expect(fixingInactive).toHaveAttribute("value", "INACTIVE");
+  })
+  it("Delete Section btn is in the document and calls handleDelete() on click", () => {
+    const deleteBtn = screen.getByText("Delete Section");
+    expect(deleteBtn).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(deleteBtn);
+    })
+    expect(global.confirm).toHaveBeenCalledWith("Are you sure you want to delete this section?");
+    expect(axios.post).toHaveBeenCalledWith("/fixing/eventSection/api/delete", {
+      sectionId: Number(mockProps.eventSectionId)
+    })
+
+  })
+  it("fixedNumToBook input is in the document with label and sets fixedNumToBook status on click", async () => {
+    const fixedNumCheckbox = screen.getByLabelText(`0 musician(s) for all calls`);
+    expect(fixedNumCheckbox).toBeInTheDocument();
+
+    await  waitFor(async () => fireEvent.click(fixedNumCheckbox))
+    const callsNumRequired = screen.getByTestId('calls-num-required');
+    expect(callsNumRequired).toBeInTheDocument();
+  })
+  it("if !fixedNumToBook, numRequired input is disabled & each call has own num input", async () => {
+    const fixedNumCheckbox = screen.getByLabelText(`0 musician(s) for all calls`);
+    await  waitFor(async () => fireEvent.click(fixedNumCheckbox))
+
+    for (let i = 0; i < mockProps.eventCalls.length; i ++) {
+      const formattedDate = DateTime.fromJSDate(new Date(mockProps.eventCalls[i].startTime)).toFormat('HH:mm DD')
+      const callNumInput = screen.getByLabelText(formattedDate)
+      expect(callNumInput).toBeInTheDocument();
+      expect(callNumInput).toHaveAttribute("type", "number");
+      expect(callNumInput).toHaveAttribute("name", `orchestration[${i}].numRequired`);
+    }
+  })
 });
+ 

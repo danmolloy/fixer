@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import DiaryContact, {
   DiaryContactProps,
 } from '../../../../app/fixing/contactMessage/diaryContact';
@@ -7,62 +7,65 @@ import { mockEnsembleContact } from '../../../../__mocks__/models/ensembleContac
 
 describe('<DiaryContactProps />', () => {
   const mockProps: DiaryContactProps = {
-    contact: mockEnsembleContact,
+    contact: {...mockEnsembleContact, category: 'Extra'},
     setSelectContact: jest.fn(),
     disabled: false,
   };
+
   beforeEach(() => {
-    render(<DiaryContact {...mockProps} />);
+    render(
+      <table>
+        <tbody>
+        <DiaryContact {...mockProps} />
+        </tbody>
+      </table>);
   });
+
   it('<DiaryContact /> renders', () => {
     const diaryContact = screen.getByTestId(
       `${mockProps.contact.id}-contact-tile`
     );
     expect(diaryContact).toBeInTheDocument();
   });
+
   it('contact category is in the document', () => {
     const diaryContact = screen.getByTestId(
       `${mockProps.contact.id}-contact-tile`
     );
-    expect(diaryContact.textContent).toMatch(mockProps.contact.category!);
+    expect(diaryContact).toHaveTextContent("Extra");
   });
-  it('contact full name is in the document', () => {
-    const diaryContact = screen.getByTestId(
-      `${mockProps.contact.id}-contact-tile`
-    );
-    expect(diaryContact.textContent).toMatch(
-      `${mockProps.contact.firstName} ${mockProps.contact.lastName}`
-    );
-  });
-  it('contact role is in the document', () => {
-    const diaryContact = screen.getByTestId(
-      `${mockProps.contact.id}-contact-tile`
-    );
-    expect(diaryContact.textContent).toMatch(mockProps.contact.role);
-  });
-  it('select btn is in the document and calls setSelectContact on click', () => {
-    const selectBtn = screen.getByText('Select');
-    expect(selectBtn).toHaveRole('button');
-    expect(selectBtn).not.toHaveAttribute('disabled');
-    act(() => {
-      fireEvent.click(selectBtn);
-    });
 
-    expect(mockProps.setSelectContact).toHaveBeenCalled();
+  it('displays contact name correctly', () => {
+    const contactName = `${mockProps.contact.firstName} ${mockProps.contact.lastName}`;
+    expect(screen.getByText(contactName)).toBeInTheDocument();
+  });
+
+  it('displays contact role correctly', () => {
+    expect(screen.getByText(mockProps.contact.role)).toBeInTheDocument();
   });
 });
 
 describe('<DiaryContactProps />', () => {
   const mockProps: DiaryContactProps = {
-    contact: mockEnsembleContact,
+    contact: {...mockEnsembleContact, category: 'Extra'},
     setSelectContact: jest.fn(),
     disabled: true,
   };
+
   beforeEach(() => {
-    render(<DiaryContact {...mockProps} />);
+    render(<table>
+      <tbody>
+      <DiaryContact {...mockProps} />
+      </tbody>
+    </table>);
   });
-  it('select btn is disabled', () => {
-    const selectBtn = screen.getByText('Select');
-    expect(selectBtn).toHaveAttribute('disabled');
+
+  
+  it("if disabled, it doesn't call setSelectContact", () => {
+    const diaryContact = screen.getByTestId(
+      `${mockProps.contact.id}-contact-tile`
+    );
+    fireEvent.click(diaryContact);
+    expect(mockProps.setSelectContact).not.toHaveBeenCalled();
   });
 });

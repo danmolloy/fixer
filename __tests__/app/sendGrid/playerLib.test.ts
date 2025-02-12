@@ -29,6 +29,8 @@ jest.mock('../../../app/sendGrid/lib', () => ({
   createSentEmail: jest.fn(),
 }));
 
+const responseLink = "mockLink"
+
 describe('createOfferEmail()', () => {
   const mockArg = {
     ...mockContactMessage,
@@ -49,7 +51,6 @@ describe('createOfferEmail()', () => {
         await createOfferEmail({
           ...mockArg,
           type: 'AVAILABILITY',
-          accepted: null,
         })
       ).subject
     ).toBe(
@@ -63,7 +64,6 @@ describe('createOfferEmail()', () => {
         await createOfferEmail({
           ...mockArg,
           type: 'BOOKING',
-          accepted: null,
         })
       ).subject
     ).toBe(
@@ -76,7 +76,6 @@ describe('createOfferEmail()', () => {
       (
         await createOfferEmail({
           ...mockArg,
-          accepted: true,
           type: 'AUTOBOOK',
         })
       ).subject
@@ -94,7 +93,6 @@ describe('createOfferEmail()', () => {
       (
         await createOfferEmail({
           ...mockArg,
-          accepted: true,
           type: 'BOOKING',
         })
       ).templateID
@@ -103,7 +101,6 @@ describe('createOfferEmail()', () => {
       (
         await createOfferEmail({
           ...mockArg,
-          accepted: true,
           type: 'AUTOBOOK',
         })
       ).templateID
@@ -112,7 +109,6 @@ describe('createOfferEmail()', () => {
       (
         await createOfferEmail({
           ...mockArg,
-          accepted: null,
           type: 'AUTOBOOK',
         })
       ).templateID
@@ -124,7 +120,6 @@ describe('createOfferEmail()', () => {
       (
         await createOfferEmail({
           ...mockArg,
-          accepted: null,
           type: 'BOOKING',
         })
       ).templateID
@@ -134,7 +129,6 @@ describe('createOfferEmail()', () => {
       (
         await createOfferEmail({
           ...mockArg,
-          accepted: null,
           type: 'AVAILABILITY',
         })
       ).templateID
@@ -146,7 +140,6 @@ describe('createOfferEmail()', () => {
       (
         await createOfferEmail({
           ...mockArg,
-          accepted: null,
           type: 'BOOKING',
         })
       ).bodyText
@@ -166,7 +159,7 @@ describe('createOfferEmail()', () => {
     )
     .join(',')}
   <br />
-  Gig Status: ${mockArg.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${mockArg.eventSection.event.status}<br />
   Position: ${mockArg.position}<br />
   Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
@@ -207,7 +200,7 @@ GigFix`
     )
     .join(',')}
   <br />
-  Gig Status: ${mockArg.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${mockArg.eventSection.event.status}<br />
   Position: ${mockArg.position}<br />
   Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
@@ -230,7 +223,6 @@ GigFix`
         await createOfferEmail({
           ...mockArg,
           type: 'AUTOBOOK',
-          accepted: true,
         })
       ).bodyText
     ).toBe(
@@ -249,7 +241,7 @@ GigFix`
     )
     .join(',')}
   <br />
-  Gig Status: ${mockArg.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${mockArg.eventSection.event.status}<br />
   Position: ${mockArg.position}<br />
   Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
@@ -283,16 +275,16 @@ describe('updateOfferEmail()', () => {
   };
   it('returns expected subject if response not required', async () => {
     expect(
-      (await updateOfferEmail({ ...mockArg, accepted: true })).subject
+      (await updateOfferEmail({ ...mockArg })).subject
     ).toBe(
       `Update: ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName})`
     );
   });
   it('returns expected subject if response required', async () => {
     expect(
-      (await updateOfferEmail({ ...mockArg, accepted: null })).subject
+      (await updateOfferEmail({ ...mockArg })).subject
     ).toBe(
-      `Action Required: Update from ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName})`
+      `Update: ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName})`
     );
   });
   it('returns expected email address', async () => {
@@ -300,15 +292,15 @@ describe('updateOfferEmail()', () => {
   });
   it('returns expected templateID if response required', async () => {
     expect(
-      (await updateOfferEmail({ ...mockArg, accepted: null })).templateID
+      (await updateOfferEmail({ ...mockArg })).templateID
     ).toBe(responseTemplate);
   });
   it('returns expected templateID if response not required', async () => {
     expect(
-      (await updateOfferEmail({ ...mockArg, accepted: true })).templateID
+      (await updateOfferEmail({ ...mockArg })).templateID
     ).toBe(readOnlyTemplate);
     expect(
-      (await updateOfferEmail({ ...mockArg, accepted: false })).templateID
+      (await updateOfferEmail({ ...mockArg, })).templateID
     ).toBe(responseTemplate);
   });
   it('returns expected email body text if response not required', async () => {
@@ -316,7 +308,6 @@ describe('updateOfferEmail()', () => {
       (
         await updateOfferEmail({
           ...mockArg,
-          accepted: true,
         })
       ).bodyText
     ).toBe(
@@ -340,7 +331,7 @@ describe('updateOfferEmail()', () => {
     )
     .join(',')}
   <br />
-  Gig Status: ${mockArg.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${mockArg.eventSection.event.status}<br />
   Position: ${mockArg.position}<br />
   Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
@@ -348,7 +339,7 @@ describe('updateOfferEmail()', () => {
   ${mockArg.playerMessage !== null ? mockArg.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + mockArg.playerMessage : ''}
 <br />
 <br />
-  You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>. It has been marked as ${mockArg.accepted ? 'accepted' : 'declined'}.<br /> <br />
+  You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>. It has been marked as ${mockArg.status === "ACCEPTED" ? 'accepted': mockArg.status === "AUTOBOOKED" ? "auto-booked" : 'declined'}.<br /> <br />
 
   If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}. <br /> <br />
 
@@ -361,8 +352,8 @@ GigFix`
       (
         await updateOfferEmail({
           ...mockArg,
+          status: "AWAITINGREPLY",
           type: 'AVAILABILITY',
-          accepted: null,
         })
       ).bodyText
     ).toBe(
@@ -386,7 +377,7 @@ GigFix`
     )
     .join(',')}
   <br />
-  Gig Status: ${mockArg.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${mockArg.eventSection.event.status}<br />
   Position: ${mockArg.position}<br />
   Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
@@ -394,9 +385,11 @@ GigFix`
   ${mockArg.playerMessage !== null ? mockArg.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + mockArg.playerMessage : ''}
 <br />
 <br />
-  Click the blue 'Respond' button below or follow <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a> to respond.<br /> <br />
-
-  If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}. <br /> <br />
+  ${
+    mockArg.status === "AWAITINGREPLY"
+      ? `Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`
+      : `You can view up to date gig details at <a href="${responseLink}">this link</a>. It has been marked as ${mockArg.status === 'ACCEPTED' ? 'accepted' : mockArg.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`
+  }<br /> <br />
 
 Best wishes,<br />
 GigFix`
@@ -408,7 +401,6 @@ GigFix`
         await updateOfferEmail({
           ...mockArg,
           type: 'BOOKING',
-          accepted: null,
         })
       ).bodyText
     ).toBe(
@@ -432,16 +424,16 @@ GigFix`
     )
     .join(',')}
   <br />
-  Gig Status: ${mockArg.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${mockArg.eventSection.event.status}<br />
   Position: ${mockArg.position}<br />
   Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
   Additional Information: ${mockArg.eventSection.event.additionalInfo ? mockArg.eventSection.event.additionalInfo : 'Not specified'}<br />
   ${mockArg.playerMessage !== null ? mockArg.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + mockArg.playerMessage : ''}
 <br />
-<br />
-  Click the blue 'Respond' button below or follow <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a> to respond.<br /> <br />
-
+<br />${mockArg.status === "AWAITINGREPLY" ? 
+`Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`:
+`You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>. It has been marked as ${mockArg.status === 'ACCEPTED' ? 'accepted' : mockArg.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`}<br /> <br />
   If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}. <br /> <br />
 
 Best wishes,<br />
@@ -794,7 +786,7 @@ describe('eventReminderMusician', () => {
     )
     .join(',')}
   <br />
-  Gig Status: ${mockArg.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${mockArg.eventSection.event.status}<br />
   Position: ${mockArg.position}<br />
   Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
@@ -849,7 +841,7 @@ describe('remindUnresponsiveMusicianEmail', () => {
   <br />
   We are yet to receive a response from you regarding the gig below. If we have not received a response with 48 hours, we will alert the fixer.
   <br /><br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) ${mockArg.type === 'BOOKING' ? 'offers' : mockArg.type === 'AUTOBOOK' ? 'has auto-booked you for' : 'checks your availability for'} the following: <br />
+  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) ${mockArg.type === 'BOOKING' ? 'offers' : mockArg.type === 'AUTOBOOK' ? 'has booked you for' : 'checks your availability for'} the following: <br />
   <br />
   ${mockArg.calls
     .map(
@@ -863,7 +855,7 @@ describe('remindUnresponsiveMusicianEmail', () => {
     )
     .join(',')}
   <br />
-  Gig Status: ${mockArg.eventSection.event.confirmedOrOnHold}<br />
+  Gig Status: ${mockArg.eventSection.event.status}<br />
   Position: ${mockArg.position}<br />
   Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
   Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />

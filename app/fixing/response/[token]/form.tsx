@@ -178,17 +178,21 @@ export default function ResponseForm(props: ResponseFormProps) {
               className='flex flex-col'
             >
               <h3 className='m-2 font-semibold'>Your Response</h3>
-              <p className='m-2 text-gray-500'>
-                This work is {contactMessage.strictlyTied === false && 'not '}
-                strictly tied.
-              </p>
+              <div>
+              {contactMessage.strictlyTied === true 
+              ? <p className='m-2 text-gray-500'>
+              This work is strictly tied.
+            </p>
+                : <p className='m-2 text-gray-500'>
+                This work is not strictly tied.
+              </p>}</div>
               <label
-                htmlFor='false-label'
+                htmlFor='false-input'
                 className='flex flex-row items-center'
               >
                 <Field
                   disabled={props.isSubmitting}
-                  id='false-label'
+                  id='false-input'
                   data-testid='false-radio'
                   className='m-2'
                   type='radio'
@@ -227,7 +231,9 @@ export default function ResponseForm(props: ResponseFormProps) {
                   })));
                 }}
                 />
-                {contactMessage.strictlyTied === true
+                {(contactMessage.type === "BOOKING" && contactMessage.strictlyTied === true) ? 
+                'Yes, I accept this work.'
+                : contactMessage.strictlyTied === true
                   ? 'Yes, I am available'
                       : `I am available for all/some calls`
 /*                       : `I am available for ${props.values.eventCalls.filter(c => c.status === "AVAILABLE").length} call(s)` */}
@@ -239,7 +245,7 @@ export default function ResponseForm(props: ResponseFormProps) {
             </div>
             {props.values.eventCalls.filter(c => c.status === "AVAILABLE").length > 0 &&
               contactMessage.strictlyTied === false && (
-                <div>
+                <div data-testid="call-checkboxes">
                   {props.values.eventCalls.map((i, index) => (
                     <label
                       key={i.callId}
@@ -251,6 +257,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                         className='m-1'
                         type='checkbox'
                         value={"AVAILABLE"}
+                        data-testid={`${props.values.eventCalls[index].callId}-checkbox`}
                         //name={`eventCalls[${index}].status`}
                         onChange={() => props.setFieldValue(`eventCalls[${index}].status`, props.values.eventCalls[index].status === "AVAILABLE" ? "DECLINED" : "AVAILABLE")}
                       />

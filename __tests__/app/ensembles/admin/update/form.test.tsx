@@ -15,7 +15,7 @@ mockPost.mockResolvedValue({ data: {} });
 
 describe('<UpdateAdminForm />', () => {
   const mockProps: InviteAdminFormProps = {
-    admin: { ...mockEnsembleAdmin, accessType: 'restricted' },
+    admin: { ...mockEnsembleAdmin, accessType: 'RESTRICTED' },
   };
   beforeEach(() => {
     render(<UpdateAdminForm {...mockProps} />);
@@ -43,20 +43,18 @@ describe('<UpdateAdminForm />', () => {
     const restrictedOption = screen.getByLabelText('Restricted');
     expect(restrictedOption).toHaveAttribute('type', 'radio');
     expect(restrictedOption).toHaveAttribute('name', 'accessType');
-    expect(restrictedOption).toHaveAttribute('value', 'restricted');
+    expect(restrictedOption).toHaveAttribute('value', 'RESTRICTED');
     expect(restrictedOption).toHaveAttribute('checked');
 
     const fullOption = screen.getByLabelText('Full');
     expect(fullOption).toHaveAttribute('type', 'radio');
     expect(fullOption).toHaveAttribute('name', 'accessType');
-    expect(fullOption).toHaveAttribute('value', 'full');
+    expect(fullOption).toHaveAttribute('value', 'FULL');
     expect(fullOption).not.toHaveAttribute('checked');
   });
   it('submit btn is in the document', () => {
-    const submitBtn = screen.getByText('Submit');
+    const submitBtn = screen.getByTestId('submit-btn');
     expect(submitBtn).toBeInTheDocument();
-    expect(submitBtn).toHaveAttribute('type', 'submit');
-    expect(submitBtn).toHaveRole('button');
   });
   it('submit btn calls axios.post() and useRouter() if form complete', async () => {
     const submitBtn = screen.getByText('Submit');
@@ -76,7 +74,7 @@ describe('<UpdateAdminForm />', () => {
     admin: {
       ...mockEnsembleAdmin,
       positionTitle: '',
-      accessType: '',
+      accessType: '' as any,
     },
   };
   beforeEach(() => {

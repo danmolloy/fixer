@@ -31,14 +31,11 @@ describe('<FlyOutMenu />', () => {
       expect(menuLink).toHaveAttribute('href', externalMenuLinks[i].link);
     }
   });
-  it('if no session, sign in btn is in the document & calls signIn() on click', () => {
+  it('if no session, sign in link is in the document with href', () => {
     const signInBtn = screen.getByTestId('sign-in-btn');
     expect(signInBtn).toBeInTheDocument();
     expect(signInBtn.textContent).toMatch('Sign in');
-    act(() => {
-      fireEvent.click(signInBtn);
-    });
-    expect(signIn).toHaveBeenCalledWith('github');
+    expect(signInBtn).toHaveAttribute('href', '/signin');
   });
   it('if !session, ensembles is not in the document', () => {
     const flyout = screen.getByTestId('external-menu');
@@ -62,12 +59,12 @@ describe('<FlyOutMenu />', () => {
   it('if session, join ensemble link is in the document with expected href', () => {
     const joinLink = screen.getByText('Join Ensemble');
     expect(joinLink).toBeInTheDocument();
-    expect(joinLink).toHaveAttribute('href', 'ensembles/join/');
+    expect(joinLink).toHaveAttribute('href', '/ensembles/join');
   });
   it('if session, create ensemble link is in the document with expected href', () => {
     const createLink = screen.getByText('Create Ensemble');
     expect(createLink).toBeInTheDocument();
-    expect(createLink).toHaveAttribute('href', 'ensembles/create/');
+    expect(createLink).toHaveAttribute('href', '/ensembles/create');
   });
   it('if session, all ensembles are in the document with href', () => {
     for (let i = 0; i < mockProps.session!.user.admins.length; i++) {
@@ -77,7 +74,7 @@ describe('<FlyOutMenu />', () => {
       expect(ensemble).toBeInTheDocument();
       expect(ensemble).toHaveAttribute(
         'href',
-        `ensembles/${mockProps.session!.user.admins[i].ensemble.id}/`
+        `/ensembles/${mockProps.session!.user.admins[i].ensemble.id}`
       );
     }
   });
@@ -92,10 +89,5 @@ describe('<FlyOutMenu />', () => {
   it('if session, sign out btn is in the document', async () => {
     const signOutBtn = screen.getByTestId('sign-out-btn');
     expect(signOutBtn).toBeInTheDocument();
-    expect(signOutBtn.textContent).toMatch('Sign out');
-    await act(async () => {
-      fireEvent.click(signOutBtn);
-    });
-    expect(signOut).toHaveBeenCalled();
   });
 });

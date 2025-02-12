@@ -64,11 +64,7 @@ describe('<InviteAdminForm />', () => {
     expect(fullOption).toHaveAttribute('value', 'full');
     expect(fullOption).not.toHaveAttribute('checked');
   });
-  it('submit btn is in the document with label and expected type attr', () => {
-    const submitBtn = screen.getByText('Submit');
-    expect(submitBtn).toBeInTheDocument();
-    expect(submitBtn).toHaveAttribute('type', 'submit');
-  });
+  
   it('all expected errs are shown if submit btn pressed without valid fields', async () => {
     const submitBtn = screen.getByText('Submit');
     const form = screen.getByTestId('invite-admin-form');

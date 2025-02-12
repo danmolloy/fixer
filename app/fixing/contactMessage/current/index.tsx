@@ -26,7 +26,7 @@ export default function CurrentContactMessages(
 
   return (
     type === 'AVAILABILITY' 
-    ? <AvailabilityTable eventCalls={eventCalls} contacts={contacts} type={type} />
+    ? <AvailabilityTable eventCalls={eventCalls} contacts={contacts}  />
     : <table
       data-testid='current-contacts-table'
       className='my-4 table-auto rounded border'

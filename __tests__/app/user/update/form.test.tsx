@@ -31,43 +31,42 @@ describe('<UpdateUserForm />', () => {
     expect(firstName).toBeInTheDocument();
     expect(firstName).toHaveAttribute('name', 'firstName');
     expect(firstName).toHaveAttribute('type', 'text');
-    expect(firstName).toHaveValue(mockProps.session.user.firstName);
+    expect(firstName).toHaveValue(mockProps.session!.user.firstName);
   });
   it('last name input is in the document with label, initialVal and name attr', () => {
     const lastName = screen.getByLabelText('Last Name');
     expect(lastName).toBeInTheDocument();
     expect(lastName).toHaveAttribute('name', 'lastName');
     expect(lastName).toHaveAttribute('type', 'text');
-    expect(lastName).toHaveValue(mockProps.session.user.lastName);
+    expect(lastName).toHaveValue(mockProps.session!.user.lastName);
   });
   it('mobile number input is in the document with label, initialVal, type and name attrs', () => {
     const mobileNumber = screen.getByLabelText('Mobile Number');
     expect(mobileNumber).toBeInTheDocument();
     expect(mobileNumber).toHaveAttribute('name', 'mobileNumber');
     expect(mobileNumber).toHaveAttribute('type', 'tel');
-    expect(mobileNumber).toHaveValue(mockProps.session.user.mobileNumber);
+    expect(mobileNumber).toHaveValue(mockProps.session!.user.mobileNumber);
   });
   it('email input is in the document with label, initialVal, type and name attrs', () => {
     const email = screen.getByLabelText('Email');
     expect(email).toBeInTheDocument();
     expect(email).toHaveAttribute('name', 'email');
     expect(email).toHaveAttribute('type', 'email');
-    expect(email).toHaveValue(mockProps.session.user.email);
+    expect(email).toHaveValue(mockProps.session!.user.email);
   });
   it('submit btn is in the document and calls axios.post & useRouter on click', async () => {
-    const submitBtn = screen.getByText('Submit');
-    expect(submitBtn).toHaveAttribute('type', 'submit');
-    expect(submitBtn).toHaveRole('button');
+    const submitBtn = screen.getByTestId('submit-btn');
+    expect(submitBtn).toBeInTheDocument();
 
     await act(async () => {
       fireEvent.click(submitBtn);
     });
     expect(axios.post).toHaveBeenCalledWith('update/api', {
-      email: mockProps.session.user.email,
-      firstName: mockProps.session.user.firstName,
-      lastName: mockProps.session.user.lastName,
-      mobileNumber: mockProps.session.user.mobileNumber,
-      id: mockProps.session.user.id,
+      email: mockProps.session!.user.email,
+      firstName: mockProps.session!.user.firstName,
+      lastName: mockProps.session!.user.lastName,
+      mobileNumber: mockProps.session!.user.mobileNumber,
+      id: mockProps.session!.user.id,
     });
     expect(useRouter).toHaveBeenCalled();
   });

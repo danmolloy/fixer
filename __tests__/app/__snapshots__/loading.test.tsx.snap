@@ -2,7 +2,7 @@
 
 exports[`<Loading /> matches snapshot 1`] = `
 <div
-  class="w-full flex flex-col justify-center items-center mt-24"
+  class="mt-24 flex w-full flex-col items-center justify-center"
   data-testid="loading"
 >
   <p
@@ -11,7 +11,7 @@ exports[`<Loading /> matches snapshot 1`] = `
     Loading...
   </p>
   <div
-    class="animate-spin text-xl text-indigo-500 m-4"
+    class="m-4 animate-spin text-xl text-indigo-500"
   >
     <svg
       fill="currentColor"

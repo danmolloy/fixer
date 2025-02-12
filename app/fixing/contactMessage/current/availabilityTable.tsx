@@ -10,23 +10,19 @@ export type CurrentContactMessagesProps = {
   eventCalls: Call[];
   contacts: (ContactMessage & {
     contact: EnsembleContact;
-    //calls: Call[];
     eventCalls: (ContactEventCall & {call: Call})[]
   })[];
-  type: 'BOOKING' | 'AVAILABILITY';
 };
 
 export default function AvailabilityTable(
   props: CurrentContactMessagesProps
 ) {
-  const { contacts, eventCalls, type } = props;
+  const { contacts, eventCalls } = props;
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
   const router = useRouter();
 
   const typedContacts = contacts.filter((i) =>
-    type === 'AVAILABILITY'
-      ? i.type === 'AVAILABILITY'
-      : i.type === 'BOOKING' || i.type === 'AUTOBOOK'
+    i.type === 'AVAILABILITY'
   );
 
   const cancelCheck = async () => {
@@ -48,7 +44,7 @@ export default function AvailabilityTable(
   };
 
   return (
-    <div className='w-full  flex flex-col'>
+    <div data-testid="availability-table-div" className='w-full  flex flex-col'>
       <div>
         <button disabled={selectedContacts.length === typedContacts.length} className='m-1 px-2 py-1 rounded border hover:bg-gray-50 disabled:opacity-40 text-sm' onClick={() => setSelectedContacts(typedContacts.map(i => i.id))}>
           Select All
@@ -61,13 +57,12 @@ export default function AvailabilityTable(
         </button>
       </div>
     <table
-      data-testid='current-contacts-table'
+      data-testid='availability-table'
       className='my-4 table-auto rounded border'
     >
       <thead data-testid='table-head' className='border bg-slate-50 text-sm'>
         <tr>
-          {type !== 'AVAILABILITY' && <th>Queue Number</th>}
-          <th></th>
+          <th data-testid="empty-th"></th>
           <th>Name</th>
           <th>Position</th>
           {eventCalls.map((i) => (
@@ -79,7 +74,7 @@ export default function AvailabilityTable(
             </th>
           ))}
           <th>Status</th>
-          <th>Options</th>
+          <th data-testid="options-th">Options</th>
         </tr>
       </thead>
       <tbody>

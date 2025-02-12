@@ -7,7 +7,7 @@ describe('<ContactInfo />', () => {
     render(<ContactPage />);
   });
   it("'Contact' title is in the document", () => {
-    const contactTitle = screen.getByText('Contact us');
+    const contactTitle = screen.getByText('Get in touch');
     expect(contactTitle).toBeInTheDocument();
   });
 

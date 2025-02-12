@@ -10,11 +10,11 @@ import {
   listExhaustedEmail,
   reportUnresponsiveMusicianEmail,
 } from '../../../app/sendGrid/adminEmailLib';
-import { readOnlyTemplate } from '../../../app/sendGrid/playerLib';
 import { mockContactMessage } from '../../../__mocks__/models/contactMessage';
 import { mockEnsembleContact } from '../../../__mocks__/models/ensembleContact';
 import { mockEventSection } from '../../../__mocks__/models/eventSection';
-import { mockAdminInvite } from '../../../__mocks__/models/adminInvite';
+import { readOnlyTemplate } from '../../../app/sendGrid/lib';
+
 
 describe('eventReminderFixer()', () => {
   const mockArg = {
@@ -31,7 +31,7 @@ describe('eventReminderFixer()', () => {
     expect(eventReminderFixer(mockArg).email).toBe(mockArg.fixer.email);
   });
   it('returns expected templateID', () => {
-    expect(eventReminderFixer(mockArg).templateID).toBe(readOnlyTemplate);
+    expect(eventReminderFixer(mockArg).templateID).toBe('d-2b2e84b23956415ba770e7c36264bef9');
   });
   it('returns expected email body text', () => {
     expect(eventReminderFixer(mockArg).bodyText).toBe(
@@ -51,7 +51,7 @@ describe('eventReminderFixer()', () => {
     )
     .join(',')}
   <br />
-  Gig Status: ${mockArg.confirmedOrOnHold}<br />
+  Gig Status: ${mockArg.status}<br />
   Fee: ${mockArg.fee ? mockArg.fee : 'Not specified'}<br />
   Dress: ${mockArg.dressCode ? mockArg.dressCode : 'Not specified'}<br />
   Additional Information: ${mockArg.additionalInfo ? mockArg.additionalInfo : 'Not specified'}<br />

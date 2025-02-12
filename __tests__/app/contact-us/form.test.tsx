@@ -62,20 +62,20 @@ describe('<ContactForm />', () => {
 
     expect(mockPost).toHaveBeenCalledWith('/sendGrid', {
       body: {
-        emailAddress: 'danielmolloy_6@icloud.com',
+        emailAddress: process.env.FROM_EMAIL,
         emailData: {
           bodyText: `Dear GigFix Admin,
-          <br /><br />
-          You have received the following contact form message from Greg Ievers:
-          <br /><br />
-          Hi mate!
-          <br /><br />
-          End of Message
-          <br /><br />
-          Reply email: greg@ievers.com
-          <br /><br />
-          Kind regards,
-          GigFix`,
+                <br /><br />
+                You have received the following contact form message from Greg Ievers:
+                <br /><br />
+                Hi mate!
+                <br /><br />
+                End of Message
+                <br /><br />
+                Reply email: greg@ievers.com
+                <br /><br />
+                Kind regards,
+                GigFix`,
           subject: 'New Message from GigFix',
         },
         templateID: 'd-2b2e84b23956415ba770e7c36264bef9',

@@ -75,11 +75,11 @@ export default function FixingIndex(props: FixingIndexProps) {
     } */
   };
 
-  if (!ensemble.stripeSubscriptionId) {
-    <div>
+  if (!ensemble.stripeSubscriptionId || ensemble.stripeSubscriptionId === null) {
+    return (<div>
       <p>You must subscribe to book players.</p>
       <button onClick={() => handleSubscribe()}>Subscribe</button>
-    </div>;
+    </div>);
   }
 
   return (

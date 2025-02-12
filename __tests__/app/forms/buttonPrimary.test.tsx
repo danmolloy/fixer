@@ -6,6 +6,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 
 describe('<ButtonPrimary />', () => {
   const mockProps: ButtonPrimaryProps = {
+    disabled: false,
     isSubmitting: false,
     handleClick: jest.fn(),
     id: 'mock-id',
@@ -31,6 +32,7 @@ describe('<ButtonPrimary />', () => {
 
 describe('<ButtonPrimary />', () => {
   const mockProps: ButtonPrimaryProps = {
+    disabled: true,
     isSubmitting: true,
     handleClick: jest.fn(),
     id: 'mock-id',
@@ -41,7 +43,7 @@ describe('<ButtonPrimary />', () => {
   beforeEach(() => {
     render(<ButtonPrimary {...mockProps} />);
   });
-  it("'Submitting' text & btn disabled if submitting", () => {
+  it("if props.disabled, btn disabled ", () => {
     const buttonPrimary = screen.getByTestId(mockProps.id);
     expect(buttonPrimary.textContent).toMatch(/^Submitting$/);
     expect(buttonPrimary).toHaveAttribute('disabled');

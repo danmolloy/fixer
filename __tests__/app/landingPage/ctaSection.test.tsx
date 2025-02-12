@@ -6,8 +6,8 @@ describe('<CTASection />', () => {
   beforeEach(() => {
     render(<CTASection />);
   });
-  const ctaSection = screen.getByTestId('cta-section');
   it('<CTASection /> renders', () => {
+    const ctaSection = screen.getByTestId('cta-section');
     expect(ctaSection).toBeInTheDocument();
     expect(ctaSection.textContent).toMatch('Ready to tune?');
     expect(ctaSection.textContent).toMatch('Sign up for free.');

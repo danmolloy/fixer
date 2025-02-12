@@ -1,3 +1,4 @@
+'use server'
 import { signOut } from '../auth';
 
 export default function SignOutBtn(props: { classNames?: string }) {
@@ -5,8 +6,8 @@ export default function SignOutBtn(props: { classNames?: string }) {
   return (
     <form
       data-testid='sign-out-btn'
-      action={async () => {
-        'use server';
+      onSubmit={async () => {
+        
         await signOut({ redirectTo: '/' });
       }}
     >

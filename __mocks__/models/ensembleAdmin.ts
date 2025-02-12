@@ -5,7 +5,7 @@ const mockUserId = faker.string.uuid();
 
 export const mockAdminWithUser: EnsembleAdmin & { user: User } = {
   id: faker.string.uuid(),
-  accessType: Math.random() > 0.5 ? 'full' : 'restricted',
+  accessType: Math.random() > 0.5 ? 'FULL' : 'RESTRICTED',
   ensembleId: faker.string.uuid(),
   positionTitle: faker.lorem.word(),
   userId: mockUserId,
@@ -25,7 +25,7 @@ export const mockAdminWithUser: EnsembleAdmin & { user: User } = {
 };
 
 export const mockEnsembleAdmin: EnsembleAdmin = {
-  accessType: Math.random() > 0.5 ? 'full' : 'restricted',
+  accessType: Math.random() > 0.5 ? 'FULL' : 'RESTRICTED',
   id: faker.string.uuid(),
   ensembleId: faker.string.uuid(),
   positionTitle: faker.lorem.word(),
@@ -34,7 +34,7 @@ export const mockEnsembleAdmin: EnsembleAdmin = {
 
 export const mockAdminWithEnsemble: EnsembleAdmin & { ensemble: Ensemble } = {
   id: faker.string.uuid(),
-  accessType: Math.random() > 0.5 ? 'full' : 'restricted',
+  accessType: Math.random() > 0.5 ? 'FULL' : 'RESTRICTED',
   ensembleId: faker.string.uuid(),
   positionTitle: faker.lorem.word(),
   userId: mockUserId,

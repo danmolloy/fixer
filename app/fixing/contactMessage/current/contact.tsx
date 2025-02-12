@@ -9,7 +9,6 @@ export type CurrentContactRowProps = {
   contact: ContactMessage & {
     eventCalls: (ContactEventCall & {call: Call})[]
     contact: EnsembleContact;
-    //calls: Call[];
   };
   index: number;
   numContacts: number;
@@ -30,9 +29,7 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       data-testid='contact-row'
       className={`text-sm ${contact.status === 'DECLINED' && 'text-gray-300'}`}
     >
-      {contact.type !== 'AVAILABILITY' && (
-        <td className='text-center'>{index}</td>
-      )}
+      <td className='text-center'>{index}</td>
       <td className='text-center'>
         <p>{`${contact.contact.firstName} ${contact.contact.lastName}`}</p>
       </td>

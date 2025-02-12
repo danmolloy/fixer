@@ -36,19 +36,6 @@ export default function DiaryContact(props: DiaryContactProps) {
       <td className='text-start'>
         <p className=''>{contact.role}</p>
       </td>
-      {/* <td>
-        <button
-          data-testid={`${contact.id}-select-btn`}
-          disabled={disabled}
-          className='m-1 rounded border px-2 py-1 text-sm hover:bg-gray-50'
-          onClick={(e) => {
-            e.preventDefault();
-            setSelectContact();
-          }}
-        >
-          Select
-        </button>
-      </td> */}
     </tr>
   );
 }

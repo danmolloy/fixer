@@ -11,6 +11,7 @@ import { mockCall } from '../../../../__mocks__/models/call';
 import axios from '../../../../__mocks__/axios';
 import { useRouter } from 'next/navigation';
 import { mockUser } from '../../../../__mocks__/models/user';
+import { EventStatus } from '@prisma/client';
 
 jest.mock('');
 
@@ -52,7 +53,6 @@ describe('<CreateEventForm />', () => {
   it("'Organisation' select is in the document with label, blank option & all options with label & value", () => {
     const orgSelect = screen.getByTestId('org-select');
     expect(orgSelect).toBeInTheDocument();
-    expect(orgSelect).toHaveRole('combobox');
     expect(orgSelect).toHaveAttribute('name', 'ensembleId');
     for (let i = 0; i < mockProps.ensembleList.length; i++) {
       expect(orgSelect.textContent).toMatch(mockProps.ensembleList[i].name);
@@ -122,13 +122,11 @@ describe('<CreateEventForm />', () => {
     expect(additionalInfo).toHaveValue('');
   });
   it('submit btn is in the document', () => {
-    const submitBtn = screen.getByText('Submit');
+    const submitBtn = screen.getByTestId('submit-btn');
     expect(submitBtn).toBeInTheDocument();
-    expect(submitBtn).toHaveRole('button');
-    expect(submitBtn).toHaveAttribute('type', 'submit');
-  });
+    });
   it('all err messages are in the document on submit btn click', async () => {
-    const submitBtn = screen.getByText('Submit');
+    const submitBtn = screen.getByTestId('submit-btn');
     const createForm = screen.getByTestId('create-event-form');
     await act(async () => {
       fireEvent.click(submitBtn);
@@ -149,7 +147,9 @@ describe('<CreateEventForm />', () => {
   it('if all fields correct, axios.post() & useRouter() are called with expected args', async () => {
     const mockVals = {
       ...mockEvent,
-      confirmedOrOnHold: 'Confirmed',
+      status: 'CONFIRMED',
+      adminAccess: [],
+      createOrUpdate: "Create",
       calls: [mockCall],
     };
     const gigStatus = screen.getByTestId('confirmed-toggle');
@@ -211,7 +211,9 @@ describe('<CreateEventForm />', () => {
       eventTitle: mockVals.eventTitle,
       fee: mockVals.fee,
       fixerId: mockProps.userId,
-      confirmedOrOnHold: mockVals.confirmedOrOnHold,
+      status: mockVals.status,
+      adminAccess: [],
+      createOrUpdate: "Create",
       id: '',
       updateMessage: '',
       calls: mockVals.calls.map((i) => ({
@@ -259,12 +261,14 @@ describe('<CreateEventForm />', () => {
     ensembleId: mockEnsembleAdmin.ensembleId,
     calls: [mockCall],
     ensemble: mockEnsemble,
-    confirmedOrOnHold: 'Confirmed',
+    status: 'CONFIRMED' as EventStatus,
+    updateMessage: "mock update message",
   };
   const mockProps: CreateEventFormProps = {
     ensembleList: [
       {
         ...mockEnsemble,
+        ensembleNames: ["Led Zeppelin", "The Rolling Stones"],
         admin: [
           {
             ...mockEnsembleAdmin,
@@ -289,7 +293,7 @@ describe('<CreateEventForm />', () => {
   it('Ensemble name radio group is in the document with label, all options have label, name, value & type attrs', () => {
     const ensembleNames = mockProps.ensembleList.find(
       (i) => i.id === mockEnsembleAdmin.ensembleId
-    )?.ensembleNames;
+    )!.ensembleNames;
     for (let i = 0; i < ensembleNames!.length; i++) {
       const ensembleName = screen.getByLabelText(ensembleNames![i]);
       expect(ensembleName).toBeInTheDocument();
@@ -335,7 +339,8 @@ describe('<CreateEventForm />', () => {
       eventTitle: initialVals.eventTitle,
       fee: initialVals.fee,
       fixerId: mockProps.userId,
-      confirmedOrOnHold: initialVals.confirmedOrOnHold,
+      createOrUpdate: "Update",
+      status: initialVals.status,
       id: initialVals.id,
       calls: initialVals.calls.map((i) => ({
         id: i.id,

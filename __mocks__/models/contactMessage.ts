@@ -5,15 +5,17 @@ import {
   EnsembleContact,
   ContactMessageType,
   ContactMessageStatus,
+  EmailStatus,
 } from '@prisma/client';
 
 const statusArr = Object.values(ContactMessageStatus);
 const typeArr = Object.values(ContactMessageType);
+const emailStatus: EmailStatus[] = ["BOUNCE", "CLICK", "DELIVERED", "OPEN", "PROCESSED"];
 
 export const mockContactMessage: ContactMessage = {
+  emailStatus: emailStatus[Math.floor(Math.random() * emailStatus.length)],
   strictlyTied: false,
   urgent: false,
-  availableFor: [],
   contactId: faker.string.uuid(),
   token: faker.string.uuid(),
   position: 'Tutti',
@@ -21,10 +23,8 @@ export const mockContactMessage: ContactMessage = {
   id: faker.number.int(),
   createdAt: new Date(),
   updatedAt: new Date(),
-  received: Math.random() > 0.5 ? false : true,
   receivedDate: new Date(),
   acceptedDate: new Date(),
-  accepted: Math.random() > 0.3 ? true : Math.random() > 0.6 ? false : null,
   indexNumber: Math.floor(Math.random() * 10),
   eventSectionId: faker.number.int(),
   offerExpiry: null,
@@ -33,9 +33,9 @@ export const mockContactMessage: ContactMessage = {
 };
 
 export const mockNotContactedContactMessage: ContactMessage = {
+  emailStatus: emailStatus[Math.floor(Math.random() * emailStatus.length)],
   strictlyTied: false,
   urgent: false,
-  availableFor: [],
   contactId: faker.string.uuid(),
   token: faker.string.uuid(),
   position: 'Tutti',
@@ -43,10 +43,8 @@ export const mockNotContactedContactMessage: ContactMessage = {
   id: faker.number.int(),
   createdAt: new Date(),
   updatedAt: new Date(),
-  received: Math.random() > 0.5 ? false : true,
   receivedDate: new Date(),
   acceptedDate: new Date(),
-  accepted: Math.random() > 0.3 ? true : Math.random() > 0.6 ? false : null,
   indexNumber: Math.floor(Math.random() * 10),
   eventSectionId: faker.number.int(),
   offerExpiry: null,
@@ -60,7 +58,7 @@ export const mockContactMessageForTable: ContactMessage & {
 } = {
   strictlyTied: false,
   urgent: false,
-  availableFor: [],
+  emailStatus: emailStatus[Math.floor(Math.random() * emailStatus.length)],
   contactId: faker.string.uuid(),
   playerMessage: faker.lorem.words(8),
   position: 'Tutti',
@@ -68,10 +66,8 @@ export const mockContactMessageForTable: ContactMessage & {
   id: faker.number.int(),
   createdAt: new Date(),
   updatedAt: new Date(),
-  received: Math.random() > 0.5 ? false : true,
   receivedDate: new Date(),
   acceptedDate: new Date(),
-  accepted: Math.random() > 0.3 ? true : Math.random() > 0.6 ? false : null,
   indexNumber: Math.floor(Math.random() * 10),
   eventSectionId: faker.number.int(),
   offerExpiry: null,

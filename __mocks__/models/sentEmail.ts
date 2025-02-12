@@ -1,5 +1,7 @@
-import { SentEmail } from '@prisma/client';
+import { EmailStatus, SentEmail } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+
+const emailStatusArr: EmailStatus[] = ["BOUNCE", "CLICK", "DELIVERED", "OPEN", "PROCESSED"];
 
 export const mockSentEmail: SentEmail = {
   id: faker.string.uuid(),
@@ -8,7 +10,7 @@ export const mockSentEmail: SentEmail = {
   email: faker.internet.email(),
   subject: faker.lorem.words(3),
   bodyText: faker.lorem.paragraph(1),
-  status: 'BOUNCED',
+  status: emailStatusArr[Math.floor(Math.random() * emailStatusArr.length)],
   eventId: Math.ceil(Math.random() * 1000),
   timestamp: new Date(),
 };

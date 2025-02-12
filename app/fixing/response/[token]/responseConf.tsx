@@ -74,7 +74,7 @@ export default function ResponseConf(props: ResponseConfProps) {
       ) : contactMessage.type === 'AUTOBOOK' &&
         contactMessage.status === 'DECLINED' ? (
         <h2>Released.</h2>
-      ) : contactMessage.type === 'AUTOBOOK' ? (
+      ) : (contactMessage.type === 'AUTOBOOK' || contactMessage.status === "AUTOBOOKED") ? (
         <h2>Auto Booked</h2>
       ) :  <h2>Response Received</h2>
       }
@@ -107,6 +107,7 @@ export default function ResponseConf(props: ResponseConfProps) {
                 ))}
             </div>
             <button
+            data-testid="calendar-btn"
           className='flex flex-row items-center justify-center rounded border p-1 text-sm hover:bg-slate-50'
           onClick={() => handleCalendar()}
         >

@@ -36,7 +36,7 @@ describe('<CalendarHeader />', () => {
   });
   it('selectedDate is in the document in expected format for day view', () => {
     // localized date with full month & Day
-    const formattedDate = mockProps.selectedDate.toFormat('DDcccc');
+    const formattedDate = mockProps.selectedDate.toFormat('LLL dd, yyyy');
     const selectedDate = screen.getByTestId('selected-date');
     expect(selectedDate).toBeInTheDocument();
     expect(selectedDate.textContent).toMatch(formattedDate);
@@ -54,7 +54,7 @@ describe('<CalendarHeader />', () => {
     render(<CalendarHeader {...mockProps} />);
   });
   it('selectedDate is in the document in expected format for month view', () => {
-    const formattedDate = mockProps.selectedDate.toFormat('DDcccc');
+    const formattedDate = mockProps.selectedDate.toFormat('LLL dd, yyyy');
     const selectedDate = screen.getByTestId('selected-date');
     expect(selectedDate).toBeInTheDocument();
     expect(selectedDate.textContent).toMatch(formattedDate);

@@ -51,7 +51,6 @@ describe('updateContactMessage', () => {
         status: 'DECLINED',
       },
       include: {
-        calls: true,
         contact: true,
         eventSection: {
           include: {

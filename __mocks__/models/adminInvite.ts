@@ -10,5 +10,5 @@ export const mockAdminInvite: AdminInvite = {
   lastName: faker.person.lastName(),
   email: faker.internet.email(),
   positionTitle: faker.lorem.word(),
-  accessType: Math.random() > 0.5 ? 'Restricted' : 'Full',
+  accessType: Math.random() > 0.5 ? "RESTRICTED" : "FULL",
 };

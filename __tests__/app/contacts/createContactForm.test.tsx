@@ -4,7 +4,6 @@ import {
   screen,
   act,
   fireEvent,
-  waitFor,
 } from '@testing-library/react';
 import CreateContactForm, {
   CreateContactFormProps,
@@ -12,14 +11,10 @@ import CreateContactForm, {
 } from '../../../app/contacts/createContactForm';
 import { mockEnsemble } from '../../../__mocks__/models/ensemble';
 import { mockSection } from '../../../__mocks__/models/ensembleSection';
-import {
-  categories,
-  instrumentSections,
-  rolesArr,
-} from '../../../app/contacts/lib';
 import axios from '../../../__mocks__/axios';
 import { EnsembleContact, EnsembleSection } from '@prisma/client';
 import { mockEnsembleContact } from '../../../__mocks__/models/ensembleContact';
+import { sectionNamesArr } from '../../../app/ensembles/create/api/functions';
 
 jest.mock('axios');
 const mockPost = jest.spyOn(axios, 'post');
@@ -101,20 +96,17 @@ describe('<CreateContactForm />', () => {
     const sectionBlank = screen.getByTestId('section-blank');
     expect(sectionBlank).toBeInTheDocument();
     expect(sectionBlank).toHaveAttribute('value', '');
-    for (let i = 0; i < instrumentSections.length; i++) {
-      expect(sectionSelect.textContent).toMatch(instrumentSections[i].name);
-      const section = screen.getByTestId(
-        `section-option-${instrumentSections[i].id}`
-      );
+    for (let i = 0; i < mockProps.sections.length; i++) {
+      expect(sectionSelect.textContent).toMatch(mockProps.sections[i].name);
+      const section = screen.getByTestId(`section-option-${mockProps.sections[i].id}`)
       expect(section).toBeInTheDocument();
-      expect(section.textContent).toMatch(instrumentSections[i].name);
-      expect(section).toHaveAttribute('value', instrumentSections[i].name);
+      expect(section.textContent).toMatch(mockProps.sections[i].name);
+      expect(section).toHaveAttribute('value', mockProps.sections[i].id);
     }
   });
-  it('submit btn is in the document with label and expected type attr', () => {
-    const submitBtn = screen.getByText('Submit');
+  it('submit btn is in the document', () => {
+    const submitBtn = screen.getByTestId('submit-btn');
     expect(submitBtn).toBeInTheDocument();
-    expect(submitBtn).toHaveAttribute('type', 'submit');
   });
   it('all expected errs are shown if submit btn pressed without valid fields', async () => {
     const submitBtn = screen.getByText('Submit');
@@ -159,7 +151,7 @@ describe('<CreateContactForm />', () => {
     const sectionInput = screen.getByLabelText('Section Select');
     await act(async () => {
       await fireEvent.change(sectionInput, {
-        target: { value: mockContact.section },
+        target: { value: mockProps.sections[0].id },
       });
     });
     const roleInput = screen.getByLabelText('Role');
@@ -191,12 +183,10 @@ describe('<CreateContactForm />', () => {
     await act(async () => {
       fireEvent.click(submitBtn);
     });
+    const createContactForm = screen.getByTestId('create-contact-form');
     expect(axios.post).toHaveBeenCalledWith('/contacts/api/create', {
       ...mockContact,
-      section: {
-        id: undefined,
-        name: mockContact.section,
-      },
+      section: mockProps.sections[0].id,
       ensembleId: mockProps.ensembleId,
     });
   });
@@ -245,10 +235,7 @@ describe('<CreateContactForm />', () => {
         firstName: mockContact.firstName,
         lastName: mockContact.lastName,
         role: mockContact.role,
-        section: {
-          name: mockContact.section.name,
-          id: mockContact.section.id,
-        },
+        section: mockContact.section.id,
         ensembleId: mockProps.ensembleId,
       },
     });

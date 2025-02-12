@@ -18,7 +18,6 @@ export type UpdateContactMessageProps = {
     eventCalls: (ContactEventCall & {
       call: Call
     })[]
-    //calls: Call[];
   };
   event: Event & { calls: Call[] };
   instrument: string;
@@ -50,7 +49,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
     eventCalls: Yup.array().of(Yup.object().shape({
       callId: Yup.number(),
       status: Yup.string()
-    })),
+    })).min(1),
     type: Yup.string().required(),
     //offerExpiry: Yup.number(),
     status: Yup.string(),
@@ -60,11 +59,10 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
   });
 
   return (
+    <div data-testid="update-form">
     <Formik
       onSubmit={async (values, actions) => {
-        //handleSubmit(values);
-        //actions.setSubmitting(false);
-
+        
         actions.setStatus(null);
         actions.setSubmitting(true);
         await axios
@@ -78,15 +76,6 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
               strictlyTied: (values.type === "BOOKING" || values.type === "AUTOBOOK") ? true : values.strictlyTied,
               type: values.type,
               urgent: values.urgent,
-              /* calls: {
-                connect: values.calls.map((i) => ({ id: Number(i) })),
-                disconnect: contact.calls
-                  .map((i) => String(i.id))
-                  .filter((i) => !values.calls.includes(i))
-                  .map((i) => ({
-                    id: Number(i),
-                  })),
-              }, */
             },
           })
           .then(async (res) => {
@@ -113,9 +102,10 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
       }}
       validationSchema={contactSchema}
       initialValues={initialVals}
+      initialErrors={{}}
     >
       {(props) => (
-        <Form className='flex w-full flex-col px-2 py-8 lg:w-2/3'>
+        <Form  className='flex w-full flex-col px-2 py-8 lg:w-2/3'>
           <h2 className='py-1'>Update Contact Call</h2>
           <p>{event.ensembleName}</p>
           <p>
@@ -123,6 +113,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             )
           </p>
           <Field
+            data-testid="type-select"
             disabled={props.isSubmitting}
             className='my-1 rounded border'
             as='select'
@@ -139,7 +130,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             <p className=''>Calls</p>
             {contact.eventCalls.map((i, index) => (
               <label key={i.callId} className='my-1 flex flex-row p-1'>
-                <div className='ml-1 text-sm'>
+                <div data-testid={i.callId} className='ml-1 text-sm'>
                   <p>
                     {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat(
                       'HH:mm'
@@ -150,6 +141,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                   </p>
                 </div>
                 <select
+                  data-testid={`${i.callId}-select`}
                   disabled={props.isSubmitting}
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
@@ -176,6 +168,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
             <label className='my-2 flex flex-col'>Status</label>
 
             <Field
+              data-testid="message-status"
               disabled={props.isSubmitting}
               className='my-1 rounded border'
               as='select'
@@ -257,10 +250,20 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                   : undefined
             }
           />
-          {/* <ValidationError errors={Object.values(props.errors).flat()} /> */}
+          <ValidationError errors={Object.values({
+            playerMessage: props.errors.playerMessage as string,
+            type: props.errors.type as string,
+            status: props.errors.status as string,
+            position: props.errors.position as string,
+            strictlyTied: props.errors.strictlyTied as string,
+            urgent: props.errors.urgent as string,
+            eventCalls: props.errors.eventCalls as string,
+            }).flat()} /> 
           <StatusMessage status={props.status} />
         </Form>
       )}
     </Formik>
+    </div>
+
   );
 }

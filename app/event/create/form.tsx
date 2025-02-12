@@ -240,7 +240,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                   <Field
                     disabled={props.isSubmitting}
                     className='rounded border p-1'
-                    data-testid='org-select'
+                    data-testid='fixed-select'
                     as='select'
                     name='fixerId'
                     onChange={(e) => {

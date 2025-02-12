@@ -15,6 +15,7 @@ jest.mock('papaparse');
 const mockParse = jest.spyOn(Papa, 'parse');
 
 const mockProps: ImportFormProps = {
+  environment: "",
   ensemble: {
     ...mockEnsemble,
     sections: [mockSection],
@@ -33,8 +34,8 @@ describe('<ImportForm />', () => {
     const heading = screen.getAllByRole('heading');
     expect(heading[0].textContent).toMatch('Add Contacts');
   });
-  it('Add manually btn is in the document and renders an empty table on click', async () => {
-    const addManually = screen.getByText('Add manually');
+  it('Ent manually btn is in the document and renders an empty table on click', async () => {
+    const addManually = screen.getByText('Enter manually');
     expect(addManually).toBeInTheDocument();
     await waitFor(() => {
       fireEvent.click(addManually);

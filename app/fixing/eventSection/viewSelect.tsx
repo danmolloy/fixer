@@ -9,8 +9,9 @@ export default function SectionViewSelect(props: SectionSelectProps) {
   const { selectedView, setSelectedView, disabled, availabilityCheckCount } =
     props;
   return (
-    <div className='mb-2 flex w-screen flex-row items-center justify-start text-sm'>
+    <div data-testid="view-select" className='mb-2 flex w-screen flex-row items-center justify-start text-sm'>
       <button
+        data-testid="booking-btn"
         disabled={disabled}
         onClick={() => setSelectedView('BOOKING')}
         className={`${selectedView === 'BOOKING' ? 'font-semibold text-black' : 'text-slate-400'} flex flex-col px-2 py-2`}
@@ -21,6 +22,7 @@ export default function SectionViewSelect(props: SectionSelectProps) {
         />
       </button>
       <button
+        data-testid="avail-btn"
         disabled={disabled}
         onClick={() => setSelectedView('AVAILABILITY')}
         className={`${selectedView === 'AVAILABILITY' ? 'font-semibold text-black' : 'text-slate-400'} flex flex-col px-2 py-2`}

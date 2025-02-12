@@ -27,7 +27,7 @@ export default function DiaryContacts(props: DiaryContactsProps) {
   >('alphabetical');
 
   return (
-    <div>
+    <div data-testid="diary-contacts">
       <FieldArray name='contacts'>
         {({ push }) =>
           sectionContacts.length === 0 ? (
@@ -38,10 +38,10 @@ export default function DiaryContacts(props: DiaryContactsProps) {
               />
             </div>
           ) : (
-            <table className='w-full border'>
+            <table data-testid="diary-contacts-table" className='w-full border'>
               <thead className='border bg-slate-50 text-sm'>
                 <tr>
-                  <th></th>
+                  <th data-testid="empty-th"></th>
                   <th className='p-1 py-2 text-start'>
                     <button
                       onClick={(e) => {

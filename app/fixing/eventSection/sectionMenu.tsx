@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
@@ -12,8 +11,9 @@ export default function SectionMenu(props: SectionMenuProps) {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-    <div>
+    <div data-testid="section-menu">
       <button
+      data-testid="options-btn"
         className='rounded border p-1 hover:bg-slate-50'
         onClick={() => {
           focus();
@@ -26,14 +26,14 @@ export default function SectionMenu(props: SectionMenuProps) {
       </button>
       {showMenu && (
         <div
-          data-testid='options-menu'
+          data-testid='options-div'
           className='absolute -ml-24 flex flex-col rounded border bg-white text-sm'
         >
           <button
             className='m-1 px-2 py-1 hover:bg-gray-50 hover:text-blue-600'
             onClick={() => editSection()}
           >
-            Edit section
+            Edit Section
           </button>
 
           <button

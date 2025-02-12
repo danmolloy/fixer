@@ -24,7 +24,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
     props;
 
   return (
-    <div>
+    <div data-testid="appended-contacts-index">
       {/* <h3>Contacts to Call</h3> */}
       <table className='my-4 w-full border'>
         <thead className='border-b bg-slate-50 text-sm'>
@@ -33,7 +33,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
             <th>Name</th>
             <th className=''>Position</th>
             {eventCalls.map((i) => (
-              <th key={i.id} className='text-xs'>
+              <th data-testid={`${i.id}-call`} key={i.id} className='text-xs'>
                 <p>
                   {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
                 </p>
@@ -42,7 +42,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
                 </p>
               </th>
             ))}
-            <th>Options</th>
+            <th data-testid="options-th">Options</th>
             {type !== 'AVAILABILITY' && <th>Auto Accept</th>}
           </tr>
         </thead>
