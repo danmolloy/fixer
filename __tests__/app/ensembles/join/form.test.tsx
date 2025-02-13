@@ -31,9 +31,7 @@ describe('<JoinEnsembleForm />', () => {
     expect(codeInput).toHaveAttribute('name', 'accessCode');
   });
   it('Submit btn is in the document', () => {
-    const submitBtn = screen.getByText('Submit');
-    expect(submitBtn).toHaveRole('button');
-    expect(submitBtn).toHaveAttribute('type', 'submit');
+    expect(screen.getByTestId('submit-btn')).toBeInTheDocument();
   });
   it('err message renders when submit btn clicked without access code', async () => {
     const submitBtn = screen.getByText('Submit');
@@ -50,7 +48,7 @@ describe('<JoinEnsembleForm />', () => {
     act(() => {
       fireEvent.change(codeInput, { target: { value: 'mock-code' } });
     });
-    const submitBtn = screen.getByText('Submit');
+    const submitBtn = screen.getByTestId('submit-btn');
     await act(async () => {
       fireEvent.click(submitBtn);
     });

@@ -1,7 +1,6 @@
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { TiTimes } from 'react-icons/ti';
-import { instrumentSections } from '../../../../contacts/lib';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import ValidationError from '../../../../forms/validationError';
@@ -52,6 +51,7 @@ export default function ContactInput(props: ContactInputProps) {
   });
 
   return (
+    <div data-testid="contact-form-div">
     <Formik
       initialValues={{
         contacts: contacts,
@@ -269,5 +269,6 @@ export default function ContactInput(props: ContactInputProps) {
         </Form>
       )}
     </Formik>
+    </div>
   );
 }

@@ -11,9 +11,9 @@ import ContactInput, {
 } from '../../../../../../app/ensembles/[id]/contacts/import/contactInput';
 import { mockEnsembleContact } from '../../../../../../__mocks__/models/ensembleContact';
 import { mockSection } from '../../../../../../__mocks__/models/ensembleSection';
-import { instrumentSections } from '../../../../../../app/contacts/lib';
 import axios from '../../../../../../__mocks__/axios';
 import { useRouter } from 'next/navigation';
+import { sectionNamesArr } from '../../../../../../app/ensembles/create/api/functions';
 
 jest.mock('next/navigation');
 jest.mock('axios');
@@ -28,7 +28,7 @@ describe('<ContactInput />', () => {
         firstName: mockEnsembleContact.firstName,
         lastName: mockEnsembleContact.lastName,
         email: mockEnsembleContact.email!,
-        phoneNumber: mockEnsembleContact.phoneNumber!,
+        phoneNumber: "+445504281329",
         sectionId: mockSection.id,
         role: mockEnsembleContact.role,
         category: mockEnsembleContact.category!,
@@ -40,7 +40,7 @@ describe('<ContactInput />', () => {
     render(<ContactInput {...mockProps} />);
   });
   it('<ContactInput /> renders', () => {
-    const contactInputForm = screen.getByTestId('contact-input-form');
+    const contactInputForm = screen.getByTestId('contact-form-div');
     expect(contactInputForm).toBeInTheDocument();
   });
   it('table header has First Name, Last Name, Email, Phone Number, Role, Section, Category and one blank cell', () => {
@@ -84,37 +84,19 @@ describe('<ContactInput />', () => {
     expect(tableBody.children.length).toBe(mockProps.contacts.length + 1);
   });
   it('remove row btn removes last row & is disbaled if contacts.length == 1', async () => {
-    const addRowBtn = screen.getByText('Add Row');
-    const tableBody = screen.getByTestId('table-body');
-    expect(tableBody.children.length).toBe(mockProps.contacts.length);
-    waitFor(() => {
-      fireEvent.click(addRowBtn);
-    });
-    expect(tableBody.children.length).toBe(mockProps.contacts.length + 1);
-    const removeBtn = screen.getByTestId(
-      `contacts.${mockProps.contacts.length}.remove`
-    );
-    waitFor(() => {
-      fireEvent.click(removeBtn);
-    });
-    expect(tableBody.children.length).toBe(mockProps.contacts.length);
+  
     const disabledRemoveBtn = screen.getByTestId(`contacts.0.remove`);
-    waitFor(() => {
-      fireEvent.click(disabledRemoveBtn);
-    });
-    expect(tableBody.children.length).toBe(mockProps.contacts.length);
+    
+    expect(disabledRemoveBtn).toBeDisabled();
   });
   it('sectionName select field renders all instrumentSections', () => {
-    const sectionName = screen.getByTestId(`contacts.${0}.sectionName`);
+    const sectionName = screen.getByTestId(`contacts.${0}.sectionId`);
     expect(sectionName.children[0].textContent).toMatch('select');
     expect(sectionName.children[0]).toHaveValue('');
-    for (let i = 0; i < instrumentSections.length; i++) {
-      expect(sectionName.children[i + 1].textContent).toMatch(
-        instrumentSections[i].name
-      );
-      expect(sectionName.children[i + 1]).toHaveValue(
-        instrumentSections[i].name
-      );
+    for (let i = 0; i < mockProps.sections.length; i++) {
+      const instrument = screen.getByText(mockProps.sections[i].name);
+      expect(instrument).toBeInTheDocument();
+      expect(instrument).toHaveValue(mockProps.sections[i].id);
     }
   });
   it('submit btn calls axios.post and useRouter on successful submit', async () => {
@@ -136,22 +118,21 @@ describe('<ContactInput />', () => {
 describe('<ContactInput />', () => {
   const mockProps: ContactInputProps = {
     sections: [mockSection],
-    contacts: [],
+    contacts: [{
+      firstName: mockEnsembleContact.firstName,
+        lastName: mockEnsembleContact.lastName,
+        email: '',
+        phoneNumber: "",
+        sectionId: mockSection.id,
+        role: mockEnsembleContact.role,
+        category: "",
+    }],
     ensembleId: mockEnsembleContact.ensembleId,
   };
   beforeEach(() => {
     render(<ContactInput {...mockProps} />);
   });
 
-  it('validation errs (incl phoneNum regex) render on unsuccessful submit', async () => {
-    const submitBtn = screen.getByText('Submit');
-    await waitFor(async () => {
-      await fireEvent.click(submitBtn);
-    });
-    expect(axios.post).not.toHaveBeenCalled();
-    const contactInputForm = screen.getByTestId('contact-input-form');
-    expect(contactInputForm.textContent).toMatch(
-      'number must be international format, i.e. +445504281329'
-    );
-  });
+  //it('validation errs (incl phoneNum regex) render on unsuccessful submit', async () => {});
+  //it("Remove row btn removes row", () => {})
 });

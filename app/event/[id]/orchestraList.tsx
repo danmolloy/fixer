@@ -52,7 +52,6 @@ export default function OrchestraList(props: OrchestraListProps) {
 
   const getOrchList = () => {
     const orchList = playersRef.current;
-
     html2pdf().from(orchList).set(pdfOptions).save();
   };
 
@@ -91,7 +90,7 @@ export default function OrchestraList(props: OrchestraListProps) {
 
       <div ref={playersRef} className='flex flex-col'>
         {/* 1 */}{' '}
-        {sections /* .filter((i) => i.contacts.length > 0) */.length < 1 && (
+        {sections.length < 1 && (
           <div
             data-testid='help-msg'
             className='flex flex-col self-center text-center'
@@ -101,7 +100,6 @@ export default function OrchestraList(props: OrchestraListProps) {
           </div>
         )}
         {sortedSections
-          /* .filter((i) => i.contacts.length > 0) */
           .map((i) => (
             <div data-testid={`${i.id}-section`} key={i.id} className='my-2'>
               <h3 className='font-semibold'>{i.ensembleSection.name}</h3>
@@ -110,8 +108,6 @@ export default function OrchestraList(props: OrchestraListProps) {
                   .filter(
                     (j) =>
                       j.eventCalls.map(c => c.status).includes("ACCEPTED")
-                      /* j.type !== 'AVAILABILITY' &&
-                      (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED') */
                   )
                   .sort((a, b) => a.indexNumber - b.indexNumber)
                   .map((j) => (
@@ -123,17 +119,11 @@ export default function OrchestraList(props: OrchestraListProps) {
                   i.contacts.filter(
                     (j) =>
                       j.eventCalls.map(c => c.status).includes("ACCEPTED")
-
-                      /* j.type !== 'AVAILABILITY' &&
-                      (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED') */
                   ).length ===
                 0 ? null : maxNumRequired(i.orchestration) -
                     i.contacts.filter(
                       (j) =>
                         j.eventCalls.map(c => c.status).includes("ACCEPTED")
-
-                        /* j.type !== 'AVAILABILITY' &&
-                        (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED') */
                     ).length <
                   0 ? (
                   <p className='font-bold'>
@@ -142,7 +132,6 @@ export default function OrchestraList(props: OrchestraListProps) {
                       (j) =>
                         j.eventCalls.map(c => c.status).includes("ACCEPTED")
 
-                        /* j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED' */
                     ).length - maxNumRequired(i.orchestration)}{' '}
                   </p>
                 ) : (

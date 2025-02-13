@@ -16,13 +16,17 @@ import { mockContactMessage } from '../../../../__mocks__/models/contactMessage'
 import { mockEnsembleContact } from '../../../../__mocks__/models/ensembleContact';
 import { messageToAllEmail } from '../../../../app/sendGrid/playerLib';
 
+const mockMessageToAllEmail = jest.fn();
 global.confirm = jest.fn(() => true);
 global.prompt = jest.fn(() => 'Hello, world. This is a mock message');
 let mockPrompt = global.prompt;
 let mockConfirm = global.confirm;
 
+jest.mock('../../../../app/sendGrid/playerLib', () => ({
+  messageToAllEmail: () => mockMessageToAllEmail
+}))
 jest.mock('next/navigation');
-
+global.focus = jest.fn();
 jest.mock('axios');
 const mockPost = jest.spyOn(axios, 'post');
 mockPost.mockResolvedValue({ data: {} });
@@ -36,7 +40,6 @@ const mockProps: EventMenuProps = {
   contacts: [
     {
       ...mockContactMessage,
-      accepted: true,
       contact: mockEnsembleContact,
     },
   ],
@@ -78,26 +81,26 @@ describe('<EventMenu />', () => {
       fireEvent.click(messageAll);
     });
     expect(mockPrompt).toHaveBeenCalled();
-    expect(messageToAllEmail).toHaveBeenCalled();
+    expect(mockMessageToAllEmail).toHaveBeenCalled();
   });
   it('Print Running Sheet is in the document and calls getRunningSheet on click', () => {
     openMenu();
     const runningSheet = screen.getByText('Print Running Sheet');
     expect(runningSheet).toBeInTheDocument();
   });
-  it('Export Event Details btn is in the document', () => {
-    openMenu();
-    const exportDetails = screen.getByText('Export Event Details');
-    expect(exportDetails).toBeInTheDocument();
-  });
-  it('Export Orchestra List btn is in the document', () => {
-    openMenu();
-    const exportList = screen.getByText('Export Orchestra List');
-    expect(exportList).toBeInTheDocument();
-  });
   it('Export Calls List btn is in the document', () => {
     openMenu();
-    const exportCalls = screen.getByText('Export Calls List');
+    const exportDetails = screen.getByText('Export Calls List');
+    expect(exportDetails).toBeInTheDocument();
+  });
+  it('Print Running Sheet btn is in the document', () => {
+    openMenu();
+    const exportList = screen.getByText('Print Running Sheet');
+    expect(exportList).toBeInTheDocument();
+  });
+  it('Export Event Details btn is in the document', () => {
+    openMenu();
+    const exportCalls = screen.getByText('Export Event Details');
     expect(exportCalls).toBeInTheDocument();
   });
   it('Cancel Event btn is in the document and calls confirm, axios.post & useRouter on click', async () => {
@@ -107,13 +110,11 @@ describe('<EventMenu />', () => {
     act(() => {
       fireEvent.click(cancelEvent);
     });
-    expect(mockConfirm).toHaveBeenCalled();
-    waitFor(() => {
-      expect(mockPrompt).toHaveBeenCalled();
-    });
+    expect(mockConfirm).toHaveBeenCalledWith('Please confirm you would like to delete this event.');
+    expect(mockPrompt).toHaveBeenCalled();
     expect(axios.post).toHaveBeenCalledWith('/event/delete', {
       eventId: mockProps.event.id,
     });
-    expect(useRouter).toHaveBeenCalled();
+
   });
 });

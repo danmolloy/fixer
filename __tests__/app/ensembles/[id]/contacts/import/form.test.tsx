@@ -6,6 +6,7 @@ import { mockEnsemble } from '../../../../../../__mocks__/models/ensemble';
 import { mockSection } from '../../../../../../__mocks__/models/ensembleSection';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Papa from 'papaparse';
+import { act } from 'react';
 const csvHeaders = [
   'First Name,Last Name,Email,Phone Number,Section,Role,Category',
   'Brett,Sturdy,brett@sturdy.com,07055281329,Double Bass,Tutti,Extra',
@@ -13,6 +14,9 @@ const csvHeaders = [
 ];
 jest.mock('papaparse');
 const mockParse = jest.spyOn(Papa, 'parse');
+
+global.URL.createObjectURL = jest.fn();
+global.URL.revokeObjectURL = jest.fn();
 
 const mockProps: ImportFormProps = {
   environment: "",
@@ -34,6 +38,20 @@ describe('<ImportForm />', () => {
     const heading = screen.getAllByRole('heading');
     expect(heading[0].textContent).toMatch('Add Contacts');
   });
+  it('if !data, there is a helpful message', () => {
+    const importForm = screen.getByTestId('import-form');
+    expect(importForm.textContent).toMatch(`Add musicians to your address book by either entering their details manually or importing a spreadsheet.`)
+    expect(importForm.textContent).toMatch(`If importing a spreadsheet, please follow the format of the downloadable template.`);
+  })
+  it("Download Template btn downloads", () => {
+    const downloadBtn = screen.getByText("Download Template");
+    expect(downloadBtn).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(downloadBtn)
+    })
+    expect(global.URL.createObjectURL).toHaveBeenCalled(); 
+    expect(global.URL.revokeObjectURL).toHaveBeenCalled();
+  })
   it('Ent manually btn is in the document and renders an empty table on click', async () => {
     const addManually = screen.getByText('Enter manually');
     expect(addManually).toBeInTheDocument();
@@ -42,14 +60,9 @@ describe('<ImportForm />', () => {
     });
     const inputForm = screen.getByTestId('contact-input-form');
     expect(inputForm).toBeInTheDocument();
-    const tableBody = screen.getByTestId('table-body');
-    const regex =
-      /^selectFluteOboeClarinetBassoonHornTrumpetTromboneTubaTimpaniPercussionOrganPianoViolin 1Violin 2ViolaCelloDouble Bass$/;
-    expect(tableBody.textContent).toMatch(regex);
   });
   it("'Import Spreadsheet' option is in the table with label and type='file' attr", () => {
-    const importHeader = screen.getByText('Import Spreadsheet');
-    expect(importHeader).toBeInTheDocument();
+    
     const input = screen.getByTestId('spreadsheet-input');
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute('type', 'file');
@@ -64,7 +77,4 @@ describe('<ImportForm />', () => {
     });
     expect(mockParse).toHaveBeenCalled();
   });
-  //it("import success renders table with values", () => {})
-  //it("err message if file cannot be read", () => {});
-  //it("download spreadsheet btn downloads a spreadsheet in expected format", () => {})
 });

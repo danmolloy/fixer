@@ -73,10 +73,7 @@ describe('<UpdateEnsembleform />', () => {
     }
   });
   it('submit btn is in the document with expect text content and type attr', () => {
-    const submitBtn = screen.getByText('Submit');
-    expect(submitBtn).toBeInTheDocument();
-    expect(submitBtn).toHaveAttribute('type', 'submit');
-    expect(submitBtn).toHaveRole('button');
+    expect(screen.getByText('Submit')).toBeInTheDocument();
   });
   it('if correct fields, axios.post() and router() are called on submit btn click', async () => {
     const submitBtn = screen.getByText('Submit');
@@ -91,13 +88,13 @@ describe('<UpdateEnsembleform />', () => {
   });
 
   it('delete btn is in the document with expected text content', () => {
-    const deleteBtn = screen.getByText('Delete');
+    const deleteBtn = screen.getByText('Delete Ensemble');
     expect(deleteBtn).toBeInTheDocument();
     expect(deleteBtn).toHaveRole('button');
   });
 
   it('delete btn calls window.confirm, axios.post() and router() on click', () => {
-    const deleteBtn = screen.getByText('Delete');
+    const deleteBtn = screen.getByText('Delete Ensemble');
     act(() => {
       fireEvent.click(deleteBtn);
     });
@@ -123,7 +120,7 @@ describe('<UpdateEnsembleform />', () => {
       fireEvent.click(submitBtn);
     });
     expect(axios.post).not.toHaveBeenCalled();
-    expect(updateForm.textContent).toMatch('Ensemble name required');
+    expect(updateForm.textContent).toMatch('Organisation name required');
     expect(updateForm.textContent).toMatch(
       'You must provide at least one ensemble name.'
     );

@@ -35,7 +35,7 @@ describe('<EventInfo />', () => {
     expect(status).toBeInTheDocument();
     expect(status.textContent).toMatch(/^Status/);
     expect(status.textContent).toMatch(
-      mockProps.event.confirmedOrOnHold.toLocaleUpperCase()
+      mockProps.event.status
     );
   });
   it('ensemble name is in the document with label', () => {

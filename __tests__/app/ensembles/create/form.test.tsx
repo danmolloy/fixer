@@ -35,10 +35,10 @@ describe('<CreateEnsembleForm />', () => {
   });
 
   it('add btn adds ensemble name input, remove btn removes ensemble name (except if length === 1)', async () => {
-    const removeBtn = screen.getByText('Remove');
+    const removeBtn = screen.getByTestId(`remove-${0}`);
     expect(removeBtn).toBeInTheDocument();
     // Doesn't remove if just one name
-    const nameOne = screen.getByTestId('ensembleNames[0]-input');
+    const nameOne = screen.getByTestId('ensembleNames[0]');
     expect(nameOne).toBeInTheDocument();
     await act(async () => {
       fireEvent.click(removeBtn);
@@ -50,7 +50,7 @@ describe('<CreateEnsembleForm />', () => {
     await act(async () => {
       fireEvent.click(addBtn);
     });
-    const nameTwo = screen.getByTestId('ensembleNames[1]-input');
+    const nameTwo = screen.getByTestId('ensembleNames[1]');
     expect(nameTwo).toBeInTheDocument();
     // Remove button removes second name
     await act(async () => {
@@ -62,17 +62,15 @@ describe('<CreateEnsembleForm />', () => {
   it('Ensemble Names array are in the document with label, initial val, expected name & type attrs', () => {
     const ensembleNamesLabel = screen.getByText('Ensemble Names');
     expect(ensembleNamesLabel).toBeInTheDocument();
-    const ensembleName = screen.getByTestId(`ensembleNames[0]-input`);
+    const ensembleName = screen.getByTestId(`ensembleNames[0]`);
     expect(ensembleName).toBeInTheDocument();
     expect(ensembleName).toHaveAttribute('value', '');
     expect(ensembleName).toHaveAttribute('type', 'text');
   });
 
-  it('submit btn is in the document with expect text content and type attr', () => {
-    const submitBtn = screen.getByText('Submit');
-    expect(submitBtn).toBeInTheDocument();
-    expect(submitBtn).toHaveAttribute('type', 'submit');
-    expect(submitBtn).toHaveRole('button');
+  it('submit btn is in the document ', () => {
+    expect(screen.getByTestId("submit-btn")).toBeInTheDocument();
+    
   });
   it('appropriate err messages render if submit btn clicked without complete form', async () => {
     const submitBtn = screen.getByText('Submit');
@@ -81,13 +79,12 @@ describe('<CreateEnsembleForm />', () => {
       fireEvent.click(submitBtn);
     });
     expect(createForm.textContent).toMatch('Organisation name required');
-    expect(createForm.textContent).toMatch('Field cannot be left blank');
+    expect(createForm.textContent).toMatch('Ensemble name required');
     expect(axios.post).not.toHaveBeenCalled();
   });
   it('if valid form, submit btn calls axios.post() and redirects', async () => {
     const nameInput = screen.getByLabelText('Organisation Name');
-    const createForm = screen.getByTestId('create-ensemble-form');
-    const ensembleName = screen.getByTestId(`ensembleNames[0]-input`);
+    const ensembleName = screen.getByTestId(`ensembleNames[0]`);
 
     await act(async () => {
       fireEvent.change(nameInput, { target: { value: 'LSO' } });

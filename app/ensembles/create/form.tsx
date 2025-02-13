@@ -83,11 +83,14 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                         <div className='flex flex-row'>
                           <Field
                             disabled={props.isSubmitting}
+                            data-testid={`ensembleNames[${index}]`}
                             name={`ensembleNames[${index}]`}
                             id={`ensembleNames[${index}]`}
+                            type="text"
                             className='my-1 h-8 w-80 max-w-[60vw] rounded border px-1 shadow-sm'
                           />
                           <button
+                            data-testid={`remove-${index}`}
                             disabled={props.isSubmitting}
                             className='m-1 rounded-full border p-2 text-sm hover:bg-slate-50 disabled:opacity-40'
                             onClick={(e) => {

@@ -1,12 +1,9 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Papa from 'papaparse';
 import { Ensemble, EnsembleSection } from '@prisma/client';
 import ContactInput from './contactInput';
-import { instrumentSections } from '../../../../contacts/lib';
 import { faker } from '@faker-js/faker';
-import { sectionNamesArr } from '../../../create/api/functions';
 
 export type ImportFormProps = {
   ensemble: Ensemble & {
@@ -18,7 +15,6 @@ export type ImportFormProps = {
 export default function ImportForm(props: ImportFormProps) {
   const [data, setData] = useState<null | any[]>(null);
   const { ensemble, environment } = props;
-  const router = useRouter();
 
   const csvHeaders = [
     'First Name,Last Name,Email,Phone Number,Section,Role,Category',
@@ -66,7 +62,6 @@ export default function ImportForm(props: ImportFormProps) {
       'Phone Number': faker.phone.number({ style: 'international' }),
       Role: Math.random() > 0.3 ? 'Tutti' : 'Principal',
     }));
-    console.log(mockContacts[0].Section);
     setData(mockContacts);
   };
 
@@ -136,6 +131,7 @@ export default function ImportForm(props: ImportFormProps) {
               {/*             <h3 className='text-sm '>Import Spreadsheet</h3>
                */}{' '}
               <input
+                title='Import Spreadsheet'
                 data-testid='spreadsheet-input'
                 className='my-4 items-center text-gray-400 file:rounded file:border file:bg-white file:px-2 file:py-1 file:shadow-none file:hover:cursor-pointer file:hover:bg-slate-50'
                 type='file'
