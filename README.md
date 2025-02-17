@@ -40,9 +40,8 @@ This is an ongoing project which will hopefully soon be available for commercial
 - **Relational Database**: Efficient management of CRUD operations with Prisma ORM and PostgreSQL, supporting one-to-many and many-to-many relationships.
 
 ## Testing
-
-Unit tests with Jest and React Testing Library achieve a high code coverage threshold (87.56% Stmts, 88.25% lines), focusing on maintaining a consistent UI and critical logic. An array of Jest matchers (such as .toBe(), .toEqual() and .toBeInTheDocument()) are leveraged for effective assertions. Predictable UI output is maintained with snapshot tests for all components. Test suites are regularly reviewed to ensure failures are swiftly captured, and the site continues to be manually tested across a variety of screen sizes.
-As this is an ongoing project, tests continue to be written and erased. End-to-end tests are beginning to be written with Playwright.
+This is an ongoing project, with tests continuing to be written and erased. As such, unit tests with Jest and React Testing Library achieve a moderate code coverage threshold of 75%, focusing on maintaining a consistent UI and critical logic. An array of Jest matchers (such as .toBe(), .toEqual() and .toBeInTheDocument()) are leveraged for effective assertions. Predictable UI output is maintained with snapshot tests for all components. Test suites are regularly reviewed to ensure failures are swiftly captured, and the site continues to be manually tested across a variety of screen sizes.
+End-to-end tests are beginning to be written with Playwright.
 
 ## Accessibility
 
