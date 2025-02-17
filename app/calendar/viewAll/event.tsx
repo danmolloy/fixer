@@ -1,5 +1,6 @@
 import {
   Call,
+  ContactEventCall,
   ContactMessage,
   EnsembleSection,
   Event,
@@ -17,7 +18,9 @@ export type EventOverviewProps = {
     calls: Call[];
     sections: (EventSection & {
       contacts: (ContactMessage & {
-        calls: Call[];
+        eventCalls: (ContactEventCall & {
+          call: Call
+        })[];
       })[];
       ensembleSection: EnsembleSection;
       orchestration: Orchestration[];
@@ -30,7 +33,9 @@ export const gigStatus = (
     calls: Call[];
     sections: (EventSection & {
       contacts: (ContactMessage & {
-        calls: Call[];
+        eventCalls: (ContactEventCall & {
+          call: Call
+        })[];
       })[];
       ensembleSection: EnsembleSection;
       orchestration: Orchestration[];
@@ -54,7 +59,7 @@ export const gigStatus = (
 
     section.orchestration.forEach((orchestration) => {
       const bookedForCall = bookedMusicians.filter((musician) =>
-        musician.calls.filter((call) => call.id === orchestration.id)
+        musician.eventCalls.filter((call) => call.callId === orchestration.id)
       );
 
       const remainingOnList = section.contacts.filter(
