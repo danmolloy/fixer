@@ -47,7 +47,11 @@ export const getUpcomingMusicians = async () => {
         include: {
           contactMessage: {
             include: {
-              eventCalls: true,
+              eventCalls: {
+                include: {
+                  call: true,
+                }
+              },
               contact: true,
               eventSection: {
                 include: {
@@ -65,13 +69,13 @@ export const getUpcomingMusicians = async () => {
       
     },
   });
-  return upcomingCalls.map((i) => i.contactMessages).flat();
+  return upcomingCalls.map((i) => i.contactEventCalls.map(c => c.contactMessage)).flat();
 };
 
 export const remindMusicians = async () => {
   const data = await getUpcomingMusicians();
   for (let i = 0; i < data.length; i++) {
-    const emailAlert = eventReminderMusician(data[i]);
+    const emailAlert = eventReminderMusician({...data[i], calls: data[i].eventCalls.map(c => c.call)});
     try {
       console.log(emailAlert);
 
