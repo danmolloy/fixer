@@ -1,4 +1,9 @@
-import { Call, ContactEventCall, ContactMessage, EnsembleContact } from '@prisma/client';
+import {
+  Call,
+  ContactEventCall,
+  ContactMessage,
+  EnsembleContact,
+} from '@prisma/client';
 import CurrentContactsOptions from './options';
 import { useState } from 'react';
 import { TiMail, TiTick, TiTimes } from 'react-icons/ti';
@@ -9,16 +14,23 @@ export type CurrentContactRowProps = {
   contact: ContactMessage & {
     contact: EnsembleContact;
     //calls: Call[];
-    eventCalls: (ContactEventCall & {call: Call})[]
+    eventCalls: (ContactEventCall & { call: Call })[];
   };
   index: number;
   numContacts: number;
-  selectedContacts: number[]
-  setSelectedContacts: () => void
+  selectedContacts: number[];
+  setSelectedContacts: () => void;
 };
 
 export default function AvailabilityContactRow(props: CurrentContactRowProps) {
-  const { eventCalls, contact, index, numContacts, selectedContacts, setSelectedContacts } = props;
+  const {
+    eventCalls,
+    contact,
+    index,
+    numContacts,
+    selectedContacts,
+    setSelectedContacts,
+  } = props;
   const [showOptions, setShowOptions] = useState<boolean>(false);
 
   const showMessage = () => {
@@ -26,7 +38,7 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
       `Your message to ${contact.contact.firstName}: \n\n${contact.playerMessage}`
     );
   };
-  
+
   const contactSelected = selectedContacts.includes(contact.id);
 
   return (
@@ -35,7 +47,11 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
       className={`text-sm ${(contact.status === 'DECLINED' || contact.status === 'CANCELLED') && 'text-gray-300'} ${contactSelected && 'border border-blue-500'}`}
     >
       <td className='text-center'>
-        <input onChange={() => setSelectedContacts()} checked={contactSelected} type="checkbox" />
+        <input
+          onChange={() => setSelectedContacts()}
+          checked={contactSelected}
+          type='checkbox'
+        />
       </td>
       <td className='text-center'>
         <p>{`${contact.contact.firstName} ${contact.contact.lastName}`}</p>
@@ -45,12 +61,15 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
       </td>
       {eventCalls.map((i) => (
         <td className='' key={i.id} data-testid={`call-${i.id}`}>
-          {<div className='m-2 flex items-center justify-center'>
+          {
+            <div className='m-2 flex items-center justify-center'>
               {!contact.eventCalls.map((c) => c.callId).includes(i.id) ? (
                 <div>
-                  <p className=''>{contact.eventCalls.find(c => c.callId === i.id)?.status}</p>
+                  <p className=''>
+                    {contact.eventCalls.find((c) => c.callId === i.id)?.status}
+                  </p>
                 </div>
-              ) :  (
+              ) : (
                 <div>
                   <p className=''>-</p>
                 </div>
@@ -71,7 +90,9 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
         </td>
       ) : contact.status === 'AWAITINGREPLY' ? (
         <td className='bg-amber-500 text-center text-white'>
-          <p className=''>AWAITING REPLY{contact.emailStatus && ` (${contact.emailStatus})`}</p>
+          <p className=''>
+            AWAITING REPLY{contact.emailStatus && ` (${contact.emailStatus})`}
+          </p>
         </td>
       ) : contact.status === 'NOTCONTACTED' ? (
         <td className='bg-white text-center text-black opacity-40'>
@@ -83,9 +104,12 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
         </td>
       ) : contact.status === 'CANCELLED' ? (
         <td className='bg-amber-500 text-center text-white'>
-          <p className=''>{contact.status} {contact.emailStatus && ` (${contact.emailStatus})`}</p>
+          <p className=''>
+            {contact.status}{' '}
+            {contact.emailStatus && ` (${contact.emailStatus})`}
+          </p>
         </td>
-      ): contact.status === 'MIXED' ? (
+      ) : contact.status === 'MIXED' ? (
         <td className='bg-orange-500 text-center text-white'>
           <p className=''>{contact.status}</p>
         </td>

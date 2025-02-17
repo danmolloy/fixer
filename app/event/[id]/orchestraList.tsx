@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import {
   Call,
   ContactEventCall,
@@ -15,11 +15,11 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 
 export type OrchestraListProps = {
   sections: (EventSection & {
-    orchestration: Orchestration[]
+    orchestration: Orchestration[];
     contacts: (ContactMessage & {
       eventCalls: (ContactEventCall & {
-        call: Call
-      })[]
+        call: Call;
+      })[];
       contact: EnsembleContact;
     })[];
     ensembleSection: EnsembleSection;
@@ -57,7 +57,7 @@ export default function OrchestraList(props: OrchestraListProps) {
 
   const maxNumRequired = (args: Orchestration[]) => {
     return args.sort((a, b) => b.numRequired - a.numRequired)[0].numRequired;
-  }
+  };
 
   return (
     <div data-testid='orchestra-list' className='flex flex-col'>
@@ -99,47 +99,44 @@ export default function OrchestraList(props: OrchestraListProps) {
             <p>To get started, fix sections in the Fixing tab.</p>
           </div>
         )}
-        {sortedSections
-          .map((i) => (
-            <div data-testid={`${i.id}-section`} key={i.id} className='my-2'>
-              <h3 className='font-semibold'>{i.ensembleSection.name}</h3>
-              <ol>
-                {i.contacts
-                  .filter(
-                    (j) =>
-                      j.eventCalls.map(c => c.status).includes("ACCEPTED")
-                  )
-                  .sort((a, b) => a.indexNumber - b.indexNumber)
-                  .map((j) => (
-                    <li className='text-sm' key={j.id}>
-                      {`${j.contact.firstName} ${j.contact.lastName} (${j.position})`}
-                    </li>
-                  ))}
-                {maxNumRequired(i.orchestration) -
-                  i.contacts.filter(
-                    (j) =>
-                      j.eventCalls.map(c => c.status).includes("ACCEPTED")
-                  ).length ===
-                0 ? null : maxNumRequired(i.orchestration) -
-                    i.contacts.filter(
-                      (j) =>
-                        j.eventCalls.map(c => c.status).includes("ACCEPTED")
-                    ).length <
-                  0 ? (
-                  <p className='font-bold'>
-                    Overbooked by{' '}
-                    {i.contacts.filter(
-                      (j) =>
-                        j.eventCalls.map(c => c.status).includes("ACCEPTED")
-
-                    ).length - maxNumRequired(i.orchestration)}{' '}
-                  </p>
-                ) : (
-                  new Array(maxNumRequired(i.orchestration) - i.contacts.filter(
-                    (j) =>
-                      j.eventCalls.map(c => c.status).includes("ACCEPTED")
-
-                  ).length).fill(null).map((_, index) => (
+        {sortedSections.map((i) => (
+          <div data-testid={`${i.id}-section`} key={i.id} className='my-2'>
+            <h3 className='font-semibold'>{i.ensembleSection.name}</h3>
+            <ol>
+              {i.contacts
+                .filter((j) =>
+                  j.eventCalls.map((c) => c.status).includes('ACCEPTED')
+                )
+                .sort((a, b) => a.indexNumber - b.indexNumber)
+                .map((j) => (
+                  <li className='text-sm' key={j.id}>
+                    {`${j.contact.firstName} ${j.contact.lastName} (${j.position})`}
+                  </li>
+                ))}
+              {maxNumRequired(i.orchestration) -
+                i.contacts.filter((j) =>
+                  j.eventCalls.map((c) => c.status).includes('ACCEPTED')
+                ).length ===
+              0 ? null : maxNumRequired(i.orchestration) -
+                  i.contacts.filter((j) =>
+                    j.eventCalls.map((c) => c.status).includes('ACCEPTED')
+                  ).length <
+                0 ? (
+                <p className='font-bold'>
+                  Overbooked by{' '}
+                  {i.contacts.filter((j) =>
+                    j.eventCalls.map((c) => c.status).includes('ACCEPTED')
+                  ).length - maxNumRequired(i.orchestration)}{' '}
+                </p>
+              ) : (
+                new Array(
+                  maxNumRequired(i.orchestration) -
+                    i.contacts.filter((j) =>
+                      j.eventCalls.map((c) => c.status).includes('ACCEPTED')
+                    ).length
+                )
+                  .fill(null)
+                  .map((_, index) => (
                     <li
                       data-testid={`${i.id}-tbc`}
                       key={index}
@@ -148,10 +145,10 @@ export default function OrchestraList(props: OrchestraListProps) {
                       TBC
                     </li>
                   ))
-                )}
-              </ol>
-            </div>
-          ))}
+              )}
+            </ol>
+          </div>
+        ))}
       </div>
     </div>
   );

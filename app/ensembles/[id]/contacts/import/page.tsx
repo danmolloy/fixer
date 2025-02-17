@@ -29,10 +29,11 @@ export default async function ImportContacts({
 
   return (
     <AuthWall session={session}>
-    {!data ? (
-    <p>No data</p>
-  ) : 
-    <ImportForm environment={environment} ensemble={data} />}
+      {!data ? (
+        <p>No data</p>
+      ) : (
+        <ImportForm environment={environment} ensemble={data} />
+      )}
     </AuthWall>
   );
 }

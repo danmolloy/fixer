@@ -50,7 +50,7 @@ export const getUpcomingMusicians = async () => {
               eventCalls: {
                 include: {
                   call: true,
-                }
+                },
               },
               contact: true,
               eventSection: {
@@ -64,18 +64,22 @@ export const getUpcomingMusicians = async () => {
               },
             },
           },
-        }
-      }
-      
+        },
+      },
     },
   });
-  return upcomingCalls.map((i) => i.contactEventCalls.map(c => c.contactMessage)).flat();
+  return upcomingCalls
+    .map((i) => i.contactEventCalls.map((c) => c.contactMessage))
+    .flat();
 };
 
 export const remindMusicians = async () => {
   const data = await getUpcomingMusicians();
   for (let i = 0; i < data.length; i++) {
-    const emailAlert = eventReminderMusician({...data[i], calls: data[i].eventCalls.map(c => c.call)});
+    const emailAlert = eventReminderMusician({
+      ...data[i],
+      calls: data[i].eventCalls.map((c) => c.call),
+    });
     try {
       console.log(emailAlert);
 
@@ -124,7 +128,7 @@ export const getUnresponsiveMusicians = async (receivedLTE: Date) => {
       eventCalls: {
         include: {
           call: true,
-        }
+        },
       },
       contact: true,
       eventSection: {
@@ -169,7 +173,10 @@ export const remindUnresponsiveMusicians = async () => {
     DateTime.now().endOf('day').minus({ days: 5 }).toJSDate()
   );
   for (let i = 0; i < data.length; i++) {
-    const emailAlert = remindUnresponsiveMusicianEmail({...data[i], calls: data[i].eventCalls.map(c => c.call)});
+    const emailAlert = remindUnresponsiveMusicianEmail({
+      ...data[i],
+      calls: data[i].eventCalls.map((c) => c.call),
+    });
     try {
       await axios.post(`${url}/sendGrid`, {
         body: {

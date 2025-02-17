@@ -23,9 +23,9 @@ export type FixingIndexProps = {
   ensemble: Ensemble;
   ensembleSections: EnsembleSection[];
   eventSections: (EventSection & {
-    orchestration: Orchestration[]
+    orchestration: Orchestration[];
     contacts: (ContactMessage & {
-      eventCalls: (ContactEventCall & {call: Call})[]
+      eventCalls: (ContactEventCall & { call: Call })[];
       contact: EnsembleContact;
       //calls: Call[];
     })[];
@@ -75,11 +75,16 @@ export default function FixingIndex(props: FixingIndexProps) {
     } */
   };
 
-  if (!ensemble.stripeSubscriptionId || ensemble.stripeSubscriptionId === null) {
-    return (<div>
-      <p>You must subscribe to book players.</p>
-      <button onClick={() => handleSubscribe()}>Subscribe</button>
-    </div>);
+  if (
+    !ensemble.stripeSubscriptionId ||
+    ensemble.stripeSubscriptionId === null
+  ) {
+    return (
+      <div>
+        <p>You must subscribe to book players.</p>
+        <button onClick={() => handleSubscribe()}>Subscribe</button>
+      </div>
+    );
   }
 
   return (

@@ -13,9 +13,10 @@ export default async function InviteAdmin({
 
   return (
     <AuthWall session={session}>
-    <InviteAdminForm
-      userName={`${session!.user.firstName} ${session!.user.lastName}`}
-      ensembleId={id} />
-      </AuthWall>
+      <InviteAdminForm
+        userName={`${session!.user.firstName} ${session!.user.lastName}`}
+        ensembleId={id}
+      />
+    </AuthWall>
   );
 }

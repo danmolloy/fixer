@@ -64,7 +64,7 @@ describe('<InviteAdminForm />', () => {
     expect(fullOption).toHaveAttribute('value', 'full');
     expect(fullOption).not.toHaveAttribute('checked');
   });
-  
+
   it('all expected errs are shown if submit btn pressed without valid fields', async () => {
     const submitBtn = screen.getByText('Submit');
     const form = screen.getByTestId('invite-admin-form');

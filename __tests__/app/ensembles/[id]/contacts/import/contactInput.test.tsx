@@ -28,7 +28,7 @@ describe('<ContactInput />', () => {
         firstName: mockEnsembleContact.firstName,
         lastName: mockEnsembleContact.lastName,
         email: mockEnsembleContact.email!,
-        phoneNumber: "+445504281329",
+        phoneNumber: '+445504281329',
         sectionId: mockSection.id,
         role: mockEnsembleContact.role,
         category: mockEnsembleContact.category!,
@@ -84,9 +84,8 @@ describe('<ContactInput />', () => {
     expect(tableBody.children.length).toBe(mockProps.contacts.length + 1);
   });
   it('remove row btn removes last row & is disbaled if contacts.length == 1', async () => {
-  
     const disabledRemoveBtn = screen.getByTestId(`contacts.0.remove`);
-    
+
     expect(disabledRemoveBtn).toBeDisabled();
   });
   it('sectionName select field renders all instrumentSections', () => {

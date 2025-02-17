@@ -49,13 +49,13 @@ export default async function UpdateEvent({
 
   return (
     <AuthWall session={session}>
-    <CreateEventForm
-      ensembleList={[data.ensemble]}
-      userId={session!.user.id}
-      userName={session!.user.name}
-      initialValues={data}
-      createOrUpdate='Update'
-    />
+      <CreateEventForm
+        ensembleList={[data.ensemble]}
+        userId={session!.user.id}
+        userName={session!.user.name}
+        initialValues={data}
+        createOrUpdate='Update'
+      />
     </AuthWall>
   );
 }

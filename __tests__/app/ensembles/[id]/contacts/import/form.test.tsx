@@ -19,7 +19,7 @@ global.URL.createObjectURL = jest.fn();
 global.URL.revokeObjectURL = jest.fn();
 
 const mockProps: ImportFormProps = {
-  environment: "",
+  environment: '',
   ensemble: {
     ...mockEnsemble,
     sections: [mockSection],
@@ -40,13 +40,17 @@ describe('<ImportForm />', () => {
   });
   it('if !data, there is a helpful message', () => {
     const importForm = screen.getByTestId('import-form');
-    expect(importForm.textContent).toMatch(`Add musicians to your address book by either entering their details manually or importing a spreadsheet.`)
-    expect(importForm.textContent).toMatch(`If importing a spreadsheet, please follow the format of the downloadable template.`);
-  })
-  it ("Download btn is in the document", () => {
-    const downloadBtn = screen.getByText("Download Template");
+    expect(importForm.textContent).toMatch(
+      `Add musicians to your address book by either entering their details manually or importing a spreadsheet.`
+    );
+    expect(importForm.textContent).toMatch(
+      `If importing a spreadsheet, please follow the format of the downloadable template.`
+    );
+  });
+  it('Download btn is in the document', () => {
+    const downloadBtn = screen.getByText('Download Template');
     expect(downloadBtn).toBeInTheDocument();
-  })
+  });
   /* it("Download Template btn downloads", () => {
     const downloadBtn = screen.getByText("Download Template");
     expect(downloadBtn).toBeInTheDocument();
@@ -69,7 +73,6 @@ describe('<ImportForm />', () => {
     expect(inputForm).toBeInTheDocument();
   });
   it("'Import Spreadsheet' option is in the table with label and type='file' attr", () => {
-    
     const input = screen.getByTestId('spreadsheet-input');
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute('type', 'file');

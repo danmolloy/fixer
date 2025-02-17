@@ -12,8 +12,8 @@ async function getContactMessage(contactMsgID: string) {
     include: {
       eventCalls: {
         include: {
-          call: true
-        }
+          call: true,
+        },
       },
       //calls: true,
       contact: true,
@@ -43,16 +43,17 @@ export default async function UpdateContactMessagePage({
 
   return (
     <AuthWall session={session}>
-    {!data ? (
-    <p>No data</p>
-  ) : 
-    <div className='my-4 flex w-full flex-col items-center rounded p-1 sm:my-8 sm:p-2 md:w-3/4'>
-      <UpdateContactMessage
-        instrument={data.eventSection.ensembleSection.name}
-        event={data.eventSection.event}
-        contact={data}
-      />
-    </div>}
+      {!data ? (
+        <p>No data</p>
+      ) : (
+        <div className='my-4 flex w-full flex-col items-center rounded p-1 sm:my-8 sm:p-2 md:w-3/4'>
+          <UpdateContactMessage
+            instrument={data.eventSection.ensembleSection.name}
+            event={data.eventSection.event}
+            contact={data}
+          />
+        </div>
+      )}
     </AuthWall>
   );
 }

@@ -43,7 +43,7 @@ describe('<ButtonPrimary />', () => {
   beforeEach(() => {
     render(<ButtonPrimary {...mockProps} />);
   });
-  it("if props.disabled, btn disabled ", () => {
+  it('if props.disabled, btn disabled ', () => {
     const buttonPrimary = screen.getByTestId(mockProps.id);
     expect(buttonPrimary.textContent).toMatch(/^Submitting$/);
     expect(buttonPrimary).toHaveAttribute('disabled');

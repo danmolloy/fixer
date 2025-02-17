@@ -78,8 +78,6 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     urgent: Yup.boolean().required(),
   });
 
- 
-
   return (
     <div data-testid='contact-message-form'>
       <Formik
@@ -135,7 +133,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
               >
                 <label htmlFor='strictly-tied'>
                   <Field
-                  id="strictly-tied"
+                    id='strictly-tied'
                     className='m-1'
                     type='radio'
                     name='strictlyTied'
@@ -145,7 +143,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
                 </label>
                 <label htmlFor='not-tied'>
                   <Field
-                    id="not-tied"
+                    id='not-tied'
                     className='m-1'
                     type='radio'
                     name='strictlyTied'
@@ -161,7 +159,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
             <div>
               <label htmlFor='urgent-checkbox'>
                 <Field
-                  id="urgent-checkbox"
+                  id='urgent-checkbox'
                   checked={props.values.urgent}
                   className='m-1'
                   type='checkbox'

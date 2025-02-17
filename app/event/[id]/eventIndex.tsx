@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import {
   Call,
   ContactEventCall,
@@ -19,11 +19,11 @@ import EventMenu from './menu';
 import FixingIndex from '../../fixing';
 import FullRunIndex from './fullRun';
 import EventViewSelect from './viewSelect';
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 
 const DynamicOrchestraList = dynamic(() => import('./orchestraList'), {
   ssr: false,
-})
+});
 
 export type EventInfoTableProps = {
   event: Event & {
@@ -40,7 +40,7 @@ export type EventInfoTableProps = {
   sections: (EventSection & {
     orchestration: Orchestration[];
     contacts: (ContactMessage & {
-      eventCalls: (ContactEventCall & {call: Call})[]
+      eventCalls: (ContactEventCall & { call: Call })[];
       contact: EnsembleContact;
       //calls: Call[];
     })[];

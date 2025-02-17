@@ -7,7 +7,8 @@ export default async function JoinEnsemblePage() {
   const session = await auth();
 
   return (
-  <AuthWall session={session}>
-    <JoinEnsembleForm userId={session!.user.id} />
-    </AuthWall>);
+    <AuthWall session={session}>
+      <JoinEnsembleForm userId={session!.user.id} />
+    </AuthWall>
+  );
 }

@@ -8,7 +8,7 @@ export type CallInputProps = {
   index: number;
   id: number;
   remove: (arg: number) => void;
-  
+
   call: {
     startTime: string;
     endTime: string;

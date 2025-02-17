@@ -25,8 +25,8 @@ const getContactMessage = async (token: string) => {
       //calls: true,
       eventCalls: {
         include: {
-          call: true
-        }
+          call: true,
+        },
       },
       contact: true,
     },
@@ -88,7 +88,8 @@ export default async function GigResponse({
               {data.eventCalls.length} Call(s)
             </td>
             <td className='md:w-1/2'>
-              {data.eventCalls.map(c => c.call)
+              {data.eventCalls
+                .map((c) => c.call)
                 .sort(
                   (a, b) =>
                     Number(DateTime.fromJSDate(new Date(a.startTime))) -

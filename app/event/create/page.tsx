@@ -34,12 +34,12 @@ export default async function CreateEventPage() {
 
   return (
     <AuthWall session={session}>
-    <CreateEventForm
-      ensembleList={UserEnsembleList}
-      userId={session.user.id}
-      userName={session.user.name}
-      createOrUpdate='Create'
-    />
+      <CreateEventForm
+        ensembleList={UserEnsembleList}
+        userId={session.user.id}
+        userName={session.user.name}
+        createOrUpdate='Create'
+      />
     </AuthWall>
   );
 }

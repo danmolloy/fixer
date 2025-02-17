@@ -33,10 +33,12 @@ describe('<CurrentContactsOptions />', () => {
       ...mockContactMessage,
       status: 'AVAILABLE',
       type: 'AVAILABILITY',
-      eventCalls: [{
-        ...mockContactEventCall,
-        call: mockCall
-      }],
+      eventCalls: [
+        {
+          ...mockContactEventCall,
+          call: mockCall,
+        },
+      ],
       contact: {
         ...mockEnsembleContact,
       },
@@ -144,10 +146,12 @@ describe('<CurrentContactsOptions />', () => {
       type: 'AVAILABILITY',
       status: 'DECLINED',
       contact: mockEnsembleContact,
-      eventCalls: [{
-        ...mockContactEventCall,
-        call: mockCall
-      }],
+      eventCalls: [
+        {
+          ...mockContactEventCall,
+          call: mockCall,
+        },
+      ],
     },
   };
   beforeEach(() => {
@@ -175,10 +179,12 @@ describe('<CurrentContactsOptions />', () => {
       type: 'AVAILABILITY',
       status: 'DECLINED',
       contact: mockEnsembleContact,
-      eventCalls: [{
-        ...mockContactEventCall,
-        call: mockCall
-      }],
+      eventCalls: [
+        {
+          ...mockContactEventCall,
+          call: mockCall,
+        },
+      ],
     },
   };
   beforeEach(() => {
@@ -208,10 +214,12 @@ describe('<CurrentContactsOptions />', () => {
       status: 'AUTOBOOKED',
       type: 'AUTOBOOK',
       contact: mockEnsembleContact,
-      eventCalls: [{
-        ...mockContactEventCall,
-        call: mockCall
-      }],
+      eventCalls: [
+        {
+          ...mockContactEventCall,
+          call: mockCall,
+        },
+      ],
     },
   };
   beforeEach(() => {

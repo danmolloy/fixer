@@ -10,7 +10,7 @@ export const updateEventSection = async (sectionObj: {
     callId: number;
     numRequired: number;
     id: number;
-  }[]
+  }[];
 }) => {
   const updatedSection = await prisma.eventSection.update({
     where: {
@@ -27,28 +27,28 @@ export const updateEventSection = async (sectionObj: {
   const updateOrchestration = await Promise.all(
     sectionObj.orchestration.map(async (i) => {
       await prisma.orchestration.upsert({
-            where: {
-              id: i.id || -1
-            },
-            update: {
-              numRequired: Number(i.numRequired)
-            },
-            create: {
-              callId: Number(i.callId),
-              eventSectionId: Number(sectionObj.eventSectionId),
-              numRequired: Number(i.numRequired)
-            }
-      })
+        where: {
+          id: i.id || -1,
+        },
+        update: {
+          numRequired: Number(i.numRequired),
+        },
+        create: {
+          callId: Number(i.callId),
+          eventSectionId: Number(sectionObj.eventSectionId),
+          numRequired: Number(i.numRequired),
+        },
+      });
     })
-  )
-  
+  );
+
   if (
     sectionObj.bookingStatus === 'ACTIVE' &&
     updatedSection.contacts.length > 0
   ) {
     await emailBookingMusicians(updatedSection.id);
   }
-  return {updatedSection, updateOrchestration };
+  return { updatedSection, updateOrchestration };
 };
 
 export const updateAllEventSections = async (eventId: number, data: any) => {

@@ -40,7 +40,7 @@ export default function MenuButton(props: MenuButtonProps) {
           />
         )}
       </button>
-        {showMenu && <FlyOutMenu session={session} />}
+      {showMenu && <FlyOutMenu session={session} />}
     </div>
   );
 }

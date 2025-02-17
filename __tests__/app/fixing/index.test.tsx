@@ -9,11 +9,11 @@ import { mockEnsembleContact } from '../../../__mocks__/models/ensembleContact';
 import { mockEnsemble } from '../../../__mocks__/models/ensemble';
 import { mockOrchestration } from '../../../__mocks__/models/orchestration';
 import { mockContactEventCall } from '../../../__mocks__/models/ContactEventCall';
-import { getBillingRoute } from '../../../app/billing/api/manage/lib'; 
+import { getBillingRoute } from '../../../app/billing/api/manage/lib';
 
 jest.mock('../../../app/billing/api/manage/lib', () => ({
-  getBillingRoute: jest.fn()
-}))
+  getBillingRoute: jest.fn(),
+}));
 
 global.alert = jest.fn();
 
@@ -29,10 +29,12 @@ const mockProps: FixingIndexProps = {
         {
           ...mockContactMessage,
           contact: mockEnsembleContact,
-          eventCalls: [{
-            ...mockContactEventCall,
-            call: mockCall
-          }]
+          eventCalls: [
+            {
+              ...mockContactEventCall,
+              call: mockCall,
+            },
+          ],
         },
       ],
       ensembleSection: {
@@ -52,10 +54,10 @@ describe('<FixingIndex />', () => {
     const fixingIndex = screen.getByTestId('fixing-index');
     expect(fixingIndex).toBeInTheDocument();
   });
-  it("<FixingMenu /> is in the document", () => {
-    const fixingMenu = screen.getByTestId("fixing-menu");
+  it('<FixingMenu /> is in the document', () => {
+    const fixingMenu = screen.getByTestId('fixing-menu');
     expect(fixingMenu).toBeInTheDocument();
-  })
+  });
   it('all event sections are in the document', () => {
     for (let i = 0; i < mockProps.eventSections.length; i++) {
       const eventSection = screen.getByTestId(
@@ -77,9 +79,7 @@ describe('<FixingIndex />', () => {
   it("helpful text if !eventSections & createBtn hasn't been clicked", () => {
     const fixingIndex = screen.getByTestId('fixing-index');
     expect(fixingIndex).toHaveTextContent('No event sections.');
-    expect(fixingIndex).toHaveTextContent(
-      'Create a section to get started.'
-    );
+    expect(fixingIndex).toHaveTextContent('Create a section to get started.');
     const createBtn = screen.getByText('Create Section');
     act(() => {
       fireEvent.click(createBtn);
@@ -106,18 +106,18 @@ describe('<FixingIndex />', () => {
     ...mockProps,
     ensemble: {
       ...mockProps.ensemble,
-      stripeSubscriptionId: null
-    }
+      stripeSubscriptionId: null,
+    },
   };
   beforeEach(() => {
     render(<FixingIndex {...localMockProps} />);
   });
-  it("if !subscription, there is helpful text", () => {
-    const helpText = screen.getByText("You must subscribe to book players.")
+  it('if !subscription, there is helpful text', () => {
+    const helpText = screen.getByText('You must subscribe to book players.');
     expect(helpText).toBeInTheDocument();
   });
-  it("if !subscription, there is subscribe btn", () => { 
-    const subscribeBtn = screen.getByText("Subscribe")
+  it('if !subscription, there is subscribe btn', () => {
+    const subscribeBtn = screen.getByText('Subscribe');
     expect(subscribeBtn).toBeInTheDocument();
   });
 });

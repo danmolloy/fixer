@@ -1,10 +1,5 @@
 import '@testing-library/jest-dom';
-import {
-  render,
-  screen,
-  act,
-  fireEvent,
-} from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import CreateContactForm, {
   CreateContactFormProps,
   CreateEnsembleContactForm,
@@ -98,7 +93,9 @@ describe('<CreateContactForm />', () => {
     expect(sectionBlank).toHaveAttribute('value', '');
     for (let i = 0; i < mockProps.sections.length; i++) {
       expect(sectionSelect.textContent).toMatch(mockProps.sections[i].name);
-      const section = screen.getByTestId(`section-option-${mockProps.sections[i].id}`)
+      const section = screen.getByTestId(
+        `section-option-${mockProps.sections[i].id}`
+      );
       expect(section).toBeInTheDocument();
       expect(section.textContent).toMatch(mockProps.sections[i].name);
       expect(section).toHaveAttribute('value', mockProps.sections[i].id);

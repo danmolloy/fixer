@@ -47,10 +47,12 @@ let mockProps: ResponseFormProps = {
         fixer: mockUser,
       },
     },
-    eventCalls: [{
-      ...mockContactEventCall,
-      call: mockCall,
-    }]
+    eventCalls: [
+      {
+        ...mockContactEventCall,
+        call: mockCall,
+      },
+    ],
   },
   type: 'BOOKING',
   fixerName: 'mock fixer name',
@@ -62,9 +64,9 @@ describe('<ResponseForm />', () => {
     contactMessage: {
       ...mockProps.contactMessage,
       strictlyTied: true,
-      type: "BOOKING" as ContactMessageType
+      type: 'BOOKING' as ContactMessageType,
     },
-    type: "BOOKING" as ContactMessageType
+    type: 'BOOKING' as ContactMessageType,
   };
   beforeEach(() => {
     jest.useFakeTimers();
@@ -72,26 +74,26 @@ describe('<ResponseForm />', () => {
 
     render(<ResponseForm {...localMockProps} />);
   });
-  it("<ResponseForm /> renders without error", () => {
+  it('<ResponseForm /> renders without error', () => {
     const form = screen.getByTestId('response-form');
     expect(form).toBeInTheDocument();
   });
   it("'Your Response' title renders", () => {
     expect(screen.getByText('Your Response')).toBeInTheDocument();
   });
-  it("states if work is strictly tied", () => {
+  it('states if work is strictly tied', () => {
     const form = screen.getByTestId('response-form');
     expect(form.textContent).toMatch('This work is strictly tied');
-  }); 
-  it("false input is in the document with expected label, name, type and value", () => {
-    const falseInput = screen.getByLabelText('No, I am not available.')
+  });
+  it('false input is in the document with expected label, name, type and value', () => {
+    const falseInput = screen.getByLabelText('No, I am not available.');
     expect(falseInput).toBeInTheDocument();
     expect(falseInput).toHaveAttribute('name', 'status');
     expect(falseInput).toHaveAttribute('type', 'radio');
     expect(falseInput).toHaveAttribute('value', 'DECLINED');
   });
-  it("if booking, true input is in the document with expected label, name, type and value", () => {
-    const trueInput = screen.getByLabelText("Yes, I accept this work.");
+  it('if booking, true input is in the document with expected label, name, type and value', () => {
+    const trueInput = screen.getByLabelText('Yes, I accept this work.');
     expect(trueInput).toBeInTheDocument();
     expect(trueInput).toHaveAttribute('name', 'status');
     expect(trueInput).toHaveAttribute('type', 'radio');
@@ -119,13 +121,15 @@ describe('<ResponseForm />', () => {
 
     render(<ResponseForm {...localMockProps} />);
   });
-  
-  it("if !strictlyTied, it states so", () => {
+
+  it('if !strictlyTied, it states so', () => {
     const form = screen.getByTestId('response-form');
     expect(form.textContent).toMatch('This work is not strictly tied');
   });
-  it("if !strictlyTied, true input has expected label text", () => {
-    const trueInput = screen.getByLabelText("I am available for all/some calls");
+  it('if !strictlyTied, true input has expected label text', () => {
+    const trueInput = screen.getByLabelText(
+      'I am available for all/some calls'
+    );
     expect(trueInput).toBeInTheDocument();
     expect(trueInput).toHaveAttribute('value', 'AVAILABLE');
   });
@@ -148,7 +152,6 @@ describe('<ResponseForm />', () => {
       expect(checkBox).toHaveAttribute('type', 'checkbox');
     }
   }); */
-
 });
 
 describe('<ResponseForm />', () => {
@@ -166,14 +169,12 @@ describe('<ResponseForm />', () => {
 
     render(<ResponseForm {...localMockProps} />);
   });
-  
 
-  it("if availability, true input is in the document with expected label, name, type and value", () => {
-    const trueInput = screen.getByLabelText("Yes, I am available");
+  it('if availability, true input is in the document with expected label, name, type and value', () => {
+    const trueInput = screen.getByLabelText('Yes, I am available');
     expect(trueInput).toBeInTheDocument();
     expect(trueInput).toHaveAttribute('name', 'status');
     expect(trueInput).toHaveAttribute('type', 'radio');
     expect(trueInput).toHaveAttribute('value', 'AVAILABLE');
   });
-
 });

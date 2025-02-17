@@ -61,8 +61,13 @@ describe('createContactMessages', () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
-    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
-    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(
+      mockContactEventCall
+    );
+    prismaMock.contactMessage.create.mockResolvedValue({
+      ...mockContactMessage,
+      id: 42,
+    });
     await createContactMessages(mockContactMessages);
     expect(prismaMock.contactMessage.findMany).toHaveBeenCalledWith({
       where: { eventSectionId: Number(mockContactMessages.eventSectionId) },
@@ -72,9 +77,9 @@ describe('createContactMessages', () => {
       data: {
         callId: Number(mockContactMessages.contacts[0].calls[0]),
         contactMessageId: 42,
-        status: "TOOFFER"
-      }
-    })
+        status: 'TOOFFER',
+      },
+    });
   });
   //it("autobook sets status & type correctly", () => {})
   it('gives new all contactMessages correct vals incl. index numbers', async () => {
@@ -82,8 +87,13 @@ describe('createContactMessages', () => {
       mockContactMessage,
     ]);
 
-    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
-    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(
+      mockContactEventCall
+    );
+    prismaMock.contactMessage.create.mockResolvedValue({
+      ...mockContactMessage,
+      id: 42,
+    });
     await createContactMessages(mockContactMessages);
     prismaMock.contactMessage.create.mockResolvedValueOnce(mockContactMessage);
     expect(prismaMock.contactMessage.create).toHaveBeenCalledWith({
@@ -104,17 +114,22 @@ describe('createContactMessages', () => {
       data: {
         callId: Number(mockContactMessages.contacts[0].calls[0]),
         contactMessageId: 42,
-        status: "TOOFFER"
-      }
-    })
+        status: 'TOOFFER',
+      },
+    });
   });
   it('if booking, emailBookingMusicians(eventSectionID) is called', async () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
 
-    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
-    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(
+      mockContactEventCall
+    );
+    prismaMock.contactMessage.create.mockResolvedValue({
+      ...mockContactMessage,
+      id: 42,
+    });
 
     await createContactMessages(mockContactMessages);
     prismaMock.contactMessage.create.mockResolvedValueOnce(mockContactMessage);
@@ -125,8 +140,13 @@ describe('createContactMessages', () => {
       mockContactMessage,
     ]);
 
-    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
-    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(
+      mockContactEventCall
+    );
+    prismaMock.contactMessage.create.mockResolvedValue({
+      ...mockContactMessage,
+      id: 42,
+    });
 
     await createContactMessages({
       ...mockContactMessages,
@@ -159,8 +179,13 @@ describe('createContactMessages', () => {
       mockContactMessage,
     ]);
 
-    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
-    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(
+      mockContactEventCall
+    );
+    prismaMock.contactMessage.create.mockResolvedValue({
+      ...mockContactMessage,
+      id: 42,
+    });
 
     await createContactMessages(mockContactMessages);
     prismaMock.contactMessage.create.mockResolvedValueOnce(mockContactMessage);
@@ -168,7 +193,7 @@ describe('createContactMessages', () => {
       data: {
         eventSectionId: Number(mockContactMessages.eventSectionId),
         contactId: mockContactMessages.contacts[0].contactId,
-        
+
         token: generateToken(),
         //position: data.contacts[i].position,
         status: 'AUTOBOOKED',
@@ -263,50 +288,50 @@ describe('gigIsFixed', () => {
       sections: [
         {
           ...mockEventSection,
-          orchestration: [{
-            ...mockOrchestration,
-            callId: mockCall.id,
-            numRequired: 1,
-          }],
+          orchestration: [
+            {
+              ...mockOrchestration,
+              callId: mockCall.id,
+              numRequired: 1,
+            },
+          ],
           contacts: [
             {
               ...mockEnsembleContact,
               type: 'AUTOBOOK',
               status: 'ACCEPTED',
               id: 42,
-              eventCalls: [{
-                callId: mockCall.id,
-                status: "ACCEPTED"
-              }]
+              eventCalls: [
+                {
+                  callId: mockCall.id,
+                  status: 'ACCEPTED',
+                },
+              ],
             },
             {
               ...mockEnsembleContact,
               type: 'BOOKING',
               status: 'DECLINED',
               id: 4,
-              eventCalls: [{callId: 24}]
-
+              eventCalls: [{ callId: 24 }],
             },
             {
               ...mockEnsembleContact,
               id: 2,
               status: 'DECLINED',
-              eventCalls: [{callId: 24}]
-
+              eventCalls: [{ callId: 24 }],
             },
             {
               ...mockEnsembleContact,
               type: 'AVAILABILITY',
               status: 'MIXED',
-              eventCalls: [{callId: 24}]
-
+              eventCalls: [{ callId: 24 }],
             },
             {
               ...mockEnsembleContact,
               id: 3,
               status: 'DECLINED',
-              eventCalls: [{callId: 24}]
-
+              eventCalls: [{ callId: 24 }],
             },
           ],
         },
@@ -321,33 +346,39 @@ describe('gigIsFixed', () => {
       sections: [
         {
           ...mockEventSection,
-          orchestration: [{
-            ...mockOrchestration,
-            callId: mockCall.id,
-            numRequired: 1,
-          }],
+          orchestration: [
+            {
+              ...mockOrchestration,
+              callId: mockCall.id,
+              numRequired: 1,
+            },
+          ],
           contacts: [
             {
               ...mockContactMessage,
               type: 'AUTOBOOKED',
               status: 'FINDINGDEP',
               id: 3,
-              eventCalls: [{
-                ...mockContactEventCall,
-                callId: mockCall.id,
-                status: "ACCEPTED" as ContactEventCallStatus
-              }]
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  callId: mockCall.id,
+                  status: 'ACCEPTED' as ContactEventCallStatus,
+                },
+              ],
             },
             {
               ...mockContactMessage,
               type: 'BOOKING',
               status: 'DECLINED',
               id: 3,
-              eventCalls: [{
-                ...mockContactEventCall,
-                callId: mockCall.id,
-                status: "DECLINED" as ContactEventCallStatus
-              }]
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  callId: mockCall.id,
+                  status: 'DECLINED' as ContactEventCallStatus,
+                },
+              ],
             },
             {
               ...mockContactMessage,
@@ -355,63 +386,75 @@ describe('gigIsFixed', () => {
               status: 'AVAILABLE',
               id: 4,
 
-              eventCalls: [{
-                ...mockContactEventCall,
-                callId: mockCall.id,
-                status: "AVAILABLE" as ContactEventCallStatus
-              }]
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  callId: mockCall.id,
+                  status: 'AVAILABLE' as ContactEventCallStatus,
+                },
+              ],
             },
           ],
         },
         {
           ...mockContactMessage,
           numToBook: 1,
-          orchestration: [{
-            ...mockOrchestration,
-            callId: 12,
-            numRequired: 1,
-          }],
+          orchestration: [
+            {
+              ...mockOrchestration,
+              callId: 12,
+              numRequired: 1,
+            },
+          ],
           contacts: [
             {
               ...mockContactMessage,
               type: 'BOOKING',
               status: 'ACCEPTED',
               id: 4,
-              eventCalls: [{
-                ...mockContactEventCall,
-                callId: 12,
-                status: "DECLINED" as ContactEventCallStatus
-              }]
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  callId: 12,
+                  status: 'DECLINED' as ContactEventCallStatus,
+                },
+              ],
             },
             {
               ...mockContactMessage,
               id: 2,
               status: 'DECLINED',
-              eventCalls: [{
-                ...mockContactEventCall,
-                callId: 12,
-                status: "DECLINED" as ContactEventCallStatus
-              }]
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  callId: 12,
+                  status: 'DECLINED' as ContactEventCallStatus,
+                },
+              ],
             },
             {
               ...mockContactMessage,
               type: 'AVAILABILITY',
               status: 'MIXED',
-              eventCalls: [{
-                ...mockContactEventCall,
-                callId: 12,
-                status: "AVAILABLE" as ContactEventCallStatus
-              }]
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  callId: 12,
+                  status: 'AVAILABLE' as ContactEventCallStatus,
+                },
+              ],
             },
             {
               ...mockContactMessage,
               id: 3,
               status: 'DECLINED',
-              eventCalls: [{
-                ...mockContactEventCall,
-                callId: 12,
-                status: "DECLINED" as ContactEventCallStatus
-              }]
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  callId: 12,
+                  status: 'DECLINED' as ContactEventCallStatus,
+                },
+              ],
             },
           ],
         },

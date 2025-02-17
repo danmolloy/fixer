@@ -57,9 +57,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     }),
     fixerId: Yup.string().required('Fixer selection required'),
     id: Yup.string(),
-    status: Yup.string().required(
-      'Event confirmation status required'
-    ),
+    status: Yup.string().required('Event confirmation status required'),
     ensembleName: Yup.string().required('Ensemble name required'),
     ensembleId: Yup.string().required('Select ensemble'),
     eventTitle: Yup.string().required('Event title required'),
@@ -76,7 +74,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
     dressCode: Yup.string(),
     fee: Yup.string(),
     additionalInfo: Yup.string(),
-    adminAccess: Yup.array().of(Yup.string())
+    adminAccess: Yup.array().of(Yup.string()),
   });
 
   return (
@@ -90,9 +88,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           updateMessage: '',
           fixerId: userId,
           id: initialValues ? initialValues.id : '',
-          status: initialValues
-            ? initialValues.status
-            : '',
+          status: initialValues ? initialValues.status : '',
           ensembleName: initialValues
             ? initialValues.ensembleName
             : ensembleList.length === 1 &&
@@ -245,19 +241,23 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                     name='fixerId'
                     onChange={(e) => {
                       props.setFieldValue('fixerId', e.target.value);
-                      e.target.value !== "" 
-                      && !props.values.adminAccess.includes(e.target.id) 
-                      && ensembleList
-                      .find((i) => i.id === props.values.ensembleId)
-                      ?.admin.find(i => i.userId)?.accessType === "RESTRICTED"
-                      && props.setFieldValue('adminAccess', [...props.values.adminAccess, e.target.value]);
+                      e.target.value !== '' &&
+                        !props.values.adminAccess.includes(e.target.id) &&
+                        ensembleList
+                          .find((i) => i.id === props.values.ensembleId)
+                          ?.admin.find((i) => i.userId)?.accessType ===
+                          'RESTRICTED' &&
+                        props.setFieldValue('adminAccess', [
+                          ...props.values.adminAccess,
+                          e.target.value,
+                        ]);
                     }}
                   >
                     <option value={''}>Select Fixer</option>
                     {ensembleList
                       .find((i) => i.id === props.values.ensembleId)
                       ?.admin.map((i) => (
-                        <option key={i.id} value={i.userId} >
+                        <option key={i.id} value={i.userId}>
                           {`${i.user.firstName} ${i.user.lastName}`}
                         </option>
                       ))}
@@ -277,17 +277,19 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               <div className='flex flex-col'>
                 <label>Additional Admin Access</label>
                 {ensembleList
-                      .find((i) => i.id === props.values.ensembleId)
-                      ?.admin.map(i => (
-                        <label key={i.id}>
-                          {`${i.user.firstName} ${i.user.lastName}`}
-                          <Field 
-                          className="ml-1"
-                            name={'adminAccess'} 
-                            value={i.userId} 
-                            checked={props.values.adminAccess.includes(i.userId)} type='checkbox' />
-                        </label>
-                      ))}
+                  .find((i) => i.id === props.values.ensembleId)
+                  ?.admin.map((i) => (
+                    <label key={i.id}>
+                      {`${i.user.firstName} ${i.user.lastName}`}
+                      <Field
+                        className='ml-1'
+                        name={'adminAccess'}
+                        value={i.userId}
+                        checked={props.values.adminAccess.includes(i.userId)}
+                        type='checkbox'
+                      />
+                    </label>
+                  ))}
               </div>
 
               <GigStatus disabled={props.isSubmitting} />

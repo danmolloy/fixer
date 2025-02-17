@@ -124,7 +124,7 @@ describe('<CreateEventForm />', () => {
   it('submit btn is in the document', () => {
     const submitBtn = screen.getByTestId('submit-btn');
     expect(submitBtn).toBeInTheDocument();
-    });
+  });
   it('all err messages are in the document on submit btn click', async () => {
     const submitBtn = screen.getByTestId('submit-btn');
     const createForm = screen.getByTestId('create-event-form');
@@ -149,7 +149,7 @@ describe('<CreateEventForm />', () => {
       ...mockEvent,
       status: 'CONFIRMED',
       adminAccess: [],
-      createOrUpdate: "Create",
+      createOrUpdate: 'Create',
       calls: [mockCall],
     };
     const gigStatus = screen.getByTestId('confirmed-toggle');
@@ -213,7 +213,7 @@ describe('<CreateEventForm />', () => {
       fixerId: mockProps.userId,
       status: mockVals.status,
       adminAccess: [],
-      createOrUpdate: "Create",
+      createOrUpdate: 'Create',
       id: '',
       updateMessage: '',
       calls: mockVals.calls.map((i) => ({
@@ -262,13 +262,13 @@ describe('<CreateEventForm />', () => {
     calls: [mockCall],
     ensemble: mockEnsemble,
     status: 'CONFIRMED' as EventStatus,
-    updateMessage: "mock update message",
+    updateMessage: 'mock update message',
   };
   const mockProps: CreateEventFormProps = {
     ensembleList: [
       {
         ...mockEnsemble,
-        ensembleNames: ["Led Zeppelin", "The Rolling Stones"],
+        ensembleNames: ['Led Zeppelin', 'The Rolling Stones'],
         admin: [
           {
             ...mockEnsembleAdmin,
@@ -293,11 +293,14 @@ describe('<CreateEventForm />', () => {
   it('Ensemble name select group is in the document with label, all options have label, name, value & type attrs', () => {
     const selectEl = screen.getByTestId('org-select');
     expect(selectEl).toBeInTheDocument();
-    expect(selectEl).toHaveAttribute("name", "ensembleId")
+    expect(selectEl).toHaveAttribute('name', 'ensembleId');
     for (let i = 0; i < mockProps.ensembleList.length; i++) {
       const ensembleName = screen.getByText(mockProps.ensembleList[i].name);
       expect(ensembleName).toBeInTheDocument();
-      expect(ensembleName).toHaveAttribute('value', mockProps.ensembleList[i].id);
+      expect(ensembleName).toHaveAttribute(
+        'value',
+        mockProps.ensembleList[i].id
+      );
     }
   });
   it('form renders with expected initialVals', () => {
@@ -324,14 +327,14 @@ describe('<CreateEventForm />', () => {
     }
   });
   it('on submit btn click, axios.post() & useRouter are called with expected args', async () => {
-    const msgToPlayers = "Updated Gig";
-    const msgInput = screen.getByLabelText("Update Message to Players")
+    const msgToPlayers = 'Updated Gig';
+    const msgInput = screen.getByLabelText('Update Message to Players');
     await act(async () => {
       fireEvent.change(msgInput, {
         target: { value: msgToPlayers },
       });
     });
-    
+
     const submitBtn = screen.getByText('Submit');
     await act(async () => {
       fireEvent.click(submitBtn);
@@ -345,7 +348,7 @@ describe('<CreateEventForm />', () => {
       eventTitle: initialVals.eventTitle,
       fee: initialVals.fee,
       fixerId: mockProps.userId,
-      createOrUpdate: "Update",
+      createOrUpdate: 'Update',
       status: initialVals.status,
       id: initialVals.id,
       updateMessage: msgToPlayers,

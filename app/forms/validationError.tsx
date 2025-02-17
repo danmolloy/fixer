@@ -12,7 +12,10 @@ export default function ValidationError(props: ValidationErrorProps) {
   }
 
   return (
-    <div data-testid="validation-error" className='my-8 self-center rounded bg-red-50 p-4 text-sm text-red-700 lg:w-1/2'>
+    <div
+      data-testid='validation-error'
+      className='my-8 self-center rounded bg-red-50 p-4 text-sm text-red-700 lg:w-1/2'
+    >
       <div className='flex flex-row items-center'>
         <div className='flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-red-100'>
           <TiTimes />

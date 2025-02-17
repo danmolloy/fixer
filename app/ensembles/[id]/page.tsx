@@ -55,17 +55,18 @@ export default async function EnsembleDetail({
   )?.ensembleId;
   const data = ensembleId && (await getEnsemble(ensembleId));
 
-  return  (
+  return (
     <AuthWall session={session}>
-    {!data ? (
-    <p>No data</p>
-  ) : 
-    <EnsembleIndex
-      admins={data.admin}
-      contacts={data.contacts.filter((i) => i.status !== 'ARCHIVED')}
-      sections={data.sections}
-      ensemble={data}
-    />}
+      {!data ? (
+        <p>No data</p>
+      ) : (
+        <EnsembleIndex
+          admins={data.admin}
+          contacts={data.contacts.filter((i) => i.status !== 'ARCHIVED')}
+          sections={data.sections}
+          ensemble={data}
+        />
+      )}
     </AuthWall>
   );
 }

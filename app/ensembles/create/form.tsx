@@ -86,7 +86,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                             data-testid={`ensembleNames[${index}]`}
                             name={`ensembleNames[${index}]`}
                             id={`ensembleNames[${index}]`}
-                            type="text"
+                            type='text'
                             className='my-1 h-8 w-80 max-w-[60vw] rounded border px-1 shadow-sm'
                           />
                           <button

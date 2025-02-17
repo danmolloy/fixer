@@ -1,4 +1,9 @@
-import { Call, ContactEventCall, ContactMessage, EnsembleContact } from '@prisma/client';
+import {
+  Call,
+  ContactEventCall,
+  ContactMessage,
+  EnsembleContact,
+} from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { TiTimes } from 'react-icons/ti';
@@ -9,8 +14,8 @@ export type CurrentContactsOptionsProps = {
     contact: EnsembleContact;
     //calls: Call[];
     eventCalls: (ContactEventCall & {
-      call: Call
-    })[]
+      call: Call;
+    })[];
   };
   index: number;
   numContacts: number;

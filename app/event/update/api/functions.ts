@@ -36,7 +36,7 @@ export const eventObj = (obj) => {
     additionalInfo: obj.additionalInfo,
     //fixerName: obj.fixerName,
     fixerId: obj.fixerId,
-    adminAccess: obj.adminAccess
+    adminAccess: obj.adminAccess,
   };
 };
 
@@ -76,8 +76,8 @@ export const updateEvent = async (eventObj: Event) => {
             include: {
               eventCalls: {
                 include: {
-                  call: true
-                }
+                  call: true,
+                },
               },
               contact: true,
             },

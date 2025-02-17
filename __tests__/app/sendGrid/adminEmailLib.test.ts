@@ -15,7 +15,6 @@ import { mockEnsembleContact } from '../../../__mocks__/models/ensembleContact';
 import { mockEventSection } from '../../../__mocks__/models/eventSection';
 import { readOnlyTemplate } from '../../../app/sendGrid/lib';
 
-
 describe('eventReminderFixer()', () => {
   const mockArg = {
     ...mockEvent,
@@ -31,7 +30,9 @@ describe('eventReminderFixer()', () => {
     expect(eventReminderFixer(mockArg).email).toBe(mockArg.fixer.email);
   });
   it('returns expected templateID', () => {
-    expect(eventReminderFixer(mockArg).templateID).toBe('d-2b2e84b23956415ba770e7c36264bef9');
+    expect(eventReminderFixer(mockArg).templateID).toBe(
+      'd-2b2e84b23956415ba770e7c36264bef9'
+    );
   });
   it('returns expected email body text', () => {
     expect(eventReminderFixer(mockArg).bodyText).toBe(

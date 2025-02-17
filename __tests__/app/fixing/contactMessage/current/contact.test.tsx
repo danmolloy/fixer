@@ -17,7 +17,7 @@ describe('<CurrentContactRow />', () => {
     eventCalls: [mockCall],
     contact: {
       ...mockContactMessage,
-      eventCalls: [{...mockContactEventCall, call: mockCall}],
+      eventCalls: [{ ...mockContactEventCall, call: mockCall }],
       contact: {
         ...mockEnsembleContact,
       },
@@ -39,11 +39,11 @@ describe('<CurrentContactRow />', () => {
     const contactRow = screen.getByTestId('contact-row');
     expect(contactRow).toBeInTheDocument();
   });
-  it("it displays contact index correctly", () => {
+  it('it displays contact index correctly', () => {
     expect(screen.getByText(mockProps.index)).toBeInTheDocument();
-  });  
+  });
 
-  it('contact full name is in the document', () => {  
+  it('contact full name is in the document', () => {
     const fullName = screen.getByText(
       `${mockProps.contact.contact.firstName} ${mockProps.contact.contact.lastName}`
     );
@@ -55,51 +55,53 @@ describe('<CurrentContactRow />', () => {
   });
 
   it('status is in the document', () => {
-    if (mockProps.contact.status === "FINDINGDEP") {
-      const status = screen.getByText("FINDING DEP");
+    if (mockProps.contact.status === 'FINDINGDEP') {
+      const status = screen.getByText('FINDING DEP');
       expect(status).toBeInTheDocument();
-    } else if (mockProps.contact.status === "AWAITINGREPLY") {
+    } else if (mockProps.contact.status === 'AWAITINGREPLY') {
       const status = screen.getByText(
         `AWAITING REPLY ${mockProps.contact.emailStatus}`
       );
       expect(status).toBeInTheDocument();
-    } else if (mockProps.contact.status === "NOTCONTACTED") {
-      const status = screen.getByText("NOT CONTACTED");
+    } else if (mockProps.contact.status === 'NOTCONTACTED') {
+      const status = screen.getByText('NOT CONTACTED');
       expect(status).toBeInTheDocument();
-    }
-    else {
+    } else {
       const status = screen.getByText(mockProps.contact.status);
       expect(status).toBeInTheDocument();
     }
   });
 
-  
-  it("each eventCall is in the document and shows corresponding contact.eventCall status", () => {
+  it('each eventCall is in the document and shows corresponding contact.eventCall status', () => {
     mockProps.eventCalls.forEach((i) => {
       const eventCall = screen.getByTestId(`call-${i.id}`);
       expect(eventCall).toBeInTheDocument();
-      const statusText = mockProps.contact.eventCalls.find((c) => c.callId === i.id) ?  mockProps.contact.eventCalls.find((c) => c.callId === i.id)?.status : "-"
-      const status =  screen.getByText(String(statusText));
+      const statusText = mockProps.contact.eventCalls.find(
+        (c) => c.callId === i.id
+      )
+        ? mockProps.contact.eventCalls.find((c) => c.callId === i.id)?.status
+        : '-';
+      const status = screen.getByText(String(statusText));
       expect(status).toBeInTheDocument();
+    });
   });
-});
-it('menu button is in the document and shows menu on click', () => {
-  const menuBtn = screen.getByTestId('menu-btn');
-  expect(menuBtn).toBeInTheDocument();
-  act(() => {
-    fireEvent.click(menuBtn);
+  it('menu button is in the document and shows menu on click', () => {
+    const menuBtn = screen.getByTestId('menu-btn');
+    expect(menuBtn).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(menuBtn);
+    });
+    const contactOptions = screen.getByTestId('contact-options');
+    expect(contactOptions).toBeInTheDocument();
   });
-  const contactOptions = screen.getByTestId('contact-options');
-  expect(contactOptions).toBeInTheDocument();
-});
-it('if playerMessage, btn is in the document and shows message on click', () => {
-  const playerMessageBtn = screen.getByTestId('player-msg-btn');
-  expect(playerMessageBtn).toBeInTheDocument();
-  act(() => {
-    fireEvent.click(playerMessageBtn);
+  it('if playerMessage, btn is in the document and shows message on click', () => {
+    const playerMessageBtn = screen.getByTestId('player-msg-btn');
+    expect(playerMessageBtn).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(playerMessageBtn);
+    });
+    expect(global.alert).toHaveBeenCalledWith(
+      `Your message to ${mockProps.contact.contact.firstName}: \n\n${mockProps.contact.playerMessage}`
+    );
   });
-  expect(global.alert).toHaveBeenCalledWith(
-    `Your message to ${mockProps.contact.contact.firstName}: \n\n${mockProps.contact.playerMessage}`
-  );
-});
 });

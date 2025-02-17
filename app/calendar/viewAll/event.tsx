@@ -17,7 +17,7 @@ export type EventOverviewProps = {
     calls: Call[];
     sections: (EventSection & {
       contacts: (ContactMessage & {
-        calls: Call[]
+        calls: Call[];
       })[];
       ensembleSection: EnsembleSection;
       orchestration: Orchestration[];
@@ -30,7 +30,7 @@ export const gigStatus = (
     calls: Call[];
     sections: (EventSection & {
       contacts: (ContactMessage & {
-        calls: Call[]
+        calls: Call[];
       })[];
       ensembleSection: EnsembleSection;
       orchestration: Orchestration[];
@@ -93,9 +93,9 @@ export default function EventOverview(props: EventOverviewProps) {
     >
       <p>{getDateRange(event.calls)}</p>
       <h3>{event.eventTitle}</h3>
-      {fixStatus.length === 0 ? 
-      <p>No fixing</p>
-      : fixStatus.filter(i => i.numRequired > 0).length === 0 ? (
+      {fixStatus.length === 0 ? (
+        <p>No fixing</p>
+      ) : fixStatus.filter((i) => i.numRequired > 0).length === 0 ? (
         <p>Gig is fixed.</p>
       ) : (
         <div data-testid='fixing-overview'>
@@ -107,7 +107,7 @@ export default function EventOverview(props: EventOverviewProps) {
             ))}
           </ol>
         </div>
-      )} 
+      )}
     </Link>
   );
 }

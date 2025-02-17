@@ -30,15 +30,19 @@ describe('<OrchestraList />', () => {
       {
         ...mockEventSection,
         orchestration: [mockOrchestration],
-        contacts: [{
-          ...mockContactMessage,
-          eventCalls: [{
-            ...mockContactEventCall,
-            call: mockCall
-          }],
-          contact: mockEnsembleContact
-        }],
-        ensembleSection: mockSection
+        contacts: [
+          {
+            ...mockContactMessage,
+            eventCalls: [
+              {
+                ...mockContactEventCall,
+                call: mockCall,
+              },
+            ],
+            contact: mockEnsembleContact,
+          },
+        ],
+        ensembleSection: mockSection,
       },
     ],
   };
@@ -52,30 +56,38 @@ describe('<OrchestraList />', () => {
 
   it('booked musicians names are in respective sections, with TBC for all empty seats', () => {
     const orchestraList = screen.getByTestId('orchestra-list');
-    mockProps.sections.forEach(section => {
-      const sectionDiv = screen.getByTestId(`${section.id}-section`)
-      for (let i = 0; i < section.contacts.length; i ++) {
-        const name = `${section.contacts[i].contact.firstName} ${section.contacts[i].contact.lastName}`
-        if (section.contacts[i].eventCalls.map(c => c.status).includes("ACCEPTED")) {
+    mockProps.sections.forEach((section) => {
+      const sectionDiv = screen.getByTestId(`${section.id}-section`);
+      for (let i = 0; i < section.contacts.length; i++) {
+        const name = `${section.contacts[i].contact.firstName} ${section.contacts[i].contact.lastName}`;
+        if (
+          section.contacts[i].eventCalls
+            .map((c) => c.status)
+            .includes('ACCEPTED')
+        ) {
           expect(sectionDiv.textContent).toMatch(name);
         } else {
           expect(orchestraList.textContent).not.toMatch(name);
         }
       }
-      const numBooked = section.contacts.filter(contact => contact.eventCalls.map(call => call.status).includes("ACCEPTED")).length
-      const numRequired = section.orchestration.sort((a, b) => b.numRequired - a.numRequired)[0].numRequired
+      const numBooked = section.contacts.filter((contact) =>
+        contact.eventCalls.map((call) => call.status).includes('ACCEPTED')
+      ).length;
+      const numRequired = section.orchestration.sort(
+        (a, b) => b.numRequired - a.numRequired
+      )[0].numRequired;
 
       if (numRequired - numBooked > 0) {
-        const tbcSeats = screen.getAllByTestId(`${section.id}-tbc`)
-        expect(tbcSeats).toHaveLength(numRequired - numBooked)
+        const tbcSeats = screen.getAllByTestId(`${section.id}-tbc`);
+        expect(tbcSeats).toHaveLength(numRequired - numBooked);
       }
-    })
+    });
   });
   it('print list btn is in the document and calls html2pdf on click', () => {
-    const optionsBtn = screen.getByText("Options");
+    const optionsBtn = screen.getByText('Options');
     act(() => {
       fireEvent.click(optionsBtn);
-    })
+    });
     const mockOrchListElement = document.createElement('div');
     jest
       .spyOn(React, 'useRef')
@@ -95,8 +107,7 @@ describe('<OrchestraList />', () => {
 
 describe('<OrchestraList />', () => {
   const mockProps: OrchestraListProps = {
-    sections: [
-    ],
+    sections: [],
   };
   beforeEach(() => {
     render(<OrchestraList {...mockProps} />);

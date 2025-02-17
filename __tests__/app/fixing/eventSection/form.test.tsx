@@ -1,5 +1,11 @@
 import '@testing-library/jest-dom';
-import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
+import {
+  render,
+  screen,
+  act,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react';
 import CreateEventSection, {
   CreateEventSectionProps,
 } from '../../../../app/fixing/eventSection/form';
@@ -22,13 +28,17 @@ describe('<CreateEventSection />', () => {
     ensembleSections: [mockSection],
     setCreateSection: jest.fn(),
     ensembleSectionId: undefined,
-    eventCalls: [{
-      ...mockCall
-    }],
-    bookingStatus: "ACTIVE",
-    orchestration: [{
-      ...mockOrchestration
-    }],
+    eventCalls: [
+      {
+        ...mockCall,
+      },
+    ],
+    bookingStatus: 'ACTIVE',
+    orchestration: [
+      {
+        ...mockOrchestration,
+      },
+    ],
     eventSectionId: undefined,
     eventSections: [
       {
@@ -106,11 +116,11 @@ describe('<CreateEventSection />', () => {
       bookingStatus: mockProps.bookingStatus,
       ensembleSectionId: mockProps.ensembleSections[0].id,
       eventId: mockProps.eventId,
-      orchestration: mockProps.eventCalls.map(call => ({
+      orchestration: mockProps.eventCalls.map((call) => ({
         callId: call.id,
         id: undefined,
-        numRequired: 0
-      }))
+        numRequired: 0,
+      })),
     });
   });
 });
@@ -121,13 +131,18 @@ describe('<CreateEventSection />', () => {
     ensembleSections: [mockSection],
     setCreateSection: jest.fn(),
     ensembleSectionId: mockSection.id,
-eventCalls: [{
-      ...mockCall
-    }],
-    bookingStatus: "ACTIVE",
-    orchestration: [{
-      ...mockOrchestration
-    }],    eventSectionId: mockEventSection.id,
+    eventCalls: [
+      {
+        ...mockCall,
+      },
+    ],
+    bookingStatus: 'ACTIVE',
+    orchestration: [
+      {
+        ...mockOrchestration,
+      },
+    ],
+    eventSectionId: mockEventSection.id,
     eventSections: [
       {
         ...mockEventSection,
@@ -170,30 +185,31 @@ eventCalls: [{
       }))
     });
   }); */
-  it("fixing active radio input is in the document with label,type, name & value", () => {
-    const fixingActive = screen.getByLabelText("Active");
-    expect(fixingActive).toHaveAttribute("type", "radio");
-    expect(fixingActive).toHaveAttribute("name", "bookingStatus");
-    expect(fixingActive).toHaveAttribute("value", "ACTIVE");
-  })
-  it("fixing inactive radio input is in the document with label,type, name & value", () => {
-    const fixingInactive = screen.getByLabelText("Inactive");
-    expect(fixingInactive).toHaveAttribute("type", "radio");
-    expect(fixingInactive).toHaveAttribute("name", "bookingStatus");
-    expect(fixingInactive).toHaveAttribute("value", "INACTIVE");
-  })
-  it("Delete Section btn is in the document and calls handleDelete() on click", () => {
-    const deleteBtn = screen.getByText("Delete Section");
+  it('fixing active radio input is in the document with label,type, name & value', () => {
+    const fixingActive = screen.getByLabelText('Active');
+    expect(fixingActive).toHaveAttribute('type', 'radio');
+    expect(fixingActive).toHaveAttribute('name', 'bookingStatus');
+    expect(fixingActive).toHaveAttribute('value', 'ACTIVE');
+  });
+  it('fixing inactive radio input is in the document with label,type, name & value', () => {
+    const fixingInactive = screen.getByLabelText('Inactive');
+    expect(fixingInactive).toHaveAttribute('type', 'radio');
+    expect(fixingInactive).toHaveAttribute('name', 'bookingStatus');
+    expect(fixingInactive).toHaveAttribute('value', 'INACTIVE');
+  });
+  it('Delete Section btn is in the document and calls handleDelete() on click', () => {
+    const deleteBtn = screen.getByText('Delete Section');
     expect(deleteBtn).toBeInTheDocument();
     act(() => {
       fireEvent.click(deleteBtn);
-    })
-    expect(global.confirm).toHaveBeenCalledWith("Are you sure you want to delete this section?");
-    expect(axios.post).toHaveBeenCalledWith("/fixing/eventSection/api/delete", {
-      sectionId: Number(mockProps.eventSectionId)
-    })
-
-  })
+    });
+    expect(global.confirm).toHaveBeenCalledWith(
+      'Are you sure you want to delete this section?'
+    );
+    expect(axios.post).toHaveBeenCalledWith('/fixing/eventSection/api/delete', {
+      sectionId: Number(mockProps.eventSectionId),
+    });
+  });
   /* it("fixedNumToBook input is in the document with label and sets fixedNumToBook status on click", async () => {
     const fixedNumCheckbox = screen.getByLabelText(`0 musician(s) for all calls`);
     expect(fixedNumCheckbox).toBeInTheDocument();
@@ -215,4 +231,3 @@ eventCalls: [{
     }
   }) */
 });
- 

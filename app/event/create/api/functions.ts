@@ -40,7 +40,7 @@ export const eventObj = (obj) => {
     fee: obj.fee,
     additionalInfo: obj.additionalInfo,
     fixerId: obj.fixerId,
-    adminAccess: obj.adminAccess
+    adminAccess: obj.adminAccess,
   };
 };
 

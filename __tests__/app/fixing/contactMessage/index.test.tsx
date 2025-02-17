@@ -24,7 +24,7 @@ const mockProps: EventSectionContactsProps = {
         lastName: 'Ievers',
       },
       type: 'AVAILABILITY',
-      eventCalls: [{...mockContactEventCall, call: mockCall}],
+      eventCalls: [{ ...mockContactEventCall, call: mockCall }],
     },
     {
       ...mockContactMessage,
@@ -35,7 +35,7 @@ const mockProps: EventSectionContactsProps = {
         lastName: 'Gannon',
       },
       type: 'BOOKING',
-      eventCalls: [{...mockContactEventCall, call: mockCall}],
+      eventCalls: [{ ...mockContactEventCall, call: mockCall }],
     },
     {
       ...mockContactMessage,
@@ -46,7 +46,7 @@ const mockProps: EventSectionContactsProps = {
         lastName: 'Sturdy',
       },
       type: 'AUTOBOOK',
-      eventCalls: [{...mockContactEventCall, call: mockCall}],
+      eventCalls: [{ ...mockContactEventCall, call: mockCall }],
     },
   ],
 };

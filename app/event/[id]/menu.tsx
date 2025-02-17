@@ -39,12 +39,13 @@ export default function EventMenu(props: EventMenuProps) {
     const mailList = contacts
       .filter(
         (i) =>
-          (i.status === 'ACCEPTED' ||
-            i.status === 'AUTOBOOKED' ||
-            i.status === 'AVAILABLE' ||
-            i.status === 'MIXED' ||
-            i.status === 'FINDINGDEP' ||
-            i.status === 'AWAITINGREPLY' || i.status === "RESPONDED")
+          i.status === 'ACCEPTED' ||
+          i.status === 'AUTOBOOKED' ||
+          i.status === 'AVAILABLE' ||
+          i.status === 'MIXED' ||
+          i.status === 'FINDINGDEP' ||
+          i.status === 'AWAITINGREPLY' ||
+          i.status === 'RESPONDED'
       )
       .map((i) => i.contact.email);
     if (message === null || mailList.length === 0) {

@@ -23,7 +23,7 @@ const mockProps: EventSectionProps = {
   section: {
     ...mockEventSection,
     ensembleSection: mockSection,
-    orchestration: [mockOrchestration]
+    orchestration: [mockOrchestration],
   },
   ensembleSections: [mockSection],
   eventSections: [
@@ -37,7 +37,7 @@ const mockProps: EventSectionProps = {
   currentContacts: [
     {
       ...mockContactMessage,
-      eventCalls: [{...mockContactEventCall, call: mockCall}],  
+      eventCalls: [{ ...mockContactEventCall, call: mockCall }],
       contact: mockEnsembleContact,
     },
   ],
@@ -54,41 +54,45 @@ describe('<EventSectionIndex />', () => {
     expect(eventSection).toBeInTheDocument();
   });
 
-  it("section name is in the document", () => {
-    const sectionName = screen.getByText(mockProps.section.ensembleSection.name);
+  it('section name is in the document', () => {
+    const sectionName = screen.getByText(
+      mockProps.section.ensembleSection.name
+    );
     expect(sectionName).toBeInTheDocument();
   });
-  it("states booking status", () => {
-    const bookingStatus = screen.getByText(`Booking ${mockProps.section.bookingStatus}`)
+  it('states booking status', () => {
+    const bookingStatus = screen.getByText(
+      `Booking ${mockProps.section.bookingStatus}`
+    );
     expect(bookingStatus).toBeInTheDocument();
-  })
-  it("<SectionMenu /> is in the document", () => {
-    const sectionMenu = screen.getByTestId("section-menu");
+  });
+  it('<SectionMenu /> is in the document', () => {
+    const sectionMenu = screen.getByTestId('section-menu');
     expect(sectionMenu).toBeInTheDocument();
-  })
-  it("<OrchestrationSummary /> is in the document", () => {
-    const summary = screen.getByTestId("orchestration-summary");
+  });
+  it('<OrchestrationSummary /> is in the document', () => {
+    const summary = screen.getByTestId('orchestration-summary');
     expect(summary).toBeInTheDocument();
   });
-  it("<SetionViewSelect /> is in the document", () => {
-    const viewSelect = screen.getByTestId("view-select");
+  it('<SetionViewSelect /> is in the document', () => {
+    const viewSelect = screen.getByTestId('view-select');
     expect(viewSelect).toBeInTheDocument();
   });
-  it("<EventSectionContacts /> is in the document", () => {
+  it('<EventSectionContacts /> is in the document', () => {
     const eventSectionContacts = screen.getByTestId('event-section-contacts');
     expect(eventSectionContacts).toBeInTheDocument();
-  })  
-  it("if updateSection, <CreateEventSection /> is in the document", () => {
-    const optionsBtn = screen.getByTestId("options-btn");
+  });
+  it('if updateSection, <CreateEventSection /> is in the document', () => {
+    const optionsBtn = screen.getByTestId('options-btn');
     expect(optionsBtn).toBeInTheDocument();
     act(() => {
       fireEvent.click(optionsBtn);
-    })
-    const editSection = screen.getByText("Edit Section");
+    });
+    const editSection = screen.getByText('Edit Section');
     act(() => {
       fireEvent.click(editSection);
-    })
-    const createForm = screen.getByTestId("create-event-section");
+    });
+    const createForm = screen.getByTestId('create-event-section');
     expect(createForm).toBeInTheDocument();
   });
 });

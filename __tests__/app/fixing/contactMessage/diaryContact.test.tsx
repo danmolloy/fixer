@@ -7,7 +7,7 @@ import { mockEnsembleContact } from '../../../../__mocks__/models/ensembleContac
 
 describe('<DiaryContactProps />', () => {
   const mockProps: DiaryContactProps = {
-    contact: {...mockEnsembleContact, category: 'Extra'},
+    contact: { ...mockEnsembleContact, category: 'Extra' },
     setSelectContact: jest.fn(),
     disabled: false,
   };
@@ -16,9 +16,10 @@ describe('<DiaryContactProps />', () => {
     render(
       <table>
         <tbody>
-        <DiaryContact {...mockProps} />
+          <DiaryContact {...mockProps} />
         </tbody>
-      </table>);
+      </table>
+    );
   });
 
   it('<DiaryContact /> renders', () => {
@@ -32,7 +33,7 @@ describe('<DiaryContactProps />', () => {
     const diaryContact = screen.getByTestId(
       `${mockProps.contact.id}-contact-tile`
     );
-    expect(diaryContact).toHaveTextContent("Extra");
+    expect(diaryContact).toHaveTextContent('Extra');
   });
 
   it('displays contact name correctly', () => {
@@ -47,20 +48,21 @@ describe('<DiaryContactProps />', () => {
 
 describe('<DiaryContactProps />', () => {
   const mockProps: DiaryContactProps = {
-    contact: {...mockEnsembleContact, category: 'Extra'},
+    contact: { ...mockEnsembleContact, category: 'Extra' },
     setSelectContact: jest.fn(),
     disabled: true,
   };
 
   beforeEach(() => {
-    render(<table>
-      <tbody>
-      <DiaryContact {...mockProps} />
-      </tbody>
-    </table>);
+    render(
+      <table>
+        <tbody>
+          <DiaryContact {...mockProps} />
+        </tbody>
+      </table>
+    );
   });
 
-  
   it("if disabled, it doesn't call setSelectContact", () => {
     const diaryContact = screen.getByTestId(
       `${mockProps.contact.id}-contact-tile`

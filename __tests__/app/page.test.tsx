@@ -12,8 +12,8 @@ import { redirect } from 'next/navigation';
 
 jest.mock('@auth/prisma-adapter');
 jest.mock('next/navigation', () => ({
-  redirect: jest.fn()
-}))
+  redirect: jest.fn(),
+}));
 
 const mockUserCalendar = {
   ...mockUser,

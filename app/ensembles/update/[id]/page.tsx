@@ -25,12 +25,13 @@ export default async function UpdateEnsemble({
 
   return (
     <AuthWall session={session}>
-  {!data ? (
-    <p>No data</p>
-  ) : 
-    <div>
-      <UpdateEnsembleForm ensemble={data} />
-    </div>}
+      {!data ? (
+        <p>No data</p>
+      ) : (
+        <div>
+          <UpdateEnsembleForm ensemble={data} />
+        </div>
+      )}
     </AuthWall>
   );
 }

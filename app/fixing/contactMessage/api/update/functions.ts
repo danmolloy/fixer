@@ -6,9 +6,10 @@ import { releaseDeppers } from './depFunctions';
 import { emailNotRequired } from '../../../../sendGrid/playerLib';
 import axios from 'axios';
 
-export const updateManyContactMessage = async (args: {contactIDs: number[], data: {status: ContactMessageStatus}}) => {
-
-
+export const updateManyContactMessage = async (args: {
+  contactIDs: number[];
+  data: { status: ContactMessageStatus };
+}) => {
   try {
     const updatedData = await prisma.contactMessage.updateManyAndReturn({
       where: {
@@ -19,7 +20,7 @@ export const updateManyContactMessage = async (args: {contactIDs: number[], data
       data: args.data,
     });
 
-    if (args.data.status === "CANCELLED") {
+    if (args.data.status === 'CANCELLED') {
       const contactMessages = await prisma.contactMessage.findMany({
         where: {
           id: {
@@ -29,8 +30,8 @@ export const updateManyContactMessage = async (args: {contactIDs: number[], data
         include: {
           eventCalls: {
             include: {
-              call: true
-            }
+              call: true,
+            },
           },
           contact: true,
           eventSection: {
@@ -45,25 +46,26 @@ export const updateManyContactMessage = async (args: {contactIDs: number[], data
         },
       });
 
-    for (const contactMessage of contactMessages) {
-      const emailData = await emailNotRequired({...contactMessage, calls: contactMessage.eventCalls.map(c=> c.call)});
-      await axios.post(`${process.env.URL}/sendGrid`, {
-        body: {
-          emailData: emailData,
-          templateID: emailData.templateID,
-          emailAddress: emailData.email,
-        },
-      });
-    }
+      for (const contactMessage of contactMessages) {
+        const emailData = await emailNotRequired({
+          ...contactMessage,
+          calls: contactMessage.eventCalls.map((c) => c.call),
+        });
+        await axios.post(`${process.env.URL}/sendGrid`, {
+          body: {
+            emailData: emailData,
+            templateID: emailData.templateID,
+            emailAddress: emailData.email,
+          },
+        });
+      }
     }
     return updatedData;
   } catch (e) {
-
     console.log(e);
     throw new Error(e);
   }
-  
-}
+};
 
 export const updateContactMessage = async (contactMessageObj: {
   id: number;
@@ -71,7 +73,7 @@ export const updateContactMessage = async (contactMessageObj: {
   eventCalls?: {
     status: ContactEventCallStatus;
     callId: number;
-  }[]
+  }[];
 }) => {
   try {
     const updatedData = await prisma.contactMessage.update({
@@ -94,18 +96,17 @@ export const updateContactMessage = async (contactMessageObj: {
       },
     });
     if (contactMessageObj.eventCalls) {
-      for (let j = 0; j < contactMessageObj.eventCalls.length; j ++) {
+      for (let j = 0; j < contactMessageObj.eventCalls.length; j++) {
         await prisma.contactEventCall.updateMany({
           where: {
             callId: contactMessageObj.eventCalls[j].callId,
-            contactMessageId: contactMessageObj.id
+            contactMessageId: contactMessageObj.id,
           },
           data: {
-            status: contactMessageObj.eventCalls[j].status
-          }
-        })
+            status: contactMessageObj.eventCalls[j].status,
+          },
+        });
       }
-
     }
 
     if (

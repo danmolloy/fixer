@@ -147,12 +147,14 @@ describe('updateContactMessage', () => {
       },
     };
     prismaMock.contactMessage.update.mockResolvedValueOnce(mockData);
-    expect(await updateContactMessage({
-      id: 1,
-      data: {
-        status: 'ACCEPTED',
-      },
-    })).toEqual({...mockData})
+    expect(
+      await updateContactMessage({
+        id: 1,
+        data: {
+          status: 'ACCEPTED',
+        },
+      })
+    ).toEqual({ ...mockData });
     //expect(emailBookingMusicians).toHaveBeenCalledWith(mockData.eventSectionId);
   });
   //it('catches errors', () => {});

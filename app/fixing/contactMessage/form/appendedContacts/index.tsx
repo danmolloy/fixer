@@ -24,7 +24,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
     props;
 
   return (
-    <div data-testid="appended-contacts-index">
+    <div data-testid='appended-contacts-index'>
       {/* <h3>Contacts to Call</h3> */}
       <table className='my-4 w-full border'>
         <thead className='border-b bg-slate-50 text-sm'>
@@ -42,7 +42,7 @@ export default function AppendedContacts(props: AppendedContactsProps) {
                 </p>
               </th>
             ))}
-            <th data-testid="options-th">Options</th>
+            <th data-testid='options-th'>Options</th>
             {type !== 'AVAILABILITY' && <th>Auto Accept</th>}
           </tr>
         </thead>

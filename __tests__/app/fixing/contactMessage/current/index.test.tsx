@@ -22,10 +22,12 @@ describe('<CurrentContactMessages />', () => {
         },
         id: 1,
         type: 'AUTOBOOK',
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }]
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
       },
       {
         ...mockContactMessage,
@@ -36,10 +38,12 @@ describe('<CurrentContactMessages />', () => {
         },
         id: 2,
         type: 'AVAILABILITY',
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }]
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
       },
       {
         ...mockContactMessage,
@@ -50,10 +54,12 @@ describe('<CurrentContactMessages />', () => {
         },
         id: 3,
         type: 'BOOKING',
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }]
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
       },
     ],
     type: 'BOOKING',
@@ -110,11 +116,13 @@ describe('<CurrentContactMessages /> BOOKING', () => {
         },
         id: 1,
         type: 'AUTOBOOK',
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }]
-            },
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
+      },
       {
         ...mockContactMessage,
         contact: {
@@ -124,10 +132,13 @@ describe('<CurrentContactMessages /> BOOKING', () => {
         },
         id: 2,
         type: 'AVAILABILITY',
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }]      },
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
+      },
       {
         ...mockContactMessage,
         contact: {
@@ -137,10 +148,13 @@ describe('<CurrentContactMessages /> BOOKING', () => {
         },
         id: 3,
         type: 'BOOKING',
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }]      },
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
+      },
     ],
     type: 'BOOKING',
   };
@@ -178,10 +192,12 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
         },
         id: 1,
         type: 'AUTOBOOK',
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }]
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
       },
       {
         ...mockContactMessage,
@@ -192,10 +208,12 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
         },
         id: 2,
         type: 'AVAILABILITY',
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }]
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
       },
       {
         ...mockContactMessage,
@@ -206,10 +224,12 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
         },
         id: 3,
         type: 'BOOKING',
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }]
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
       },
     ],
     type: 'AVAILABILITY',

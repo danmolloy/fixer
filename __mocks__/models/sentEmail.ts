@@ -1,7 +1,13 @@
 import { EmailStatus, SentEmail } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 
-const emailStatusArr: EmailStatus[] = ["BOUNCE", "CLICK", "DELIVERED", "OPEN", "PROCESSED"];
+const emailStatusArr: EmailStatus[] = [
+  'BOUNCE',
+  'CLICK',
+  'DELIVERED',
+  'OPEN',
+  'PROCESSED',
+];
 
 export const mockSentEmail: SentEmail = {
   id: faker.string.uuid(),

@@ -1,5 +1,11 @@
 'use client';
-import { BookingStatus, Call, EnsembleSection, EventSection, Orchestration } from '@prisma/client';
+import {
+  BookingStatus,
+  Call,
+  EnsembleSection,
+  EventSection,
+  Orchestration,
+} from '@prisma/client';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../forms/textInput';
@@ -14,7 +20,7 @@ import { DateTime } from 'luxon';
 
 export type CreateEventSectionProps = {
   eventId: number;
-  eventCalls: Call[]
+  eventCalls: Call[];
   ensembleSections: EnsembleSection[];
   setCreateSection: (arg: boolean) => void;
   ensembleSectionId: undefined | string;
@@ -22,7 +28,7 @@ export type CreateEventSectionProps = {
   //numToBook: number;
   eventSectionId: number | undefined;
   eventSections: (EventSection & { ensembleSection: EnsembleSection })[];
-  orchestration: Orchestration[]
+  orchestration: Orchestration[];
 };
 
 export default function CreateEventSection(props: CreateEventSectionProps) {
@@ -36,44 +42,54 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
     //numToBook,
     eventSectionId,
     eventSections,
-    orchestration
+    orchestration,
   } = props;
   const [fixedNumToBook, setFixedNumToBook] = useState<boolean>(true);
   const router = useRouter();
 
   useEffect(() => {
-    const orchArray = new Array(eventCalls.length).fill(null)
-    .map((i, index) => ({
-      numRequired: orchestration.find(j => j.callId === eventCalls[index].id)?.numRequired || 0//numToBook
-    }))
-    setFixedNumToBook(orchArray.every(i => i.numRequired === orchArray[0].numRequired))
-  }, [])
+    const orchArray = new Array(eventCalls.length)
+      .fill(null)
+      .map((i, index) => ({
+        numRequired:
+          orchestration.find((j) => j.callId === eventCalls[index].id)
+            ?.numRequired || 0, //numToBook
+      }));
+    setFixedNumToBook(
+      orchArray.every((i) => i.numRequired === orchArray[0].numRequired)
+    );
+  }, []);
 
   const formSchema = Yup.object().shape({
     eventId: Yup.number().required('event id required'),
     ensembleSectionId: Yup.string().required('ensemble section id required'),
     bookingStatus: Yup.string().required(),
-   
+
     orchestration: Yup.array().of(
-          Yup.object({
-            callId: Yup.number().required(),
-            id: Yup.number(),
-            numRequired: Yup.number().min(0).max(50)
-            .required('number of musicians required'),
-          })
-        ),
+      Yup.object({
+        callId: Yup.number().required(),
+        id: Yup.number(),
+        numRequired: Yup.number()
+          .min(0)
+          .max(50)
+          .required('number of musicians required'),
+      })
+    ),
   });
 
   const initialVals = {
     eventId: eventId,
     ensembleSectionId: ensembleSectionId,
     bookingStatus: bookingStatus,
-    orchestration: new Array(eventCalls.length).fill(null)
-    .map((i, index) => ({
+    orchestration: new Array(eventCalls.length).fill(null).map((i, index) => ({
       callId: eventCalls[index].id,
-      id: orchestration.find(j => j.callId === eventCalls[index].id)?.id || undefined,
-      numRequired: orchestration.find(j => j.callId === eventCalls[index].id)?.numRequired || 0
-    })) 
+      id:
+        orchestration.find((j) => j.callId === eventCalls[index].id)?.id ||
+        undefined,
+      numRequired:
+        orchestration.find((j) => j.callId === eventCalls[index].id)
+          ?.numRequired || 0,
+    })),
   };
 
   const handleSubmit = async (vals) => {
@@ -84,22 +100,24 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
       });
     } else {
       return await axios.post('/fixing/eventSection/api/create', vals);
-    } 
+    }
   };
 
   const handleDelete = async () => {
     return (
       confirm(`Are you sure you want to delete this section?`) &&
-      (await axios.post('/fixing/eventSection/api/delete', {
-        sectionId: Number(eventSectionId),
-      }).then(() => {
-        setCreateSection(false);
-        router.refresh();
-      }).catch((error) => {
-        const errorMessage =
-          error.response.data.error || 'An unexpected error occurred.';
-      })
-    )
+      (await axios
+        .post('/fixing/eventSection/api/delete', {
+          sectionId: Number(eventSectionId),
+        })
+        .then(() => {
+          setCreateSection(false);
+          router.refresh();
+        })
+        .catch((error) => {
+          const errorMessage =
+            error.response.data.error || 'An unexpected error occurred.';
+        }))
     );
   };
 
@@ -125,7 +143,6 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               actions.setStatus(errorMessage);
             })
             .finally(() => {
-
               actions.setSubmitting(false);
               router.refresh();
             });
@@ -174,50 +191,74 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 </ErrorMessage>
               </div>
             )}
-
             <div className='flex flex-col'>
-            <label htmlFor='num-required'>Num Required</label>
-            <Field className='w-60'
-              id="num-required"
-              name={fixedNumToBook && 'orchestration[0].numRequired'}
-              disabled={!fixedNumToBook || props.isSubmitting}
-              type='number' 
-              onChange={(e) => {
-                fixedNumToBook && props.setFieldValue("orchestration", props.values.orchestration.map(i => ({...i, numRequired: e.target.value})));
-                }} />
+              <label htmlFor='num-required'>Num Required</label>
+              <Field
+                className='w-60'
+                id='num-required'
+                name={fixedNumToBook && 'orchestration[0].numRequired'}
+                disabled={!fixedNumToBook || props.isSubmitting}
+                type='number'
+                onChange={(e) => {
+                  fixedNumToBook &&
+                    props.setFieldValue(
+                      'orchestration',
+                      props.values.orchestration.map((i) => ({
+                        ...i,
+                        numRequired: e.target.value,
+                      }))
+                    );
+                }}
+              />
+            </div>
+            <ErrorMessage name={'orchestration'}>
+              {(msg) => (
+                <div
+                  className='p-1 text-sm text-red-600'
+                  data-testid={`orchestration-error`}
+                >
+                  {msg}
                 </div>
-                                <ErrorMessage name={'orchestration'}>{(msg) => (
-                    <div
-                      className='p-1 text-sm text-red-600'
-                      data-testid={`orchestration-error`}
-                    >
-                      {msg}
-                    </div>
-                  )}
-                </ErrorMessage>
-
+              )}
+            </ErrorMessage>
             <div>
-            <label htmlFor='fixed-num-required-checkbox'>
-              <input id="fixed-num-required-checkbox" disabled={props.isSubmitting} className={'mr-1'} type={'checkbox'} 
-              onChange={() => {
-                setFixedNumToBook(!fixedNumToBook); 
-                props.setFieldValue("orchestration", props.values.orchestration.map(i => ({...i, numRequired: props.values.orchestration[0].numRequired})))
-                }} checked={fixedNumToBook} />
-              {`${fixedNumToBook ? props.values.orchestration[0].numRequired : "-"} musician(s) for all calls`}
-            </label>
-            {!fixedNumToBook && <div data-testid="calls-num-required">
-              {eventCalls.map((i, index) => (
-                <TextInput
-                  key={i.id}
+              <label htmlFor='fixed-num-required-checkbox'>
+                <input
+                  id='fixed-num-required-checkbox'
                   disabled={props.isSubmitting}
-                  className='w-60'
-                  type='number'
-                  name={`orchestration[${index}].numRequired`}
-                  id='numtobook-input'
-                  label={DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD')}
+                  className={'mr-1'}
+                  type={'checkbox'}
+                  onChange={() => {
+                    setFixedNumToBook(!fixedNumToBook);
+                    props.setFieldValue(
+                      'orchestration',
+                      props.values.orchestration.map((i) => ({
+                        ...i,
+                        numRequired: props.values.orchestration[0].numRequired,
+                      }))
+                    );
+                  }}
+                  checked={fixedNumToBook}
                 />
-              ))}
-            </div>}
+                {`${fixedNumToBook ? props.values.orchestration[0].numRequired : '-'} musician(s) for all calls`}
+              </label>
+              {!fixedNumToBook && (
+                <div data-testid='calls-num-required'>
+                  {eventCalls.map((i, index) => (
+                    <TextInput
+                      key={i.id}
+                      disabled={props.isSubmitting}
+                      className='w-60'
+                      type='number'
+                      name={`orchestration[${index}].numRequired`}
+                      id='numtobook-input'
+                      label={DateTime.fromJSDate(
+                        new Date(i.startTime)
+                      ).toFormat('HH:mm DD')}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
             <div
               role='group'
@@ -227,7 +268,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               <label>Fixing Status</label>
               <label htmlFor='fixing-active'>
                 <Field
-                  id="fixing-active"
+                  id='fixing-active'
                   disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
@@ -238,7 +279,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               </label>
               <label htmlFor='fixing-inactive'>
                 <Field
-                  id="fixing-inactive"
+                  id='fixing-inactive'
                   disabled={props.isSubmitting}
                   className='m-1'
                   type='radio'
@@ -270,8 +311,9 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 }
               />
             </div>
-{/*             <ValidationError errors={Object.values(props.errors)} />
- */}            <StatusMessage status={props.status} />
+            {/*             <ValidationError errors={Object.values(props.errors)} />
+             */}{' '}
+            <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>

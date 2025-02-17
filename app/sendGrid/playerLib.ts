@@ -29,17 +29,19 @@ export type ResponseConfEmailProps = {
   token: string;
 };
 
-export const emailNotRequired = async (data: ContactMessage & {
-  contact: EnsembleContact;
-  calls: Call[];
-  eventSection: EventSection & {
-    event: Event & {
-      fixer: User;
+export const emailNotRequired = async (
+  data: ContactMessage & {
+    contact: EnsembleContact;
+    calls: Call[];
+    eventSection: EventSection & {
+      event: Event & {
+        fixer: User;
+      };
     };
-  };
-}): Promise<SentEmailData> => {
-  const subject = `Update: ${getDateRange(data.calls)} ${data.eventSection.event.ensembleName}`
-     
+  }
+): Promise<SentEmailData> => {
+  const subject = `Update: ${getDateRange(data.calls)} ${data.eventSection.event.ensembleName}`;
+
   const templateID = readOnlyTemplate;
   const contactMessageID = data.id;
   const email = data.contact.email!;
@@ -59,14 +61,13 @@ GigFix`;
     templateID,
   };
 
-
   await createSentEmail({
     ...emailData,
     eventId: data.eventSection.eventId,
   });
 
   return emailData;
-}
+};
 
 export const createOfferEmail = async (
   data: ContactMessage & {
@@ -92,7 +93,7 @@ export const createOfferEmail = async (
     data.status === 'FINDINGDEP'
       ? readOnlyTemplate
       : responseTemplate;
-      const contactMessageID = data.id;
+  const contactMessageID = data.id;
 
   const responseLink = `${url}/fixing/response/${data.token}/`;
   const email = data.contact.email!;
@@ -195,7 +196,7 @@ export const updateOfferEmail = async (
 <br />
 <br />
   ${
-    data.status === "AWAITINGREPLY"
+    data.status === 'AWAITINGREPLY'
       ? `Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`
       : `You can view up to date gig details at <a href="${responseLink}">this link</a>. It has been marked as ${data.status === 'ACCEPTED' ? 'accepted' : data.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`
   }<br /> <br />

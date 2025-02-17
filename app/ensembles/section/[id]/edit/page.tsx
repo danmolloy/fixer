@@ -26,10 +26,7 @@ export default async function EditSection({
 
   return (
     <AuthWall session={session}>
-    {!data ? (
-    <p>No data</p>
-  ) : 
-    <UpdateSectionForm section={data} />}
+      {!data ? <p>No data</p> : <UpdateSectionForm section={data} />}
     </AuthWall>
   );
 }

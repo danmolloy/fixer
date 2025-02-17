@@ -8,17 +8,16 @@ export const createEventSection = async (sectionObj: {
   orchestration: {
     callId: number;
     numRequired: number;
-
-  }[]
+  }[];
 }) => {
   return await prisma.eventSection.create({
     data: {
       bookingStatus: sectionObj.bookingStatus,
       orchestration: {
-        create: sectionObj.orchestration.map(i => ({
+        create: sectionObj.orchestration.map((i) => ({
           numRequired: Number(i.numRequired),
-          callId: Number(i.callId)
-        }))
+          callId: Number(i.callId),
+        })),
       },
       eventId: sectionObj.eventId,
       ensembleSectionId: sectionObj.ensembleSectionId,

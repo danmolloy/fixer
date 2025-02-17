@@ -34,9 +34,7 @@ describe('<EventInfo />', () => {
     const status = screen.getByTestId('event-status');
     expect(status).toBeInTheDocument();
     expect(status.textContent).toMatch(/^Status/);
-    expect(status.textContent).toMatch(
-      mockProps.event.status
-    );
+    expect(status.textContent).toMatch(mockProps.event.status);
   });
   it('ensemble name is in the document with label', () => {
     const ensembleName = screen.getByTestId('ensemble-name');

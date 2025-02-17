@@ -4,7 +4,7 @@ import {
   createOfferEmail,
   releaseDepperEmail,
 } from '../../../../sendGrid/playerLib';
-import {  callsNotFixed, getDateRange, gigIsFixed } from './functions';
+import { callsNotFixed, getDateRange, gigIsFixed } from './functions';
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 import {
   bookingCompleteEmail,
@@ -13,7 +13,6 @@ import {
 const url = `${process.env.URL}`;
 
 const getContactMessages = async (eventSectionId: number) => {
-
   return await prisma.contactMessage.findMany({
     where: {
       eventSectionId: eventSectionId,
@@ -22,15 +21,15 @@ const getContactMessages = async (eventSectionId: number) => {
     include: {
       eventCalls: {
         include: {
-          call: true
-        }
+          call: true,
+        },
       },
       eventSection: {
         include: {
           orchestration: {
             include: {
-              bookedPlayers: true
-            }
+              bookedPlayers: true,
+            },
           },
           event: {
             include: {
@@ -42,8 +41,6 @@ const getContactMessages = async (eventSectionId: number) => {
         },
       },
       contact: true,
-      
-      
     },
     orderBy: [
       {
@@ -51,9 +48,8 @@ const getContactMessages = async (eventSectionId: number) => {
       },
     ],
   });
-} 
+};
 export const emailBookingMusicians = async (eventSectionId: number) => {
-  
   let contactMessages = await getContactMessages(eventSectionId);
 
   if (contactMessages.length === 0) {
@@ -83,61 +79,75 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     }
   }
 
-  for (let i = 0; i < contactMessages.filter(
-    (i) => i.status === 'NOTCONTACTED'
-  ).length; i ++) {
+  for (
+    let i = 0;
+    i < contactMessages.filter((i) => i.status === 'NOTCONTACTED').length;
+    i++
+  ) {
+    let notContacted = contactMessages.filter(
+      (i) => i.status === 'NOTCONTACTED'
+    );
 
-  let notContacted = contactMessages.filter(
-    (i) => i.status === 'NOTCONTACTED'
-  );
+    let notFixedCalls = contactMessages[0].eventSection.orchestration
+      .filter((i) => i.numRequired > i.bookedPlayers.length)
+      .map((c) => c.callId);
 
-  let notFixedCalls = contactMessages[0].eventSection.orchestration.filter(i => i.numRequired > i.bookedPlayers.length).map(c => c.callId);
-  
-  // stop function if all calls are fixed
-  if (notFixedCalls.length === 0) {
-    return;
-  }
-  // contact whoever I can currently
-    const callsToOfferNotFixed = notContacted[i].eventCalls.filter(c => notFixedCalls.includes(c.callId));
-    const callsNotFixed = contactMessages[0].eventSection.orchestration.filter(i => (
-      i.numRequired > (
-        i.bookedPlayers.length + 
-        contactMessages.filter(j => j.status === "AWAITINGREPLY" 
-          && j.eventCalls.map(c => c.callId).includes(i.callId)).length
+    // stop function if all calls are fixed
+    if (notFixedCalls.length === 0) {
+      return;
+    }
+    // contact whoever I can currently
+    const callsToOfferNotFixed = notContacted[i].eventCalls.filter((c) =>
+      notFixedCalls.includes(c.callId)
+    );
+    const callsNotFixed = contactMessages[0].eventSection.orchestration
+      .filter(
+        (i) =>
+          i.numRequired >
+          i.bookedPlayers.length +
+            contactMessages.filter(
+              (j) =>
+                j.status === 'AWAITINGREPLY' &&
+                j.eventCalls.map((c) => c.callId).includes(i.callId)
+            ).length
       )
-    )).map(c => c.callId)
+      .map((c) => c.callId);
 
     if (callsToOfferNotFixed.length === callsNotFixed.length) {
-
       const callsToOffer = await prisma.contactEventCall.updateManyAndReturn({
         where: {
           id: {
-            in: callsToOfferNotFixed.map(c => c.id)
-          }
+            in: callsToOfferNotFixed.map((c) => c.id),
+          },
         },
         data: {
-          status: "OFFERING"
+          status: 'OFFERING',
         },
         include: {
-          call: true
-        }
-      })
+          call: true,
+        },
+      });
       await prisma.contactMessage.update({
         where: {
-          id: notContacted[i].id
+          id: notContacted[i].id,
         },
         data: {
-          status: "AWAITINGREPLY"
-        }
-      })
-      await createOfferEmail({...notContacted[i], calls: callsToOffer.map(c => c.call)});
+          status: 'AWAITINGREPLY',
+        },
+      });
+      await createOfferEmail({
+        ...notContacted[i],
+        calls: callsToOffer.map((c) => c.call),
+      });
 
       contactMessages = await getContactMessages(eventSectionId);
     }
-  } 
+  }
 
-
-  if (callsNotFixed.length > 0 && contactMessages.filter(c => c.status === "NOTCONTACTED").length === 0) {
+  if (
+    callsNotFixed.length > 0 &&
+    contactMessages.filter((c) => c.status === 'NOTCONTACTED').length === 0
+  ) {
     // Let fixer know they need to add to list
     const emailAlert = await listExhaustedEmail({
       dateRange: getDateRange(contactMessages[0].eventSection.event.calls),
@@ -157,7 +167,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     } catch (e) {
       throw new Error(e);
     }
-  } 
+  }
 
   /* 
   for (let i = 0; i < numEmails; i++) {
@@ -243,9 +253,9 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
       //calls: true,
       eventCalls: {
         include: {
-          call: true
-        }
-      }
+          call: true,
+        },
+      },
     },
     orderBy: [
       {
@@ -260,7 +270,10 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
 
   for (let i = 0; i < availabilityChecks.length; i++) {
     const contact = availabilityChecks[i];
-    const sentEmailData = await createOfferEmail({...contact, calls: contact.eventCalls.map(c => c.call)});
+    const sentEmailData = await createOfferEmail({
+      ...contact,
+      calls: contact.eventCalls.map((c) => c.call),
+    });
 
     if (
       contact.contact.email === null &&
@@ -327,7 +340,7 @@ export const emailDeppingMusician = async (
     dateRange: getDateRange(contactMessage.calls),
     ensemble: contactMessage.ensembleName,
     eventId: contactMessage.eventId,
-    contactMessageID: contactMessage.id
+    contactMessageID: contactMessage.id,
   });
   try {
     await axios.post(`${url}/sendGrid`, {

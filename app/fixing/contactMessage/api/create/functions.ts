@@ -62,21 +62,25 @@ export const createContactMessages = async (
         urgent: data.urgent,
       },
     });
-    for (let j = 0; j < data.contacts[i].calls.length; j ++) {
+    for (let j = 0; j < data.contacts[i].calls.length; j++) {
       await prisma.contactEventCall.create({
         data: {
           callId: Number(data.contacts[i].calls[j]),
-          status: data.type === "AUTOBOOK" ? "ACCEPTED" : data.type === "AVAILABILITY" ? "TOCHECK" : "TOOFFER",
-          contactMessageId: newContact.id
+          status:
+            data.type === 'AUTOBOOK'
+              ? 'ACCEPTED'
+              : data.type === 'AVAILABILITY'
+                ? 'TOCHECK'
+                : 'TOOFFER',
+          contactMessageId: newContact.id,
           /* call: {
             connect: {
               id: Number(data.contacts[i].calls[j]),
             }
           } */
-        }
-          
-    }) 
-  }
+        },
+      });
+    }
     currentHighestIndex += 1;
   }
   if (data.type !== 'AVAILABILITY') {
@@ -124,12 +128,12 @@ export const gigIsFixed = async (eventID: number) => {
               //calls: true
               eventCalls: {
                 include: {
-                  call: true
-                }
-              }
-            }
+                  call: true,
+                },
+              },
+            },
           },
-          orchestration: true
+          orchestration: true,
         },
       },
     },
@@ -140,14 +144,17 @@ export const gigIsFixed = async (eventID: number) => {
   }
 
   for (let i = 0; i < event.sections.length; i++) {
-    const orchestrations = event?.sections[i].orchestration
-    for (let j = 0; j < orchestrations.length; j ++) {
+    const orchestrations = event?.sections[i].orchestration;
+    for (let j = 0; j < orchestrations.length; j++) {
       let numStillRequired = orchestrations[j].numRequired;
-      let numBooked = event?.sections[i].contacts.filter(c => (
-        c.eventCalls.map(j => j.callId).includes(orchestrations[j].callId) 
-        && (c.eventCalls.find(j => j.callId)!.status === "ACCEPTED")
-      )).length
-      
+      let numBooked = event?.sections[i].contacts.filter(
+        (c) =>
+          c.eventCalls
+            .map((j) => j.callId)
+            .includes(orchestrations[j].callId) &&
+          c.eventCalls.find((j) => j.callId)!.status === 'ACCEPTED'
+      ).length;
+
       if (numStillRequired - numBooked !== 0) {
         return false;
       }
@@ -169,28 +176,32 @@ export const getNumToContact = (data: {
       (i.type === 'AUTOBOOK' || i.type === 'BOOKING')
   ).length;
 
-  const numToContact = data.orchestration.sort((a, b) => b.numRequired - a.numRequired)[0].numRequired - numBooked - numYetToRespond;
+  const numToContact =
+    data.orchestration.sort((a, b) => b.numRequired - a.numRequired)[0]
+      .numRequired -
+    numBooked -
+    numYetToRespond;
   return numToContact;
 };
 
 export const callsNotFixed = (args: {
-  contactMessages: (ContactMessage & {calls: Call[]})[];
-  orchestration: Orchestration[]
+  contactMessages: (ContactMessage & { calls: Call[] })[];
+  orchestration: Orchestration[];
 }): number[] => {
   let callIDs: number[] = [];
 
-  for (let i = 0; i < args.orchestration.length; i ++) {
-    const bookedPlayers = args.contactMessages.filter(j => (
-      j.status === "ACCEPTED" 
-      || j.status === "AUTOBOOKED" 
-    ) && j.calls.map(c => c.id).includes(args.orchestration[i].callId));
+  for (let i = 0; i < args.orchestration.length; i++) {
+    const bookedPlayers = args.contactMessages.filter(
+      (j) =>
+        (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED') &&
+        j.calls.map((c) => c.id).includes(args.orchestration[i].callId)
+    );
     if (bookedPlayers.length < args.orchestration[i].numRequired) {
-      callIDs = [...callIDs, args.orchestration[i].callId]
+      callIDs = [...callIDs, args.orchestration[i].callId];
     }
   }
   return callIDs;
-}
-
+};
 
 // players to msg
 /* 

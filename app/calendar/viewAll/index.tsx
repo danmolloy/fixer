@@ -14,10 +14,10 @@ export type ViewAllUpcomingProps = {
     calls: Call[];
     sections: (EventSection & {
       contacts: (ContactMessage & {
-        calls: Call[]
+        calls: Call[];
       })[];
       ensembleSection: EnsembleSection;
-      orchestration: Orchestration[]
+      orchestration: Orchestration[];
     })[];
   })[];
 };

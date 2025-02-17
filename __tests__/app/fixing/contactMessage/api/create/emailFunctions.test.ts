@@ -305,7 +305,7 @@ describe('emailAvailabilityChecks', () => {
       where: {
         eventSectionId: 1,
         status: 'NOTCONTACTED',
-        type: "AVAILABILITY",
+        type: 'AVAILABILITY',
       },
       include: {
         eventSection: {
@@ -321,8 +321,8 @@ describe('emailAvailabilityChecks', () => {
         contact: true,
         eventCalls: {
           include: {
-            call: true
-          }
+            call: true,
+          },
         },
       },
       orderBy: [
@@ -342,10 +342,12 @@ describe('emailAvailabilityChecks', () => {
         ...mockContactMessage,
         id: 1,
         contact: mockEnsembleContact,
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }],
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
         eventSection: {
           ...mockEventSection,
           event: {
@@ -358,10 +360,12 @@ describe('emailAvailabilityChecks', () => {
         ...mockContactMessage,
         id: 2,
         contact: mockEnsembleContact,
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }],
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
         eventSection: {
           ...mockEventSection,
           event: {
@@ -374,10 +378,12 @@ describe('emailAvailabilityChecks', () => {
         ...mockContactMessage,
         id: 3,
         contact: mockEnsembleContact,
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }],
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
         eventSection: {
           ...mockEventSection,
           event: {
@@ -391,9 +397,18 @@ describe('emailAvailabilityChecks', () => {
     prismaMock.contactMessage.update.mockResolvedValueOnce(mockContactMessage);
     await emailAvailabilityChecks(1);
     expect(createOfferEmail).toHaveBeenCalledTimes(3);
-    expect(createOfferEmail).toHaveBeenCalledWith({...mockData[0], calls: mockData[0].eventCalls.map(c => c.call)});
-    expect(createOfferEmail).toHaveBeenCalledWith({...mockData[1], calls: mockData[1].eventCalls.map(c => c.call)});
-    expect(createOfferEmail).toHaveBeenCalledWith({...mockData[2], calls: mockData[2].eventCalls.map(c => c.call)});
+    expect(createOfferEmail).toHaveBeenCalledWith({
+      ...mockData[0],
+      calls: mockData[0].eventCalls.map((c) => c.call),
+    });
+    expect(createOfferEmail).toHaveBeenCalledWith({
+      ...mockData[1],
+      calls: mockData[1].eventCalls.map((c) => c.call),
+    });
+    expect(createOfferEmail).toHaveBeenCalledWith({
+      ...mockData[2],
+      calls: mockData[2].eventCalls.map((c) => c.call),
+    });
   });
   it('for each unsent availability check, axios.post(args) is called', async () => {
     const mockData = [
@@ -401,10 +416,12 @@ describe('emailAvailabilityChecks', () => {
         ...mockContactMessage,
         id: 1,
         contact: mockEnsembleContact,
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }],
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
         eventSection: {
           ...mockEventSection,
           event: {
@@ -431,10 +448,12 @@ describe('emailAvailabilityChecks', () => {
         ...mockContactMessage,
         id: 1,
         contact: mockEnsembleContact,
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }],
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
         eventSection: {
           ...mockEventSection,
           event: {
@@ -461,10 +480,12 @@ describe('emailAvailabilityChecks', () => {
       {
         ...mockContactMessage,
         urgent: true,
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }],
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            call: mockCall,
+          },
+        ],
         id: 1,
         eventSection: {
           ...mockEventSection,

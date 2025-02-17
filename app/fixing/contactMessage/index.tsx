@@ -1,5 +1,10 @@
 import ContactMessageForm from './form';
-import { Call, ContactEventCall, ContactMessage, EnsembleContact } from '@prisma/client';
+import {
+  Call,
+  ContactEventCall,
+  ContactMessage,
+  EnsembleContact,
+} from '@prisma/client';
 import CurrentContactMessages from './current';
 
 export type EventSectionContactsProps = {
@@ -7,7 +12,7 @@ export type EventSectionContactsProps = {
   sectionContacts: EnsembleContact[];
   eventCalls: Call[];
   currentContacts: (ContactMessage & {
-    eventCalls: (ContactEventCall & {call: Call})[]
+    eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
     //calls: Call[];
   })[];

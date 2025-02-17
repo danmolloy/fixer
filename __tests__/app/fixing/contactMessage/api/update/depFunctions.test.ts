@@ -44,7 +44,7 @@ describe('releaseDeppers', () => {
     ]);
     const mockUpdateData = {
       ...mockContactMessage,
-      eventCalls: [{...mockContactEventCall, call: mockCall}],
+      eventCalls: [{ ...mockContactEventCall, call: mockCall }],
       eventSection: {
         ...mockEventSection,
         event: mockEvent,
@@ -64,7 +64,7 @@ describe('releaseDeppers', () => {
         eventCalls: {
           include: {
             call: true,
-          }
+          },
         },
         eventSection: {
           include: {
@@ -76,11 +76,11 @@ describe('releaseDeppers', () => {
   });
   it('if deppingContacts.length > 0, emailDeppingMusician(args) is called', async () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
-      mockContactMessage
+      mockContactMessage,
     ]);
     const mockUpdateData = {
       ...mockContactMessage,
-      eventCalls: [{...mockContactEventCall, call: mockCall}],
+      eventCalls: [{ ...mockContactEventCall, call: mockCall }],
       eventSection: {
         ...mockEventSection,
         event: mockEvent,
@@ -90,7 +90,7 @@ describe('releaseDeppers', () => {
     await releaseDeppers(12);
     expect(emailDeppingMusician).toHaveBeenCalledWith({
       ...mockUpdateData,
-      calls: mockUpdateData.eventCalls.map(c => c.call),
+      calls: mockUpdateData.eventCalls.map((c) => c.call),
       ensembleName: mockUpdateData.eventSection.event.ensembleName,
       eventId: mockUpdateData.eventSection.eventId,
     });

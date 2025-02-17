@@ -38,11 +38,10 @@ describe('<EventOverview />', () => {
     const eventOverview = screen.getByTestId('event-overview');
     expect(eventOverview.textContent).toMatch(mockProps.event.eventTitle);
   });
-  it("states if !fixing", () => {
+  it('states if !fixing', () => {
     const eventOverview = screen.getByTestId('event-overview');
     expect(eventOverview.textContent).toMatch('No fixing');
-
-  })
+  });
 });
 
 describe('<EventOverview />', () => {
@@ -50,26 +49,34 @@ describe('<EventOverview />', () => {
   const mockProps: EventOverviewProps = {
     event: {
       ...mockEvent,
-      sections: [{
-        ...mockEventSection,
-        contacts: [{
-          ...mockContactMessage,
-          status: "DECLINED",
-          calls: [mockPropsCall],
-        }],
-        ensembleSection: mockSection,
-        orchestration: [{...mockOrchestration, callId: mockPropsCall.id, numRequired: 20}],
-      }],
+      sections: [
+        {
+          ...mockEventSection,
+          contacts: [
+            {
+              ...mockContactMessage,
+              status: 'DECLINED',
+              calls: [mockPropsCall],
+            },
+          ],
+          ensembleSection: mockSection,
+          orchestration: [
+            { ...mockOrchestration, callId: mockPropsCall.id, numRequired: 20 },
+          ],
+        },
+      ],
       calls: [mockPropsCall],
     },
   };
   beforeEach(() => {
     render(<EventOverview {...mockProps} />);
   });
-  
+
   it('if !fixed, states seats to fill, num remaining on list & instrument', () => {
     const eventOverview = screen.getByTestId('event-overview');
-    expect(eventOverview.textContent).toMatch(`${mockProps.event.sections[0].ensembleSection.name}: (20 seats to fill, 0 remain on list)`);
+    expect(eventOverview.textContent).toMatch(
+      `${mockProps.event.sections[0].ensembleSection.name}: (20 seats to fill, 0 remain on list)`
+    );
   });
 });
 
@@ -97,55 +104,66 @@ describe('<EventOverview />', () => {
 }); */
 
 describe('gigStatus()', () => {
-  it("returns empty array if all calls are fixed", () => {
-    
+  it('returns empty array if all calls are fixed', () => {
     const event = {
       ...mockEvent,
-      sections: [{
-        ...mockEventSection,
-        contacts: [{
-          ...mockContactMessage,
-          type: "BOOKING" as ContactMessageType,
-          status: 'ACCEPTED' as ContactMessageStatus,
-          calls: [mockCall],
-        }],
-        ensembleSection: mockSection,
-        orchestration: [{
-          ...mockOrchestration, 
-          callId: mockCall.id, 
-          numRequired: 1,
-        }],
-      }],
+      sections: [
+        {
+          ...mockEventSection,
+          contacts: [
+            {
+              ...mockContactMessage,
+              type: 'BOOKING' as ContactMessageType,
+              status: 'ACCEPTED' as ContactMessageStatus,
+              calls: [mockCall],
+            },
+          ],
+          ensembleSection: mockSection,
+          orchestration: [
+            {
+              ...mockOrchestration,
+              callId: mockCall.id,
+              numRequired: 1,
+            },
+          ],
+        },
+      ],
       calls: [mockCall],
     };
     const result = gigStatus(event);
     expect(result).toEqual([]);
   });
 
-  it("returns array of sections with unfixed calls", () => {
+  it('returns array of sections with unfixed calls', () => {
     const event = {
       ...mockEvent,
-      sections: [{
-        ...mockEventSection,
-        contacts: [{
-          ...mockContactMessage,
-          status: 'AWAITINGREPLY' as ContactMessageStatus,
-          type: "BOOKING" as ContactMessageType,
-          calls: [mockCall],
-        }],
-        ensembleSection: mockSection,
-        orchestration: [{...mockOrchestration, numRequired: 2}],
-      }],
+      sections: [
+        {
+          ...mockEventSection,
+          contacts: [
+            {
+              ...mockContactMessage,
+              status: 'AWAITINGREPLY' as ContactMessageStatus,
+              type: 'BOOKING' as ContactMessageType,
+              calls: [mockCall],
+            },
+          ],
+          ensembleSection: mockSection,
+          orchestration: [{ ...mockOrchestration, numRequired: 2 }],
+        },
+      ],
       calls: [mockCall],
     };
     const result = gigStatus(event);
-    expect(result).toEqual([{
-      ...mockOrchestration,
-      sectionName: mockSection.name,
-      numRequired: 2,
-      bookedForCall: 0,
-      numToDep: 0,
-      remainingOnList: 1,
-    }]);
-  }); 
-})
+    expect(result).toEqual([
+      {
+        ...mockOrchestration,
+        sectionName: mockSection.name,
+        numRequired: 2,
+        bookedForCall: 0,
+        numToDep: 0,
+        remainingOnList: 1,
+      },
+    ]);
+  });
+});

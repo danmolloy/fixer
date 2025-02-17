@@ -22,8 +22,8 @@ let mockPrompt = global.prompt;
 let mockConfirm = global.confirm;
 
 jest.mock('../../../../app/sendGrid/playerLib', () => ({
-  messageToAllEmail: jest.fn().mockResolvedValue({ data: {} })
-}))
+  messageToAllEmail: jest.fn().mockResolvedValue({ data: {} }),
+}));
 jest.mock('next/navigation');
 global.focus = jest.fn();
 jest.mock('axios');
@@ -72,11 +72,11 @@ describe('<EventMenu />', () => {
     expect(updateEvent).toHaveAttribute('href', `update/${mockProps.event.id}`);
     expect(updateEvent).toHaveRole('link');
   });
-  it("Message All btn is in the document", () => {
+  it('Message All btn is in the document', () => {
     openMenu();
     const messageAll = screen.getByText('Message All');
     expect(messageAll).toBeInTheDocument();
-  })
+  });
   /* it('Message All button calls axios.post with expected args', async () => {
     openMenu();
     const messageAll = screen.getByText('Message All');
@@ -116,14 +116,14 @@ describe('<EventMenu />', () => {
     act(() => {
       fireEvent.click(cancelEvent);
     });
-    expect(mockConfirm).toHaveBeenCalledWith('Please confirm you would like to delete this event.');
+    expect(mockConfirm).toHaveBeenCalledWith(
+      'Please confirm you would like to delete this event.'
+    );
     expect(mockPrompt).toHaveBeenCalled();
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith('/event/delete', {
         eventId: mockProps.event.id,
       });
-
-    })
-
+    });
   });
 });

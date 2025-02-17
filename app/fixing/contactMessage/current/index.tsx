@@ -1,4 +1,9 @@
-import { Call, ContactEventCall, ContactMessage, EnsembleContact } from '@prisma/client';
+import {
+  Call,
+  ContactEventCall,
+  ContactMessage,
+  EnsembleContact,
+} from '@prisma/client';
 import { DateTime } from 'luxon';
 import CurrentContactRow from './contact';
 import AvailabilityTable from './availabilityTable';
@@ -6,7 +11,7 @@ import AvailabilityTable from './availabilityTable';
 export type CurrentContactMessagesProps = {
   eventCalls: Call[];
   contacts: (ContactMessage & {
-    eventCalls: (ContactEventCall & {call: Call})[]
+    eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
     //calls: Call[];
   })[];
@@ -24,10 +29,10 @@ export default function CurrentContactMessages(
       : i.type === 'BOOKING' || i.type === 'AUTOBOOK'
   );
 
-  return (
-    type === 'AVAILABILITY' 
-    ? <AvailabilityTable eventCalls={eventCalls} contacts={contacts}  />
-    : <table
+  return type === 'AVAILABILITY' ? (
+    <AvailabilityTable eventCalls={eventCalls} contacts={contacts} />
+  ) : (
+    <table
       data-testid='current-contacts-table'
       className='my-4 table-auto rounded border'
     >

@@ -25,8 +25,8 @@ async function getData(id: string) {
             include: {
               eventCalls: {
                 include: {
-                  call: true
-                }
+                  call: true,
+                },
               },
               contact: true,
               //calls: true,
@@ -82,15 +82,15 @@ export default async function EventDetail({
 
   return (
     <AuthWall session={session}>
-    <div className='flex w-full flex-col p-2 sm:p-4 lg:px-24'>
-      <EventInfoTable
-        sections={data.sections}
-        event={data}
-        calls={data.calls}
-        ensemble={data.ensemble}
-        contacts={data.sections.map((i) => i.contacts).flat(1)}
-      />
-    </div>
+      <div className='flex w-full flex-col p-2 sm:p-4 lg:px-24'>
+        <EventInfoTable
+          sections={data.sections}
+          event={data}
+          calls={data.calls}
+          ensemble={data.ensemble}
+          contacts={data.sections.map((i) => i.contacts).flat(1)}
+        />
+      </div>
     </AuthWall>
   );
 }

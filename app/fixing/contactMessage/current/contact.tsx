@@ -1,4 +1,9 @@
-import { Call, ContactEventCall, ContactMessage, EnsembleContact } from '@prisma/client';
+import {
+  Call,
+  ContactEventCall,
+  ContactMessage,
+  EnsembleContact,
+} from '@prisma/client';
 import CurrentContactsOptions from './options';
 import { useState } from 'react';
 import { TiMail, TiTick, TiTimes } from 'react-icons/ti';
@@ -7,7 +12,7 @@ import { SlOptions } from 'react-icons/sl';
 export type CurrentContactRowProps = {
   eventCalls: Call[];
   contact: ContactMessage & {
-    eventCalls: (ContactEventCall & {call: Call})[]
+    eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
   };
   index: number;
@@ -38,13 +43,13 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       </td>
       {eventCalls.map((i) => (
         <td className='' key={i.id} data-testid={`call-${i.id}`}>
-          {(
+          {
             <div className='m-2 flex items-center justify-center'>
               {contact.eventCalls.map((j) => j.callId).includes(i.id) ? (
                 <div>
-                  <p className=''>{
-                  contact.eventCalls.find(c => c.callId === i.id)?.status
-                  }</p>
+                  <p className=''>
+                    {contact.eventCalls.find((c) => c.callId === i.id)?.status}
+                  </p>
                 </div>
               ) : (
                 <div>
@@ -52,7 +57,7 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
                 </div>
               )}
             </div>
-          )}
+          }
         </td>
       ))}
       {contact.status === 'ACCEPTED' ||
@@ -67,7 +72,9 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
         </td>
       ) : contact.status === 'AWAITINGREPLY' ? (
         <td className='bg-amber-500 text-center text-white'>
-          <p className=''>AWAITING REPLY{contact.emailStatus && ` ${contact.emailStatus}`}</p>
+          <p className=''>
+            AWAITING REPLY{contact.emailStatus && ` ${contact.emailStatus}`}
+          </p>
         </td>
       ) : contact.status === 'NOTCONTACTED' ? (
         <td className='bg-white text-center text-black opacity-40'>

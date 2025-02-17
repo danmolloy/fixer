@@ -14,7 +14,7 @@ export type UserWithEventsAndCallsWithEnsemble = Prisma.UserGetPayload<{
       include: {
         event: {
           include: {
-            ensemble: true,
+            ensemble: true;
           };
         };
       };
@@ -30,10 +30,10 @@ export type UserWithEventsAndCallsWithEnsemble = Prisma.UserGetPayload<{
               include: {
                 eventCalls: {
                   include: {
-                    call: true
-                  }
-                }
-              }
+                    call: true;
+                  };
+                };
+              };
             };
             ensembleSection: true;
             orchestration: true;
@@ -43,9 +43,9 @@ export type UserWithEventsAndCallsWithEnsemble = Prisma.UserGetPayload<{
           orderBy: {
             startTime: 'asc';
           };
-        }; 
+        };
       };
-    }; 
+    };
   };
 }>;
 

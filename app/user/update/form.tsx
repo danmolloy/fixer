@@ -19,7 +19,7 @@ export default function UpdateUserForm(props: UpdateUserFormProps) {
   const router = useRouter();
 
   if (!session) {
-    return <NoSession />
+    return <NoSession />;
   }
 
   const initialVals = {

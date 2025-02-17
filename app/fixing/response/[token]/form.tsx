@@ -30,7 +30,7 @@ export type ResponseFormProps = {
       ensembleSection: EnsembleSection;
       event: Event & { fixer: User };
     };
-    eventCalls: (ContactEventCall & {call: Call})[]
+    eventCalls: (ContactEventCall & { call: Call })[];
     //calls: Call[];
   };
   type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
@@ -47,51 +47,64 @@ export default function ResponseForm(props: ResponseFormProps) {
     eventCalls: {
       status: ContactEventCallStatus;
       callId: number;
-    }[]
+    }[];
   } = {
     status: contactMessage.status,
-    eventCalls: contactMessage.eventCalls.filter(c => c.status === "OFFERING" || c.status === "CHECKING").map(c => ({
-      status: c.status,
-      callId: c.callId
-    })),
-   
+    eventCalls: contactMessage.eventCalls
+      .filter((c) => c.status === 'OFFERING' || c.status === 'CHECKING')
+      .map((c) => ({
+        status: c.status,
+        callId: c.callId,
+      })),
   };
 
-  const responseSchema =Yup.object().shape({
-          status: Yup.string().required(''),
-          eventCalls: Yup.array().of(Yup.object().shape({
-            status: Yup.string(),
-            callId: Yup.number(),
-          })),
-         
-        })
-      
+  const responseSchema = Yup.object().shape({
+    status: Yup.string().required(''),
+    eventCalls: Yup.array().of(
+      Yup.object().shape({
+        status: Yup.string(),
+        callId: Yup.number(),
+      })
+    ),
+  });
 
   const handleSubmit = async (values: {
     status: ContactMessageStatus;
     eventCalls: {
       status: ContactEventCallStatus;
       callId: number;
-    }[]
+    }[];
   }) => {
     let confMsg: boolean;
 
-
-    if (values.eventCalls.filter(c => c.status ==="AVAILABLE").length !== values.eventCalls.length && !contactMessage.strictlyTied) {
+    if (
+      values.eventCalls.filter((c) => c.status === 'AVAILABLE').length !==
+        values.eventCalls.length &&
+      !contactMessage.strictlyTied
+    ) {
       confMsg = confirm(`
         Are you sure you are availble for the following? If the fixer requires you, you will get a further offer which you will need to confirm.
         ${values.eventCalls
-          .filter((c) => c.status === "AVAILABLE")
+          .filter((c) => c.status === 'AVAILABLE')
           .map(
             (i) =>
-              `\n${DateTime.fromJSDate(new Date(contactMessage.eventCalls.find(c => c.callId == i.callId)!.call.startTime)).toFormat('HH:mm DD')}`
+              `\n${DateTime.fromJSDate(new Date(contactMessage.eventCalls.find((c) => c.callId == i.callId)!.call.startTime)).toFormat('HH:mm DD')}`
           )}
         `);
-    } else if (values.eventCalls.filter(c => c.status ==="ACCEPTED").length === values.eventCalls.length) {
+    } else if (
+      values.eventCalls.filter((c) => c.status === 'ACCEPTED').length ===
+      values.eventCalls.length
+    ) {
       confMsg = confirm('Are you sure you want to ACCEPT this offer?');
-    } else if (values.eventCalls.filter(c => c.status ==="DECLINED").length === values.eventCalls.length) {
+    } else if (
+      values.eventCalls.filter((c) => c.status === 'DECLINED').length ===
+      values.eventCalls.length
+    ) {
       confMsg = confirm('Are you sure you want to DECLINE this offer?');
-    } else if (values.eventCalls.filter(c => c.status ==="AVAILABLE").length === values.eventCalls.length) {
+    } else if (
+      values.eventCalls.filter((c) => c.status === 'AVAILABLE').length ===
+      values.eventCalls.length
+    ) {
       confMsg = confirm(`
         Please confirm you are available for this work. 
         If the fixer requires you, you will get a further offer which you will need to confirm.
@@ -105,7 +118,7 @@ export default function ResponseForm(props: ResponseFormProps) {
           id: contactMessage.id,
           eventCalls: values.eventCalls,
           data: {
-            status: "RESPONDED",
+            status: 'RESPONDED',
             acceptedDate: new Date(),
             /* availableFor:
               values.status === 'AVAILABLE'
@@ -116,11 +129,18 @@ export default function ResponseForm(props: ResponseFormProps) {
         .then(async () => {
           const emailData = await responseConfEmail({
             token: contactMessage.token,
-            dateRange: getDateRange(contactMessage.eventCalls.map(c => c.call)),
+            dateRange: getDateRange(
+              contactMessage.eventCalls.map((c) => c.call)
+            ),
             firstName: contactMessage.contact.firstName,
             email: contactMessage.contact.email!,
             ensemble: contactMessage.eventSection.event.ensembleName,
-            status:  values.eventCalls.filter(c => c.status === (values.eventCalls[0].status)).length !== values.eventCalls.length? "MIXED" : "RESPONDED",
+            status:
+              values.eventCalls.filter(
+                (c) => c.status === values.eventCalls[0].status
+              ).length !== values.eventCalls.length
+                ? 'MIXED'
+                : 'RESPONDED',
             type: contactMessage.type,
           });
 
@@ -147,9 +167,7 @@ export default function ResponseForm(props: ResponseFormProps) {
           actions.setSubmitting(true);
           handleSubmit(values)
             .then(() => {
-              if (
-                values.status === 'ACCEPTED' 
-              ) {
+              if (values.status === 'ACCEPTED') {
                 router.push(
                   `/fixing/response/${contactMessage.token}/?accepted=true`
                 );
@@ -179,13 +197,16 @@ export default function ResponseForm(props: ResponseFormProps) {
             >
               <h3 className='m-2 font-semibold'>Your Response</h3>
               <div>
-              {contactMessage.strictlyTied === true 
-              ? <p className='m-2 text-gray-500'>
-              This work is strictly tied.
-            </p>
-                : <p className='m-2 text-gray-500'>
-                This work is not strictly tied.
-              </p>}</div>
+                {contactMessage.strictlyTied === true ? (
+                  <p className='m-2 text-gray-500'>
+                    This work is strictly tied.
+                  </p>
+                ) : (
+                  <p className='m-2 text-gray-500'>
+                    This work is not strictly tied.
+                  </p>
+                )}
+              </div>
               <label
                 htmlFor='false-input'
                 className='flex flex-row items-center'
@@ -200,13 +221,16 @@ export default function ResponseForm(props: ResponseFormProps) {
                   value={'DECLINED'}
                   label='No, I am not available.'
                   checked={accepted === false}
-
                   onChange={() => {
                     setAccepted(false);
-                    props.setFieldValue('eventCalls', props.values.eventCalls.map(c => ({
-                    ...c,
-                    status: "DECLINED"
-                  })))}}
+                    props.setFieldValue(
+                      'eventCalls',
+                      props.values.eventCalls.map((c) => ({
+                        ...c,
+                        status: 'DECLINED',
+                      }))
+                    );
+                  }}
                 />
                 No, I am not available.
               </label>
@@ -222,30 +246,42 @@ export default function ResponseForm(props: ResponseFormProps) {
                   className='m-2'
                   type='radio'
                   name='status'
-                  value={contactMessage.type === "AVAILABILITY" ? 'AVAILABLE' : "ACCEPTED"}
+                  value={
+                    contactMessage.type === 'AVAILABILITY'
+                      ? 'AVAILABLE'
+                      : 'ACCEPTED'
+                  }
                   onChange={() => {
                     setAccepted(!accepted);
-                    props.setFieldValue('eventCalls', props.values.eventCalls.map(c => ({
-                    ...c,
-                    status: c.status === "CHECKING" ? "AVAILABLE" : "ACCEPTED"
-                  })));
-                }}
+                    props.setFieldValue(
+                      'eventCalls',
+                      props.values.eventCalls.map((c) => ({
+                        ...c,
+                        status:
+                          c.status === 'CHECKING' ? 'AVAILABLE' : 'ACCEPTED',
+                      }))
+                    );
+                  }}
                 />
-                {(contactMessage.type === "BOOKING" && contactMessage.strictlyTied === true) ? 
-                'Yes, I accept this work.'
-                : contactMessage.strictlyTied === true
-                  ? 'Yes, I am available'
+                {
+                  contactMessage.type === 'BOOKING' &&
+                  contactMessage.strictlyTied === true
+                    ? 'Yes, I accept this work.'
+                    : contactMessage.strictlyTied === true
+                      ? 'Yes, I am available'
                       : `I am available for all/some calls`
-/*                       : `I am available for ${props.values.eventCalls.filter(c => c.status === "AVAILABLE").length} call(s)` */}
+                  /*                       : `I am available for ${props.values.eventCalls.filter(c => c.status === "AVAILABLE").length} call(s)` */
+                }
               </label>
 
               <ErrorMessage name='status'>
                 {(e) => <p className='text-xs text-red-500'>{e}</p>}
               </ErrorMessage>
             </div>
-            {props.values.eventCalls.filter(c => c.status === "AVAILABLE").length > 0 &&
+            {props.values.eventCalls.filter((c) => c.status === 'AVAILABLE')
+              .length > 0 &&
               contactMessage.strictlyTied === false && (
-                <div data-testid="call-checkboxes">
+                <div data-testid='call-checkboxes'>
                   {props.values.eventCalls.map((i, index) => (
                     <label
                       key={i.callId}
@@ -253,25 +289,41 @@ export default function ResponseForm(props: ResponseFormProps) {
                     >
                       <Field
                         disabled={props.isSubmitting}
-                        checked={props.values.eventCalls[index].status === "AVAILABLE"}
+                        checked={
+                          props.values.eventCalls[index].status === 'AVAILABLE'
+                        }
                         className='m-1'
                         type='checkbox'
-                        value={"AVAILABLE"}
+                        value={'AVAILABLE'}
                         data-testid={`${props.values.eventCalls[index].callId}-checkbox`}
                         //name={`eventCalls[${index}].status`}
-                        onChange={() => props.setFieldValue(`eventCalls[${index}].status`, props.values.eventCalls[index].status === "AVAILABLE" ? "DECLINED" : "AVAILABLE")}
+                        onChange={() =>
+                          props.setFieldValue(
+                            `eventCalls[${index}].status`,
+                            props.values.eventCalls[index].status ===
+                              'AVAILABLE'
+                              ? 'DECLINED'
+                              : 'AVAILABLE'
+                          )
+                        }
                       />
                       <p>
-                        {DateTime.fromJSDate(new Date(contactMessage.eventCalls.find(c => c.callId === i.callId)!.call.startTime)).toFormat(
-                          'HH:mm DD'
-                        )}
+                        {DateTime.fromJSDate(
+                          new Date(
+                            contactMessage.eventCalls.find(
+                              (c) => c.callId === i.callId
+                            )!.call.startTime
+                          )
+                        ).toFormat('HH:mm DD')}
                       </p>
                     </label>
                   ))}
                   <ErrorMessage name='eventCalls'>
                     {(err) => <p>{err}</p>}
                   </ErrorMessage>
-                  {props.values.eventCalls.filter(c => c.status === "AVAILABLE").length < 1 && (
+                  {props.values.eventCalls.filter(
+                    (c) => c.status === 'AVAILABLE'
+                  ).length < 1 && (
                     <p className='text-xs text-red-600'>
                       You must be available for at least one call.
                     </p>

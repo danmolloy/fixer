@@ -1,5 +1,11 @@
 'use client';
-import { Call, ContactEventCall, ContactMessage, Event, EventSection } from '@prisma/client';
+import {
+  Call,
+  ContactEventCall,
+  ContactMessage,
+  Event,
+  EventSection,
+} from '@prisma/client';
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import {
@@ -14,7 +20,7 @@ import { FiAlertTriangle } from 'react-icons/fi';
 export type ResponseConfProps = {
   contactMessage: ContactMessage & {
     //calls: Call[];
-    eventCalls: (ContactEventCall & {call: Call})[]
+    eventCalls: (ContactEventCall & { call: Call })[];
     eventSection: EventSection & {
       event: Event;
     };
@@ -74,20 +80,24 @@ export default function ResponseConf(props: ResponseConfProps) {
       ) : contactMessage.type === 'AUTOBOOK' &&
         contactMessage.status === 'DECLINED' ? (
         <h2>Released.</h2>
-      ) : (contactMessage.type === 'AUTOBOOK' || contactMessage.status === "AUTOBOOKED") ? (
+      ) : contactMessage.type === 'AUTOBOOK' ||
+        contactMessage.status === 'AUTOBOOKED' ? (
         <h2>Auto Booked</h2>
-      ) :  <h2>Response Received</h2>
-      }
+      ) : (
+        <h2>Response Received</h2>
+      )}
       <div className='my-4 text-center text-gray-700'>
-        {contactMessage.status === 'FINDINGDEP' &&
+        {contactMessage.status === 'FINDINGDEP' && (
           <div className='flex flex-row items-center justify-center'>
             <TiThumbsOk size={18} />
             <p className='mx-2'>
               You are currently booked for this work, however we are trying to
               find you a dep.
             </p>
-          </div>}
-          {contactMessage.eventCalls.filter(c => c.status === "ACCEPTED").length > 0 && (
+          </div>
+        )}
+        {contactMessage.eventCalls.filter((c) => c.status === 'ACCEPTED')
+          .length > 0 && (
           <div>
             <div className='flex flex-row items-center justify-center'>
               <TiThumbsOk size={18} />
@@ -95,9 +105,7 @@ export default function ResponseConf(props: ResponseConfProps) {
             </div>
             <div className='my-2'>
               {contactMessage.eventCalls
-                .filter((i) =>
-                  i.status === "ACCEPTED"
-                )
+                .filter((i) => i.status === 'ACCEPTED')
                 .map((i) => (
                   <p key={i.id}>
                     {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat(
@@ -107,17 +115,17 @@ export default function ResponseConf(props: ResponseConfProps) {
                 ))}
             </div>
             <button
-            data-testid="calendar-btn"
-          className='flex flex-row items-center justify-center rounded border p-1 text-sm hover:bg-slate-50'
-          onClick={() => handleCalendar()}
-        >
-          <TiCalendarOutline />
-          <p className='mx-1'>Add to Calendar</p>
-        </button>
+              data-testid='calendar-btn'
+              className='flex flex-row items-center justify-center rounded border p-1 text-sm hover:bg-slate-50'
+              onClick={() => handleCalendar()}
+            >
+              <TiCalendarOutline />
+              <p className='mx-1'>Add to Calendar</p>
+            </button>
           </div>
-          
-        )  }
-         {contactMessage.eventCalls.filter(c => c.status === "AVAILABLE").length > 0 && (
+        )}
+        {contactMessage.eventCalls.filter((c) => c.status === 'AVAILABLE')
+          .length > 0 && (
           <div>
             <div className='flex flex-row items-center justify-center'>
               <TiThumbsOk size={18} />
@@ -125,9 +133,7 @@ export default function ResponseConf(props: ResponseConfProps) {
             </div>
             <div className='my-2'>
               {contactMessage.eventCalls
-                .filter((i) =>
-                  i.status === "AVAILABLE"
-                )
+                .filter((i) => i.status === 'AVAILABLE')
                 .map((i) => (
                   <p key={i.id}>
                     {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat(
@@ -137,16 +143,15 @@ export default function ResponseConf(props: ResponseConfProps) {
                 ))}
             </div>
           </div>
-        )  }
-        {contactMessage.eventCalls.filter(c => c.status === "DECLINED").length > 0 && 
-          (<div className='flex flex-row items-center justify-center'>
+        )}
+        {contactMessage.eventCalls.filter((c) => c.status === 'DECLINED')
+          .length > 0 && (
+          <div className='flex flex-row items-center justify-center'>
             <TiThumbsDown size={18} />
             <p className='mx-2'>You declined the following work:</p>
             <div className='my-2'>
               {contactMessage.eventCalls
-                .filter((i) =>
-                  i.status === "DECLINED"
-                )
+                .filter((i) => i.status === 'DECLINED')
                 .map((i) => (
                   <p key={i.id}>
                     {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat(
@@ -155,10 +160,9 @@ export default function ResponseConf(props: ResponseConfProps) {
                   </p>
                 ))}
             </div>
-          </div>)}
-        
+          </div>
+        )}
       </div>
-      
     </div>
   );
 }

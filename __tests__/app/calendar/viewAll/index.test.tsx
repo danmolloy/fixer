@@ -11,19 +11,25 @@ import { mockContactMessage } from '../../../../__mocks__/models/contactMessage'
 import { mockOrchestration } from '../../../../__mocks__/models/orchestration';
 
 const mockProps: ViewAllUpcomingProps = {
-  events: [{
-    ...mockEvent,
-    calls: [mockCall],
-    sections: [{
-      ...mockEventSection,
-      contacts: [{
-        ...mockContactMessage,
-        calls: [mockCall],
-      }],
-      orchestration: [mockOrchestration],
-      ensembleSection: mockSection,
-    }]
-  }],
+  events: [
+    {
+      ...mockEvent,
+      calls: [mockCall],
+      sections: [
+        {
+          ...mockEventSection,
+          contacts: [
+            {
+              ...mockContactMessage,
+              calls: [mockCall],
+            },
+          ],
+          orchestration: [mockOrchestration],
+          ensembleSection: mockSection,
+        },
+      ],
+    },
+  ],
 };
 
 describe('<ViewAllUpcoming />', () => {
@@ -41,7 +47,9 @@ describe('<ViewAllUpcoming />', () => {
   });
   it('all upcoming events are in the document', () => {
     const upcomingEventTiles = screen.getAllByTestId('event-overview');
-    expect(upcomingEventTiles[0].textContent).toMatch(mockProps.events[0].eventTitle);
+    expect(upcomingEventTiles[0].textContent).toMatch(
+      mockProps.events[0].eventTitle
+    );
   });
 });
 

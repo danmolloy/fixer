@@ -32,8 +32,8 @@ export async function POST(
     customArgs: {
       contactMessageID: req.body.emailData.contactMessageID,
       environment: process.env.ENVIRONMENT,
-      app: "GigFix",
-    }
+      app: 'GigFix',
+    },
   };
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 

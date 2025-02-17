@@ -10,7 +10,13 @@ import {
 
 const statusArr = Object.values(ContactMessageStatus);
 const typeArr = Object.values(ContactMessageType);
-const emailStatus: EmailStatus[] = ["BOUNCE", "CLICK", "DELIVERED", "OPEN", "PROCESSED"];
+const emailStatus: EmailStatus[] = [
+  'BOUNCE',
+  'CLICK',
+  'DELIVERED',
+  'OPEN',
+  'PROCESSED',
+];
 
 export const mockContactMessage: ContactMessage = {
   emailStatus: emailStatus[Math.floor(Math.random() * emailStatus.length)],

@@ -69,8 +69,7 @@ describe('<CreateEnsembleForm />', () => {
   });
 
   it('submit btn is in the document ', () => {
-    expect(screen.getByTestId("submit-btn")).toBeInTheDocument();
-    
+    expect(screen.getByTestId('submit-btn')).toBeInTheDocument();
   });
   it('appropriate err messages render if submit btn clicked without complete form', async () => {
     const submitBtn = screen.getByText('Submit');

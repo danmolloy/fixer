@@ -9,16 +9,15 @@ This is an ongoing project which will hopefully soon be available for commercial
 ## Features
 
 - **Team Accounts**: Create and manage a management team with varying levels of access. Suitable for teams that use freelance staff for projects.
-- **Musician Address Book**: Import and maintain a comprehensive address book of musicians. 
+- **Musician Address Book**: Import and maintain a comprehensive address book of musicians.
 - **Event Summary**: View all gig details, overview of the orchestra list and booking status of each instrument.
 - **Automated Communications**: Send automated email/SMS offers, check availability, and book an entire orchestra of a bespoke size. All musicians are notified via email/SMS when gig information changes.
-- **Flexible Bookings**: Book a varying number of players for each rehearsal, state their role, send them personal messages. 
+- **Flexible Bookings**: Book a varying number of players for each rehearsal, state their role, send them personal messages.
 - **Event Creation**: Generate detailed gig pages that display all relevant information for involved parties.
 - **Responsive Calendar**: View events in a visually appealing calendar with day, week, month, and year views, optimized for all screen sizes.
 - **Attractive Landing Page**: A modern web app utilizing NextJS and Tailwind CSS.
 - **Responsive Design**: Suitable pages for all screen sizes.
 - **Stripe Subscription Payments**: Usage-based payments billed monthly.
-
 
 ## Technologies Used
 

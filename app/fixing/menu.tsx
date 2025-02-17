@@ -14,9 +14,9 @@ export default function FixingMenu(props: FixingMenuProps) {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-    <div data-testid="fixing-menu">
+    <div data-testid='fixing-menu'>
       <button
-        data-testid="options-btn"
+        data-testid='options-btn'
         className='rounded border p-1 hover:bg-slate-50'
         onClick={() => {
           focus();

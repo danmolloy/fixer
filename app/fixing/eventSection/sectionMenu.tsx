@@ -11,9 +11,9 @@ export default function SectionMenu(props: SectionMenuProps) {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-    <div data-testid="section-menu">
+    <div data-testid='section-menu'>
       <button
-      data-testid="options-btn"
+        data-testid='options-btn'
         className='rounded border p-1 hover:bg-slate-50'
         onClick={() => {
           focus();

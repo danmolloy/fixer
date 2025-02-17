@@ -23,10 +23,7 @@ export default async function UpdateAdmin({
 
   return (
     <AuthWall session={session}>
-    {!data ? 
-    <p>No data</p>
-   : 
-    <UpdateAdminForm admin={data} />}
+      {!data ? <p>No data</p> : <UpdateAdminForm admin={data} />}
     </AuthWall>
   );
 }

@@ -1,6 +1,5 @@
-import { faker } from "@faker-js/faker/.";
-import { Orchestration } from "@prisma/client";
-
+import { faker } from '@faker-js/faker/.';
+import { Orchestration } from '@prisma/client';
 
 export const mockOrchestration: Orchestration = {
   id: faker.number.int(),
@@ -8,5 +7,5 @@ export const mockOrchestration: Orchestration = {
   eventSectionId: faker.number.int(),
   createdAt: new Date(),
   updatedAt: new Date(),
-  numRequired: Math.ceil(Math.random() * 10)
+  numRequired: Math.ceil(Math.random() * 10),
 };

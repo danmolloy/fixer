@@ -16,13 +16,16 @@ import SectionViewSelect from './viewSelect';
 import OrchestrationSummary from './orchestration';
 
 export type EventSectionProps = {
-  section: EventSection & { ensembleSection: EnsembleSection, orchestration: Orchestration[] };
+  section: EventSection & {
+    ensembleSection: EnsembleSection;
+    orchestration: Orchestration[];
+  };
   ensembleSections: EnsembleSection[];
   eventSections: (EventSection & { ensembleSection: EnsembleSection })[];
   sectionContacts: EnsembleContact[];
   eventCalls: Call[];
   currentContacts: (ContactMessage & {
-    eventCalls: (ContactEventCall & {call: Call})[]
+    eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
   })[];
 };
@@ -79,7 +82,10 @@ export default function EventSectionIndex(props: EventSectionProps) {
           </div>
           <div className='flex flex-col justify-between'>
             <div className='flex flex-row items-center'>
-              <OrchestrationSummary eventCalls={eventCalls} orchestration={section.orchestration} />
+              <OrchestrationSummary
+                eventCalls={eventCalls}
+                orchestration={section.orchestration}
+              />
             </div>
             <SectionViewSelect
               availabilityCheckCount={
