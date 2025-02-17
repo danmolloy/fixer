@@ -14,7 +14,9 @@ export type ViewAllUpcomingProps = {
     calls: Call[];
     sections: (EventSection & {
       contacts: (ContactMessage & {
-        calls: Call[];
+        eventCalls: {
+          call: Call;
+        }
       })[];
       ensembleSection: EnsembleSection;
       orchestration: Orchestration[];
