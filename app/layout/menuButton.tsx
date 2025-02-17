@@ -9,6 +9,10 @@ export type MenuButtonProps = {
   session: Session | null;
 };
 
+/* 
+Moved the nested button. That may be causing issues!
+*/
+
 export default function MenuButton(props: MenuButtonProps) {
   const { session } = props;
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -35,8 +39,8 @@ export default function MenuButton(props: MenuButtonProps) {
             data-testid='menu-icon'
           />
         )}
-        {showMenu && <FlyOutMenu session={session} />}
       </button>
+        {showMenu && <FlyOutMenu session={session} />}
     </div>
   );
 }

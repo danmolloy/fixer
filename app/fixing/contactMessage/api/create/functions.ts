@@ -49,11 +49,6 @@ export const createContactMessages = async (
       data: {
         eventSectionId: Number(data.eventSectionId),
         contactId: data.contacts[i].contactId,
-        /* calls: {
-          connect: data.contacts[i].calls.map((j) => ({
-            id: Number(j),
-          })),
-        }, */
         status:
           data.contacts[i].autoAccepted === true
             ? 'AUTOBOOKED'
@@ -150,8 +145,9 @@ export const gigIsFixed = async (eventID: number) => {
       let numStillRequired = orchestrations[j].numRequired;
       let numBooked = event?.sections[i].contacts.filter(c => (
         c.eventCalls.map(j => j.callId).includes(orchestrations[j].callId) 
-        && c.eventCalls.find(j => j.callId)!.status === "ACCEPTED"
+        && (c.eventCalls.find(j => j.callId)!.status === "ACCEPTED")
       )).length
+      
       if (numStillRequired - numBooked !== 0) {
         return false;
       }

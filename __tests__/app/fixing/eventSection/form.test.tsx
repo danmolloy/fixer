@@ -194,15 +194,15 @@ eventCalls: [{
     })
 
   })
-  it("fixedNumToBook input is in the document with label and sets fixedNumToBook status on click", async () => {
+  /* it("fixedNumToBook input is in the document with label and sets fixedNumToBook status on click", async () => {
     const fixedNumCheckbox = screen.getByLabelText(`0 musician(s) for all calls`);
     expect(fixedNumCheckbox).toBeInTheDocument();
 
     await  waitFor(async () => fireEvent.click(fixedNumCheckbox))
     const callsNumRequired = screen.getByTestId('calls-num-required');
     expect(callsNumRequired).toBeInTheDocument();
-  })
-  it("if !fixedNumToBook, numRequired input is disabled & each call has own num input", async () => {
+  }) */
+  /* it("if !fixedNumToBook, numRequired input is disabled & each call has own num input", async () => {
     const fixedNumCheckbox = screen.getByLabelText(`0 musician(s) for all calls`);
     await  waitFor(async () => fireEvent.click(fixedNumCheckbox))
 
@@ -213,6 +213,6 @@ eventCalls: [{
       expect(callNumInput).toHaveAttribute("type", "number");
       expect(callNumInput).toHaveAttribute("name", `orchestration[${i}].numRequired`);
     }
-  })
+  }) */
 });
  

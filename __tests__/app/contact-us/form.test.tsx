@@ -4,6 +4,7 @@ import ContactForm from '../../../app/contact-us/form';
 import axios from 'axios';
 
 const mockPost = jest.spyOn(axios, 'post');
+mockPost.mockResolvedValue({ data: {} });
 
 describe('<ContactForm />', () => {
   beforeEach(() => {

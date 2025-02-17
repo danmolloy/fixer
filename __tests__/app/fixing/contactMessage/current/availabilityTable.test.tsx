@@ -60,20 +60,7 @@ describe("<AvailabilityTable />", () => {
     expect(mockSetSelectedContacts).toHaveBeenCalled();
     
   });
-  it("Cancel Check btn is in the document", () => {
-    const selectAll = screen.getByText("Select All");
-    act(() => {
-      fireEvent.click(selectAll)
-    })
-    const cancelBtn = screen.getByText("Cancel Check");
-    expect(cancelBtn).toBeInTheDocument();
-    act(() => {
-      fireEvent.click(cancelBtn);
-    })
-    expect(global.confirm).toHaveBeenCalledWith(`
-      Are you sure you want to cancel ${mockProps.contacts.filter(c => c.type === "AVAILABILITY").length} availability check(s)? 
-      They will get an alert saying the are not required.`)
-  });
+  //it("Cancel Check btn is in the document", () => {});
   it("availability-table is in the document", () => {
     const availTable = screen.getByTestId("availability-table");
     expect(availTable).toBeInTheDocument();

@@ -9,6 +9,8 @@ const mockProps: FixingMenuProps = {
   eventID: "mockID",
 }
 
+global.focus = jest.fn();
+
 describe("<FixingMenu />", () => {
   beforeEach(() => {
     render(<FixingMenu {...mockProps} />)

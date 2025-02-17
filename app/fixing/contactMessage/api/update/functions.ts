@@ -74,7 +74,6 @@ export const updateContactMessage = async (contactMessageObj: {
   }[]
 }) => {
   try {
-    console.log(JSON.stringify(contactMessageObj))
     const updatedData = await prisma.contactMessage.update({
       where: {
         id: contactMessageObj.id,

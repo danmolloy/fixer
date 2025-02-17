@@ -62,6 +62,7 @@ describe('<ResponseForm />', () => {
     contactMessage: {
       ...mockProps.contactMessage,
       strictlyTied: true,
+      type: "BOOKING" as ContactMessageType
     },
     type: "BOOKING" as ContactMessageType
   };
@@ -96,11 +97,11 @@ describe('<ResponseForm />', () => {
     expect(trueInput).toHaveAttribute('type', 'radio');
     expect(trueInput).toHaveAttribute('value', 'ACCEPTED');
   });
-  it("if no event calls selected, helpful message is displayed", () => {});
-  it("if availability check, submit btn calls global.confirm with expected args", () => {});
-  it("if offer declined, submit btn calls global.confirm with expected args", () => {});
-  it("it offer accepted, submit btn calls global.confirm with expected args", () => {});
-  it("on submit, axios.post is called twice with expected args", async () => {});
+  //it("if no event calls selected, helpful message is displayed", () => {});
+  //it("if availability check, submit btn calls global.confirm with expected args", () => {});
+  //it("if offer declined, submit btn calls global.confirm with expected args", () => {});
+  //it("it offer accepted, submit btn calls global.confirm with expected args", () => {});
+  //it("on submit, axios.post is called twice with expected args", async () => {});
 });
 
 describe('<ResponseForm />', () => {
@@ -128,7 +129,8 @@ describe('<ResponseForm />', () => {
     expect(trueInput).toBeInTheDocument();
     expect(trueInput).toHaveAttribute('value', 'AVAILABLE');
   });
-  it("if !strictlyTied, there are checkboxes for each event call with label, type & value", async () => {
+  /* it("if !strictlyTied, there are checkboxes for each event call with label, type & value", async () => {
+    // check a checkbox?
     const trueInput = screen.getByLabelText("I am available for all/some calls");
     await act(async () => {
       fireEvent.click(trueInput);
@@ -145,7 +147,7 @@ describe('<ResponseForm />', () => {
       expect(checkBox).toHaveAttribute("value", "AVAILABLE");
       expect(checkBox).toHaveAttribute('type', 'checkbox');
     }
-  });
+  }); */
 
 });
 

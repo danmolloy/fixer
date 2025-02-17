@@ -27,7 +27,13 @@ const mockProps: CurrentContactRowProps = {
 
 describe("<AvailabilityContactRow />", () => {
   beforeEach(() => {
-    render(<AvailabilityContactRow {...mockProps} />)
+    render(
+      <table>
+        <tbody>
+          <AvailabilityContactRow {...mockProps} />
+        </tbody>
+      </table>
+      )
   })
 
   it("<AvailabilityContactRow /> renders ", () => {
@@ -44,7 +50,16 @@ describe("<AvailabilityContactRow />", () => {
   });
 
   it("displays correct status", () => {
-    expect(screen.getByText(mockProps.contact.status)).toBeInTheDocument();
+    const status =  mockProps.contact.status === "AWAITINGREPLY" 
+    ? `AWAITING REPLY (${mockProps.contact.emailStatus})`
+    : mockProps.contact.status === "FINDINGDEP" 
+    ? "FINDING DEP" 
+    : mockProps.contact.status === "NOTCONTACTED" 
+    ? "NOT CONTACTED"
+    : mockProps.contact.status === "CANCELLED" 
+    ? `${mockProps.contact.status} (${mockProps.contact.emailStatus})`
+    : mockProps.contact.status
+    expect(screen.getByText(status)).toBeInTheDocument();
   });
 
   it("toggles options menu on button click", () => {

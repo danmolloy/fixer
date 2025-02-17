@@ -6,6 +6,8 @@ import { mockEnsembleContact } from '../../../../../../__mocks__/models/ensemble
 import { SentEmailData } from '../../../../../../app/sendGrid/lib';
 import { mockEventSection } from '../../../../../../__mocks__/models/eventSection';
 import { mockEvent } from '../../../../../../__mocks__/models/event';
+import { mockContactEventCall } from '../../../../../../__mocks__/models/ContactEventCall';
+import { mockCall } from '../../../../../../__mocks__/models/call';
 
 const mockEmail: SentEmailData = {
   templateID: 'fake-template',
@@ -42,6 +44,7 @@ describe('releaseDeppers', () => {
     ]);
     const mockUpdateData = {
       ...mockContactMessage,
+      eventCalls: [{...mockContactEventCall, call: mockCall}],
       eventSection: {
         ...mockEventSection,
         event: mockEvent,
@@ -55,11 +58,14 @@ describe('releaseDeppers', () => {
       },
       data: {
         status: 'DECLINED',
-        accepted: false,
       },
       include: {
         contact: true,
-        calls: true,
+        eventCalls: {
+          include: {
+            call: true,
+          }
+        },
         eventSection: {
           include: {
             event: true,
@@ -70,10 +76,11 @@ describe('releaseDeppers', () => {
   });
   it('if deppingContacts.length > 0, emailDeppingMusician(args) is called', async () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
-      mockContactMessage,
+      mockContactMessage
     ]);
     const mockUpdateData = {
       ...mockContactMessage,
+      eventCalls: [{...mockContactEventCall, call: mockCall}],
       eventSection: {
         ...mockEventSection,
         event: mockEvent,
@@ -83,6 +90,7 @@ describe('releaseDeppers', () => {
     await releaseDeppers(12);
     expect(emailDeppingMusician).toHaveBeenCalledWith({
       ...mockUpdateData,
+      calls: mockUpdateData.eventCalls.map(c => c.call),
       ensembleName: mockUpdateData.eventSection.event.ensembleName,
       eventId: mockUpdateData.eventSection.eventId,
     });

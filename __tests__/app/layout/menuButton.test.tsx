@@ -3,6 +3,8 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import MenuButton, { MenuButtonProps } from '../../../app/layout/menuButton';
 import { mockSession } from '../../../__mocks__/session';
 
+global.focus = jest.fn();
+
 describe('<MenuButton />', () => {
   const mockProps: MenuButtonProps = {
     session: mockSession,

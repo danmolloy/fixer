@@ -2,7 +2,6 @@ import '@testing-library/jest-dom';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import CallInput, {
   CallInputProps,
-  venueOptions,
 } from '../../../../app/event/create/callInput';
 import { mockCall } from '../../../../__mocks__/models/call';
 import { Formik } from 'formik';
@@ -11,10 +10,9 @@ import { formatDate } from '../../../../app/event/create/form';
 describe('<CallInput />', () => {
   const mockProps: CallInputProps = {
     index: Math.ceil(Math.random()) * 10,
+    disabled: false,
     id: 2,
     remove: jest.fn(),
-    propsValueVenue: 'venue-value',
-    setVenue: jest.fn(),
     call: {
       ...mockCall,
       startTime: formatDate('2024-07-16T09:18:03.269Z'),
@@ -78,11 +76,10 @@ describe('<CallInput />', () => {
 
 describe('<CallInput />', () => {
   const mockProps: CallInputProps = {
+    disabled: false,
     index: 0,
     id: 2,
     remove: jest.fn(),
-    propsValueVenue: 'venue-value',
-    setVenue: jest.fn(),
     call: {
       ...mockCall,
       startTime: formatDate(mockCall.startTime),

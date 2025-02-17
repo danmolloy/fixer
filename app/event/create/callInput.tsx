@@ -8,8 +8,7 @@ export type CallInputProps = {
   index: number;
   id: number;
   remove: (arg: number) => void;
-  propsValueVenue: string;
-  setVenue: (venue: string) => void;
+  
   call: {
     startTime: string;
     endTime: string;
@@ -19,7 +18,7 @@ export type CallInputProps = {
 };
 
 export default function CallInput(props: CallInputProps) {
-  const { index, remove, propsValueVenue, setVenue, call, disabled } = props;
+  const { index, remove, call, disabled } = props;
   return (
     <div data-testid={`call-${index}-input-div`} className='flex flex-col'>
       <div className='flex flex-row items-center justify-between'>

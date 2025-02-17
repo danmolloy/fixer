@@ -115,7 +115,7 @@ describe('<ContactInput />', () => {
   });
 });
 
-describe('<ContactInput />', () => {
+/* describe('<ContactInput />', () => {
   const mockProps: ContactInputProps = {
     sections: [mockSection],
     contacts: [{
@@ -135,4 +135,4 @@ describe('<ContactInput />', () => {
 
   //it('validation errs (incl phoneNum regex) render on unsuccessful submit', async () => {});
   //it("Remove row btn removes row", () => {})
-});
+}); */

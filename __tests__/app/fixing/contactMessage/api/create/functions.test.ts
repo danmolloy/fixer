@@ -17,7 +17,9 @@ import {
   emailBookingMusicians,
 } from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
 import { mockEvent } from '../../../../../../__mocks__/models/event';
-import { ContactMessage } from '@prisma/client';
+import { ContactEventCallStatus, ContactMessage } from '@prisma/client';
+import { mockOrchestration } from '../../../../../../__mocks__/models/orchestration';
+import { mockContactEventCall } from '../../../../../../__mocks__/models/ContactEventCall';
 
 jest.mock('crypto', () => ({
   randomBytes: jest.fn(() => Buffer.from('mocked_random_bytes')),
@@ -59,28 +61,35 @@ describe('createContactMessages', () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
+    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
     await createContactMessages(mockContactMessages);
     expect(prismaMock.contactMessage.findMany).toHaveBeenCalledWith({
       where: { eventSectionId: Number(mockContactMessages.eventSectionId) },
       orderBy: { indexNumber: 'asc' },
     });
+    expect(prismaMock.contactEventCall.create).toHaveBeenCalledWith({
+      data: {
+        callId: Number(mockContactMessages.contacts[0].calls[0]),
+        contactMessageId: 42,
+        status: "TOOFFER"
+      }
+    })
   });
   //it("autobook sets status & type correctly", () => {})
   it('gives new all contactMessages correct vals incl. index numbers', async () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
+
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
+    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
     await createContactMessages(mockContactMessages);
     prismaMock.contactMessage.create.mockResolvedValueOnce(mockContactMessage);
     expect(prismaMock.contactMessage.create).toHaveBeenCalledWith({
       data: {
         eventSectionId: Number(mockContactMessages.eventSectionId),
         contactId: mockContactMessages.contacts[0].contactId,
-        calls: {
-          connect: mockContactMessages.contacts[0].calls.map((j) => ({
-            id: Number(j),
-          })),
-        },
         token: generateToken(),
         //position: data.contacts[i].position,
         status: 'NOTCONTACTED',
@@ -91,11 +100,22 @@ describe('createContactMessages', () => {
         urgent: mockContactMessages.urgent,
       },
     });
+    expect(prismaMock.contactEventCall.create).toHaveBeenCalledWith({
+      data: {
+        callId: Number(mockContactMessages.contacts[0].calls[0]),
+        contactMessageId: 42,
+        status: "TOOFFER"
+      }
+    })
   });
   it('if booking, emailBookingMusicians(eventSectionID) is called', async () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
+
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
+    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
+
     await createContactMessages(mockContactMessages);
     prismaMock.contactMessage.create.mockResolvedValueOnce(mockContactMessage);
     expect(emailBookingMusicians).toHaveBeenCalled();
@@ -104,6 +124,10 @@ describe('createContactMessages', () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
+
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
+    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
+
     await createContactMessages({
       ...mockContactMessages,
       type: 'AVAILABILITY',
@@ -134,17 +158,17 @@ describe('createContactMessages', () => {
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
+
+    prismaMock.contactEventCall.create.mockResolvedValueOnce(mockContactEventCall);
+    prismaMock.contactMessage.create.mockResolvedValue({...mockContactMessage, id: 42})
+
     await createContactMessages(mockContactMessages);
     prismaMock.contactMessage.create.mockResolvedValueOnce(mockContactMessage);
     expect(prismaMock.contactMessage.create).toHaveBeenCalledWith({
       data: {
         eventSectionId: Number(mockContactMessages.eventSectionId),
         contactId: mockContactMessages.contacts[0].contactId,
-        calls: {
-          connect: mockContactMessages.contacts[0].calls.map((j) => ({
-            id: Number(j),
-          })),
-        },
+        
         token: generateToken(),
         //position: data.contacts[i].position,
         status: 'AUTOBOOKED',
@@ -239,34 +263,50 @@ describe('gigIsFixed', () => {
       sections: [
         {
           ...mockEventSection,
-          numToBook: 2,
+          orchestration: [{
+            ...mockOrchestration,
+            callId: mockCall.id,
+            numRequired: 1,
+          }],
           contacts: [
             {
               ...mockEnsembleContact,
               type: 'AUTOBOOK',
-              status: 'AUTOBOOKED',
+              status: 'ACCEPTED',
               id: 42,
+              eventCalls: [{
+                callId: mockCall.id,
+                status: "ACCEPTED"
+              }]
             },
             {
               ...mockEnsembleContact,
               type: 'BOOKING',
-              status: 'ACCEPTED',
+              status: 'DECLINED',
               id: 4,
+              eventCalls: [{callId: 24}]
+
             },
             {
               ...mockEnsembleContact,
               id: 2,
               status: 'DECLINED',
+              eventCalls: [{callId: 24}]
+
             },
             {
               ...mockEnsembleContact,
               type: 'AVAILABILITY',
               status: 'MIXED',
+              eventCalls: [{callId: 24}]
+
             },
             {
               ...mockEnsembleContact,
               id: 3,
               status: 'DECLINED',
+              eventCalls: [{callId: 24}]
+
             },
           ],
         },
@@ -281,52 +321,97 @@ describe('gigIsFixed', () => {
       sections: [
         {
           ...mockEventSection,
-          numToBook: 1,
+          orchestration: [{
+            ...mockOrchestration,
+            callId: mockCall.id,
+            numRequired: 1,
+          }],
           contacts: [
             {
               ...mockContactMessage,
               type: 'AUTOBOOKED',
               status: 'FINDINGDEP',
               id: 3,
+              eventCalls: [{
+                ...mockContactEventCall,
+                callId: mockCall.id,
+                status: "ACCEPTED" as ContactEventCallStatus
+              }]
             },
             {
               ...mockContactMessage,
               type: 'BOOKING',
               status: 'DECLINED',
               id: 3,
+              eventCalls: [{
+                ...mockContactEventCall,
+                callId: mockCall.id,
+                status: "DECLINED" as ContactEventCallStatus
+              }]
             },
             {
               ...mockContactMessage,
               type: 'AVAILABILITY',
               status: 'AVAILABLE',
               id: 4,
+
+              eventCalls: [{
+                ...mockContactEventCall,
+                callId: mockCall.id,
+                status: "AVAILABLE" as ContactEventCallStatus
+              }]
             },
           ],
         },
         {
           ...mockContactMessage,
           numToBook: 1,
+          orchestration: [{
+            ...mockOrchestration,
+            callId: 12,
+            numRequired: 1,
+          }],
           contacts: [
             {
               ...mockContactMessage,
               type: 'BOOKING',
               status: 'ACCEPTED',
               id: 4,
+              eventCalls: [{
+                ...mockContactEventCall,
+                callId: 12,
+                status: "DECLINED" as ContactEventCallStatus
+              }]
             },
             {
               ...mockContactMessage,
               id: 2,
               status: 'DECLINED',
+              eventCalls: [{
+                ...mockContactEventCall,
+                callId: 12,
+                status: "DECLINED" as ContactEventCallStatus
+              }]
             },
             {
               ...mockContactMessage,
               type: 'AVAILABILITY',
               status: 'MIXED',
+              eventCalls: [{
+                ...mockContactEventCall,
+                callId: 12,
+                status: "AVAILABLE" as ContactEventCallStatus
+              }]
             },
             {
               ...mockContactMessage,
               id: 3,
               status: 'DECLINED',
+              eventCalls: [{
+                ...mockContactEventCall,
+                callId: 12,
+                status: "DECLINED" as ContactEventCallStatus
+              }]
             },
           ],
         },
@@ -334,70 +419,5 @@ describe('gigIsFixed', () => {
     };
     prismaMock.event.findUnique.mockResolvedValueOnce(mockEventNotFixed);
     expect(await gigIsFixed(1)).toBe(false);
-  });
-});
-
-describe('numToContact', () => {
-  it('returns correct number of musicians to contact', () => {
-    const contacts: ContactMessage[] = [
-      {
-        ...mockContactMessage,
-        type: 'AUTOBOOK',
-        status: 'AUTOBOOKED',
-        id: 42,
-      },
-      {
-        ...mockContactMessage,
-        type: 'BOOKING',
-        status: 'NOTCONTACTED',
-        id: 4,
-      },
-      {
-        ...mockContactMessage,
-        id: 2,
-        type: 'BOOKING',
-        status: 'NOTCONTACTED',
-      },
-      {
-        ...mockContactMessage,
-        id: 2,
-        status: 'FINDINGDEP',
-        type: 'BOOKING',
-      },
-      {
-        ...mockContactMessage,
-        id: 2,
-        type: 'BOOKING',
-        status: 'ACCEPTED',
-      },
-      {
-        ...mockContactMessage,
-        id: 2,
-        type: 'AUTOBOOK',
-        status: 'FINDINGDEP',
-      },
-      {
-        ...mockContactMessage,
-        type: 'AVAILABILITY',
-        status: 'NOTCONTACTED',
-      },
-      {
-        ...mockContactMessage,
-        id: 3,
-        status: 'NOTCONTACTED',
-      },
-    ];
-    const numToBook = Math.ceil(Math.random() * 42) + 10;
-    const numBooked = contacts.filter(
-      (i) => i.status === 'ACCEPTED' || i.status === 'AUTOBOOKED'
-    ).length;
-    const numThinking = contacts.filter(
-      (i) =>
-        i.status === 'AWAITINGREPLY' &&
-        (i.type === 'BOOKING' || i.type === 'AUTOBOOK')
-    ).length;
-    expect(
-      getNumToContact({ contactMessages: contacts, numToBook: numToBook })
-    ).toBe(numToBook - (numBooked + numThinking));
   });
 });

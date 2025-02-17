@@ -4,7 +4,7 @@ import {
   createOfferEmail,
   releaseDepperEmail,
 } from '../../../../sendGrid/playerLib';
-import { callsNotFixed, getDateRange, getNumToContact, gigIsFixed } from './functions';
+import {  callsNotFixed, getDateRange, gigIsFixed } from './functions';
 import { Call, ContactMessage, EnsembleContact } from '@prisma/client';
 import {
   bookingCompleteEmail,
@@ -106,7 +106,6 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
           && j.eventCalls.map(c => c.callId).includes(i.callId)).length
       )
     )).map(c => c.callId)
-    console.log(`callsToOfferNotFixed: ${callsToOfferNotFixed.length}, callsNotFixed: ${callsNotFixed.length}`)
 
     if (callsToOfferNotFixed.length === callsNotFixed.length) {
 
@@ -138,7 +137,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
   } 
 
 
-  /* if (numToContact > notContacted.length) {
+  if (callsNotFixed.length > 0 && contactMessages.filter(c => c.status === "NOTCONTACTED").length === 0) {
     // Let fixer know they need to add to list
     const emailAlert = await listExhaustedEmail({
       dateRange: getDateRange(contactMessages[0].eventSection.event.calls),
@@ -158,7 +157,7 @@ export const emailBookingMusicians = async (eventSectionId: number) => {
     } catch (e) {
       throw new Error(e);
     }
-  } */
+  } 
 
   /* 
   for (let i = 0; i < numEmails; i++) {
@@ -322,7 +321,6 @@ export const emailDeppingMusician = async (
     eventId: number;
   }
 ) => {
-  //console.log("emailDeppingMusician")
   const emailData = await releaseDepperEmail({
     firstName: contactMessage.contact.firstName,
     email: contactMessage.contact.email!,

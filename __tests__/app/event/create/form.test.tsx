@@ -290,16 +290,14 @@ describe('<CreateEventForm />', () => {
     expect(formTitle).toBeInTheDocument();
     expect(formTitle).toHaveRole('heading');
   });
-  it('Ensemble name radio group is in the document with label, all options have label, name, value & type attrs', () => {
-    const ensembleNames = mockProps.ensembleList.find(
-      (i) => i.id === mockEnsembleAdmin.ensembleId
-    )!.ensembleNames;
-    for (let i = 0; i < ensembleNames!.length; i++) {
-      const ensembleName = screen.getByLabelText(ensembleNames![i]);
+  it('Ensemble name select group is in the document with label, all options have label, name, value & type attrs', () => {
+    const selectEl = screen.getByTestId('org-select');
+    expect(selectEl).toBeInTheDocument();
+    expect(selectEl).toHaveAttribute("name", "ensembleId")
+    for (let i = 0; i < mockProps.ensembleList.length; i++) {
+      const ensembleName = screen.getByText(mockProps.ensembleList[i].name);
       expect(ensembleName).toBeInTheDocument();
-      expect(ensembleName).toHaveAttribute('type', 'radio');
-      expect(ensembleName).toHaveAttribute('name', 'ensembleName');
-      expect(ensembleName).toHaveAttribute('value', ensembleNames![i]);
+      expect(ensembleName).toHaveAttribute('value', mockProps.ensembleList[i].id);
     }
   });
   it('form renders with expected initialVals', () => {
@@ -326,6 +324,14 @@ describe('<CreateEventForm />', () => {
     }
   });
   it('on submit btn click, axios.post() & useRouter are called with expected args', async () => {
+    const msgToPlayers = "Updated Gig";
+    const msgInput = screen.getByLabelText("Update Message to Players")
+    await act(async () => {
+      fireEvent.change(msgInput, {
+        target: { value: msgToPlayers },
+      });
+    });
+    
     const submitBtn = screen.getByText('Submit');
     await act(async () => {
       fireEvent.click(submitBtn);
@@ -342,6 +348,8 @@ describe('<CreateEventForm />', () => {
       createOrUpdate: "Update",
       status: initialVals.status,
       id: initialVals.id,
+      updateMessage: msgToPlayers,
+      adminAccess: [],
       calls: initialVals.calls.map((i) => ({
         id: i.id,
         venue: i.venue,

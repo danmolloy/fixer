@@ -150,7 +150,7 @@ describe("<UpdateContactMessage />", () => {
           playerMessage: mockProps.contact.playerMessage,
           position: mockProps.contact.position,
           status: mockProps.contact.status,
-          strictlyTied: mockProps.contact.strictlyTied,
+          strictlyTied: mockProps.contact.type !== "AVAILABILITY" ? true : mockProps.contact.strictlyTied,
           type: mockProps.contact.type,
           urgent: mockProps.contact.urgent
         },

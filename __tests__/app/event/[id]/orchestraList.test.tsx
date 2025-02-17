@@ -15,6 +15,7 @@ import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventC
 import { mockCall } from '../../../../__mocks__/models/call';
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
+global.focus = jest.fn();
 jest.mock('html2pdf.js', () => {
   return jest.fn(() => ({
     from: jest.fn().mockReturnThis(),
@@ -55,17 +56,13 @@ describe('<OrchestraList />', () => {
       const sectionDiv = screen.getByTestId(`${section.id}-section`)
       for (let i = 0; i < section.contacts.length; i ++) {
         const name = `${section.contacts[i].contact.firstName} ${section.contacts[i].contact.lastName}`
-        if (section.contacts[i].type !== "AVAILABILITY" && (
-          section.contacts[i].status === "ACCEPTED" ||
-          section.contacts[i].status === "AUTOBOOKED" ||
-          section.contacts[i].status === "FINDINGDEP"
-        )) {
+        if (section.contacts[i].eventCalls.map(c => c.status).includes("ACCEPTED")) {
           expect(sectionDiv.textContent).toMatch(name);
         } else {
           expect(orchestraList.textContent).not.toMatch(name);
         }
       }
-      const numBooked = section.contacts.filter(c => c.status === "ACCEPTED" || c.status === "AUTOBOOKED").length
+      const numBooked = section.contacts.filter(contact => contact.eventCalls.map(call => call.status).includes("ACCEPTED")).length
       const numRequired = section.orchestration.sort((a, b) => b.numRequired - a.numRequired)[0].numRequired
 
       if (numRequired - numBooked > 0) {

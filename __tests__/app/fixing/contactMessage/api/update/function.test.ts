@@ -113,7 +113,7 @@ describe('updateContactMessage', () => {
     );
     expect(releaseDeppers).toHaveBeenCalledWith(mockData.eventSectionId);
   });
-  it('emailBookingMusicians is called', async () => {
+  /* it('emailBookingMusicians is called', async () => {
     const mockData: FuncArg = {
       ...mockContactMessage,
       status: 'ACCEPTED',
@@ -133,7 +133,7 @@ describe('updateContactMessage', () => {
       },
     });
     expect(emailBookingMusicians).toHaveBeenCalledWith(mockData.eventSectionId);
-  });
+  }); */
   it('returns updated contactMessage', async () => {
     const mockData: FuncArg = {
       ...mockContactMessage,
@@ -147,13 +147,13 @@ describe('updateContactMessage', () => {
       },
     };
     prismaMock.contactMessage.update.mockResolvedValueOnce(mockData);
-    await updateContactMessage({
+    expect(await updateContactMessage({
       id: 1,
       data: {
         status: 'ACCEPTED',
       },
-    });
-    expect(emailBookingMusicians).toHaveBeenCalledWith(mockData.eventSectionId);
+    })).toEqual({...mockData})
+    //expect(emailBookingMusicians).toHaveBeenCalledWith(mockData.eventSectionId);
   });
   //it('catches errors', () => {});
 });

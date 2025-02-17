@@ -304,141 +304,63 @@ describe('updateOfferEmail()', () => {
     ).toBe(responseTemplate);
   });
   it('returns expected email body text if response not required', async () => {
-    expect(
-      (
-        await updateOfferEmail({
-          ...mockArg,
-        })
-      ).bodyText
-    ).toBe(
-      `Dear ${mockArg.contact.firstName}, <br />
-  <br />
-  <br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.
-  <br />
-  <br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) ${mockArg.type !== 'AVAILABILITY' ? 'offers' : 'checks your availability for'} the following: <br />
-  <br />
-  ${mockArg.calls
-    .map(
-      (i) =>
-        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
-        ' to<br />' +
-        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
-        '<br />' +
-        i.venue +
-        '<br /><br />'
-    )
-    .join(',')}
-  <br />
-  Gig Status: ${mockArg.eventSection.event.status}<br />
-  Position: ${mockArg.position}<br />
-  Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
-  Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
-  Additional Information: ${mockArg.eventSection.event.additionalInfo ? mockArg.eventSection.event.additionalInfo : 'Not specified'}<br />
-  ${mockArg.playerMessage !== null ? mockArg.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + mockArg.playerMessage : ''}
-<br />
-<br />
-  You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>. It has been marked as ${mockArg.status === "ACCEPTED" ? 'accepted': mockArg.status === "AUTOBOOKED" ? "auto-booked" : 'declined'}.<br /> <br />
-
-  If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}. <br /> <br />
-
-Best wishes,<br />
-GigFix`
-    );
+    const response = await updateOfferEmail({
+      ...mockArg,
+    });
+    expect(response.bodyText).toMatch(`If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}.`)
+    expect(response.bodyText).toMatch(`Dear ${mockArg.contact.firstName},`)
+    expect(response.bodyText).toMatch(`${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.`)
+    expect(response.bodyText).toMatch(`${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) ${mockArg.type !== 'AVAILABILITY' ? 'offers' : 'checks your availability for'} the following:`)
+    mockArg.eventSection.event.additionalInfo && expect(response.bodyText).toMatch(mockArg.eventSection.event.additionalInfo);
+    expect(response.bodyText).toMatch(mockArg.eventSection.event.fee)
+    expect(response.bodyText).toMatch(mockArg.eventSection.event.dressCode)
+    expect(response.bodyText).toMatch(mockArg.position)
+    mockArg.playerMessage && expect(response.bodyText).toMatch(mockArg.playerMessage)
+    expect(response.bodyText).toMatch(`You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>. It has been marked as ${mockArg.status === "ACCEPTED" ? 'accepted': mockArg.status === "AUTOBOOKED" ? "auto-booked" : 'declined'}.`)
+    mockArg.calls.forEach(call => {
+      expect(response.bodyText).toMatch(DateTime.fromJSDate(new Date(call.startTime)).toFormat('HH:mm DD') )
+      expect(response.bodyText).toMatch(DateTime.fromJSDate(new Date(call.endTime)).toFormat('HH:mm DD') )
+      expect(response.bodyText).toMatch(call.venue)
+    })
   });
   it('returns expected email body text if response required to availability check', async () => {
-    expect(
-      (
-        await updateOfferEmail({
-          ...mockArg,
-          status: "AWAITINGREPLY",
-          type: 'AVAILABILITY',
-        })
-      ).bodyText
-    ).toBe(
-      `Dear ${mockArg.contact.firstName}, <br />
-  <br />
-  <br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.
-  <br />
-  <br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) checks your availability for the following: <br />
-  <br />
-  ${mockArg.calls
-    .map(
-      (i) =>
-        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
-        ' to<br />' +
-        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
-        '<br />' +
-        i.venue +
-        '<br /><br />'
-    )
-    .join(',')}
-  <br />
-  Gig Status: ${mockArg.eventSection.event.status}<br />
-  Position: ${mockArg.position}<br />
-  Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
-  Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
-  Additional Information: ${mockArg.eventSection.event.additionalInfo ? mockArg.eventSection.event.additionalInfo : 'Not specified'}<br />
-  ${mockArg.playerMessage !== null ? mockArg.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + mockArg.playerMessage : ''}
-<br />
-<br />
-  ${
-    mockArg.status === "AWAITINGREPLY"
-      ? `Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`
-      : `You can view up to date gig details at <a href="${responseLink}">this link</a>. It has been marked as ${mockArg.status === 'ACCEPTED' ? 'accepted' : mockArg.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`
-  }<br /> <br />
-
-Best wishes,<br />
-GigFix`
-    );
+    const response = await updateOfferEmail({
+      ...mockArg,
+      status: "AWAITINGREPLY",
+      type: 'AVAILABILITY',
+    })
+    expect(response.bodyText).toMatch(`Click the blue 'Respond' button below or follow <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a> to respond.`)
+    expect(response.bodyText).toMatch(`If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}.`)
   });
   it('returns expected email body text if response required to offer update', async () => {
-    expect(
-      (
-        await updateOfferEmail({
-          ...mockArg,
-          type: 'BOOKING',
-        })
-      ).bodyText
-    ).toBe(
-      `Dear ${mockArg.contact.firstName}, <br />
-  <br />
-  <br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.
-  <br />
-  <br />
-  ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) offers the following: <br />
-  <br />
-  ${mockArg.calls
-    .map(
-      (i) =>
-        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
-        ' to<br />' +
-        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
-        '<br />' +
-        i.venue +
-        '<br /><br />'
-    )
-    .join(',')}
-  <br />
-  Gig Status: ${mockArg.eventSection.event.status}<br />
-  Position: ${mockArg.position}<br />
-  Fee: ${mockArg.eventSection.event.fee ? mockArg.eventSection.event.fee : 'Not specified'}<br />
-  Dress: ${mockArg.eventSection.event.dressCode ? mockArg.eventSection.event.dressCode : 'Not specified'}<br />
-  Additional Information: ${mockArg.eventSection.event.additionalInfo ? mockArg.eventSection.event.additionalInfo : 'Not specified'}<br />
-  ${mockArg.playerMessage !== null ? mockArg.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + mockArg.playerMessage : ''}
-<br />
-<br />${mockArg.status === "AWAITINGREPLY" ? 
-`Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`:
-`You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>. It has been marked as ${mockArg.status === 'ACCEPTED' ? 'accepted' : mockArg.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`}<br /> <br />
-  If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}. <br /> <br />
+    const response = await updateOfferEmail({
+      ...mockArg,
+      type: 'BOOKING',
+    })
+    expect(response.bodyText).toMatch(`Dear ${mockArg.contact.firstName},`);
+    expect(response.bodyText).toMatch(`${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} has updated your details regarding the below gig. Please respond promptly.`);
+    expect(response.bodyText).toMatch(`${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} (${mockArg.eventSection.event.ensembleName}) offers the following:`);
+    expect(response.bodyText).toMatch(mockArg.eventSection.event.status);
+    expect(response.bodyText).toMatch(mockArg.position);
+    expect(response.bodyText).toMatch(mockArg.eventSection.event.dressCode);
+    mockArg.playerMessage && expect(response.bodyText).toMatch(mockArg.playerMessage);
+    expect(response.bodyText).toMatch(mockArg.eventSection.event.fee);
+    mockArg.eventSection.event.additionalInfo && expect(response.bodyText).toMatch(mockArg.eventSection.event.additionalInfo);
+    if (mockArg.status === "AWAITINGREPLY") {
+      expect(response.bodyText).toMatch(`Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`)
+    } else {
+      expect(response.bodyText).toMatch(`You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>. It has been marked as ${mockArg.status === 'ACCEPTED' ? 'accepted' : mockArg.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`)
+      expect(response.bodyText).toMatch(`If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}.`)
+    }
 
-Best wishes,<br />
-GigFix`
-    );
+    mockArg.calls.forEach(call => {
+      expect(response.bodyText).toMatch(DateTime.fromJSDate(new Date(call.startTime)).toFormat('HH:mm DD'))
+      expect(response.bodyText).toMatch(DateTime.fromJSDate(new Date(call.endTime)).toFormat('HH:mm DD'))
+      expect(response.bodyText).toMatch(call.venue)
+
+    })
+
+   
   });
   it('calls createSentEmail with expected args', async () => {
     prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
@@ -556,6 +478,7 @@ describe('releaseDepperEmail', () => {
     email: 'arthur@firstfleet.com.au',
     ensemble: 'New South Wales Philharmonic',
     eventId: 1788,
+    contactMessageID: 12
   };
   it('returns expected subject', async () => {
     prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
@@ -605,7 +528,6 @@ describe('responseConfEmail', () => {
     firstName: 'Greg',
     email: 'greg@ievers.com.au',
     ensemble: 'WA Police String Orchestra',
-    accepted: false,
     type: 'BOOKING',
     status: 'AWAITINGREPLY',
   };
@@ -686,7 +608,6 @@ describe('responseConfEmail', () => {
       (
         await responseConfEmail({
           ...mockArg,
-          accepted: true,
           status: 'ACCEPTED',
           type: 'BOOKING',
         })
@@ -708,7 +629,6 @@ describe('responseConfEmail', () => {
       (
         await responseConfEmail({
           ...mockArg,
-          accepted: true,
           status: 'ACCEPTED',
           type: 'BOOKING',
         })

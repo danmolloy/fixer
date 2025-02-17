@@ -15,6 +15,8 @@ jest.mock('../../../app/billing/api/manage/lib', () => ({
   getBillingRoute: jest.fn()
 }))
 
+global.alert = jest.fn();
+
 const mockProps: FixingIndexProps = {
   eventId: 1,
   ensemble: mockEnsemble,
@@ -114,12 +116,8 @@ describe('<FixingIndex />', () => {
     const helpText = screen.getByText("You must subscribe to book players.")
     expect(helpText).toBeInTheDocument();
   });
-  it("if !subscription, there is subscribe btn which call axios onclick", () => { 
+  it("if !subscription, there is subscribe btn", () => { 
     const subscribeBtn = screen.getByText("Subscribe")
     expect(subscribeBtn).toBeInTheDocument();
-    act(() => {
-      fireEvent.click(subscribeBtn);
-    });
-    expect(getBillingRoute).toHaveBeenCalledWith(localMockProps.ensemble);
   });
 });

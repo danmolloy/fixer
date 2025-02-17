@@ -15,7 +15,7 @@ import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventC
 jest.mock('axios');
 const mockPost = jest.spyOn(axios, 'post');
 mockPost.mockResolvedValue({ data: {} });
-
+global.focus = jest.fn();
 global.confirm = jest.fn(() => true);
 let mockConfirm = global.confirm;
 

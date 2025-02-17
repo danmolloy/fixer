@@ -320,10 +320,6 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                       <CallInput
                         disabled={props.isSubmitting}
                         call={call}
-                        setVenue={(venue) =>
-                          props.setFieldValue(`calls.${index}.venue`, venue)
-                        }
-                        propsValueVenue={call.venue}
                         id={call.id}
                         index={index}
                         remove={(arg) => remove(arg)}
