@@ -19,6 +19,7 @@ export type EventSectionContactsProps = {
   type: 'BOOKING' | 'AVAILABILITY';
   editContacts: boolean;
   setEditContacts: (arg: boolean) => void;
+  eventId: number;
 };
 
 export default function EventSectionContacts(props: EventSectionContactsProps) {
@@ -30,6 +31,7 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
     sectionContacts,
     eventCalls,
     type,
+    eventId,
   } = props;
 
   return (
@@ -66,6 +68,7 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
       ) : null}
       {editContacts && (
         <ContactMessageForm
+          eventId={eventId}
           currentContacts={currentContacts}
           eventCalls={eventCalls}
           cancelForm={() => setEditContacts(false)}

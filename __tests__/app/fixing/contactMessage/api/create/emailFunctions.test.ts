@@ -8,10 +8,7 @@ import { mockEvent } from '../../../../../../__mocks__/models/event';
 import { mockEventSection } from '../../../../../../__mocks__/models/eventSection';
 import { mockUser } from '../../../../../../__mocks__/models/user';
 import { prismaMock } from '../../../../../../__mocks__/singleton';
-import {
-  emailAvailabilityChecks,
-  emailBookingMusicians,
-} from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
+import { emailAvailabilityChecks } from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
 import { SentEmailData } from '../../../../../../app/sendGrid/lib';
 import {
   createOfferEmail,
@@ -66,236 +63,6 @@ jest.mock(
     getNumToContact: jest.fn().mockReturnValue(1),
   })
 );
-
-/* describe('emailBookingMusicians', () => {
-
-  it('calls prisma.contactMessage.findMany() with expected args', async () => {
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce([]);
-    await emailBookingMusicians(42);
-    const prismaArgs = {
-      where: {
-        eventSectionId: 42,
-        OR: [{ type: 'AUTOBOOK' }, { type: 'BOOKING' }],
-      },
-      include: {
-        eventSection: {
-          include: {
-            event: {
-              include: {
-                fixer: true,
-                calls: true
-              },
-            },
-            ensembleSection: true,
-            orchestration: {
-              include: {
-                bookedPlayers: true
-              }
-            }
-          },
-        },
-        eventCalls: {
-          include: {
-            call: true,
-          }
-        },
-        contact: true,
-      },
-      orderBy: [
-        {
-          indexNumber: 'asc',
-        },
-      ],
-    };
-
-    expect(prismaMock.contactMessage.findMany).toHaveBeenCalledWith(prismaArgs);
-  });
-  it('calls gigIsFixed with expected arg', async () => {
-    const mockReturn = [
-      {
-        ...mockContactMessage,
-        contact: mockUser,
-        accepted: true,
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }],
-        eventSection: {
-          ...mockEventSection,
-          ensembleSection: mockSection,
-          orchestration: [{
-            ...mockOrchestration,
-            bookedPlayers: [
-              mockContactMessage,
-            ]
-          }],
-          event: {
-            ...mockEvent,
-            calls: [mockCall],
-            fixer: mockUser,
-          },
-        },
-      },
-    ];
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce(mockReturn);
-    await emailBookingMusicians(42);
-    expect(gigIsFixed).toHaveBeenCalled();
-  });
-  it('if no contactMessages are returned, function is returned with calling anything', async () => {
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce([]);
-    expect(await emailBookingMusicians(42)).toBe(undefined);
-    expect(axios.post).not.toHaveBeenCalled();
-  });
-
-
-  it('if !fixed && no more players to contacted, listExhaustedEmail & axios.post are called with expected args', async () => {
-    const mockReturn = {
-      ...mockContactMessage,
-      status: "DECLINED",
-      contact: mockUser,
-      eventSection: {
-        ...mockEventSection,
-        ensembleSection: mockSection,
-        orchestration: [{
-          ...mockOrchestration,
-          numRequired: 1,
-          bookedPlayers: []
-        }],
-        event: {
-          ...mockEvent,
-          calls: [mockCall],
-          fixer: mockUser,
-        },
-      },
-    };
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce([
-      { ...mockReturn, status: 'DECLINED' },
-    ]);
-    await emailBookingMusicians(42);
-    expect(listExhaustedEmail).toHaveBeenCalled();
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:3000/sendGrid', {
-      body: {
-        emailData: mockEmail,
-        templateID: mockEmail.templateID,
-        emailAddress: mockEmail.email,
-      },
-    });
-  });
-  it('calls createOfferEmail & axios.post with expected arg', async () => {
-    const mockReturn = [
-      {
-        ...mockNotContactedContactMessage,
-        contact: mockUser,
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }],
-        eventSection: {
-          ...mockEventSection,
-          ensembleSection: mockSection,
-          orchestration: [{
-            ...mockOrchestration,
-            bookedPlayers: []
-          }],
-          numToBook: 1,
-          event: {
-            ...mockEvent,
-            calls: [mockCall],
-            fixer: mockUser,
-          },
-        },
-      },
-    ];
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce(mockReturn);
-    await emailBookingMusicians(42);
-    expect(createOfferEmail).toHaveBeenCalledWith(mockReturn[0]);
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:3000/sendGrid', {
-      body: {
-        emailData: mockEmail,
-        templateID: mockEmail.templateID,
-        emailAddress: mockEmail.email,
-      },
-    });
-  });
-  it('updates contact message status to awaiting reply', async () => {
-    const mockReturn = [
-      {
-        ...mockNotContactedContactMessage,
-        contact: mockUser,
-        eventCalls: [{
-          ...mockContactEventCall,
-          call: mockCall
-        }],
-        eventSection: {
-          ...mockEventSection,
-          ensembleSection: mockSection,
-          orchestration: [{
-            ...mockOrchestration,
-            bookedPlayers: []
-          }],
-          numToBook: 1,
-          event: {
-            ...mockEvent,
-            calls: [mockCall],
-            fixer: mockUser,
-          },
-        },
-      },
-    ];
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce(mockReturn);
-    await emailBookingMusicians(42);
-    expect(prismaMock.contactMessage.update).toHaveBeenCalledWith({
-      where: {
-        id: mockReturn[0].id,
-      },
-      data: {
-        status: 'AWAITINGREPLY',
-      },
-    });
-  });
-  it('if urgent, calls axios.post with expected args', async () => {
-    const mockReturn = {
-      ...mockContactMessage,
-      contact: mockEnsembleContact,
-      urgent: true,
-      eventCalls: [{
-        ...mockContactEventCall,
-        call: mockCall
-      }],
-      eventSection: {
-        ...mockEventSection,
-        ensembleSection: mockSection,
-        orchestration: [{
-          ...mockOrchestration,
-          bookedPlayers: []
-        }],
-        event: {
-          ...mockEvent,
-          calls: [mockCall],
-          fixer: mockUser,
-        },
-      },
-    };
-
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce([
-      { ...mockReturn, status: 'NOTCONTACTED', urgent: true },
-    ]);
-    await emailBookingMusicians(42);
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:3000/sendGrid', {
-      body: {
-        emailData: mockEmail,
-        templateID: mockEmail.templateID,
-        emailAddress: mockEmail.email,
-      },
-    });
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:3000/twilio', {
-      body: {
-        phoneNumber: mockReturn.contact.phoneNumber,
-        message: `Hi ${mockReturn.contact.firstName}, we have just sent you an urgent email on behalf of ${mockReturn.eventSection.event.fixer.firstName} ${mockReturn.eventSection.event.fixer.lastName} (${mockReturn.eventSection.event.ensembleName}). GigFix`,
-      },
-    });
-  });
-}); */
 
 describe('emailAvailabilityChecks', () => {
   it('calls prisma.contactMessage.findMany with expected args', async () => {
@@ -399,14 +166,17 @@ describe('emailAvailabilityChecks', () => {
     expect(createOfferEmail).toHaveBeenCalledTimes(3);
     expect(createOfferEmail).toHaveBeenCalledWith({
       ...mockData[0],
+      event: mockData[0].eventSection.event,
       calls: mockData[0].eventCalls.map((c) => c.call),
     });
     expect(createOfferEmail).toHaveBeenCalledWith({
       ...mockData[1],
+      event: mockData[0].eventSection.event,
       calls: mockData[1].eventCalls.map((c) => c.call),
     });
     expect(createOfferEmail).toHaveBeenCalledWith({
       ...mockData[2],
+      event: mockData[0].eventSection.event,
       calls: mockData[2].eventCalls.map((c) => c.call),
     });
   });

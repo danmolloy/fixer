@@ -1,11 +1,23 @@
 import prisma from '../../../../../client';
 import { DateTime } from 'luxon';
-import { Call, ContactMessage, Orchestration } from '@prisma/client';
-import crypto from 'crypto';
 import {
-  emailAvailabilityChecks,
-  emailBookingMusicians,
-} from './emailFunctions';
+  Call,
+  ContactEventCall,
+  ContactMessage,
+  EnsembleContact,
+  Event,
+  EventSection,
+  Orchestration,
+  User,
+} from '@prisma/client';
+import crypto from 'crypto';
+import { emailAvailabilityChecks } from './emailFunctions';
+import axios from '../../../../../__mocks__/axios';
+import {
+  bookingCompleteEmail,
+  listExhaustedEmail,
+} from '../../../../sendGrid/adminEmailLib';
+import { createOfferEmail } from '../../../../sendGrid/playerLib';
 
 export type CreateContactMessageProps = {
   contacts: {
@@ -19,6 +31,25 @@ export type CreateContactMessageProps = {
   type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
   strictlyTied: string;
   urgent: boolean;
+  eventId: string;
+};
+
+export type FixingSection = EventSection & {
+  orchestration: (Orchestration & {
+    call: Call;
+  })[];
+  contacts: (ContactMessage & {
+    contact: EnsembleContact;
+    eventCalls: (ContactEventCall & {
+      call: Call;
+    })[];
+  })[];
+};
+
+export type FixingObj = Event & {
+  sections: FixingSection[];
+  fixer: User;
+  calls: Call[];
 };
 
 export const generateToken = () => {
@@ -84,7 +115,7 @@ export const createContactMessages = async (
     currentHighestIndex += 1;
   }
   if (data.type !== 'AVAILABILITY') {
-    await emailBookingMusicians(Number(data.eventSectionId));
+    await handleFixing(Number(data.eventId));
   } else {
     await emailAvailabilityChecks(Number(data.eventSectionId));
   }
@@ -203,15 +234,284 @@ export const callsNotFixed = (args: {
   return callIDs;
 };
 
-// players to msg
-/* 
-discard all fixed calls
-for each player{
-  discard fixed calls from playerMessage
-  if all remaining calls numRequired - (booked + aw) > 0 {
-    await offer those calls
-  }
-}
-  
+export const getEventSections = async (
+  eventID: number
+): Promise<FixingObj | null> => {
+  return await prisma.event.findUnique({
+    where: {
+      id: eventID,
+    },
+    include: {
+      fixer: true,
+      calls: true,
+      sections: {
+        include: {
+          orchestration: {
+            include: {
+              call: true,
+            },
+          },
+          contacts: {
+            include: {
+              contact: true,
+              eventCalls: {
+                include: {
+                  call: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+};
+export const getUnfixedCalls = (section: FixingSection): number[] => {
+  let unfixedCallIDs: number[] = [];
 
-*/
+  section.orchestration.forEach((orch) => {
+    const bookedPlayers = section.contacts.filter(
+      (contact) =>
+        contact.eventCalls.filter(
+          (eCall) => eCall.callId === orch.callId && eCall.status === 'ACCEPTED'
+        ).length > 0
+    );
+    if (orch.numRequired > bookedPlayers.length) {
+      unfixedCallIDs = [...unfixedCallIDs, orch.callId];
+    }
+  });
+
+  return unfixedCallIDs;
+};
+export const isGigFixed = (event: FixingObj) => {
+  for (let i = 0; i < event.sections.length; i++) {
+    if (getUnfixedCalls(event.sections[i]).length > 0) {
+      return false;
+    }
+  }
+  return true;
+};
+
+export const gigFixedNotification = async (event: FixingObj) => {
+  try {
+    // Let fixer know it's done.
+    const bookingComplete = await bookingCompleteEmail({
+      dateRange: getDateRange(event.calls),
+      fixerFirstName: event.fixer.firstName!,
+      email: event.fixer.email!,
+      ensemble: event.ensembleName,
+    });
+    return await axios.post(`${process.env.URL}/sendGrid`, {
+      body: {
+        emailData: bookingComplete,
+        templateID: bookingComplete.templateID,
+        emailAddress: bookingComplete.email,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+};
+export const makeOffer = async (
+  contact: ContactMessage & {
+    contact: EnsembleContact;
+    event: Event & {
+      fixer: User;
+    };
+    eventCalls: (ContactEventCall & {
+      call: Call;
+    })[];
+  }
+) => {
+  try {
+    await prisma.contactMessage.update({
+      where: {
+        id: contact.id,
+      },
+      data: {
+        status: 'AWAITINGREPLY',
+      },
+    });
+    await prisma.contactEventCall.updateManyAndReturn({
+      where: {
+        id: {
+          in: contact.eventCalls.map((c) => c.id),
+        },
+      },
+      data: {
+        status: 'OFFERING',
+      },
+    });
+    const emailData = await createOfferEmail({
+      ...contact,
+      calls: contact.eventCalls.map((c) => c.call),
+      event: contact.event,
+    });
+
+    await axios.post(`${process.env.URL}/sendGrid`, {
+      body: {
+        emailData: emailData,
+        templateID: emailData.templateID,
+        emailAddress: emailData.email,
+      },
+    });
+    if (contact.urgent === true) {
+      await urgentNotification(contact);
+    }
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export const listExhaustedNotification = async (data: {
+  event: FixingObj;
+  instrumentName: string;
+}) => {
+  try {
+    const emailAlert = await listExhaustedEmail({
+      dateRange: getDateRange(data.event.calls),
+      fixerFirstName: data.event.fixer.firstName!,
+      email: data.event.fixer.email!,
+      ensemble: data.event.ensembleName,
+      instrument: data.instrumentName,
+    });
+
+    await axios.post(`${process.env.URL}/sendGrid`, {
+      body: {
+        emailData: emailAlert,
+        templateID: emailAlert.templateID,
+        emailAddress: emailAlert.email,
+      },
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+export const urgentNotification = async (data: {
+  event: Event & {
+    fixer: User;
+  };
+  contact: EnsembleContact;
+}) => {
+  try {
+    return await axios.post(`${process.env.URL}/twilio`, {
+      body: {
+        phoneNumber: data.contact.phoneNumber,
+        message: `Hi ${data.contact.firstName}, we have just sent you an urgent email on behalf of ${data.event.fixer.firstName} ${data.event.fixer.lastName} (${data.event.ensembleName}). GigFix`,
+      },
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export const getCallsToOffer = async (data: {
+  contactMessageID: number;
+  sectionID: number;
+}): Promise<number[]> => {
+  try {
+    const section = await prisma.eventSection.findUnique({
+      where: {
+        id: data.sectionID,
+      },
+      include: {
+        orchestration: {
+          include: {
+            call: true,
+          },
+        },
+        contacts: {
+          include: {
+            contact: true,
+            eventCalls: {
+              include: {
+                call: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    let callsArray: number[] = [];
+    const contact = section!.contacts.find(
+      (c) => c.id === data.contactMessageID
+    );
+    for (let i = 0; i < contact!.eventCalls.length; i++) {
+      const eventCall = contact!.eventCalls[i];
+      const bookedPlayers =
+        section?.contacts.filter((c) =>
+          c.eventCalls
+            .filter(
+              (e) => e.callId === eventCall.callId && e.status === 'ACCEPTED'
+            )
+            .map((e) => e.callId)
+            .includes(eventCall.callId)
+        ).length || 0;
+      const awaitingPlayers =
+        section?.contacts.filter((c) =>
+          c.eventCalls
+            .filter(
+              (e) => e.callId === eventCall.callId && e.status === 'OFFERING'
+            )
+            .map((e) => e.callId)
+            .includes(eventCall.callId)
+        ).length || 0;
+      const toOfferPriority =
+        section?.contacts.filter(
+          (c) =>
+            c.eventCalls
+              .filter(
+                (e) => e.callId === eventCall.callId && e.status === 'TOOFFER'
+              )
+              .map((e) => e.callId)
+              .includes(eventCall.callId) &&
+            c.indexNumber < contact!.indexNumber
+        ).length || 0;
+      const numRequired =
+        section?.orchestration.find((orch) => orch.callId === eventCall.callId)
+          ?.numRequired || 0;
+      if (numRequired - bookedPlayers - awaitingPlayers - toOfferPriority > 0) {
+        callsArray = [...callsArray, eventCall.callId];
+      }
+    }
+    return callsArray;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export const handleFixing = async (eventID: number) => {
+  const event = await getEventSections(eventID);
+  if (event === null) {
+    return;
+  }
+  if (isGigFixed(event) === true) {
+    return await gigFixedNotification(event);
+  }
+
+  for (let i = 0; i < event.sections.length; i++) {
+    const unfixedCalls = await getUnfixedCalls(event.sections[i]);
+    for (let j = 0; j < event.sections[i].contacts.length; j++) {
+      const contact = event.sections[i].contacts[i];
+      const callsToOffer = await getCallsToOffer({
+        contactMessageID: contact.id,
+        sectionID: event.sections[i].id,
+      });
+      const unfixedEventCalls = contact.eventCalls.filter((c) =>
+        unfixedCalls.includes(c.callId)
+      );
+      if (unfixedEventCalls.length === callsToOffer.length) {
+        await makeOffer({
+          ...contact,
+          eventCalls: unfixedEventCalls,
+          event: event,
+        });
+      }
+    }
+  }
+  // Alert fixer if any lists are exhausted
+
+  return;
+};

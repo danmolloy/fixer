@@ -128,6 +128,7 @@ export default function FixingIndex(props: FixingIndexProps) {
       ) : (
         eventSections.map((i) => (
           <EventSectionIndex
+            eventId={eventId}
             currentContacts={i.contacts}
             sectionContacts={i.ensembleSection.contacts}
             eventCalls={eventCalls}

@@ -28,6 +28,7 @@ export type EventSectionProps = {
     eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
   })[];
+  eventId: number;
 };
 
 export default function EventSectionIndex(props: EventSectionProps) {
@@ -38,6 +39,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
     ensembleSections,
     eventSections,
     currentContacts,
+    eventId,
   } = props;
   const router = useRouter();
   const [updateSection, setUpdateSection] = useState<boolean>(false);
@@ -99,6 +101,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
         </div>
       )}
       <EventSectionContacts
+        eventId={eventId}
         editContacts={editContacts}
         setEditContacts={(arg) => setEditContacts(arg)}
         type={callType}

@@ -1,6 +1,6 @@
 import { BookingStatus } from '@prisma/client';
 import prisma from '../../../../../client';
-import { emailBookingMusicians } from '../../../contactMessage/api/create/emailFunctions';
+import { handleFixing } from '../../../contactMessage/api/create/functions';
 
 export const updateEventSection = async (sectionObj: {
   eventSectionId: number;
@@ -46,7 +46,7 @@ export const updateEventSection = async (sectionObj: {
     sectionObj.bookingStatus === 'ACTIVE' &&
     updatedSection.contacts.length > 0
   ) {
-    await emailBookingMusicians(updatedSection.id);
+    await handleFixing(updatedSection.eventId);
   }
   return { updatedSection, updateOrchestration };
 };

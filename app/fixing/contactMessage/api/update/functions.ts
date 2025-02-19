@@ -1,7 +1,6 @@
 import { ContactEventCallStatus, ContactMessageStatus } from '@prisma/client';
 import prisma from '../../../../../client';
 import { addMeterEvent } from '../../../../billing/api/meterEvent/lib';
-import { emailBookingMusicians } from '../create/emailFunctions';
 import { releaseDeppers } from './depFunctions';
 import { emailNotRequired } from '../../../../sendGrid/playerLib';
 import axios from 'axios';

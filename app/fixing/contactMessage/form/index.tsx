@@ -25,6 +25,7 @@ export type ContactMessageFormProps = {
   type: 'BOOKING' | 'AVAILABILITY' | 'AUTOBOOK';
   sectionContacts: EnsembleContact[];
   currentContacts: ContactMessage /* & {contact: EnsembleContact} */[];
+  eventId: number;
 };
 
 export default function ContactMessageForm(props: ContactMessageFormProps) {
@@ -36,6 +37,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     eventContacts,
     eventSectionId,
     type,
+    eventId,
   } = props;
   const router = useRouter();
   const [filterCategories, setFilterCategories] = useState<string[]>(
@@ -58,6 +60,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     type: type,
     strictlyTied: 'true',
     urgent: false,
+    eventId: eventId,
   };
 
   const validationSchema = Yup.object().shape({
@@ -76,6 +79,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
     ),
     strictlyTied: Yup.boolean().required(),
     urgent: Yup.boolean().required(),
+    eventId: Yup.number().required(),
   });
 
   return (

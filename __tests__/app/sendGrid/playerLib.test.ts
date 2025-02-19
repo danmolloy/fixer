@@ -35,6 +35,7 @@ describe('createOfferEmail()', () => {
   const mockArg = {
     ...mockContactMessage,
     contact: mockEnsembleContact,
+    event: { ...mockEvent, fixer: mockUser },
     calls: [mockCall],
     eventSection: {
       ...mockEventSection,

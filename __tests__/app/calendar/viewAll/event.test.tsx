@@ -13,6 +13,7 @@ import { mockSection } from '../../../../__mocks__/models/ensembleSection';
 import { mockOrchestration } from '../../../../__mocks__/models/orchestration';
 import GigStatus from '../../../../app/event/create/gigStatus';
 import { ContactMessageStatus, ContactMessageType } from '@prisma/client';
+import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventCall';
 
 describe('<EventOverview />', () => {
   const mockProps: EventOverviewProps = {
@@ -56,7 +57,7 @@ describe('<EventOverview />', () => {
             {
               ...mockContactMessage,
               status: 'DECLINED',
-              calls: [mockPropsCall],
+              eventCalls: [{ ...mockContactEventCall, call: mockPropsCall }],
             },
           ],
           ensembleSection: mockSection,
@@ -115,7 +116,7 @@ describe('gigStatus()', () => {
               ...mockContactMessage,
               type: 'BOOKING' as ContactMessageType,
               status: 'ACCEPTED' as ContactMessageStatus,
-              calls: [mockCall],
+              eventCalls: [{ ...mockContactEventCall, call: mockCall }],
             },
           ],
           ensembleSection: mockSection,
@@ -145,7 +146,7 @@ describe('gigStatus()', () => {
               ...mockContactMessage,
               status: 'AWAITINGREPLY' as ContactMessageStatus,
               type: 'BOOKING' as ContactMessageType,
-              calls: [mockCall],
+              eventCalls: [{ ...mockContactEventCall, call: mockCall }],
             },
           ],
           ensembleSection: mockSection,

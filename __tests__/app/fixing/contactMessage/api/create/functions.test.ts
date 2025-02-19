@@ -2,24 +2,49 @@ import { randomBytes } from 'crypto';
 import {
   CreateContactMessageProps,
   createContactMessages,
+  FixingObj,
+  FixingSection,
   generateToken,
+  getCallsToOffer,
   getDateRange,
+  getEventSections,
   getNumToContact,
+  getUnfixedCalls,
+  gigFixedNotification,
   gigIsFixed,
+  handleFixing,
+  isGigFixed,
+  listExhaustedNotification,
+  makeOffer,
+  urgentNotification,
 } from '../../../../../../app/fixing/contactMessage/api/create/functions';
 import { prismaMock } from '../../../../../../__mocks__/singleton';
 import { mockContactMessage } from '../../../../../../__mocks__/models/contactMessage';
 import { mockEventSection } from '../../../../../../__mocks__/models/eventSection';
 import { mockEnsembleContact } from '../../../../../../__mocks__/models/ensembleContact';
 import { mockCall } from '../../../../../../__mocks__/models/call';
-import {
-  emailAvailabilityChecks,
-  emailBookingMusicians,
-} from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
+import { emailAvailabilityChecks } from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
 import { mockEvent } from '../../../../../../__mocks__/models/event';
-import { ContactEventCallStatus, ContactMessage } from '@prisma/client';
+import {
+  Call,
+  ContactEventCall,
+  ContactEventCallStatus,
+  ContactMessage,
+  EnsembleContact,
+  Event,
+  User,
+} from '@prisma/client';
 import { mockOrchestration } from '../../../../../../__mocks__/models/orchestration';
 import { mockContactEventCall } from '../../../../../../__mocks__/models/ContactEventCall';
+import {
+  bookingCompleteEmail,
+  listExhaustedEmail,
+} from '../../../../../../app/sendGrid/adminEmailLib';
+import axios from '../../../../../../__mocks__/axios';
+import { mockUser } from '../../../../../../__mocks__/models/user';
+import { createOfferEmail } from '../../../../../../app/sendGrid/playerLib';
+import prisma from '../../../../../../client';
+import { mockSentEmail } from '../../../../../../__mocks__/models/sentEmail';
 
 jest.mock('crypto', () => ({
   randomBytes: jest.fn(() => Buffer.from('mocked_random_bytes')),
@@ -29,9 +54,65 @@ jest.mock(
   '../../../../../../app/fixing/contactMessage/api/create/emailFunctions',
   () => ({
     emailAvailabilityChecks: jest.fn(),
-    emailBookingMusicians: jest.fn(),
   })
 );
+
+jest.mock('../../../../../../app/sendGrid/adminEmailLib', () => ({
+  bookingCompleteEmail: jest.fn(() => ({
+    email: 'mocked_email',
+    templateID: 'mocked_templateID',
+    subject: 'mocked_subject',
+    bodyText: 'mocked_bodyText',
+  })),
+  listExhaustedEmail: jest.fn(() => ({
+    email: 'mocked_email',
+    templateID: 'mocked_templateID',
+    subject: 'mocked_subject',
+    bodyText: 'mocked_bodyText',
+  })),
+}));
+
+jest.mock('../../../../../../app/sendGrid/playerLib', () => ({
+  createOfferEmail: jest.fn(() => ({
+    email: 'mocked_email',
+    templateID: 'mocked_templateID',
+    subject: 'mocked_subject',
+    bodyText: 'mocked_bodyText',
+  })),
+}));
+
+jest.mock('axios');
+const mockPost = jest.spyOn(axios, 'post');
+mockPost.mockResolvedValue({ data: {} });
+
+const mockFixingObj: FixingObj = {
+  ...mockEvent,
+  calls: [mockCall],
+  fixer: mockUser,
+  sections: [
+    {
+      ...mockEventSection,
+      orchestration: [
+        {
+          ...mockOrchestration,
+          call: mockCall,
+        },
+      ],
+      contacts: [
+        {
+          ...mockContactMessage,
+          contact: mockEnsembleContact,
+          eventCalls: [
+            {
+              ...mockContactEventCall,
+              call: mockCall,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
 
 describe('generateToken()', () => {
   it('calls cryptio.randomBytes', () => {
@@ -55,6 +136,7 @@ describe('createContactMessages', () => {
     type: 'BOOKING',
     strictlyTied: 'true',
     urgent: false,
+    eventId: '12',
   };
 
   it('fetches correct contactMessage data', async () => {
@@ -68,7 +150,18 @@ describe('createContactMessages', () => {
       ...mockContactMessage,
       id: 42,
     });
-    await createContactMessages(mockContactMessages);
+    prismaMock.event.findUnique.mockResolvedValue(mockFixingObj);
+    prismaMock.contactEventCall.updateManyAndReturn.mockResolvedValue([
+      mockContactEventCall,
+    ]);
+    prismaMock.eventSection.findUnique.mockResolvedValue(
+      mockFixingObj.sections[0]
+    );
+
+    prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
+    await createContactMessages({
+      ...mockContactMessages,
+    });
     expect(prismaMock.contactMessage.findMany).toHaveBeenCalledWith({
       where: { eventSectionId: Number(mockContactMessages.eventSectionId) },
       orderBy: { indexNumber: 'asc' },
@@ -83,6 +176,13 @@ describe('createContactMessages', () => {
   });
   //it("autobook sets status & type correctly", () => {})
   it('gives new all contactMessages correct vals incl. index numbers', async () => {
+    prismaMock.event.findUnique.mockResolvedValue(mockFixingObj);
+    prismaMock.contactEventCall.updateManyAndReturn.mockResolvedValue([
+      mockContactEventCall,
+    ]);
+    prismaMock.eventSection.findUnique.mockResolvedValue(
+      mockFixingObj.sections[0]
+    );
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
@@ -118,24 +218,15 @@ describe('createContactMessages', () => {
       },
     });
   });
-  it('if booking, emailBookingMusicians(eventSectionID) is called', async () => {
-    prismaMock.contactMessage.findMany.mockResolvedValueOnce([
-      mockContactMessage,
-    ]);
 
-    prismaMock.contactEventCall.create.mockResolvedValueOnce(
-      mockContactEventCall
-    );
-    prismaMock.contactMessage.create.mockResolvedValue({
-      ...mockContactMessage,
-      id: 42,
-    });
-
-    await createContactMessages(mockContactMessages);
-    prismaMock.contactMessage.create.mockResolvedValueOnce(mockContactMessage);
-    expect(emailBookingMusicians).toHaveBeenCalled();
-  });
   it('if availability check, emailAvailabilityChecks(eventSectionID) is called', async () => {
+    prismaMock.event.findUnique.mockResolvedValue(mockFixingObj);
+    prismaMock.contactEventCall.updateManyAndReturn.mockResolvedValue([
+      mockContactEventCall,
+    ]);
+    prismaMock.eventSection.findUnique.mockResolvedValue(
+      mockFixingObj.sections[0]
+    );
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
@@ -172,9 +263,17 @@ describe('createContactMessages', () => {
     type: 'BOOKING',
     strictlyTied: 'true',
     urgent: false,
+    eventId: '42',
   };
 
   it('if autobook, gives new contactMessages correct vals incl. status & type', async () => {
+    prismaMock.event.findUnique.mockResolvedValue(mockFixingObj);
+    prismaMock.contactEventCall.updateManyAndReturn.mockResolvedValue([
+      mockContactEventCall,
+    ]);
+    prismaMock.eventSection.findUnique.mockResolvedValue(
+      mockFixingObj.sections[0]
+    );
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
@@ -462,5 +561,483 @@ describe('gigIsFixed', () => {
     };
     prismaMock.event.findUnique.mockResolvedValueOnce(mockEventNotFixed);
     expect(await gigIsFixed(1)).toBe(false);
+  });
+});
+
+describe('getEventSections()', () => {
+  it('calls prisma.event with expected arg & returns result', async () => {
+    prismaMock.event.findUnique.mockResolvedValue(mockEvent);
+    expect(await getEventSections(mockEvent.id)).toBe(mockEvent);
+    expect(prismaMock.event.findUnique).toHaveBeenCalledWith({
+      where: {
+        id: mockEvent.id,
+      },
+      include: {
+        calls: true,
+        fixer: true,
+        sections: {
+          include: {
+            orchestration: {
+              include: {
+                call: true,
+              },
+            },
+            contacts: {
+              include: {
+                contact: true,
+                eventCalls: {
+                  include: {
+                    call: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  });
+});
+
+describe('getUnfixedCalls()', () => {
+  it('returns empty array if all calls fixed', () => {
+    const mockSection: FixingSection = {
+      ...mockEventSection,
+      orchestration: [
+        {
+          ...mockOrchestration,
+          numRequired: 1,
+          callId: 2424,
+          call: mockCall,
+        },
+      ],
+      contacts: [
+        {
+          ...mockContactMessage,
+          contact: mockEnsembleContact,
+
+          eventCalls: [
+            {
+              ...mockContactEventCall,
+              call: mockCall,
+              status: 'ACCEPTED',
+              callId: 2424,
+            },
+          ],
+        },
+      ],
+    };
+    expect(getUnfixedCalls(mockSection)).toEqual([]);
+  });
+  it('returns array of unfixed callIDs', () => {
+    const mockSection: FixingSection = {
+      ...mockEventSection,
+      orchestration: [
+        {
+          ...mockOrchestration,
+          numRequired: 2,
+          callId: 4242,
+          call: mockCall,
+        },
+        {
+          ...mockOrchestration,
+          numRequired: 0,
+          callId: 4217,
+          call: mockCall,
+        },
+      ],
+      contacts: [
+        {
+          ...mockContactMessage,
+          contact: mockEnsembleContact,
+
+          eventCalls: [
+            {
+              ...mockContactEventCall,
+              call: mockCall,
+              status: 'ACCEPTED',
+              callId: 4242,
+            },
+          ],
+        },
+      ],
+    };
+    expect(getUnfixedCalls(mockSection)).toEqual([4242]);
+  });
+});
+
+describe('isGigFixed()', () => {
+  it('returns true if all sections are fixed', () => {
+    const mockGig: FixingObj = {
+      ...mockEvent,
+      calls: [mockCall],
+      fixer: mockUser,
+      sections: [
+        {
+          ...mockEventSection,
+          orchestration: [
+            {
+              ...mockOrchestration,
+              numRequired: 1,
+              callId: 2424,
+              call: mockCall,
+            },
+          ],
+          contacts: [
+            {
+              ...mockContactMessage,
+              contact: mockEnsembleContact,
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  call: mockCall,
+                  status: 'ACCEPTED',
+                  callId: 2424,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+    expect(isGigFixed(mockGig)).toBe(true);
+  });
+  it('returns false if any sections not fixed', () => {
+    const mockGig: FixingObj = {
+      ...mockEvent,
+      calls: [mockCall],
+      fixer: mockUser,
+      sections: [
+        {
+          ...mockEventSection,
+          orchestration: [
+            {
+              ...mockOrchestration,
+              numRequired: 1,
+              callId: 2424,
+              call: mockCall,
+            },
+          ],
+          contacts: [
+            {
+              ...mockContactMessage,
+              contact: mockEnsembleContact,
+
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  call: mockCall,
+
+                  status: 'OFFERING',
+                  callId: 2424,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+    expect(isGigFixed(mockGig)).toBe(false);
+  });
+});
+
+describe('gigFixedNotification', () => {
+  it('calls bookingCompleteEmail and axios.post with expected args', async () => {
+    await gigFixedNotification(mockFixingObj);
+    expect(bookingCompleteEmail).toHaveBeenCalledWith({
+      dateRange: getDateRange([mockCall]),
+      email: mockUser.email,
+      ensemble: mockEvent.ensembleName,
+      fixerFirstName: mockUser.firstName,
+    });
+
+    expect(axios.post).toHaveBeenCalledWith(`${process.env.URL}/sendGrid`, {
+      body: {
+        templateID: 'mocked_templateID',
+        emailAddress: 'mocked_email',
+
+        emailData: {
+          email: 'mocked_email',
+          subject: 'mocked_subject',
+
+          templateID: 'mocked_templateID',
+          bodyText: 'mocked_bodyText',
+        },
+      },
+    });
+  });
+});
+describe('makeOffer()', () => {
+  const mockContact: ContactMessage & {
+    contact: EnsembleContact;
+
+    event: Event & {
+      fixer: User;
+    };
+    eventCalls: (ContactEventCall & {
+      call: Call;
+    })[];
+  } = {
+    ...mockContactMessage,
+    contact: mockEnsembleContact,
+    event: {
+      ...mockEvent,
+      fixer: mockUser,
+    },
+    eventCalls: [
+      {
+        ...mockContactEventCall,
+        call: mockCall,
+      },
+    ],
+  };
+
+  it('calls offerEmail, axios.post and prisma.update with expected args', async () => {
+    prismaMock.contactMessage.update.mockResolvedValue(mockContactMessage);
+    prismaMock.contactEventCall.updateManyAndReturn.mockResolvedValue([
+      mockContactEventCall,
+    ]);
+
+    prismaMock.sentEmail.create.mockResolvedValue(mockSentEmail);
+    await makeOffer({ ...mockContact });
+    expect(prismaMock.contactMessage.update).toHaveBeenCalledWith({
+      where: {
+        id: mockContact.id,
+      },
+      data: {
+        status: 'AWAITINGREPLY',
+      },
+    });
+    expect(
+      prismaMock.contactEventCall.updateManyAndReturn
+    ).toHaveBeenCalledWith({
+      where: {
+        id: {
+          in: mockContact.eventCalls.map((c) => c.id),
+        },
+      },
+      data: {
+        status: 'OFFERING',
+      },
+    });
+    expect(createOfferEmail).toHaveBeenCalledWith({
+      ...mockContact,
+      calls: mockContact.eventCalls.map((c) => c.call),
+    });
+    expect(axios.post).toHaveBeenCalledWith(`${process.env.URL}/sendGrid`, {
+      body: {
+        templateID: 'mocked_templateID',
+        emailAddress: 'mocked_email',
+
+        emailData: {
+          email: 'mocked_email',
+          subject: 'mocked_subject',
+
+          templateID: 'mocked_templateID',
+          bodyText: 'mocked_bodyText',
+        },
+      },
+    });
+  });
+});
+
+describe('listExhaustedNotification', () => {
+  it('calls exhausted email and axios.post with expected args', async () => {
+    await listExhaustedNotification({
+      event: mockFixingObj,
+      instrumentName: 'Viola',
+    });
+    expect(listExhaustedEmail).toHaveBeenCalledWith({
+      dateRange: getDateRange(mockFixingObj.calls),
+      fixerFirstName: mockFixingObj.fixer.firstName!,
+      email: mockFixingObj.fixer.email!,
+      ensemble: mockFixingObj.ensembleName,
+      instrument: 'Viola',
+    });
+    expect(axios.post).toHaveBeenCalledWith(`${process.env.URL}/sendGrid`, {
+      body: {
+        templateID: 'mocked_templateID',
+        emailAddress: 'mocked_email',
+
+        emailData: {
+          email: 'mocked_email',
+          subject: 'mocked_subject',
+
+          templateID: 'mocked_templateID',
+          bodyText: 'mocked_bodyText',
+        },
+      },
+    });
+  });
+});
+
+describe('urgentNotification', () => {
+  it('calls axios.post with expected arg', async () => {
+    await urgentNotification({
+      event: mockFixingObj,
+      contact: mockEnsembleContact,
+    });
+    expect(axios.post).toHaveBeenCalledWith(`${process.env.URL}/twilio`, {
+      body: {
+        phoneNumber: mockEnsembleContact.phoneNumber,
+        message: `Hi ${mockEnsembleContact.firstName}, we have just sent you an urgent email on behalf of ${mockFixingObj.fixer.firstName} ${mockFixingObj.fixer.lastName} (${mockFixingObj.ensembleName}). GigFix`,
+      },
+    });
+  });
+});
+
+describe('handleFixing()', () => {
+  it('returns undefined if event not found', async () => {
+    prismaMock.event.findUnique.mockResolvedValue(null);
+    expect(await handleFixing(11)).toBe(undefined);
+  });
+});
+
+describe('getCallsToOffer', () => {
+  const mockSection: FixingSection = {
+    ...mockEventSection,
+    orchestration: [
+      {
+        ...mockOrchestration,
+        id: 9873,
+        call: mockCall,
+        callId: 9898,
+        numRequired: 2,
+      },
+      {
+        ...mockOrchestration,
+        id: 1234,
+        call: mockCall,
+        callId: 2424,
+        numRequired: 3,
+      },
+      {
+        ...mockOrchestration,
+        id: 2345,
+        call: mockCall,
+        callId: 4242,
+        numRequired: 3,
+      },
+    ],
+    contacts: [
+      {
+        ...mockContactMessage,
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            id: 're',
+            call: mockCall,
+            callId: 9898,
+            status: 'ACCEPTED',
+          },
+          {
+            ...mockContactEventCall,
+            id: 'as',
+            call: mockCall,
+            callId: 2424,
+            status: 'OFFERING',
+          },
+          {
+            ...mockContactEventCall,
+            id: 'rerwqe',
+            call: mockCall,
+            callId: 4242,
+            status: 'OFFERING',
+          },
+        ],
+        contact: mockEnsembleContact,
+        indexNumber: 1,
+      },
+      {
+        ...mockContactMessage,
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            id: 'afdsas',
+            call: mockCall,
+            callId: 9898,
+            status: 'TOOFFER',
+          },
+          {
+            ...mockContactEventCall,
+            id: 'adfasdf',
+            call: mockCall,
+            callId: 2424,
+            status: 'TOOFFER',
+          },
+          {
+            ...mockContactEventCall,
+            id: 'asdfasf',
+            call: mockCall,
+            callId: 4242,
+            status: 'TOOFFER',
+          },
+        ],
+        contact: mockEnsembleContact,
+        indexNumber: 2,
+      },
+      {
+        ...mockContactMessage,
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            id: 'lfdp',
+            call: mockCall,
+            callId: 9898,
+            status: 'TOOFFER',
+          },
+          {
+            ...mockContactEventCall,
+            id: 'gfc',
+            call: mockCall,
+            callId: 2424,
+            status: 'TOOFFER',
+          },
+          {
+            ...mockContactEventCall,
+            id: 'weq',
+            call: mockCall,
+            callId: 4242,
+            status: 'TOOFFER',
+          },
+        ],
+        contact: mockEnsembleContact,
+        indexNumber: 3,
+        id: 42,
+      },
+    ],
+  };
+  it('calls prisma.eventSection with expected args', async () => {
+    prismaMock.eventSection.findUnique.mockResolvedValue(mockSection);
+    expect(await getCallsToOffer({ sectionID: 12, contactMessageID: 42 }));
+    expect(prismaMock.eventSection.findUnique).toHaveBeenCalledWith({
+      where: {
+        id: 12,
+      },
+      include: {
+        orchestration: {
+          include: {
+            call: true,
+          },
+        },
+        contacts: {
+          include: {
+            contact: true,
+            eventCalls: {
+              include: {
+                call: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  });
+
+  it('returns expected array', async () => {
+    prismaMock.eventSection.findUnique.mockResolvedValue(mockSection);
+    expect(
+      await getCallsToOffer({ sectionID: 12, contactMessageID: 42 })
+    ).toEqual([2424, 4242]);
   });
 });

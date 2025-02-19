@@ -9,6 +9,7 @@ import { mockSection } from '../../../../__mocks__/models/ensembleSection';
 import { mockEventSection } from '../../../../__mocks__/models/eventSection';
 import { mockContactMessage } from '../../../../__mocks__/models/contactMessage';
 import { mockOrchestration } from '../../../../__mocks__/models/orchestration';
+import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventCall';
 
 const mockProps: ViewAllUpcomingProps = {
   events: [
@@ -21,7 +22,7 @@ const mockProps: ViewAllUpcomingProps = {
           contacts: [
             {
               ...mockContactMessage,
-              calls: [mockCall],
+              eventCalls: [{ ...mockContactEventCall, call: mockCall }],
             },
           ],
           orchestration: [mockOrchestration],

@@ -73,19 +73,17 @@ export const createOfferEmail = async (
   data: ContactMessage & {
     contact: EnsembleContact;
     calls: Call[];
-    eventSection: EventSection & {
-      event: Event & {
-        fixer: User;
-      };
+    event: Event & {
+      fixer: User;
     };
   }
 ): Promise<SentEmailData> => {
   const subject =
     data.type === 'AUTOBOOK'
-      ? `Booking Alert: ${getDateRange(data.calls)} ${data.eventSection.event.ensembleName}`
+      ? `Booking Alert: ${getDateRange(data.calls)} ${data.event.ensembleName}`
       : data.type === 'BOOKING'
-        ? `Action Required: Offer from ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`
-        : `Action Required: Availability check from ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName})`;
+        ? `Action Required: Offer from ${data.event.fixer.firstName} ${data.event.fixer.lastName} (${data.event.ensembleName})`
+        : `Action Required: Availability check from ${data.event.fixer.firstName} ${data.event.fixer.lastName} (${data.event.ensembleName})`;
 
   const templateID =
     data.status === 'ACCEPTED' ||
@@ -98,7 +96,7 @@ export const createOfferEmail = async (
   const responseLink = `${url}/fixing/response/${data.token}/`;
   const email = data.contact.email!;
   const bodyText = `Dear ${data.contact.firstName}, <br />
-  ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} (${data.eventSection.event.ensembleName}) ${data.type === 'AUTOBOOK' ? 'has booked you for' : data.type === 'BOOKING' ? 'offers' : 'checks your availability for'} the following: <br />
+  ${data.event.fixer.firstName} ${data.event.fixer.lastName} (${data.event.ensembleName}) ${data.type === 'AUTOBOOK' ? 'has booked you for' : data.type === 'BOOKING' ? 'offers' : 'checks your availability for'} the following: <br />
   <br />
   ${data.calls
     .map(
@@ -112,12 +110,12 @@ export const createOfferEmail = async (
     )
     .join(',')}
   <br />
-  Gig Status: ${data.eventSection.event.status}<br />
+  Gig Status: ${data.event.status}<br />
   Position: ${data.position}<br />
-  Fee: ${data.eventSection.event.fee ? data.eventSection.event.fee : 'Not specified'}<br />
-  Dress: ${data.eventSection.event.dressCode ? data.eventSection.event.dressCode : 'Not specified'}<br />
-  Additional Information: ${data.eventSection.event.additionalInfo ? data.eventSection.event.additionalInfo : 'Not specified'}<br />
-  ${data.playerMessage !== null ? data.eventSection.event.fixer.firstName + ' sends the following message to you: <br />' + data.playerMessage : ''}
+  Fee: ${data.event.fee ? data.event.fee : 'Not specified'}<br />
+  Dress: ${data.event.dressCode ? data.event.dressCode : 'Not specified'}<br />
+  Additional Information: ${data.event.additionalInfo ? data.event.additionalInfo : 'Not specified'}<br />
+  ${data.playerMessage !== null ? data.event.fixer.firstName + ' sends the following message to you: <br />' + data.playerMessage : ''}
 <br />
 <br />
 ${
@@ -126,7 +124,7 @@ ${
     : `Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond. <br /> <br />`
 }
 
-  If you need further information, contact ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} at ${data.eventSection.event.fixer.email} or ${data.eventSection.event.fixer.mobileNumber}. <br /> <br />
+  If you need further information, contact ${data.event.fixer.firstName} ${data.event.fixer.lastName} at ${data.event.fixer.email} or ${data.event.fixer.mobileNumber}. <br /> <br />
 
 Best wishes,<br />
 GigFix`;
@@ -142,7 +140,7 @@ GigFix`;
 
   await createSentEmail({
     ...emailData,
-    eventId: data.eventSection.eventId,
+    eventId: data.event.id,
   });
 
   return emailData;

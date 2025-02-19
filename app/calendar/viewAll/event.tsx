@@ -19,7 +19,7 @@ export type EventOverviewProps = {
     sections: (EventSection & {
       contacts: (ContactMessage & {
         eventCalls: (ContactEventCall & {
-          call: Call
+          call: Call;
         })[];
       })[];
       ensembleSection: EnsembleSection;
@@ -34,7 +34,7 @@ export const gigStatus = (
     sections: (EventSection & {
       contacts: (ContactMessage & {
         eventCalls: (ContactEventCall & {
-          call: Call
+          call: Call;
         })[];
       })[];
       ensembleSection: EnsembleSection;

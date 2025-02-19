@@ -1,6 +1,5 @@
 import { mockContactMessage } from '../../../../../../__mocks__/models/contactMessage';
 import { prismaMock } from '../../../../../../__mocks__/singleton';
-import { emailBookingMusicians } from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
 import { releaseDeppers } from '../../../../../../app/fixing/contactMessage/api/update/depFunctions';
 import { addMeterEvent } from '../../../../../../app/billing/api/meterEvent/lib';
 import { updateContactMessage } from '../../../../../../app/fixing/contactMessage/api/update/functions';
@@ -8,13 +7,6 @@ import { mockEventSection } from '../../../../../../__mocks__/models/eventSectio
 import { mockEvent } from '../../../../../../__mocks__/models/event';
 import { mockEnsemble } from '../../../../../../__mocks__/models/ensemble';
 import { ContactMessage, Ensemble, Event, EventSection } from '@prisma/client';
-
-jest.mock(
-  '../../../../../../app/fixing/contactMessage/api/create/emailFunctions',
-  () => ({
-    emailBookingMusicians: jest.fn(),
-  })
-);
 
 jest.mock(
   '../../../../../../app/fixing/contactMessage/api/update/depFunctions',
@@ -113,27 +105,7 @@ describe('updateContactMessage', () => {
     );
     expect(releaseDeppers).toHaveBeenCalledWith(mockData.eventSectionId);
   });
-  /* it('emailBookingMusicians is called', async () => {
-    const mockData: FuncArg = {
-      ...mockContactMessage,
-      status: 'ACCEPTED',
-      eventSection: {
-        ...mockEventSection,
-        event: {
-          ...mockEvent,
-          ensemble: mockEnsemble,
-        },
-      },
-    };
-    prismaMock.contactMessage.update.mockResolvedValueOnce(mockData);
-    await updateContactMessage({
-      id: 1,
-      data: {
-        accepted: true,
-      },
-    });
-    expect(emailBookingMusicians).toHaveBeenCalledWith(mockData.eventSectionId);
-  }); */
+
   it('returns updated contactMessage', async () => {
     const mockData: FuncArg = {
       ...mockContactMessage,
@@ -155,7 +127,6 @@ describe('updateContactMessage', () => {
         },
       })
     ).toEqual({ ...mockData });
-    //expect(emailBookingMusicians).toHaveBeenCalledWith(mockData.eventSectionId);
   });
   //it('catches errors', () => {});
 });
