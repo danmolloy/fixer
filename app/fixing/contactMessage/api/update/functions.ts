@@ -4,6 +4,7 @@ import { addMeterEvent } from '../../../../billing/api/meterEvent/lib';
 import { releaseDeppers } from './depFunctions';
 import { emailNotRequired } from '../../../../sendGrid/playerLib';
 import axios from 'axios';
+import { handleFixing } from '../create/functions';
 
 export const updateManyContactMessage = async (args: {
   contactIDs: number[];
@@ -75,25 +76,6 @@ export const updateContactMessage = async (contactMessageObj: {
   }[];
 }) => {
   try {
-    const updatedData = await prisma.contactMessage.update({
-      where: {
-        id: contactMessageObj.id,
-      },
-      data: contactMessageObj.data,
-      include: {
-        contact: true,
-        eventSection: {
-          include: {
-            event: {
-              include: {
-                fixer: true,
-                ensemble: true,
-              },
-            },
-          },
-        },
-      },
-    });
     if (contactMessageObj.eventCalls) {
       for (let j = 0; j < contactMessageObj.eventCalls.length; j++) {
         await prisma.contactEventCall.updateMany({
@@ -107,16 +89,40 @@ export const updateContactMessage = async (contactMessageObj: {
         });
       }
     }
+    const updatedData = await prisma.contactMessage.update({
+      where: {
+        id: contactMessageObj.id,
+      },
+      data: contactMessageObj.data,
+      include: {
+        eventCalls: {
+          include: {
+            call: true
+          }
+        },
+        contact: true,
+        eventSection: {
+          include: {
+            event: {
+              include: {
+                fixer: true,
+                ensemble: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
     if (
-      contactMessageObj.data.status === 'AUTOBOOKED' ||
-      (contactMessageObj.data.status === 'ACCEPTED' && contactMessageObj.data)
+      (updatedData.eventCalls.map(call => call.status === "ACCEPTED"). length > 0)
     ) {
       const subscriptionID =
         updatedData.eventSection.event.ensemble.stripeSubscriptionId;
       await addMeterEvent(subscriptionID!);
       await releaseDeppers(updatedData.eventSectionId);
     }
+    await handleFixing(updatedData.eventSection.eventId);
     return updatedData;
   } catch (e) {
     console.log(e);

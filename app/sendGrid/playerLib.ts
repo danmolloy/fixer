@@ -1,5 +1,6 @@
 import {
   Call,
+  ContactEventCall,
   ContactMessage,
   ContactMessageStatus,
   ContactMessageType,
@@ -19,14 +20,28 @@ import {
 
 const url = process.env.URL;
 
-export type ResponseConfEmailProps = {
+export type ResponseConfEmailProps = ContactMessage & {
+  eventCalls: (ContactEventCall &
+    {call: Call}
+  )[]
+  contact: EnsembleContact
+  eventSection: EventSection & {
+    event: Event & {
+      fixer: User
+    }
+  }
+  dateRange: string;
+  /* 
   dateRange: string;
   firstName: string;
+  eventCalls: (ContactEventCall & {
+    call: Call
+  })[]
   email: string;
   ensemble: string;
   status: ContactMessageStatus;
   type: ContactMessageType;
-  token: string;
+  token: string; */
 };
 
 export const emailNotRequired = async (
@@ -341,14 +356,37 @@ export const releaseDepperEmail = async (data: {
 export const responseConfEmail = async (
   data: ResponseConfEmailProps
 ): Promise<SentEmailData> => {
-  const subject = `Response Confirmation: ${data.dateRange} ${data.ensemble}`;
-  const email = data.email;
+  const subject = `Response Confirmation: ${data.dateRange} ${data.eventSection.event.ensembleName}`;
+  const email = data.contact.email!;
   const templateID = readOnlyTemplate;
   const responseLink = `${url}/fixing/response/${data.token}/`;
-  const bodyText = `Dear ${data.firstName},
+  const acceptedCalls = data.eventCalls.filter((c) => c.status === 'ACCEPTED');
+  const declinedCalls = data.eventCalls.filter((c) => c.status === 'DECLINED');
+  const availableCalls = data.eventCalls.filter((c) => c.status === 'AVAILABLE');
+  const bodyText = `Dear ${data.contact.firstName},
   <br />
   <br />
-  This email confirms you ${data.status === 'ACCEPTED' ? 'accepted' : data.status === 'AVAILABLE' || data.status === 'MIXED' ? 'indicated your availability for' : 'declined'} ${data.dateRange} (${data.ensemble}).
+  ${acceptedCalls.length > 0 ? `You have ACCEPTED the following calls: 
+  <br /><br />
+  ${acceptedCalls.map(call => (
+    `${call.call.venue} 
+    <br />
+    ${DateTime.fromJSDate(new Date(call.call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(call.call.endTime)).toFormat('HH:mm DD')}<br /><br />`
+  ))}`: ''}
+  ${availableCalls.length > 0 ? `<br/><br />You are AVAILABLE for the following calls: 
+  <br /><br />
+  ${availableCalls.map(call => (
+    `${call.call.venue} 
+    <br />
+    ${DateTime.fromJSDate(new Date(call.call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(call.call.endTime)).toFormat('HH:mm DD')}<br /><br />`
+  ))}`: ''}
+  ${declinedCalls.length > 0 ? `<br/><br />You have DECLINED the following calls: 
+  <br /><br />
+  ${declinedCalls.map(call => (
+    `${call.call.venue} 
+    <br />
+    ${DateTime.fromJSDate(new Date(call.call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(call.call.endTime)).toFormat('HH:mm DD')}<br /><br />`
+  ))}`: ''}
   <br />
   Please refer to your <a href="${responseLink}">response page</a> for up to date information and confirmation of your response.
   <br />

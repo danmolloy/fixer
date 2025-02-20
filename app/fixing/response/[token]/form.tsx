@@ -120,31 +120,17 @@ export default function ResponseForm(props: ResponseFormProps) {
           data: {
             status: 'RESPONDED',
             acceptedDate: new Date(),
-            /* availableFor:
-              values.status === 'AVAILABLE'
-                ? values.availableFor!.map((i) => Number(i))
-                : [], */
           },
         })
-        .then(async () => {
+        .then(async (res) => {
+          
           const emailData = await responseConfEmail({
-            token: contactMessage.token,
-            dateRange: getDateRange(
-              contactMessage.eventCalls.map((c) => c.call)
-            ),
-            firstName: contactMessage.contact.firstName,
-            email: contactMessage.contact.email!,
-            ensemble: contactMessage.eventSection.event.ensembleName,
-            status:
-              values.eventCalls.filter(
-                (c) => c.status === values.eventCalls[0].status
-              ).length !== values.eventCalls.length
-                ? 'MIXED'
-                : 'RESPONDED',
-            type: contactMessage.type,
+            ...res.data,
+            dateRange: `${getDateRange(
+              res.data.eventCalls.map((c) => c.call))}`
           });
 
-          await axios.post(`/sendGrid`, {
+         await axios.post(`/sendGrid`, {
             body: {
               emailData: emailData,
               templateID: emailData.templateID,
@@ -167,7 +153,8 @@ export default function ResponseForm(props: ResponseFormProps) {
           actions.setSubmitting(true);
           handleSubmit(values)
             .then(() => {
-              if (values.status === 'ACCEPTED') {
+              if (values.eventCalls.filter((c) => c.status === 'ACCEPTED').length ===
+      values.eventCalls.length) {
                 router.push(
                   `/fixing/response/${contactMessage.token}/?accepted=true`
                 );

@@ -12,7 +12,7 @@ import {
 } from '@prisma/client';
 import crypto from 'crypto';
 import { emailAvailabilityChecks } from './emailFunctions';
-import axios from '../../../../../__mocks__/axios';
+import axios from 'axios';
 import {
   bookingCompleteEmail,
   listExhaustedEmail,
@@ -483,6 +483,7 @@ export const getCallsToOffer = async (data: {
 };
 
 export const handleFixing = async (eventID: number) => {
+  console.log("handleFixing called")
   const event = await getEventSections(eventID);
   if (event === null) {
     return;
