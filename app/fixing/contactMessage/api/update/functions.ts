@@ -6,6 +6,15 @@ import { emailNotRequired } from '../../../../sendGrid/playerLib';
 import axios from 'axios';
 import { handleFixing } from '../create/functions';
 
+export type UpdateContactMessageArg = {
+  id: number;
+  data: any;
+  eventCalls?: {
+    status: ContactEventCallStatus;
+    callId: number;
+  }[];
+}
+
 export const updateManyContactMessage = async (args: {
   contactIDs: number[];
   data: { status: ContactMessageStatus };

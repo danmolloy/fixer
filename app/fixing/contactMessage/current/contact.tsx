@@ -29,6 +29,8 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
     );
   };
 
+
+
   return (
     <tr
       data-testid='contact-row'
@@ -44,10 +46,12 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       {eventCalls.map((i) => (
         <td className='' key={i.id} data-testid={`call-${i.id}`}>
           {
-            <div className='m-2 flex items-center justify-center'>
+            <div className={`
+            ${contact.eventCalls.find((c) => c.callId === i.id)?.status === "ACCEPTED" ? 'bg-green-500 text-white' : contact.eventCalls.find((c) => c.callId === i.id)?.status === "OFFERING" ? "bg-amber-500 text-white" : ""}
+             m-2 flex items-center justify-center`}>
               {contact.eventCalls.map((j) => j.callId).includes(i.id) ? (
-                <div>
-                  <p className=''>
+                <div >
+                  <p >
                     {contact.eventCalls.find((c) => c.callId === i.id)?.status}
                   </p>
                 </div>
@@ -60,18 +64,12 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           }
         </td>
       ))}
-      {contact.status === 'ACCEPTED' ||
-      contact.status === 'AUTOBOOKED' ||
-      contact.status === 'AVAILABLE' ? (
-        <td className='bg-green-500 text-center text-white'>
-          <p className=''>{contact.status}</p>
-        </td>
-      ) : contact.status === 'DECLINED' ? (
+      {contact.status === 'DECLINED' ? (
         <td className='bg-white text-center text-black opacity-40'>
           <p className=''>{contact.status}</p>
         </td>
       ) : contact.status === 'AWAITINGREPLY' ? (
-        <td className='bg-amber-500 text-center text-white'>
+        <td className=' text-center '>
           <p className=''>
             AWAITING REPLY{contact.emailStatus && ` ${contact.emailStatus}`}
           </p>
@@ -81,15 +79,11 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           <p className=''>NOT CONTACTED</p>
         </td>
       ) : contact.status === 'FINDINGDEP' ? (
-        <td className='bg-amber-500 text-center text-white'>
+        <td className=' text-center text-white'>
           <p className=''>FINDING DEP</p>
         </td>
-      ) : contact.status === 'MIXED' ? (
-        <td className='bg-orange-500 text-center text-white'>
-          <p className=''>{contact.status}</p>
-        </td>
       ) : (
-        <td className='bg-red-600 text-center text-white'>
+        <td className=' text-center '>
           {' '}
           {/* ERROR */}
           <p className=''>{contact.status}</p>

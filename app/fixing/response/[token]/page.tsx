@@ -31,7 +31,6 @@ const getContactMessage = async (token: string) => {
       contact: true,
     },
   });
-  console.log(contactMessage);
   return contactMessage;
 };
 

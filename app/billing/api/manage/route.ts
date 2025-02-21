@@ -4,7 +4,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req: Request) {
   const { subscriptionID, ensembleID } = await req.json();
-  console.log(JSON.stringify(subscriptionID));
   const subscription = await stripe.subscriptions.retrieve(subscriptionID);
 
   const returnUrl = process.env.ORIGIN_URL;

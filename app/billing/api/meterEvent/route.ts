@@ -3,7 +3,6 @@ import { addMeterEvent } from './lib';
 
 export async function POST(req: NextRequest) {
   const { subscriptionID } = await req.json();
-  console.log('Hello from MeterEvent');
 
   try {
     const meterEvent = addMeterEvent(subscriptionID);

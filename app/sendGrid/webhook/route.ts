@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
           id: Number(contactMessageID),
         },
       });
-      console.log(String(event).toUpperCase());
+
       if (!contactMessage) {
         continue;
       }

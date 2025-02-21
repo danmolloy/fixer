@@ -473,6 +473,7 @@ export const getCallsToOffer = async (data: {
         section?.orchestration.find((orch) => orch.callId === eventCall.callId)
           ?.numRequired || 0;
       if (numRequired - bookedPlayers - awaitingPlayers - toOfferPriority > 0) {
+        
         callsArray = [...callsArray, eventCall.callId];
       }
     }
@@ -483,7 +484,6 @@ export const getCallsToOffer = async (data: {
 };
 
 export const handleFixing = async (eventID: number) => {
-  console.log("handleFixing called")
   const event = await getEventSections(eventID);
   if (event === null) {
     return;
@@ -495,7 +495,7 @@ export const handleFixing = async (eventID: number) => {
   for (let i = 0; i < event.sections.length; i++) {
     const unfixedCalls = await getUnfixedCalls(event.sections[i]);
     for (let j = 0; j < event.sections[i].contacts.length; j++) {
-      const contact = event.sections[i].contacts[i];
+      const contact = event.sections[i].contacts[j];
       const callsToOffer = await getCallsToOffer({
         contactMessageID: contact.id,
         sectionID: event.sections[i].id,

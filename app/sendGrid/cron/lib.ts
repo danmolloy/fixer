@@ -13,7 +13,6 @@ import {
 const url = process.env.URL;
 
 export const getUpcomingEvents = async () => {
-  console.log('Hello from getUpcomingEvents');
 
   const upcomingCalls = await prisma.call.findMany({
     where: {
@@ -81,7 +80,6 @@ export const remindMusicians = async () => {
       calls: data[i].eventCalls.map((c) => c.call),
     });
     try {
-      console.log(emailAlert);
 
       await axios.post(`${url}/sendGrid`, {
         body: {

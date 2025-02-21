@@ -5,7 +5,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 export async function POST(req: Request) {
   const { subscriptionID } = await req.json();
 
-  console.log(`subID: ${subscriptionID}`);
   const subscription = await stripe.subscriptions.retrieve(subscriptionID);
   const invoices = await stripe.invoices.list({
     customer: String(subscription.customer),

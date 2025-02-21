@@ -20,7 +20,6 @@ export async function POST(request: Request) {
       event: Event;
     };
   } = await request.json();
-  console.log(`req: ${JSON.stringify(req)}`);
 
   const { error, value } = createEvents(
     req.eventCalls

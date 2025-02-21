@@ -1034,10 +1034,106 @@ describe('getCallsToOffer', () => {
     });
   });
 
+  const mockSectionTwo: FixingSection = {
+    ...mockEventSection,
+    orchestration: [
+      {
+        ...mockOrchestration,
+        id: 9873,
+        call: mockCall,
+        callId: 9898,
+        numRequired: 2,
+      },
+      {
+        ...mockOrchestration,
+        id: 1234,
+        call: mockCall,
+        callId: 2424,
+        numRequired: 3,
+      },
+      
+    ],
+    contacts: [
+      {
+        ...mockContactMessage,
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            id: 're',
+            call: mockCall,
+            callId: 9898,
+            status: 'ACCEPTED',
+          },
+          {
+            ...mockContactEventCall,
+            id: 'as',
+            call: mockCall,
+            callId: 2424,
+            status: 'ACCEPTED',
+          },
+          
+        ],
+        contact: mockEnsembleContact,
+        indexNumber: 1,
+      },
+      {
+        ...mockContactMessage,
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            id: 'afdsas',
+            call: mockCall,
+            callId: 9898,
+            status: 'TOOFFER',
+          },
+          {
+            ...mockContactEventCall,
+            id: 'adfasdf',
+            call: mockCall,
+            callId: 2424,
+            status: 'TOOFFER',
+          },
+          
+        ],
+        contact: mockEnsembleContact,
+        indexNumber: 2,
+        id: 204
+      },
+      {
+        ...mockContactMessage,
+        eventCalls: [
+          {
+            ...mockContactEventCall,
+            id: 'lfdp',
+            call: mockCall,
+            callId: 9898,
+            status: 'TOOFFER',
+          },
+          {
+            ...mockContactEventCall,
+            id: 'gfc',
+            call: mockCall,
+            callId: 2424,
+            status: 'TOOFFER',
+          },
+
+        ],
+        contact: mockEnsembleContact,
+        indexNumber: 3,
+        id: 42,
+      },
+    ],
+  };
+
   it('returns expected array', async () => {
-    prismaMock.eventSection.findUnique.mockResolvedValue(mockSection);
+    prismaMock.eventSection.findUnique.mockResolvedValueOnce(mockSection);
     expect(
       await getCallsToOffer({ sectionID: 12, contactMessageID: 42 })
     ).toEqual([2424, 4242]);
+
+    prismaMock.eventSection.findUnique.mockResolvedValueOnce(mockSectionTwo);
+    expect(
+      await getCallsToOffer({ sectionID: 12, contactMessageID: 204 })
+    ).toEqual([9898, 2424]);
   });
 });

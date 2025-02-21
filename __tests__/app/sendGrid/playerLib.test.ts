@@ -24,6 +24,7 @@ import {
   readOnlyTemplate,
   responseTemplate,
 } from '../../../app/sendGrid/lib';
+import { mockContactEventCall } from '../../../__mocks__/models/ContactEventCall';
 
 jest.mock('../../../app/sendGrid/lib', () => ({
   createSentEmail: jest.fn(),
@@ -555,21 +556,28 @@ describe('releaseDepperEmail', () => {
 
 describe('responseConfEmail', () => {
   const mockArg: ResponseConfEmailProps = {
-    token: 'luckyToken',
-    dateRange: '24 July',
-    firstName: 'Greg',
-    email: 'greg@ievers.com.au',
-    ensemble: 'WA Police String Orchestra',
-    type: 'BOOKING',
-    status: 'AWAITINGREPLY',
+    ...mockContactMessage,
+    dateRange: "12-24 July",
+    eventCalls: [{
+      ...mockContactEventCall,
+      call: mockCall
+    }],
+    contact: mockEnsembleContact,
+    eventSection: {
+      ...mockEventSection,
+      event: {
+        ...mockEvent,
+        fixer: mockUser
+      }
+    }
   };
   it('returns expected subject', async () => {
     expect((await responseConfEmail(mockArg)).subject).toBe(
-      `Response Confirmation: ${mockArg.dateRange} ${mockArg.ensemble}`
+      `Response Confirmation: ${mockArg.dateRange} ${mockArg.eventSection.event.ensembleName}`
     );
   });
   it('returns expected email address', async () => {
-    expect((await responseConfEmail(mockArg)).email).toBe(mockArg.email);
+    expect((await responseConfEmail(mockArg)).email).toBe(mockArg.contact.email);
   });
   it('returns expected templateID', async () => {
     expect((await responseConfEmail(mockArg)).templateID).toBe(
@@ -577,122 +585,41 @@ describe('responseConfEmail', () => {
     );
   });
   it('returns expected email body text to accepted availability check', async () => {
-    expect(
-      (
-        await responseConfEmail({
-          ...mockArg,
-          status: 'AVAILABLE',
-        })
-      ).bodyText
-    ).toBe(
-      `Dear ${mockArg.firstName},
-  <br />
-  <br />
-  This email confirms you indicated your availability for ${mockArg.dateRange} (${mockArg.ensemble}).
-  <br />
-  Please refer to your <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">response page</a> for up to date information and confirmation of your response.
-  <br />
-  <br />
-  Kind regards,
-  <br />
-  GigFix`
-    );
+    const localArgs: ResponseConfEmailProps = {
+      ...mockArg,
+      eventCalls: [{
+        ...mockContactEventCall,
+        status: "AVAILABLE",
+        call: mockCall
+      }],
+      status: 'RESPONDED',
+    }
+    
+    const email = await responseConfEmail(localArgs)
+  
+    expect(email.bodyText).toMatch(`You are AVAILABLE for the following calls:`);
+    expect(email.bodyText).toMatch(`${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')}`);
+
+  })
+  it('returns expected email body text to accepted offer', async () => {
+    const localArgs: ResponseConfEmailProps = {
+      ...mockArg,
+      eventCalls: [{
+        ...mockContactEventCall,
+        status: "DECLINED",
+        call: mockCall
+      }],
+      status: 'RESPONDED',
+    }
+    
+    const email = await responseConfEmail(localArgs)
+  
+    expect(email.bodyText).toMatch(`You have DECLINED the following calls:`);
+    expect(email.bodyText).toMatch(`${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')}`);
+
   });
-  it('returns expected email body text to mixed availability check', async () => {
-    expect(
-      (
-        await responseConfEmail({
-          ...mockArg,
-          status: 'MIXED',
-        })
-      ).bodyText
-    ).toBe(
-      `Dear ${mockArg.firstName},
-  <br />
-  <br />
-  This email confirms you indicated your availability for ${mockArg.dateRange} (${mockArg.ensemble}).
-  <br />
-  Please refer to your <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">response page</a> for up to date information and confirmation of your response.
-  <br />
-  <br />
-  Kind regards,
-  <br />
-  GigFix`
-    );
-  });
-  it('returns expected email body text to declined availability check', async () => {
-    expect((await responseConfEmail(mockArg)).bodyText).toBe(
-      `Dear ${mockArg.firstName},
-  <br />
-  <br />
-  This email confirms you declined ${mockArg.dateRange} (${mockArg.ensemble}).
-  <br />
-  Please refer to your <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">response page</a> for up to date information and confirmation of your response.
-  <br />
-  <br />
-  Kind regards,
-  <br />
-  GigFix`
-    );
-  });
-  it('returns expected email body text with accepted offer', async () => {
-    expect(
-      (
-        await responseConfEmail({
-          ...mockArg,
-          status: 'ACCEPTED',
-          type: 'BOOKING',
-        })
-      ).bodyText
-    ).toBe(
-      `Dear ${mockArg.firstName},
-  <br />
-  <br />
-  This email confirms you accepted ${mockArg.dateRange} (${mockArg.ensemble}).
-  <br />
-  Please refer to your <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">response page</a> for up to date information and confirmation of your response.
-  <br />
-  <br />
-  Kind regards,
-  <br />
-  GigFix`
-    );
-    expect(
-      (
-        await responseConfEmail({
-          ...mockArg,
-          status: 'ACCEPTED',
-          type: 'BOOKING',
-        })
-      ).bodyText
-    ).toBe(
-      `Dear ${mockArg.firstName},
-  <br />
-  <br />
-  This email confirms you accepted ${mockArg.dateRange} (${mockArg.ensemble}).
-  <br />
-  Please refer to your <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">response page</a> for up to date information and confirmation of your response.
-  <br />
-  <br />
-  Kind regards,
-  <br />
-  GigFix`
-    );
-  });
-  it('returns expected email body text to declined offer', async () => {
-    expect((await responseConfEmail(mockArg)).bodyText).toBe(
-      `Dear ${mockArg.firstName},
-  <br />
-  <br />
-  This email confirms you declined ${mockArg.dateRange} (${mockArg.ensemble}).
-  <br />
-  Please refer to your <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">response page</a> for up to date information and confirmation of your response.
-  <br />
-  <br />
-  Kind regards,
-  <br />
-  GigFix`
-    );
+  it('returns expected email body text to declined work', async () => {
+    
   });
 });
 
