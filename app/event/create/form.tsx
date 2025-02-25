@@ -3,7 +3,6 @@ import { ErrorMessage, Field, FieldArray, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import TextInput from '../../forms/textInput';
-import { useState } from 'react';
 import React from 'react';
 import CallInput from './callInput';
 import ButtonPrimary from '../../forms/buttonPrimary';
@@ -278,7 +277,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 <label>Additional Admin Access</label>
                 {ensembleList
                   .find((i) => i.id === props.values.ensembleId)
-                  ?.admin.map((i) => (
+                  ?.admin.filter(admin => admin.accessType === "RESTRICTED").map((i) => (
                     <label key={i.id}>
                       {`${i.user.firstName} ${i.user.lastName}`}
                       <Field

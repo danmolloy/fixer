@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon';
 import { CallWithEventWithEnsemble } from './dayView';
 import CallList from '../callList/index';
-import { DatePicker, MonthCalendar } from 'react-diary';
+import MonthCalendar from './month';
+import DatePicker from './datePicker';
 
 export type MonthViewProps = {
   selectedDate: DateTime;
@@ -18,7 +19,7 @@ export default function MonthView(props: MonthViewProps) {
         <MonthCalendar
           selectedDate={selectedDate.toJSDate()}
           events={eventCalls.map((i) => ({
-            title: i.event.ensemble.name,
+            title: i.event.ensembleName,
             startTime: i.startTime,
             id: String(i.id),
           }))}

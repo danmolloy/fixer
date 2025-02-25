@@ -48,9 +48,7 @@ export default function ImportForm(props: ImportFormProps) {
   };
 
   const handleSeeding = () => {
-    alert(
-      ensemble.sections[Math.floor(Math.random() * ensemble.sections.length)].id
-    );
+    
     const mockContacts = new Array(100).fill(null).map((i) => ({
       Section:
         ensemble.sections[Math.floor(Math.random() * ensemble.sections.length)]

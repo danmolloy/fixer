@@ -104,11 +104,6 @@ export const createContactMessages = async (
                 ? 'TOCHECK'
                 : 'TOOFFER',
           contactMessageId: newContact.id,
-          /* call: {
-            connect: {
-              id: Number(data.contacts[i].calls[j]),
-            }
-          } */
         },
       });
     }
