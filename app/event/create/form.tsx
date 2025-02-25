@@ -170,6 +170,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                     onChange={(e) => {
                       props.setFieldValue('ensembleName', '');
                       props.setFieldValue('ensembleId', e.target.value);
+                      ensembleList.find(i=> i.id === e.target.value)?.ensembleNames.length === 1 &&
+                        props.setFieldValue('ensembleName', ensembleList.find(i=> i.id === e.target.value)?.ensembleNames[0]);
                     }}
                   >
                     <option value={''}>Select Organisation</option>

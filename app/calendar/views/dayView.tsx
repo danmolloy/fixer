@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 import WeekDayPicker from '../weekDayPicker';
 import CallList from '../callList/index';
-import { DatePicker } from 'react-diary';
 import { Prisma } from '@prisma/client';
+import DatePicker from './datePicker';
 
 export type CallWithEventWithEnsemble = Prisma.CallGetPayload<{
   include: {

@@ -98,7 +98,7 @@ export const createContactMessages = async (
         data: {
           callId: Number(data.contacts[i].calls[j]),
           status:
-            data.type === 'AUTOBOOK'
+            data.contacts[i].autoAccepted === true
               ? 'ACCEPTED'
               : data.type === 'AVAILABILITY'
                 ? 'TOCHECK'
@@ -491,6 +491,9 @@ export const handleFixing = async (eventID: number) => {
     const unfixedCalls = await getUnfixedCalls(event.sections[i]);
     for (let j = 0; j < event.sections[i].contacts.length; j++) {
       const contact = event.sections[i].contacts[j];
+      if (contact.status === 'AUTOBOOKED' || contact.status === 'ACCEPTED') {
+        continue;
+      }
       const callsToOffer = await getCallsToOffer({
         contactMessageID: contact.id,
         sectionID: event.sections[i].id,

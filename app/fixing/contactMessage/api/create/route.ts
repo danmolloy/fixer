@@ -3,7 +3,6 @@ import { createContactMessages } from './functions';
 
 export async function POST(request: Request) {
   const req = await request.json();
-  //console.log(JSON.stringify(req));
   try {
     await createContactMessages(req);
     return NextResponse.json({ success: true }, { status: 201 });
