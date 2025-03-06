@@ -3,6 +3,7 @@ import {
   Call,
   ContactEventCall,
   ContactMessage,
+  EmailEvent,
   Ensemble,
   EnsembleContact,
   EnsembleSection,
@@ -27,7 +28,7 @@ export type FixingIndexProps = {
     contacts: (ContactMessage & {
       eventCalls: (ContactEventCall & { call: Call })[];
       contact: EnsembleContact;
-      //calls: Call[];
+      emailEvents: EmailEvent[];
     })[];
     ensembleSection: EnsembleSection & {
       contacts: EnsembleContact[];

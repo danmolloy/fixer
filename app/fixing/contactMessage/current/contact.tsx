@@ -2,18 +2,22 @@ import {
   Call,
   ContactEventCall,
   ContactMessage,
+  EmailEvent,
   EnsembleContact,
 } from '@prisma/client';
 import CurrentContactsOptions from './options';
 import { useState } from 'react';
 import { TiMail, TiTick, TiTimes } from 'react-icons/ti';
 import { SlOptions } from 'react-icons/sl';
+import { DateTime } from 'luxon';
 
 export type CurrentContactRowProps = {
   eventCalls: Call[];
   contact: ContactMessage & {
     eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
+          emailEvents: EmailEvent[];
+    
   };
   index: number;
   numContacts: number;
@@ -71,7 +75,10 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       ) : contact.status === 'AWAITINGREPLY' ? (
         <td className=' text-center '>
           <p className=''>
-            AWAITING REPLY{contact.emailStatus && ` ${contact.emailStatus}`}
+            CONTACTING
+          </p>
+          <p className='text-sm'>
+            {contact.emailEvents.sort((a, b) => DateTime.fromJSDate(new Date(b.timestamp)).toMillis() - DateTime.fromJSDate(new Date(a.timestamp)).toMillis()).map(i => i.status)[0]}
           </p>
         </td>
       ) : contact.status === 'NOTCONTACTED' ? (

@@ -196,7 +196,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               <Field
                 className='w-60'
                 id='num-required'
-                name={fixedNumToBook && 'orchestration[0].numRequired'}
+                name={fixedNumToBook ? 'orchestration[0].numRequired' : undefined}
                 disabled={!fixedNumToBook || props.isSubmitting}
                 type='number'
                 onChange={(e) => {

@@ -152,6 +152,7 @@ model ContactMessage {
   receivedDate          DateTime?
   contact               EnsembleContact @relation(fields: [contactId], references: [id])
   eventSection          EventSection    @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
+  emailEvents           EmailEvent[]
   //calls                 Call[]          @relation("CallToContactMessage")
   eventCalls            ContactEventCall[]
   bookedCalls           Orchestration[]
@@ -298,12 +299,27 @@ model SentEmail {
   eventId   Int
   timestamp DateTime
   event     Event       @relation(fields: [eventId], references: [id])
+  emailEvents EmailEvent[]
+}
+
+model EmailEvent {
+  id        String      @id @default(cuid())
+  status EmailStatus
+  timestamp DateTime
+  contactMessageID Int?
+  contactMessage ContactMessage? @relation(fields: [contactMessageID], references: [id], onDelete: Cascade)
+  sentEmailID String
+  sentEmail SentEmail? @relation(fields: [sentEmailID], references: [id], onDelete: Cascade)
 }
 
 enum EmailStatus {
   PROCESSED
+  DROPPED
   DELIVERED
+  DEFERRED
+  BOUNCE
+  OPENED
+  CLICKED
   OPEN
   CLICK
-  BOUNCE
 }

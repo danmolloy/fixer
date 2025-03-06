@@ -92,7 +92,6 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
           //actions.setSubmitting(false);
           //cancelForm();
           actions.setStatus(null);
-
           await axios
             .post('/fixing/contactMessage/api/create', values)
             .then(() => {
@@ -107,7 +106,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
             .finally(() => {
               actions.setSubmitting(false);
               cancelForm();
-            });
+            }); 
         }}
       >
         {(props) => (

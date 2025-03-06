@@ -17,7 +17,7 @@ export const joinEnsemble = async (data: {
     if (adminInvite === null) {
       throw new Error('Invalid access code.');
     }
-
+    
     await prisma.ensembleAdmin.create({
       data: {
         positionTitle: adminInvite!.positionTitle,

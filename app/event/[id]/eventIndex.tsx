@@ -3,6 +3,7 @@ import {
   Call,
   ContactEventCall,
   ContactMessage,
+  EmailEvent,
   Ensemble,
   EnsembleContact,
   EnsembleSection,
@@ -40,6 +41,7 @@ export type EventInfoTableProps = {
   sections: (EventSection & {
     orchestration: Orchestration[];
     contacts: (ContactMessage & {
+      emailEvents: EmailEvent[];
       eventCalls: (ContactEventCall & { call: Call })[];
       contact: EnsembleContact;
       //calls: Call[];

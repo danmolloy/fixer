@@ -2,6 +2,7 @@ import {
   Call,
   ContactEventCall,
   ContactMessage,
+  EmailEvent,
   EnsembleContact,
 } from '@prisma/client';
 import { DateTime } from 'luxon';
@@ -13,7 +14,7 @@ export type CurrentContactMessagesProps = {
   contacts: (ContactMessage & {
     eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
-    //calls: Call[];
+      emailEvents: EmailEvent[];
   })[];
   type: 'BOOKING' | 'AVAILABILITY';
 };

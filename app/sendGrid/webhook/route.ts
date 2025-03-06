@@ -2,9 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '../../../client';
 import { EmailStatus } from '@prisma/client';
 
-const eventPriority = ['processed', 'delivered', 'open', 'click'];
+const eventStatusArr: EmailStatus[] = [
+  "PROCESSED",
+  "DROPPED",
+  "DELIVERED",
+  "DEFERRED",
+  "BOUNCE",
+  "OPENED",
+  "CLICKED",
+  "OPEN",
+  "CLICK",
+];
 
 export async function POST(req: NextRequest) {
+  
   try {
     let events;
     try {
@@ -16,36 +27,28 @@ export async function POST(req: NextRequest) {
 
     for (const webhook of events) {
       const { contactMessageID, event, timestamp, app, environment } = webhook;
-      if (app !== 'GigFix' || environment !== process.env.ENVIRONMENT) {
-        continue;
-      }
-      if (!contactMessageID) {
-        continue;
-      }
-      const contactMessage = await prisma.contactMessage.findUnique({
-        where: {
-          id: Number(contactMessageID),
-        },
-      });
-
-      if (!contactMessage) {
-        continue;
-      }
       if (
-        contactMessage.emailStatus === null ||
-        eventPriority.indexOf(contactMessage.emailStatus) <
-          eventPriority.indexOf(event)
+        app !== 'GigFix' 
+        || environment !== process.env.ENVIRONMENT 
+        || !contactMessageID 
+        || !eventStatusArr.includes(event.toUpperCase() as EmailStatus)
       ) {
-        await prisma.contactMessage.update({
-          where: {
-            id: Number(contactMessageID),
-          },
+        continue;
+      }
+  
+        await prisma.emailEvent.create({
           data: {
-            emailStatus: String(event).toUpperCase() as EmailStatus,
+            status: event.toUpperCase() as EmailStatus,
+            timestamp: new Date(timestamp),
+            contactMessage: {
+              connect: {
+                id: Number(contactMessageID),
+              },
+            }
           },
         });
       }
-    }
+    
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error processing SendGrid webhook: ', error);

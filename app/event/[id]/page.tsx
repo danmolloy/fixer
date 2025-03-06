@@ -28,6 +28,7 @@ async function getData(id: string) {
                   call: true,
                 },
               },
+              emailEvents: true,
               contact: true,
               //calls: true,
             },

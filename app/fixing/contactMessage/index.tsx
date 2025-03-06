@@ -3,6 +3,7 @@ import {
   Call,
   ContactEventCall,
   ContactMessage,
+  EmailEvent,
   EnsembleContact,
 } from '@prisma/client';
 import CurrentContactMessages from './current';
@@ -14,7 +15,7 @@ export type EventSectionContactsProps = {
   currentContacts: (ContactMessage & {
     eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
-    //calls: Call[];
+      emailEvents: EmailEvent[];
   })[];
   type: 'BOOKING' | 'AVAILABILITY';
   editContacts: boolean;

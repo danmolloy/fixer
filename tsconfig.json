@@ -28,6 +28,6 @@
     "deprecatedPagesApi/api/auth/[...nextauth].ts",
     "__mocks__/next-auth/react.js",
     ".next/types/**/*.ts"
-  ],
+, "lib/workers/emailWorker.js", "lib/redis.js"  ],
   "exclude": ["node_modules"]
 }
