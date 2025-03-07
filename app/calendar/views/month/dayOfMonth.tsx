@@ -42,7 +42,7 @@ export default function DayOfMonth(props: DayOfMonthProps) {
                 <p className='mr-1 hidden text-gray-500 lg:block'>
                   {i.startTime.toFormat('t')}
                 </p>
-                <p className='text-nowrap hidden truncate sm:block'>
+                <p className='hidden truncate text-nowrap sm:block'>
                   {i.title}
                 </p>
               </li>

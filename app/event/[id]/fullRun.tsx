@@ -52,13 +52,16 @@ export default function FullRunIndex(props: FullRunIndexProps) {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center p-2'>
+    <div
+      data-testid='full-run-index'
+      className='flex flex-col items-center justify-center p-2'
+    >
       <table className='border-collapse text-sm'>
         <thead>
           <tr className='border-b text-xs'>
             <th className='border-b p-1 font-semibold'>Instrument</th>
             {calls.map((i) => (
-              <th className='p-1 px-2' key={i.id}>
+              <th data-testid={`call-${i.id}`} className='p-1 px-2' key={i.id}>
                 <p>
                   {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
                 </p>
@@ -78,7 +81,11 @@ export default function FullRunIndex(props: FullRunIndexProps) {
             )
               .fill(null)
               .map((_, index) => (
-                <tr className='border-b' key={index}>
+                <tr
+                  data-testid={`${i.id}-${index}`}
+                  className='border-b'
+                  key={index}
+                >
                   <td className='flex flex-row justify-between p-2'>
                     <p>{index === 0 && `${i.ensembleSection.name} `}</p>
                     <p className='ml-1'>{index + 1}</p>
@@ -86,24 +93,16 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                   {calls.map((j) => (
                     <td className='p-1' key={j.id}>
                       <div>
-                        {i.orchestration.find((orch) => orch.callId === j.id)!
+                        {i.orchestration.find(
+                          (orch) => orch.callId === j.id
+                        ) === undefined ||
+                        i.orchestration.find((orch) => orch.callId === j.id)!
                           .numRequired <
-                        index + 1 ? (
+                          index + 1 ? (
                           <p>N/A</p>
-                        ) : i.contacts.filter((c) =>
-                            c.eventCalls
-                              .filter((i) => i.status === 'ACCEPTED')
-                              .map((z) => z.callId)
-                              .includes(j.id)
-                          ).length === 0 ? (
-                          <p className='text-gray-400'>TBC</p>
                         ) : (
                           i.contacts
                             .filter((c) =>
-                              /* (c.status === 'ACCEPTED' ||
-                              c.status === 'AUTOBOOKED' ||
-                              c.status === 'FINDINGDEP') &&
-                            c.type !== 'AVAILABILITY' && */
                               c.eventCalls
                                 .filter((i) => i.status === 'ACCEPTED')
                                 .map((z) => z.callId)
@@ -111,8 +110,11 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                             )
                             .map((c, ind) => (
                               <p key={c.id}>
-                                {ind === index &&
-                                  `${c.contact.firstName} ${c.contact.lastName}`}
+                                {ind === index ? (
+                                  `${c.contact.firstName} ${c.contact.lastName}`
+                                ) : (
+                                  <span className='text-gray-400'>TBC</span>
+                                )}
                               </p>
                             ))
                         )}

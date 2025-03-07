@@ -24,58 +24,6 @@ let addEmailToQueue: any;
   };
 } */
 
-export const makeOffer = async (
-  contact: ContactMessage & {
-    contact: EnsembleContact;
-    event: Event & {
-      fixer: User;
-    };
-    eventCalls: (ContactEventCall & {
-      call: Call;
-    })[];
-  }
-) => {
-  try {
-    await prisma.contactMessage.update({
-      where: {
-        id: contact.id,
-      },
-      data: {
-        status: 'AWAITINGREPLY',
-      },
-    });
-    await prisma.contactEventCall.updateManyAndReturn({
-      where: {
-        id: {
-          in: contact.eventCalls.map((c) => c.id),
-        },
-      },
-      data: {
-        status: 'OFFERING',
-      },
-    });
-    const emailData = await createOfferEmail({
-      ...contact,
-      calls: contact.eventCalls.map((c) => c.call),
-      event: contact.event,
-    });
-
-    await axios.post(`${process.env.URL}/sendGrid`, {
-      body: {
-        emailData: emailData,
-        templateID: emailData.templateID,
-        emailAddress: emailData.email,
-      },
-    });
-    //await addEmailToQueue(emailData);
-    if (contact.urgent === true) {
-      await urgentNotification(contact);
-    }
-  } catch (e) {
-    throw new Error(e);
-  }
-};
-
 export const emailAvailabilityChecks = async (eventSectionId: number) => {
   const availabilityChecks = await prisma.contactMessage.findMany({
     where: {
