@@ -17,7 +17,6 @@ import { updateOfferEmail } from '../../../sendGrid/playerLib';
 import SubmitButton from '../../../forms/submitBtn';
 import ValidationError from '../../../forms/validationError';
 import StatusMessage from '../../../forms/statusMessage';
-import prisma from '../../../../client';
 
 export type UpdateContactMessageProps = {
   contact: ContactMessage & {

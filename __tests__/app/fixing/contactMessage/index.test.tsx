@@ -7,12 +7,14 @@ import { mockEnsembleContact } from '../../../../__mocks__/models/ensembleContac
 import { mockCall } from '../../../../__mocks__/models/call';
 import { mockContactMessage } from '../../../../__mocks__/models/contactMessage';
 import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventCall';
+import { EmailStatus } from '@prisma/client';
 
 const mockProps: EventSectionContactsProps = {
   type: 'AVAILABILITY',
   editContacts: false,
   setEditContacts: jest.fn(),
   eventSectionId: 1,
+  eventId: 1,
   sectionContacts: [mockEnsembleContact],
   eventCalls: [mockCall],
   currentContacts: [
@@ -25,6 +27,8 @@ const mockProps: EventSectionContactsProps = {
       },
       type: 'AVAILABILITY',
       eventCalls: [{ ...mockContactEventCall, call: mockCall }],
+      emailStatus: 'PROCESSED' as EmailStatus,
+      emailEvents: [],
     },
     {
       ...mockContactMessage,
@@ -36,6 +40,9 @@ const mockProps: EventSectionContactsProps = {
       },
       type: 'BOOKING',
       eventCalls: [{ ...mockContactEventCall, call: mockCall }],
+      emailStatus: 'PROCESSED' as EmailStatus,
+      emailEvents: [],
+
     },
     {
       ...mockContactMessage,
@@ -47,6 +54,9 @@ const mockProps: EventSectionContactsProps = {
       },
       type: 'AUTOBOOK',
       eventCalls: [{ ...mockContactEventCall, call: mockCall }],
+      emailStatus: 'PROCESSED' as EmailStatus,
+      emailEvents: [],
+
     },
   ],
 };
@@ -134,6 +144,7 @@ describe('<EventSectionContacts />', () => {
     sectionContacts: [mockEnsembleContact],
     eventCalls: [mockCall],
     currentContacts: [],
+    eventId: 1,
   };
   beforeEach(() => {
     render(<EventSectionContacts {...mockProps} />);

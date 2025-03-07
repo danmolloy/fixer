@@ -1,3 +1,4 @@
+"use server"
 import { auth } from '../../auth';
 import AuthWall from '../../signin/auth';
 import UpdateUserForm from './form';
