@@ -5,10 +5,7 @@ export const updateContactIndex = async (data: {
   movingUp: boolean;
   contactMessageId: number;
 }) => {
-
-
   try {
-    
     const currentCalls = await prisma.contactMessage.findMany({
       where: {
         eventSectionId: data.eventSectionId,
@@ -20,10 +17,9 @@ export const updateContactIndex = async (data: {
     const movingCallIndex = currentCalls
       .map((i) => i.id)
       .indexOf(data.contactMessageId);
-  
+
     const [contactX, contactY] = await prisma.$transaction([
-  
-       prisma.contactMessage.update({
+      prisma.contactMessage.update({
         where: {
           id: data.contactMessageId,
         },
@@ -33,7 +29,7 @@ export const updateContactIndex = async (data: {
             : currentCalls[movingCallIndex + 1].indexNumber,
         },
       }),
-       prisma.contactMessage.update({
+      prisma.contactMessage.update({
         where: {
           id: data.movingUp
             ? currentCalls[movingCallIndex - 1].id
@@ -42,12 +38,11 @@ export const updateContactIndex = async (data: {
         data: {
           indexNumber: currentCalls[movingCallIndex].indexNumber,
         },
-      })
+      }),
     ]);
-  
+
     return { data: [contactX, contactY] };
-  } catch(e) {
+  } catch (e) {
     throw new Error(`Failed to update contact index: ${e.message}`);
   }
-
 };

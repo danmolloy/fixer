@@ -48,7 +48,6 @@ export default function ImportForm(props: ImportFormProps) {
   };
 
   const handleSeeding = () => {
-    
     const mockContacts = new Array(100).fill(null).map((i) => ({
       Section:
         ensemble.sections[Math.floor(Math.random() * ensemble.sections.length)]

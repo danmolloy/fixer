@@ -106,7 +106,7 @@ export default function ContactMessageForm(props: ContactMessageFormProps) {
             .finally(() => {
               actions.setSubmitting(false);
               cancelForm();
-            }); 
+            });
         }}
       >
         {(props) => (

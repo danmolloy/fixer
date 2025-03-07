@@ -1,16 +1,16 @@
-import { DateTime } from "luxon";
-import { weekArr } from "../month/weekRow";
-import DatePickerDay from "./dayOfMonth";
+import { DateTime } from 'luxon';
+import { weekArr } from '../month/weekRow';
+import DatePickerDay from './dayOfMonth';
 
 export type DPWeekProps = {
-  weekStartDate: DateTime
-  selectedDate: DateTime
-  setSelectedDate: (arg: DateTime) => void
+  weekStartDate: DateTime;
+  selectedDate: DateTime;
+  setSelectedDate: (arg: DateTime) => void;
   events: {
-    startTime: DateTime
-    title: string
-    id: string
-  }[]
+    startTime: DateTime;
+    title: string;
+    id: string;
+  }[];
 };
 
 export default function WeekRow(props: DPWeekProps) {
@@ -18,8 +18,14 @@ export default function WeekRow(props: DPWeekProps) {
 
   return (
     <tr data-testid={`week-${weekStartDate.weekNumber}-row`}>
-      {weekArr(weekStartDate).map(i => (
-        <DatePickerDay events={events.filter(j => j.startTime.hasSame(i, 'day'))} key={i.toLocaleString()} selectedDate={selectedDate} setSelectedDate={setSelectedDate} dayOfMonthDate={i} />
+      {weekArr(weekStartDate).map((i) => (
+        <DatePickerDay
+          events={events.filter((j) => j.startTime.hasSame(i, 'day'))}
+          key={i.toLocaleString()}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          dayOfMonthDate={i}
+        />
       ))}
     </tr>
   );

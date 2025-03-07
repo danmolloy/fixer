@@ -28,8 +28,7 @@ export type EventSectionProps = {
   currentContacts: (ContactMessage & {
     eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
-          emailEvents: EmailEvent[];
-  
+    emailEvents: EmailEvent[];
   })[];
   eventId: number;
 };

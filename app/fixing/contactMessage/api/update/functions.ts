@@ -13,7 +13,7 @@ export type UpdateContactMessageArg = {
     status: ContactEventCallStatus;
     callId: number;
   }[];
-}
+};
 
 export const updateManyContactMessage = async (args: {
   contactIDs: number[];
@@ -106,8 +106,8 @@ export const updateContactMessage = async (contactMessageObj: {
       include: {
         eventCalls: {
           include: {
-            call: true
-          }
+            call: true,
+          },
         },
         contact: true,
         eventSection: {
@@ -124,7 +124,8 @@ export const updateContactMessage = async (contactMessageObj: {
     });
 
     if (
-      (updatedData.eventCalls.map(call => call.status === "ACCEPTED"). length > 0)
+      updatedData.eventCalls.map((call) => call.status === 'ACCEPTED').length >
+      0
     ) {
       const subscriptionID =
         updatedData.eventSection.event.ensemble.stripeSubscriptionId;

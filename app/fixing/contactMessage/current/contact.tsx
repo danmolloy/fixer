@@ -16,8 +16,7 @@ export type CurrentContactRowProps = {
   contact: ContactMessage & {
     eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
-          emailEvents: EmailEvent[];
-    
+    emailEvents: EmailEvent[];
   };
   index: number;
   numContacts: number;
@@ -32,8 +31,6 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       `Your message to ${contact.contact.firstName}: \n\n${contact.playerMessage}`
     );
   };
-
-
 
   return (
     <tr
@@ -50,12 +47,12 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       {eventCalls.map((i) => (
         <td className='' key={i.id} data-testid={`call-${i.id}`}>
           {
-            <div className={`
-            ${contact.eventCalls.find((c) => c.callId === i.id)?.status === "ACCEPTED" ? 'bg-green-500 text-white' : contact.eventCalls.find((c) => c.callId === i.id)?.status === "OFFERING" ? "bg-amber-500 text-white" : ""}
-             m-2 flex items-center justify-center`}>
+            <div
+              className={` ${contact.eventCalls.find((c) => c.callId === i.id)?.status === 'ACCEPTED' ? 'bg-green-500 text-white' : contact.eventCalls.find((c) => c.callId === i.id)?.status === 'OFFERING' ? 'bg-amber-500 text-white' : ''} m-2 flex items-center justify-center`}
+            >
               {contact.eventCalls.map((j) => j.callId).includes(i.id) ? (
-                <div >
-                  <p >
+                <div>
+                  <p>
                     {contact.eventCalls.find((c) => c.callId === i.id)?.status}
                   </p>
                 </div>
@@ -73,12 +70,18 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           <p className=''>{contact.status}</p>
         </td>
       ) : contact.status === 'AWAITINGREPLY' ? (
-        <td className=' text-center '>
-          <p className=''>
-            CONTACTING
-          </p>
+        <td className='text-center'>
+          <p className=''>CONTACTING</p>
           <p className='text-sm'>
-            {contact.emailEvents.sort((a, b) => DateTime.fromJSDate(new Date(b.timestamp)).toMillis() - DateTime.fromJSDate(new Date(a.timestamp)).toMillis()).map(i => i.status)[0]}
+            {
+              contact.emailEvents
+                .sort(
+                  (a, b) =>
+                    DateTime.fromJSDate(new Date(b.timestamp)).toMillis() -
+                    DateTime.fromJSDate(new Date(a.timestamp)).toMillis()
+                )
+                .map((i) => i.status)[0]
+            }
           </p>
         </td>
       ) : contact.status === 'NOTCONTACTED' ? (
@@ -86,11 +89,11 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           <p className=''>NOT CONTACTED</p>
         </td>
       ) : contact.status === 'FINDINGDEP' ? (
-        <td className=' text-center text-white'>
+        <td className='text-center text-white'>
           <p className=''>FINDING DEP</p>
         </td>
       ) : (
-        <td className=' text-center '>
+        <td className='text-center'>
           {' '}
           {/* ERROR */}
           <p className=''>{contact.status}</p>

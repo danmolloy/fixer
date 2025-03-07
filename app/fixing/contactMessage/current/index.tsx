@@ -14,7 +14,7 @@ export type CurrentContactMessagesProps = {
   contacts: (ContactMessage & {
     eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
-      emailEvents: EmailEvent[];
+    emailEvents: EmailEvent[];
   })[];
   type: 'BOOKING' | 'AVAILABILITY';
 };

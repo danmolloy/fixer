@@ -4,7 +4,6 @@ import { updateEventSection } from './functions';
 export async function POST(request: Request) {
   const req = await request.json();
 
-
   try {
     const data = await updateEventSection(req);
     return NextResponse.json({ ...data, success: true }, { status: 200 });

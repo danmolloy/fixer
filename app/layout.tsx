@@ -4,7 +4,7 @@ import Footer from './layout/footer';
 import { auth } from './auth';
 import type { Metadata } from 'next';
 import { Inria_Sans, Poppins } from 'next/font/google';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inriaSans = Inria_Sans({
   subsets: ['latin'],

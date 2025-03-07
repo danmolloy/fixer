@@ -123,14 +123,14 @@ export default function ResponseForm(props: ResponseFormProps) {
           },
         })
         .then(async (res) => {
-          
           const emailData = await responseConfEmail({
             ...res.data,
             dateRange: `${getDateRange(
-              res.data.eventCalls.map((c) => c.call))}`
+              res.data.eventCalls.map((c) => c.call)
+            )}`,
           });
 
-         await axios.post(`/sendGrid`, {
+          await axios.post(`/sendGrid`, {
             body: {
               emailData: emailData,
               templateID: emailData.templateID,
@@ -153,8 +153,10 @@ export default function ResponseForm(props: ResponseFormProps) {
           actions.setSubmitting(true);
           handleSubmit(values)
             .then(() => {
-              if (values.eventCalls.filter((c) => c.status === 'ACCEPTED').length ===
-      values.eventCalls.length) {
+              if (
+                values.eventCalls.filter((c) => c.status === 'ACCEPTED')
+                  .length === values.eventCalls.length
+              ) {
                 router.push(
                   `/fixing/response/${contactMessage.token}/?accepted=true`
                 );

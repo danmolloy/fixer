@@ -1051,7 +1051,6 @@ describe('getCallsToOffer', () => {
         callId: 2424,
         numRequired: 3,
       },
-      
     ],
     contacts: [
       {
@@ -1071,7 +1070,6 @@ describe('getCallsToOffer', () => {
             callId: 2424,
             status: 'ACCEPTED',
           },
-          
         ],
         contact: mockEnsembleContact,
         indexNumber: 1,
@@ -1093,11 +1091,10 @@ describe('getCallsToOffer', () => {
             callId: 2424,
             status: 'TOOFFER',
           },
-          
         ],
         contact: mockEnsembleContact,
         indexNumber: 2,
-        id: 204
+        id: 204,
       },
       {
         ...mockContactMessage,
@@ -1116,7 +1113,6 @@ describe('getCallsToOffer', () => {
             callId: 2424,
             status: 'TOOFFER',
           },
-
         ],
         contact: mockEnsembleContact,
         indexNumber: 3,

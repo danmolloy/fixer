@@ -3,19 +3,18 @@ import prisma from '../../../client';
 import { EmailStatus } from '@prisma/client';
 
 const eventStatusArr: EmailStatus[] = [
-  "PROCESSED",
-  "DROPPED",
-  "DELIVERED",
-  "DEFERRED",
-  "BOUNCE",
-  "OPENED",
-  "CLICKED",
-  "OPEN",
-  "CLICK",
+  'PROCESSED',
+  'DROPPED',
+  'DELIVERED',
+  'DEFERRED',
+  'BOUNCE',
+  'OPENED',
+  'CLICKED',
+  'OPEN',
+  'CLICK',
 ];
 
 export async function POST(req: NextRequest) {
-  
   try {
     let events;
     try {
@@ -28,27 +27,27 @@ export async function POST(req: NextRequest) {
     for (const webhook of events) {
       const { contactMessageID, event, timestamp, app, environment } = webhook;
       if (
-        app !== 'GigFix' 
-        || environment !== process.env.ENVIRONMENT 
-        || !contactMessageID 
-        || !eventStatusArr.includes(event.toUpperCase() as EmailStatus)
+        app !== 'GigFix' ||
+        environment !== process.env.ENVIRONMENT ||
+        !contactMessageID ||
+        !eventStatusArr.includes(event.toUpperCase() as EmailStatus)
       ) {
         continue;
       }
-  
-        await prisma.emailEvent.create({
-          data: {
-            status: event.toUpperCase() as EmailStatus,
-            timestamp: new Date(timestamp),
-            contactMessage: {
-              connect: {
-                id: Number(contactMessageID),
-              },
-            }
+
+      await prisma.emailEvent.create({
+        data: {
+          status: event.toUpperCase() as EmailStatus,
+          timestamp: new Date(timestamp),
+          contactMessage: {
+            connect: {
+              id: Number(contactMessageID),
+            },
           },
-        });
-      }
-    
+        },
+      });
+    }
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error processing SendGrid webhook: ', error);

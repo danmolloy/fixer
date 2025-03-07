@@ -296,7 +296,7 @@ export const gigFixedNotification = async (event: FixingObj) => {
       email: event.fixer.email!,
       ensemble: event.ensembleName,
     });
-    
+
     return await axios.post(`${process.env.URL}/sendGrid`, {
       body: {
         emailData: bookingComplete,
@@ -419,7 +419,6 @@ export const getCallsToOffer = async (data: {
         section?.orchestration.find((orch) => orch.callId === eventCall.callId)
           ?.numRequired || 0;
       if (numRequired - bookedPlayers - awaitingPlayers - toOfferPriority > 0) {
-        
         callsArray = [...callsArray, eventCall.callId];
       }
     }

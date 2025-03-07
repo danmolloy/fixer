@@ -28,4 +28,3 @@ export const createContacts = async (data: CreateContactsProps) => {
     })),
   });
 };
-

@@ -557,19 +557,21 @@ describe('releaseDepperEmail', () => {
 describe('responseConfEmail', () => {
   const mockArg: ResponseConfEmailProps = {
     ...mockContactMessage,
-    dateRange: "12-24 July",
-    eventCalls: [{
-      ...mockContactEventCall,
-      call: mockCall
-    }],
+    dateRange: '12-24 July',
+    eventCalls: [
+      {
+        ...mockContactEventCall,
+        call: mockCall,
+      },
+    ],
     contact: mockEnsembleContact,
     eventSection: {
       ...mockEventSection,
       event: {
         ...mockEvent,
-        fixer: mockUser
-      }
-    }
+        fixer: mockUser,
+      },
+    },
   };
   it('returns expected subject', async () => {
     expect((await responseConfEmail(mockArg)).subject).toBe(
@@ -577,7 +579,9 @@ describe('responseConfEmail', () => {
     );
   });
   it('returns expected email address', async () => {
-    expect((await responseConfEmail(mockArg)).email).toBe(mockArg.contact.email);
+    expect((await responseConfEmail(mockArg)).email).toBe(
+      mockArg.contact.email
+    );
   });
   it('returns expected templateID', async () => {
     expect((await responseConfEmail(mockArg)).templateID).toBe(
@@ -587,40 +591,46 @@ describe('responseConfEmail', () => {
   it('returns expected email body text to accepted availability check', async () => {
     const localArgs: ResponseConfEmailProps = {
       ...mockArg,
-      eventCalls: [{
-        ...mockContactEventCall,
-        status: "AVAILABLE",
-        call: mockCall
-      }],
+      eventCalls: [
+        {
+          ...mockContactEventCall,
+          status: 'AVAILABLE',
+          call: mockCall,
+        },
+      ],
       status: 'RESPONDED',
-    }
-    
-    const email = await responseConfEmail(localArgs)
-  
-    expect(email.bodyText).toMatch(`You are AVAILABLE for the following calls:`);
-    expect(email.bodyText).toMatch(`${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')}`);
+    };
 
-  })
+    const email = await responseConfEmail(localArgs);
+
+    expect(email.bodyText).toMatch(
+      `You are AVAILABLE for the following calls:`
+    );
+    expect(email.bodyText).toMatch(
+      `${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')}`
+    );
+  });
   it('returns expected email body text to accepted offer', async () => {
     const localArgs: ResponseConfEmailProps = {
       ...mockArg,
-      eventCalls: [{
-        ...mockContactEventCall,
-        status: "DECLINED",
-        call: mockCall
-      }],
+      eventCalls: [
+        {
+          ...mockContactEventCall,
+          status: 'DECLINED',
+          call: mockCall,
+        },
+      ],
       status: 'RESPONDED',
-    }
-    
-    const email = await responseConfEmail(localArgs)
-  
-    expect(email.bodyText).toMatch(`You have DECLINED the following calls:`);
-    expect(email.bodyText).toMatch(`${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')}`);
+    };
 
+    const email = await responseConfEmail(localArgs);
+
+    expect(email.bodyText).toMatch(`You have DECLINED the following calls:`);
+    expect(email.bodyText).toMatch(
+      `${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(localArgs.eventCalls[0].call.startTime)).toFormat('HH:mm DD')}`
+    );
   });
-  it('returns expected email body text to declined work', async () => {
-    
-  });
+  it('returns expected email body text to declined work', async () => {});
 });
 
 describe('eventReminderMusician', () => {

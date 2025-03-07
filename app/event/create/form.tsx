@@ -170,8 +170,13 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                     onChange={(e) => {
                       props.setFieldValue('ensembleName', '');
                       props.setFieldValue('ensembleId', e.target.value);
-                      ensembleList.find(i=> i.id === e.target.value)?.ensembleNames.length === 1 &&
-                        props.setFieldValue('ensembleName', ensembleList.find(i=> i.id === e.target.value)?.ensembleNames[0]);
+                      ensembleList.find((i) => i.id === e.target.value)
+                        ?.ensembleNames.length === 1 &&
+                        props.setFieldValue(
+                          'ensembleName',
+                          ensembleList.find((i) => i.id === e.target.value)
+                            ?.ensembleNames[0]
+                        );
                     }}
                   >
                     <option value={''}>Select Organisation</option>
@@ -279,7 +284,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                 <label>Additional Admin Access</label>
                 {ensembleList
                   .find((i) => i.id === props.values.ensembleId)
-                  ?.admin.filter(admin => admin.accessType === "RESTRICTED").map((i) => (
+                  ?.admin.filter((admin) => admin.accessType === 'RESTRICTED')
+                  .map((i) => (
                     <label key={i.id}>
                       {`${i.user.firstName} ${i.user.lastName}`}
                       <Field

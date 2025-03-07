@@ -15,7 +15,7 @@ export type EventSectionContactsProps = {
   currentContacts: (ContactMessage & {
     eventCalls: (ContactEventCall & { call: Call })[];
     contact: EnsembleContact;
-      emailEvents: EmailEvent[];
+    emailEvents: EmailEvent[];
   })[];
   type: 'BOOKING' | 'AVAILABILITY';
   editContacts: boolean;

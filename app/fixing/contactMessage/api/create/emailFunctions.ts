@@ -5,7 +5,14 @@ import {
   releaseDepperEmail,
 } from '../../../../sendGrid/playerLib';
 import { getDateRange, urgentNotification } from './functions';
-import { Call, ContactEventCall, ContactMessage, EnsembleContact, Event, User } from '@prisma/client';
+import {
+  Call,
+  ContactEventCall,
+  ContactMessage,
+  EnsembleContact,
+  Event,
+  User,
+} from '@prisma/client';
 const url = `${process.env.URL}`;
 
 let addEmailToQueue: any;
@@ -53,13 +60,13 @@ export const makeOffer = async (
       event: contact.event,
     });
 
-      await axios.post(`${process.env.URL}/sendGrid`, {
+    await axios.post(`${process.env.URL}/sendGrid`, {
       body: {
         emailData: emailData,
         templateID: emailData.templateID,
         emailAddress: emailData.email,
       },
-    }); 
+    });
     //await addEmailToQueue(emailData);
     if (contact.urgent === true) {
       await urgentNotification(contact);
