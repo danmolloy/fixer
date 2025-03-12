@@ -178,6 +178,8 @@ enum ContactEventCallStatus {
   ACCEPTED
   DECLINED
   AVAILABLE
+  AUTOBOOKED
+  ERROR
 }
 
 enum ContactMessageType {
@@ -187,17 +189,19 @@ enum ContactMessageType {
 }
 
 enum ContactMessageStatus {
-  ACCEPTED//
-  DECLINED//
+  //ACCEPTED//
+  //DECLINED//
+  IN_PROGRESS
   RESPONDED
-  NOTCONTACTED//
-  AWAITINGREPLY//
-  AVAILABLE//
-  MIXED//
-  AUTOBOOKED//
+  NOTCONTACTED
+  AWAITINGREPLY
+  AVAILABLE
+  //MIXED//
+  AUTOBOOKED
   ERROR
   FINDINGDEP
   CANCELLED
+  ESCALATED
 }
 
 model Ensemble {

@@ -70,6 +70,15 @@ export const createContactMessages = async (
     },
   });
 
+  const event = await prisma.event.findUnique({
+    where: {
+      id: Number(data.eventId),
+    },
+    include: {
+      fixer: true
+    }
+  });
+
   let currentHighestIndex =
     currentCalls.length > 0
       ? currentCalls[currentCalls.length - 1].indexNumber + 1
@@ -92,6 +101,9 @@ export const createContactMessages = async (
         strictlyTied: data.strictlyTied === 'true',
         urgent: data.urgent,
       },
+      include: {
+        contact: true
+      }
     });
     for (let j = 0; j < data.contacts[i].calls.length; j++) {
       await prisma.contactEventCall.create({
@@ -107,9 +119,45 @@ export const createContactMessages = async (
         },
       });
     }
+    if (newContact.type === 'AUTOBOOK' && event !== null) {
+
+      try {
+
+        const playerCalls = await prisma.contactEventCall.findMany({
+          where: {
+            contactMessageId: newContact.id,
+          },
+          include: {
+            call: true,
+          },
+        });
+
+        const emailData = await createOfferEmail({
+          ...newContact,
+          calls: playerCalls.map((c) => c.call),
+          event: event,
+        });
+    
+        await axios.post(`${process.env.URL}/sendGrid`, {
+          body: {
+            emailData: emailData,
+            templateID: emailData.templateID,
+            emailAddress: emailData.email,
+          },
+        });
+        //await addEmailToQueue(emailData);
+        if (newContact.urgent === true) {
+          await urgentNotification({...newContact, event: event});
+        }
+      } catch (e) {
+        throw new Error(e);
+      }
+     
+    }
     currentHighestIndex += 1;
   }
   if (data.type !== 'AVAILABILITY') {
+    
     await handleFixing(Number(data.eventId));
   } else {
     await emailAvailabilityChecks(Number(data.eventSectionId));
@@ -194,7 +242,7 @@ export const getNumToContact = (data: {
   orchestration: Orchestration[];
 }): number => {
   const numBooked = data.contactMessages.filter(
-    (i) => i.status === 'AUTOBOOKED' || i.status === 'ACCEPTED'
+    (i) => i.status === 'AUTOBOOKED' || i.status === 'IN_PROGRESS'
   ).length;
   const numYetToRespond = data.contactMessages.filter(
     (i) =>
@@ -219,7 +267,7 @@ export const callsNotFixed = (args: {
   for (let i = 0; i < args.orchestration.length; i++) {
     const bookedPlayers = args.contactMessages.filter(
       (j) =>
-        (j.status === 'ACCEPTED' || j.status === 'AUTOBOOKED') &&
+        (j.status === 'RESPONDED' || j.status === 'AUTOBOOKED') &&
         j.calls.map((c) => c.id).includes(args.orchestration[i].callId)
     );
     if (bookedPlayers.length < args.orchestration[i].numRequired) {
@@ -429,19 +477,25 @@ export const getCallsToOffer = async (data: {
 };
 
 export const handleFixing = async (eventID: number) => {
+  // Get all event sections
   const event = await getEventSections(eventID);
   if (event === null) {
     return;
   }
+  // If all sections fixed, send email to fixer
   if (isGigFixed(event) === true) {
     return await gigFixedNotification(event);
   }
-
+  // Iterate through all sections.
   for (let i = 0; i < event.sections.length; i++) {
+    // Get unfixed calls
     const unfixedCalls = await getUnfixedCalls(event.sections[i]);
+    // Iterate over each contact in the section
     for (let j = 0; j < event.sections[i].contacts.length; j++) {
       const contact = event.sections[i].contacts[j];
-      if (contact.status === 'AUTOBOOKED' || contact.status === 'ACCEPTED') {
+      // Find reason to skip
+      if (contact.status !== 'NOTCONTACTED' 
+      ) {
         continue;
       }
       const callsToOffer = await getCallsToOffer({

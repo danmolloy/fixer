@@ -144,7 +144,6 @@ describe('<CurrentContactsOptions />', () => {
     contact: {
       ...mockContactMessage,
       type: 'AVAILABILITY',
-      status: 'DECLINED',
       contact: mockEnsembleContact,
       eventCalls: [
         {
@@ -177,7 +176,6 @@ describe('<CurrentContactsOptions />', () => {
     contact: {
       ...mockContactMessage,
       type: 'AVAILABILITY',
-      status: 'DECLINED',
       contact: mockEnsembleContact,
       eventCalls: [
         {

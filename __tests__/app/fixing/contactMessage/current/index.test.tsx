@@ -15,6 +15,8 @@ describe('<CurrentContactMessages />', () => {
     contacts: [
       {
         ...mockContactMessage,
+        emailEvents: [],
+      emailStatus: "OPENED",
         contact: {
           ...mockEnsembleContact,
           firstName: 'Bob',
@@ -31,6 +33,8 @@ describe('<CurrentContactMessages />', () => {
       },
       {
         ...mockContactMessage,
+        emailEvents: [],
+      emailStatus: "OPENED",
         contact: {
           ...mockEnsembleContact,
           firstName: 'Lachlan',
@@ -47,6 +51,8 @@ describe('<CurrentContactMessages />', () => {
       },
       {
         ...mockContactMessage,
+        emailEvents: [],
+      emailStatus: "OPENED",
         contact: {
           ...mockEnsembleContact,
           firstName: 'Amy',
@@ -109,6 +115,8 @@ describe('<CurrentContactMessages /> BOOKING', () => {
     contacts: [
       {
         ...mockContactMessage,
+        emailEvents: [],
+      emailStatus: "OPENED",
         contact: {
           ...mockEnsembleContact,
           firstName: 'Bob',
@@ -125,6 +133,8 @@ describe('<CurrentContactMessages /> BOOKING', () => {
       },
       {
         ...mockContactMessage,
+        emailEvents: [],
+      emailStatus: "OPENED",
         contact: {
           ...mockEnsembleContact,
           firstName: 'Lachlan',
@@ -141,6 +151,8 @@ describe('<CurrentContactMessages /> BOOKING', () => {
       },
       {
         ...mockContactMessage,
+        emailEvents: [],
+      emailStatus: "OPENED",
         contact: {
           ...mockEnsembleContact,
           firstName: 'Amy',
@@ -185,6 +197,8 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
     contacts: [
       {
         ...mockContactMessage,
+        emailEvents: [],
+      emailStatus: "OPENED",
         contact: {
           ...mockEnsembleContact,
           firstName: 'Bob',
@@ -201,6 +215,8 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
       },
       {
         ...mockContactMessage,
+        emailEvents: [],
+      emailStatus: "OPENED",
         contact: {
           ...mockEnsembleContact,
           firstName: 'Lachlan',
@@ -217,6 +233,8 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
       },
       {
         ...mockContactMessage,
+        emailEvents: [],
+      emailStatus: "OPENED",
         contact: {
           ...mockEnsembleContact,
           firstName: 'Amy',

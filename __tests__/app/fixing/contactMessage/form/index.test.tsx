@@ -8,6 +8,7 @@ import { mockContactMessage } from '../../../../../__mocks__/models/contactMessa
 import { mockEnsembleContact } from '../../../../../__mocks__/models/ensembleContact';
 
 const mockProps: ContactMessageFormProps = {
+  eventId: 1,
   cancelForm: jest.fn(),
   eventCalls: [mockCall],
   eventContacts: [

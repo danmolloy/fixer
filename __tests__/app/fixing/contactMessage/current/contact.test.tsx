@@ -22,6 +22,8 @@ describe('<CurrentContactRow />', () => {
         ...mockEnsembleContact,
       },
       playerMessage: 'mock player message',
+      emailEvents: [],
+      emailStatus: "OPENED",
     },
     index: randInd,
     numContacts: Math.floor(Math.random() * 2) + randInd,

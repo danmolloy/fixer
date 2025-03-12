@@ -209,6 +209,9 @@ describe('createContactMessages', () => {
         strictlyTied: mockContactMessages.strictlyTied === 'true',
         urgent: mockContactMessages.urgent,
       },
+      include: {
+        contact: true
+      }
     });
     expect(prismaMock.contactEventCall.create).toHaveBeenCalledWith({
       data: {
@@ -302,6 +305,9 @@ describe('createContactMessages', () => {
         strictlyTied: mockContactMessages.strictlyTied === 'true',
         urgent: mockContactMessages.urgent,
       },
+      include: {
+        contact: true
+      }
     });
   });
 });
