@@ -51,8 +51,7 @@ export const gigStatus = (
 
   gig.sections.forEach((section) => {
     const bookedMusicians = section.contacts.filter(
-      (contact) =>
-        contact.status === 'ACCEPTED' ||
+      (contact) => 
         contact.status === 'AUTOBOOKED' ||
         contact.status === 'FINDINGDEP'
     );

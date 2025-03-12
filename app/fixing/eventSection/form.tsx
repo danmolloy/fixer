@@ -191,76 +191,78 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 </ErrorMessage>
               </div>
             )}
-            <div className='flex flex-col'>
+            <div className='flex flex-col mt-4 mb-2'>
               <label htmlFor='num-required'>Num Required</label>
               <Field
-                className='w-60'
-                id='num-required'
-                name={
-                  fixedNumToBook ? 'orchestration[0].numRequired' : undefined
-                }
-                disabled={!fixedNumToBook || props.isSubmitting}
-                type='number'
-                onChange={(e) => {
-                  fixedNumToBook &&
-                    props.setFieldValue(
-                      'orchestration',
-                      props.values.orchestration.map((i) => ({
-                        ...i,
-                        numRequired: e.target.value,
-                      }))
-                    );
-                }}
-              />
+    className="w-32 border rounded m-1 p-1 shadow-sm"
+    id="num-required"
+    name="orchestration[0].numRequired" // Always provide a valid name
+    disabled={!fixedNumToBook || props.isSubmitting}
+    type="number"
+    onChange={(e) => {
+      if (fixedNumToBook) {
+        props.setFieldValue(`orchestration[0].numRequired`, e.target.value);
+        props.setFieldValue(
+          "orchestration",
+          props.values.orchestration.map((i, index) => ({
+            ...i,
+            numRequired: e.target.value, // Ensuring all rows update when fixedNumToBook is true
+          }))
+        );
+      }
+    }}
+  />
             </div>
-            <ErrorMessage name={'orchestration'}>
-              {(msg) => (
-                <div
-                  className='p-1 text-sm text-red-600'
-                  data-testid={`orchestration-error`}
-                >
-                  {msg}
-                </div>
-              )}
-            </ErrorMessage>
-            <div>
+            
+<ErrorMessage name="orchestration[0].numRequired">
+  {(msg) => (
+    <div className="p-1 text-sm text-red-600" data-testid="orchestration-error">
+      {msg}
+    </div>
+  )}
+</ErrorMessage>
+            <div className='my-2 mb-4'>
               <label htmlFor='fixed-num-required-checkbox'>
-                <input
-                  id='fixed-num-required-checkbox'
-                  disabled={props.isSubmitting}
-                  className={'mr-1'}
-                  type={'checkbox'}
-                  onChange={() => {
-                    setFixedNumToBook(!fixedNumToBook);
-                    props.setFieldValue(
-                      'orchestration',
-                      props.values.orchestration.map((i) => ({
-                        ...i,
-                        numRequired: props.values.orchestration[0].numRequired,
-                      }))
-                    );
-                  }}
-                  checked={fixedNumToBook}
-                />
+              <input
+      id="fixed-num-required-checkbox"
+      disabled={props.isSubmitting}
+      className="mr-2"
+      type="checkbox"
+      onChange={() => {
+        setFixedNumToBook(!fixedNumToBook);
+        if (!fixedNumToBook) {
+          // If toggling ON, apply the first value to all
+          props.setFieldValue(
+            "orchestration",
+            props.values.orchestration.map((i) => ({
+              ...i,
+              numRequired: props.values.orchestration[0]?.numRequired || "",
+            }))
+          );
+        }
+      }}
+      checked={fixedNumToBook}
+    />
                 {`${fixedNumToBook ? props.values.orchestration[0].numRequired : '-'} musician(s) for all calls`}
               </label>
               {!fixedNumToBook && (
-                <div data-testid='calls-num-required'>
-                  {eventCalls.map((i, index) => (
-                    <TextInput
-                      key={i.id}
-                      disabled={props.isSubmitting}
-                      className='w-60'
-                      type='number'
-                      name={`orchestration[${index}].numRequired`}
-                      id='numtobook-input'
-                      label={DateTime.fromJSDate(
-                        new Date(i.startTime)
-                      ).toFormat('HH:mm DD')}
-                    />
-                  ))}
-                </div>
-              )}
+    <div data-testid="calls-num-required">
+      {props.values.orchestration.map((_, index) => (
+        <div key={index}>
+          <Field
+            className="w-60 border rounded p-1"
+            type="number"
+            name={`orchestration[${index}].numRequired`}
+          />
+          <ErrorMessage name={`orchestration[${index}].numRequired`}>
+            {(msg) => (
+              <div className="p-1 text-sm text-red-600">{msg}</div>
+            )}
+          </ErrorMessage>
+        </div>
+      ))}
+    </div>
+  )}
             </div>
             <div
               role='group'
