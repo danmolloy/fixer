@@ -172,9 +172,9 @@ export const getDateRange = (calls: Call[]) => {
       Number(DateTime.fromJSDate(new Date(b.startTime)))
   );
 
-  const startDate = DateTime.fromJSDate(sortedCalls[0].startTime);
+  const startDate = DateTime.fromJSDate(new Date(sortedCalls[0].startTime));
   const endDate = DateTime.fromJSDate(
-    sortedCalls[sortedCalls.length - 1].endTime
+    new Date(sortedCalls[sortedCalls.length - 1].endTime)
   );
 
   if (startDate.hasSame(endDate, 'day')) {
