@@ -5,10 +5,12 @@ import {
   ContactMessage,
   EmailEvent,
   EnsembleContact,
+  Orchestration,
 } from '@prisma/client';
 import CurrentContactMessages from './current';
 
 export type EventSectionContactsProps = {
+  orchestration: Orchestration[]
   eventSectionId: number;
   sectionContacts: EnsembleContact[];
   eventCalls: Call[];
@@ -25,6 +27,7 @@ export type EventSectionContactsProps = {
 
 export default function EventSectionContacts(props: EventSectionContactsProps) {
   const {
+    orchestration,
     editContacts,
     setEditContacts,
     currentContacts,
@@ -62,6 +65,7 @@ export default function EventSectionContacts(props: EventSectionContactsProps) {
             : i.type === 'BOOKING' || i.type === 'AUTOBOOK'
         ).length > 0 ? (
         <CurrentContactMessages
+          orchestration={orchestration}
           type={type}
           eventCalls={eventCalls}
           contacts={currentContacts}

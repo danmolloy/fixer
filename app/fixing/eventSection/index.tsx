@@ -92,7 +92,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
               />
             </div>
               <label className='text-sm flex flex-row items-center'>
-              <input checked={hideDeclined} type="checkbox" className='m-1 mr-2 ' onClick={() => setHideDeclined(!hideDeclined)}/>
+              <input checked={hideDeclined} type="checkbox" className='m-1 mr-2 ' onChange={() => setHideDeclined(!hideDeclined)}/>
               Hide declined
             </label>
             <SectionViewSelect
@@ -108,6 +108,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
         </div>
       )}
       <EventSectionContacts
+        orchestration={section.orchestration}
         eventId={eventId}
         editContacts={editContacts}
         setEditContacts={(arg) => setEditContacts(arg)}

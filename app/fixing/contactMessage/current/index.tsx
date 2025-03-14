@@ -4,12 +4,14 @@ import {
   ContactMessage,
   EmailEvent,
   EnsembleContact,
+  Orchestration,
 } from '@prisma/client';
 import { DateTime } from 'luxon';
 import CurrentContactRow from './contact';
 import AvailabilityTable from './availabilityTable';
 
 export type CurrentContactMessagesProps = {
+  orchestration: Orchestration[]
   eventCalls: Call[];
   contacts: (ContactMessage & {
     eventCalls: (ContactEventCall & { call: Call })[];
@@ -22,7 +24,7 @@ export type CurrentContactMessagesProps = {
 export default function CurrentContactMessages(
   props: CurrentContactMessagesProps
 ) {
-  const { contacts, eventCalls, type } = props;
+  const { contacts, eventCalls, type, orchestration } = props;
 
   const typedContacts = contacts.filter((i) =>
     type === 'AVAILABILITY'
@@ -48,6 +50,7 @@ export default function CurrentContactMessages(
                 {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
               </p>
               <p>{DateTime.fromJSDate(new Date(i.startTime)).toFormat('DD')}</p>
+              <p>{contacts.filter(c => c.type !== "AVAILABILITY" && c.eventCalls.filter(j => j.status === "ACCEPTED" &&j.callId === i.id).map(j => j.callId).includes(i.id)).length}/{orchestration.find(o => o.callId === i.id)?.numRequired || 0} Booked</p>
             </th>
           ))}
           <th>Status</th>

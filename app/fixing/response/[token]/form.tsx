@@ -320,7 +320,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                 </div>
               )}
             <SubmitButton
-              disabled={props.values.eventCalls.every(val => val.status === "CHECKING" || val.status === "OFFERING" ) || props.isSubmitting || props.status === 'success'}
+              disabled={props.values.eventCalls.every(val => val.status === "CHECKING" || val.status === "OFFERING" ) ||  props.isSubmitting || props.status === 'success'}
               status={
                 props.isSubmitting
                   ? 'SUBMITTING'

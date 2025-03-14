@@ -8,9 +8,11 @@ import { mockContactMessage } from '../../../../../__mocks__/models/contactMessa
 import { mockEnsembleContact } from '../../../../../__mocks__/models/ensembleContact';
 import { DateTime } from 'luxon';
 import { mockContactEventCall } from '../../../../../__mocks__/models/ContactEventCall';
+import { mockOrchestration } from '../../../../../__mocks__/models/orchestration';
 
 describe('<CurrentContactMessages />', () => {
   const mockProps: CurrentContactMessagesProps = {
+    orchestration: [mockOrchestration],
     eventCalls: [mockCall],
     contacts: [
       {
@@ -111,6 +113,7 @@ describe('<CurrentContactMessages />', () => {
 
 describe('<CurrentContactMessages /> BOOKING', () => {
   const mockProps: CurrentContactMessagesProps = {
+    orchestration: [{...mockOrchestration, callId: mockCall.id, numRequired: 3}],
     eventCalls: [mockCall],
     contacts: [
       {
@@ -164,6 +167,8 @@ describe('<CurrentContactMessages /> BOOKING', () => {
           {
             ...mockContactEventCall,
             call: mockCall,
+            callId: mockCall.id,
+            status: "ACCEPTED"
           },
         ],
       },
@@ -189,10 +194,20 @@ describe('<CurrentContactMessages /> BOOKING', () => {
       }
     }
   });
+  it("states numBooked/numRequired for each call", () => {
+    for (let i = 0; i < mockProps.eventCalls.length; i ++) {
+      const callHead = screen.getByTestId(`${mockProps.eventCalls[i].id}-col`)
+      const orchestration = mockProps.orchestration.find(j => j.callId === mockProps.eventCalls[i].id);
+      if (orchestration) {
+        expect(callHead.textContent).toMatch("2/3 Booked")
+      }
+    }
+  })
 });
 
 describe('<CurrentContactMessages /> AVAILABILITY', () => {
   const mockProps: CurrentContactMessagesProps = {
+    orchestration: [mockOrchestration],
     eventCalls: [mockCall],
     contacts: [
       {

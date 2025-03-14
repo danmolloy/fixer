@@ -8,8 +8,10 @@ import { mockCall } from '../../../../__mocks__/models/call';
 import { mockContactMessage } from '../../../../__mocks__/models/contactMessage';
 import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventCall';
 import { EmailStatus } from '@prisma/client';
+import { mockOrchestration } from '../../../../__mocks__/models/orchestration';
 
 const mockProps: EventSectionContactsProps = {
+  orchestration: [mockOrchestration],
   type: 'AVAILABILITY',
   editContacts: false,
   setEditContacts: jest.fn(),
@@ -137,6 +139,7 @@ describe('<EventSectionContacts />', () => {
 
 describe('<EventSectionContacts />', () => {
   const mockProps: EventSectionContactsProps = {
+    orchestration: [mockOrchestration],
     type: 'BOOKING',
     editContacts: false,
     setEditContacts: jest.fn(),

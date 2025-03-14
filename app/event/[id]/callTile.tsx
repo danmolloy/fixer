@@ -1,3 +1,4 @@
+'use client'
 import { Call } from '@prisma/client';
 import { DateTime } from 'luxon';
 import React from 'react';
@@ -10,12 +11,12 @@ export default function CallTile(props: Call) {
       <div data-testid='call-tile-div' className='my-2'>
         <p>
           {String(
-            DateTime.fromJSDate(new Date(startTime)).toFormat('HH:mm DD')
+            DateTime.fromJSDate(new Date(startTime)).toFormat('HH:mm LLL dd, yyyy')
           )}{' '}
           <span className='text-sm'>to</span>
         </p>
         <p>
-          {String(DateTime.fromJSDate(new Date(endTime)).toFormat('HH:mm DD'))}
+          {String(DateTime.fromJSDate(new Date(endTime)).toFormat('HH:mm LLL dd, yyyy'))}
         </p>
         <div className='flex flex-row items-center text-slate-600'>
           <HiLocationMarker />

@@ -312,7 +312,7 @@ model EmailEvent {
   timestamp DateTime
   contactMessageID Int?
   contactMessage ContactMessage? @relation(fields: [contactMessageID], references: [id], onDelete: Cascade)
-  sentEmailID String
+  sentEmailID String?
   sentEmail SentEmail? @relation(fields: [sentEmailID], references: [id], onDelete: Cascade)
 }
 

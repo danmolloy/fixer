@@ -21,7 +21,7 @@ export default function DatePickerDay(props: DPDayProps) {
     >
       <button
         className={`${dayOfMonthDate.hasSame(selectedDate, 'day') ? 'bg-indigo-500 text-white' : 'hover:bg-indigo-50 hover:text-black'} ${dayOfMonthDate.hasSame(DateTime.now(), 'day') && 'border-2 border-black'} flex h-full w-full flex-col items-center font-thin`}
-        data-testid={`${dayOfMonthDate.toLocaleString()}-tile`}
+        data-testid={`${dayOfMonthDate.toFormat('LLL dd, yyyy')}-tile`}
         onClick={() => setSelectedDate(dayOfMonthDate)}
       >
         <p
