@@ -20,6 +20,7 @@ global.confirm = jest.fn(() => true);
 let mockConfirm = global.confirm;
 
 const mockProps: EventSectionProps = {
+  eventId: 1, 
   section: {
     ...mockEventSection,
     ensembleSection: mockSection,
@@ -39,6 +40,17 @@ const mockProps: EventSectionProps = {
       ...mockContactMessage,
       eventCalls: [{ ...mockContactEventCall, call: mockCall }],
       contact: mockEnsembleContact,
+      emailEvents: [],
+      emailStatus: "DROPPED",
+    },
+    {
+      ...mockContactMessage,
+
+      type: "BOOKING",
+      eventCalls: [{ ...mockContactEventCall, call: mockCall, status: "DECLINED" }],
+      contact: {...mockEnsembleContact, firstName: "Greg", lastName: "Ievers"},
+      emailEvents: [],
+      emailStatus: "DROPPED",
     },
   ],
 };
@@ -52,6 +64,20 @@ describe('<EventSectionIndex />', () => {
       `${mockProps.section.id}-event-section`
     );
     expect(eventSection).toBeInTheDocument();
+  });
+  it("'Hide declined' btn hides declined contacts", () => {
+    const hideBtn = screen.getByLabelText("Hide declined");
+    expect(hideBtn).toBeInTheDocument();
+    const eventSection = screen.getByTestId(
+      `${mockProps.section.id}-event-section`
+    );
+    expect(eventSection.textContent).toMatch("Greg Ievers");
+
+    act(() => {
+      fireEvent.click(hideBtn);
+    });
+    expect(eventSection.textContent).not.toMatch("Greg Ievers");
+
   });
 
   it('section name is in the document', () => {

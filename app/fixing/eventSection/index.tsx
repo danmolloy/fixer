@@ -8,7 +8,6 @@ import {
   EventSection,
   Orchestration,
 } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import CreateEventSection from './form';
 import EventSectionContacts from '../contactMessage';
@@ -43,12 +42,12 @@ export default function EventSectionIndex(props: EventSectionProps) {
     currentContacts,
     eventId,
   } = props;
-  const router = useRouter();
   const [updateSection, setUpdateSection] = useState<boolean>(false);
   const [callType, setCallType] = useState<'BOOKING' | 'AVAILABILITY'>(
     'BOOKING'
   );
   const [editContacts, setEditContacts] = useState<boolean>(false);
+  const [hideDeclined, setHideDeclined] = useState<boolean>(false);
 
   return (
     <div
@@ -79,6 +78,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
                 Booking {section.bookingStatus}
               </span>
             </h2>
+            
             <SectionMenu
               editSection={() => setUpdateSection(true)}
               addToList={() => setEditContacts(true)}
@@ -91,6 +91,10 @@ export default function EventSectionIndex(props: EventSectionProps) {
                 orchestration={section.orchestration}
               />
             </div>
+              <label className='text-sm flex flex-row items-center'>
+              <input checked={hideDeclined} type="checkbox" className='m-1 mr-2 ' onClick={() => setHideDeclined(!hideDeclined)}/>
+              Hide declined
+            </label>
             <SectionViewSelect
               availabilityCheckCount={
                 currentContacts.filter((i) => i.type === 'AVAILABILITY').length
@@ -99,6 +103,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
               setSelectedView={(arg) => setCallType(arg)}
               disabled={editContacts}
             />
+            
           </div>
         </div>
       )}
@@ -107,7 +112,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
         editContacts={editContacts}
         setEditContacts={(arg) => setEditContacts(arg)}
         type={callType}
-        currentContacts={currentContacts}
+        currentContacts={hideDeclined ? currentContacts.filter(contact => !contact.eventCalls.map(e => e.status).every(val => val === "DECLINED")) : currentContacts}
         eventCalls={eventCalls}
         eventSectionId={section.id}
         sectionContacts={sectionContacts}

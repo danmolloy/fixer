@@ -107,14 +107,10 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                                 .filter((i) => i.status === 'ACCEPTED')
                                 .map((z) => z.callId)
                                 .includes(j.id)
-                            )
-                            .map((c, ind) => (
+                            ).filter((c, ind) => ind === index).map((c, ) => (
                               <p key={c.id}>
-                                {ind === index ? (
-                                  `${c.contact.firstName} ${c.contact.lastName}`
-                                ) : (
-                                  <span className='text-gray-400'>TBC</span>
-                                )}
+                                {`${c.contact.firstName} ${c.contact.lastName}`}
+                  
                               </p>
                             ))
                         )}

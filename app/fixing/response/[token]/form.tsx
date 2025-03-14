@@ -19,7 +19,7 @@ import { getDateRange } from '../../contactMessage/api/create/functions';
 import { DateTime } from 'luxon';
 import { responseConfEmail } from '../../../sendGrid/playerLib';
 import SubmitButton from '../../../forms/submitBtn';
-import ValidationError from '../../../forms/validationError';
+import ValidationError, { extractErrors } from '../../../forms/validationError';
 import StatusMessage from '../../../forms/statusMessage';
 import { useState } from 'react';
 
@@ -247,7 +247,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                       props.values.eventCalls.map((c) => ({
                         ...c,
                         status:
-                          c.status === 'CHECKING' ? 'AVAILABLE' : 'ACCEPTED',
+                        contactMessage.type === 'AVAILABILITY' ? 'AVAILABLE' : 'ACCEPTED',
                       }))
                     );
                   }}
@@ -267,9 +267,9 @@ export default function ResponseForm(props: ResponseFormProps) {
                 {(e) => <p className='text-xs text-red-500'>{e}</p>}
               </ErrorMessage>
             </div>
-            {props.values.eventCalls.filter((c) => c.status === 'AVAILABLE')
+            {(props.values.eventCalls.filter((c) => c.status === 'AVAILABLE')
               .length > 0 &&
-              contactMessage.strictlyTied === false && (
+              contactMessage.strictlyTied === false) && (
                 <div data-testid='call-checkboxes'>
                   {props.values.eventCalls.map((i, index) => (
                     <label
@@ -320,7 +320,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                 </div>
               )}
             <SubmitButton
-              disabled={props.isSubmitting || props.status === 'success'}
+              disabled={props.values.eventCalls.every(val => val.status === "CHECKING" || val.status === "OFFERING" ) || props.isSubmitting || props.status === 'success'}
               status={
                 props.isSubmitting
                   ? 'SUBMITTING'
@@ -329,7 +329,7 @@ export default function ResponseForm(props: ResponseFormProps) {
                     : undefined
               }
             />
-            {/* <ValidationError errors={Object.values(props.errors).flat()} /> */}
+            <ValidationError errors={extractErrors(props.errors)} />
             <StatusMessage status={props.status} />
           </Form>
         )}

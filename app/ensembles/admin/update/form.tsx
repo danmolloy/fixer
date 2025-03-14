@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import TextInput from '../../../forms/textInput';
 import { EnsembleAdmin } from '@prisma/client';
-import ValidationError from '../../../forms/validationError';
+import ValidationError, { extractErrors } from '../../../forms/validationError';
 import SubmitButton from '../../../forms/submitBtn';
 import StatusMessage from '../../../forms/statusMessage';
 
@@ -54,7 +54,7 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
         }}
       >
         {(props) => (
-          <Form>
+          <Form className='p-2'>
             <TextInput
               disabled={props.isSubmitting}
               label='Position Title'
@@ -96,7 +96,7 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
                     : undefined
               }
             />
-            <ValidationError errors={Object.values(props.errors)} />
+            <ValidationError errors={extractErrors(props.errors)} />
             <StatusMessage status={props.status} />
           </Form>
         )}

@@ -6,8 +6,9 @@ import TextInput from '../../forms/textInput';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import SubmitButton from '../../forms/submitBtn';
-import ValidationError from '../../forms/validationError';
+import ValidationError, { extractErrors } from '../../forms/validationError';
 import StatusMessage from '../../forms/statusMessage';
+import { TiTimes } from 'react-icons/ti';
 
 export type UpdateEnsembleProps = {
   ensemble: Ensemble;
@@ -73,14 +74,14 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
               id='name-input'
               label='Ensemble Name'
             />
-            <div>
+            <div className='mb-4'>
               <label htmlFor='ensembleNames'>Ensemble Names</label>
               <FieldArray
                 name='ensembleNames'
                 render={(arrayHelpers) => (
                   <div className=''>
                     {props.values.ensembleNames.map((j, index) => (
-                      <div key={index}>
+                      <div key={index} className='flex flex-row justify-start items-start'>
                         <TextInput
                           disabled={props.isSubmitting}
                           name={`ensembleNames[${index}]`}
@@ -88,6 +89,7 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                           label=''
                         />
                         <button
+                          className='m-1 rounded-full border p-1 text-sm hover:bg-slate-50 disabled:opacity-40'
                           disabled={props.isSubmitting}
                           onClick={(e) => {
                             e.preventDefault();
@@ -95,18 +97,19 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                               arrayHelpers.remove(index);
                           }}
                         >
-                          Remove
+                          <TiTimes />
                         </button>
                       </div>
                     ))}
                     <button
+                    className="my-2 w-24 rounded border p-1 text-sm"
                       disabled={props.isSubmitting}
                       onClick={(e) => {
                         e.preventDefault();
                         arrayHelpers.push('');
                       }}
                     >
-                      Add
+                      Add name
                     </button>
                   </div>
                 )}
@@ -125,12 +128,12 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                     : undefined
               }
             />
-            <ValidationError errors={Object.values(props.errors).flat()} />
+            <ValidationError errors={extractErrors(props.errors)} />
             <StatusMessage status={props.status} />
           </Form>
         )}
       </Formik>
-      <button onClick={() => handleDelete()}>Delete Ensemble</button>
+      <button onClick={() => handleDelete()} className='text-red-500 border border-red-500 p-2 rounded'>Delete Ensemble</button>
     </div>
   );
 }

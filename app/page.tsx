@@ -29,7 +29,15 @@ const getCalendar = async (
         include: {
           sections: {
             include: {
-              contacts: true,
+              contacts: {
+                include: {
+                  eventCalls: {
+                    include: {
+                      call: true,
+                    },
+                  },
+                }
+              },
               ensembleSection: true,
               orchestration: true,
             },

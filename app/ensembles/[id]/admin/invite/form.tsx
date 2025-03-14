@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import TextInput from '../../../../forms/textInput';
 import { buttonPrimary } from '../../../dashboard';
 import SubmitButton from '../../../../forms/submitBtn';
-import ValidationError from '../../../../forms/validationError';
+import ValidationError, { extractErrors } from '../../../../forms/validationError';
 import StatusMessage from '../../../../forms/statusMessage';
 
 export type InviteAdminFormProps = {
@@ -138,7 +138,7 @@ export default function InviteAdminForm(props: InviteAdminFormProps) {
                     : undefined
               }
             />
-            <ValidationError errors={Object.values(props.errors)} />
+            <ValidationError errors={extractErrors(props.errors)} />
             <StatusMessage status={props.status} />
           </Form>
         )}

@@ -12,7 +12,7 @@ import { getDateRange } from '../../../../app/fixing/contactMessage/api/create/f
 import { mockSection } from '../../../../__mocks__/models/ensembleSection';
 import { mockOrchestration } from '../../../../__mocks__/models/orchestration';
 import GigStatus from '../../../../app/event/create/gigStatus';
-import { ContactMessageStatus, ContactMessageType } from '@prisma/client';
+import { ContactEventCallStatus, ContactMessageStatus, ContactMessageType } from '@prisma/client';
 import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventCall';
 
 describe('<EventOverview />', () => {
@@ -56,8 +56,9 @@ describe('<EventOverview />', () => {
           contacts: [
             {
               ...mockContactMessage,
-              status: 'DECLINED',
-              eventCalls: [{ ...mockContactEventCall, call: mockPropsCall }],
+              status: 'AWAITINGREPLY' as ContactMessageStatus,
+              type: 'BOOKING' as ContactMessageType,
+              eventCalls: [{ ...mockContactEventCall, call: mockPropsCall, status: 'CHECKING' as ContactEventCallStatus }],
             },
           ],
           ensembleSection: mockSection,
@@ -76,7 +77,7 @@ describe('<EventOverview />', () => {
   it('if !fixed, states seats to fill, num remaining on list & instrument', () => {
     const eventOverview = screen.getByTestId('event-overview');
     expect(eventOverview.textContent).toMatch(
-      `${mockProps.event.sections[0].ensembleSection.name}: (20 seats to fill, 0 remain on list)`
+      `${mockProps.event.sections[0].ensembleSection.name}: (20 seats to fill, 1 remain on list)`
     );
   });
 });
@@ -115,8 +116,8 @@ describe('gigStatus()', () => {
             {
               ...mockContactMessage,
               type: 'BOOKING' as ContactMessageType,
-              status: 'ACCEPTED' as ContactMessageStatus,
-              eventCalls: [{ ...mockContactEventCall, call: mockCall }],
+              status: 'RESPONDED' as ContactMessageStatus,
+              eventCalls: [{ ...mockContactEventCall, call: mockCall, status: 'ACCEPTED' as ContactEventCallStatus }],
             },
           ],
           ensembleSection: mockSection,
@@ -144,9 +145,11 @@ describe('gigStatus()', () => {
           contacts: [
             {
               ...mockContactMessage,
-              status: 'AWAITINGREPLY' as ContactMessageStatus,
+              status: 'RESPONDED' as ContactMessageStatus,
               type: 'BOOKING' as ContactMessageType,
-              eventCalls: [{ ...mockContactEventCall, call: mockCall }],
+              eventCalls: [{ 
+                ...mockContactEventCall, 
+                call: mockCall, status: 'ACCEPTED'  as ContactEventCallStatus }],
             },
           ],
           ensembleSection: mockSection,
@@ -161,9 +164,9 @@ describe('gigStatus()', () => {
         ...mockOrchestration,
         sectionName: mockSection.name,
         numRequired: 2,
-        bookedForCall: 0,
+        bookedForCall: 1,
         numToDep: 0,
-        remainingOnList: 1,
+        remainingOnList: 0,
       },
     ]);
   });

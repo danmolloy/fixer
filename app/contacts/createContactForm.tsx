@@ -8,7 +8,7 @@ import { categories, instrumentSections, rolesArr } from './lib';
 import { CreateEnsembleContact } from './api/create/functions';
 import { useRouter } from 'next/navigation';
 import { phoneRegex } from '../ensembles/[id]/contacts/import/contactInput';
-import ValidationError from '../forms/validationError';
+import ValidationError, { extractErrors } from '../forms/validationError';
 import SubmitButton from '../forms/submitBtn';
 import StatusMessage from '../forms/statusMessage';
 import { sectionNamesArr } from '../ensembles/create/api/functions';
@@ -208,7 +208,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
                       : undefined
                 }
               />
-              <ValidationError errors={Object.values(props.errors)} />
+              <ValidationError errors={extractErrors(props.errors)} />
               <StatusMessage status={props.status} />
             </form>
           )}

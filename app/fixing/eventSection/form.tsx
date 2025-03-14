@@ -13,7 +13,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { buttonPrimary } from '../../ensembles/dashboard';
 import SubmitButton from '../../forms/submitBtn';
-import ValidationError from '../../forms/validationError';
+import ValidationError, { extractErrors } from '../../forms/validationError';
 import StatusMessage from '../../forms/statusMessage';
 import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
@@ -315,8 +315,8 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 }
               />
             </div>
-            {/*             <ValidationError errors={Object.values(props.errors)} />
-             */}{' '}
+                      <ValidationError errors={extractErrors(props.errors)} />
+             
             <StatusMessage status={props.status} />
           </Form>
         )}

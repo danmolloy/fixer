@@ -5,7 +5,7 @@ import TextInput from '../../forms/textInput';
 import axios from 'axios';
 import { getBillingRoute } from '../../billing/api/manage/lib';
 import { FaRegQuestionCircle } from 'react-icons/fa';
-import ValidationError from '../../forms/validationError';
+import ValidationError, { extractErrors } from '../../forms/validationError';
 import SubmitButton from '../../forms/submitBtn';
 import StatusMessage from '../../forms/statusMessage';
 import { TiTimes } from 'react-icons/ti';
@@ -138,7 +138,7 @@ export default function CreateEnsembleForm(props: { userId: string }) {
                     : undefined
               }
             />
-            <ValidationError errors={Object.values(props.errors).flat()} />
+            <ValidationError errors={extractErrors(props.errors).flat()} />
             <StatusMessage status={props.status} />
           </Form>
         )}

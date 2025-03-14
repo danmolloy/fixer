@@ -28,61 +28,34 @@ export type EventOverviewProps = {
   };
 };
 
-export const gigStatus = (
-  gig: Event & {
-    calls: Call[];
-    sections: (EventSection & {
-      contacts: (ContactMessage & {
-        eventCalls: (ContactEventCall & {
-          call: Call;
-        })[];
-      })[];
-      ensembleSection: EnsembleSection;
-      orchestration: Orchestration[];
-    })[];
-  }
-) => {
-  const notFixedCalls: (Orchestration & {
-    sectionName: string;
-    bookedForCall: number;
-    numToDep: number;
-    remainingOnList: number;
-  })[] = [];
-
-  gig.sections.forEach((section) => {
-    const bookedMusicians = section.contacts.filter(
-      (contact) => 
-        contact.status === 'AUTOBOOKED' ||
-        contact.status === 'FINDINGDEP'
-    );
-
-    section.orchestration.forEach((orchestration) => {
-      const bookedForCall = bookedMusicians.filter((musician) =>
-        musician.eventCalls.filter((call) => call.callId === orchestration.id)
-      );
-
-      const remainingOnList = section.contacts.filter(
-        (musician) =>
-          musician.type !== 'AVAILABILITY' &&
-          (musician.status === 'AWAITINGREPLY' ||
-            musician.status === 'NOTCONTACTED')
-      );
-
-      if (orchestration.numRequired > bookedForCall.length) {
-        notFixedCalls.push({
-          ...orchestration,
-          sectionName: section.ensembleSection.name,
-          bookedForCall: bookedForCall.length,
-          numToDep: bookedForCall.filter(
-            (musician) => musician.status === 'FINDINGDEP'
-          ).length,
-          remainingOnList: remainingOnList.length,
-        });
-      }
-    });
-  });
-
-  return notFixedCalls;
+export const gigStatus = (event: EventOverviewProps["event"]
+  ) => {
+    
+    const sections = event.sections.map((i) => ({
+      eventSectionId: i.id,
+      sectionName: i.ensembleSection.name,
+      numRequired: i.orchestration.reduce(
+        (acc, j) => acc + j.numRequired,
+        0
+      ),
+      bookedForCall: i.contacts.filter((j) =>
+        j.eventCalls.find(
+          (k) =>
+            k.call.id === event.calls[0].id &&
+            k.status === "ACCEPTED"
+        )
+      ).length,
+      remainingOnList: i.contacts.filter((j) =>
+        j.eventCalls.find(
+          (k) =>
+            k.call.id === event.calls[0].id &&
+            (k.status === "OFFERING" ||
+            k.status === "TOOFFER")
+        )
+      ).
+        length,
+    }))
+  return sections
 };
 
 export default function EventOverview(props: EventOverviewProps) {
@@ -97,9 +70,10 @@ export default function EventOverview(props: EventOverviewProps) {
     >
       <p>{getDateRange(event.calls)}</p>
       <h3>{event.eventTitle}</h3>
+    
       {fixStatus.length === 0 ? (
         <p>No fixing</p>
-      ) : fixStatus.filter((i) => i.numRequired > 0).length === 0 ? (
+      ) : fixStatus.filter((i) => i.numRequired - i.bookedForCall > 0).length === 0 ? (
         <p>Gig is fixed.</p>
       ) : (
         <div data-testid='fixing-overview'>
