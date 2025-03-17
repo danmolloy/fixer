@@ -7,6 +7,7 @@ import { messageToAllEmail } from '../../sendGrid/playerLib';
 import { getDateRange } from '../../fixing/contactMessage/api/create/functions';
 import {
   Call,
+  ContactEventCall,
   ContactMessage,
   EnsembleContact,
   Event,
@@ -23,7 +24,10 @@ export type EventMenuProps = {
     calls: Call[];
     fixer: User;
   };
-  contacts: (ContactMessage & { contact: EnsembleContact })[];
+  contacts: (ContactMessage & { 
+    contact: EnsembleContact;
+    eventCalls: ContactEventCall[];
+   })[];
   getRunningSheet: () => void;
 };
 
@@ -39,13 +43,9 @@ export default function EventMenu(props: EventMenuProps) {
     const mailList = contacts
       .filter(
         (i) =>
-          i.status === 'ACCEPTED' ||
-          i.status === 'AUTOBOOKED' ||
-          i.status === 'AVAILABLE' ||
-          i.status === 'MIXED' ||
-          i.status === 'FINDINGDEP' ||
-          i.status === 'AWAITINGREPLY' ||
-          i.status === 'RESPONDED'
+          i.eventCalls.map(c => c.status).includes("ACCEPTED")
+        || i.eventCalls.map(c => c.status).includes( "AUTOBOOKED")
+        || i.eventCalls.map(c => c.status).includes("OFFERING")
       )
       .map((i) => i.contact.email);
     if (message === null || mailList.length === 0) {
@@ -60,12 +60,9 @@ export default function EventMenu(props: EventMenuProps) {
       email: contacts
         .filter(
           (i) =>
-            i.status === 'ACCEPTED' ||
-            i.status === 'AUTOBOOKED' ||
-            i.status === 'AVAILABLE' ||
-            i.status === 'MIXED' ||
-            i.status === 'FINDINGDEP' ||
-            i.status === 'AWAITINGREPLY'
+            i.eventCalls.map(c => c.status).includes("ACCEPTED")
+        || i.eventCalls.map(c => c.status).includes( "AUTOBOOKED")
+        || i.eventCalls.map(c => c.status).includes("OFFERING")
         )
         .map((i) => i.contact.email!),
       eventId: event.id,

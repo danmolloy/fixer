@@ -77,9 +77,6 @@ export default function ResponseConf(props: ResponseConfProps) {
       )}
       {contactMessage.status === 'FINDINGDEP' ? (
         <h2>Finding Dep</h2>
-      ) : contactMessage.type === 'AUTOBOOK' &&
-        contactMessage.status === 'DECLINED' ? (
-        <h2>Released.</h2>
       ) : contactMessage.type === 'AUTOBOOK' ||
         contactMessage.status === 'AUTOBOOKED' ? (
         <h2>Auto Booked</h2>

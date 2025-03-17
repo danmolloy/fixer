@@ -99,7 +99,7 @@ export const createOfferEmail = async (
         : `Action Required: Availability check from ${data.event.fixer.firstName} ${data.event.fixer.lastName} (${data.event.ensembleName})`;
 
   const templateID =
-    data.status === 'ACCEPTED' ||
+    data.status === 'RESPONDED' ||
     data.status === 'AUTOBOOKED' ||
     data.status === 'FINDINGDEP'
       ? readOnlyTemplate
@@ -209,7 +209,7 @@ export const updateOfferEmail = async (
   ${
     data.status === 'AWAITINGREPLY'
       ? `Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`
-      : `You can view up to date gig details at <a href="${responseLink}">this link</a>. It has been marked as ${data.status === 'ACCEPTED' ? 'accepted' : data.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`
+      : `You can view up to date gig details at <a href="${responseLink}">this link</a>.`
   }<br /> <br />
 
   If you need further information, contact ${data.eventSection.event.fixer.firstName} ${data.eventSection.event.fixer.lastName} at ${data.eventSection.event.fixer.email} or ${data.eventSection.event.fixer.mobileNumber}. <br /> <br />

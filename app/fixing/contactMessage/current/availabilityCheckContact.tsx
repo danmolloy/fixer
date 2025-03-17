@@ -44,7 +44,7 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
   return (
     <tr
       data-testid='contact-row'
-      className={`text-sm ${(contact.status === 'DECLINED' || contact.status === 'CANCELLED') && 'text-gray-300'} ${contactSelected && 'border border-blue-500'}`}
+      className={`text-sm ${contact.eventCalls.map(c => c.status).every(s => s === "DECLINED") && 'text-gray-300'} ${contactSelected && 'border border-blue-500'}`}
     >
       <td className='text-center'>
         <input
@@ -78,15 +78,13 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
           }
         </td>
       ))}
-      {contact.status === 'ACCEPTED' ||
-      contact.status === 'AUTOBOOKED' ||
-      contact.status === 'AVAILABLE' ? (
+      {contact.eventCalls.map(c => c.status).includes("AVAILABLE") ? (
         <td className='bg-green-500 text-center text-white'>
           <p className=''>{contact.status}</p>
         </td>
-      ) : contact.status === 'DECLINED' ? (
+      ) : contact.eventCalls.map(c => c.status).every(s => s === "DECLINED") ? (
         <td className='bg-white text-center text-black opacity-40'>
-          <p className=''>{contact.status}</p>
+          <p className=''>DECLINED</p>
         </td>
       ) : contact.status === 'AWAITINGREPLY' ? (
         <td className='bg-amber-500 text-center text-white'>
@@ -109,11 +107,7 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
             {contact.emailStatus && ` (${contact.emailStatus})`}
           </p>
         </td>
-      ) : contact.status === 'MIXED' ? (
-        <td className='bg-orange-500 text-center text-white'>
-          <p className=''>{contact.status}</p>
-        </td>
-      ) : (
+      ) :  (
         <td className='bg-red-600 text-center text-white'>
           {' '}
           {/* ERROR */}

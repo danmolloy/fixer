@@ -35,7 +35,7 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
   return (
     <tr
       data-testid='contact-row'
-      className={`text-sm ${contact.status === 'DECLINED' && 'text-gray-300'}`}
+      className={`text-sm ${contact.eventCalls.map(c => c.status).every(s => s === 'DECLINED') && 'text-gray-300'}`}
     >
       <td className='text-center'>{index}</td>
       <td className='text-center'>
@@ -65,9 +65,9 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           }
         </td>
       ))}
-      {contact.status === 'DECLINED' ? (
+      {contact.eventCalls.map(c => c.status).every(s => s === 'DECLINED') ? (
         <td className='bg-white text-center text-black opacity-40'>
-          <p className=''>{contact.status}</p>
+          <p className=''>DECLINED</p>
         </td>
       ) : contact.status === 'AWAITINGREPLY' ? (
         <td className='text-center'>

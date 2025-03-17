@@ -99,7 +99,8 @@ export default function CurrentContactsOptions(
         <button
           className='p-1 text-start hover:bg-slate-100 disabled:opacity-40'
           disabled={
-            contact.status !== 'ACCEPTED' && contact.status !== 'AUTOBOOKED'
+            !contact.eventCalls.map(c => c.status).includes("ACCEPTED") &&
+            !contact.eventCalls.map(c => c.status).includes("AUTOBOOKED")
           }
           onClick={() =>
             handleUpdate(

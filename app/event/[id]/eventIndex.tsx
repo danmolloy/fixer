@@ -37,6 +37,7 @@ export type EventInfoTableProps = {
   };
   contacts: (ContactMessage & {
     contact: EnsembleContact;
+    eventCalls: ContactEventCall[]
   })[];
   sections: (EventSection & {
     orchestration: Orchestration[];

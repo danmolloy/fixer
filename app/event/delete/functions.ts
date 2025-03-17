@@ -13,10 +13,9 @@ export const deleteEvent = async (eventId: number) => {
           contacts: {
             where: {
               OR: [
-                { status: 'AUTOBOOKED' },
-                { status: 'ACCEPTED' },
                 { status: 'AVAILABLE' },
-                { status: 'MIXED' },
+                { status: 'AUTOBOOKED' },
+                { status: 'RESPONDED' },
                 { status: 'FINDINGDEP' },
                 { status: 'AWAITINGREPLY' },
               ],

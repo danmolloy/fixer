@@ -15,21 +15,26 @@ export const releaseDeppers = async (eventSectionId: number) => {
   });
   if (deppingContacts.length > 0) {
     try {
+      const updatedCalls = await prisma.contactEventCall.updateManyAndReturn({
+        where: {
+          contactMessageId: deppingContacts[0].id
+        },
+        data: {
+          status: "DECLINED"
+        },
+        include: {
+          call: true
+        }
+      })
       const releaseMusician = await prisma.contactMessage.update({
         where: {
           id: deppingContacts[0].id,
         },
         data: {
-          status: 'DECLINED',
+          status: 'RESPONDED',
         },
         include: {
           contact: true,
-          eventCalls: {
-            include: {
-              call: true,
-            },
-          },
-          //calls: true,
           eventSection: {
             include: {
               event: true,
@@ -39,7 +44,7 @@ export const releaseDeppers = async (eventSectionId: number) => {
       });
       return await emailDeppingMusician({
         ...releaseMusician,
-        calls: releaseMusician.eventCalls.map((c) => c.call),
+        calls: updatedCalls.map((c) => c.call),
         ensembleName: releaseMusician.eventSection.event.ensembleName,
         eventId: releaseMusician.eventSection.eventId,
       });

@@ -66,9 +66,8 @@ export const updateEvent = async (eventObj: Event) => {
             where: {
               OR: [
                 { status: 'AUTOBOOKED' },
-                { status: 'ACCEPTED' },
+                { status: 'RESPONDED' },
                 { status: 'AVAILABLE' },
-                { status: 'MIXED' },
                 { status: 'FINDINGDEP' },
                 { status: 'AWAITINGREPLY' },
               ],
@@ -154,12 +153,11 @@ export const updateEmailPlayers = async (
       ...contacts,
       ...data.event.sections[i].contacts.filter(
         (i) =>
-          i.status === 'ACCEPTED' ||
           i.status === 'AUTOBOOKED' ||
           i.status === 'FINDINGDEP' ||
           i.status === 'AWAITINGREPLY' ||
           i.status === 'AVAILABLE' ||
-          i.status === 'MIXED'
+          i.status === 'RESPONDED' 
       ),
     ];
   }
