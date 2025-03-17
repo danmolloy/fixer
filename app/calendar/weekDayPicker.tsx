@@ -1,5 +1,5 @@
 import { Call } from '@prisma/client';
-import { DateTime } from 'luxon';
+import { DateTime, WeekdayNumbers } from 'luxon';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 
 export type WeekDayPickerProps = {
@@ -15,7 +15,7 @@ export default function WeekDayPicker(props: WeekDayPickerProps) {
     let dateArr: DateTime[] = [];
     const selectedWeek = selectedDate.startOf('week');
     for (let i = 1; i <= 7; i++) {
-      dateArr = [...dateArr, selectedWeek.set({ weekday: i })];
+      dateArr = [...dateArr, selectedWeek.set({ weekday: i as WeekdayNumbers })];
     }
     return dateArr;
   };
