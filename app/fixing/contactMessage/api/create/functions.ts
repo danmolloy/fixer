@@ -75,8 +75,8 @@ export const createContactMessages = async (
       id: Number(data.eventId),
     },
     include: {
-      fixer: true
-    }
+      fixer: true,
+    },
   });
 
   let currentHighestIndex =
@@ -102,8 +102,8 @@ export const createContactMessages = async (
         urgent: data.urgent,
       },
       include: {
-        contact: true
-      }
+        contact: true,
+      },
     });
     for (let j = 0; j < data.contacts[i].calls.length; j++) {
       await prisma.contactEventCall.create({
@@ -120,9 +120,7 @@ export const createContactMessages = async (
       });
     }
     if (newContact.type === 'AUTOBOOK' && event !== null) {
-
       try {
-
         const playerCalls = await prisma.contactEventCall.findMany({
           where: {
             contactMessageId: newContact.id,
@@ -137,7 +135,7 @@ export const createContactMessages = async (
           calls: playerCalls.map((c) => c.call),
           event: event,
         });
-    
+
         await axios.post(`${process.env.URL}/sendGrid`, {
           body: {
             emailData: emailData,
@@ -147,17 +145,15 @@ export const createContactMessages = async (
         });
         //await addEmailToQueue(emailData);
         if (newContact.urgent === true) {
-          await urgentNotification({...newContact, event: event});
+          await urgentNotification({ ...newContact, event: event });
         }
       } catch (e) {
         throw new Error(e);
       }
-     
     }
     currentHighestIndex += 1;
   }
   if (data.type !== 'AVAILABILITY') {
-    
     await handleFixing(Number(data.eventId));
   } else {
     await emailAvailabilityChecks(Number(data.eventSectionId));
@@ -494,8 +490,7 @@ export const handleFixing = async (eventID: number) => {
     for (let j = 0; j < event.sections[i].contacts.length; j++) {
       const contact = event.sections[i].contacts[j];
       // Find reason to skip
-      if (contact.status !== 'NOTCONTACTED' 
-      ) {
+      if (contact.status !== 'NOTCONTACTED') {
         continue;
       }
       const callsToOffer = await getCallsToOffer({

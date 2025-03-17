@@ -23,7 +23,7 @@ describe('<CurrentContactRow />', () => {
       },
       playerMessage: 'mock player message',
       emailEvents: [],
-      emailStatus: "OPENED",
+      emailStatus: 'OPENED',
     },
     index: randInd,
     numContacts: Math.floor(Math.random() * 2) + randInd,
@@ -61,10 +61,10 @@ describe('<CurrentContactRow />', () => {
       const status = screen.getByText('FINDING DEP');
       expect(status).toBeInTheDocument();
     } else if (mockProps.contact.status === 'AWAITINGREPLY') {
-      const status = screen.getByText(
-        `AWAITING REPLY ${mockProps.contact.emailStatus}`
-      );
-      expect(status).toBeInTheDocument();
+      const contactMessageStatus = screen.getByText(`CONTACTING`);
+      const emailStatus = screen.getByText('OPENED');
+      expect(contactMessageStatus).toBeInTheDocument();
+      expect(emailStatus).toBeInTheDocument();
     } else if (mockProps.contact.status === 'NOTCONTACTED') {
       const status = screen.getByText('NOT CONTACTED');
       expect(status).toBeInTheDocument();

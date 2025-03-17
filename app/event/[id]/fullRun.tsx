@@ -93,27 +93,41 @@ export default function FullRunIndex(props: FullRunIndexProps) {
                   {calls.map((j) => (
                     <td className='p-1' key={j.id}>
                       <div>
-                        {i.orchestration.find(
-                          (orch) => orch.callId === j.id
-                        ) === undefined ||
-                        i.orchestration.find((orch) => orch.callId === j.id)!
-                          .numRequired <
-                          index + 1 ? (
-                          <p>N/A</p>
-                        ) : (
-                          i.contacts
-                            .filter((c) =>
-                              c.eventCalls
-                                .filter((i) => i.status === 'ACCEPTED')
-                                .map((z) => z.callId)
-                                .includes(j.id)
-                            ).filter((c, ind) => ind === index).map((c, ) => (
-                              <p key={c.id}>
-                                {`${c.contact.firstName} ${c.contact.lastName}`}
-                  
-                              </p>
-                            ))
-                        )}
+                        {(() => {
+                          // Check if the orchestration exists and has sufficient numRequired
+                          const orchestration = i.orchestration.find(
+                            (orch) => orch.callId === j.id
+                          );
+                          const isOrchestrationValid =
+                            orchestration &&
+                            orchestration.numRequired >= index + 1;
+
+                          // Filter contacts with "ACCEPTED" status and matching callId
+                          const acceptedContacts = i.contacts.filter((c) =>
+                            c.eventCalls.some(
+                              (call) =>
+                                call.status === 'ACCEPTED' &&
+                                call.callId === j.id
+                            )
+                          );
+
+                          // Filter for the contact at the current index
+                          const filteredContact = acceptedContacts[index];
+
+                          if (!isOrchestrationValid) {
+                            return <p>N/A</p>;
+                          }
+
+                          if (!filteredContact) {
+                            return <p>TBC</p>;
+                          }
+
+                          return (
+                            <p key={filteredContact.id}>
+                              {`${filteredContact.contact.firstName} ${filteredContact.contact.lastName}`}
+                            </p>
+                          );
+                        })()}
                       </div>
                     </td>
                   ))}

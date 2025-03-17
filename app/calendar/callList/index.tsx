@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { DateTime } from 'luxon';
 import CallTile from './callTile';
 import { Call, Ensemble, Event } from '@prisma/client';

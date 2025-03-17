@@ -113,12 +113,12 @@ export const emailAvailabilityChecks = async (eventSectionId: number) => {
       });
       await prisma.contactEventCall.updateMany({
         where: {
-          contactMessageId: contactMsg.id
+          contactMessageId: contactMsg.id,
         },
         data: {
-          status: "CHECKING"
-        }
-      })
+          status: 'CHECKING',
+        },
+      });
     } catch (e) {
       console.log(e);
       throw new Error(e);

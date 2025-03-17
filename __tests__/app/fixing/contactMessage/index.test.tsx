@@ -44,7 +44,6 @@ const mockProps: EventSectionContactsProps = {
       eventCalls: [{ ...mockContactEventCall, call: mockCall }],
       emailStatus: 'PROCESSED' as EmailStatus,
       emailEvents: [],
-
     },
     {
       ...mockContactMessage,
@@ -58,7 +57,6 @@ const mockProps: EventSectionContactsProps = {
       eventCalls: [{ ...mockContactEventCall, call: mockCall }],
       emailStatus: 'PROCESSED' as EmailStatus,
       emailEvents: [],
-
     },
   ],
 };

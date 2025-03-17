@@ -78,7 +78,7 @@ export default function EventSectionIndex(props: EventSectionProps) {
                 Booking {section.bookingStatus}
               </span>
             </h2>
-            
+
             <SectionMenu
               editSection={() => setUpdateSection(true)}
               addToList={() => setEditContacts(true)}
@@ -91,8 +91,13 @@ export default function EventSectionIndex(props: EventSectionProps) {
                 orchestration={section.orchestration}
               />
             </div>
-              <label className='text-sm flex flex-row items-center'>
-              <input checked={hideDeclined} type="checkbox" className='m-1 mr-2 ' onChange={() => setHideDeclined(!hideDeclined)}/>
+            <label className='flex flex-row items-center text-sm'>
+              <input
+                checked={hideDeclined}
+                type='checkbox'
+                className='m-1 mr-2'
+                onChange={() => setHideDeclined(!hideDeclined)}
+              />
               Hide declined
             </label>
             <SectionViewSelect
@@ -103,7 +108,6 @@ export default function EventSectionIndex(props: EventSectionProps) {
               setSelectedView={(arg) => setCallType(arg)}
               disabled={editContacts}
             />
-            
           </div>
         </div>
       )}
@@ -113,7 +117,16 @@ export default function EventSectionIndex(props: EventSectionProps) {
         editContacts={editContacts}
         setEditContacts={(arg) => setEditContacts(arg)}
         type={callType}
-        currentContacts={hideDeclined ? currentContacts.filter(contact => !contact.eventCalls.map(e => e.status).every(val => val === "DECLINED")) : currentContacts}
+        currentContacts={
+          hideDeclined
+            ? currentContacts.filter(
+                (contact) =>
+                  !contact.eventCalls
+                    .map((e) => e.status)
+                    .every((val) => val === 'DECLINED')
+              )
+            : currentContacts
+        }
         eventCalls={eventCalls}
         eventSectionId={section.id}
         sectionContacts={sectionContacts}

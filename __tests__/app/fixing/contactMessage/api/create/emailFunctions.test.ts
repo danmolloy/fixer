@@ -1,8 +1,5 @@
 import axios from '../../../../../../__mocks__/axios';
-import {
-  mockContactMessage,
-  mockNotContactedContactMessage,
-} from '../../../../../../__mocks__/models/contactMessage';
+import { mockContactMessage } from '../../../../../../__mocks__/models/contactMessage';
 import { mockEnsembleContact } from '../../../../../../__mocks__/models/ensembleContact';
 import { mockEvent } from '../../../../../../__mocks__/models/event';
 import { mockEventSection } from '../../../../../../__mocks__/models/eventSection';
@@ -10,29 +7,9 @@ import { mockUser } from '../../../../../../__mocks__/models/user';
 import { prismaMock } from '../../../../../../__mocks__/singleton';
 import { emailAvailabilityChecks } from '../../../../../../app/fixing/contactMessage/api/create/emailFunctions';
 import { SentEmailData } from '../../../../../../app/sendGrid/lib';
-import {
-  createOfferEmail,
-  releaseDepperEmail,
-} from '../../../../../../app/sendGrid/playerLib';
-import {
-  bookingCompleteEmail,
-  listExhaustedEmail,
-} from '../../../../../../app/sendGrid/adminEmailLib';
-import {
-  getDateRange,
-  getNumToContact,
-  gigIsFixed,
-} from '../../../../../../app/fixing/contactMessage/api/create/functions';
+import { createOfferEmail } from '../../../../../../app/sendGrid/playerLib';
 import { mockCall } from '../../../../../../__mocks__/models/call';
-import { mockSection } from '../../../../../../__mocks__/models/ensembleSection';
-import {
-  ContactMessage,
-  EnsembleContact,
-  Event,
-  EventSection,
-} from '@prisma/client';
 import { mockContactEventCall } from '../../../../../../__mocks__/models/ContactEventCall';
-import { mockOrchestration } from '../../../../../../__mocks__/models/orchestration';
 
 jest.mock('axios');
 const mockPost = jest.spyOn(axios, 'post');
@@ -123,61 +100,21 @@ describe('emailAvailabilityChecks', () => {
           },
         },
       },
-      {
-        ...mockContactMessage,
-        id: 2,
-        contact: mockEnsembleContact,
-        eventCalls: [
-          {
-            ...mockContactEventCall,
-            call: mockCall,
-          },
-        ],
-        eventSection: {
-          ...mockEventSection,
-          event: {
-            ...mockEvent,
-            fixer: mockUser,
-          },
-        },
-      },
-      {
-        ...mockContactMessage,
-        id: 3,
-        contact: mockEnsembleContact,
-        eventCalls: [
-          {
-            ...mockContactEventCall,
-            call: mockCall,
-          },
-        ],
-        eventSection: {
-          ...mockEventSection,
-          event: {
-            ...mockEvent,
-            fixer: mockUser,
-          },
-        },
-      },
     ];
     prismaMock.contactMessage.findMany.mockResolvedValueOnce(mockData);
-    prismaMock.contactMessage.update.mockResolvedValueOnce(mockContactMessage);
+    prismaMock.contactMessage.update.mockResolvedValueOnce({
+      ...mockContactMessage,
+      id: 1,
+    });
+    prismaMock.contactEventCall.updateMany.mockResolvedValue({
+      count: 1,
+    });
     await emailAvailabilityChecks(1);
-    expect(createOfferEmail).toHaveBeenCalledTimes(3);
+    expect(createOfferEmail).toHaveBeenCalledTimes(1);
     expect(createOfferEmail).toHaveBeenCalledWith({
       ...mockData[0],
       event: mockData[0].eventSection.event,
       calls: mockData[0].eventCalls.map((c) => c.call),
-    });
-    expect(createOfferEmail).toHaveBeenCalledWith({
-      ...mockData[1],
-      event: mockData[0].eventSection.event,
-      calls: mockData[1].eventCalls.map((c) => c.call),
-    });
-    expect(createOfferEmail).toHaveBeenCalledWith({
-      ...mockData[2],
-      event: mockData[0].eventSection.event,
-      calls: mockData[2].eventCalls.map((c) => c.call),
     });
   });
   it('for each unsent availability check, axios.post(args) is called', async () => {

@@ -20,9 +20,10 @@ global.confirm = jest.fn(() => true);
 let mockConfirm = global.confirm;
 
 const mockProps: EventSectionProps = {
-  eventId: 1, 
+  eventId: 1,
   section: {
     ...mockEventSection,
+    id: 1,
     ensembleSection: mockSection,
     orchestration: [mockOrchestration],
   },
@@ -30,6 +31,7 @@ const mockProps: EventSectionProps = {
   eventSections: [
     {
       ...mockEventSection,
+      id: 2,
       ensembleSection: mockSection,
     },
   ],
@@ -38,19 +40,31 @@ const mockProps: EventSectionProps = {
   currentContacts: [
     {
       ...mockContactMessage,
-      eventCalls: [{ ...mockContactEventCall, call: mockCall }],
+      id: 12,
+      eventCalls: [{ ...mockContactEventCall, call: mockCall, id: '1234' }],
       contact: mockEnsembleContact,
       emailEvents: [],
-      emailStatus: "DROPPED",
+      emailStatus: 'DROPPED',
     },
     {
       ...mockContactMessage,
-
-      type: "BOOKING",
-      eventCalls: [{ ...mockContactEventCall, call: mockCall, status: "DECLINED" }],
-      contact: {...mockEnsembleContact, firstName: "Greg", lastName: "Ievers"},
+      id: 13,
+      type: 'BOOKING',
+      eventCalls: [
+        {
+          ...mockContactEventCall,
+          call: mockCall,
+          status: 'DECLINED',
+          id: '121',
+        },
+      ],
+      contact: {
+        ...mockEnsembleContact,
+        firstName: 'Greg',
+        lastName: 'Ievers',
+      },
       emailEvents: [],
-      emailStatus: "DROPPED",
+      emailStatus: 'DROPPED',
     },
   ],
 };
@@ -66,18 +80,17 @@ describe('<EventSectionIndex />', () => {
     expect(eventSection).toBeInTheDocument();
   });
   it("'Hide declined' btn hides declined contacts", () => {
-    const hideBtn = screen.getByLabelText("Hide declined");
+    const hideBtn = screen.getByLabelText('Hide declined');
     expect(hideBtn).toBeInTheDocument();
     const eventSection = screen.getByTestId(
       `${mockProps.section.id}-event-section`
     );
-    expect(eventSection.textContent).toMatch("Greg Ievers");
+    expect(eventSection.textContent).toMatch('Greg Ievers');
 
     act(() => {
       fireEvent.click(hideBtn);
     });
-    expect(eventSection.textContent).not.toMatch("Greg Ievers");
-
+    expect(eventSection.textContent).not.toMatch('Greg Ievers');
   });
 
   it('section name is in the document', () => {

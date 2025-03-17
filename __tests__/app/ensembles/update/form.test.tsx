@@ -36,7 +36,7 @@ describe('<UpdateEnsembleform />', () => {
   });
 
   it('add btn adds ensemble name input, remove btn removes ensemble name (except if length === 1)', async () => {
-    const removeBtn = screen.getByText('Remove');
+    const removeBtn = screen.getByTestId('remove-btn');
     expect(removeBtn).toBeInTheDocument();
     // Doesn't remove if just one name
     const nameOne = screen.getByTestId('ensembleNames[0]-input');
@@ -46,7 +46,7 @@ describe('<UpdateEnsembleform />', () => {
     });
     expect(nameOne).toBeInTheDocument();
     // Add Button adds
-    const addBtn = screen.getByText('Add');
+    const addBtn = screen.getByText('Add name');
     expect(addBtn).toBeInTheDocument();
     await act(async () => {
       fireEvent.click(addBtn);

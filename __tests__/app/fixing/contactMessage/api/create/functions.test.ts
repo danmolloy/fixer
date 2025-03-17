@@ -140,11 +140,15 @@ describe('createContactMessages', () => {
   };
 
   it('fetches correct contactMessage data', async () => {
+    const mockContactEventCallWithCalls = {
+      ...mockContactEventCall,
+      calls: [mockCall],
+    };
     prismaMock.contactMessage.findMany.mockResolvedValueOnce([
       mockContactMessage,
     ]);
     prismaMock.contactEventCall.create.mockResolvedValueOnce(
-      mockContactEventCall
+      mockContactEventCallWithCalls
     );
     prismaMock.contactMessage.create.mockResolvedValue({
       ...mockContactMessage,
@@ -176,9 +180,14 @@ describe('createContactMessages', () => {
   });
   //it("autobook sets status & type correctly", () => {})
   it('gives new all contactMessages correct vals incl. index numbers', async () => {
+    const mockContactEventCallWithCalls = {
+      ...mockContactEventCall,
+      calls: [mockCall],
+    };
+
     prismaMock.event.findUnique.mockResolvedValue(mockFixingObj);
     prismaMock.contactEventCall.updateManyAndReturn.mockResolvedValue([
-      mockContactEventCall,
+      mockContactEventCallWithCalls,
     ]);
     prismaMock.eventSection.findUnique.mockResolvedValue(
       mockFixingObj.sections[0]
@@ -210,8 +219,8 @@ describe('createContactMessages', () => {
         urgent: mockContactMessages.urgent,
       },
       include: {
-        contact: true
-      }
+        contact: true,
+      },
     });
     expect(prismaMock.contactEventCall.create).toHaveBeenCalledWith({
       data: {
@@ -223,9 +232,13 @@ describe('createContactMessages', () => {
   });
 
   it('if availability check, emailAvailabilityChecks(eventSectionID) is called', async () => {
+    const mockContactEventCallWithCalls = {
+      ...mockContactEventCall,
+      calls: [mockCall],
+    };
     prismaMock.event.findUnique.mockResolvedValue(mockFixingObj);
     prismaMock.contactEventCall.updateManyAndReturn.mockResolvedValue([
-      mockContactEventCall,
+      mockContactEventCallWithCalls,
     ]);
     prismaMock.eventSection.findUnique.mockResolvedValue(
       mockFixingObj.sections[0]
@@ -270,9 +283,13 @@ describe('createContactMessages', () => {
   };
 
   it('if autobook, gives new contactMessages correct vals incl. status & type', async () => {
+    const mockContactEventCallWithCalls = {
+      ...mockContactEventCall,
+      calls: [mockCall],
+    };
     prismaMock.event.findUnique.mockResolvedValue(mockFixingObj);
     prismaMock.contactEventCall.updateManyAndReturn.mockResolvedValue([
-      mockContactEventCall,
+      mockContactEventCallWithCalls,
     ]);
     prismaMock.eventSection.findUnique.mockResolvedValue(
       mockFixingObj.sections[0]
@@ -306,8 +323,8 @@ describe('createContactMessages', () => {
         urgent: mockContactMessages.urgent,
       },
       include: {
-        contact: true
-      }
+        contact: true,
+      },
     });
   });
 });

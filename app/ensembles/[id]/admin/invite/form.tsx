@@ -6,7 +6,9 @@ import * as Yup from 'yup';
 import TextInput from '../../../../forms/textInput';
 import { buttonPrimary } from '../../../dashboard';
 import SubmitButton from '../../../../forms/submitBtn';
-import ValidationError, { extractErrors } from '../../../../forms/validationError';
+import ValidationError, {
+  extractErrors,
+} from '../../../../forms/validationError';
 import StatusMessage from '../../../../forms/statusMessage';
 
 export type InviteAdminFormProps = {

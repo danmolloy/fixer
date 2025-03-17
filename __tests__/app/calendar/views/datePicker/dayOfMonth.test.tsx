@@ -46,13 +46,13 @@ describe('<DatePickerDay />', () => {
   });
   it('[X]-tile is in the document', () => {
     const dayTile = screen.getByTestId(
-      `${mockProps.dayOfMonthDate.toLocaleString()}-tile`
+      `${mockProps.dayOfMonthDate.toFormat('LLL dd, yyyy')}-tile`
     );
     expect(dayTile).toBeInTheDocument();
   });
   it('calls selectDay onClick', () => {
     const dayTile = screen.getByTestId(
-      `${mockProps.dayOfMonthDate.toLocaleString()}-tile`
+      `${mockProps.dayOfMonthDate.toFormat('LLL dd, yyyy')}-tile`
     );
     act(() => {
       fireEvent.click(dayTile);

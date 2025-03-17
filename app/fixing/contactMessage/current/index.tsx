@@ -11,7 +11,7 @@ import CurrentContactRow from './contact';
 import AvailabilityTable from './availabilityTable';
 
 export type CurrentContactMessagesProps = {
-  orchestration: Orchestration[]
+  orchestration: Orchestration[];
   eventCalls: Call[];
   contacts: (ContactMessage & {
     eventCalls: (ContactEventCall & { call: Call })[];
@@ -50,7 +50,26 @@ export default function CurrentContactMessages(
                 {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}
               </p>
               <p>{DateTime.fromJSDate(new Date(i.startTime)).toFormat('DD')}</p>
-              <p>{contacts.filter(c => c.type !== "AVAILABILITY" && c.eventCalls.filter(j => j.status === "ACCEPTED" &&j.callId === i.id).map(j => j.callId).includes(i.id)).length}/{orchestration.find(o => o.callId === i.id)?.numRequired || 0} Booked</p>
+              <p>
+                {
+                  contacts.filter(
+                    (c) =>
+                      c.type !== 'AVAILABILITY' &&
+                      c.eventCalls
+                        .filter(
+                          (j) =>
+                            (j.status === 'ACCEPTED' ||
+                              j.status === 'AUTOBOOKED') &&
+                            j.callId === i.id
+                        )
+                        .map((j) => j.callId)
+                        .includes(i.id)
+                  ).length
+                }
+                /
+                {orchestration.find((o) => o.callId === i.id)?.numRequired || 0}{' '}
+                Booked
+              </p>
             </th>
           ))}
           <th>Status</th>

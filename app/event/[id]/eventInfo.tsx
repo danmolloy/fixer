@@ -84,7 +84,9 @@ export default function EventInfo(props: EventInfoProps) {
         id='created-datetime'
         title='Event created'
         value={String(
-          DateTime.fromJSDate(new Date(event.createdAt)).toFormat('HH:mm LLL dd, yyyy')
+          DateTime.fromJSDate(new Date(event.createdAt)).toFormat(
+            'HH:mm LLL dd, yyyy'
+          )
         )}
       />
       <InfoDiv
@@ -92,7 +94,9 @@ export default function EventInfo(props: EventInfoProps) {
         id='updated-datetime'
         title='Last updated'
         value={String(
-          DateTime.fromJSDate(new Date(event.updatedAt)).toFormat('HH:mm LLL dd, yyyy')
+          DateTime.fromJSDate(new Date(event.updatedAt)).toFormat(
+            'HH:mm LLL dd, yyyy'
+          )
         )}
       />
     </tbody>

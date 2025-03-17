@@ -12,7 +12,11 @@ import { getDateRange } from '../../../../app/fixing/contactMessage/api/create/f
 import { mockSection } from '../../../../__mocks__/models/ensembleSection';
 import { mockOrchestration } from '../../../../__mocks__/models/orchestration';
 import GigStatus from '../../../../app/event/create/gigStatus';
-import { ContactEventCallStatus, ContactMessageStatus, ContactMessageType } from '@prisma/client';
+import {
+  ContactEventCallStatus,
+  ContactMessageStatus,
+  ContactMessageType,
+} from '@prisma/client';
 import { mockContactEventCall } from '../../../../__mocks__/models/ContactEventCall';
 
 describe('<EventOverview />', () => {
@@ -58,7 +62,13 @@ describe('<EventOverview />', () => {
               ...mockContactMessage,
               status: 'AWAITINGREPLY' as ContactMessageStatus,
               type: 'BOOKING' as ContactMessageType,
-              eventCalls: [{ ...mockContactEventCall, call: mockPropsCall, status: 'CHECKING' as ContactEventCallStatus }],
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  call: mockPropsCall,
+                  status: 'OFFERING' as ContactEventCallStatus,
+                },
+              ],
             },
           ],
           ensembleSection: mockSection,
@@ -106,37 +116,7 @@ describe('<EventOverview />', () => {
 }); */
 
 describe('gigStatus()', () => {
-  it('returns empty array if all calls are fixed', () => {
-    const event = {
-      ...mockEvent,
-      sections: [
-        {
-          ...mockEventSection,
-          contacts: [
-            {
-              ...mockContactMessage,
-              type: 'BOOKING' as ContactMessageType,
-              status: 'RESPONDED' as ContactMessageStatus,
-              eventCalls: [{ ...mockContactEventCall, call: mockCall, status: 'ACCEPTED' as ContactEventCallStatus }],
-            },
-          ],
-          ensembleSection: mockSection,
-          orchestration: [
-            {
-              ...mockOrchestration,
-              callId: mockCall.id,
-              numRequired: 1,
-            },
-          ],
-        },
-      ],
-      calls: [mockCall],
-    };
-    const result = gigStatus(event);
-    expect(result).toEqual([]);
-  });
-
-  it('returns array of sections with unfixed calls', () => {
+  it('returns array of sections with fixed status', () => {
     const event = {
       ...mockEvent,
       sections: [
@@ -147,9 +127,13 @@ describe('gigStatus()', () => {
               ...mockContactMessage,
               status: 'RESPONDED' as ContactMessageStatus,
               type: 'BOOKING' as ContactMessageType,
-              eventCalls: [{ 
-                ...mockContactEventCall, 
-                call: mockCall, status: 'ACCEPTED'  as ContactEventCallStatus }],
+              eventCalls: [
+                {
+                  ...mockContactEventCall,
+                  call: mockCall,
+                  status: 'ACCEPTED' as ContactEventCallStatus,
+                },
+              ],
             },
           ],
           ensembleSection: mockSection,
@@ -161,12 +145,12 @@ describe('gigStatus()', () => {
     const result = gigStatus(event);
     expect(result).toEqual([
       {
-        ...mockOrchestration,
-        sectionName: mockSection.name,
-        numRequired: 2,
         bookedForCall: 1,
-        numToDep: 0,
+        eventSectionId: event.sections[0].id,
+        numRequired: 2,
         remainingOnList: 0,
+        sectionName: mockSection.name,
+        numToDep: 0,
       },
     ]);
   });

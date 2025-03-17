@@ -10,7 +10,7 @@ import {
 import CurrentContactMessages from './current';
 
 export type EventSectionContactsProps = {
-  orchestration: Orchestration[]
+  orchestration: Orchestration[];
   eventSectionId: number;
   sectionContacts: EnsembleContact[];
   eventCalls: Call[];

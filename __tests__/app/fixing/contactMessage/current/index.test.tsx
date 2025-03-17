@@ -18,7 +18,7 @@ describe('<CurrentContactMessages />', () => {
       {
         ...mockContactMessage,
         emailEvents: [],
-      emailStatus: "OPENED",
+        emailStatus: 'OPENED',
         contact: {
           ...mockEnsembleContact,
           firstName: 'Bob',
@@ -29,6 +29,7 @@ describe('<CurrentContactMessages />', () => {
         eventCalls: [
           {
             ...mockContactEventCall,
+            id: '4',
             call: mockCall,
           },
         ],
@@ -36,7 +37,7 @@ describe('<CurrentContactMessages />', () => {
       {
         ...mockContactMessage,
         emailEvents: [],
-      emailStatus: "OPENED",
+        emailStatus: 'OPENED',
         contact: {
           ...mockEnsembleContact,
           firstName: 'Lachlan',
@@ -47,6 +48,7 @@ describe('<CurrentContactMessages />', () => {
         eventCalls: [
           {
             ...mockContactEventCall,
+            id: '1',
             call: mockCall,
           },
         ],
@@ -54,7 +56,7 @@ describe('<CurrentContactMessages />', () => {
       {
         ...mockContactMessage,
         emailEvents: [],
-      emailStatus: "OPENED",
+        emailStatus: 'OPENED',
         contact: {
           ...mockEnsembleContact,
           firstName: 'Amy',
@@ -65,6 +67,7 @@ describe('<CurrentContactMessages />', () => {
         eventCalls: [
           {
             ...mockContactEventCall,
+            id: '2',
             call: mockCall,
           },
         ],
@@ -113,13 +116,15 @@ describe('<CurrentContactMessages />', () => {
 
 describe('<CurrentContactMessages /> BOOKING', () => {
   const mockProps: CurrentContactMessagesProps = {
-    orchestration: [{...mockOrchestration, callId: mockCall.id, numRequired: 3}],
+    orchestration: [
+      { ...mockOrchestration, callId: mockCall.id, numRequired: 3 },
+    ],
     eventCalls: [mockCall],
     contacts: [
       {
         ...mockContactMessage,
         emailEvents: [],
-      emailStatus: "OPENED",
+        emailStatus: 'OPENED',
         contact: {
           ...mockEnsembleContact,
           firstName: 'Bob',
@@ -130,6 +135,9 @@ describe('<CurrentContactMessages /> BOOKING', () => {
         eventCalls: [
           {
             ...mockContactEventCall,
+            status: 'ACCEPTED',
+            callId: mockCall.id,
+
             call: mockCall,
           },
         ],
@@ -137,7 +145,7 @@ describe('<CurrentContactMessages /> BOOKING', () => {
       {
         ...mockContactMessage,
         emailEvents: [],
-      emailStatus: "OPENED",
+        emailStatus: 'OPENED',
         contact: {
           ...mockEnsembleContact,
           firstName: 'Lachlan',
@@ -155,7 +163,7 @@ describe('<CurrentContactMessages /> BOOKING', () => {
       {
         ...mockContactMessage,
         emailEvents: [],
-      emailStatus: "OPENED",
+        emailStatus: 'OPENED',
         contact: {
           ...mockEnsembleContact,
           firstName: 'Amy',
@@ -168,7 +176,7 @@ describe('<CurrentContactMessages /> BOOKING', () => {
             ...mockContactEventCall,
             call: mockCall,
             callId: mockCall.id,
-            status: "ACCEPTED"
+            status: 'ACCEPTED',
           },
         ],
       },
@@ -194,15 +202,17 @@ describe('<CurrentContactMessages /> BOOKING', () => {
       }
     }
   });
-  it("states numBooked/numRequired for each call", () => {
-    for (let i = 0; i < mockProps.eventCalls.length; i ++) {
-      const callHead = screen.getByTestId(`${mockProps.eventCalls[i].id}-col`)
-      const orchestration = mockProps.orchestration.find(j => j.callId === mockProps.eventCalls[i].id);
+  it('states numBooked/numRequired for each call', () => {
+    for (let i = 0; i < mockProps.eventCalls.length; i++) {
+      const callHead = screen.getByTestId(`${mockProps.eventCalls[i].id}-col`);
+      const orchestration = mockProps.orchestration.find(
+        (j) => j.callId === mockProps.eventCalls[i].id
+      );
       if (orchestration) {
-        expect(callHead.textContent).toMatch("2/3 Booked")
+        expect(callHead.textContent).toMatch('2/3 Booked');
       }
     }
-  })
+  });
 });
 
 describe('<CurrentContactMessages /> AVAILABILITY', () => {
@@ -213,7 +223,7 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
       {
         ...mockContactMessage,
         emailEvents: [],
-      emailStatus: "OPENED",
+        emailStatus: 'OPENED',
         contact: {
           ...mockEnsembleContact,
           firstName: 'Bob',
@@ -231,7 +241,7 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
       {
         ...mockContactMessage,
         emailEvents: [],
-      emailStatus: "OPENED",
+        emailStatus: 'OPENED',
         contact: {
           ...mockEnsembleContact,
           firstName: 'Lachlan',
@@ -249,7 +259,7 @@ describe('<CurrentContactMessages /> AVAILABILITY', () => {
       {
         ...mockContactMessage,
         emailEvents: [],
-      emailStatus: "OPENED",
+        emailStatus: 'OPENED',
         contact: {
           ...mockEnsembleContact,
           firstName: 'Amy',

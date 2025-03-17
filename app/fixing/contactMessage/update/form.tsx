@@ -118,46 +118,48 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
         initialErrors={{}}
       >
         {(props) => (
-          <Form className='flex w-full flex-col px-2 py-8 lg:w-2/3 '>
+          <Form className='flex w-full flex-col px-2 py-8 lg:w-2/3'>
             <h2 className='py-1'>Update Contact Call</h2>
-            <div className="mt-1 mb-2">
-            <p>Event: {`${event.ensembleName} ${getDateRange(event.calls)}`}</p>
-            <p>
-              {contact.contact.firstName} {contact.contact.lastName} (
-              {instrument})
-            </p>
+            <div className='mb-2 mt-1'>
+              <p>
+                Event: {`${event.ensembleName} ${getDateRange(event.calls)}`}
+              </p>
+              <p>
+                {contact.contact.firstName} {contact.contact.lastName} (
+                {instrument})
+              </p>
             </div>
             <div className='my-2 flex flex-col'>
-              <label htmlFor='type-select' className='my-2 '>Type</label>
-            
-            <Field
-              id="type-select"
-              data-testid='type-select'
-              disabled={props.isSubmitting}
-              className='my-1 rounded border sm:w-2/3'
-              as='select'
-              name='type'
-            >
-              <option value='BOOKING'>To Book</option>
-              <option value='AVAILABILITY'>Availability Check</option>
-              <option value='AUTOBOOK'>Auto-Book</option>
-            </Field>
-            <ErrorMessage name='type'>
-              {(err) => <p className='text-xs text-red-500'>{err}</p>}
-            </ErrorMessage>
+              <label htmlFor='type-select' className='my-2'>
+                Type
+              </label>
 
+              <Field
+                id='type-select'
+                data-testid='type-select'
+                disabled={props.isSubmitting}
+                className='my-1 rounded border sm:w-2/3'
+                as='select'
+                name='type'
+              >
+                <option value='BOOKING'>To Book</option>
+                <option value='AVAILABILITY'>Availability Check</option>
+                <option value='AUTOBOOK'>Auto-Book</option>
+              </Field>
+              <ErrorMessage name='type'>
+                {(err) => <p className='text-xs text-red-500'>{err}</p>}
+              </ErrorMessage>
             </div>
             <div className='my-2'>
               <p className=''>Calls</p>
               {contact.eventCalls.map((i, index) => (
                 <label key={i.callId} className='my-1 flex flex-col p-1'>
-                  <div data-testid={i.callId} className='ml-1 text-sm flex'>
+                  <div data-testid={i.callId} className='ml-1 flex text-sm'>
                     <p>
                       {DateTime.fromJSDate(new Date(i.call.startTime)).toFormat(
                         'HH:mm DD'
                       )}
                     </p>
-                    
                   </div>
                   <select
                     data-testid={`${i.callId}-select`}
@@ -166,7 +168,7 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                     onBlur={props.handleBlur}
                     name={`eventCalls[${index}].status`}
                     value={props.values.eventCalls[index].status}
-                    className="rounded border sm:w-2/3"
+                    className='rounded border sm:w-2/3'
                   >
                     <option value=''>Select status</option>
                     <option
@@ -319,8 +321,8 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
                     : undefined
               }
             />
-            
-<ValidationError errors={extractErrors(props.errors)} />
+
+            <ValidationError errors={extractErrors(props.errors)} />
 
             <StatusMessage status={props.status} />
           </Form>

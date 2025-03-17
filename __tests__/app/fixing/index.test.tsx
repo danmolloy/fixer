@@ -28,6 +28,8 @@ const mockProps: FixingIndexProps = {
       contacts: [
         {
           ...mockContactMessage,
+          emailEvents: [],
+          emailStatus: 'DROPPED',
           contact: mockEnsembleContact,
           eventCalls: [
             {

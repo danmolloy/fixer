@@ -28,34 +28,33 @@ export type EventOverviewProps = {
   };
 };
 
-export const gigStatus = (event: EventOverviewProps["event"]
-  ) => {
-    
-    const sections = event.sections.map((i) => ({
-      eventSectionId: i.id,
-      sectionName: i.ensembleSection.name,
-      numRequired: i.orchestration.reduce(
-        (acc, j) => acc + j.numRequired,
-        0
-      ),
-      bookedForCall: i.contacts.filter((j) =>
+export const gigStatus = (event: EventOverviewProps['event']) => {
+  const sections = event.sections.map((i) => ({
+    eventSectionId: i.id,
+    sectionName: i.ensembleSection.name,
+    numToDep: i.contacts.filter(
+      (j) =>
         j.eventCalls.find(
           (k) =>
             k.call.id === event.calls[0].id &&
-            k.status === "ACCEPTED"
-        )
-      ).length,
-      remainingOnList: i.contacts.filter((j) =>
-        j.eventCalls.find(
-          (k) =>
-            k.call.id === event.calls[0].id &&
-            (k.status === "OFFERING" ||
-            k.status === "TOOFFER")
-        )
-      ).
-        length,
-    }))
-  return sections
+            (k.status === 'ACCEPTED' || k.status === 'TOOFFER')
+        ) && j.status === 'FINDINGDEP'
+    ).length,
+    numRequired: i.orchestration.reduce((acc, j) => acc + j.numRequired, 0),
+    bookedForCall: i.contacts.filter((j) =>
+      j.eventCalls.find(
+        (k) => k.call.id === event.calls[0].id && k.status === 'ACCEPTED'
+      )
+    ).length,
+    remainingOnList: i.contacts.filter((j) =>
+      j.eventCalls.find(
+        (k) =>
+          k.call.id === event.calls[0].id &&
+          (k.status === 'OFFERING' || k.status === 'TOOFFER')
+      )
+    ).length,
+  }));
+  return sections;
 };
 
 export default function EventOverview(props: EventOverviewProps) {
@@ -70,10 +69,11 @@ export default function EventOverview(props: EventOverviewProps) {
     >
       <p>{getDateRange(event.calls)}</p>
       <h3>{event.eventTitle}</h3>
-    
+
       {fixStatus.length === 0 ? (
         <p>No fixing</p>
-      ) : fixStatus.filter((i) => i.numRequired - i.bookedForCall > 0).length === 0 ? (
+      ) : fixStatus.filter((i) => i.numRequired - i.bookedForCall > 0)
+          .length === 0 ? (
         <p>Gig is fixed.</p>
       ) : (
         <div data-testid='fixing-overview'>

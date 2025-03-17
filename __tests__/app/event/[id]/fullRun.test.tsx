@@ -71,6 +71,23 @@ const mockProps: FullRunIndexProps = {
             lastName: 'Phelan',
           },
         },
+        {
+          ...mockContactMessage,
+          id: 3,
+          eventCalls: [
+            {
+              ...mockContactEventCall,
+              callId: mockCall.id,
+              call: mockCall,
+              status: 'OFFERING',
+            },
+          ],
+          contact: {
+            ...mockEnsembleContact,
+            firstName: 'Elliot',
+            lastName: 'Gannon',
+          },
+        },
       ],
       ensembleSection: {
         ...mockSection,
@@ -119,10 +136,9 @@ describe('<FullRunIndex />', () => {
     expect(screen.getByTestId('full-run-index')).toBeInTheDocument();
     expect(screen.queryByText('Gerry Kelly')).not.toBeInTheDocument();
   });
-  it("calls state 'TBC' if not required", () => {
-    const playerRowTwo = screen.getByTestId(`${mockProps.sections[0].id}-2`);
-    expect(playerRowTwo.textContent).toMatch('3');
-    expect(playerRowTwo.textContent).toMatch('TBC');
-    expect(playerRowTwo.textContent).toMatch('N/A');
+  it("calls state 'TBC' if not booked", () => {
+    const playerRowThree = screen.getByTestId(`${mockProps.sections[0].id}-2`);
+    expect(playerRowThree.textContent).toMatch('3');
+    expect(playerRowThree.textContent).toMatch('TBC');
   });
 });

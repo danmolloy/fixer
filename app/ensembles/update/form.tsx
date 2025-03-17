@@ -81,7 +81,10 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                 render={(arrayHelpers) => (
                   <div className=''>
                     {props.values.ensembleNames.map((j, index) => (
-                      <div key={index} className='flex flex-row justify-start items-start'>
+                      <div
+                        key={index}
+                        className='flex flex-row items-start justify-start'
+                      >
                         <TextInput
                           disabled={props.isSubmitting}
                           name={`ensembleNames[${index}]`}
@@ -91,6 +94,7 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                         <button
                           className='m-1 rounded-full border p-1 text-sm hover:bg-slate-50 disabled:opacity-40'
                           disabled={props.isSubmitting}
+                          data-testid='remove-btn'
                           onClick={(e) => {
                             e.preventDefault();
                             props.values.ensembleNames.length > 1 &&
@@ -102,7 +106,7 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
                       </div>
                     ))}
                     <button
-                    className="my-2 w-24 rounded border p-1 text-sm"
+                      className='my-2 w-24 rounded border p-1 text-sm'
                       disabled={props.isSubmitting}
                       onClick={(e) => {
                         e.preventDefault();
@@ -133,7 +137,12 @@ export default function UpdateEnsembleForm(props: UpdateEnsembleProps) {
           </Form>
         )}
       </Formik>
-      <button onClick={() => handleDelete()} className='text-red-500 border border-red-500 p-2 rounded'>Delete Ensemble</button>
+      <button
+        onClick={() => handleDelete()}
+        className='rounded border border-red-500 p-2 text-red-500'
+      >
+        Delete Ensemble
+      </button>
     </div>
   );
 }

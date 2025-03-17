@@ -1,4 +1,8 @@
-import { Call, ContactEventCallStatus, ContactMessageStatus } from '@prisma/client';
+import {
+  Call,
+  ContactEventCallStatus,
+  ContactMessageStatus,
+} from '@prisma/client';
 import prisma from '../../../../../client';
 import { addMeterEvent } from '../../../../billing/api/meterEvent/lib';
 import { releaseDeppers } from './depFunctions';
@@ -82,7 +86,7 @@ export const updateContactMessage = async (contactMessageObj: {
   eventCalls?: {
     status: ContactEventCallStatus;
     callId: number;
-    call: Call[]
+    call: Call[];
   }[];
 }) => {
   try {

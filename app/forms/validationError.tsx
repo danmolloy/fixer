@@ -1,11 +1,11 @@
 import { TiTimes } from 'react-icons/ti';
 
-
 export const extractErrors = (errors: any): string[] => {
   if (!errors) return [];
-  if (typeof errors === "string") return [errors];
+  if (typeof errors === 'string') return [errors];
   if (Array.isArray(errors)) return errors.flatMap(extractErrors);
-  if (typeof errors === "object") return Object.values(errors).flatMap(extractErrors);
+  if (typeof errors === 'object')
+    return Object.values(errors).flatMap(extractErrors);
   return [];
 };
 

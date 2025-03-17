@@ -247,7 +247,9 @@ export default function ResponseForm(props: ResponseFormProps) {
                       props.values.eventCalls.map((c) => ({
                         ...c,
                         status:
-                        contactMessage.type === 'AVAILABILITY' ? 'AVAILABLE' : 'ACCEPTED',
+                          contactMessage.type === 'AVAILABILITY'
+                            ? 'AVAILABLE'
+                            : 'ACCEPTED',
                       }))
                     );
                   }}
@@ -267,9 +269,9 @@ export default function ResponseForm(props: ResponseFormProps) {
                 {(e) => <p className='text-xs text-red-500'>{e}</p>}
               </ErrorMessage>
             </div>
-            {(props.values.eventCalls.filter((c) => c.status === 'AVAILABLE')
+            {props.values.eventCalls.filter((c) => c.status === 'AVAILABLE')
               .length > 0 &&
-              contactMessage.strictlyTied === false) && (
+              contactMessage.strictlyTied === false && (
                 <div data-testid='call-checkboxes'>
                   {props.values.eventCalls.map((i, index) => (
                     <label
@@ -320,7 +322,14 @@ export default function ResponseForm(props: ResponseFormProps) {
                 </div>
               )}
             <SubmitButton
-              disabled={props.values.eventCalls.every(val => val.status === "CHECKING" || val.status === "OFFERING" ) ||  props.isSubmitting || props.status === 'success'}
+              disabled={
+                props.values.eventCalls.every(
+                  (val) =>
+                    val.status === 'CHECKING' || val.status === 'OFFERING'
+                ) ||
+                props.isSubmitting ||
+                props.status === 'success'
+              }
               status={
                 props.isSubmitting
                   ? 'SUBMITTING'
