@@ -11,6 +11,7 @@
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "ngrok": "ngrok http 3000",
+    "webhook": "node app/sendGrid/webhook/updateWebhook.ts",
     "stripe": "stripe listen --forward-to localhost:3000/billing/api/webhook",
     "start:worker": "node lib/workers/emailWorker.js",
     "storybook": "storybook dev -p 6006",
