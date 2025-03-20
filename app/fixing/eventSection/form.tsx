@@ -254,8 +254,13 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
               </label>
               {!fixedNumToBook && (
                 <div data-testid='calls-num-required'>
-                  {props.values.orchestration.map((_, index) => (
-                    <div key={index}>
+                  {props.values.orchestration.map((i, index) => (
+                    <div key={index} className="flex flex-col py-2">
+                      <label>
+                        {eventCalls.find(j => j.id === i.callId)?.startTime
+                          && DateTime.fromJSDate(new Date(eventCalls.find(j => j.id === i.callId)!.startTime)).toFormat("HH:mm dd LLL yyyy")
+                          }
+                      </label>
                       <Field
                         className='w-60 rounded border p-1'
                         type='number'

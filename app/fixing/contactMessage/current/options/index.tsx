@@ -12,7 +12,6 @@ import Link from 'next/link';
 export type CurrentContactsOptionsProps = {
   contact: ContactMessage & {
     contact: EnsembleContact;
-    //calls: Call[];
     eventCalls: (ContactEventCall & {
       call: Call;
     })[];

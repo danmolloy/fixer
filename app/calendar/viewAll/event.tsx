@@ -32,6 +32,12 @@ export const gigStatus = (event: EventOverviewProps['event']) => {
   const sections = event.sections.map((i) => ({
     eventSectionId: i.id,
     sectionName: i.ensembleSection.name,
+    totalBooked: i.contacts.reduce(
+      (acc, j) =>
+        acc +
+        j.eventCalls.filter((k) => (k.status === 'ACCEPTED' || k.status === "AUTOBOOKED")).length,
+      0
+    ),
     numToDep: i.contacts.filter(
       (j) =>
         j.eventCalls.find(
@@ -41,17 +47,17 @@ export const gigStatus = (event: EventOverviewProps['event']) => {
         ) && j.status === 'FINDINGDEP'
     ).length,
     numRequired: i.orchestration.reduce((acc, j) => acc + j.numRequired, 0),
-    bookedForCall: i.contacts.filter((j) =>
+    /* bookedForCall: i.contacts.filter((j) =>
       j.eventCalls.find(
-        (k) => k.call.id === event.calls[0].id && k.status === 'ACCEPTED'
+        (k) => k.call.id === event.calls[0].id && (k.status === 'ACCEPTED' || k.status === "AUTOBOOKED")
       )
-    ).length,
+    ).length, */
     remainingOnList: i.contacts.filter((j) =>
       j.eventCalls.find(
         (k) =>
           k.call.id === event.calls[0].id &&
-          (k.status === 'OFFERING' || k.status === 'TOOFFER')
-      )
+          (k.status === 'OFFERING' || k.status === 'TOOFFER') 
+      ) && j.status !== "RESPONDED"
     ).length,
   }));
   return sections;
@@ -72,15 +78,15 @@ export default function EventOverview(props: EventOverviewProps) {
 
       {fixStatus.length === 0 ? (
         <p>No fixing</p>
-      ) : fixStatus.filter((i) => i.numRequired - i.bookedForCall > 0)
+      ) : fixStatus.filter((i) => i.numRequired - i.totalBooked > 0)
           .length === 0 ? (
         <p>Gig is fixed.</p>
       ) : (
         <div data-testid='fixing-overview'>
           <ol>
-            {fixStatus.map((i) => (
+            {fixStatus.filter(s => s.numRequired - s.totalBooked > 0).map((i) => (
               <li key={i.eventSectionId}>
-                {`${i.sectionName}: (${i.numRequired - i.bookedForCall} seats to fill, ${i.remainingOnList} remain on list)`}
+                {`${i.sectionName}: (${i.numRequired - i.totalBooked} seats to fill, ${i.remainingOnList} remain on list)`}
               </li>
             ))}
           </ol>

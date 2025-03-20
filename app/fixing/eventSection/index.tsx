@@ -123,7 +123,10 @@ export default function EventSectionIndex(props: EventSectionProps) {
                 (contact) =>
                   !contact.eventCalls
                     .map((e) => e.status)
-                    .every((val) => val === 'DECLINED')
+                    .includes('DECLINED') 
+                    || contact.eventCalls
+                    .map((e) => e.status)
+                    .includes('ACCEPTED') 
               )
             : currentContacts
         }

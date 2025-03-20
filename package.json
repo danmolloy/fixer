@@ -21,6 +21,7 @@
     "@auth/prisma-adapter": "^2.8.0",
     "@bull-board/express": "^6.7.10",
     "@next-auth/prisma-adapter": "^1.0.3",
+    "@next/bundle-analyzer": "^15.2.3",
     "@next/env": "^15.2.0",
     "@prisma/client": "^6.4.1",
     "@sendgrid/mail": "^8.1.3",

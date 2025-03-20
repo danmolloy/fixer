@@ -84,10 +84,17 @@ export default async function GigResponse({
             className='flex w-full flex-col bg-white p-4 md:flex-row lg:items-center lg:justify-evenly'
           >
             <td className='text-sm text-slate-600 md:w-1/2'>
-              {data.eventCalls.length} Call(s)
+              {data.eventCalls.filter(c => (data.type === "AVAILABILITY" ? (c.status === "CHECKING" || c.status === "AVAILABLE") 
+                : data.type === "AUTOBOOK" 
+                ? c.status === "AUTOBOOKED" 
+                : (c.status === "OFFERING" || c.status === "ACCEPTED"))).length} Call(s)
             </td>
             <td className='md:w-1/2'>
               {data.eventCalls
+                .filter(c => (data.type === "AVAILABILITY" ? (c.status === "CHECKING" || c.status === "AVAILABLE") 
+                : data.type === "AUTOBOOK" 
+                ? c.status === "AUTOBOOKED" 
+                : (c.status === "OFFERING" || c.status === "ACCEPTED")))
                 .map((c) => c.call)
                 .sort(
                   (a, b) =>

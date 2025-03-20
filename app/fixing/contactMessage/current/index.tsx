@@ -44,7 +44,7 @@ export default function CurrentContactMessages(
           <th>Queue Number</th>
           <th>Name</th>
           <th>Position</th>
-          {eventCalls.map((i) => (
+          {eventCalls.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime()).map((i) => (
             <th data-testid={`${i.id}-col`} key={i.id} className='text-xs'>
               <p>
                 {DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm')}

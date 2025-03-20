@@ -44,7 +44,7 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
   return (
     <tr
       data-testid='contact-row'
-      className={`text-sm ${contact.eventCalls.map(c => c.status).every(s => s === "DECLINED") && 'text-gray-300'} ${contactSelected && 'border border-blue-500'}`}
+      className={`text-sm ${contact.status === "CANCELLED" && 'opacity-35'} ${ contact.eventCalls.map(c => c.status).every(s => s === "DECLINED") && 'text-gray-300'} ${contactSelected && 'border border-blue-500'}`}
     >
       <td className='text-center'>
         <input
@@ -63,7 +63,7 @@ export default function AvailabilityContactRow(props: CurrentContactRowProps) {
         <td className='' key={i.id} data-testid={`call-${i.id}`}>
           {
             <div className='m-2 flex items-center justify-center'>
-              {!contact.eventCalls.map((c) => c.callId).includes(i.id) ? (
+              {contact.eventCalls.map((c) => c.callId).includes(i.id) ? (
                 <div>
                   <p className=''>
                     {contact.eventCalls.find((c) => c.callId === i.id)?.status}

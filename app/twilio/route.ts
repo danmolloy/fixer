@@ -1,17 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
-
-export async function POST(
-  request: Request & {
-    body: {
-      phoneNumber: string;
-      message: string;
-    };
-  }
-) {
+export async function POST(request: Request) {
   const req = await request.json();
   console.log(`Twilio req: ${JSON.stringify(req)}`);
 
@@ -21,16 +10,29 @@ export async function POST(
   }
 
   try {
-    const message = await client.messages.create({
-      body: req.body.message,
-      from: process.env.TWILIO_FROM_NUMBER,
-      to:
-        process.env.TWILIO_ACTIVE === 'preview'
-          ? '+447479016386'
-          : req.body.phoneNumber,
-    });
+    const response = await fetch(
+      `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Basic ${Buffer.from(
+            `${process.env.TWILIO_ACCOUNT_SID}:${process.env.TWILIO_AUTH_TOKEN}`
+          ).toString('base64')}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          Body: req.message,
+          From: process.env.TWILIO_FROM_NUMBER!,
+          To:
+            process.env.TWILIO_ACTIVE === 'preview'
+              ? '+447479016386'
+              : req.phoneNumber,
+        }),
+      }
+    );
 
-    return NextResponse.json({ ...message, success: true }, { status: 201 });
+    const data = await response.json();
+    return NextResponse.json({ ...data, success: true }, { status: 201 });
   } catch (e: any) {
     return NextResponse.json(
       { error: e.message || 'An unexpected error occurred', success: false },
