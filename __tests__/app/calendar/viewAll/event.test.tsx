@@ -145,12 +145,12 @@ describe('gigStatus()', () => {
     const result = gigStatus(event);
     expect(result).toEqual([
       {
-        bookedForCall: 1,
         eventSectionId: event.sections[0].id,
         numRequired: 2,
         remainingOnList: 0,
         sectionName: mockSection.name,
         numToDep: 0,
+        totalBooked: 1
       },
     ]);
   });

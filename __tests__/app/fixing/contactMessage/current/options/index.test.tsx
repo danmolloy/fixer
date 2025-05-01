@@ -10,6 +10,7 @@ import axios from '../../../../../../__mocks__/axios';
 import { useRouter } from 'next/navigation';
 import { DateTime } from 'luxon';
 import { mockContactEventCall } from '../../../../../../__mocks__/models/ContactEventCall';
+import { ContactMessageStatus } from '@prisma/client';
 
 global.prompt = jest.fn().mockReturnValue('This is the mock message');
 global.confirm = jest.fn(() => true);
@@ -209,13 +210,14 @@ describe('<CurrentContactsOptions />', () => {
     setCloseMenu: jest.fn(),
     contact: {
       ...mockContactMessage,
-      status: 'AUTOBOOKED',
+      status: 'ACCEPTED' as ContactMessageStatus,
       type: 'AUTOBOOK',
       contact: mockEnsembleContact,
       eventCalls: [
         {
           ...mockContactEventCall,
           call: mockCall,
+          status: "ACCEPTED"
         },
       ],
     },

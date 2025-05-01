@@ -111,7 +111,7 @@ export const createContactMessages = async (
           callId: Number(data.contacts[i].calls[j]),
           status:
             data.contacts[i].autoAccepted === true
-              ? 'ACCEPTED'
+              ? 'ACCEPTED' /* CHange to AUTOBOOKED eventually */
               : data.type === 'AVAILABILITY'
                 ? 'TOCHECK'
                 : 'TOOFFER',
@@ -313,8 +313,9 @@ export const getUnfixedCalls = (section: FixingSection): number[] => {
       (contact) =>
         contact.eventCalls.filter(
           (eCall) => eCall.callId === orch.callId && eCall.status === 'ACCEPTED'
-        ).length > 0
+        ).length > 0 && contact.status !== "FINDINGDEP"
     );
+    
     if (orch.numRequired > bookedPlayers.length) {
       unfixedCallIDs = [...unfixedCallIDs, orch.callId];
     }
@@ -432,6 +433,7 @@ export const getCallsToOffer = async (data: {
       const eventCall = contact!.eventCalls[i];
       const bookedPlayers =
         section?.contacts.filter((c) =>
+          c.status !== "FINDINGDEP" &&
           c.eventCalls
             .filter(
               (e) => e.callId === eventCall.callId && e.status === 'ACCEPTED'
@@ -500,7 +502,8 @@ export const handleFixing = async (eventID: number) => {
       const unfixedEventCalls = contact.eventCalls.filter((c) =>
         unfixedCalls.includes(c.callId)
       );
-      if (unfixedEventCalls.length === callsToOffer.length) {
+
+      if (callsToOffer.length > 0 && unfixedEventCalls.length === callsToOffer.length) {
         await makeOffer({
           ...contact,
           eventCalls: unfixedEventCalls,

@@ -39,6 +39,7 @@ const mockProps: EventMenuProps = {
   contacts: [
     {
       ...mockContactMessage,
+      eventCalls: [],
       contact: mockEnsembleContact,
     },
   ],

@@ -89,7 +89,7 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
           <p className=''>NOT CONTACTED</p>
         </td>
       ) : contact.status === 'FINDINGDEP' ? (
-        <td className='text-center text-white'>
+        <td className='text-center text-white bg-amber-500'>
           <p className=''>FINDING DEP</p>
         </td>
       ) : (

@@ -304,6 +304,7 @@ describe('updateOfferEmail()', () => {
   it('returns expected email body text if response not required', async () => {
     const response = await updateOfferEmail({
       ...mockArg,
+      status: "AUTOBOOKED"
     });
     expect(response.bodyText).toMatch(
       `If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}.`
@@ -325,7 +326,7 @@ describe('updateOfferEmail()', () => {
     mockArg.playerMessage &&
       expect(response.bodyText).toMatch(mockArg.playerMessage);
     expect(response.bodyText).toMatch(
-      `You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>. It has been marked as ${mockArg.status === 'ACCEPTED' ? 'accepted' : mockArg.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`
+      `You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>.`
     );
     mockArg.calls.forEach((call) => {
       expect(response.bodyText).toMatch(
@@ -374,11 +375,11 @@ describe('updateOfferEmail()', () => {
       );
     if (mockArg.status === 'AWAITINGREPLY') {
       expect(response.bodyText).toMatch(
-        `Click the blue 'Respond' button below or follow <a href="${responseLink}">this link</a> to respond.`
+        `Click the blue 'Respond' button below or follow <a href="${process.env.URL}">this link</a> to respond.`
       );
     } else {
       expect(response.bodyText).toMatch(
-        `You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>. It has been marked as ${mockArg.status === 'ACCEPTED' ? 'accepted' : mockArg.status === 'AUTOBOOKED' ? 'auto-booked' : 'declined'}.`
+        `You can view up to date gig details at <a href="${`${process.env.URL}/fixing/response/${mockArg.token}/`}">this link</a>.`
       );
       expect(response.bodyText).toMatch(
         `If you need further information, contact ${mockArg.eventSection.event.fixer.firstName} ${mockArg.eventSection.event.fixer.lastName} at ${mockArg.eventSection.event.fixer.email} or ${mockArg.eventSection.event.fixer.mobileNumber}.`

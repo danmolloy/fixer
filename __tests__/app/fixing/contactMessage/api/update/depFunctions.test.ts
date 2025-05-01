@@ -87,10 +87,11 @@ describe('releaseDeppers', () => {
       },
     };
     prismaMock.contactMessage.update.mockResolvedValue(mockUpdateData);
+    prismaMock.contactMessage.updateManyAndReturn.mockResolvedValue([mockUpdateData])
     await releaseDeppers(12);
     expect(emailDeppingMusician).toHaveBeenCalledWith({
       ...mockUpdateData,
-      calls: mockUpdateData.eventCalls.map((c) => c.call),
+      calls: Array.isArray(mockUpdateData.eventCalls) ? mockUpdateData.eventCalls.map((c) => c.call) : [],
       ensembleName: mockUpdateData.eventSection.event.ensembleName,
       eventId: mockUpdateData.eventSection.eventId,
     });

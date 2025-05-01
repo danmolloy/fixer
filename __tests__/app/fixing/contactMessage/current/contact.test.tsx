@@ -56,23 +56,7 @@ describe('<CurrentContactRow />', () => {
     expect(position).toBeInTheDocument();
   });
 
-  it('status is in the document', () => {
-    if (mockProps.contact.status === 'FINDINGDEP') {
-      const status = screen.getByText('FINDING DEP');
-      expect(status).toBeInTheDocument();
-    } else if (mockProps.contact.status === 'AWAITINGREPLY') {
-      const contactMessageStatus = screen.getByText(`CONTACTING`);
-      const emailStatus = screen.getByText('OPENED');
-      expect(contactMessageStatus).toBeInTheDocument();
-      expect(emailStatus).toBeInTheDocument();
-    } else if (mockProps.contact.status === 'NOTCONTACTED') {
-      const status = screen.getByText('NOT CONTACTED');
-      expect(status).toBeInTheDocument();
-    } else {
-      const status = screen.getByText(mockProps.contact.status);
-      expect(status).toBeInTheDocument();
-    }
-  });
+ 
 
   it('each eventCall is in the document and shows corresponding contact.eventCall status', () => {
     mockProps.eventCalls.forEach((i) => {

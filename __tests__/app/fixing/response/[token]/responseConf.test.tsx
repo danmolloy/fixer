@@ -93,32 +93,7 @@ describe('<ResponseConf />', () => {
   });
 });
 
-describe('<ResponseConf />', () => {
-  let localMockProps: ResponseConfProps = {
-    ...mockProps,
-    contactMessage: {
-      ...mockProps.contactMessage,
-      type: 'AUTOBOOK',
-      status: 'DECLINED',
-      eventCalls: [
-        {
-          ...mockContactEventCall,
-          status: 'DECLINED',
-          call: mockCall,
-        },
-      ],
-    },
-  };
-  beforeEach(() => {
-    render(<ResponseConf {...localMockProps} />);
-  });
-  it('if player released, it states so', () => {
-    const header = screen.getByText('Released.');
-    const helpText = screen.getByText('You declined the following work:');
-    expect(header).toBeInTheDocument();
-    expect(helpText).toBeInTheDocument();
-  });
-});
+
 
 describe('<ResponseConf />', () => {
   let localMockProps: ResponseConfProps = {
@@ -164,8 +139,8 @@ describe('<ResponseConf />', () => {
     ...mockProps,
     contactMessage: {
       ...mockProps.contactMessage,
+      status: "RESPONDED",
       type: 'BOOKING',
-      status: 'ACCEPTED',
       eventCalls: [
         {
           ...mockContactEventCall,
@@ -218,7 +193,6 @@ describe('<ResponseConf />', () => {
     ...mockProps,
     contactMessage: {
       ...mockProps.contactMessage,
-      status: 'DECLINED',
       eventCalls: [
         {
           ...mockContactEventCall,

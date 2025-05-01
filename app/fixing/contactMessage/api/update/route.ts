@@ -3,6 +3,7 @@ import { updateContactMessage } from './functions';
 
 export async function POST(request: Request) {
   const req = await request.json();
+  console.log(`Hello from the API Route. ${JSON.stringify(req)}`)
   try {
     const data = await updateContactMessage(req);
     return NextResponse.json({ ...data, success: true }, { status: 200 });

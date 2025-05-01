@@ -128,7 +128,10 @@ export const updateContactMessage = async (contactMessageObj: {
       },
     });
 
+    console.log(`Hello from updateContactMessage. ${JSON.stringify(updatedData)}`)
+
     if (
+      contactMessageObj.data.status !== "FINDINGDEP" &&
       updatedData.eventCalls.map((call) => call.status === 'ACCEPTED').length >
       0
     ) {
