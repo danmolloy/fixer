@@ -110,7 +110,7 @@ export default function CreateEventForm(props: CreateEventFormProps) {
               }))
             : [
                 {
-                  id: 0,
+                  id: uuidv4(),
                   startTime: '',
                   endTime: '',
                   venue: '',
@@ -343,9 +343,9 @@ export default function CreateEventForm(props: CreateEventFormProps) {
                     handleClick={() =>
                       push({
                         id: uuidv4(),
-                        startTime: undefined,
-                        endTime: undefined,
-                        venue: undefined,
+                        startTime: '',
+                        endTime: '',
+                        venue: '',
                       })
                     }
                   />

@@ -36,14 +36,14 @@ export default function UpdateContactMessage(props: UpdateContactMessageProps) {
 
   const initialVals = {
     id: contact.id,
-    playerMessage: contact.playerMessage,
+    playerMessage: contact.playerMessage || undefined,
     //calls: contact.calls.map((i) => String(i.id)),
     eventCalls: contact.eventCalls.map((c) => ({
       status: c.status,
       callId: c.callId,
     })),
     type: contact.type,
-    offerExpiry: contact.offerExpiry,
+    offerExpiry: contact.offerExpiry || undefined,
     status: contact.status,
     position: contact.position,
     strictlyTied: contact.strictlyTied,

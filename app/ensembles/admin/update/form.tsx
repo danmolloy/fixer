@@ -4,13 +4,16 @@ import { Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import TextInput from '../../../forms/textInput';
-import { EnsembleAdmin } from '@prisma/client';
+import { EnsembleAdmin, User } from '@prisma/client';
 import ValidationError, { extractErrors } from '../../../forms/validationError';
 import SubmitButton from '../../../forms/submitBtn';
 import StatusMessage from '../../../forms/statusMessage';
 
 export type InviteAdminFormProps = {
-  admin: EnsembleAdmin;
+  admin: EnsembleAdmin & {
+    user: User
+  }
+
 };
 
 export default function UpdateAdminForm(props: InviteAdminFormProps) {
@@ -30,8 +33,13 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
   };
 
   return (
-    <div data-testid='update-admin-form'>
-      <Formik
+    <div
+    data-testid='create-contact-form'
+    className=' w-full items-center backdrop-blur'
+  >
+<div data-testid="update-admin-form" className='m-4 flex flex-col rounded  bg-white p-4'>
+          <h2>Update Admin User</h2>
+          <Formik
         initialValues={initialVals}
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
@@ -55,6 +63,8 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
       >
         {(props) => (
           <Form className='p-2'>
+                      <h3 className='font-semibold'>{`${admin.user.firstName} ${admin.user.lastName}`}</h3>
+
             <TextInput
               disabled={props.isSubmitting}
               label='Position Title'
@@ -73,6 +83,7 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
                   type='radio'
                   name='accessType'
                   value='RESTRICTED'
+                  className="m-1"
                 />
                 Restricted
               </label>
@@ -82,6 +93,7 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
                   type='radio'
                   name='accessType'
                   value='FULL'
+                  className="m-1"
                 />
                 Full
               </label>
@@ -101,6 +113,7 @@ export default function UpdateAdminForm(props: InviteAdminFormProps) {
           </Form>
         )}
       </Formik>
+    </div>
     </div>
   );
 }

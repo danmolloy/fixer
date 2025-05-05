@@ -71,10 +71,10 @@ export default function EventOverview(props: EventOverviewProps) {
     <Link
       href={`/event/${event.id}`}
       data-testid='event-overview'
-      className='m-2 flex flex-col rounded border p-2 hover:bg-slate-50 md:w-1/2'
+      className='m-2 flex flex-col rounded border border-black p-2 hover:bg-slate-50 md:w-1/2'
     >
-      <p>{getDateRange(event.calls)}</p>
-      <h3>{event.eventTitle}</h3>
+      <p className='font-semibold py-1'>{getDateRange(event.calls)}</p>
+      <h3 className='font-light py-1'>{event.eventTitle}</h3>
 
       {fixStatus.length === 0 ? (
         <p>No fixing</p>
@@ -82,7 +82,7 @@ export default function EventOverview(props: EventOverviewProps) {
           .length === 0 ? (
         <p>Gig is fixed.</p>
       ) : (
-        <div data-testid='fixing-overview'>
+        <div data-testid='fixing-overview' className='p-1'>
           <ol>
             {fixStatus.filter(s => s.numRequired - s.totalBooked > 0).map((i) => (
               <li key={i.eventSectionId}>

@@ -119,9 +119,9 @@ export const createOfferEmail = async (
         DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
         '<br />' +
         i.venue +
-        '<br /><br />'
+        '<br />'
     )
-    .join(',')}
+    .join('<br />')}
   <br />
   Gig Status: ${data.event.status}<br />
   Position: ${data.position}<br />
@@ -194,9 +194,9 @@ export const updateOfferEmail = async (
         DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
         '<br />' +
         i.venue +
-        '<br /><br />'
+        '<br />'
     )
-    .join(',')}
+    .join('<br />')}
   <br />
   Gig Status: ${data.eventSection.event.status}<br />
   Position: ${data.position}<br />
@@ -375,7 +375,7 @@ export const responseConfEmail = async (
       `${call.call.venue} 
     <br />
     ${DateTime.fromJSDate(new Date(call.call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(call.call.endTime)).toFormat('HH:mm DD')}<br /><br />`
-  )}`
+  ).join('')}`
       : ''
   }
   ${
@@ -387,7 +387,7 @@ export const responseConfEmail = async (
       `${call.call.venue} 
     <br />
     ${DateTime.fromJSDate(new Date(call.call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(call.call.endTime)).toFormat('HH:mm DD')}<br /><br />`
-  )}`
+  ).join('')}`
       : ''
   }
   ${
@@ -399,7 +399,7 @@ export const responseConfEmail = async (
       `${call.call.venue} 
     <br />
     ${DateTime.fromJSDate(new Date(call.call.startTime)).toFormat('HH:mm DD')} to ${DateTime.fromJSDate(new Date(call.call.endTime)).toFormat('HH:mm DD')}<br /><br />`
-  )}`
+  ).join('')}`
       : ''
   }
   <br />
@@ -444,9 +444,9 @@ export const eventReminderMusician = (
         DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
         '<br />' +
         i.venue +
-        '<br /><br />'
+        '<br />'
     )
-    .join(',')}
+    .join('<br />')}
   <br />
   Gig Status: ${data.eventSection.event.status}<br />
   Position: ${data.position}<br />
@@ -499,9 +499,9 @@ export const remindUnresponsiveMusicianEmail = (
         DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
         '<br />' +
         i.venue +
-        '<br /><br />'
+        '<br />'
     )
-    .join(',')}
+    .join('<br />')}
   <br />
   Gig Status: ${data.eventSection.event.status}<br />
   Position: ${data.position}<br />

@@ -55,9 +55,30 @@ export default function OrchestraList(props: OrchestraListProps) {
     html2pdf().from(orchList).set(pdfOptions).save();
   };
 
-  const maxNumRequired = (args: Orchestration[]) => {
-    return args.sort((a, b) => b.numRequired - a.numRequired)[0].numRequired;
-  };
+  const sectionStatus = (section: (EventSection &  { 
+    orchestration: Orchestration[], 
+    ensembleSection: EnsembleSection,
+    contacts: (ContactMessage & {
+      eventCalls: (ContactEventCall & {
+        call: Call
+      })[]
+      contact: EnsembleContact
+    })[]
+  })): {
+    totalBooked: number
+    numRequired: number
+  } => {
+      const totalBooked = section.contacts.reduce(
+        (acc, j) =>
+          acc +
+          j.eventCalls.filter((k) => (k.status === 'ACCEPTED' || k.status === "AUTOBOOKED")).length,
+        0
+      )
+      
+      const numRequired = section.orchestration.reduce((acc, j) => acc + j.numRequired, 0)
+      
+     return { totalBooked, numRequired }
+  }
 
   return (
     <div data-testid='orchestra-list' className='flex flex-col'>
@@ -113,28 +134,9 @@ export default function OrchestraList(props: OrchestraListProps) {
                     {`${j.contact.firstName} ${j.contact.lastName} (${j.position})`}
                   </li>
                 ))}
-              {maxNumRequired(i.orchestration) -
-                i.contacts.filter((j) =>
-                  j.eventCalls.map((c) => c.status).includes('ACCEPTED')
-                ).length ===
-              0 ? null : maxNumRequired(i.orchestration) -
-                  i.contacts.filter((j) =>
-                    j.eventCalls.map((c) => c.status).includes('ACCEPTED')
-                  ).length <
-                0 ? (
-                <p className='font-bold'>
-                  Overbooked by{' '}
-                  {i.contacts.filter((j) =>
-                    j.eventCalls.map((c) => c.status).includes('ACCEPTED')
-                  ).length - maxNumRequired(i.orchestration)}{' '}
-                </p>
-              ) : (
+              {sectionStatus(i).numRequired > sectionStatus(i).totalBooked && (
                 new Array(
-                  maxNumRequired(i.orchestration) -
-                    i.contacts.filter((j) =>
-                      j.eventCalls.map((c) => c.status).includes('ACCEPTED')
-                    ).length
-                )
+                  sectionStatus(i).numRequired - sectionStatus(i).totalBooked)
                   .fill(null)
                   .map((_, index) => (
                     <li

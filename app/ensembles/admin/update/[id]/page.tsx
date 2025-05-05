@@ -9,6 +9,9 @@ const getAdmin = async (id: string) => {
     where: {
       id: id,
     },
+    include: {
+      user: true
+    }
   });
 };
 

@@ -94,7 +94,7 @@ export default function Footer(props: { session: Session | null }) {
           </Link>
         )}
       </div>
-      <div className='flex flex-row text-xl'>
+      {/* <div className='flex flex-row text-xl'>
         {socialMedia.map((i) => (
           <div
             data-testid={i.id}
@@ -104,10 +104,10 @@ export default function Footer(props: { session: Session | null }) {
             {i.node}
           </div>
         ))}
-      </div>
+      </div> */}
       <div className='flex flex-row items-center p-2 text-sm text-slate-500'>
         <AiOutlineCopyrightCircle />
-        <p className='ml-1'>2024 Gig Fix Limited</p>
+        <p className='ml-1'>2025 Team Mango</p>
       </div>
     </div>
   );

@@ -27,22 +27,62 @@ jest.mock('html2pdf.js', () => {
 describe('<OrchestraList />', () => {
   const mockProps: OrchestraListProps = {
     sections: [
+      
       {
         ...mockEventSection,
-        orchestration: [mockOrchestration],
+        id: 123,
+        orchestration: [{...mockOrchestration, numRequired: 1, callId: 1}, {...mockOrchestration, id: 2, numRequired: 1, callId: 2}],
         contacts: [
           {
             ...mockContactMessage,
             eventCalls: [
               {
                 ...mockContactEventCall,
-                call: mockCall,
+                call: {...mockCall, id: 1},
+                callId: 1,
+                status: "ACCEPTED"
+
+              },
+              {
+                ...mockContactEventCall,
+                
+                call: {...mockCall, id: 2},
+                callId: 2,
+                status: "DECLINED"
+
+              },
+            ],
+            contact: mockEnsembleContact,
+            id: 13,
+          },
+          {
+            ...mockContactMessage,
+            id: 12,
+            eventCalls: [
+              {
+                ...mockContactEventCall,
+                call: {...mockCall, id: 1},
+                callId: 1,
+                status: "DECLINED"
+
+              },
+              {
+                ...mockContactEventCall,
+                
+                call: {...mockCall, id: 2},
+                callId: 2,
+                status: "ACCEPTED"
+
               },
             ],
             contact: mockEnsembleContact,
           },
         ],
-        ensembleSection: mockSection,
+        ensembleSection: {
+          ...mockSection,
+          id: "123",
+          name: "FLUTE"
+        },
       },
     ],
   };
@@ -53,6 +93,12 @@ describe('<OrchestraList />', () => {
     const orchestraList = screen.getByTestId('orchestra-list');
     expect(orchestraList).toBeInTheDocument();
   });
+  it('if different players on different days, it understands they are sharing and not overbooked', () => {
+    const sectionDiv = screen.getByTestId(`123-section`);
+    expect(sectionDiv.textContent).toMatch("FLUTE")
+    expect(sectionDiv.textContent).not.toMatch("Overbooked")
+
+  })
 
   it('booked musicians names are in respective sections, with TBC for all empty seats', () => {
     const orchestraList = screen.getByTestId('orchestra-list');

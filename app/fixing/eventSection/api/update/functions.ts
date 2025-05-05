@@ -6,7 +6,7 @@ export const updateEventSection = async (sectionObj: {
   eventSectionId: number;
   bookingStatus: BookingStatus;
   //numToBook: number;
-  orchestration: {
+  orchestration?: {
     callId: number;
     numRequired: number;
     id: number;
@@ -24,31 +24,45 @@ export const updateEventSection = async (sectionObj: {
     },
   });
 
-  const updateOrchestration = await Promise.all(
-    sectionObj.orchestration.map(async (i) => {
-      await prisma.orchestration.upsert({
-        where: {
-          id: i.id || -1,
-        },
-        update: {
-          numRequired: Number(i.numRequired),
-        },
-        create: {
-          callId: Number(i.callId),
-          eventSectionId: Number(sectionObj.eventSectionId),
-          numRequired: Number(i.numRequired),
-        },
-      });
-    })
-  );
+  if (sectionObj.orchestration) {
+    const updateOrchestration = await Promise.all(
+      sectionObj.orchestration.map(async (i) => {
+        await prisma.orchestration.upsert({
+          where: {
+            id: i.id || -1,
+          },
+          update: {
+            numRequired: Number(i.numRequired),
+          },
+          create: {
+            callId: Number(i.callId),
+            eventSectionId: Number(sectionObj.eventSectionId),
+            numRequired: Number(i.numRequired),
+          },
+        });
+      })
+    );
+  
+    if (
+      sectionObj.bookingStatus === 'ACTIVE' &&
+      updatedSection.contacts.length > 0
+    ) {
+      await handleFixing(updatedSection.eventId);
+    }
+    return { updatedSection, updateOrchestration };
+  } else {
 
-  if (
-    sectionObj.bookingStatus === 'ACTIVE' &&
-    updatedSection.contacts.length > 0
-  ) {
-    await handleFixing(updatedSection.eventId);
+    if (
+      sectionObj.bookingStatus === 'ACTIVE' &&
+      updatedSection.contacts.length > 0
+    ) {
+      await handleFixing(updatedSection.eventId);
+    }
+    return { updatedSection };
   }
-  return { updatedSection, updateOrchestration };
+
+  
+
 };
 
 export const updateAllEventSections = async (eventId: number, data: any) => {
@@ -59,3 +73,4 @@ export const updateAllEventSections = async (eventId: number, data: any) => {
     data: data,
   });
 };
+

@@ -22,7 +22,7 @@ export default function CalendarHeader(props: CalendarHeaderProps) {
   return (
     <div
       data-testid='calendar-header'
-      className='flex w-screen flex-row justify-between bg-gray-100'
+      className='flex w-screen flex-row justify-between bg-gray-50'
     >
       <div
         data-testid='selected-date'
@@ -44,7 +44,7 @@ export default function CalendarHeader(props: CalendarHeaderProps) {
           setSelectedView={(arg) => setSelectedView(arg)}
         />
         <button
-          className='m-2 rounded bg-indigo-600 px-2 py-1 text-white shadow hover:bg-indigo-500'
+          className='m-2 rounded bg-blue-600 px-2 py-1 text-white shadow hover:bg-blue-500'
           data-testid='today-btn'
           onClick={() => handleSelectToday()}
         >

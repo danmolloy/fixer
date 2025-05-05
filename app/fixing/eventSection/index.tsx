@@ -14,6 +14,8 @@ import EventSectionContacts from '../contactMessage';
 import SectionMenu from './sectionMenu';
 import SectionViewSelect from './viewSelect';
 import OrchestrationSummary from './orchestration';
+import ToggleSwitch from '../../forms/toggle';
+import axios from 'axios';
 
 export type EventSectionProps = {
   section: EventSection & {
@@ -49,10 +51,21 @@ export default function EventSectionIndex(props: EventSectionProps) {
   const [editContacts, setEditContacts] = useState<boolean>(false);
   const [hideDeclined, setHideDeclined] = useState<boolean>(false);
 
+
+  const setBookingStatus = async () => {
+    const confirmMsg = `Are you sure you want to ${section.bookingStatus === "ACTIVE" ? 'deactivate' : 'activate'} fixing for this section?`
+    if (confirm(confirmMsg)) {
+      return await axios.post('/fixing/eventSection/api/update', {
+        bookingStatus: section.bookingStatus === "ACTIVE" ? "INACTIVE": "ACTIVE",
+        eventSectionId: section.id,
+      });
+    }
+  }
+
   return (
     <div
       data-testid={`${section.id}-event-section`}
-      className='mx-1 my-4 rounded border p-2'
+      className=' mt-4 rounded border border-collapse'
     >
       {updateSection ? (
         <CreateEventSection
@@ -67,16 +80,11 @@ export default function EventSectionIndex(props: EventSectionProps) {
           ensembleSectionId={section.ensembleSection.id}
         />
       ) : (
-        <div>
+        <div className="p-1">
           <div className='flex w-full flex-row justify-between'>
             <h2>
-              {section.ensembleSection.name}
-              <span
-                className={` ${section.bookingStatus !== 'ACTIVE' && 'text-amber-500'} text-sm`}
-              >
-                {' '}
-                Booking {section.bookingStatus}
-              </span>
+              {section.ensembleSection.name[0] + section.ensembleSection.name.slice(1).toLocaleLowerCase()}
+              
             </h2>
 
             <SectionMenu
@@ -84,22 +92,23 @@ export default function EventSectionIndex(props: EventSectionProps) {
               addToList={() => setEditContacts(true)}
             />
           </div>
-          <div className='flex flex-col justify-between'>
-            <div className='flex flex-row items-center'>
+          <div className='flex flex-row justify-start items-center'>
+            <ToggleSwitch enabled={section.bookingStatus === 'ACTIVE'} disabled={false} setEnabled={() => setBookingStatus()}/>
+          <p
+                className={` ${section.bookingStatus !== 'ACTIVE' && 'text-amber-500'} text-sm`}
+              >
+                {' '}
+                Booking {section.bookingStatus.toLocaleLowerCase()}
+              </p>
+            {/* <div className='flex flex-row items-center'>
+              
               <OrchestrationSummary
                 eventCalls={eventCalls}
                 orchestration={section.orchestration}
               />
-            </div>
-            <label className='flex flex-row items-center text-sm'>
-              <input
-                checked={hideDeclined}
-                type='checkbox'
-                className='m-1 mr-2'
-                onChange={() => setHideDeclined(!hideDeclined)}
-              />
-              Hide declined
-            </label>
+            </div> */}
+            
+          </div>
             <SectionViewSelect
               availabilityCheckCount={
                 currentContacts.filter((i) => i.type === 'AVAILABILITY').length
@@ -108,9 +117,17 @@ export default function EventSectionIndex(props: EventSectionProps) {
               setSelectedView={(arg) => setCallType(arg)}
               disabled={editContacts}
             />
-          </div>
         </div>
       )}
+      <label className='flex flex-row items-center text-sm'>
+              <input
+                checked={hideDeclined}
+                type='checkbox'
+                className='m-1 mr-2'
+                onChange={() => setHideDeclined(!hideDeclined)}
+              />
+              Hide declined
+            </label>
       <EventSectionContacts
         orchestration={section.orchestration}
         eventId={eventId}

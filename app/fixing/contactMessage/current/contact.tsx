@@ -53,7 +53,9 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
               {contact.eventCalls.map((j) => j.callId).includes(i.id) ? (
                 <div>
                   <p>
-                    {contact.eventCalls.find((c) => c.callId === i.id)?.status}
+                    {contact.eventCalls.find((c) => c.callId === i.id)?.status === "TOOFFER" ? "TO OFFER" 
+                    : contact.eventCalls.find((c) => c.callId === i.id)?.status === "TOCHECK" ? "TO CHECK" 
+                    : contact.eventCalls.find((c) => c.callId === i.id)?.status}
                   </p>
                 </div>
               ) : (
@@ -72,16 +74,30 @@ export default function CurrentContactRow(props: CurrentContactRowProps) {
       ) : contact.status === 'AWAITINGREPLY' ? (
         <td className='text-center'>
           <p className=''>CONTACTING</p>
-          <p className='text-sm'>
-            {
+          <p className='text-sm' >
+            {contact.emailEvents.length > 0 && `(${
               contact.emailEvents
                 .sort(
                   (a, b) =>
                     DateTime.fromJSDate(new Date(b.timestamp)).toMillis() -
                     DateTime.fromJSDate(new Date(a.timestamp)).toMillis()
                 )
+                .map((i) => i.status)[0] === "OPEN" ? "OPENED EMAIL"
+                : contact.emailEvents
+                .sort(
+                  (a, b) =>
+                    DateTime.fromJSDate(new Date(b.timestamp)).toMillis() -
+                    DateTime.fromJSDate(new Date(a.timestamp)).toMillis()
+                )
+                .map((i) => i.status)[0] === "CLICK" ? "CLICKED LINK"
+                :contact.emailEvents
+                .sort(
+                  (a, b) =>
+                    DateTime.fromJSDate(new Date(b.timestamp)).toMillis() -
+                    DateTime.fromJSDate(new Date(a.timestamp)).toMillis()
+                )
                 .map((i) => i.status)[0]
-            }
+            })`}
           </p>
         </td>
       ) : contact.status === 'NOTCONTACTED' ? (

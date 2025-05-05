@@ -27,8 +27,7 @@ export default function ContactMenu(props: ContactMenuProps) {
     >
       <button
         onClick={() => {
-          document.body.scrollTop = 0;
-          document.body.scrollTop = 0;
+          window.scrollTo({ top: 0, left: 0})
           editContact(contactId);
           setShowOptions(false);
         }}

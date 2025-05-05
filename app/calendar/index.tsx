@@ -56,7 +56,7 @@ export type CalendarIndexProps = {
 export default function CalendarIndex(props: CalendarIndexProps) {
   const { data } = props;
   const [selectedDate, setSelectedDate] = useState<DateTime>(DateTime.now());
-  const [selectedView, setSelectedView] = useState<string>('Day');
+  const [selectedView, setSelectedView] = useState<string>('All Upcoming');
 
   if (!data) {
     return (

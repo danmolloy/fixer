@@ -37,11 +37,12 @@ export default function CurrentContactMessages(
   ) : (
     <table
       data-testid='current-contacts-table'
-      className='my-4 table-auto rounded border'
+      className='table-auto rounded '
     >
-      <thead data-testid='table-head' className='border bg-slate-50 text-sm'>
+      <thead data-testid='table-head' className='border bg-slate-50 text-xs'>
         <tr>
-          <th>Queue Number</th>
+          <th className='text-xs'>
+            <p>Queue</p><p>Number</p></th>
           <th>Name</th>
           <th>Position</th>
           {eventCalls.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime()).map((i) => (

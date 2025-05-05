@@ -33,9 +33,9 @@ export const eventReminderFixer = (
         DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
         '<br />' +
         i.venue +
-        '<br /><br />'
+        '<br />'
     )
-    .join(',')}
+    .join('<br />')}
   <br />
   Gig Status: ${event.status}<br />
   Fee: ${event.fee ? event.fee : 'Not specified'}<br />

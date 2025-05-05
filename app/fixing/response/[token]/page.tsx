@@ -86,14 +86,14 @@ export default async function GigResponse({
             <td className='text-sm text-slate-600 md:w-1/2'>
               {data.eventCalls.filter(c => (data.type === "AVAILABILITY" ? (c.status === "CHECKING" || c.status === "AVAILABLE") 
                 : data.type === "AUTOBOOK" 
-                ? c.status === "AUTOBOOKED" 
+                ? (c.status === "AUTOBOOKED" || c.status === "ACCEPTED")
                 : (c.status === "OFFERING" || c.status === "ACCEPTED"))).length} Call(s)
             </td>
             <td className='md:w-1/2'>
               {data.eventCalls
                 .filter(c => (data.type === "AVAILABILITY" ? (c.status === "CHECKING" || c.status === "AVAILABLE") 
                 : data.type === "AUTOBOOK" 
-                ? c.status === "AUTOBOOKED" 
+                ? (c.status === "AUTOBOOKED" || c.status === "ACCEPTED")
                 : (c.status === "OFFERING" || c.status === "ACCEPTED")))
                 .map((c) => c.call)
                 .sort(
@@ -183,7 +183,6 @@ export default async function GigResponse({
           />
         </tbody>
       </table>
-
       <div className='my-4 flex flex-col items-center justify-center'>
         {(data.status == 'AWAITINGREPLY' || data.type === 'AVAILABILITY') && (
           <ResponseForm

@@ -89,7 +89,7 @@ export default function FixingIndex(props: FixingIndexProps) {
   }
 
   return (
-    <div data-testid='fixing-index' className='flex flex-col p-4'>
+    <div data-testid='fixing-index' className='flex flex-col p-1'>
       <div className='flex w-full flex-row justify-end'>
         {/* <h2>Fixing</h2> */}
         <FixingMenu
@@ -127,7 +127,8 @@ export default function FixingIndex(props: FixingIndexProps) {
           setCreateSection={(arg) => setCreateSection(arg)}
         />
       ) : (
-        eventSections.map((i) => (
+        <div className="flex flex-col">
+          {eventSections.map((i) => (
           <EventSectionIndex
             eventId={eventId}
             currentContacts={i.contacts}
@@ -138,7 +139,14 @@ export default function FixingIndex(props: FixingIndexProps) {
             key={i.id}
             section={i}
           />
-        ))
+        ))}
+        <button
+            className='m-2 self-end mt-4 flex w-32 flex-row items-center justify-center rounded border p-1 text-sm hover:bg-slate-50'
+            onClick={() => setCreateSection(true)}
+          >
+            Add Section
+          </button>
+        </div>
       )}
     </div>
   );

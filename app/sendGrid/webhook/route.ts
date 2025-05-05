@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
     let events;
     try {
       events = await req.json();
+
     } catch (e) {
       console.error('Invalid or empty JSON in webhook request');
       return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });

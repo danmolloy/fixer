@@ -64,7 +64,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
   return (
     <div
       data-testid='create-contact-form'
-      className='absolute left-0 w-full items-center backdrop-blur'
+      className=' w-full items-center backdrop-blur'
     >
       <div className='m-4 flex flex-col rounded border bg-white p-4'>
         <div className='flex w-full flex-row justify-between'>
@@ -85,6 +85,7 @@ export default function CreateContactForm(props: CreateContactFormProps) {
             actions.setSubmitting(true);
 
             actions.setStatus(null);
+            closeForm()
             /* const section = {
               name: values.section,
               id:

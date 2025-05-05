@@ -56,7 +56,7 @@ export default function FullRunIndex(props: FullRunIndexProps) {
       data-testid='full-run-index'
       className='flex flex-col items-center justify-center p-2'
     >
-      <table className='border-collapse text-sm'>
+      <table className='border-collapse border text-base'>
         <thead>
           <tr className='border-b text-xs'>
             <th className='border-b p-1 font-semibold'>Instrument</th>

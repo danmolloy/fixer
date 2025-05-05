@@ -3,7 +3,7 @@ import '../styles/globals.css';
 import Footer from './layout/footer';
 import { auth } from './auth';
 import type { Metadata } from 'next';
-import { Inria_Sans, Poppins } from 'next/font/google';
+import { Inria_Sans, Poppins, Ubuntu } from 'next/font/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inriaSans = Inria_Sans({
@@ -13,11 +13,11 @@ const inriaSans = Inria_Sans({
   weight: '400',
 });
 
-const poppins = Poppins({
+const poppins = Ubuntu({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-poppins',
-  weight: '400',
+  weight: ['300', '400', '500', '700'],
 });
 
 export const metadata: Metadata = {

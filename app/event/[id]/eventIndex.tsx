@@ -97,7 +97,7 @@ export default function EventInfoTable(props: EventInfoTableProps) {
           <p>No active subscription</p>
         </div>
       ) : selectedView === 'playerList' ? (
-        <DynamicOrchestraList sections={sections} />
+        <DynamicOrchestraList sections={sections}  />
       ) : selectedView === 'fullRun' ? (
         <FullRunIndex sections={sections} calls={event.calls} />
       ) : (
