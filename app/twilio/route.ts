@@ -21,12 +21,12 @@ export async function POST(request: Request) {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
-          Body: req.message,
+          Body: req.body.message,
           From: process.env.TWILIO_FROM_NUMBER!,
           To:
             process.env.TWILIO_ACTIVE === 'preview'
               ? '+447479016386'
-              : req.phoneNumber,
+              : req.body.phoneNumber,
         }),
       }
     );
