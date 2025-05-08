@@ -134,9 +134,13 @@ export const updateContactMessage = async (contactMessageObj: {
       updatedData.eventCalls.map((call) => call.status === 'ACCEPTED').length >
       0
     ) {
+      // if !meterEvent for this contactMessage
       const subscriptionID =
         updatedData.eventSection.event.ensemble.stripeSubscriptionId;
-      await addMeterEvent(subscriptionID!);
+      await addMeterEvent({
+        subscriptionId: subscriptionID!,
+        contactMessageId: contactMessageObj.id
+      });
       await releaseDeppers(updatedData.eventSectionId);
     }
     await handleFixing(updatedData.eventSection.eventId);

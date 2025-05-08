@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { getDateRange } from '../../../fixing/contactMessage/api/create/functions';
+import { DateTime } from 'luxon';
 
 export default async function EnsembleUsage({
   params,
@@ -11,35 +13,35 @@ export default async function EnsembleUsage({
     { subscriptionID: id }
   );
 
+
   if (!subData) {
-    <div>No data</div>;
+    return (<div>No data</div>);
   }
 
   return (
     <div className='p-4'>
-      <h1>Invoices</h1>
-      <table>
+      <h1>Meter Overview</h1>
+      <p>{`${new Date(subData.data.invoices.data[0].period_start * 1000)} - ${new Date(subData.data.invoices.data[0].period_end * 1000)}`}</p>
+      <table className='w-[90vw] overflow-scroll'>
         <thead>
-          <tr className='border-b text-sm font-semibold'>
-            <th className='p-1'>Amount</th>
-            <th className='p-1'>Invoice Number</th>
-            <th className='p-1'>Due</th>
-            <th className='p-1'>Created</th>
-          </tr>
+        <tr>
+          <th>
+            Event
+          </th>
+          <th>
+            Musician
+          </th>
+          <th>
+            Price
+          </th>
+        </tr>
         </thead>
         <tbody>
-          {subData.data.invoices.data.map((i) => (
-            <tr key={i.id} className='border-b text-sm'>
-              <td className='flex flex-row p-1 px-2'>
-                <p>{i.amount_due}</p>
-                <p>{String(i.currency).toUpperCase()}</p>
-                {i.paid ? <p>PAID</p> : <p>NOT PAID</p>}
-              </td>
-              <td className='p-1 px-2'>{i.number}</td>
-              <td className='p-1 px-2'>
-                {i.due_date === null ? '-' : i.due_date}
-              </td>
-              <td className='p-1 px-2'>{i.created}</td>
+          {subData.data.meterEvents.map(i => (
+            <tr key={i.id}>
+              <td>{`${i.contactMessage.eventSection.event.eventTitle} ${DateTime.fromJSDate(new Date(i.contactMessage.eventSection.event.calls.sort((a, b) => a.startTime - b.startTime)[0].startTime)).toFormat("dd/LL/yyyy")} -  ${DateTime.fromJSDate(new Date(i.contactMessage.eventSection.event.calls.sort((a, b) => a.startTime - b.startTime)[i.contactMessage.eventSection.event.calls.length - 1].startTime)).toFormat("dd/LL/yyyy")}`}</td>
+              <td>{`${i.contactMessage.contact.firstName} ${i.contactMessage.contact.lastName} (${i.contactMessage.eventSection.ensembleSection.name})`}</td>
+              <td>£{Number(i.value).toFixed(2)}</td>
             </tr>
           ))}
         </tbody>

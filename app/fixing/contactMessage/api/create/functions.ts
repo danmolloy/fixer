@@ -355,11 +355,22 @@ export const gigFixedNotification = async (event: FixingObj) => {
   }
 };
 
-export const listExhaustedNotification = async (data: {
+export const listExhausted = async (data: {
   event: FixingObj;
+  eventSectionID: number;
   instrumentName: string;
 }) => {
   try {
+
+    await prisma.eventSection.update({
+      where: {
+        id: data.eventSectionID
+      },
+      data: {
+        bookingStatus: "INACTIVE"
+      }
+    })
+
     const emailAlert = await listExhaustedEmail({
       dateRange: getDateRange(data.event.calls),
       fixerFirstName: data.event.fixer.firstName!,
@@ -484,7 +495,7 @@ export const handleFixing = async (eventID: number) => {
   if (isGigFixed(event) === true) {
     return await gigFixedNotification(event);
   }
-  // Iterate through all sections.
+  // Iterate through all active sections.
   for (let i = 0; i < event.sections.length; i++) {
     // Get unfixed calls
     const unfixedCalls = await getUnfixedCalls(event.sections[i]);
@@ -516,6 +527,7 @@ export const handleFixing = async (eventID: number) => {
 
   return;
 };
+
 
 export const makeOffer = async (
   contact: ContactMessage & {

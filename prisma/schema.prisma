@@ -130,6 +130,17 @@ model EventSection {
   event             Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
+model MeterEvent {
+  id String @id @unique
+  timestamp Int
+  contactMessageId Int @unique
+  value String
+  subscriptionId String
+  //ensembleId String
+  contactMessage ContactMessage @relation(fields: [contactMessageId], references: [id], onDelete: Cascade)
+  //ensemble Ensemble @relation(fields: [ensembleId], references: [id], onDelete: Cascade)
+}
+
 enum BookingStatus {
   ACTIVE
   INACTIVE
@@ -159,6 +170,7 @@ model ContactMessage {
   type                  ContactMessageType @default(AVAILABILITY)
   status                ContactMessageStatus @default(NOTCONTACTED)
   emailStatus           EmailStatus?
+  meterEvent            MeterEvent?
 }
 
 model ContactEventCall {
@@ -216,6 +228,7 @@ model Ensemble {
   contacts             EnsembleContact[]
   sections             EnsembleSection[]
   events               Event[]
+  //meterEvents           MeterEvent[]
 }
 
 model EnsembleAdmin {
