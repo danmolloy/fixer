@@ -18,6 +18,7 @@ import { TiPlus } from 'react-icons/ti';
 import { GrHalt } from 'react-icons/gr';
 import { getBillingRoute } from '../billing/api/manage/lib';
 import FixingMenu from './menu';
+import { IoIosRefresh } from "react-icons/io";
 
 export type FixingIndexProps = {
   eventId: number;
@@ -92,6 +93,10 @@ export default function FixingIndex(props: FixingIndexProps) {
     <div data-testid='fixing-index' className='flex flex-col p-1'>
       <div className='flex w-full flex-row justify-end'>
         {/* <h2>Fixing</h2> */}
+        {/* <button>
+          <IoIosRefresh />
+          <p>Refresh</p>
+        </button> */}
         <FixingMenu
           eventID={String(eventId)}
           fixingActive={

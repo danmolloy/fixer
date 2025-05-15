@@ -32,13 +32,13 @@ export type CreateEventFormProps = {
   createOrUpdate: 'Create' | 'Update';
 };
 
-export const formatDate = (dateStr) => {
+/* export const formatDate = (dateStr) => {
   //const date = new Date(new Date(dateStr).toLocaleString());
   const date = new Date(dateStr);
   return (
     date.toISOString().slice(0, 10) + 'T' + date.toUTCString().slice(17, 22)
   );
-};
+}; */
 
 export default function CreateEventForm(props: CreateEventFormProps) {
   const { createOrUpdate, ensembleList, initialValues, userId, userName } =
@@ -104,8 +104,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           calls: initialValues
             ? initialValues.calls.map((i) => ({
                 id: i.id,
-                startTime: formatDate(i.startTime),
-                endTime: formatDate(i.endTime),
+                startTime: i.startTime/* formatDate(i.startTime) */,
+                endTime: i.endTime/* formatDate(i.endTime) */,
                 venue: i.venue,
               }))
             : [
