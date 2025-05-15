@@ -33,10 +33,9 @@ export type CreateEventFormProps = {
   createOrUpdate: 'Create' | 'Update';
 };
 
-export const formatDate = (dateStr) => {
-  return DateTime.fromISO(dateStr).setZone('local').toFormat("yyyy-MM-dd'T'HH:mm")
-  
-}; 
+const toLocalInputFormat = (utcDate: Date | string) => {
+ return DateTime.fromJSDate(new Date(utcDate)).setZone('local').toFormat("yyyy-MM-dd'T'HH:mm");
+}
 
 export default function CreateEventForm(props: CreateEventFormProps) {
   const { createOrUpdate, ensembleList, initialValues, userId, userName } =
@@ -102,8 +101,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           calls: initialValues
             ? initialValues.calls.map((i) => ({
                 id: i.id,
-                startTime: formatDate(i.startTime),
-                endTime: formatDate(i.endTime),
+                startTime: toLocalInputFormat(i.startTime),
+                endTime: toLocalInputFormat(i.endTime),
                 venue: i.venue,
               }))
             : [

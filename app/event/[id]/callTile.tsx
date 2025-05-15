@@ -11,10 +11,10 @@ export default function CallTile(props: Call) {
       <div data-testid='call-tile-div' className='my-2'>
         <p>
           {String(
-            DateTime.fromJSDate(new Date(startTime)).setZone("local").toFormat(
-              'HH:mm LLL dd, yyyy'
-            )
-          )}{' '}
+            DateTime.fromJSDate(new Date(startTime))
+              .setZone('local')
+              .toFormat('HH:mm LLL dd, yyyy')
+            )}{' '}
           <span className='text-sm'>to</span>
         </p>
         <p>
