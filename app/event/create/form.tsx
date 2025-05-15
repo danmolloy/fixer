@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import SubmitButton from '../../forms/submitBtn';
 import StatusMessage from '../../forms/statusMessage';
+import { DateTime } from 'luxon';
 
 export type EventWithCallsAndEnsemble = Prisma.EventGetPayload<{
   include: {
@@ -32,13 +33,10 @@ export type CreateEventFormProps = {
   createOrUpdate: 'Create' | 'Update';
 };
 
-/* export const formatDate = (dateStr) => {
-  //const date = new Date(new Date(dateStr).toLocaleString());
-  const date = new Date(dateStr);
-  return (
-    date.toISOString().slice(0, 10) + 'T' + date.toUTCString().slice(17, 22)
-  );
-}; */
+export const formatDate = (dateStr) => {
+  return DateTime.fromISO(dateStr).setZone('local').toFormat("yyyy-MM-dd'T'HH:mm")
+  
+}; 
 
 export default function CreateEventForm(props: CreateEventFormProps) {
   const { createOrUpdate, ensembleList, initialValues, userId, userName } =
@@ -104,8 +102,8 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           calls: initialValues
             ? initialValues.calls.map((i) => ({
                 id: i.id,
-                startTime: i.startTime/* formatDate(i.startTime) */,
-                endTime: i.endTime/* formatDate(i.endTime) */,
+                startTime: formatDate(i.startTime),
+                endTime: formatDate(i.endTime),
                 venue: i.venue,
               }))
             : [

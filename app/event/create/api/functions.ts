@@ -20,10 +20,14 @@ export const sectionsArr = [
   'Double Bass',
 ];
 
+const parseInputDate = (input: string) => {
+  return DateTime.fromISO(input, { zone: 'local' }).toUTC().toJSDate();
+};
+
 export const formattedCalls = (calls, fixerId) => {
   return [...calls].map((i) => ({
-    startTime: DateTime.fromISO(i.startTime, { zone: 'local' }).toUTC().toJSDate(),
-    endTime: DateTime.fromISO(i.startTime, { zone: 'local' }).toUTC().toJSDate(),
+    startTime: parseInputDate(i.startTime),
+    endTime: parseInputDate(i.endTime),
     venue: i.venue,
     fixer: { connect: { id: fixerId } },
   }));
