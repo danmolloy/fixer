@@ -51,24 +51,21 @@ export const featureList: {
 export default function LandingFeatures() {
   return (
     <div
-      className='m-4 mb-8 flex flex-col rounded-lg border py-4'
+      className='p-4  flex flex-col w-screen  '
       data-testid='fixer-features'
     >
       <div className='bg-white/80 backdrop-blur'>
         <div className='px-4 sm:px-6 sm:py-8'>
-          <p className='text-xl text-blue-600'>Work faster</p>
           <h2 className='py-2 text-3xl'>
             Streamline your orchestra management
           </h2>
         </div>
         <div className='flex flex-col flex-wrap px-6 md:flex-row'>
           {featureList.map((i) => (
-            <div key={i.key} className='my-2 flex flex-row sm:my-4 md:w-1/2'>
-              <div className='py-2 text-2xl text-blue-600 md:px-2'>
-                {i.icon}
-              </div>
-              <div className='flex flex-col px-4'>
-                <h3 className='py-2 text-lg'>{i.title}</h3>
+            <div key={i.key} className='border border-black rounded my-2 flex flex-row sm:my-4 md:w-1/2'>
+              
+              <div className='flex flex-col p-4'>
+                <h3 className=' text-lg mb-2'>{i.title}</h3>
                 <p className='text-slate-600 md:w-2/3'>{i.blurb}</p>
               </div>
             </div>
@@ -77,7 +74,7 @@ export default function LandingFeatures() {
       </div>
       <Link
         href='/about'
-        className='m-6 flex flex-row items-center self-end rounded border bg-blue-600 px-2 py-1 text-white hover:bg-blue-700'
+        className='m-6 flex flex-row items-center self-end rounded border bg-black px-2 py-1 text-white hover:bg-blue-700'
       >
         <p className='mr-1'>Learn more</p>
         <FaArrowRight />

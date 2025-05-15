@@ -12,12 +12,13 @@ export default function CallTile(props: Call) {
         <p>
           {String(
             DateTime.fromJSDate(new Date(startTime))
-              .setZone('local')
+            .setZone('Europe/London')
               .toFormat('HH:mm LLL dd, yyyy')
             )}{' '}
           <span className='text-sm'>to</span>
         </p>
         <p>
+          
           {String(
             DateTime.fromJSDate(new Date(endTime)).toFormat(
               'HH:mm LLL dd, yyyy'
