@@ -11,7 +11,7 @@ export default function CallTile(props: Call) {
       <div data-testid='call-tile-div' className='my-2'>
         <p>
           {String(
-            DateTime.fromJSDate(new Date(startTime), { zone: 'Europe/London' }).toFormat(
+            DateTime.fromJSDate(new Date(startTime)).toFormat(
               'HH:mm LLL dd, yyyy'
             )
           )}{' '}
@@ -19,7 +19,7 @@ export default function CallTile(props: Call) {
         </p>
         <p>
           {String(
-            DateTime.fromJSDate(new Date(endTime), { zone: 'Europe/London' }).toFormat(
+            DateTime.fromJSDate(new Date(endTime)).toFormat(
               'HH:mm LLL dd, yyyy'
             )
           )}

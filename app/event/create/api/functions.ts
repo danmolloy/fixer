@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import prisma from '../../../../client';
 
 export const sectionsArr = [
@@ -21,8 +22,8 @@ export const sectionsArr = [
 
 export const formattedCalls = (calls, fixerId) => {
   return [...calls].map((i) => ({
-    startTime: new Date(i.startTime),
-    endTime: new Date(i.endTime),
+    startTime: DateTime.fromISO(i.startTime, { zone: 'local' }).toUTC().toJSDate(),
+    endTime: DateTime.fromISO(i.startTime, { zone: 'local' }).toUTC().toJSDate(),
     venue: i.venue,
     fixer: { connect: { id: fixerId } },
   }));
