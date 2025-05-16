@@ -9,11 +9,11 @@ export default function CallTile(props: Call) {
   return (
     <div>
       <div data-testid='call-tile-div' className='my-2'>
+        {JSON.stringify(DateTime.fromJSDate(new Date()))}
         <p>
           {String(
             DateTime.fromISO(typeof startTime === 'string' ? startTime : startTime.toISOString())
-            .setZone('Europe/London')
-              .toFormat("HH:mm LLL dd, yyyy '('.z')'")
+              .toFormat("HH:mm LLL dd, yyyy")
             )}{' '}
           <span className='text-sm'>to</span>
         </p>
@@ -21,7 +21,7 @@ export default function CallTile(props: Call) {
           
           {String(
             DateTime.fromJSDate(new Date(endTime)).toFormat(
-              "HH:mm LLL dd, yyyy '('.z')'"
+              "HH:mm LLL dd, yyyy"
             )
           )}
         </p>
