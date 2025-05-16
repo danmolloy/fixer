@@ -99,7 +99,9 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           eventTitle: initialValues ? initialValues.eventTitle : '',
           concertProgram: initialValues ? initialValues.concertProgram : '',
           calls: initialValues
-            ? initialValues.calls.map((i) => ({
+            ? initialValues.calls.sort((a, b) =>
+                  Number(DateTime.fromJSDate(new Date(a.startTime))) -
+                  Number(DateTime.fromJSDate(new Date(b.startTime)))).map((i) => ({
                 id: i.id,
                 startTime: toLocalInputFormat(i.startTime),
                 endTime: toLocalInputFormat(i.endTime),
