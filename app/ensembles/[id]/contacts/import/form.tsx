@@ -102,7 +102,7 @@ export default function ImportForm(props: ImportFormProps) {
   return (
     <div
       data-testid='import-form'
-      className='flex w-screen flex-col items-center justify-center'
+      className='flex w-screen flex-col items-center justify-center '
     >
       <h2 className='m-4 text-2xl'>Add Contacts</h2>
       {data && <button onClick={() => handleBackBtn()}>Back</button>}
@@ -112,46 +112,40 @@ export default function ImportForm(props: ImportFormProps) {
             <p className='text-sm text-gray-700'>
               Add musicians to your address book by either entering their
               details manually or importing a spreadsheet. <br /> If importing a
-              spreadsheet, please follow the format of the downloadable
-              template.
-            </p>
-            <button
-              className='m-4 rounded border px-2 py-1 text-sm hover:bg-slate-50'
+              spreadsheet, please follow the format of the <span>
+                <button
+              className='rounded text-blue-500 text-sm hover:underline'
               onClick={handleDownload}
-            >
-              Download Template
-            </button>
+            >downloadable
+              template</button></span>.
+            </p>
+            
+            
           </div>
 
-          <div className='flex w-screen flex-col items-center justify-evenly'>
-            <div className='flex flex-col items-center text-sm'>
+          <div className='flex w-screen flex-col items-start  justify-evenly text-sm p-4'>
               {/*             <h3 className='text-sm '>Import Spreadsheet</h3>
                */}{' '}
               <input
                 title='Import Spreadsheet'
                 data-testid='spreadsheet-input'
-                className='my-4 items-center text-gray-400 file:rounded file:border file:bg-white file:px-2 file:py-1 file:shadow-none file:hover:cursor-pointer file:hover:bg-slate-50'
+                className='flex flex-col my-4 items-center text-gray-400 file:rounded file:border  file:bg-white file:px-2 file:py-1 file:shadow-none file:hover:cursor-pointer file:hover:bg-slate-50'
                 type='file'
                 onChange={handleFileUpload}
               />
-            </div>
-            <div className='my-4 w-1/2 border-b border-slate-400' />
             <button
-              className='rounded border px-2 py-1 text-sm hover:bg-slate-50'
+              className='rounded border my-4 border-black px-2 py-1 text-sm hover:bg-slate-50'
               onClick={() => handleManually()}
             >
               <p>Enter manually</p>
             </button>
             {(environment === 'preview' || environment === 'local') && (
-              <div className='flex w-1/2 flex-col items-center'>
-                <div className='my-4 w-full self-center border-b border-slate-400' />
                 <button
-                  className='rounded border px-2 py-1 text-sm hover:bg-slate-50'
+                  className='rounded border my-4 border-black px-2 py-1 text-sm hover:border-blue-500 hover:text-blue-500 opacity-20 hover:opacity-100'
                   onClick={() => handleSeeding()}
                 >
                   <p>Seed Database</p>
                 </button>
-              </div>
             )}
           </div>
         </div>
