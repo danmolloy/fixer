@@ -21,7 +21,9 @@ export const sectionsArr = [
 ];
 
 const parseInputDate = (input: string) => {
-  return DateTime.fromISO(input, { zone: 'local' }).toUTC().toJSDate();
+  return DateTime.fromISO(input, { zone: 'Europe/London' }) // interpret input as BST/GMT
+    .toUTC() // convert to UTC
+    .toJSDate(); // save to DB as native JS Date
 };
 
 export const formattedCalls = (calls, fixerId) => {
