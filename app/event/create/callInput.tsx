@@ -2,6 +2,7 @@ import { ErrorMessage, Field } from 'formik';
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import TextInput from '../../forms/textInput';
+import { DateTime } from 'luxon';
 
 export type CallInputProps = {
   disabled: boolean;
@@ -34,6 +35,7 @@ export default function CallInput(props: CallInputProps) {
       </div>
       <div className='flex flex-col sm:flex-row'>
         <div className='flex w-1/2 flex-col py-4'>
+        {JSON.stringify(DateTime.fromISO(call.startTime, { zone: 'Europe/London' }).toUTC().toISO())}
           <label className='font-medium' htmlFor={`calls.${index}.startTime`}>
             Start Time
           </label>

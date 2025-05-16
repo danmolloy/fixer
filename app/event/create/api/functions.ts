@@ -28,8 +28,8 @@ const parseInputDate = (input: string) => {
 
 export const formattedCalls = (calls, fixerId) => {
   return [...calls].map((i) => ({
-    startTime: parseInputDate(i.startTime),
-    endTime: parseInputDate(i.endTime),
+    startTime: i.startTime,//parseInputDate(i.startTime),
+    endTime: i.endTime,//parseInputDate(i.endTime),
     venue: i.venue,
     fixer: { connect: { id: fixerId } },
   }));

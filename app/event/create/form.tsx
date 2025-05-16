@@ -122,10 +122,19 @@ export default function CreateEventForm(props: CreateEventFormProps) {
         validationSchema={EventSchema}
         onSubmit={async (values, actions) => {
           actions.setStatus(null);
+          const formattedCalls = values.calls.map(c => ({
+            id: c.id,
+            startTime: DateTime.fromISO(c.startTime, { zone: 'Europe/London' }).toUTC().toISO(),
+            endTime: DateTime.fromISO(c.endTime, { zone: 'Europe/London' }).toUTC().toISO(),
+            venue: c.venue,
+          }))
           await axios
             .post(
               createOrUpdate === 'Update' ? '/event/update/api' : 'create/api',
-              values
+              {
+                ...values,
+                calls: formattedCalls
+              }
             )
             .then((res: any) => {
               actions.setStatus('success');
