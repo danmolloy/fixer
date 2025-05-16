@@ -13,14 +13,14 @@ export default function CallTile(props: Call) {
           {DateTime
             .fromISO(typeof startTime === 'string' ? startTime : startTime.toISOString(), { zone: 'utc' })
             .setZone('Europe/London')
-            .toFormat("HH:mm LLL dd, yyyy (z)")}{' '}
+            .toFormat("HH:mm LLL dd, yyyy (ZZZZ)")}{' '}
           <span className='text-sm'>to</span>
         </p>
         <p>
           
           {String(
             DateTime.fromJSDate(new Date(endTime)).toFormat(
-              "HH:mm LLL dd, yyyy"
+              "HH:mm LLL dd, yyyy (ZZZZ)"
             )
           )}
         </p>
