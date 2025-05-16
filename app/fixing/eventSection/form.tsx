@@ -81,7 +81,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
   const initialVals = {
     eventId: eventId,
     ensembleSectionId: ensembleSectionId,
-    bookingStatus: bookingStatus,
+    bookingStatus: bookingStatus === "ACTIVE" ? "ACTIVE" : "INACTIVE",
     orchestration: new Array(eventCalls.length).fill(null).map((i, index) => ({
       callId: eventCalls[index].id,
       id:
@@ -281,7 +281,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 </div>
               )}
             </div>
-            <div
+            {/* <div
               role='group'
               aria-labelledby='my-radio-group'
               className='flex flex-col'
@@ -309,7 +309,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
                 />
                 Inactive
               </label>
-            </div>
+            </div> */}
             <div className='my-4 flex flex-row items-center'>
               <button
                 disabled={props.isSubmitting}
