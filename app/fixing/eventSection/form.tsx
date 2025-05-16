@@ -17,6 +17,7 @@ import ValidationError, { extractErrors } from '../../forms/validationError';
 import StatusMessage from '../../forms/statusMessage';
 import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
+import { mutate } from 'swr';
 
 export type CreateEventSectionProps = {
   eventId: number;
@@ -93,6 +94,7 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
   };
 
   const handleSubmit = async (vals) => {
+
     if (eventSectionId !== undefined) {
       return await axios.post('/fixing/eventSection/api/update', {
         ...vals,
@@ -144,7 +146,8 @@ export default function CreateEventSection(props: CreateEventSectionProps) {
             })
             .finally(() => {
               actions.setSubmitting(false);
-              router.refresh();
+              mutate(`/event/${eventId}/api/`)
+              //router.refresh();
             });
         }}
         validationSchema={formSchema}

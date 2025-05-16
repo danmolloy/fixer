@@ -21,40 +21,30 @@ import FixingIndex from '../../fixing';
 import FullRunIndex from './fullRun';
 import EventViewSelect from './viewSelect';
 import dynamic from 'next/dynamic';
+import useSWR from 'swr';
+import axios from 'axios'
+import { Session } from 'next-auth';
+import Loading from '../../loading';
+import { DateTime } from 'luxon';
+ 
+const fetcher = url => axios.get(url).then(res => res.data)
+
+
+
 
 const DynamicOrchestraList = dynamic(() => import('./orchestraList'), {
   ssr: false,
 });
 
 export type EventInfoTableProps = {
-  event: Event & {
-    calls: Call[];
-    fixer: User;
-  };
-  calls: Call[];
-  ensemble: Ensemble & {
-    sections: EnsembleSection[];
-  };
-  contacts: (ContactMessage & {
-    contact: EnsembleContact;
-    eventCalls: ContactEventCall[]
-  })[];
-  sections: (EventSection & {
-    orchestration: Orchestration[];
-    contacts: (ContactMessage & {
-      emailEvents: EmailEvent[];
-      eventCalls: (ContactEventCall & { call: Call })[];
-      contact: EnsembleContact;
-      //calls: Call[];
-    })[];
-    ensembleSection: EnsembleSection & {
-      contacts: EnsembleContact[];
-    };
-  })[];
+  eventID: string
+  session: Session | null
 };
 
 export default function EventInfoTable(props: EventInfoTableProps) {
-  const { event, contacts, ensemble, sections } = props;
+  const { eventID, session/* , contacts, ensemble, sections */ } = props;
+    const { data, error, isLoading } = useSWR(`/event/${eventID}/api/`, fetcher)
+
   const [selectedView, setSelectedView] = useState<
     'details' | 'fixing' | 'playerList' | 'fullRun'
   >('details');
@@ -74,8 +64,21 @@ export default function EventInfoTable(props: EventInfoTableProps) {
     //html2pdf().from(eventTable).set(options).save();
   };
 
+    if (!data && isLoading) {
+      return <Loading />
+    }
+
+    if (
+    data && 
+    session &&
+    session.user.admins.filter((i) => i.ensembleId === data.ensembleId).length <
+      1
+  ) {
+    <div>Access Denied</div>;
+  }
+
   return (
-    <div data-testid='event-info-table' className='flex w-full flex-col'>
+    <div data-testid='event-info-table' className='flex w-full min-h-[65vh] flex-col relative'>
       <EventViewSelect
         selectedView={selectedView}
         setSelectedView={(arg) => setSelectedView(arg)}
@@ -84,31 +87,33 @@ export default function EventInfoTable(props: EventInfoTableProps) {
         <div>
           <EventMenu
             getRunningSheet={() => getRunningSheet()}
-            event={event}
-            contacts={contacts}
+            event={data}
+            contacts={data.sections.map((i) => i.contacts).flat(1)}
           />
           <table ref={eventRef} className='w-full border'>
-            <EventHeader eventTitle={event.eventTitle} />
-            <EventInfo event={event} calls={event.calls} ensemble={ensemble} />
+            <EventHeader eventTitle={data.eventTitle} />
+            <EventInfo event={data} calls={data.calls} ensemble={data.ensemble} />
           </table>
         </div>
-      ) : !ensemble.stripeSubscriptionId ? (
+      ) : !data.ensemble.stripeSubscriptionId ? (
         <div>
           <p>No active subscription</p>
         </div>
       ) : selectedView === 'playerList' ? (
-        <DynamicOrchestraList sections={sections}  />
+        <DynamicOrchestraList sections={data.sections}  />
       ) : selectedView === 'fullRun' ? (
-        <FullRunIndex sections={sections} calls={event.calls} />
+        <FullRunIndex sections={data.sections} calls={data.calls} />
       ) : (
         <FixingIndex
-          ensembleSections={ensemble.sections}
-          eventCalls={event.calls}
-          eventSections={sections}
-          eventId={event.id}
-          ensemble={ensemble}
+          ensembleSections={data.ensemble.sections}
+          eventCalls={data.calls}
+          eventSections={data.sections}
+          eventId={data.id}
+          ensemble={data.ensemble}
         />
       )}
+      <p className='text-sm  text-gray-500'>Last refreshed {DateTime.fromISO(data.refreshed).setZone('Europe/London')
+            .toFormat("HH:mm.ss LLL dd, yyyy (ZZZZ)")}</p>
     </div>
   );
 }

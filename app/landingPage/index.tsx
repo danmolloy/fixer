@@ -12,7 +12,9 @@ export default function LandingPage() {
       <Hero />{/* 
       <CommunicationsIndex />
       <InterfaceIndex /> 
-      <WorkflowIndex />*/}
+      <WorkflowIndex />
+      <PricingComponent /> // Not developed
+      */}
       
     </div>
   );

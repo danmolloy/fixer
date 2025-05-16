@@ -8030,7 +8030,7 @@ __metadata:
     react-icons: "npm:^4.3.1"
     storybook: "npm:^8.6.4"
     stripe: "npm:^15.12.0"
-    swr: "npm:^2.1.3"
+    swr: "npm:^2.3.3"
     tailwindcss: "npm:^3.2.4"
     ts-jest: "npm:^29.2.2"
     ts-node: "npm:^10.9.2"
@@ -14027,7 +14027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swr@npm:^2.1.3":
+"swr@npm:^2.3.3":
   version: 2.3.3
   resolution: "swr@npm:2.3.3"
   dependencies:
