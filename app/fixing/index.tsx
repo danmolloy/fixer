@@ -92,13 +92,8 @@ export default function FixingIndex(props: FixingIndexProps) {
 
   return (
     <div data-testid='fixing-index' className='flex flex-col p-1'>
-      <div className='flex w-full flex-row justify-between'>
+      <div className='flex w-full flex-row-reverse justify-between'>
         {/* <h2>Fixing</h2> */}
-        {eventSections.length > 0 
-        && <button className='flex flex-row p-1 m-1 border rounded hover:bg-slate-50 items-center' onClick={() => mutate(`/event/${eventId}/api/`)}>
-              <IoIosRefresh />
-              <p className='text-sm ml-1'>Refresh</p>
-            </button>}
         <FixingMenu
           eventID={String(eventId)}
           fixingActive={
@@ -107,6 +102,11 @@ export default function FixingIndex(props: FixingIndexProps) {
           pauseFixing={() => handlePauseClick()}
           createSection={() => setCreateSection(true)}
         />
+        {eventSections.length > 0 
+        && <button className='flex flex-row p-1 m-1 border rounded hover:bg-slate-50 items-center' onClick={() => mutate(`/event/${eventId}/api/`)}>
+              <IoIosRefresh />
+              <p className='text-sm ml-1'>Refresh</p>
+            </button>}
       </div>
 
       {eventSections.length === 0 && !createSection ? (

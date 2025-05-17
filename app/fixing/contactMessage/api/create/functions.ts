@@ -498,6 +498,9 @@ export const handleFixing = async (eventID: number) => {
   // Iterate through all active sections.
   for (let i = 0; i < event.sections.length; i++) {
     // Get unfixed calls
+    if (event.sections[i].bookingStatus === "INACTIVE") {
+      continue;
+    }
     const unfixedCalls = await getUnfixedCalls(event.sections[i]);
     // Iterate over each contact in the section
     for (let j = 0; j < event.sections[i].contacts.length; j++) {
