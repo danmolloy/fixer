@@ -166,9 +166,10 @@ export default async function GigResponse({
             id='created-datetime'
             title='Event created'
             value={String(
-              DateTime.fromJSDate(
-                new Date(data.eventSection.event.createdAt)
-              ).toFormat('HH:mm DD')
+              DateTime.fromISO(
+                typeof data.eventSection.event.createdAt === 'string' ? data.eventSection.event.createdAt :data.eventSection.event.createdAt.toISOString()
+              ).setZone('Europe/London')
+            .toFormat("HH:mm LLL dd, yyyy (ZZZZ)")
             )}
           />
           <InfoDiv
@@ -176,9 +177,10 @@ export default async function GigResponse({
             id='updated-datetime'
             title='Last updated'
             value={String(
-              DateTime.fromJSDate(
-                new Date(data.eventSection.event.updatedAt)
-              ).toFormat('HH:mm DD')
+              DateTime.fromISO(
+                typeof data.eventSection.event.updatedAt === 'string' ? data.eventSection.event.updatedAt : data.eventSection.event.updatedAt.toISOString()
+              ).setZone('Europe/London')
+            .toFormat("HH:mm LLL dd, yyyy (ZZZZ)")
             )}
           />
         </tbody>

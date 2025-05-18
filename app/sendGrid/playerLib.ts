@@ -114,9 +114,15 @@ export const createOfferEmail = async (
   ${data.calls
     .map(
       (i) =>
-        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
+        DateTime
+          .fromISO(typeof i.startTime === 'string' ? i.startTime : i.startTime.toISOString(), { zone: 'utc' })
+          .setZone('Europe/London')
+          .toFormat("HH:mm LLL dd, yyyy (ZZZZ)") +
         ' to<br />' +
-        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
+        DateTime
+          .fromISO(typeof i.endTime === 'string' ? i.endTime : i.endTime.toISOString(), { zone: 'utc' })
+          .setZone('Europe/London')
+          .toFormat("HH:mm LLL dd, yyyy (ZZZZ)") +
         '<br />' +
         i.venue +
         '<br />'
@@ -189,9 +195,15 @@ export const updateOfferEmail = async (
   ${data.calls
     .map(
       (i) =>
-        DateTime.fromJSDate(new Date(i.startTime)).toFormat('HH:mm DD') +
+       DateTime
+          .fromISO(typeof i.startTime === 'string' ? i.startTime : i.startTime.toISOString(), { zone: 'utc' })
+          .setZone('Europe/London')
+          .toFormat("HH:mm LLL dd, yyyy (ZZZZ)") +
         ' to<br />' +
-        DateTime.fromJSDate(new Date(i.endTime)).toFormat('HH:mm DD') +
+        DateTime
+          .fromISO(typeof i.endTime === 'string' ? i.endTime : i.endTime.toISOString(), { zone: 'utc' })
+          .setZone('Europe/London')
+          .toFormat("HH:mm LLL dd, yyyy (ZZZZ)") +
         '<br />' +
         i.venue +
         '<br />'
